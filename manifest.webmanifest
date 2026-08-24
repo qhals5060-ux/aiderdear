@@ -1,0 +1,13 @@
+{
+  "name": "AiderDear",
+  "short_name": "AiderDear",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#c9c9c9",
+  "theme_color": "#c9c9c9",
+  "lang": "ko-KR",
+  "description": "둘만의 일정, D-day, 감정일기, 기록, 앨범, 이벤트와 PRIVATE를 Google Calendar와 Drive에 동기화하는 개인 웹앱",
+  "icons": [
+    {"src":"./aiderdear-icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+  ]
+}

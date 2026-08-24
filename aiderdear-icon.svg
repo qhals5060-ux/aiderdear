@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="96" fill="#c9c9c9"/>
+  <rect x="58" y="58" width="396" height="396" rx="58" fill="#ffffff" stroke="#111111" stroke-width="10"/>
+  <text x="256" y="286" text-anchor="middle" font-family="Georgia, serif" font-size="150" fill="#111111">AD</text>
+  <text x="256" y="350" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="700" letter-spacing="4" fill="#111111">DEAR US</text>
+</svg>
