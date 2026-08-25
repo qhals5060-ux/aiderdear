@@ -714,7 +714,15 @@ body.event-mode .hint,body.private-mode .hint{display:flex}
 @media(max-width:650px){.matrix-add-form{grid-template-columns:1fr 80px}.matrix-add-form select{grid-column:1}.matrix-add-form .private-add{grid-column:2}.eisenhower-matrix{font-size:6px}.matrix-quadrant{padding:5px}.matrix-quadrant-head strong{font-size:12px}.matrix-quadrant-head span{display:none}.matrix-task{grid-template-columns:12px minmax(0,1fr) 14px;gap:3px}.matrix-task b{font-size:6px}.matrix-task span{font-size:5px}.postit-note{min-height:120px}.postit-click p{font-size:7px}.routine-v18-main{grid-template-columns:1fr;overflow:auto}.routine-left-stack{grid-template-rows:220px 150px}.routine-tracker-section{min-height:420px}.routine-track-day{min-height:34px}.routine-create-form{grid-template-columns:1fr 1fr}.routine-create-form label:first-child{grid-column:1/-1}}
 
 
-/* ===== AiderDear v19 visual system ===== */
+/* ===== v20 regression fixes: calendar sizing + persisted Google defaults ===== */
+@media (min-width:601px){
+  #stage .calendar-page{min-height:0!important;grid-template-rows:minmax(0,1fr)!important;align-items:stretch!important}
+  #stage .calendar-page>.frame{height:100%!important;min-height:0!important;align-self:stretch!important;grid-template-rows:auto minmax(0,1fr)!important;overflow:hidden!important}
+  #stage #calendar{height:auto!important;min-height:0!important;align-self:stretch!important;overflow:hidden!important}
+  #stage #calendar>.week,#stage #calendar>.day{min-height:0!important}
+}
+
+/* ===== AiderDear v20 visual system ===== */
 :root{
   --bg:#d9e2e5;
   --paper:#fffdf9;
@@ -1439,7 +1447,16 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
   const EMOTION_FOLDER_PREFIX='AiderDear Emotion - ';
   const EMOTION_VERSION=3;
   const FAMILY_LIMIT=10;
-  let googleConfig={clientId:'',adminEmail:'',familyUsers:[],partnerEmail:''};
+  const DEFAULT_GOOGLE_CONFIG={
+    clientId:'1006498689697-mk3h6n6r4houvlr2215vhumrrfn8ibr4.apps.googleusercontent.com',
+    adminEmail:'qhals5060@gmail.com',
+    familyUsers:[
+      {name:'보민',email:'qhals5060@gmail.com'},
+      {name:'동우',email:'aidway55@gmail.com'}
+    ],
+    partnerEmail:'aidway55@gmail.com'
+  };
+  let googleConfig={...DEFAULT_GOOGLE_CONFIG,familyUsers:DEFAULT_GOOGLE_CONFIG.familyUsers.map(x=>({...x}))};
   let googleToken='';
   let googleProfile=null;
   let googleTokenClient=null;
@@ -1483,10 +1500,21 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
   async function changeDisplayName(force=false){if(!currentUserEmail)return;const suggested=storedDisplayName(currentUserEmail)||currentUserName||String(googleProfile?.given_name||googleProfile?.name||'').trim()||currentUserEmail.split('@')[0];const value=window.prompt(force?'AiderDear에서 사용할 이름을 입력해주세요.':'표시 이름을 입력해주세요.',suggested);const name=String(value==null?suggested:value).trim()||suggested;currentUserName=name;localStorage.setItem(displayNameStorageKey(currentUserEmail),name);applyLoginUI();if(driveDataFileId)await syncCurrentDisplayName();}
   function loadGoogleConfig(){
     let saved={};try{saved=JSON.parse(localStorage.getItem(GOOGLE_CONFIG_KEY)||'{}')}catch{}
-    googleConfig={...googleConfig,...saved};googleConfig.clientId=String(googleConfig.clientId||'').trim();
-    googleConfig.adminEmail=normalizeEmail(googleConfig.adminEmail||saved.mineEmail||'');googleConfig.partnerEmail=normalizeEmail(googleConfig.partnerEmail||'');
-    let family=normalizeFamilyUsers(googleConfig.familyUsers||[]);if(!family.length&&googleConfig.adminEmail)family.push({name:storedDisplayName(googleConfig.adminEmail)||normalizeName('',googleConfig.adminEmail),email:googleConfig.adminEmail});
-    const legacyPartner=normalizeEmail(saved.partnerEmail||'');if(legacyPartner&&!family.some(x=>x.email===legacyPartner))family.push({name:storedDisplayName(legacyPartner)||normalizeName('',legacyPartner),email:legacyPartner});googleConfig.familyUsers=normalizeFamilyUsers(family);
+    const hasSavedClient=String(saved.clientId||'').trim().endsWith('.apps.googleusercontent.com');
+    const hasSavedAdmin=normalizeEmail(saved.adminEmail||saved.mineEmail||'').includes('@');
+    googleConfig={
+      ...DEFAULT_GOOGLE_CONFIG,
+      ...saved,
+      clientId:hasSavedClient?String(saved.clientId).trim():DEFAULT_GOOGLE_CONFIG.clientId,
+      adminEmail:hasSavedAdmin?normalizeEmail(saved.adminEmail||saved.mineEmail):DEFAULT_GOOGLE_CONFIG.adminEmail,
+      partnerEmail:normalizeEmail(saved.partnerEmail||DEFAULT_GOOGLE_CONFIG.partnerEmail),
+      familyUsers:(Array.isArray(saved.familyUsers)&&saved.familyUsers.length)?saved.familyUsers:DEFAULT_GOOGLE_CONFIG.familyUsers.map(x=>({...x}))
+    };
+    let family=normalizeFamilyUsers(googleConfig.familyUsers||[]);
+    if(!family.length)family=normalizeFamilyUsers(DEFAULT_GOOGLE_CONFIG.familyUsers);
+    if(googleConfig.adminEmail&&!family.some(x=>x.email===googleConfig.adminEmail))family.unshift({name:storedDisplayName(googleConfig.adminEmail)||normalizeName('',googleConfig.adminEmail),email:googleConfig.adminEmail});
+    const partner=normalizeEmail(googleConfig.partnerEmail);if(partner&&!family.some(x=>x.email===partner))family.push({name:storedDisplayName(partner)||normalizeName('',partner),email:partner});
+    googleConfig.familyUsers=normalizeFamilyUsers(family);
   }
   function saveGoogleConfig(){
     const adminEmail=normalizeEmail($('#googleAdminEmail').value);let family=parseFamilyUsers($('#googleFamilyUsers').value);
@@ -1742,7 +1770,8 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
   function renderCalendar(){
     renderSchedulePeopleFilters();const y=shown.getFullYear(),m=shown.getMonth();
     $('#monthTitle').innerHTML=`${y}. <b>${String(m+1).padStart(2,'0')}</b>`;
-    const cal=$('#calendar'); cal.innerHTML='';
+    const cal=$('#calendar'); if(!cal)return;cal.innerHTML='';
+    if(window.innerWidth>600&&cal.getBoundingClientRect().height<120){cal.style.minHeight='420px'}else cal.style.minHeight='';
     ['SUN','MON','TUE','WED','THU','FRI','SAT'].forEach(w=>{const e=document.createElement('div');e.className='week';e.textContent=w;cal.appendChild(e)});
     const first=new Date(y,m,1).getDay(), days=new Date(y,m+1,0).getDate(), prevDays=new Date(y,m,0).getDate();
     for(let i=0;i<42;i++){
