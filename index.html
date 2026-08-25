@@ -8,8 +8,16 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="AiderDear">
+<meta name="description" content="둘만의 일정과 감정, 기록, 앨범, 여행, 루틴을 한곳에 간직하는 프라이빗 라이프 아카이브">
+<meta name="format-detection" content="telephone=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AiderDear — Dear us, always">
+<meta property="og:description" content="우리의 오늘을 계획하고, 기록하고, 오래 간직하세요.">
 <link rel="manifest" href="./manifest.webmanifest">
-<title>AiderDear</title>
+<link rel="icon" href="./aiderdear-icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="./aiderdear-icon-180.png">
+<title>AiderDear — Dear us, always</title>
 <style>
 :root{
   --bg:#9aafb7;
@@ -1613,21 +1621,168 @@ body{background:#000!important}
   #eventStage .event-gallery-empty{min-height:220px!important}
 }
 
+/* ===== AiderDear v35 · cohesive refinement layer ===== */
+:root{
+  --surface:rgba(255,253,249,.97);
+  --surface-soft:rgba(255,255,255,.76);
+  --surface-muted:#f6f3ee;
+  --line:rgba(17,24,32,.16);
+  --line-strong:rgba(17,24,32,.78);
+  --shadow:0 22px 70px rgba(20,33,46,.22),0 3px 12px rgba(20,33,46,.08);
+  --shadow-soft:0 10px 30px rgba(20,33,46,.12);
+  --focus:#173f64;
+  --radius:20px;
+}
+html{background:#8fa7b3!important}
+body{font-size:14px;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased}
+body:before{
+  inset:-20px!important;
+  background:linear-gradient(180deg,rgba(18,31,45,.30),rgba(18,31,45,.50)),url('./aiderdear-sky.jpg') center/cover no-repeat!important;
+  filter:blur(9px) brightness(.78) saturate(.88)!important;
+  transform:scale(1.045)!important;
+}
+body:after{background:rgba(34,48,62,.04)!important;backdrop-filter:blur(2px) saturate(.92)!important}
+.app{
+  width:min(1600px,100%)!important;
+  height:100dvh!important;
+  margin:0 auto!important;
+  padding:0 clamp(12px,4.2vw,68px) clamp(12px,3.2vh,34px)!important;
+  grid-template-rows:82px 42px minmax(0,1fr)!important;
+}
+.masthead{min-width:0!important}
+.logo{font-size:clamp(38px,4vw,54px)!important;letter-spacing:-.055em!important}
+.logo small{top:calc(100% + 3px)!important;font-size:7px!important;letter-spacing:.24em!important}
+.nav-row{align-items:end!important;justify-content:space-between!important;gap:18px!important;padding:0 8px!important;min-width:0!important}
+.tabs{gap:5px!important;min-width:0!important;overflow-x:auto!important;scrollbar-width:none!important;overscroll-behavior-x:contain}
+.tabs::-webkit-scrollbar{display:none}
+.tab{
+  width:auto!important;min-width:88px!important;height:38px!important;margin-left:0!important;padding:0 15px 7px!important;
+  font-size:11px!important;letter-spacing:.06em!important;color:#17202a!important;transition:transform .18s ease,filter .18s ease!important
+}
+.tab:before{clip-path:none!important;border:1px solid rgba(255,255,255,.52)!important;border-radius:12px 12px 0 0!important;box-shadow:0 -4px 16px rgba(23,35,47,.08)!important}
+.tab[data-tab="event"],.tab[data-tab="private"]{color:#fff!important}
+.tab:hover{transform:translateY(-2px)!important;filter:brightness(1.04)}
+.tab.active{transform:translateY(-1px)!important}
+.tab.active:after{left:18px!important;right:18px!important;bottom:4px!important;height:2px!important;border-radius:2px!important;background:currentColor!important}
+.nav-tools{height:36px!important;gap:8px!important;flex:0 0 auto!important}
+.top-actions{
+  height:34px!important;gap:8px!important;padding:3px 10px!important;border:1px solid rgba(255,255,255,.34)!important;
+  border-radius:999px!important;background:rgba(24,37,51,.28)!important;box-shadow:0 6px 20px rgba(12,25,38,.12)!important;
+  backdrop-filter:blur(12px)!important;-webkit-backdrop-filter:blur(12px)!important
+}
+.account-name,.sync-mini,.mailbox-top{color:#fff!important;text-shadow:none!important}
+.account-name,.mailbox-top{font-size:11px!important}.sync-mini{font-size:8px!important;color:rgba(255,255,255,.74)!important}
+.frame-search{height:34px!important;border:1px solid rgba(255,255,255,.48)!important;border-radius:999px!important;background:rgba(255,255,255,.92)!important;overflow:hidden!important;box-shadow:0 6px 20px rgba(12,25,38,.12)!important}
+.frame-search input{width:146px!important;height:32px!important;padding:0 12px!important;font-size:11px!important}
+.frame-search button{width:36px!important;height:32px!important;border-left:1px solid var(--line)!important;background:transparent!important;font-size:16px!important}
+.frame-search:focus-within{box-shadow:0 0 0 3px rgba(255,255,255,.38),0 6px 20px rgba(12,25,38,.16)!important}
+
+.page,.emotion-shell,.record-shell,.album-shell,.event-shell,.private-shell{
+  border:1px solid rgba(255,255,255,.58)!important;border-radius:var(--radius)!important;background:var(--surface)!important;
+  box-shadow:var(--shadow)!important;overflow:hidden!important
+}
+.page.current,.emotion-page.current,.record-page.current,.event-page.current,.private-page.current{isolation:isolate}
+.box,.left-compose,.media-panel,.record-main,.record-aside,.album-frame,.emotion-frame,.event-frame,.private-frame{border-width:2px!important}
+.box:before,.box:after,.left-compose:before,.left-compose:after,.media-panel:before,.media-panel:after,.record-main:before,.record-main:after,.record-aside:before,.record-aside:after,.album-frame:before,.album-frame:after,.emotion-frame:before,.emotion-frame:after,.event-frame:before,.event-frame:after,.private-frame:before,.private-frame:after{height:2px!important}
+.primary,.today,.new-record,.event-add,.album-new-folder,.private-add{border-radius:8px!important;box-shadow:0 4px 12px rgba(21,29,36,.10)!important}
+button{transition:transform .16s ease,background-color .16s ease,border-color .16s ease,box-shadow .16s ease}
+button:not(:disabled):active{transform:translateY(1px)}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--focus)!important;outline-offset:2px!important}
+
+.calendar-page{gap:26px!important}.month{font-size:clamp(30px,3vw,42px)!important}
+.calendar{border-color:var(--line-strong)!important;border-radius:12px!important;overflow:hidden!important;background:#fff}
+.week{font-size:10px!important;background:#f4f3f0!important}.day{transition:background .16s ease}.day:hover{background:#fbfaf7}.daynum{font-size:10px!important}.ev{border-radius:6px!important;font-size:9px!important;padding:3px 5px!important}
+.dday-panel{border-radius:14px!important}.shared-list{scrollbar-gutter:stable}
+.story-media{border-radius:14px!important}.story-media .photo-placeholder{background:linear-gradient(160deg,#eef2f3,#e9e4e2)!important}
+.record-post,.diary-entry,.album-folder,.album-photo{box-shadow:0 8px 24px rgba(32,38,44,.06)!important}
+
+.overlay{background:rgba(12,21,30,.56)!important;backdrop-filter:blur(9px)!important;-webkit-backdrop-filter:blur(9px)!important}
+.modal{border:1px solid rgba(17,24,32,.22)!important;border-radius:18px!important;box-shadow:0 28px 90px rgba(5,14,24,.32)!important;overflow:auto!important}
+.modal-head{padding:14px 18px!important;border-bottom:1px solid var(--line)!important}.modal-head b{font-size:13px;letter-spacing:.04em}.x{width:38px!important;height:38px!important;border-radius:50%!important;font-size:24px!important}
+.x:hover{background:var(--surface-muted)!important}
+.field{gap:7px!important}.field label{font-size:11px!important}.field input,.field select,.field textarea,.searchbox{border:1px solid rgba(17,24,32,.32)!important;border-radius:10px!important;background:#fff!important}
+.field input,.field select{height:46px!important}.field textarea{min-height:130px!important}.secondary{border-width:1px!important;border-radius:8px!important}
+
+.searchbox{height:48px!important;padding:0 14px!important;font-size:14px!important}
+.hinttext{margin:10px 2px 0!important;font-size:10px!important;color:#6b7075!important}
+.search-results{display:grid;gap:7px;margin-top:14px;max-height:min(48vh,420px);overflow:auto;scrollbar-gutter:stable}
+.search-result{width:100%;display:grid;grid-template-columns:70px minmax(0,1fr) auto;gap:10px;align-items:center;padding:11px 12px;border:1px solid var(--line);border-radius:11px;background:#fff;text-align:left}
+.search-result:hover{border-color:rgba(17,24,32,.42);background:#faf9f6}
+.search-result-kind{font-size:9px;font-weight:900;letter-spacing:.09em;color:#607181}
+.search-result-copy{min-width:0}.search-result-copy b{display:block;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.search-result-copy span{display:block;margin-top:3px;font-size:9px;color:#777;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.search-result time{font-size:9px;color:#838383}.search-empty{padding:26px 14px;border:1px dashed var(--line);border-radius:12px;text-align:center;color:#777;font-size:11px;background:#faf9f6}
+
+#eventStage .event-category,#eventStage .event-sort,#eventStage .event-add{font-size:10px!important}
+#eventStage .event-gallery-meta{font-size:9px!important}
+#eventStage .event-gallery-author{font-size:9px!important}
+#eventStage .event-gallery-note{font-size:10px!important;line-height:1.55!important;min-height:31px!important}
+#eventStage .event-gallery-footer{font-size:9px!important}
+#eventStage .travel-gallery-kind,#eventStage .travel-gallery-footer{font-size:9px!important}
+#eventStage .travel-gallery-card p{font-size:10px!important}
+#eventStage .travel-location-badge{font-size:9px!important}
+
+.matrix-axis-top,.matrix-quadrant-head span{font-size:8px!important}.matrix-task b{font-size:10px!important}.matrix-task span{font-size:8px!important}.matrix-task{padding:7px 5px!important}
+.postit-click small{font-size:8px!important}.postit-click p{font-size:11px!important}
+.routine-section-head b,.routine-goals-title b,.routine-brief-rule,.routine-brief-rule b,.routine-tracker-rules p,.routine-tracker-rules p b,.routine-tracker-levels>span,.routine-tracker-levels button,.routine-tracker footer,.routine-tracker-actions button,.routine-brag-done{font-size:9px!important}
+.routine-track-day small{font-size:7px!important}.routine-track-day b{font-size:9px!important}
+.emotion-month-num{font-size:9px!important}.emotion-mini-name{font-size:8px!important}.emotion-entry-lines{font-size:10px!important}.emotion-owner-badge,.emotion-entry-mood{font-size:9px!important}
+
+.skip-link{position:fixed;left:14px;top:10px;z-index:5000;padding:10px 14px;border-radius:9px;background:#111;color:#fff;font-size:12px;font-weight:800;transform:translateY(-160%);transition:transform .18s ease}
+.skip-link:focus{transform:translateY(0)}
+.sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+.modal-open{overflow:hidden!important}
+
+@media(max-width:900px){
+  .app{padding:0 10px 10px!important;grid-template-rows:66px 42px minmax(0,1fr)!important}
+  .nav-row{padding:0 2px!important;gap:8px!important}.tab{min-width:76px!important;padding-inline:10px!important}.frame-search input{width:100px!important}
+  .page,.emotion-shell,.record-shell,.album-shell,.event-shell,.private-shell{border-radius:16px!important}
+}
+
+@media(max-width:700px){
+  html,body{background-attachment:scroll!important}
+  body:before{filter:blur(6px) brightness(.76) saturate(.84)!important}
+  .app{height:100dvh!important;grid-template-rows:56px 78px minmax(0,1fr)!important;padding:0 6px 6px!important}
+  .logo{font-size:32px!important}.logo small{font-size:5px!important;top:calc(100% + 1px)!important}
+  .nav-row{display:grid!important;grid-template-columns:minmax(0,1fr)!important;grid-template-rows:36px 36px!important;gap:4px!important;align-items:center!important;overflow:visible!important}
+  .tabs{width:100%!important;height:36px!important;gap:4px!important;padding-right:2px!important}
+  .tab{min-width:70px!important;height:35px!important;padding:0 10px 7px!important;font-size:10px!important}
+  .tab.active:after{left:14px!important;right:14px!important}
+  .nav-tools{width:100%!important;height:36px!important;justify-content:space-between!important;gap:5px!important}
+  .top-actions{height:34px!important;padding:3px 7px!important;gap:5px!important}.account-name,.mailbox-top{font-size:10px!important}.sync-mini{font-size:7px!important}.mailbox-top span:nth-of-type(2){display:none!important}
+  .frame-search{height:34px!important;flex:1 1 auto!important;max-width:170px!important}.frame-search input{width:100%!important;min-width:0!important;height:32px!important;font-size:12px!important}.frame-search button{height:32px!important;flex:0 0 36px!important}
+  .calendar-page,.compose-page{padding:8px!important}.calendar-page{gap:8px!important}.month{font-size:26px!important}.cal-top{gap:7px!important}.month-controls{max-width:72%!important}
+  .mini-btn,.today,.primary,.filter{min-height:34px!important;font-size:9px!important}.calendar{height:342px!important}.week{font-size:9px!important}.daynum{font-size:10px!important}.ev{font-size:8px!important;padding:3px!important}
+  .overlay{padding:8px!important;align-items:flex-start!important}.modal{width:min(100%,720px)!important;max-height:calc(100dvh - 16px)!important;margin:auto 0!important;border-radius:16px!important}.modal-head{padding:10px 12px!important}.modal-body{padding:12px!important}
+  .modal input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]),.modal select,.modal textarea{font-size:16px!important}
+  .search-result{grid-template-columns:58px minmax(0,1fr);padding:10px}.search-result time{grid-column:2}.search-result-kind{font-size:8px}.search-result-copy b{font-size:11px}
+  .emotion-month-day{min-height:50px!important}.emotion-month-num{font-size:9px!important}.emotion-mini-blob{font-size:8px!important}
+  .matrix-task b{font-size:9px!important}.matrix-task span{font-size:7px!important}.postit-click p{font-size:9px!important}
+  #eventStage .event-category,#eventStage .event-sort,#eventStage .event-add{font-size:10px!important}
+  #eventStage .event-gallery-meta,#eventStage .event-gallery-author,#eventStage .event-gallery-footer{font-size:9px!important}
+  #eventStage .event-gallery-note,#eventStage .travel-gallery-card p{font-size:10px!important}
+  .hint{display:none!important}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+
 </style>
 </head>
 <body>
-<div class="app" id="app">
+<a class="skip-link" href="#app">본문으로 건너뛰기</a>
+<main class="app" id="app" tabindex="-1">
   <header class="masthead">
     <div class="logo" aria-label="AiderDear"><span>Aider</span><em>Dear</em><small>DEAR US, ALWAYS</small></div>
   </header>
 
   <div class="nav-row">
-    <nav class="tabs" aria-label="AiderDear 주요 메뉴">
-      <button class="tab active" data-tab="schedule">SCHEDULE</button>
-      <button class="tab" data-tab="emotion">EMOTION</button>
-      <button class="tab" data-tab="record">RECORD</button>
-      <button class="tab" data-tab="event">EVENT</button>
-      <button class="tab" data-tab="private">PRIVATE</button>
+    <nav class="tabs" role="tablist" aria-label="AiderDear 주요 메뉴">
+      <button class="tab active" type="button" role="tab" data-tab="schedule" aria-controls="stage" aria-selected="true" tabindex="0">SCHEDULE</button>
+      <button class="tab" type="button" role="tab" data-tab="emotion" aria-controls="emotionStage" aria-selected="false" tabindex="-1">EMOTION</button>
+      <button class="tab" type="button" role="tab" data-tab="record" aria-controls="recordStage" aria-selected="false" tabindex="-1">RECORD</button>
+      <button class="tab" type="button" role="tab" data-tab="event" aria-controls="eventStage" aria-selected="false" tabindex="-1">EVENT</button>
+      <button class="tab" type="button" role="tab" data-tab="private" aria-controls="privateStage" aria-selected="false" tabindex="-1">PRIVATE</button>
     </nav>
     <div class="nav-tools" aria-label="빠른 도구">
       <div class="top-actions">
@@ -1866,7 +2021,7 @@ body{background:#000!important}
 
   <div class="side-word">MADE BY BOMIN</div>
   <div class="hint"><span class="wheel"></span>SCROLL TO FLIP</div>
-</div>
+</main>
 
 <!-- Mailbox -->
 <div class="overlay" id="mailboxModal" role="dialog" aria-modal="true" aria-labelledby="mailboxTitle">
@@ -1911,7 +2066,11 @@ body{background:#000!important}
 <div class="overlay" id="searchModal" role="dialog" aria-modal="true" aria-labelledby="searchTitle">
   <div class="modal">
     <div class="modal-head"><b id="searchTitle">Search AiderDear</b><button class="x" data-close="searchModal">×</button></div>
-    <div class="modal-body"><input id="searchInput" class="searchbox" type="search" placeholder="일정, 기록, 장소, 사람을 검색하세요"><div class="hinttext" id="searchHint">예: 데이트 · 기념일 · 제주도 · 병원</div></div>
+    <div class="modal-body">
+      <input id="searchInput" class="searchbox" type="search" placeholder="일정, 기록, 장소, 사람을 검색하세요" aria-describedby="searchHint" autocomplete="off">
+      <div class="hinttext" id="searchHint">예: 데이트 · 기념일 · 제주도 · 병원</div>
+      <div class="search-results" id="searchResults" aria-live="polite"></div>
+    </div>
   </div>
 </div>
 
@@ -2275,7 +2434,7 @@ body{background:#000!important}
 
   function iso(y,m,d){return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`}
   function ownerLabel(owner){if(owner==='mine')return currentUserName||'내 일정';if(owner==='partner'){const p=sharedPartner();return p?.name||'함께';}return sharedPartner()?`${currentUserName||'나'} + ${sharedPartner().name}`:'내 일정'}
-  function escapeHtml(s=''){return s.replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
+  function escapeHtml(s=''){return String(s??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
 
 
   // Google Cloud connection: Calendar + Drive (family mode, up to 10 Google accounts)
@@ -2760,15 +2919,46 @@ body{background:#000!important}
   $('#schedulePeopleFilters').addEventListener('click',e=>{const b=e.target.closest('[data-person-filter]');if(!b)return;const token=String(b.dataset.personFilter||'').trim();if(schedulePersonFilters.has(token))schedulePersonFilters.delete(token);else schedulePersonFilters.add(token);b.setAttribute('aria-pressed',String(schedulePersonFilters.has(token)));renderCalendar()});
 
   // modals
-  function syncModalState(){document.body.classList.toggle('modal-open',!!document.querySelector('.overlay.open'))}
-  function openModal(id){$('#'+id).classList.add('open');syncModalState();setTimeout(()=>$('#'+id).querySelector('input,button,select,textarea')?.focus(),0)}
-  function closeModal(id){$('#'+id).classList.remove('open');syncModalState()}
+  const modalReturnFocus=new Map();
+  function syncModalState(){
+    const open=$$('.overlay.open');
+    document.body.classList.toggle('modal-open',open.length>0);
+    const app=$('#app');if(app)app.inert=open.length>0;
+    $$('.overlay').forEach(o=>o.setAttribute('aria-hidden',o.classList.contains('open')?'false':'true'));
+  }
+  function modalFocusables(modal){return $$('button:not(:disabled),a[href],input:not(:disabled),select:not(:disabled),textarea:not(:disabled),[tabindex]:not([tabindex="-1"])').filter(el=>modal.contains(el)&&!el.hidden&&el.getClientRects().length)}
+  function openModal(id){const modal=$('#'+id);if(!modal)return;modalReturnFocus.set(id,document.activeElement);modal.classList.add('open');syncModalState();setTimeout(()=>modal.querySelector('input:not([type="hidden"]),button,select,textarea')?.focus(),0)}
+  function closeModal(id,restore=true){const modal=$('#'+id);if(!modal)return;modal.classList.remove('open');syncModalState();const target=modalReturnFocus.get(id);modalReturnFocus.delete(id);if(restore&&!document.querySelector('.overlay.open')&&target?.isConnected)setTimeout(()=>target.focus(),0)}
   function openSearchFromQuick(){const q=$('#quickSearchInput')?.value||'';$('#searchInput').value=q;$('#searchInput').dispatchEvent(new Event('input'));openModal('searchModal')}
   $('#searchBtn').addEventListener('click',openSearchFromQuick);$('#quickSearchInput').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();openSearchFromQuick()}});$('#loginBtn').addEventListener('click',()=>openModal('loginModal'));
   $$('[data-close]').forEach(b=>b.addEventListener('click',()=>closeModal(b.dataset.close)));
-  $$('.overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o){o.classList.remove('open');syncModalState()}}));
-  document.addEventListener('keydown',e=>{if(e.key==='Escape'){$$('.overlay.open').forEach(o=>o.classList.remove('open'));syncModalState()}});
-  $('#searchInput').addEventListener('input',e=>{const q=e.target.value.trim().toLowerCase();if(!q){$('#searchHint').textContent='예: 데이트 · 기념일 · 제주도 · 병원';return}const ec=events.filter(x=>`${x.title} ${x.memo||''}`.toLowerCase().includes(q)).length;const rc=getRecords().filter(x=>`${x.title} ${x.body||''} ${x.mood||''}`.toLowerCase().includes(q)).length;const mc=Object.values(emotionData).flatMap(d=>d?.entries||[]).filter(x=>`${(x.moods||[x.mood||'']).join(' ')} ${(x.wants||[]).join(' ')} ${(x.context||[]).join(' ')} ${(x.currentActivities||[]).join(' ')} ${(x.afterActivities||[]).join(' ')} ${(x.lines||[]).join(' ')}`.toLowerCase().includes(q)).length;$('#searchHint').textContent=`일정 ${ec}개 · 감정일기 ${mc}개 · 기록 ${rc}개`});
+  $$('.overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)closeModal(o.id)}));
+  document.addEventListener('keydown',e=>{
+    const open=$$('.overlay.open').at(-1);if(!open)return;
+    if(e.key==='Escape'){e.preventDefault();closeModal(open.id);return}
+    if(e.key!=='Tab')return;const items=modalFocusables(open);if(!items.length)return;e.preventDefault();const current=items.indexOf(document.activeElement);const next=e.shiftKey?(current<=0?items.length-1:current-1):(current===items.length-1?0:current+1);items[next].focus();
+  });
+  function searchEmotionText(x){return `${(x.moods||[x.mood||'']).join(' ')} ${(x.wants||[]).join(' ')} ${(x.context||[]).join(' ')} ${(x.currentActivities||[]).join(' ')} ${(x.afterActivities||[]).join(' ')} ${(x.lines||[]).join(' ')}`}
+  function renderSearchResults(value=''){
+    const q=String(value||'').trim().toLowerCase(),box=$('#searchResults'),hint=$('#searchHint');if(!box||!hint)return;
+    if(!q){hint.textContent='예: 데이트 · 기념일 · 제주도 · 병원';box.innerHTML='';return}
+    const schedule=events.filter(x=>`${x.title||''} ${x.memo||''}`.toLowerCase().includes(q)).map(x=>({tab:'schedule',kind:'일정',id:x.id,title:x.title||'제목 없는 일정',detail:x.memo||x.sourceTitle||'',date:x.date||''}));
+    const emotions=Object.values(emotionData).flatMap(d=>d?.entries||[]).filter(x=>searchEmotionText(x).toLowerCase().includes(q)).map(x=>({tab:'emotion',kind:'감정',id:x.id||'',title:(x.moods||[x.mood||'감정 기록']).filter(Boolean).join(' · '),detail:(x.lines||[]).filter(Boolean).join(' '),date:x.date||''}));
+    const records=getRecords().filter(x=>`${x.title||''} ${x.body||''} ${x.mood||''}`.toLowerCase().includes(q)).map(x=>({tab:'record',kind:'기록',id:x.id,title:x.title||'오늘의 기록',detail:x.body||x.mood||'',date:x.date||''}));
+    const reviews=eventRows().filter(x=>`${x.title||''} ${x.place||''} ${x.oneLine||''} ${x.review||''}`.toLowerCase().includes(q)).map(x=>({tab:'event',kind:x.category==='travel'?'여행':'이벤트',id:x.id,title:x.title||'이벤트 기록',detail:x.place||x.oneLine||'',date:x.date||''}));
+    const rows=[...schedule,...emotions,...records,...reviews].sort((a,b)=>String(b.date).localeCompare(String(a.date))).slice(0,30);
+    hint.textContent=`일정 ${schedule.length} · 감정 ${emotions.length} · 기록 ${records.length} · 이벤트 ${reviews.length}`;
+    box.innerHTML=rows.length?rows.map(r=>`<button class="search-result" type="button" data-search-tab="${r.tab}" data-search-kind="${r.kind}" data-search-id="${escapeHtml(r.id||'')}" data-search-date="${escapeHtml(r.date||'')}"><span class="search-result-kind">${escapeHtml(r.kind)}</span><span class="search-result-copy"><b>${escapeHtml(r.title)}</b><span>${escapeHtml(r.detail||'상세 보기')}</span></span><time>${escapeHtml(String(r.date||'').replaceAll('-','.'))}</time></button>`).join(''):'<div class="search-empty">일치하는 기록이 없습니다.<br>다른 단어로 검색해보세요.</div>';
+  }
+  $('#searchInput').addEventListener('input',e=>renderSearchResults(e.target.value));
+  $('#searchResults').addEventListener('click',e=>{
+    const item=e.target.closest('[data-search-tab]');if(!item)return;const tab=item.dataset.searchTab,id=item.dataset.searchId,date=item.dataset.searchDate;
+    closeModal('searchModal',false);showMainTab(tab);
+    if(tab==='schedule'){const row=events.find(x=>String(x.id)===id);if(row)setTimeout(()=>openEvent(row),0)}
+    if(tab==='emotion'&&date)setTimeout(()=>renderEmotionDayDetail(date),0);
+    if(tab==='record'&&date){recordDateSearch=date;$('#recordDateSearch').value=date;$('#recordDateClear').hidden=false;setTimeout(renderRecordFeed,0)}
+    if(tab==='event'){const row=eventRows().find(x=>String(x.id)===id);if(row)setTimeout(()=>openEventReviewView(row.id),0)}
+  });
 
 
   // Mailbox — short notes between the currently shared pair
@@ -3557,9 +3747,11 @@ body{background:#000!important}
   function animateStandaloneFrame(id){const el=$(id);if(!el)return;el.classList.remove('line-active');void el.offsetWidth;el.classList.add('line-active')}
   function showMainTab(tab){
     if((tab==='emotion'||tab==='record'||tab==='event'||tab==='private')&&!currentUser){requireLogin(()=>showMainTab(tab));return}
-    $$('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===tab));
+    const tabLabels={schedule:'Schedule',emotion:'Emotion',record:'Record',event:'Event',private:'Private'};
+    $$('.tab').forEach(t=>{const active=t.dataset.tab===tab;t.classList.toggle('active',active);t.setAttribute('aria-selected',String(active));t.tabIndex=active?0:-1});
     document.body.classList.toggle('emotion-mode',tab==='emotion');document.body.classList.toggle('record-mode',tab==='record');document.body.classList.toggle('event-mode',tab==='event');document.body.classList.toggle('private-mode',tab==='private');
-    $('#stage').hidden=tab!=='schedule';$('#emotionStage').hidden=tab!=='emotion';$('#recordStage').hidden=tab!=='record';$('#eventStage').hidden=tab!=='event';$('#privateStage').hidden=tab!=='private';$('#stage').setAttribute('aria-hidden',tab==='schedule'?'false':'true');
+    const sections={schedule:$('#stage'),emotion:$('#emotionStage'),record:$('#recordStage'),event:$('#eventStage'),private:$('#privateStage')};Object.entries(sections).forEach(([key,section])=>{if(!section)return;const active=key===tab;section.hidden=!active;section.setAttribute('aria-hidden',String(!active))});
+    document.title=`${tabLabels[tab]||'AiderDear'} · AiderDear`;
     if(tab==='schedule')return;
     const v=$('#coupleVideo2');if(v&&!v.hidden)v.pause();
     if(tab==='emotion'){emotionPageIndex=0;renderEmotion();goEmotionPage(0,true);return}
@@ -3568,9 +3760,10 @@ body{background:#000!important}
     if(tab==='private'){privateOwner=currentUserEmail||privateOwner;renderPrivate();goPrivatePage(0,true);return}
   }
   $$('.tab').forEach(t=>t.addEventListener('click',()=>showMainTab(t.dataset.tab)));
+  $('.tabs').addEventListener('keydown',e=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;e.preventDefault();const tabs=$$('.tab');let i=tabs.indexOf(document.activeElement);if(e.key==='Home')i=0;else if(e.key==='End')i=tabs.length-1;else i=(i+(e.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length;tabs[i].focus();showMainTab(tabs[i].dataset.tab)});
   function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._timer);t._timer=setTimeout(()=>t.classList.remove('show'),1800)}
   $('#stage').addEventListener('pointerdown',e=>{if(e.target.closest('button,input,select,textarea,label,a'))e.stopPropagation()});
-    loadGoogleConfig();fillGoogleConfigUI();$('#autoLoginCheck').checked=autoLoginEnabled();normalizeCloudData();selectAlbumFolderColor(ALBUM_PASTELS[0]);getAlbumFolders();refreshRecordAlbumSelect(DEFAULT_ALBUM_ID);renderAlbumFolders();renderEventArchive();renderTravelArchive();renderPrivate();renderEmotion();applyLoginUI();setDday();renderDdayList();renderCalendar();setTimeout(()=>tryAutoLogin(),450);if('serviceWorker' in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+    loadGoogleConfig();fillGoogleConfigUI();$('#autoLoginCheck').checked=autoLoginEnabled();normalizeCloudData();selectAlbumFolderColor(ALBUM_PASTELS[0]);getAlbumFolders();refreshRecordAlbumSelect(DEFAULT_ALBUM_ID);renderAlbumFolders();renderEventArchive();renderTravelArchive();renderPrivate();renderEmotion();applyLoginUI();setDday();renderDdayList();renderCalendar();if(location.hash==='#search')setTimeout(openSearchFromQuick,0);setTimeout(()=>tryAutoLogin(),450);if('serviceWorker' in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
 })();
 </script>
 </body>

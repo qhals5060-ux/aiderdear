@@ -1,13 +1,23 @@
 {
+  "id": "./",
   "name": "AiderDear",
   "short_name": "AiderDear",
   "start_url": "./",
+  "scope": "./",
   "display": "standalone",
+  "orientation": "any",
   "background_color": "#9aafb7",
   "theme_color": "#9aafb7",
   "lang": "ko-KR",
-  "description": "둘만의 일정, D-day, 감정일기, 기록, 앨범, 이벤트와 PRIVATE를 Google Calendar와 Drive에 동기화하는 개인 웹앱",
+  "categories": ["lifestyle", "productivity"],
+  "description": "둘만의 일정과 감정, 기록, 앨범, 여행, 루틴을 Google Calendar와 Drive에 동기화하는 프라이빗 라이프 아카이브",
   "icons": [
-    {"src":"./aiderdear-icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+    {"src":"./aiderdear-icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any"},
+    {"src":"./aiderdear-icon-192.png","sizes":"192x192","type":"image/png","purpose":"any maskable"},
+    {"src":"./aiderdear-icon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}
+  ],
+  "shortcuts": [
+    {"name":"일정 보기","short_name":"일정","url":"./"},
+    {"name":"기록 검색","short_name":"검색","url":"./#search"}
   ]
 }
