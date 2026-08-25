@@ -1185,6 +1185,88 @@ body{background:#000!important}
 @media(max-width:900px){.event-content.event-archive-content{overflow:auto!important}.event-index-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}.event-index-card{min-height:360px!important;height:360px!important}.event-art{height:195px!important}}
 @media(max-width:650px){.event-index-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}.event-index-card{min-height:300px!important;height:300px!important;padding:10px!important}.event-art{height:155px!important}.event-index-title{font-size:9px!important}.event-index-review{font-size:8px!important}}
 
+
+
+/* v28 layout refinements */
+/* 1) Emotion order */
+.emotion-month-controls{display:flex!important;align-items:center!important;gap:6px!important}
+.emotion-month-controls .emotion-new.month{order:4!important}
+#emotionPrevMonth{order:1!important}#emotionTodayMonth{order:2!important}#emotionNextMonth{order:3!important}#newEmotionDiaryBtn{order:4!important}
+
+/* 2) Bucket list: no outer frame, tighter spacing */
+.bucket-board{background:transparent!important;border:0!important;box-shadow:none!important;border-radius:0!important;padding:0!important}
+.bucket-board:before,.bucket-board:after{display:none!important;content:none!important}
+.bucket-head{padding:0 0 4px!important;margin:0 0 4px!important;border-bottom:0!important}
+.bucket-head b{font-size:18px!important;color:#64584b!important}
+.bucket-head button{height:28px!important;padding:0 12px!important;font-size:10px!important}
+.bucket-form{grid-template-columns:minmax(0,1fr) 38px!important;gap:6px!important;padding:0 0 4px!important;margin:0 0 4px!important}
+.bucket-form input{height:36px!important;padding:0 12px!important;font-size:11px!important;border-radius:12px!important}
+.bucket-form button{width:38px!important;height:36px!important;border-radius:10px!important;font-size:22px!important}
+.bucket-drops{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important;padding:2px 0 0!important}
+.bucket-card{border-radius:14px!important;min-height:78px!important}
+.bucket-card-main{grid-template-columns:18px minmax(0,1fr)!important;gap:8px!important;padding:10px 8px!important}
+.bucket-check{width:14px!important;height:14px!important}
+.bucket-copy b{font-size:11px!important;line-height:1.25!important;margin-bottom:2px!important}
+.bucket-copy span{font-size:8px!important;line-height:1.25!important}
+.bucket-drop-tools{padding-right:6px!important;gap:4px!important}
+.bucket-drop-tools button{width:20px!important;height:20px!important;font-size:8px!important}
+.bucket-empty{min-height:72px!important;font-size:10px!important}
+.bucket-scroll{padding-right:4px!important}
+
+/* 3) Archive: simple vertical photo rectangle */
+.event-index-grid{grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:14px!important;align-items:stretch!important}
+.event-index-card{min-height:420px!important;height:420px!important;padding:14px 12px 12px!important;display:grid!important;grid-template-rows:auto auto 1fr auto auto auto!important;gap:8px!important;border:0!important;border-radius:18px!important;background:#f8f4ee!important;box-shadow:0 8px 22px rgba(33,24,18,.05)!important}
+.event-index-card:before{content:''!important;display:block!important;height:1px!important;background:#2d2723!important;margin-bottom:2px!important}
+.event-index-no{left:12px!important;top:14px!important;font-size:11px!important}
+.event-index-title{justify-self:end!important;font-size:10px!important;padding-left:22px!important;margin-top:-5px!important}
+.event-art,
+.event-art.movie,
+.event-art.music,
+.event-art.book,
+.event-art.performance{width:100%!important;height:230px!important;max-width:none!important;aspect-ratio:auto!important;border:1px solid #cdbfad!important;border-radius:0!important;background:#efe7dc!important;box-shadow:none!important;clip-path:none!important;overflow:hidden!important;display:block!important;place-items:unset!important}
+.event-art:before,.event-art:after,
+.event-art.movie:before,.event-art.movie:after,
+.event-art.music:before,.event-art.music:after,
+.event-art.book:before,.event-art.book:after,
+.event-art.performance:before,.event-art.performance:after{display:none!important;content:none!important}
+.event-art img,.event-art-placeholder{position:static!important;inset:auto!important;width:100%!important;height:100%!important;object-fit:cover!important;object-position:center!important;max-width:none!important;max-height:none!important;border-radius:0!important;clip-path:none!important;background:#efe7dc!important}
+.event-art-placeholder .art-card{width:100%!important;height:100%!important}
+.event-index-meta{font-size:8px!important}
+.event-index-stars{font-size:10px!important}
+.event-index-review{font-size:8px!important;line-height:1.5!important;min-height:38px!important}
+@media(max-width:1100px){.event-index-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}.event-index-card{height:390px!important;min-height:390px!important}.event-art,.event-art.movie,.event-art.music,.event-art.book,.event-art.performance{height:205px!important}}
+@media(max-width:700px){.event-index-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}.event-index-card{height:320px!important;min-height:320px!important;padding:10px!important}.event-art,.event-art.movie,.event-art.music,.event-art.book,.event-art.performance{height:150px!important}}
+
+/* 4) Routine layout like provided mock */
+.routine-v18-shell{grid-template-rows:34px minmax(0,1fr)!important;gap:12px!important}
+.routine-name-tabs{display:none!important}
+.routine-v18-main{display:grid!important;grid-template-columns:minmax(0,.42fr) minmax(0,.58fr)!important;gap:22px!important;height:100%!important;overflow:hidden!important}
+.routine-left-stack{grid-template-rows:minmax(0,1.2fr) minmax(130px,.8fr)!important;gap:14px!important;min-height:0!important}
+.routine-brief-section{border:0!important;background:transparent!important;border-radius:0!important;padding:0!important;display:grid!important;grid-template-rows:auto minmax(0,1fr)!important}
+.routine-section-head{padding:0 2px 10px!important}.routine-section-head b{font-size:10px!important;letter-spacing:.18em!important;color:#686868!important}.routine-section-head span{font-family:var(--display-font)!important;font-size:28px!important;color:#111!important}
+.routine-compact-list{overflow:hidden!important;height:100%!important;display:block!important;padding:0!important}
+.routine-brief-card{height:100%!important;min-height:290px!important;border-radius:32px!important;padding:74px 22px 20px!important;background:#de723a!important;color:#fff!important;box-shadow:none!important;outline:0!important;overflow:hidden!important}
+.routine-brief-card.active{outline:0!important;box-shadow:none!important}
+.routine-brief-card:before,.routine-brief-card:after{content:none!important}
+.routine-card-notch{position:absolute!important;left:0!important;right:0!important;top:0!important;height:56px!important;background:#1b1b1d!important;border-radius:0 28px 0 38px!important;display:flex!important;align-items:center!important;justify-content:center!important;gap:44px!important;padding:0 18px!important;color:#fff!important;font-size:18px!important}
+.routine-card-notch span:first-child{position:absolute!important;left:18px!important;top:14px!important}
+.routine-brief-card>strong{display:block!important;font-size:28px!important;line-height:1.1!important;margin:8px 0 18px!important;color:#fff!important}
+.routine-rules-block{padding-top:12px!important;border-top:1px solid rgba(255,255,255,.14)!important}
+.routine-brief-rule{grid-template-columns:70px minmax(0,1fr)!important;gap:9px!important;font-size:8px!important;margin:6px 0!important}.routine-brief-rule b{font-size:8px!important;color:#fff!important}.routine-brief-rule span{white-space:normal!important;line-height:1.35!important;color:rgba(255,255,255,.86)!important}
+.routine-big-goals{border:1px solid #111!important;border-radius:20px!important;background:#fbfaf5!important;padding:10px 12px!important;gap:8px!important}
+.routine-goals-title b{font-size:8px!important;letter-spacing:.14em!important}.routine-goals-title button{height:26px!important;font-size:7px!important;padding:0 10px!important}
+.routine-big-goals label{grid-template-columns:28px minmax(0,1fr)!important;gap:6px!important}.routine-big-goals label span{font-size:14px!important}.routine-big-goals input{height:30px!important;font-size:8px!important}
+.routine-tracker-section{border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;padding:0!important}
+.routine-tracker{--routine:#4d69d9!important;height:100%!important;min-height:0!important;background:#4d69d9!important;color:#fff!important;border-radius:0!important;grid-template-rows:auto auto auto minmax(0,1fr) auto auto!important}
+.routine-tracker-head{grid-template-columns:minmax(0,1fr) 86px!important;padding:16px 18px 10px!important;gap:10px!important}.routine-tracker-head h3{font-size:42px!important;line-height:1.02!important;font-weight:800!important;margin-top:6px!important}.routine-tracker-head small{font-size:8px!important;opacity:.68!important}.routine-tracker-icons{font-size:16px!important}
+.routine-tracker-daycount{border-left:1px solid rgba(255,255,255,.28)!important}.routine-tracker-daycount span{font-size:8px!important;letter-spacing:.12em!important}.routine-tracker-daycount strong{font-size:54px!important}
+.routine-tracker-rules{padding:10px 18px!important;border-top:1px solid rgba(255,255,255,.12)!important;border-bottom:1px solid rgba(255,255,255,.12)!important}.routine-tracker-rules p{grid-template-columns:56px minmax(0,1fr)!important;gap:8px!important;margin:6px 0!important;font-size:9px!important}.routine-tracker-rules p b{font-size:8px!important}
+.routine-tracker-levels{padding:10px 18px!important}.routine-tracker-levels>span{font-size:8px!important}.routine-tracker-levels button{height:30px!important;padding:0 10px!important;font-size:7px!important}
+.routine-track-grid{padding:10px 18px 14px!important;display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;grid-auto-rows:minmax(52px,1fr)!important;gap:8px!important;align-content:start!important}
+.routine-track-day{min-height:0!important;aspect-ratio:1!important}.routine-track-day small{font-size:6px!important}.routine-track-day b{font-size:9px!important}
+.routine-tracker footer{padding:8px 18px 12px!important;font-size:7px!important}.routine-tracker footer strong{font-size:11px!important}.routine-tracker-actions{right:14px!important;bottom:10px!important}.routine-tracker-actions button,.routine-brag-done{height:26px!important;font-size:6.5px!important;padding:0 10px!important}
+@media(max-width:900px){.routine-v18-main{grid-template-columns:1fr!important;overflow:auto!important}.routine-brief-card{min-height:220px!important}.routine-tracker{min-height:420px!important}.routine-tracker-head h3{font-size:28px!important}.routine-tracker-daycount strong{font-size:38px!important}}
+
 </style>
 </head>
 <body>
@@ -1305,8 +1387,8 @@ body{background:#000!important}
                 <div class="emotion-month-controls">
                   <button type="button" id="emotionPrevMonth" aria-label="이전 달">←</button>
                   <button type="button" id="emotionTodayMonth">TODAY</button>
-                  <button type="button" class="emotion-new month" id="newEmotionDiaryBtn">감정기록</button>
                   <button type="button" id="emotionNextMonth" aria-label="다음 달">→</button>
+                  <button type="button" class="emotion-new month" id="newEmotionDiaryBtn">감정기록</button>
                 </div>
               </div>
               <div class="emotion-week-head"><span>SUN</span><span>MON</span><span>TUE</span><span>WED</span><span>THU</span><span>FRI</span><span>SAT</span></div>
