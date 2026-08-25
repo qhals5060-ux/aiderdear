@@ -1,9 +1,7 @@
-AiderDear v20 DETAIL
-
-- 하늘 배경의 원본 흰 여백 제거, 화면 전체 cover, 약한 블러/화이트 워시 적용
-- Bucket List: 십자수 천 질감 강화, 큰 물방울 자수들을 불규칙하게 배치
-- Record 기록 찾아보기: 한글 제목/건수 폰트 소폭 축소
-- Event Travel: 한 프레임 안에 3x2, 6개 카드 고정 표시 / 페이지 스크롤 제거
-- Private Checklist: 긴급/비긴급 + 중요/비중요 축 표시, 각 항목에 긴급·중요 상태 표시, 종이 노트 질감 적용
-
-기능 로직: v19 REBUILD(v18 기반) 유지
+AiderDear v34
+- EVENT 페이지 내부 Archive/Travel 디자인만 리디자인
+- 공통 AiderDear 프레임/헤더/탭/선 구조 유지
+- Archive: 5-column 동일 규격 editorial gallery, 4:3 이미지
+- Travel: 3-column x 2-row 동일 규격 visual gallery, 16:7 이미지
+- Tablet/Mobile responsive grid 준비
+- 기존 필터/정렬/등록/수정/삭제/별점/사진 업로드 기능 유지
