@@ -66,7 +66,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 .month b{font-weight:800}
 .month-controls{display:flex;gap:5px;align-items:center;justify-content:flex-end;min-width:0}
 .mini-btn,.today{height:30px;border:1px solid #111;background:#fff;padding:0 8px;font-weight:800;font-size:10px}.mini-btn{width:30px;padding:0}.today{background:#111;color:#fff;letter-spacing:.07em}
-.filters{display:flex;gap:5px;flex-wrap:nowrap}
+.filters{display:flex;gap:5px;flex-wrap:nowrap}.filters:empty{display:none}.filter-person{max-width:92px}.filter-person .filter-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .filter{border:1px solid #111;background:#fff;height:30px;padding:0 8px;font-size:10px;font-weight:800;display:flex;align-items:center;gap:5px;white-space:nowrap}.filter[aria-pressed="false"]{opacity:.35}.swatch{width:9px;height:9px;border:1px solid rgba(0,0,0,.35);border-radius:50%}.mine{background:var(--mine)}.partner{background:var(--partner)}.shared{background:var(--shared)}
 .primary{height:30px;border:1px solid #111;background:#111;color:#fff;padding:0 9px;font-size:10px;font-weight:800;white-space:nowrap}
 .calendar{border-top:2px solid #111;border-left:1px solid #111;display:grid;grid-template-columns:repeat(7,1fr);grid-template-rows:28px repeat(6,minmax(0,1fr));min-height:0;height:100%}
@@ -134,7 +134,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 .record-main{display:grid;grid-template-rows:auto minmax(0,1fr);gap:12px}
 .record-toolbar{display:flex;align-items:end;justify-content:space-between;gap:14px;min-width:0}
 .record-heading{min-width:0}.record-heading small{display:block;font-size:10px;font-weight:800;letter-spacing:.16em;margin-bottom:3px}.record-heading h2{margin:0;font-family:"Iowan Old Style","Palatino Linotype","Book Antiqua",Palatino,Georgia,serif;font-size:34px;font-weight:400;letter-spacing:-.055em;line-height:1}
-.record-controls{display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:flex-end}.record-filter,.new-record{height:30px;border:1px solid #111;background:#fff;padding:0 9px;font-size:9px;font-weight:800;letter-spacing:.04em}.record-filter.active{background:#111;color:#fff}.new-record{background:var(--tab2);font-size:10px}.record-date-search{height:30px;border:1px solid #111;background:#fff;padding:0 8px;font-size:9px;font-weight:800;min-width:126px}.record-date-clear{height:30px;width:30px;border:1px solid #111;background:#fff;font-size:13px;font-weight:800;padding:0}.record-date-clear[hidden]{display:none}
+.record-controls{display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:flex-end}.record-people-filters{display:contents}.record-people-filters:empty{display:none}.record-filter,.new-record{height:30px;border:1px solid #111;background:#fff;padding:0 9px;font-size:9px;font-weight:800;letter-spacing:.04em}.record-filter.active{background:#111;color:#fff}.new-record{background:var(--tab2);font-size:10px}.record-date-search{height:30px;border:1px solid #111;background:#fff;padding:0 8px;font-size:9px;font-weight:800;min-width:126px}.record-date-clear{height:30px;width:30px;border:1px solid #111;background:#fff;font-size:13px;font-weight:800;padding:0}.record-date-clear[hidden]{display:none}
 .record-feed{min-height:0;overflow:auto;scrollbar-width:thin;border-top:1px solid #111;padding:12px 8px 18px 0;scroll-behavior:smooth}
 .record-feed-inner{width:min(560px,100%);margin:0 auto;display:grid;gap:18px}
 .record-empty{min-height:360px;display:grid;place-items:center;text-align:center;border:1px solid #111;background:#f6f6f6;padding:24px}.record-empty strong{display:block;font-family:"Iowan Old Style","Palatino Linotype",Georgia,serif;font-size:34px;font-weight:400;margin-bottom:8px}.record-empty span{font-size:11px;color:#555;line-height:1.6}
@@ -443,6 +443,11 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
 .private-frame.line-active:before,.event-frame.line-active:before{animation:drawFrameLine .62s cubic-bezier(.2,.75,.2,1) both;transform-origin:left center}.private-frame.line-active:after,.event-frame.line-active:after{animation:drawFrameLine .62s .12s cubic-bezier(.2,.75,.2,1) both;transform-origin:right center}
 @media (max-width:600px){.event-shell,.private-shell{padding:7px;height:100%}.event-frame,.private-frame{padding:7px 7px 6px;border-left-width:2px;border-right-width:2px;grid-template-rows:34px minmax(0,1fr);gap:5px}.event-frame:before,.event-frame:after,.private-frame:before,.private-frame:after{height:2px;left:5px;right:5px}.event-heading,.private-heading{font-size:20px}.private-content{padding-top:6px;gap:6px}.private-owner,.private-feature{height:24px;font-size:7px;padding:0 7px}.private-panel{padding:7px 1px 12px 0}.private-dashboard{grid-template-columns:1fr;gap:8px}.private-column{padding:10px;border-radius:14px}.private-form,.routine-creator-form{gap:5px;margin-bottom:8px}.private-form textarea,.private-memo-form textarea{height:72px;font-size:13px}.private-form input,.private-form select,.routine-creator-form input,.routine-creator-form select{height:40px;font-size:12px}.private-add{height:40px;font-size:9px;padding:0 9px}.private-item{padding:8px}.private-item-head b{font-size:9px}.private-item p{font-size:8px}.private-item-head span,.private-delete{font-size:6px}.challenge-summary{grid-template-columns:repeat(3,1fr)}.challenge-stat{padding:8px 6px}.challenge-stat strong{font-size:20px}.challenge-stat span{font-size:5.5px}.routine-layout{grid-template-columns:1fr}.routine-creator{padding:10px}.routine-suggestion-grid{grid-template-columns:1fr 1fr;gap:6px}.routine-suggestion{padding:9px 10px;font-size:8px}.routine-creator-form{grid-template-columns:1fr 1fr}.routine-creator-form input{grid-column:1/-1}.routine-creator-form .private-add{grid-column:1/-1}.routine-hero{grid-template-columns:minmax(0,1fr) 72px}.routine-hero-copy{padding:12px}.routine-hero-title{font-size:24px}.routine-hero-side strong{font-size:28px}.challenge-bars{height:54px}.routine-badge-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.routine-badge{min-height:86px;border-radius:12px;padding:7px 5px}.routine-badge-icon{width:38px;height:38px;font-size:17px}.routine-card{padding:10px;border-radius:14px}.routine-card-title b{font-size:12px}.routine-card-title span{font-size:6px}.routine-stamp{width:46px;height:46px;font-size:7px}.routine-stamp-grid{grid-template-columns:repeat(5,1fr);gap:4px}.routine-day{font-size:5px}.check-planner-form{grid-template-columns:1fr 1fr}.check-planner-form input:first-child{grid-column:1/-1}.check-planner-form .private-add{grid-column:1/-1}.planner-row{grid-template-columns:auto 54px minmax(0,1fr) auto;gap:5px}.planner-priority{display:none}.planner-date{font-size:6px}.planner-date b{font-size:7px}.planner-copy b{font-size:8px}.planner-copy span{font-size:6px}}
 
+
+/* Emotion v7: separated records */
+.emotion-title-group{display:flex;align-items:end;gap:18px;min-width:0}.emotion-feature-tabs{display:flex;gap:5px;flex-wrap:wrap}.emotion-feature{height:29px;border:1px solid #111;background:#fff;padding:0 10px;font-size:9px;font-weight:800}.emotion-feature.active{background:#111;color:#fff}.emotion-view-empty{min-height:130px;display:grid;place-items:center;text-align:center;font-size:9px;color:#777;background:#fafafa;border-bottom:1px solid #111}.emotion-insights-always{margin-top:14px}.emotion-mood-picker{grid-template-columns:repeat(5,minmax(0,1fr))}.emotion-mood-chip{height:66px}.emotion-mood-chip.active{background:#111;color:#fff}.emotion-card-focus{margin-top:10px;border:1px solid rgba(0,0,0,.12);border-radius:14px;padding:10px;background:#fff}.emotion-card-focus strong{display:block;font-size:9px;margin-bottom:5px}.emotion-card-focus p{font-size:9px;line-height:1.6;margin:0;white-space:pre-wrap}.cycle-summary{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.cycle-pill{border:1px solid rgba(0,0,0,.18);border-radius:999px;padding:6px 9px;font-size:8px;font-weight:800;background:#fff}.cycle-pill.period{background:#f8e5eb}.cycle-pill.intimacy{background:#e6eef9}.emotion-zero-chart{opacity:.55}.emotion-zero-chart .emotion-mood-bar i{width:0!important}
+@media (max-width:600px){.emotion-title-group{gap:7px;align-items:center}.emotion-feature-tabs{gap:2px}.emotion-feature{height:23px;font-size:6px;padding:0 5px}.emotion-mood-picker{grid-template-columns:repeat(2,minmax(0,1fr))}.emotion-mood-chip{height:50px}.emotion-view-empty{min-height:90px;font-size:7px}}
+
 @media (prefers-reduced-motion:reduce){.record-page{transition:opacity .2s ease;transform:none!important}}
 
 </style>
@@ -477,11 +482,7 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
             <button class="mini-btn" id="prevMonth" aria-label="이전 달">←</button>
             <button class="today" id="todayBtn">TODAY</button>
             <button class="mini-btn" id="nextMonth" aria-label="다음 달">→</button>
-            <div class="filters">
-              <button class="filter" data-filter="mine" aria-pressed="true"><span class="swatch mine"></span>관리자</button>
-              <button class="filter" data-filter="partner" aria-pressed="true"><span class="swatch partner"></span>가족</button>
-              <button class="filter" data-filter="shared" aria-pressed="true"><span class="swatch shared"></span>공유</button>
-            </div>
+            <div class="filters" id="schedulePeopleFilters" aria-label="함께 보는 사용자"></div>
             <button class="primary" id="addScheduleTop">+ 일정 등록</button>
           </div>
         </div>
@@ -546,10 +547,17 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
 
 
 
-  <section class="emotion-shell" id="emotionShell" aria-label="감정일기" hidden>
+  <section class="emotion-shell" id="emotionShell" aria-label="감정 기록" hidden>
     <section class="emotion-frame" id="emotionFrame">
       <div class="emotion-toolbar">
-        <h2 class="emotion-heading">Emotion Diary</h2>
+        <div class="emotion-title-group">
+          <h2 class="emotion-heading">Emotion</h2>
+          <div class="emotion-feature-tabs" aria-label="감정 기록 종류">
+            <button class="emotion-feature active" type="button" data-emotion-view="mood">감정기록</button>
+            <button class="emotion-feature" type="button" data-emotion-view="diary">3줄일기</button>
+            <button class="emotion-feature" type="button" data-emotion-view="cycle">생리기록</button>
+          </div>
+        </div>
         <div class="emotion-actions"><button class="emotion-new" id="newEmotionBtn" type="button">+ 감정 기록</button></div>
       </div>
       <div class="emotion-content">
@@ -568,8 +576,7 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
           <button class="record-view active" type="button" data-record-view="feed">FEED</button>
           <button class="record-view" type="button" data-record-view="diary">DIARY</button>
           <button class="record-filter active" type="button" data-record-filter="all">전체</button>
-          <button class="record-filter" type="button" data-record-filter="mine">관리자</button>
-          <button class="record-filter" type="button" data-record-filter="partner">가족</button>
+          <span id="recordPeopleFilters" class="record-people-filters"></span>
           <input class="record-date-search" id="recordDateSearch" type="date" aria-label="날짜별 기록 검색">
           <button class="record-date-clear" id="recordDateClear" type="button" aria-label="날짜 검색 초기화" hidden>×</button>
           <button class="new-record" type="button" id="newRecordTop">+ 새 기록</button>
@@ -651,6 +658,7 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
     <div class="modal-body">
       <div class="google-login-panel">
         <button type="button" class="google-login-btn" id="googleLoginBtn">Google 계정으로 로그인</button>
+        <button type="button" class="secondary" id="displayNameBtn" hidden>내 이름 변경</button>
         <button type="button" class="secondary" id="logoutBtn" hidden>로그아웃</button>
         <div class="google-status" id="googleStatus">처음 한 번만 Google 설정을 입력한 뒤 로그인하면 됩니다.</div>
         <button type="button" class="secondary sync-now" id="syncNowBtn" hidden>지금 동기화</button>
@@ -715,7 +723,7 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
           <div class="field"><label for="eventTime">시작 시간</label><input id="eventTime" type="time"></div>
           <div class="field"><label for="eventEndTime">종료 시간</label><input id="eventEndTime" type="time"></div>
           <div class="field full"><label class="schedule-range-check"><input id="eventAllDay" type="checkbox">하루 종일 / 날짜 범위 일정</label></div>
-          <div class="field full"><label for="eventOwner">일정 구분</label><select id="eventOwner"><option value="mine">관리자</option><option value="partner">가족</option><option value="shared">공유</option></select></div>
+          <div class="field full" id="eventOwnerField"><label for="eventOwner">일정 표시</label><select id="eventOwner"></select></div>
           <div class="field full"><label for="eventMemo">메모</label><textarea id="eventMemo"></textarea></div>
         </div>
         <div class="modal-actions"><button class="secondary" type="button" id="deleteEvent" hidden>삭제</button><button class="primary" type="submit" id="saveEvent">저장</button></div>
@@ -770,12 +778,23 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
     <div class="modal-body">
       <form id="emotionForm">
         <input id="emotionEntryId" type="hidden">
-        <input id="emotionMood" type="hidden" value="보통">
+        <input id="emotionMood" type="hidden" value="">
         <div class="form emotion-form-grid">
           <div class="field"><label for="emotionDate">날짜</label><input id="emotionDate" type="date" required></div>
-          <div class="field full"><label>오늘의 감정</label><div class="emotion-mood-picker"><button class="emotion-mood-chip active" type="button" data-emotion-mood="아주 좋음">😄<span>아주 좋음</span></button><button class="emotion-mood-chip" type="button" data-emotion-mood="좋음">🙂<span>좋음</span></button><button class="emotion-mood-chip" type="button" data-emotion-mood="보통">😐<span>보통</span></button><button class="emotion-mood-chip" type="button" data-emotion-mood="가라앉음">😔<span>가라앉음</span></button><button class="emotion-mood-chip" type="button" data-emotion-mood="힘듦">😣<span>힘듦</span></button></div></div>
-          <div class="field full"><label>3줄 일기</label><div class="emotion-three-lines"><input id="emotionLine1" maxlength="100" placeholder="1. 지금 가장 크게 느끼는 감정"><input id="emotionLine2" maxlength="100" placeholder="2. 그 감정이 생긴 이유"><input id="emotionLine3" maxlength="100" placeholder="3. 오늘의 나에게 남기고 싶은 말"></div></div>
-          <div class="field full"><label>기록 태그</label><div class="emotion-checks emotion-checks-split"><label class="emotion-check"><input id="emotionPeriod" type="checkbox">생리</label><label class="emotion-check"><input id="emotionIntimacy" type="checkbox">성관계</label></div></div>
+          <div class="field full" id="emotionMoodSection"><label>오늘의 감정</label><div class="emotion-mood-picker">
+            <button class="emotion-mood-chip" type="button" data-emotion-mood="기쁨">😄<span>기쁨</span></button>
+            <button class="emotion-mood-chip" type="button" data-emotion-mood="행복">😊<span>행복</span></button>
+            <button class="emotion-mood-chip" type="button" data-emotion-mood="설렘">🥰<span>설렘</span></button>
+            <button class="emotion-mood-chip" type="button" data-emotion-mood="편안함">😌<span>편안함</span></button>
+            <button class="emotion-mood-chip" type="button" data-emotion-mood="감사">🙏<span>감사</span></button>
+            <button class="emotion-mood-chip" type="button" data-emotion-mood="피곤함">😴<span>피곤함</span></button>
+            <button class="emotion-mood-chip" type="button" data-emotion-mood="불안">😰<span>불안</span></button>
+            <button class="emotion-mood-chip" type="button" data-emotion-mood="짜증">😠<span>짜증</span></button>
+            <button class="emotion-mood-chip" type="button" data-emotion-mood="외로움">🥺<span>외로움</span></button>
+            <button class="emotion-mood-chip" type="button" data-emotion-mood="슬픔">😢<span>슬픔</span></button>
+          </div></div>
+          <div class="field full" id="emotionDiarySection"><label>3줄 일기</label><div class="emotion-three-lines"><input id="emotionLine1" maxlength="100" placeholder="1. 오늘 가장 기억나는 순간"><input id="emotionLine2" maxlength="100" placeholder="2. 지금 마음에 남은 생각"><input id="emotionLine3" maxlength="100" placeholder="3. 오늘의 나에게 남기고 싶은 말"></div></div>
+          <div class="field full" id="emotionCycleSection"><label>생리 · 관계 기록</label><div class="emotion-checks emotion-checks-split"><label class="emotion-check"><input id="emotionPeriod" type="checkbox">생리</label><label class="emotion-check"><input id="emotionIntimacy" type="checkbox">성관계</label></div></div>
         </div>
         <div class="modal-actions"><button class="secondary" type="button" id="deleteEmotion" hidden>삭제</button><button class="primary" type="submit">저장</button></div>
       </form>
@@ -805,10 +824,11 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
   let shown = new Date(today.getFullYear(), today.getMonth(), 1);
   if(today.getFullYear()===2026 && today.getMonth()===7) shown = new Date(2026,7,1);
   const filters={mine:true,partner:true,shared:true};
+  let schedulePersonFilters=new Set();
   let events=[];
 
   function iso(y,m,d){return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`}
-  function ownerLabel(owner){if(owner==='mine')return isAdmin?(currentUserName||'관리자'):'관리자';if(owner==='partner')return currentUser==='partner'?(currentUserName||'내 기록'):'가족';return '공유'}
+  function ownerLabel(owner){if(owner==='mine')return currentUserName||'내 일정';if(owner==='partner'){const p=sharedPartner();return p?.name||'함께';}return sharedPartner()?`${currentUserName||'나'} + ${sharedPartner().name}`:'내 일정'}
   function escapeHtml(s=''){return s.replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
 
 
@@ -869,16 +889,24 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
   function familyUsersText(list){return normalizeFamilyUsers(list).map(x=>`${x.name} | ${x.email}`).join('\n')}
   function familyRoster(){const cloud=normalizeFamilyUsers(cloudData.familyUsers||[]);return cloud.length?cloud:normalizeFamilyUsers(googleConfig.familyUsers||[])}
   function familyUser(email){email=normalizeEmail(email);return familyRoster().find(x=>x.email===email)||{name:normalizeName('',email),email}}
+  function displayNameStorageKey(email){return `aiderdear-display-name:${normalizeEmail(email)}`}
+  function storedDisplayName(email){return String(localStorage.getItem(displayNameStorageKey(email))||'').trim()}
+  function sharedPartner(){const email=normalizeEmail(googleConfig.partnerEmail);if(!email||email===currentUserEmail)return null;const p=emotionData[email]?.profile||privateData[email]?.profile||familyUser(email);return {email,name:normalizeName(p?.name,email)}}
+  function scheduleVisiblePeople(){if(!currentUserEmail)return [];const partner=sharedPartner();if(!partner)return [{email:currentUserEmail,name:currentUserName||familyUser(currentUserEmail).name||'나',kind:'mine'}];return [{email:currentUserEmail,name:currentUserName||familyUser(currentUserEmail).name||'나',kind:'mine'},{email:partner.email,name:partner.name,kind:'partner'}]}
+  function renderSchedulePeopleFilters(){const box=$('#schedulePeopleFilters');if(!box)return;const people=scheduleVisiblePeople();if(people.length<=1){box.innerHTML='';schedulePersonFilters=new Set(people.map(p=>p.email));return}const valid=new Set(people.map(p=>p.email));if(!schedulePersonFilters.size||![...schedulePersonFilters].some(x=>valid.has(x)))schedulePersonFilters=new Set(valid);else schedulePersonFilters=new Set([...schedulePersonFilters].filter(x=>valid.has(x)));box.innerHTML=people.map(p=>`<button class="filter filter-person" type="button" data-person-filter="${escapeHtml(p.email)}" aria-pressed="${schedulePersonFilters.has(p.email)}"><span class="swatch ${p.kind}"></span><span class="filter-name">${escapeHtml(p.name)}</span></button>`).join('')}
+  function eventPassesPersonFilter(e){if(!e?.isAiderDear)return true;const people=scheduleVisiblePeople();const author=normalizeEmail(e.authorEmail);if(people.length<=1){if(author)return author===currentUserEmail;return e.owner===(currentUser==='partner'?'partner':'mine')}if(author)return schedulePersonFilters.has(author);return e.owner==='shared'}
+  async function syncCurrentDisplayName(){if(!currentUserEmail||!currentUserName)return;localStorage.setItem(displayNameStorageKey(currentUserEmail),currentUserName);let changed=false;const roster=normalizeFamilyUsers(cloudData.familyUsers||googleConfig.familyUsers||[]);const row=roster.find(x=>x.email===currentUserEmail);if(row&&row.name!==currentUserName){row.name=currentUserName;cloudData.familyUsers=roster;changed=true}if(privateData[currentUserEmail]){privateData[currentUserEmail].profile.name=currentUserName;try{await savePrivateData(currentUserEmail)}catch{}}if(emotionData[currentUserEmail]){emotionData[currentUserEmail].profile.name=currentUserName;try{await saveEmotionData(currentUserEmail)}catch{}}if(changed)try{await saveCloudData()}catch{}renderSchedulePeopleFilters();renderCalendar();renderEmotion();renderPrivate()}
+  async function changeDisplayName(force=false){if(!currentUserEmail)return;const suggested=storedDisplayName(currentUserEmail)||currentUserName||String(googleProfile?.given_name||googleProfile?.name||'').trim()||currentUserEmail.split('@')[0];const value=window.prompt(force?'AiderDear에서 사용할 이름을 입력해주세요.':'표시 이름을 입력해주세요.',suggested);const name=String(value==null?suggested:value).trim()||suggested;currentUserName=name;localStorage.setItem(displayNameStorageKey(currentUserEmail),name);applyLoginUI();if(driveDataFileId)await syncCurrentDisplayName();}
   function loadGoogleConfig(){
     let saved={};try{saved=JSON.parse(localStorage.getItem(GOOGLE_CONFIG_KEY)||'{}')}catch{}
     googleConfig={...googleConfig,...saved};googleConfig.clientId=String(googleConfig.clientId||'').trim();
     googleConfig.adminEmail=normalizeEmail(googleConfig.adminEmail||saved.mineEmail||'');googleConfig.partnerEmail=normalizeEmail(googleConfig.partnerEmail||'');
-    let family=normalizeFamilyUsers(googleConfig.familyUsers||[]);if(!family.length&&googleConfig.adminEmail)family.push({name:'보민',email:googleConfig.adminEmail});
-    const legacyPartner=normalizeEmail(saved.partnerEmail||'');if(legacyPartner&&!family.some(x=>x.email===legacyPartner))family.push({name:'동우',email:legacyPartner});googleConfig.familyUsers=normalizeFamilyUsers(family);
+    let family=normalizeFamilyUsers(googleConfig.familyUsers||[]);if(!family.length&&googleConfig.adminEmail)family.push({name:storedDisplayName(googleConfig.adminEmail)||normalizeName('',googleConfig.adminEmail),email:googleConfig.adminEmail});
+    const legacyPartner=normalizeEmail(saved.partnerEmail||'');if(legacyPartner&&!family.some(x=>x.email===legacyPartner))family.push({name:storedDisplayName(legacyPartner)||normalizeName('',legacyPartner),email:legacyPartner});googleConfig.familyUsers=normalizeFamilyUsers(family);
   }
   function saveGoogleConfig(){
     const adminEmail=normalizeEmail($('#googleAdminEmail').value);let family=parseFamilyUsers($('#googleFamilyUsers').value);
-    if(adminEmail&&!family.some(x=>x.email===adminEmail))family.unshift({name:'관리자',email:adminEmail});family=normalizeFamilyUsers(family);
+    if(adminEmail&&!family.some(x=>x.email===adminEmail))family.unshift({name:storedDisplayName(adminEmail)||normalizeName('',adminEmail),email:adminEmail});family=normalizeFamilyUsers(family);
     googleConfig={clientId:$('#googleClientId').value.trim(),adminEmail,familyUsers:family,partnerEmail:normalizeEmail($('#googlePartnerEmail').value)};
     localStorage.setItem(GOOGLE_CONFIG_KEY,JSON.stringify(googleConfig));fillGoogleConfigUI();setGoogleStatus('설정을 저장했습니다. 이제 Google 계정으로 로그인하세요.','ok');return googleConfig;
   }
@@ -992,7 +1020,7 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
   async function savePrivateData(email){email=normalizeEmail(email);if(!googleToken||currentUserEmail!==email||!privateRefs[email]?.fileId)throw new Error('이 PRIVATE 기록을 수정할 권한이 없습니다.');privateData[email]=normalizePrivateData(privateData[email],email,currentUserName);await googleApi(`https://www.googleapis.com/upload/drive/v3/files/${encodeURIComponent(privateRefs[email].fileId)}?uploadType=media`,{method:'PATCH',headers:{'Content-Type':'application/json; charset=UTF-8'},body:JSON.stringify(privateData[email])})}
   function blankEmotionData(email='',name=''){return {version:EMOTION_VERSION,profile:{email:normalizeEmail(email),name:normalizeName(name,email)},entries:[]}}
   function normalizeEmotionData(data,email='',name=''){
-    const d={...blankEmotionData(email,name),...(data||{})};d.profile={email:normalizeEmail(d.profile?.email||email),name:normalizeName(d.profile?.name||name,d.profile?.email||email)};d.entries=Array.isArray(d.entries)?d.entries.filter(x=>x&&x.id&&/^\d{4}-\d{2}-\d{2}$/.test(x.date||'')).map(x=>({...x,owner:d.profile.email,mood:String(x.mood||'보통'),lines:Array.isArray(x.lines)?x.lines.slice(0,3).map(v=>String(v||'')):[String(x.line1||''),String(x.line2||''),String(x.line3||'')],period:!!x.period,intimacy:!!x.intimacy})):[];d.version=EMOTION_VERSION;return d;
+    const d={...blankEmotionData(email,name),...(data||{})};d.profile={email:normalizeEmail(d.profile?.email||email),name:normalizeName(d.profile?.name||name,d.profile?.email||email)};d.entries=Array.isArray(d.entries)?d.entries.filter(x=>x&&x.id&&/^\d{4}-\d{2}-\d{2}$/.test(x.date||'')).map(x=>({...x,owner:d.profile.email,mood:normalizeMoodValue(String(x.mood||'')),lines:Array.isArray(x.lines)?x.lines.slice(0,3).map(v=>String(v||'')):[String(x.line1||''),String(x.line2||''),String(x.line3||'')],period:!!x.period,intimacy:!!x.intimacy})):[];d.version=EMOTION_VERSION;return d;
   }
   function emotionFolderName(email){return `${EMOTION_FOLDER_PREFIX}${normalizeEmail(email)}`}
   async function ensureEmotionOwner(email){
@@ -1052,7 +1080,7 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
     if(isAdmin){for(const u of normalizeFamilyUsers(googleConfig.familyUsers||[])){if(u.email!==currentUserEmail)await shareDriveItem(driveRootId,u.email)}}
     let media=await findDriveFolder(MEDIA_FOLDER_NAME,driveRootId);if(!media){if(!isAdmin)throw new Error('공용 Media 폴더가 아직 없습니다. 관리자가 먼저 초기 설정을 완료해주세요.');media=await createDriveFolder(MEDIA_FOLDER_NAME,driveRootId,{aiderdear:'media-folder-v1'})}driveMediaFolderId=media.id;
     let data=await driveFindDataFile();if(!data){if(!isAdmin)throw new Error('공용 데이터 파일이 아직 없습니다. 관리자가 먼저 초기 설정을 완료해주세요.');cloudData.familyUsers=normalizeFamilyUsers(googleConfig.familyUsers||[]);data=await driveCreateJsonFile(cloudData)}driveDataFileId=data.id;await driveLoadJsonFile();
-    if(isAdmin){const roster=normalizeFamilyUsers(googleConfig.familyUsers||[]);if(roster.length){cloudData.familyUsers=roster;await driveUpdateJsonFile(cloudData)}}else{const roster=normalizeFamilyUsers(cloudData.familyUsers||[]);if(roster.length&&!roster.some(x=>x.email===currentUserEmail))throw new Error('AiderDear 가족 구성원으로 등록되지 않은 계정입니다. 관리자에게 계정 등록을 요청해주세요.')}
+    if(isAdmin){const roster=normalizeFamilyUsers(googleConfig.familyUsers||[]),existing=new Map(normalizeFamilyUsers(cloudData.familyUsers||[]).map(x=>[x.email,x]));if(roster.length){cloudData.familyUsers=roster.map(x=>({email:x.email,name:x.email===currentUserEmail?(currentUserName||x.name):(existing.get(x.email)?.name||x.name)}));await driveUpdateJsonFile(cloudData)}}else{const roster=normalizeFamilyUsers(cloudData.familyUsers||[]);if(roster.length&&!roster.some(x=>x.email===currentUserEmail))throw new Error('AiderDear 가족 구성원으로 등록되지 않은 계정입니다. 관리자에게 계정 등록을 요청해주세요.')}
   }
   async function shareCalendarAccess(calendarId,email){if(!email||email===currentUserEmail)return;try{await googleApi(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendarId)}/acl`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({role:'writer',scope:{type:'user',value:email}})})}catch(err){const t=String(err?.message||err);if(!(t.includes('409')||t.includes('already')))console.warn('Calendar share skipped',email,err)}}
   async function ensureCalendar(){
@@ -1104,7 +1132,7 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
     const fmt=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
     const params=new URLSearchParams({timeMin:`${fmt(gridStart)}T00:00:00${SEOUL_OFFSET}`,timeMax:`${fmt(gridEnd)}T00:00:00${SEOUL_OFFSET}`,singleEvents:'true',orderBy:'startTime',timeZone:'Asia/Seoul',maxResults:'2500'});
     const groups=await Promise.all(selectedCalendarSources().map(async source=>{try{const r=await googleApi(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(source.id)}/events?${params}`);return (r.items||[]).filter(x=>x.status!=='cancelled').map(x=>fromGoogleEvent(x,source))}catch(err){console.warn('Calendar read skipped',source.id,err);return []}}));
-    events=groups.flat();if(!isAdmin)events=events.filter(e=>!e.isAiderDear||e.owner==='shared'||normalizeEmail(e.authorEmail)===currentUserEmail);renderCalendar();
+    events=groups.flat();if(!isAdmin){const partner=normalizeEmail(googleConfig.partnerEmail);events=events.filter(e=>!e.isAiderDear||normalizeEmail(e.authorEmail)===currentUserEmail||(partner&&normalizeEmail(e.authorEmail)===partner)||(!e.authorEmail&&e.owner==='shared'))}renderSchedulePeopleFilters();renderCalendar();
   }
   async function createCalendarEvent(data){const g=await googleApi(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(cloudData.calendarId)}/events`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(toGoogleEvent(data))});return fromGoogleEvent(g,calendarSources.find(x=>x.id===cloudData.calendarId)||{id:cloudData.calendarId,summary:'AiderDear'})}
   async function updateCalendarEvent(id,data){const g=await googleApi(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(cloudData.calendarId)}/events/${encodeURIComponent(id)}`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(toGoogleEvent(data))});return fromGoogleEvent(g,calendarSources.find(x=>x.id===cloudData.calendarId)||{id:cloudData.calendarId,summary:'AiderDear'})}
@@ -1118,7 +1146,7 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
   }
 
   function renderCalendar(){
-    const y=shown.getFullYear(),m=shown.getMonth();
+    renderSchedulePeopleFilters();const y=shown.getFullYear(),m=shown.getMonth();
     $('#monthTitle').innerHTML=`${y}. <b>${String(m+1).padStart(2,'0')}</b>`;
     const cal=$('#calendar'); cal.innerHTML='';
     ['SUN','MON','TUE','WED','THU','FRI','SAT'].forEach(w=>{const e=document.createElement('div');e.className='week';e.textContent=w;cal.appendChild(e)});
@@ -1131,8 +1159,8 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
       const date=iso(cy,cm,day); const cell=document.createElement('div'); cell.className='day'+(out?' out':'');
       if(date===iso(today.getFullYear(),today.getMonth(),today.getDate())) cell.classList.add('today-cell');
       const n=document.createElement('div');n.className='daynum';n.textContent=String(day).padStart(2,'0');cell.appendChild(n);
-      events.filter(e=>eventOccursOnDate(e,date) && filters[e.owner]).sort((a,b)=>(a.date||'').localeCompare(b.date||'')||(a.time||'').localeCompare(b.time||'')).slice(0,5).forEach(e=>{
-        const b=document.createElement('button');b.className=`ev ${e.owner}`;b.type='button';const range=(e.endDate&&e.endDate!==e.date)?` (${e.date.slice(5).replace('-','/')}~${e.endDate.slice(5).replace('-','/')})`:'';b.title=`${ownerLabel(e.owner)} · ${e.sourceTitle||'AiderDear'} · ${e.title}${range}`;b.textContent=`${e.time?e.time+' ':''}${e.title}`;b.addEventListener('click',ev=>{ev.stopPropagation();openEvent(e)});cell.appendChild(b)
+      events.filter(e=>eventOccursOnDate(e,date) && eventPassesPersonFilter(e)).sort((a,b)=>(a.date||'').localeCompare(b.date||'')||(a.time||'').localeCompare(b.time||'')).slice(0,5).forEach(e=>{
+        const b=document.createElement('button');b.className=`ev ${e.owner}`;b.type='button';const range=(e.endDate&&e.endDate!==e.date)?` (${e.date.slice(5).replace('-','/')}~${e.endDate.slice(5).replace('-','/')})`:'';const author=normalizeEmail(e.authorEmail);const who=author?(author===currentUserEmail?(currentUserName||'나'):(emotionData[author]?.profile?.name||familyUser(author).name||author)):ownerLabel(e.owner);b.title=`${who} · ${e.sourceTitle||'AiderDear'} · ${e.title}${range}`;b.textContent=`${e.time?e.time+' ':''}${e.title}`;b.addEventListener('click',ev=>{ev.stopPropagation();openEvent(e)});cell.appendChild(b)
       });
       cal.appendChild(cell);
     }
@@ -1231,7 +1259,7 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
   $('#prevMonth').addEventListener('click',()=>{shown=new Date(shown.getFullYear(),shown.getMonth()-1,1);googleToken?loadCalendarEvents().catch(err=>toast(googleErrorMessage(err))):renderCalendar()});
   $('#nextMonth').addEventListener('click',()=>{shown=new Date(shown.getFullYear(),shown.getMonth()+1,1);googleToken?loadCalendarEvents().catch(err=>toast(googleErrorMessage(err))):renderCalendar()});
   $('#todayBtn').addEventListener('click',()=>{shown=new Date(today.getFullYear(),today.getMonth(),1);googleToken?loadCalendarEvents().catch(err=>toast(googleErrorMessage(err))):renderCalendar()});
-  $$('.filter').forEach(b=>b.addEventListener('click',()=>{const k=b.dataset.filter;filters[k]=!filters[k];b.setAttribute('aria-pressed',String(filters[k]));renderCalendar()}));
+  $('#schedulePeopleFilters').addEventListener('click',e=>{const b=e.target.closest('[data-person-filter]');if(!b)return;const email=normalizeEmail(b.dataset.personFilter);if(schedulePersonFilters.has(email))schedulePersonFilters.delete(email);else schedulePersonFilters.add(email);b.setAttribute('aria-pressed',String(schedulePersonFilters.has(email)));renderCalendar()});
 
   // modals
   function syncModalState(){document.body.classList.toggle('modal-open',!!document.querySelector('.overlay.open'))}
@@ -1246,15 +1274,14 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
   // Google login + family access control (up to 10 test users)
   function applyLoginUI(){
     $('#loginBtn').innerHTML=`<span class="plusmark"></span>${currentUser?(currentUserName||'로그인'):'로그인'}`;
-    $('#logoutBtn').hidden=!currentUser;$('#syncNowBtn').hidden=!currentUser;$('#calendarSyncDetails').hidden=!currentUser;
+    $('#logoutBtn').hidden=!currentUser;$('#displayNameBtn').hidden=!currentUser;$('#syncNowBtn').hidden=!currentUser;$('#calendarSyncDetails').hidden=!currentUser;
     $('#googleLoginBtn').textContent=currentUser?'Google 다시 연결':'Google 계정으로 로그인';
-    if(currentUser&&googleProfile?.email&&googleToken)setGoogleStatus(`${googleProfile.email}\nDrive + Calendar 연결 완료`,'ok');
+    if(currentUser&&googleProfile?.email&&googleToken)setGoogleStatus(`${googleProfile.email}\nDrive + Calendar 연결 완료`,'ok');renderSchedulePeopleFilters();
   }
   function canEdit(owner){if(!currentUser)return false;return owner===(isAdmin?'mine':'partner')||owner==='shared'}
   function canEditEvent(e){if(!currentUserEmail||!e?.isAiderDear)return false;if(normalizeEmail(e.authorEmail))return normalizeEmail(e.authorEmail)===currentUserEmail;return isAdmin?e.owner==='mine':e.owner==='partner'}
   function configureOwnerOptions(selected){
-    const sel=$('#eventOwner');[...sel.options].forEach(opt=>{opt.disabled=!isAdmin&&opt.value==='mine'});
-    if(selected&&[...sel.options].some(o=>o.value===selected&&!o.disabled))sel.value=selected;else sel.value=currentUser==='partner'?'partner':'mine';
+    const sel=$('#eventOwner'),field=$('#eventOwnerField');if(!sel)return;const personal=currentUser==='partner'?'partner':'mine',partner=sharedPartner();const myName=currentUserName||'내 일정';sel.innerHTML=`<option value="${personal}">${escapeHtml(myName)}</option>`+(partner?`<option value="shared">${escapeHtml(myName)} + ${escapeHtml(partner.name)}</option>`:'');field.hidden=!partner;if(selected==='shared'&&partner)sel.value='shared';else sel.value=personal;
   }
   async function startGoogleLogin(){
     saveGoogleConfig();
@@ -1265,8 +1292,8 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
       if(response.error){setGoogleStatus(response.error_description||response.error,'error');return}
       googleToken=response.access_token||'';
       try{
-        googleProfile=await googleApi('https://www.googleapis.com/oauth2/v3/userinfo');const email=normalizeEmail(googleProfile.email);currentUserEmail=email;currentUserName=normalizeName(googleProfile.name,email);isAdmin=email===googleConfig.adminEmail;currentUser=isAdmin?'mine':'partner';
-        applyLoginUI();await bootstrapGoogleData();closeModal('loginModal');toast(`${currentUserName} Google 연결 완료`);
+        googleProfile=await googleApi('https://www.googleapis.com/oauth2/v3/userinfo');const email=normalizeEmail(googleProfile.email);currentUserEmail=email;currentUserName=storedDisplayName(email);isAdmin=email===googleConfig.adminEmail;currentUser=isAdmin?'mine':'partner';
+        if(!currentUserName)await changeDisplayName(true);applyLoginUI();await bootstrapGoogleData();await syncCurrentDisplayName();closeModal('loginModal');toast(`${currentUserName} Google 연결 완료`);
         const pending=pendingAfterLogin;pendingAfterLogin=null;if(pending)setTimeout(pending,80);
       }catch(err){const badToken=googleToken;currentUser='';currentUserEmail='';currentUserName='';isAdmin=false;googleToken='';if(badToken&&window.google?.accounts?.oauth2)google.accounts.oauth2.revoke(badToken,()=>{});applyLoginUI();setGoogleStatus(googleErrorMessage(err),'error')}
     },error_callback:()=>{if(currentUser||googleToken)return;setGoogleStatus('Google 로그인 창이 닫혔거나 열리지 않았습니다.','error')}});
@@ -1274,9 +1301,10 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
   }
   $('#googleConfigSave').addEventListener('click',saveGoogleConfig);
   $('#googleLoginBtn').addEventListener('click',startGoogleLogin);
+  $('#displayNameBtn').addEventListener('click',()=>changeDisplayName(false));
   $('#logoutBtn').addEventListener('click',()=>{
     const token=googleToken;googleToken='';googleProfile=null;currentUser='';currentUserEmail='';currentUserName='';isAdmin=false;events=[];driveRootId='';driveMediaFolderId='';driveDataFileId='';
-    privateData={};privateRefs={};privateOwner='';privateFeature='memo';emotionData={};emotionRefs={};
+    privateData={};privateRefs={};privateOwner='';privateFeature='memo';emotionData={};emotionRefs={};schedulePersonFilters=new Set();
     cloudData={version:CLOUD_VERSION,calendarId:'',albums:[{id:DEFAULT_ALBUM_ID,name:'기본 앨범',createdAt:Date.now()}],records:[],coupleMedia:null,ddays:[{id:'dday-us',title:'우리',date:'2025-11-01',mode:'since',createdAt:Date.now()}],activeDdayId:'dday-us'};calendarSources=[];selectedCalendarIds=new Set();driveLooseMedia=[];
     for(const url of recordMediaUrlCache.values())URL.revokeObjectURL(url);recordMediaUrlCache.clear();
     clearActiveMediaUrl();const v=$('#coupleVideo2');v.pause();v.hidden=true;v.removeAttribute('src');const img=$('#couplePhoto2');img.hidden=true;img.removeAttribute('src');$('#mediaPlaceholder2').style.display='flex';
@@ -1493,12 +1521,13 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
   }
   function recordDateLabel(date){if(!date)return '';const [y,m,d]=date.split('-');return `${y}. ${m}. ${d}`}
   function canEditRecord(r){return !!currentUserEmail && normalizeEmail(r.authorEmail)===currentUserEmail}
+  function renderRecordPeopleFilters(){const box=$('#recordPeopleFilters');if(!box)return;const people=scheduleVisiblePeople(),allBtn=$('[data-record-filter="all"]');if(people.length<=1){box.innerHTML='';if(recordFilter!=='all')recordFilter='all';if(allBtn)allBtn.classList.add('active');return}if(allBtn)allBtn.classList.toggle('active',recordFilter==='all');box.innerHTML=people.map(p=>`<button class="record-filter ${recordFilter===p.email?'active':''}" type="button" data-record-filter="${escapeHtml(p.email)}">${escapeHtml(p.name)}</button>`).join('')}
 
   function renderRecordFeed(){
-    const allRows=visibleRecords().sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+    renderRecordPeopleFilters();const allRows=visibleRecords().sort((a,b)=>(b.date||'').localeCompare(a.date||''));
     let rows=allRows.filter(r=>(r.kind||'record')===(recordView==='diary'?'diary':'record'));
     let filtered=rows;
-    if(recordFilter!=='all') filtered=filtered.filter(r=>r.author===recordFilter);
+    if(recordFilter!=='all') filtered=filtered.filter(r=>normalizeEmail(r.authorEmail)===normalizeEmail(recordFilter));
     if(recordDateSearch) filtered=filtered.filter(r=>(r.date||'')===recordDateSearch);
     else if(recordMonth!=='all') filtered=filtered.filter(r=>(r.date||'').slice(0,7)===recordMonth);
     const wrap=$('#recordFeedInner');wrap.innerHTML='';wrap.classList.toggle('diary-view',recordView==='diary');
@@ -1582,7 +1611,7 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
     }catch(err){toast(googleErrorMessage(err))}
   });
   $$('.record-view').forEach(b=>b.addEventListener('click',()=>{recordView=b.dataset.recordView;$$('.record-view').forEach(x=>x.classList.toggle('active',x===b));recordMonth='all';recordDateSearch='';$('#recordDateSearch').value='';$('#recordDateClear').hidden=true;renderRecordFeed()}));
-  $$('.record-filter').forEach(b=>b.addEventListener('click',()=>{recordFilter=b.dataset.recordFilter;$$('.record-filter').forEach(x=>x.classList.toggle('active',x===b));renderRecordFeed()}));
+  $('.record-controls').addEventListener('click',e=>{const b=e.target.closest('[data-record-filter]');if(!b)return;recordFilter=b.dataset.recordFilter||'all';renderRecordFeed()});
   $('#recordDateSearch').addEventListener('change',e=>{recordDateSearch=e.target.value||'';$('#recordDateClear').hidden=!recordDateSearch;if(recordDateSearch)recordMonth='all';renderRecordFeed()});
   $('#recordDateClear').addEventListener('click',()=>{recordDateSearch='';$('#recordDateSearch').value='';$('#recordDateClear').hidden=true;renderRecordFeed()});
 
@@ -1617,23 +1646,30 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
   $('#recordStage').addEventListener('touchend',e=>{if(recordTouchY==null)return;const y=e.changedTouches[0]?.clientY??recordTouchY,d=recordTouchY-y,sc=recordTouchScroll;const atBottom=sc&&sc.scrollTop+sc.clientHeight>=sc.scrollHeight-4,atTop=sc&&sc.scrollTop<=3;if(Math.abs(d)>45){if(recordPageIndex===0&&d>0&&atBottom)goRecordPage(1);else if(recordPageIndex===1&&d<0&&atTop)goRecordPage(0)}recordTouchY=null;recordTouchScroll=null},{passive:true});
   $$('.record-dot').forEach(b=>b.addEventListener('click',()=>goRecordPage(Number(b.dataset.recordPage))));
 
+  let emotionView='mood';
+  function normalizeMoodValue(mood=''){const map={'아주 좋음':'행복','좋음':'기쁨','보통':'편안함','가라앉음':'슬픔','힘듦':'불안'};const v=String(mood||'').trim();return map[v]||v}
   function emotionEntries(email){return (emotionData[email]?.entries||[]).slice().sort((a,b)=>(b.date||'').localeCompare(a.date||'')||(b.updatedAt||b.createdAt||0)-(a.updatedAt||a.createdAt||0))}
-  function latestEmotion(email){return emotionEntries(email)[0]||null}
+  function latestEmotion(email,predicate=()=>true){return emotionEntries(email).find(predicate)||null}
   function emotionDatePretty(date){if(!date)return '';const [y,m,d]=date.split('-');return `${y}. ${m}. ${d}`}
   function emotionLinesText(entry){return (entry?.lines||[]).filter(Boolean).join('\n')}
+  function emotionMoodMeta(mood=''){const map={'기쁨':['😄','기쁨'],'행복':['😊','행복'],'설렘':['🥰','설렘'],'편안함':['😌','편안함'],'감사':['🙏','감사'],'피곤함':['😴','피곤함'],'불안':['😰','불안'],'짜증':['😠','짜증'],'외로움':['🥺','외로움'],'슬픔':['😢','슬픔']};const p=map[normalizeMoodValue(mood)]||['○','기록 없음'];return {emoji:p[0],label:p[1]}}
   function emotionFlagsHtml(entry){const f=[];if(entry?.period)f.push('<span class="emotion-flag">생리</span>');if(entry?.intimacy)f.push('<span class="emotion-flag">성관계</span>');return f.join('')}
-  function emotionVisibleOwners(){const keys=Object.keys(emotionData).filter(e=>emotionRefs[e]?.fileId);keys.sort((a,b)=>a===currentUserEmail?-1:b===currentUserEmail?1:0);return keys.slice(0,FAMILY_LIMIT)}
-  function renderEmotion(){
-    const people=$('#emotionPeopleGrid'),box=$('#emotionTimeline');if(!people||!box)return;if(!currentUser){people.innerHTML='';box.innerHTML='<div class="emotion-empty">Google 로그인 후 감정일기를 확인할 수 있습니다.</div>';return}
-    const owners=emotionVisibleOwners();people.innerHTML=owners.map(email=>{const d=emotionData[email],e=latestEmotion(email),label=d?.profile?.name||familyUser(email).name||email,cls=email===currentUserEmail?'mine-card':'partner-card';if(!e)return `<article class="emotion-person-card ${cls}"><div class="emotion-card-head"><b>${escapeHtml(label)}</b></div><div class="emotion-empty-card">아직 감정일기가 없습니다.</div></article>`;const lines=(e.lines||[]).map((v,i)=>`<div class="emotion-line">${i+1}. ${escapeHtml(v||'')}</div>`).join('');return `<article class="emotion-person-card ${cls}"><div class="emotion-card-head"><b>${escapeHtml(label)}</b><span>${emotionDatePretty(e.date)}</span></div><span class="emotion-mood">${escapeHtml(e.mood||'보통')}</span><div class="emotion-lines">${lines}</div><div class="emotion-flags">${emotionFlagsHtml(e)}</div></article>`}).join('');
-    const rows=owners.flatMap(emotionEntries).sort((a,b)=>(b.date||'').localeCompare(a.date||'')||(b.updatedAt||b.createdAt||0)-(a.updatedAt||a.createdAt||0));if(!rows.length){box.innerHTML='<div class="emotion-empty">아직 작성된 감정일기가 없습니다.</div>';return}
-    box.innerHTML=rows.map(e=>{const editable=currentUserEmail===normalizeEmail(e.owner),ownerEmail=normalizeEmail(e.owner),label=emotionData[ownerEmail]?.profile?.name||familyUser(ownerEmail).name||ownerEmail,ownerClass=editable?'mine':'partner';return `<article class="emotion-entry"><div class="emotion-entry-date">${escapeHtml((e.date||'').slice(5).replace('-','.'))}<span>${escapeHtml((e.date||'').slice(0,4))}</span></div><div class="emotion-entry-main"><div class="emotion-entry-head"><span class="emotion-owner-badge ${ownerClass}">${escapeHtml(label)}</span><span class="emotion-entry-mood">${escapeHtml(e.mood||'보통')}</span>${emotionFlagsHtml(e)}</div><div class="emotion-entry-lines">${escapeHtml(emotionLinesText(e))}</div></div>${editable?`<button class="emotion-edit" type="button" data-emotion-edit="${escapeHtml(e.id)}">수정</button>`:'<span></span>'}</article>`}).join('');
-  }
-  function openEmotionEditor(entry=null){if(!currentUser){requireLogin(()=>openEmotionEditor(entry));return}if(entry&&normalizeEmail(entry.owner)!==currentUserEmail){toast('본인의 감정일기만 수정할 수 있습니다.');return}const date=entry?.date||iso(today.getFullYear(),today.getMonth(),today.getDate());$('#emotionEntryId').value=entry?.id||'';$('#emotionDate').value=date;$('#emotionMood').value=entry?.mood||'보통';const lines=entry?.lines||[];$('#emotionLine1').value=lines[0]||'';$('#emotionLine2').value=lines[1]||'';$('#emotionLine3').value=lines[2]||'';$('#emotionPeriod').checked=!!entry?.period;$('#emotionIntimacy').checked=!!entry?.intimacy;$('#deleteEmotion').hidden=!entry;$('#emotionModalTitle').textContent=entry?'감정일기 수정':'3줄 감정일기';openModal('emotionModal')}
-  $('#newEmotionBtn').addEventListener('click',()=>openEmotionEditor());
-  $('#emotionTimeline').addEventListener('click',e=>{const b=e.target.closest('[data-emotion-edit]');if(!b)return;const entry=emotionData[currentUserEmail]?.entries?.find(x=>x.id===b.dataset.emotionEdit);if(entry)openEmotionEditor(entry)});
-  $('#emotionForm').addEventListener('submit',async e=>{e.preventDefault();if(!currentUserEmail||!emotionRefs[currentUserEmail]?.writable)return;const id=$('#emotionEntryId').value,d=emotionData[currentUserEmail],existing=id?d.entries.find(x=>x.id===id):null;const date=$('#emotionDate').value;if(!date)return;const sameDay=!id?d.entries.find(x=>x.date===date):null;if(sameDay){openEmotionEditor(sameDay);toast('이 날짜의 감정일기가 있어 수정 화면을 열었습니다.');return}const item={id:id||('em-'+Date.now()),owner:currentUserEmail,date,mood:$('#emotionMood').value,lines:[$('#emotionLine1').value.trim(),$('#emotionLine2').value.trim(),$('#emotionLine3').value.trim()],period:$('#emotionPeriod').checked,intimacy:$('#emotionIntimacy').checked,createdAt:existing?.createdAt||Date.now(),updatedAt:Date.now()};if(existing){const i=d.entries.findIndex(x=>x.id===id);d.entries[i]=item}else d.entries.push(item);try{await saveEmotionData(currentUserEmail);closeModal('emotionModal');renderEmotion();toast('감정일기를 저장했습니다.')}catch(err){toast(googleErrorMessage(err))}});
-  $('#deleteEmotion').addEventListener('click',async()=>{const id=$('#emotionEntryId').value;if(!id||!currentUserEmail)return;const d=emotionData[currentUserEmail];if(!d?.entries?.some(x=>x.id===id))return;d.entries=d.entries.filter(x=>x.id!==id);try{await saveEmotionData(currentUserEmail);closeModal('emotionModal');renderEmotion();toast('감정일기를 삭제했습니다.')}catch(err){toast(googleErrorMessage(err))}});
+  function setEmotionMood(mood=''){const v=normalizeMoodValue(mood);$('#emotionMood').value=v;$$('.emotion-mood-chip').forEach(btn=>btn.classList.toggle('active',btn.dataset.emotionMood===v))}
+  $$('.emotion-mood-chip').forEach(btn=>btn.addEventListener('click',()=>setEmotionMood(btn.dataset.emotionMood||'')));
+  function emotionVisibleOwners(){const keys=Object.keys(emotionData).filter(e=>emotionRefs[e]?.fileId);const partner=normalizeEmail(googleConfig.partnerEmail);let visible=keys.filter(e=>e===currentUserEmail||(partner&&e===partner));if(isAdmin&&!partner)visible=keys.filter(e=>e===currentUserEmail);visible.sort((a,b)=>a===currentUserEmail?-1:b===currentUserEmail?1:0);return visible.slice(0,FAMILY_LIMIT)}
+  function emotionEntryMatchesView(e,view=emotionView){if(view==='mood')return !!normalizeMoodValue(e?.mood);if(view==='diary')return (e?.lines||[]).some(Boolean);return !!(e?.period||e?.intimacy)}
+  function emotionViewLabel(view=emotionView){return view==='mood'?'감정기록':view==='diary'?'3줄일기':'생리기록'}
+  function updateEmotionToolbar(){const labels={mood:'+ 감정 기록',diary:'+ 3줄 일기',cycle:'+ 생리 기록'};$('#newEmotionBtn').textContent=labels[emotionView];$$('.emotion-feature').forEach(b=>b.classList.toggle('active',b.dataset.emotionView===emotionView))}
+  function renderEmotionInsights(rows=[]){const all=(rows||[]).slice();const last30=all.filter(r=>(r.date||'')>=dateKeyOffset(-29));const moods=['기쁨','행복','설렘','편안함','감사','피곤함','불안','짜증','외로움','슬픔'];const moodRows=last30.filter(r=>normalizeMoodValue(r.mood));const bars=moods.map(m=>{const meta=emotionMoodMeta(m),count=moodRows.filter(r=>normalizeMoodValue(r.mood)===m).length,pct=moodRows.length?Math.round(count/moodRows.length*100):0;return `<div class="emotion-mood-row"><label><i>${meta.emoji}</i>${meta.label}</label><div class="emotion-mood-bar"><i style="width:${pct}%"></i></div><span>${count}</span></div>`}).join('');const chartDates=[];for(let i=9;i>=0;i--)chartDates.push(dateKeyOffset(-i));const columns=chartDates.map(key=>{const dayRows=last30.filter(r=>r.date===key),m=dayRows.find(r=>normalizeMoodValue(r.mood)),meta=emotionMoodMeta(m?.mood||''),cls=`emotion-day-pill ${dayRows.some(r=>r.period)?'has-period':''} ${dayRows.some(r=>r.intimacy)?'has-intimacy':''}`;return `<div class="emotion-day-col"><div class="${cls}">${m?meta.emoji:'·'}</div><div class="emotion-day-label">${key.slice(5).replace('-','/')}</div></div>`}).join('');const periodCount=last30.filter(r=>r.period).length,intimacyCount=last30.filter(r=>r.intimacy).length,diaryCount=last30.filter(r=>(r.lines||[]).some(Boolean)).length;return `<section class="emotion-insights emotion-insights-always ${last30.length?'':'emotion-zero-chart'}"><article class="emotion-insight-card"><div class="emotion-insight-head"><b>MOOD BALANCE</b><span>최근 30일 감정 분포</span></div><div class="emotion-mood-bars">${bars}</div></article><article class="emotion-insight-card"><div class="emotion-insight-head"><b>10 DAYS LOG</b><span>기록이 없어도 날짜 축은 계속 표시됩니다.</span></div><div class="emotion-graph-grid">${columns}</div><div class="emotion-insight-mini"><div class="emotion-mini-stat"><strong>${moodRows.length}</strong><span>MOODS</span></div><div class="emotion-mini-stat"><strong>${diaryCount}</strong><span>3-LINE DIARY</span></div><div class="emotion-mini-stat"><strong>${periodCount}</strong><span>PERIOD</span></div></div></article></section>`}
+  function emotionPersonCard(email,showName=true){const d=emotionData[email],label=d?.profile?.name||familyUser(email).name||email,displayLabel=showName?label:'',cls=email===currentUserEmail?'mine-card':'partner-card';let e;if(emotionView==='mood')e=latestEmotion(email,x=>!!normalizeMoodValue(x.mood));else if(emotionView==='diary')e=latestEmotion(email,x=>(x.lines||[]).some(Boolean));else e=latestEmotion(email,x=>x.period||x.intimacy);if(!e)return `<article class="emotion-person-card ${cls}"><div class="emotion-card-head"><b>${escapeHtml(displayLabel)}</b></div><div class="emotion-empty-card">아직 ${emotionViewLabel()}이 없습니다.</div></article>`;if(emotionView==='mood'){const meta=emotionMoodMeta(e.mood);return `<article class="emotion-person-card ${cls}"><div class="emotion-card-head"><b>${escapeHtml(displayLabel)}</b><span>${emotionDatePretty(e.date)}</span></div><span class="emotion-mood"><i>${meta.emoji}</i>${escapeHtml(meta.label)}</span></article>`}if(emotionView==='diary'){return `<article class="emotion-person-card ${cls}"><div class="emotion-card-head"><b>${escapeHtml(displayLabel)}</b><span>${emotionDatePretty(e.date)}</span></div><div class="emotion-card-focus"><strong>3 LINES</strong><p>${escapeHtml(emotionLinesText(e))}</p></div></article>`}return `<article class="emotion-person-card ${cls}"><div class="emotion-card-head"><b>${escapeHtml(displayLabel)}</b><span>${emotionDatePretty(e.date)}</span></div><div class="cycle-summary">${e.period?'<span class="cycle-pill period">생리</span>':''}${e.intimacy?'<span class="cycle-pill intimacy">성관계</span>':''}</div></article>`}
+  function renderEmotion(){const people=$('#emotionPeopleGrid'),box=$('#emotionTimeline');if(!people||!box)return;updateEmotionToolbar();if(!currentUser){people.innerHTML='';box.innerHTML='<div class="emotion-view-empty">Google 로그인 후 기록을 사용할 수 있습니다.</div>'+renderEmotionInsights([]);return}const owners=emotionVisibleOwners();const showNames=owners.length>1;people.innerHTML=owners.map(email=>emotionPersonCard(email,showNames)).join('');const allRows=owners.flatMap(emotionEntries).sort((a,b)=>(b.date||'').localeCompare(a.date||'')||(b.updatedAt||b.createdAt||0)-(a.updatedAt||a.createdAt||0));const rows=allRows.filter(e=>emotionEntryMatchesView(e));let html='<div class="emotion-scroll-hint">'+emotionViewLabel()+' · 아래로 스크롤하면 그래프가 이어집니다.</div>';if(!rows.length)html+=`<div class="emotion-view-empty">아직 ${emotionViewLabel()}이 없습니다.<br>아래 그래프는 기록 전에도 확인할 수 있습니다.</div>`;else html+=rows.map(e=>{const editable=currentUserEmail===normalizeEmail(e.owner),ownerEmail=normalizeEmail(e.owner),label=emotionData[ownerEmail]?.profile?.name||familyUser(ownerEmail).name||ownerEmail,ownerClass=editable?'mine':'partner';let content='';if(emotionView==='mood'){const meta=emotionMoodMeta(e.mood);content=`<div class="emotion-entry-head"><span class="emotion-owner-badge ${ownerClass}">${escapeHtml(label)}</span><span class="emotion-entry-mood"><i>${meta.emoji}</i>${escapeHtml(meta.label)}</span></div>`}else if(emotionView==='diary'){content=`<div class="emotion-entry-head"><span class="emotion-owner-badge ${ownerClass}">${escapeHtml(label)}</span></div><div class="emotion-entry-lines">${escapeHtml(emotionLinesText(e))}</div>`}else{content=`<div class="emotion-entry-head"><span class="emotion-owner-badge ${ownerClass}">${escapeHtml(label)}</span></div><div class="emotion-entry-flags">${emotionFlagsHtml(e)}</div>`}return `<article class="emotion-entry"><div class="emotion-entry-date">${escapeHtml((e.date||'').slice(5).replace('-','.'))}<span>${escapeHtml((e.date||'').slice(0,4))}</span></div><div class="emotion-entry-main">${content}</div>${editable?`<button class="emotion-edit" type="button" data-emotion-edit="${escapeHtml(e.id)}">수정</button>`:'<span></span>'}</article>`}).join('');box.innerHTML=html+renderEmotionInsights(allRows)}
+  function configureEmotionModal(view=emotionView){emotionView=view;updateEmotionToolbar();$('#emotionMoodSection').hidden=view!=='mood';$('#emotionDiarySection').hidden=view!=='diary';$('#emotionCycleSection').hidden=view!=='cycle';$('#emotionModalTitle').textContent=view==='mood'?'감정 기록':view==='diary'?'3줄 일기':'생리 기록'}
+  function openEmotionEditor(entry=null,view=emotionView){if(!currentUser){requireLogin(()=>openEmotionEditor(entry,view));return}if(entry&&normalizeEmail(entry.owner)!==currentUserEmail){toast('본인의 기록만 수정할 수 있습니다.');return}configureEmotionModal(view);const date=entry?.date||iso(today.getFullYear(),today.getMonth(),today.getDate());$('#emotionEntryId').value=entry?.id||'';$('#emotionDate').value=date;setEmotionMood(entry?.mood||'');const lines=entry?.lines||[];$('#emotionLine1').value=lines[0]||'';$('#emotionLine2').value=lines[1]||'';$('#emotionLine3').value=lines[2]||'';$('#emotionPeriod').checked=!!entry?.period;$('#emotionIntimacy').checked=!!entry?.intimacy;$('#deleteEmotion').hidden=!entry;openModal('emotionModal')}
+  $$('.emotion-feature').forEach(b=>b.addEventListener('click',()=>{emotionView=b.dataset.emotionView||'mood';renderEmotion()}));
+  $('#newEmotionBtn').addEventListener('click',()=>openEmotionEditor(null,emotionView));
+  $('#emotionTimeline').addEventListener('click',e=>{const b=e.target.closest('[data-emotion-edit]');if(!b)return;const entry=emotionData[currentUserEmail]?.entries?.find(x=>x.id===b.dataset.emotionEdit);if(entry)openEmotionEditor(entry,emotionView)});
+  $('#emotionForm').addEventListener('submit',async e=>{e.preventDefault();if(!currentUserEmail||!emotionRefs[currentUserEmail]?.writable)return;const id=$('#emotionEntryId').value,d=emotionData[currentUserEmail],date=$('#emotionDate').value;if(!date)return;let existing=id?d.entries.find(x=>x.id===id):d.entries.find(x=>x.date===date);if(!existing){existing={id:'em-'+Date.now(),owner:currentUserEmail,date,mood:'',lines:['','',''],period:false,intimacy:false,createdAt:Date.now(),updatedAt:Date.now()};d.entries.push(existing)}existing.date=date;existing.owner=currentUserEmail;if(emotionView==='mood'){const mood=$('#emotionMood').value;if(!mood){toast('감정을 하나 선택해주세요.');return}existing.mood=mood}else if(emotionView==='diary'){existing.lines=[$('#emotionLine1').value.trim(),$('#emotionLine2').value.trim(),$('#emotionLine3').value.trim()]}else{existing.period=$('#emotionPeriod').checked;existing.intimacy=$('#emotionIntimacy').checked}existing.updatedAt=Date.now();try{await saveEmotionData(currentUserEmail);closeModal('emotionModal');renderEmotion();toast(`${emotionViewLabel()}을 저장했습니다.`)}catch(err){toast(googleErrorMessage(err))}});
+  $('#deleteEmotion').addEventListener('click',async()=>{const id=$('#emotionEntryId').value;if(!id||!currentUserEmail)return;const d=emotionData[currentUserEmail],entry=d?.entries?.find(x=>x.id===id);if(!entry)return;if(emotionView==='mood')entry.mood='';else if(emotionView==='diary')entry.lines=['','',''];else{entry.period=false;entry.intimacy=false}if(!entry.mood&&!(entry.lines||[]).some(Boolean)&&!entry.period&&!entry.intimacy)d.entries=d.entries.filter(x=>x.id!==id);try{await saveEmotionData(currentUserEmail);closeModal('emotionModal');renderEmotion();toast(`${emotionViewLabel()}을 삭제했습니다.`)}catch(err){toast(googleErrorMessage(err))}});
   function privateCanWrite(){return !!currentUserEmail&&currentUserEmail===privateOwner&&privateRefs[privateOwner]?.writable}
   function privateDateLabel(ts){try{return new Date(ts).toLocaleString('ko-KR',{year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'})}catch{return ''}}
   function dateKeyOffset(n){const d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()+n);return iso(d.getFullYear(),d.getMonth(),d.getDate())}
