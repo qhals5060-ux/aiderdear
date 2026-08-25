@@ -1794,6 +1794,8 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 .routine-progress-legend{display:flex;gap:9px;align-items:center}.routine-progress-legend span{display:flex;align-items:center;gap:4px;font-size:7px}.routine-progress-legend i{display:block;width:8px;height:8px;border-radius:50%;border:1px solid rgba(255,255,255,.58)}.routine-progress-legend .mini{background:rgba(255,255,255,.34)}.routine-progress-legend .more{background:rgba(255,255,255,.78)}.routine-progress-legend .max{background:#fff}
 .routine-goal-tracker{border-radius:18px!important}
 .login-invite-note{padding:10px 12px;border:1px solid #b7c8d6;border-radius:10px;background:#eef5fa;font-size:10px;line-height:1.55;color:#334a5d}.login-invite-note[hidden]{display:none}.login-secondary-row #copyInviteBtn{background:#edf3f8}
+.firebase-pair-panel{display:grid;gap:10px;margin-top:2px}.firebase-pair-panel[hidden]{display:none}.firebase-pair-card,.firebase-invite-box,.firebase-request-box{border:1px solid #aeb8bf;border-radius:10px;background:#f7fafb;padding:11px}.firebase-pair-card{display:flex;align-items:center;justify-content:space-between;gap:12px}.firebase-pair-person{display:grid;gap:3px;min-width:0}.firebase-pair-person b{font-size:12px}.firebase-pair-person span{font-size:9px;color:#5d6870;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.firebase-pair-card button,.firebase-request-actions button{height:32px;border:1px solid #111;background:#fff;padding:0 10px;font-size:9px;font-weight:800}.firebase-invite-form{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:7px}.firebase-invite-form input{height:40px;border:1px solid #111;padding:0 10px;font-size:11px}.firebase-invite-form button{height:40px;border:1px solid #111;background:#111;color:#fff;padding:0 13px;font-size:10px;font-weight:800}.firebase-invite-box p,.firebase-request-box>p{margin:0 0 8px;font-size:9px;line-height:1.5;color:#59646c}.firebase-request-list{display:grid;gap:6px}.firebase-request-list:empty:after{content:'요청이 없습니다.';display:block;padding:7px 0;font-size:9px;color:#7a858d}.firebase-request{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:7px 0;border-top:1px solid #d9e0e4}.firebase-request:first-child{border-top:0}.firebase-request-info{display:grid;gap:2px;min-width:0}.firebase-request-info b{font-size:10px}.firebase-request-info span{font-size:8px;color:#66727a;overflow:hidden;text-overflow:ellipsis}.firebase-request-actions{display:flex;gap:5px;flex:0 0 auto}.firebase-request-actions .accept{background:#111;color:#fff}.firebase-storage-note{margin:0;font-size:8px;color:#6b747b;line-height:1.45}.firebase-legacy-hidden{display:none!important}
+@media(max-width:650px){.firebase-invite-form{grid-template-columns:1fr}.firebase-pair-card,.firebase-request{align-items:flex-start}.firebase-request{flex-direction:column}.firebase-request-actions{width:100%}.firebase-request-actions button{flex:1}}
 
 @media(max-width:1050px){.routine-dashboard-v30{grid-template-columns:minmax(280px,1fr) minmax(440px,1.45fr)!important;gap:12px!important}.routine-round-grid{gap:6px;padding-inline:14px}.routine-progress-intro{padding-inline:16px}}
 @media(max-width:760px){.routine-dashboard-v30{grid-template-columns:1fr!important}.routine-right-v30{grid-template-rows:auto auto!important}.routine-progress-card{min-height:560px}.routine-progress-intro{grid-template-columns:1fr auto}.routine-progress-intro h3{font-size:26px}.routine-progress-ruleline{display:grid;gap:5px}.routine-round-grid{grid-template-rows:repeat(4,72px);gap:8px}.routine-round-stamp{width:58px}.routine-progress-footer{grid-template-columns:1fr}.routine-progress-legend{justify-content:center}}
@@ -2160,32 +2162,52 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <!-- Login -->
 <div class="overlay" id="loginModal" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
   <div class="modal login-compact-modal">
-    <div class="modal-head"><b id="loginTitle">Google 연결</b><button class="x" data-close="loginModal">×</button></div>
+    <div class="modal-head"><b id="loginTitle">AiderDear 계정</b><button class="x" data-close="loginModal">×</button></div>
     <div class="modal-body">
       <div class="google-login-panel login-compact-panel">
         <div class="login-primary-row">
           <button type="button" class="google-login-btn" id="googleLoginBtn">Google 계정으로 로그인</button>
-          <label class="auto-login-check"><input id="autoLoginCheck" type="checkbox"><span>자동 로그인</span></label>
         </div>
         <div class="login-secondary-row">
           <button type="button" class="secondary" id="displayNameBtn" hidden>이름 변경</button>
-          <button type="button" class="secondary sync-now" id="syncNowBtn" hidden>지금 동기화</button>
+          <button type="button" class="secondary sync-now" id="syncNowBtn" hidden>새로고침</button>
           <button type="button" class="secondary" id="copyInviteBtn" hidden>상대 초대 링크 복사</button>
           <button type="button" class="secondary" id="logoutBtn" hidden>로그아웃</button>
         </div>
-        <div class="google-status compact" id="googleStatus">Google 계정을 연결해주세요.</div>
-        <div class="login-invite-note" id="loginInviteNote" hidden>초대 링크에서 공용 로그인 설정을 불러왔습니다. Google 계정으로 로그인해주세요.</div>
-        <div class="partner-quick" id="partnerQuickBox">
-          <label><span>연결 상대</span><select id="googlePartnerEmail"><option value="">개인 모드</option></select></label>
-          <button type="button" class="secondary" id="partnerSaveBtn">저장</button>
-          <small id="partnerMatchStatus">현재 개인 모드입니다. 서로 같은 상대를 선택해야 PRIVATE를 제외한 모든 탭과 우편이 공유됩니다.</small>
+        <div class="google-status compact" id="googleStatus">Google 계정으로 로그인해주세요.</div>
+        <div class="firebase-pair-panel" id="firebasePairPanel" hidden>
+          <div class="firebase-pair-card" id="firebasePairActive" hidden>
+            <div class="firebase-pair-person"><b id="firebasePartnerName">연결 상대</b><span id="firebasePartnerEmail"></span></div>
+            <button type="button" id="firebaseDisconnectBtn">연결 해제</button>
+          </div>
+          <div class="firebase-invite-box" id="firebaseInviteBox">
+            <p>상대의 Google 이메일로 커플 요청을 보내세요. 상대가 로그인 후 수락하면 공유 공간이 열립니다.</p>
+            <form class="firebase-invite-form" id="firebaseInviteForm">
+              <input id="firebaseInviteEmail" type="email" autocomplete="email" placeholder="partner@gmail.com" required>
+              <button type="submit">커플 요청 보내기</button>
+            </form>
+          </div>
+          <div class="firebase-request-box">
+            <p>받은 요청</p>
+            <div class="firebase-request-list" id="firebaseIncomingInvites"></div>
+          </div>
+          <div class="firebase-request-box">
+            <p>보낸 요청</p>
+            <div class="firebase-request-list" id="firebaseOutgoingInvites"></div>
+          </div>
+          <p class="firebase-storage-note">Spark 무료 요금제에서 동작합니다. 사진은 자동 압축되며 영상은 파일당 25MB로 제한됩니다.</p>
         </div>
-        <details class="google-setup" id="calendarSyncDetails" hidden>
+        <div class="firebase-legacy-hidden" aria-hidden="true">
+          <label><input id="autoLoginCheck" type="checkbox"></label>
+          <div class="login-invite-note" id="loginInviteNote" hidden></div>
+          <div class="partner-quick" id="partnerQuickBox"><select id="googlePartnerEmail"><option value="">개인 모드</option></select><button type="button" id="partnerSaveBtn">저장</button><small id="partnerMatchStatus"></small></div>
+        </div>
+        <details class="google-setup firebase-legacy-hidden" id="calendarSyncDetails" hidden>
           <summary>불러올 Google Calendar</summary>
           <div class="calendar-picker" id="calendarPicker"><div class="google-config-note">로그인하면 캘린더 목록을 불러옵니다.</div></div>
-          <p class="google-config-note">AiderDear 캘린더와 대한민국 공휴일은 기본 표시됩니다.</p>
+          <p class="google-config-note">AiderDear 일정은 커플 연결 상태에 따라 공유됩니다.</p>
         </details>
-        <details class="google-setup admin-setup" id="googleSetupDetails">
+        <details class="google-setup admin-setup firebase-legacy-hidden" id="googleSetupDetails" hidden>
           <summary>관리자 모드</summary>
           <div class="google-config-grid">
             <label>OAuth 웹 클라이언트 ID
@@ -2506,7 +2528,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script type="module" src="./firebase-app.js"></script>
 <script>
 (()=>{
   const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
@@ -2575,6 +2597,9 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   let privateFeature='memo';
   let emotionData={};
   let emotionRefs={};
+  let firebaseState={ready:false,user:null,pair:null,partner:null,incoming:[],outgoing:[],error:''};
+  let firebaseScopeKey='';
+  let firebaseBootstrapPromise=null;
 
   function normalizeEmail(v){return String(v||'').trim().toLowerCase()}
   function normalizeName(v,email=''){const n=String(v||'').trim();return n||String(email||'').split('@')[0]||'가족'}
@@ -2587,9 +2612,9 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   function familyUser(email){email=normalizeEmail(email);return familyRoster().find(x=>x.email===email)||{name:normalizeName('',email),email}}
   function displayNameStorageKey(email){return `aiderdear-display-name:${normalizeEmail(email)}`}
   function storedDisplayName(email){return String(localStorage.getItem(displayNameStorageKey(email))||'').trim()}
-  function selectedPartner(){const email=normalizeEmail(googleConfig.partnerEmail);if(!email||email===currentUserEmail)return null;const p=emotionData[email]?.profile||privateData[email]?.profile||familyUser(email);return {email,name:normalizeName(p?.name,email)}}
+  function selectedPartner(){const p=firebaseState.partner;if(!p?.email||normalizeEmail(p.email)===currentUserEmail)return null;return {uid:p.uid||'',email:normalizeEmail(p.email),name:normalizeName(p.name,p.email),photoURL:p.photoURL||''}}
   function pairKeyFor(a,b){a=normalizeEmail(a);b=normalizeEmail(b);if(!a)return '';if(!b)return `solo:${a}`;return [a,b].sort().join('::')}
-  function mutualPartner(){const selected=selectedPartner();if(!selected||!currentUserEmail)return null;const choices=cloudData.partnerChoices&&typeof cloudData.partnerChoices==='object'?cloudData.partnerChoices:{};return normalizeEmail(choices[selected.email])===currentUserEmail?selected:null}
+  function mutualPartner(){return selectedPartner()}
   function sharedPartner(){return mutualPartner()}
   function currentPairKey(){const p=mutualPartner();return pairKeyFor(currentUserEmail,p?.email||'')}
   function pairVisible(item={},authorField='authorEmail'){
@@ -2668,6 +2693,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
     if(!cloudData.coupleMediaBySpace||typeof cloudData.coupleMediaBySpace!=='object'||Array.isArray(cloudData.coupleMediaBySpace))cloudData.coupleMediaBySpace={};
     if(!cloudData.activeDdayBySpace||typeof cloudData.activeDdayBySpace!=='object'||Array.isArray(cloudData.activeDdayBySpace))cloudData.activeDdayBySpace={};
     if(!Array.isArray(cloudData.records))cloudData.records=[];
+    if(!Array.isArray(cloudData.scheduleEvents))cloudData.scheduleEvents=[];
     cloudData.familyUsers=normalizeFamilyUsers(cloudData.familyUsers||[]);
     if(!cloudData.partnerChoices||typeof cloudData.partnerChoices!=='object'||Array.isArray(cloudData.partnerChoices))cloudData.partnerChoices={};else cloudData.partnerChoices=Object.fromEntries(Object.entries(cloudData.partnerChoices).map(([k,v])=>[normalizeEmail(k),normalizeEmail(v)]).filter(([k,v])=>k&&v));
     if(!Array.isArray(cloudData.ddays))cloudData.ddays=[];
@@ -2824,9 +2850,9 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
     if(partnerEmail)await shareDriveReadOnly(fileId,partnerEmail);
   }
   async function loadPrivateData(){
-    privateData={};privateRefs={};await ensurePrivateOwner(currentUserEmail);privateOwner=currentUserEmail;if(currentUserEmail&&googleConfig.adminEmail&&currentUserEmail!==normalizeEmail(googleConfig.adminEmail)&&privateRefs[currentUserEmail]?.folderId)await removeDrivePermissionForEmail(privateRefs[currentUserEmail].folderId,googleConfig.adminEmail);renderPrivate();
+    privateData={};privateRefs={};if(!currentUserEmail||!window.AiderDearFirebase)return;const saved=await window.AiderDearFirebase.readPrivateData();privateData[currentUserEmail]=normalizePrivateData(saved||blankPrivateData(currentUserEmail,currentUserName),currentUserEmail,currentUserName);privateRefs[currentUserEmail]={folderId:'firebase-private',fileId:'firebase-private',writable:true};privateOwner=currentUserEmail;renderPrivate();
   }
-  async function savePrivateData(email){email=normalizeEmail(email);if(!googleToken||currentUserEmail!==email||!privateRefs[email]?.fileId)throw new Error('이 PRIVATE 기록을 수정할 권한이 없습니다.');privateData[email]=normalizePrivateData(privateData[email],email,currentUserName);await googleApi(`https://www.googleapis.com/upload/drive/v3/files/${encodeURIComponent(privateRefs[email].fileId)}?uploadType=media`,{method:'PATCH',headers:{'Content-Type':'application/json; charset=UTF-8'},body:JSON.stringify(privateData[email])})}
+  async function savePrivateData(email){email=normalizeEmail(email);if(!currentUser||currentUserEmail!==email||!privateRefs[email]?.fileId)throw new Error('이 PRIVATE 기록을 수정할 권한이 없습니다.');privateData[email]=normalizePrivateData(privateData[email],email,currentUserName);await window.AiderDearFirebase.writePrivateData(privateData[email])}
   function blankEmotionData(email='',name=''){return {version:EMOTION_VERSION,profile:{email:normalizeEmail(email),name:normalizeName(name,email)},entries:[]}}
   function normalizeEmotionData(data,email='',name=''){
     const d={...blankEmotionData(email,name),...(data||{})};
@@ -2852,14 +2878,13 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
     emotionRefs[email].folderId=folder.id;let file=await driveFindNamedFile(EMOTION_DATA_FILE_NAME,folder.id);if(!file){if(currentUserEmail!==email)return false;file=await driveCreateJsonInFolder(EMOTION_DATA_FILE_NAME,folder.id,blankEmotionData(email,currentUserName),'emotion-v2')}emotionRefs[email].fileId=file.id;const text=await googleApi(`https://www.googleapis.com/drive/v3/files/${encodeURIComponent(file.id)}?alt=media`,{},'text');emotionData[email]=normalizeEmotionData(JSON.parse(text||'{}'),email,email===currentUserEmail?currentUserName:'');return true;
   }
   async function loadEmotionData(){
-    emotionData={};emotionRefs={};await ensureEmotionOwner(currentUserEmail);const partner=mutualPartner();if(emotionRefs[currentUserEmail]?.folderId)await syncDriveReaderForPair(emotionRefs[currentUserEmail].folderId,partner?.email||'');if(partner)try{await ensureEmotionOwner(partner.email)}catch(e){console.warn('Partner emotion unavailable',e)}renderEmotion();
+    emotionData={};emotionRefs={};if(!currentUserEmail||!window.AiderDearFirebase)return;const own=await window.AiderDearFirebase.readEmotionData(firebaseState.user?.uid||'');emotionData[currentUserEmail]=normalizeEmotionData(own||blankEmotionData(currentUserEmail,currentUserName),currentUserEmail,currentUserName);emotionRefs[currentUserEmail]={folderId:'firebase-emotion',fileId:'firebase-emotion',writable:true};const partner=mutualPartner();if(partner?.uid)try{const shared=await window.AiderDearFirebase.readEmotionData(partner.uid);if(shared){emotionData[partner.email]=normalizeEmotionData(shared,partner.email,partner.name);emotionRefs[partner.email]={folderId:'firebase-emotion-shared',fileId:'firebase-emotion-shared',writable:false}}}catch(e){console.warn('Partner emotion unavailable',e)}renderEmotion();
   }
-  async function saveEmotionData(email){email=normalizeEmail(email);if(!googleToken||currentUserEmail!==email||!emotionRefs[email]?.fileId)throw new Error('본인의 감정일기만 수정할 수 있습니다.');emotionData[email]=normalizeEmotionData(emotionData[email],email,currentUserName);await googleApi(`https://www.googleapis.com/upload/drive/v3/files/${encodeURIComponent(emotionRefs[email].fileId)}?uploadType=media`,{method:'PATCH',headers:{'Content-Type':'application/json; charset=UTF-8'},body:JSON.stringify(emotionData[email])})}
+  async function saveEmotionData(email){email=normalizeEmail(email);if(!currentUser||currentUserEmail!==email||!emotionRefs[email]?.fileId)throw new Error('본인의 감정일기만 수정할 수 있습니다.');emotionData[email]=normalizeEmotionData(emotionData[email],email,currentUserName);await window.AiderDearFirebase.writeEmotionData(emotionData[email])}
 
   async function driveLoadJsonFile(){
-    const text=await googleApi(`https://www.googleapis.com/drive/v3/files/${encodeURIComponent(driveDataFileId)}?alt=media`,{},'text');
-    const parsed=JSON.parse(text||'{}');
-    cloudData={...cloudData,...parsed};
+    const parsed=await window.AiderDearFirebase.readAppData();
+    cloudData={...cloudData,...(parsed||{})};
     normalizeCloudData();
   }
   function scheduleCloudSave(delay=450){
@@ -2867,21 +2892,13 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
     clearTimeout(cloudSaveTimer);cloudSaveTimer=setTimeout(()=>saveCloudData().catch(err=>setGoogleStatus(googleErrorMessage(err),'error')),delay);
   }
   async function saveCloudData(){
-    clearTimeout(cloudSaveTimer);cloudData.version=CLOUD_VERSION;await driveUpdateJsonFile(cloudData);
+    clearTimeout(cloudSaveTimer);cloudData.version=CLOUD_VERSION;await window.AiderDearFirebase.writeAppData(cloudData);
   }
   async function driveUploadMedia(file,label='media'){
-    if(!driveMediaFolderId)throw new Error('Drive Media 폴더가 준비되지 않았습니다.');
-    const safeName=(file.name||`${label}-${Date.now()}`).replace(/[\\/]/g,'-');
-    const metadata={name:`${Date.now()}-${safeName}`,parents:[driveMediaFolderId],appProperties:{aiderdear:'media-v1',kind:label}};
-    const init=await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=resumable&fields=id,name,mimeType,size',{method:'POST',headers:{'Authorization':`Bearer ${googleToken}`,'Content-Type':'application/json; charset=UTF-8','X-Upload-Content-Type':file.type||'application/octet-stream','X-Upload-Content-Length':String(file.size)},body:JSON.stringify(metadata)});
-    if(!init.ok)throw new Error(`Drive 업로드 준비 실패 (${init.status})`);
-    const location=init.headers.get('Location');if(!location)throw new Error('Drive 업로드 주소를 받지 못했습니다.');
-    const uploaded=await fetch(location,{method:'PUT',headers:{'Authorization':`Bearer ${googleToken}`,'Content-Type':file.type||'application/octet-stream'},body:file});
-    if(!uploaded.ok)throw new Error(`Drive 업로드 실패 (${uploaded.status})`);
-    return await uploaded.json();
+    if(!currentUser)throw new Error('Google 로그인이 필요합니다.');return await window.AiderDearFirebase.uploadMedia(file,label);
   }
-  async function driveMediaBlob(fileId){return googleApi(`https://www.googleapis.com/drive/v3/files/${encodeURIComponent(fileId)}?alt=media`,{},'blob')}
-  async function driveDeleteFile(fileId){if(!fileId)return;try{await googleApi(`https://www.googleapis.com/drive/v3/files/${encodeURIComponent(fileId)}`,{method:'DELETE'})}catch{}}
+  async function driveMediaBlob(fileId){return await window.AiderDearFirebase.readMedia(fileId)}
+  async function driveDeleteFile(fileId){if(!fileId)return;try{await window.AiderDearFirebase.deleteMedia(fileId)}catch{}}
 
   async function driveListFolderFiles(parentId){
     if(!parentId)return [];let pageToken='';const all=[];
@@ -2892,21 +2909,11 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
     }while(pageToken);return all;
   }
   async function scanDriveMedia(){
-    if(!driveRootId)return;
-    const [rootFiles,mediaFiles]=await Promise.all([driveListFolderFiles(driveRootId),driveMediaFolderId?driveListFolderFiles(driveMediaFolderId):Promise.resolve([])]);
-    const referenced=new Set();getRecords().forEach(r=>recordMediaItems(r).forEach(x=>{const id=x.fileId||x.key;if(id)referenced.add(id)}));(cloudData.eventReviews||[]).forEach(r=>{if(r?.media?.fileId)referenced.add(r.media.fileId)});(cloudData.bucketItems||[]).forEach(r=>{if(r?.photo?.fileId)referenced.add(r.photo.fileId)});Object.values(cloudData.coupleMediaBySpace||{}).forEach(x=>{if(x?.fileId)referenced.add(x.fileId)});
-    const seen=new Set();driveLooseMedia=[...rootFiles,...mediaFiles].filter(f=>{if(seen.has(f.id))return false;seen.add(f.id);return (String(f.mimeType).startsWith('image/')||String(f.mimeType).startsWith('video/'))&&!referenced.has(f.id)}).map(f=>({kind:String(f.mimeType).startsWith('video/')?'video':'image',fileId:f.id,name:f.name,type:f.mimeType,title:f.name||'Drive 미디어',date:String(f.createdTime||f.modifiedTime||'').slice(0,10),folderId:DEFAULT_ALBUM_ID,author:'shared',driveImported:true}));
+    driveLooseMedia=[];
   }
 
   async function ensureCloudDrive(){
-    const configuredRootId=String(googleConfig.rootFolderId||'').trim();let root=null;
-    if(configuredRootId){try{root=await driveFolderById(configuredRootId)}catch(err){if(!isAdmin)throw new Error('Google 로그인은 완료됐지만 공용 Drive 폴더를 열 수 없습니다. 관리자가 상대 이메일을 등록하고 설정을 저장한 뒤 만든 새 초대 링크로 다시 접속해주세요.')}}
-    if(!root)root=await findDriveFolder(ROOT_FOLDER_NAME,'',isAdmin);if(!root){if(!isAdmin)throw new Error('Google 로그인은 완료됐지만 공용 Drive 폴더 정보를 찾지 못했습니다. 관리자가 설정을 저장한 뒤 만든 새 초대 링크로 다시 접속해주세요.');root=await createDriveFolder(ROOT_FOLDER_NAME,'',{aiderdear:'root-v2'})}driveRootId=root.id;
-    if(googleConfig.rootFolderId!==driveRootId){googleConfig.rootFolderId=driveRootId;localStorage.setItem(GOOGLE_CONFIG_KEY,JSON.stringify(googleConfig))}
-    if(isAdmin){for(const u of normalizeFamilyUsers(googleConfig.familyUsers||[])){if(u.email!==currentUserEmail)await ensureDriveUserPermission(driveRootId,u.email)}}
-    let media=await findDriveFolder(MEDIA_FOLDER_NAME,driveRootId);if(!media)media=await createMissingSharedFolder(MEDIA_FOLDER_NAME,driveRootId,{aiderdear:'media-folder-v1'});driveMediaFolderId=media.id;
-    let data=await driveFindDataFile();if(!data)data=await createMissingSharedData();driveDataFileId=data.id;await driveLoadJsonFile();
-    if(isAdmin){const roster=normalizeFamilyUsers(googleConfig.familyUsers||[]),existing=new Map(normalizeFamilyUsers(cloudData.familyUsers||[]).map(x=>[x.email,x]));if(roster.length){cloudData.familyUsers=roster.map(x=>({email:x.email,name:x.email===currentUserEmail?(currentUserName||x.name):(existing.get(x.email)?.name||x.name)}));await driveUpdateJsonFile(cloudData)}}else{const roster=normalizeFamilyUsers(cloudData.familyUsers||[]);if(roster.length&&!roster.some(x=>x.email===currentUserEmail))throw new Error('AiderDear 가족 구성원으로 등록되지 않은 계정입니다. 관리자에게 계정 등록을 요청해주세요.')}
+    driveRootId='firebase-root';driveMediaFolderId='firebase-media';driveDataFileId='firebase-data';await driveLoadJsonFile();const roster=[{email:currentUserEmail,name:currentUserName||normalizeName('',currentUserEmail)}];const partner=mutualPartner();if(partner)roster.push({email:partner.email,name:partner.name});cloudData.familyUsers=normalizeFamilyUsers(roster);cloudData.partnerChoices={};if(partner){cloudData.partnerChoices[currentUserEmail]=partner.email;cloudData.partnerChoices[partner.email]=currentUserEmail}
   }
   async function shareCalendarAccess(calendarId,email){if(!email||email===currentUserEmail)return;try{await googleApi(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendarId)}/acl`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({role:'writer',scope:{type:'user',value:email}})})}catch(err){const t=String(err?.message||err);if(!(t.includes('409')||t.includes('already')))throw err}}
   function allAiderDearCalendarIds(){return new Set([cloudData.calendarId,...Object.values(cloudData.userCalendars||{})].filter(Boolean))}
@@ -2923,10 +2930,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
     if(allowed)await shareCalendarAccess(activeCalendarId,allowed);
   }
   async function ensureCalendar(){
-    normalizeCloudData();let id=cloudData.userCalendars[currentUserEmail]||'';
-    if(!id&&isAdmin&&cloudData.calendarId)id=cloudData.calendarId;
-    if(!id){const cal=await googleApi('https://www.googleapis.com/calendar/v3/calendars',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({summary:`${CALENDAR_NAME} · ${currentUserName||'개인'}`,timeZone:'Asia/Seoul'})});id=cal.id}
-    activeCalendarId=id;cloudData.userCalendars[currentUserEmail]=id;if(!cloudData.calendarId&&isAdmin)cloudData.calendarId=id;await saveCloudData();await syncCalendarPairAccess();
+    normalizeCloudData();activeCalendarId='firebase-calendar';cloudData.calendarId='firebase-calendar';cloudData.userCalendars[currentUserEmail]='firebase-calendar';
   }
   function addDays(date,n){const d=new Date(`${date}T00:00:00+09:00`);d.setDate(d.getDate()+n);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
   function dateRangeDays(start,end){const out=[];let cur=start||'';const last=end||start||'';if(!cur||!last)return out;let guard=0;while(cur<=last&&guard<370){out.push(cur);cur=addDays(cur,1);guard++}return out}
@@ -2944,13 +2948,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
     let authorEmail=normalizeEmail(g.extendedProperties?.private?.aiderdearAuthorEmail||'');if(isAiderDear&&!authorEmail){if(source.id===cloudData.calendarId&&legacyOwner==='partner')authorEmail=familyRoster().find(x=>x.email!==googleConfig.adminEmail)?.email||calendarEmail;else authorEmail=calendarEmail}const owner=isHoliday?'holiday':(isAiderDear?(authorEmail===currentUserEmail?'mine':'partner'):calendarOwner(source)),pairKey=String(g.extendedProperties?.private?.aiderdearPairKey||'');return {id:`${source.id}::${g.id}`,googleEventId:g.id,calendarId:source.id,sourceTitle:source.summary||'Google Calendar',isAiderDear,isHoliday,title:g.summary||'(제목 없음)',date,endDate,time,endTime,allDay,owner,authorEmail,pairKey,memo:g.description||''};
   }
   async function loadCalendarList(render=true){
-    if(!googleToken)return [];
-    const r=await googleApi('https://www.googleapis.com/calendar/v3/users/me/calendarList?minAccessRole=reader&maxResults=250&fields=items(id,summary,primary,accessRole,selected,hidden,backgroundColor)');
-    const known=allAiderDearCalendarIds(),visible=visibleAiderDearCalendarIds();calendarSources=(r.items||[]).filter(x=>!x.hidden&&(!known.has(x.id)||visible.has(x.id)));
-    visibleAiderDearCalendarEntries().slice().reverse().forEach(entry=>{if(!calendarSources.some(x=>x.id===entry.id))calendarSources.unshift({id:entry.id,summary:`AiderDear · ${entry.name}`,accessRole:entry.email===currentUserEmail?'owner':'writer'})});
-    if(!calendarSources.some(x=>x.id===KOREA_HOLIDAY_CALENDAR_ID))calendarSources.push({id:KOREA_HOLIDAY_CALENDAR_ID,summary:'대한민국 공휴일',accessRole:'reader',isHoliday:true});
-    loadCalendarSelection();const available=new Set(calendarSources.map(x=>x.id));selectedCalendarIds=new Set([...selectedCalendarIds].filter(id=>available.has(id)));
-    if(!selectedCalendarIds.size){const primary=calendarSources.find(x=>x.primary);if(primary)selectedCalendarIds.add(primary.id)}visible.forEach(id=>selectedCalendarIds.add(id));selectedCalendarIds.add(KOREA_HOLIDAY_CALENDAR_ID);saveCalendarSelection();
+    calendarSources=[{id:'firebase-calendar',summary:'AiderDear',accessRole:'owner',primary:true}];selectedCalendarIds=new Set(['firebase-calendar']);
     if(render)renderCalendarPicker();return calendarSources;
   }
   function renderCalendarPicker(){
@@ -2968,22 +2966,17 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
     return [...ids].map(id=>calendarSources.find(x=>x.id===id)||{id,summary:visibleAiderDearCalendarIds().has(id)?'AiderDear':(id===KOREA_HOLIDAY_CALENDAR_ID?'대한민국 공휴일':'Google Calendar'),accessRole:'reader',isHoliday:id===KOREA_HOLIDAY_CALENDAR_ID});
   }
   async function loadCalendarEvents(){
-    if(!googleToken||!activeCalendarId){events=[];renderCalendar();return}
-    const y=shown.getFullYear(),m=shown.getMonth();const first=new Date(y,m,1);const gridStart=new Date(y,m,1-first.getDay());const gridEnd=new Date(gridStart);gridEnd.setDate(gridStart.getDate()+42);
-    const fmt=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-    const params=new URLSearchParams({timeMin:`${fmt(gridStart)}T00:00:00${SEOUL_OFFSET}`,timeMax:`${fmt(gridEnd)}T00:00:00${SEOUL_OFFSET}`,singleEvents:'true',orderBy:'startTime',timeZone:'Asia/Seoul',maxResults:'2500'});
-    const groups=await Promise.all(selectedCalendarSources().map(async source=>{try{const r=await googleApi(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(source.id)}/events?${params}`);return (r.items||[]).filter(x=>x.status!=='cancelled').map(x=>fromGoogleEvent(x,source))}catch(err){console.warn('Calendar read skipped',source.id,err);return []}}));
-    events=groups.flat().filter(e=>!e.isAiderDear||pairVisible(e,'authorEmail'));renderSchedulePeopleFilters();renderCalendar();
+    events=(Array.isArray(cloudData.scheduleEvents)?cloudData.scheduleEvents:[]).filter(e=>pairVisible(e,'authorEmail'));renderSchedulePeopleFilters();renderCalendar();
   }
-  async function createCalendarEvent(data){const g=await googleApi(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(activeCalendarId)}/events`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(toGoogleEvent(data))});return fromGoogleEvent(g,calendarSources.find(x=>x.id===activeCalendarId)||{id:activeCalendarId,summary:'AiderDear'})}
-  async function updateCalendarEvent(id,data){const g=await googleApi(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(activeCalendarId)}/events/${encodeURIComponent(id)}`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(toGoogleEvent(data))});return fromGoogleEvent(g,calendarSources.find(x=>x.id===activeCalendarId)||{id:activeCalendarId,summary:'AiderDear'})}
-  async function deleteCalendarEvent(id){await googleApi(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(activeCalendarId)}/events/${encodeURIComponent(id)}`,{method:'DELETE'})}
+  async function createCalendarEvent(data){const id='schedule-'+Date.now()+'-'+Math.random().toString(36).slice(2,7),item={id,googleEventId:id,calendarId:'firebase-calendar',sourceTitle:'AiderDear',isAiderDear:true,isHoliday:false,...data,authorEmail:currentUserEmail,pairKey:data.owner==='shared'?currentPairKey():'',createdAt:Date.now(),updatedAt:Date.now()};cloudData.scheduleEvents=Array.isArray(cloudData.scheduleEvents)?cloudData.scheduleEvents:[];cloudData.scheduleEvents.push(item);await saveCloudData();return item}
+  async function updateCalendarEvent(id,data){cloudData.scheduleEvents=Array.isArray(cloudData.scheduleEvents)?cloudData.scheduleEvents:[];const index=cloudData.scheduleEvents.findIndex(item=>item.id===id||item.googleEventId===id);if(index<0)throw new Error('수정할 일정을 찾지 못했습니다.');cloudData.scheduleEvents[index]={...cloudData.scheduleEvents[index],...data,updatedAt:Date.now()};await saveCloudData();return cloudData.scheduleEvents[index]}
+  async function deleteCalendarEvent(id){cloudData.scheduleEvents=(Array.isArray(cloudData.scheduleEvents)?cloudData.scheduleEvents:[]).filter(item=>item.id!==id&&item.googleEventId!==id);await saveCloudData()}
 
   async function bootstrapGoogleData(){
-    setGoogleStatus('Google Drive와 Calendar를 연결하는 중입니다…');
-    await ensureCloudDrive();normalizeCloudData();await syncPartnerChoice(true);await migrateLegacyPersonalSpaces();if(!isAdmin&&cloudData.familyUsers?.length&&!cloudData.familyUsers.some(x=>x.email===currentUserEmail))throw new Error('등록되지 않은 계정입니다. 관리자에게 로그인 허용을 요청해주세요.');await ensureCalendar();await loadCalendarList();await loadCalendarEvents();await scanDriveMedia();await loadCoupleMedia();await loadPrivateData();await loadEmotionData();
+    setGoogleStatus('AiderDear 데이터를 불러오는 중입니다…');
+    cloudData={version:CLOUD_VERSION,calendarId:'',userCalendars:{},albumsBySpace:{},records:[],coupleMediaBySpace:{},ddays:[],activeDdayBySpace:{},letters:[],bucketItems:[],eventReviews:[],partnerChoices:{},scheduleEvents:[]};await ensureCloudDrive();normalizeCloudData();await ensureCalendar();await loadCalendarList();await loadCalendarEvents();await scanDriveMedia();await loadCoupleMedia();await loadPrivateData();await loadEmotionData();
     refreshRecordAlbumSelect(DEFAULT_ALBUM_ID);renderAlbumFolders();renderRecordFeed();renderEventArchive();renderTravelArchive();setDday();renderDdayList();renderPrivate();renderEmotion();
-    lastSyncAt=new Date();applyLoginUI();updateMailBadge();setGoogleStatus(`${googleProfile?.email||''}\nDrive + Calendar 연결 완료 · ${lastSyncAt.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'})}`,'ok');setTimeout(showUnreadLetterPopup,180);
+    lastSyncAt=new Date();applyLoginUI();updateMailBadge();setGoogleStatus(`${googleProfile?.email||''}\nAiderDear 연결 완료 · ${lastSyncAt.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'})}`,'ok');setTimeout(showUnreadLetterPopup,180);
   }
 
   function renderCalendar(){
@@ -3067,10 +3060,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
     if(!(file.type.startsWith('image/')||file.type.startsWith('video/'))){toast('사진 또는 동영상 파일을 선택해주세요.');return}
     if(!googleToken){requireLogin(()=>$('#coupleMediaInput').click());return}
     try{
-      toast('Google Drive에 업로드 중…');
+      toast('공유 공간에 업로드 중…');
       const key=currentPairKey(),old=currentCoupleMedia()?.fileId||'',uploaded=await driveUploadMedia(file,'couple');
       cloudData.coupleMediaBySpace[key]={fileId:uploaded.id,name:file.name,type:file.type,authorEmail:currentUserEmail,pairKey:key};await saveCloudData();
-      if(old&&old!==uploaded.id)driveDeleteFile(old);applyMediaBlob(file);toast('Drive에 저장했습니다.');
+      if(old&&old!==uploaded.id)driveDeleteFile(old);applyMediaBlob(file);toast('공유 공간에 저장했습니다.');
     }catch(err){toast(googleErrorMessage(err))}
     e.target.value='';
   });
@@ -3172,57 +3165,44 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   $('#mailForm').addEventListener('submit',async e=>{e.preventDefault();if(!currentUserEmail||!googleToken)return;const partner=sharedPartner(),body=$('#mailBody').value.trim();if(!partner){toast('서로 연결을 승인한 상대에게만 편지를 보낼 수 있습니다.');return}if(!body)return;const letter={id:'letter-'+Date.now(),fromEmail:currentUserEmail,fromName:currentUserName||familyUser(currentUserEmail).name,toEmail:partner.email,toName:partner.name,body:body.slice(0,220),pairKey:currentPairKey(),createdAt:Date.now(),readBy:[]};cloudData.letters.push(letter);try{await saveCloudData();$('#mailBody').value='';$('#mailCharCount').textContent='0';mailTab='sent';renderMailbox();toast(`${partner.name}에게 편지를 보냈습니다.`)}catch(err){toast(googleErrorMessage(err))}});
   $('#letterNextBtn').addEventListener('click',()=>{const next=letterQueue.shift();if(next)openLetterView(next,letterQueue)});
 
-  // Google login + family access control (up to 10 test users)
+  // Firebase Google login + explicit couple invitations
   function applyLoginUI(){
     $('#loginBtn').textContent=currentUser?(currentUserName||'로그인'):'로그인';$('#syncBtn').hidden=!currentUser;
-    $('#logoutBtn').hidden=!currentUser;$('#displayNameBtn').hidden=!currentUser;$('#syncNowBtn').hidden=!currentUser;$('#copyInviteBtn').hidden=!(currentUser&&isAdmin&&validGoogleConfig());$('#calendarSyncDetails').hidden=!currentUser;
+    $('#logoutBtn').hidden=!currentUser;$('#displayNameBtn').hidden=true;$('#syncNowBtn').hidden=!currentUser;$('#copyInviteBtn').hidden=true;$('#calendarSyncDetails').hidden=true;
     if(currentUser)$('#loginInviteNote').hidden=true;
-    $('#googleLoginBtn').textContent=currentUser?'Google 다시 연결':'Google 계정으로 로그인';
-    if(currentUser&&googleProfile?.email&&googleToken)setGoogleStatus(`${googleProfile.email} · Drive + Calendar 연결 완료`,'ok');updateAdminConfigAccess();fillPartnerSelect();renderSchedulePeopleFilters();renderPartnerMatchStatus();
+    $('#googleLoginBtn').hidden=!!currentUser;$('#googleLoginBtn').textContent='Google 계정으로 로그인';$('#firebasePairPanel').hidden=!currentUser;
+    if(currentUser&&googleProfile?.email)setGoogleStatus(`${googleProfile.email} · AiderDear 로그인 완료`,'ok');renderFirebasePairUI();renderSchedulePeopleFilters();renderPartnerMatchStatus();
   }
   function canEdit(owner){if(!currentUser)return false;return owner===currentUser||owner==='shared'}
   function canEditEvent(e){if(!currentUserEmail||!e?.isAiderDear)return false;if(normalizeEmail(e.authorEmail))return normalizeEmail(e.authorEmail)===currentUserEmail;return e.owner===currentUser}
   function configureOwnerOptions(selected){
     const sel=$('#eventOwner'),field=$('#eventOwnerField');if(!sel)return;const personal=currentUser==='partner'?'partner':'mine',partner=sharedPartner();const myName=currentUserName||'내 일정';sel.innerHTML=`<option value="${personal}">${escapeHtml(myName)}</option>`+(partner?`<option value="shared">${escapeHtml(myName)} + ${escapeHtml(partner.name)}</option>`:'');field.hidden=!partner;if(selected==='shared'&&partner)sel.value='shared';else sel.value=personal;
   }
-  async function startGoogleLogin(auto=false){
-    if(!auto)saveGoogleConfig();
-    if(!validGoogleConfig()){$('#googleSetupDetails').open=true;setGoogleStatus('클라이언트 ID와 관리자 Google 이메일을 먼저 입력해주세요.','error');return}
-    if(location.protocol==='file:'){setGoogleStatus('Google 로그인은 index.html 파일을 더블클릭한 file:// 주소에서는 작동하지 않습니다. Vercel 주소 또는 http://localhost 주소에서 열어주세요.','error');return}
-    if(!window.google?.accounts?.oauth2){setGoogleStatus('Google 로그인 라이브러리를 불러오는 중입니다. 잠시 후 로그인 버튼을 다시 눌러주세요.','error');return}
-    googleTokenClient=google.accounts.oauth2.initTokenClient({client_id:googleConfig.clientId,scope:GOOGLE_SCOPES,callback:async response=>{
-      if(response.error){setGoogleStatus(googleOAuthErrorMessage(response),'error');return}
-      googleToken=response.access_token||'';
-      try{
-        googleProfile=await googleApi('https://www.googleapis.com/oauth2/v3/userinfo');const email=normalizeEmail(googleProfile.email);currentUserEmail=email;currentUserName=storedDisplayName(email);isAdmin=email===googleConfig.adminEmail;currentUser='mine';
-        if(!currentUserName)await changeDisplayName(true);applyLoginUI();await bootstrapGoogleData();await syncCurrentDisplayName();closeModal('loginModal');toast(`${currentUserName} Google 연결 완료`);
-        const pending=pendingAfterLogin;pendingAfterLogin=null;if(pending)setTimeout(pending,80);
-      }catch(err){const badToken=googleToken;currentUser='';currentUserEmail='';currentUserName='';isAdmin=false;googleToken='';if(badToken&&window.google?.accounts?.oauth2)google.accounts.oauth2.revoke(badToken,()=>{});applyLoginUI();setGoogleStatus(googleErrorMessage(err),'error')}
-    },error_callback:error=>{if(currentUser||googleToken)return;if(!auto)setGoogleStatus(googleOAuthErrorMessage(error||{type:'popup_closed'}),'error')}});
-    googleTokenClient.requestAccessToken({prompt:auto?'':'select_account'});
+  function renderFirebasePairUI(){
+    const panel=$('#firebasePairPanel');if(!panel)return;panel.hidden=!firebaseState.user;if(!firebaseState.user)return;const partner=firebaseState.partner,active=$('#firebasePairActive'),inviteBox=$('#firebaseInviteBox');active.hidden=!partner;inviteBox.hidden=!!partner;if(partner){$('#firebasePartnerName').textContent=`${partner.name}님과 연결됨`;$('#firebasePartnerEmail').textContent=partner.email}
+    const incoming=$('#firebaseIncomingInvites'),outgoing=$('#firebaseOutgoingInvites');incoming.innerHTML=(firebaseState.incoming||[]).map(row=>`<div class="firebase-request"><div class="firebase-request-info"><b>${escapeHtml(row.fromName||row.fromEmail||'상대')}</b><span>${escapeHtml(row.fromEmail||'')}</span></div><div class="firebase-request-actions"><button type="button" data-pair-reject="${escapeHtml(row.id)}">거절</button><button class="accept" type="button" data-pair-accept="${escapeHtml(row.id)}">수락</button></div></div>`).join('');outgoing.innerHTML=(firebaseState.outgoing||[]).map(row=>`<div class="firebase-request"><div class="firebase-request-info"><b>${escapeHtml(row.toEmail||'')}</b><span>수락 대기 중</span></div><div class="firebase-request-actions"><button type="button" data-pair-cancel="${escapeHtml(row.id)}">취소</button></div></div>`).join('');
   }
-  $('#googleConfigSave').addEventListener('click',async()=>{
-    if(currentUserEmail&&!isAdmin){toast('관리자만 로그인 허용 이메일을 변경할 수 있습니다.');return}
-    saveGoogleConfig();
-    if(!currentUserEmail){toast('설정을 저장했습니다. 관리자 로그인 후 공유 권한이 적용됩니다.');return}
-    try{
-      setGoogleStatus('상대의 Drive와 Calendar 접근 권한을 갱신하는 중입니다…');await ensureCloudDrive();await ensureCalendar();await syncPartnerChoice(true);await loadCalendarList(false);applyLoginUI();setGoogleStatus('구성원 접근 권한을 갱신했습니다. 이제 초대 링크를 보내세요.','ok');toast('상대 접근 권한을 갱신했습니다.');
-    }catch(err){setGoogleStatus(googleErrorMessage(err),'error');toast(googleErrorMessage(err))}
-  });
-  $('#partnerSaveBtn').addEventListener('click',async()=>{const next=normalizeEmail($('#googlePartnerEmail').value),before=mutualPartner(),nextUser=next?familyUser(next):null;if(next&&next!==googleConfig.partnerEmail&&!confirm(`${nextUser?.name||next}님에게 연결을 요청할까요? 상대도 나를 선택해야 PRIVATE를 제외한 탭이 공유됩니다.`)){fillPartnerSelect();return}if(!next&&before&&!confirm(`${before.name}님과의 연결을 해제하고 개인 모드로 돌아갈까요?`)){fillPartnerSelect();return}googleConfig.partnerEmail=next;localStorage.setItem(GOOGLE_CONFIG_KEY,JSON.stringify(googleConfig));if(currentUserEmail&&driveDataFileId){try{await syncPartnerChoice(true);await ensureCalendar();await loadCalendarList();await loadCalendarEvents();await loadEmotionData();await loadCoupleMedia();renderRecordFeed();renderAlbumFolders();renderEventArchive();renderTravelArchive();renderBucketList();setDday();renderDdayList();renderMailbox();updateMailBadge();const matched=mutualPartner(),selected=selectedPartner();toast(matched?`${matched.name}님과 상호 연결되었습니다.`:(selected?`${selected.name}님의 승인을 기다립니다.`:'개인 모드로 전환했습니다.'))}catch(err){toast(googleErrorMessage(err))}}else{fillPartnerSelect();toast('연결 상대 설정을 저장했습니다.')}});
-  $('#autoLoginCheck').addEventListener('change',e=>setAutoLoginEnabled(e.target.checked));
-  $('#googleLoginBtn').addEventListener('click',()=>startGoogleLogin(false));
-  $('#copyInviteBtn').addEventListener('click',copyPartnerInvite);
-  $('#displayNameBtn').addEventListener('click',()=>changeDisplayName(false));
-  $('#logoutBtn').addEventListener('click',()=>{
-    const token=googleToken;googleToken='';googleProfile=null;currentUser='';currentUserEmail='';currentUserName='';isAdmin=false;events=[];driveRootId='';driveMediaFolderId='';driveDataFileId='';
+  function resetFirebaseLocalSession(){
+    googleToken='';googleProfile=null;currentUser='';currentUserEmail='';currentUserName='';isAdmin=false;events=[];driveRootId='';driveMediaFolderId='';driveDataFileId='';firebaseScopeKey='';
     privateData={};privateRefs={};privateOwner='';privateFeature='memo';emotionData={};emotionRefs={};schedulePersonFilters=new Set();
-    cloudData={version:CLOUD_VERSION,calendarId:'',userCalendars:{},albumsBySpace:{},records:[],coupleMediaBySpace:{},ddays:[],activeDdayBySpace:{},letters:[],bucketItems:[],eventReviews:[],partnerChoices:{}};activeCalendarId='';calendarSources=[];selectedCalendarIds=new Set();driveLooseMedia=[];
+    cloudData={version:CLOUD_VERSION,calendarId:'',userCalendars:{},albumsBySpace:{},records:[],coupleMediaBySpace:{},ddays:[],activeDdayBySpace:{},letters:[],bucketItems:[],eventReviews:[],partnerChoices:{},scheduleEvents:[]};activeCalendarId='';calendarSources=[];selectedCalendarIds=new Set();driveLooseMedia=[];
     for(const url of recordMediaUrlCache.values())URL.revokeObjectURL(url);recordMediaUrlCache.clear();
     clearActiveMediaUrl();const v=$('#coupleVideo2');v.pause();v.hidden=true;v.removeAttribute('src');const img=$('#couplePhoto2');img.hidden=true;img.removeAttribute('src');$('#mediaPlaceholder2').style.display='flex';
-    applyLoginUI();updateMailBadge();renderCalendar();renderAlbumFolders();renderRecordFeed();renderPrivate();renderEmotion();closeModal('loginModal');setGoogleStatus('로그아웃했습니다.');if(token&&window.google?.accounts?.oauth2)google.accounts.oauth2.revoke(token,()=>{});
-  });
-  function requireLogin(afterLogin=null){if(currentUser&&googleToken)return true;if(afterLogin)pendingAfterLogin=afterLogin;openModal('loginModal');return false}
+    applyLoginUI();updateMailBadge();renderCalendar();renderAlbumFolders();renderRecordFeed();renderPrivate();renderEmotion();setGoogleStatus('Google 계정으로 로그인해주세요.');
+  }
+  async function handleFirebaseState(next){
+    firebaseState=next||firebaseState;renderFirebasePairUI();if(!firebaseState.ready)return;if(!firebaseState.user){if(currentUser)resetFirebaseLocalSession();applyLoginUI();return}const user=firebaseState.user,scope=`${user.uid}:${firebaseState.pair?.id||'solo'}`;googleProfile={email:user.email,name:user.name,picture:user.photoURL};currentUserEmail=normalizeEmail(user.email);currentUserName=storedDisplayName(currentUserEmail)||user.name||normalizeName('',currentUserEmail);currentUser='mine';isAdmin=false;googleToken='firebase-session';googleConfig.adminEmail='';googleConfig.partnerEmail=firebaseState.partner?.email||'';googleConfig.familyUsers=normalizeFamilyUsers([{email:currentUserEmail,name:currentUserName},...(firebaseState.partner?[{email:firebaseState.partner.email,name:firebaseState.partner.name}]:[])]);applyLoginUI();if(firebaseState.error)setGoogleStatus(firebaseState.error,'error');if(scope===firebaseScopeKey)return;firebaseScopeKey=scope;firebaseBootstrapPromise=(firebaseBootstrapPromise||Promise.resolve()).catch(()=>{}).then(async()=>{try{await bootstrapGoogleData();closeModal('loginModal');toast(`${currentUserName}님, 환영합니다.`);const pending=pendingAfterLogin;pendingAfterLogin=null;if(pending)setTimeout(pending,80)}catch(err){setGoogleStatus(googleErrorMessage(err),'error')}});await firebaseBootstrapPromise;
+  }
+  function attachFirebaseBridge(){const api=window.AiderDearFirebase;if(!api)return false;api.subscribe(handleFirebaseState);return true}
+  window.addEventListener('aiderdear-firebase-ready',attachFirebaseBridge,{once:true});attachFirebaseBridge();
+  window.addEventListener('aiderdear-firebase-data',event=>{const detail=event.detail||{};if(!currentUser||!driveDataFileId||detail.scope!==firebaseScopeKey||detail.updatedBy===firebaseState.user?.uid)return;syncFromGoogle(false)});
+  $('#googleLoginBtn').addEventListener('click',async()=>{try{setGoogleStatus('Google 로그인 창을 여는 중입니다…');await window.AiderDearFirebase.login()}catch(err){setGoogleStatus(err.message||String(err),'error')}});
+  $('#firebaseInviteForm').addEventListener('submit',async e=>{e.preventDefault();const input=$('#firebaseInviteEmail');try{await window.AiderDearFirebase.createInvite(input.value);const site=location.origin+location.pathname;input.value='';try{await navigator.clipboard.writeText(site);toast('커플 요청을 보냈고 앱 주소를 복사했습니다.')}catch{toast('커플 요청을 보냈습니다. 상대에게 이 앱 주소를 알려주세요.')}}catch(err){toast(err.message||String(err))}});
+  $('#firebaseIncomingInvites').addEventListener('click',async e=>{const accept=e.target.closest('[data-pair-accept]'),reject=e.target.closest('[data-pair-reject]');try{if(accept){await window.AiderDearFirebase.acceptInvite(accept.dataset.pairAccept);toast('커플 연결을 수락했습니다.')}else if(reject){await window.AiderDearFirebase.rejectInvite(reject.dataset.pairReject);toast('요청을 거절했습니다.')}}catch(err){toast(err.message||String(err))}});
+  $('#firebaseOutgoingInvites').addEventListener('click',async e=>{const cancel=e.target.closest('[data-pair-cancel]');if(!cancel)return;try{await window.AiderDearFirebase.cancelInvite(cancel.dataset.pairCancel);toast('요청을 취소했습니다.')}catch(err){toast(err.message||String(err))}});
+  $('#firebaseDisconnectBtn').addEventListener('click',async()=>{const partner=mutualPartner();if(!partner||!confirm(`${partner.name}님과의 커플 연결을 해제할까요?`))return;try{await window.AiderDearFirebase.disconnectPair();toast('커플 연결을 해제했습니다.')}catch(err){toast(err.message||String(err))}});
+  $('#logoutBtn').addEventListener('click',async()=>{try{await window.AiderDearFirebase.logout();closeModal('loginModal');toast('로그아웃했습니다.')}catch(err){toast(err.message||String(err))}});
+  function requireLogin(afterLogin=null){if(currentUser)return true;if(afterLogin)pendingAfterLogin=afterLogin;openModal('loginModal');return false}
   function syncEventAllDayFields(readonly=false){const off=$('#eventAllDay').checked;$('#eventTime').disabled=readonly||off;$('#eventEndTime').disabled=readonly||off;if(off){$('#eventTime').value='';$('#eventEndTime').value='';}}
   function setScheduleReadOnly(readonly){
     ['eventTitle','eventDate','eventEndDate','eventTime','eventEndTime','eventAllDay','eventOwner','eventMemo'].forEach(id=>{$('#'+id).disabled=readonly});
@@ -3277,12 +3257,12 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
     try{
       $('#saveEvent').disabled=true;
       if(id){const old=events.find(x=>x.id===id);if(old?.isAiderDear&&canEditEvent(old))await updateCalendarEvent(old.googleEventId||old.id,data)}else await createCalendarEvent(data);
-      await loadCalendarEvents();closeModal('scheduleModal');toast('Google Calendar에 저장했습니다.');
+      await loadCalendarEvents();closeModal('scheduleModal');toast('일정을 저장했습니다.');
     }catch(err){toast(googleErrorMessage(err))}finally{$('#saveEvent').disabled=false}
   });
   $('#deleteEvent').addEventListener('click',async()=>{
     const id=$('#eventId').value;const old=events.find(x=>x.id===id);if(!old||!old.isAiderDear||!canEditEvent(old))return;
-    try{await deleteCalendarEvent(old.googleEventId||old.id);await loadCalendarEvents();closeModal('scheduleModal');toast('Google Calendar에서 삭제했습니다.')}catch(err){toast(googleErrorMessage(err))}
+    try{await deleteCalendarEvent(old.googleEventId||old.id);await loadCalendarEvents();closeModal('scheduleModal');toast('일정을 삭제했습니다.')}catch(err){toast(googleErrorMessage(err))}
   });
 
 
@@ -3496,7 +3476,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   }
   async function deleteRecord(id){
     const rows=getRecords();const r=rows.find(x=>x.id===id);if(!r||!canEditRecord(r))return;if(!confirm('이 기록을 삭제할까요?'))return;
-    const ids=recordMediaItems(r).map(x=>x.fileId||x.key).filter(Boolean);putRecords(rows.filter(x=>x.id!==id));await saveCloudData();ids.forEach(deleteRecordMediaBlob);renderRecordFeed();renderAlbumFolders();toast('Drive 기록을 삭제했습니다.');
+    const ids=recordMediaItems(r).map(x=>x.fileId||x.key).filter(Boolean);putRecords(rows.filter(x=>x.id!==id));await saveCloudData();ids.forEach(deleteRecordMediaBlob);renderRecordFeed();renderAlbumFolders();toast('기록을 삭제했습니다.');
   }
   $('#recordPhotoPick').addEventListener('click',()=>{if(currentUser&&googleToken)$('#recordPhotoInput').click();else requireLogin(()=>$('#recordPhotoInput').click())});
   $('#recordPhotoInput').addEventListener('change',async e=>{
@@ -3504,8 +3484,8 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
     for(const file of files){
       try{
         if(!(file.type.startsWith('image/')||file.type.startsWith('video/')))continue;
-        if(file.type.startsWith('video/')&&file.size>500*1024*1024){toast('동영상은 한 파일당 500MB 이하로 선택해주세요.');continue}
-        toast(`Drive에 업로드 중: ${file.name}`);const uploaded=await saveRecordMediaBlob(file);
+        if(file.type.startsWith('video/')&&file.size>25*1024*1024){toast('동영상은 한 파일당 25MB 이하로 선택해주세요.');continue}
+        toast(`공유 공간에 업로드 중: ${file.name}`);const uploaded=await saveRecordMediaBlob(file);
         recordMedia.push({kind:file.type.startsWith('video/')?'video':'image',fileId:uploaded.id,name:file.name,type:file.type});renderRecordPreviews();
       }catch(err){toast(googleErrorMessage(err))}
     }
@@ -3519,7 +3499,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
     if(id){const idx=rows.findIndex(x=>x.id===id);if(idx>=0)rows[idx]=data}else rows.unshift(data);
     try{
       putRecords(rows);await saveCloudData();const newIds=new Set(recordMedia.map(x=>x.fileId||x.key).filter(Boolean));recordOriginalVideoKeys.filter(k=>!newIds.has(k)).forEach(deleteRecordMediaBlob);
-      recordView='feed';closeModal('recordModal');renderRecordFeed();renderAlbumFolders();toast('Google Drive에 저장했습니다.');
+      recordView='feed';closeModal('recordModal');renderRecordFeed();renderAlbumFolders();toast('기록을 저장했습니다.');
     }catch(err){toast(googleErrorMessage(err))}
   });
   $('.record-controls').addEventListener('click',e=>{const b=e.target.closest('[data-record-filter]');if(!b)return;recordFilter=b.dataset.recordFilter||'all';renderRecordFeed()});
@@ -3533,8 +3513,8 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
     if(!currentUser||!googleToken||!driveDataFileId)return;
     if(!force&&document.querySelector('.overlay.open'))return;
     try{
-      const previousCouple=currentCoupleMedia()?.fileId||'';await driveLoadJsonFile();fillPartnerSelect();renderPartnerMatchStatus();await ensureCalendar();await loadCalendarList();await loadCalendarEvents();await scanDriveMedia();await loadPrivateData();await loadEmotionData();refreshRecordAlbumSelect($('#recordAlbumFolder')?.value||DEFAULT_ALBUM_ID);renderRecordFeed();renderAlbumFolders();renderEventArchive();renderTravelArchive();renderBucketList();setDday();renderDdayList();renderPrivate();renderEmotion();renderMailbox();updateMailBadge();
-      if((currentCoupleMedia()?.fileId||'')!==previousCouple)await loadCoupleMedia();lastSyncAt=new Date();setGoogleStatus(`${googleProfile?.email||''}\n동기화 완료 · ${lastSyncAt.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'})}`,'ok');if(force)toast('Google 동기화를 완료했습니다.');
+      const previousCouple=currentCoupleMedia()?.fileId||'';await driveLoadJsonFile();renderPartnerMatchStatus();await ensureCalendar();await loadCalendarList();await loadCalendarEvents();await scanDriveMedia();await loadPrivateData();await loadEmotionData();refreshRecordAlbumSelect($('#recordAlbumFolder')?.value||DEFAULT_ALBUM_ID);renderRecordFeed();renderAlbumFolders();renderEventArchive();renderTravelArchive();renderBucketList();setDday();renderDdayList();renderPrivate();renderEmotion();renderMailbox();updateMailBadge();
+      if((currentCoupleMedia()?.fileId||'')!==previousCouple)await loadCoupleMedia();lastSyncAt=new Date();setGoogleStatus(`${googleProfile?.email||''}\n동기화 완료 · ${lastSyncAt.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'})}`,'ok');if(force)toast('데이터를 새로고침했습니다.');
     }catch(err){setGoogleStatus(googleErrorMessage(err),'error');if(force)toast(googleErrorMessage(err))}
   }
   $('#syncBtn').addEventListener('click',()=>{if(!currentUser){requireLogin(()=>syncFromGoogle(true));return}syncFromGoogle(true)});
@@ -3673,7 +3653,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   $('#eventAddBtn').addEventListener('click',()=>openEventReviewEditor(null,eventCategory==='all'?'movie':eventCategory));$('#travelAddBtn').addEventListener('click',()=>openEventReviewEditor(null,'travel'));
   $('#eventReviewCategory').addEventListener('change',e=>configureEventReviewCategory(e.target.value));$('#eventStarInput').addEventListener('click',e=>{const b=e.target.closest('[data-star]');if(b)setEventReviewRating(Number(b.dataset.star))});
   $('#eventPhotoPick').addEventListener('click',()=>$('#eventPhotoInput').click());$('#eventPhotoInput').addEventListener('change',e=>{const f=e.target.files?.[0];if(!f)return;if(!f.type.startsWith('image/')){toast('사진 파일을 선택해주세요.');return}eventPendingFile=f;renderEventPhotoPreview(null,f);e.target.value='' });
-  $('#eventReviewForm').addEventListener('submit',async e=>{e.preventDefault();if(!currentUserEmail)return;const id=$('#eventReviewId').value,rows=eventRows(),existing=id?rows.find(x=>x.id===id):null;if(existing&&!canEditEventReview(existing))return;let media=existing?.media||null;try{if(eventPendingFile){toast('사진을 Drive에 저장하는 중…');const up=await driveUploadMedia(eventPendingFile,'event-review');media={fileId:up.id,name:eventPendingFile.name,type:eventPendingFile.type};if(existing?.media?.fileId&&existing.media.fileId!==media.fileId)driveDeleteFile(existing.media.fileId)}const item={id:id||('er-'+Date.now()),category:$('#eventReviewCategory').value,title:$('#eventReviewTitle').value.trim(),place:$('#eventReviewPlace').value.trim(),date:$('#eventReviewDate').value,rating:Number($('#eventReviewRating').value)||0,oneLine:$('#eventReviewOneLine').value.trim(),review:$('#eventReviewText').value.trim(),media,authorEmail:existing?.authorEmail||currentUserEmail,createdAt:existing?.createdAt||Date.now(),updatedAt:Date.now(),pairKey:existing?.pairKey||currentPairKey()};if(existing)rows[rows.findIndex(x=>x.id===id)]=item;else rows.push(item);cloudData.eventReviews=rows;await saveCloudData();clearEventPendingPreview();closeModal('eventReviewModal');renderEventArchive();renderTravelArchive();toast('리뷰를 저장했습니다.')}catch(err){toast(googleErrorMessage(err))}});
+  $('#eventReviewForm').addEventListener('submit',async e=>{e.preventDefault();if(!currentUserEmail)return;const id=$('#eventReviewId').value,rows=eventRows(),existing=id?rows.find(x=>x.id===id):null;if(existing&&!canEditEventReview(existing))return;let media=existing?.media||null;try{if(eventPendingFile){toast('사진을 공유 공간에 저장하는 중…');const up=await driveUploadMedia(eventPendingFile,'event-review');media={fileId:up.id,name:eventPendingFile.name,type:eventPendingFile.type};if(existing?.media?.fileId&&existing.media.fileId!==media.fileId)driveDeleteFile(existing.media.fileId)}const item={id:id||('er-'+Date.now()),category:$('#eventReviewCategory').value,title:$('#eventReviewTitle').value.trim(),place:$('#eventReviewPlace').value.trim(),date:$('#eventReviewDate').value,rating:Number($('#eventReviewRating').value)||0,oneLine:$('#eventReviewOneLine').value.trim(),review:$('#eventReviewText').value.trim(),media,authorEmail:existing?.authorEmail||currentUserEmail,createdAt:existing?.createdAt||Date.now(),updatedAt:Date.now(),pairKey:existing?.pairKey||currentPairKey()};if(existing)rows[rows.findIndex(x=>x.id===id)]=item;else rows.push(item);cloudData.eventReviews=rows;await saveCloudData();clearEventPendingPreview();closeModal('eventReviewModal');renderEventArchive();renderTravelArchive();toast('리뷰를 저장했습니다.')}catch(err){toast(googleErrorMessage(err))}});
   $('#eventReviewDelete').addEventListener('click',async()=>{const id=$('#eventReviewId').value,r=eventRows().find(x=>x.id===id);if(!r||!canEditEventReview(r))return;if(!confirm(`“${r.title}” 기록을 삭제할까요?`))return;cloudData.eventReviews=eventRows().filter(x=>x.id!==id);if(r.media?.fileId)driveDeleteFile(r.media.fileId);await saveCloudData();clearEventPendingPreview();closeModal('eventReviewModal');renderEventArchive();renderTravelArchive()});
   $('#eventReviewEditBtn').addEventListener('click',()=>{const r=eventRows().find(x=>x.id===eventViewId);if(!r)return;closeModal('eventReviewViewModal');openEventReviewEditor(r,r.category)});
   let eventWheelTarget=null;
@@ -3968,7 +3948,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   $('.tabs').addEventListener('keydown',e=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;e.preventDefault();const tabs=$$('.tab');let i=tabs.indexOf(document.activeElement);if(e.key==='Home')i=0;else if(e.key==='End')i=tabs.length-1;else i=(i+(e.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length;tabs[i].focus();showMainTab(tabs[i].dataset.tab)});
   function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._timer);t._timer=setTimeout(()=>t.classList.remove('show'),1800)}
   $('#stage').addEventListener('pointerdown',e=>{if(e.target.closest('button,input,select,textarea,label,a'))e.stopPropagation()});
-    importedJoinConfig=importJoinConfigFromHash();loadGoogleConfig();fillGoogleConfigUI();$('#autoLoginCheck').checked=autoLoginEnabled();normalizeCloudData();selectAlbumFolderColor(ALBUM_PASTELS[0]);getAlbumFolders();refreshRecordAlbumSelect(DEFAULT_ALBUM_ID);renderAlbumFolders();renderEventArchive();renderTravelArchive();renderPrivate();renderEmotion();applyLoginUI();setDday();renderDdayList();renderCalendar();if(importedJoinConfig){$('#loginInviteNote').hidden=false;setGoogleStatus('공용 로그인 설정을 불러왔습니다. 상대 Google 계정으로 로그인해주세요.','ok');setTimeout(()=>openModal('loginModal'),0)}else if(location.hash==='#search')setTimeout(openSearchFromQuick,0);setTimeout(()=>tryAutoLogin(),450);if('serviceWorker' in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+    normalizeCloudData();selectAlbumFolderColor(ALBUM_PASTELS[0]);getAlbumFolders();refreshRecordAlbumSelect(DEFAULT_ALBUM_ID);renderAlbumFolders();renderEventArchive();renderTravelArchive();renderPrivate();renderEmotion();applyLoginUI();setDday();renderDdayList();renderCalendar();if(location.hash==='#search')setTimeout(openSearchFromQuick,0);if('serviceWorker' in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
 })();
 </script>
 </body>

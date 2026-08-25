@@ -1,5 +1,5 @@
-const CACHE='aiderdear-v40-member-bootstrap';
-const APP_SHELL=['./','./index.html','./manifest.webmanifest','./aiderdear-icon.svg','./aiderdear-icon-180.png','./aiderdear-icon-192.png','./aiderdear-icon-512.png','./aiderdear-sky.jpg'];
+const CACHE='aiderdear-v41-firebase-couples';
+const APP_SHELL=['./','./index.html','./firebase-app.js','./manifest.webmanifest','./aiderdear-icon.svg','./aiderdear-icon-180.png','./aiderdear-icon-192.png','./aiderdear-icon-512.png','./aiderdear-sky.jpg'];
 
 self.addEventListener('install',event=>{
   self.skipWaiting();
