@@ -1267,6 +1267,50 @@ body{background:#000!important}
 .routine-tracker footer{padding:8px 18px 12px!important;font-size:7px!important}.routine-tracker footer strong{font-size:11px!important}.routine-tracker-actions{right:14px!important;bottom:10px!important}.routine-tracker-actions button,.routine-brag-done{height:26px!important;font-size:6.5px!important;padding:0 10px!important}
 @media(max-width:900px){.routine-v18-main{grid-template-columns:1fr!important;overflow:auto!important}.routine-brief-card{min-height:220px!important}.routine-tracker{min-height:420px!important}.routine-tracker-head h3{font-size:28px!important}.routine-tracker-daycount strong{font-size:38px!important}}
 
+
+
+/* v29 — tighter bucket list + archive card copied from supplied editorial layout */
+.bucket-head{padding:0 0 2px!important;margin:0 0 2px!important;min-height:24px!important}
+.bucket-head b{font-size:15px!important;line-height:1.1!important}
+.bucket-head button{height:22px!important;padding:0 9px!important;font-size:8px!important}
+.bucket-form{grid-template-columns:minmax(0,1fr) 30px!important;gap:4px!important;padding:0!important;margin:0 0 2px!important}
+.bucket-form input{height:30px!important;padding:0 9px!important;font-size:9px!important;border-radius:9px!important}
+.bucket-form button{width:30px!important;height:30px!important;border-radius:8px!important;font-size:17px!important}
+.bucket-drops{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:3px 5px!important;padding:1px 0 0!important;align-content:start!important}
+.bucket-drop{min-height:0!important;height:auto!important;margin:0!important}
+.bucket-card{min-height:48px!important;height:48px!important;border-radius:10px!important;box-shadow:none!important}
+.bucket-card-main{grid-template-columns:12px minmax(0,1fr)!important;gap:6px!important;padding:5px 5px 5px 7px!important;height:48px!important}
+.bucket-check{width:11px!important;height:11px!important;border-radius:4px!important}
+.bucket-copy b{font-size:9px!important;line-height:1.12!important;margin:0 0 1px!important;-webkit-line-clamp:1!important}
+.bucket-copy span{font-size:6.5px!important;line-height:1.05!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+.bucket-drop-tools{padding-right:4px!important;gap:2px!important}
+.bucket-drop-tools button{width:16px!important;height:16px!important;font-size:6.5px!important;border-width:1px!important}
+.bucket-empty{min-height:50px!important;font-size:8px!important;border-radius:10px!important}
+.bucket-history{padding-top:2px!important}.bucket-history-list{gap:3px!important}.bucket-history-row{padding:5px 6px!important;border-radius:9px!important}.bucket-history-row b{font-size:9px!important}.bucket-history-row span,.bucket-history-actions button{font-size:6.5px!important}
+
+/* Archive: exact structural borrowing from the supplied reference — tall photo, thin rule, compact meta, three review lines. */
+.event-index-grid{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:18px!important;align-items:start!important;background:#f7f1ec!important;padding:18px 22px!important;border:0!important}
+.event-index-card.event-paper-card{appearance:none!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;padding:0!important;margin:0!important;height:auto!important;min-height:0!important;display:grid!important;grid-template-rows:260px 1px 24px 66px!important;gap:8px!important;text-align:left!important;overflow:visible!important;color:#423b36!important;cursor:pointer!important}
+.event-index-card.event-paper-card:before,.event-index-card.event-paper-card:after{display:none!important;content:none!important}
+.event-paper-photo{width:100%!important;height:260px!important;min-height:260px!important;max-height:260px!important;border:0!important;border-radius:0!important;background:#fbf8f6!important;box-shadow:none!important;clip-path:none!important;overflow:hidden!important;margin:0!important;position:relative!important}
+.event-paper-photo:before,.event-paper-photo:after{display:none!important;content:none!important}
+.event-paper-photo img{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:cover!important;object-position:center!important;clip-path:none!important;border:0!important;border-radius:0!important;max-width:none!important;max-height:none!important}
+.event-paper-photo .event-art-placeholder{display:none!important}
+.event-paper-empty-photo{position:absolute!important;inset:0!important;background:#fbf8f6!important}
+.event-paper-rule{height:1px!important;background:#8d847d!important;width:100%!important}
+.event-paper-meta{display:grid!important;grid-template-columns:14px minmax(0,1fr) auto!important;grid-template-rows:12px 10px!important;column-gap:6px!important;align-items:center!important;min-width:0!important}
+.event-paper-circle{grid-row:1/3!important;grid-column:1!important;font-size:16px!important;line-height:1!important;color:#8f877f!important}
+.event-paper-title{grid-column:2!important;grid-row:1!important;font-size:8px!important;line-height:1!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;color:#7f7770!important}
+.event-paper-date{grid-column:2!important;grid-row:2!important;font-size:5.8px!important;line-height:1!important;color:#aaa29a!important;white-space:nowrap!important}
+.event-paper-stars{grid-column:3!important;grid-row:1/3!important;display:flex!important;gap:1px!important;align-items:center!important;justify-content:end!important;white-space:nowrap!important}
+.event-paper-stars i{font-style:normal!important;font-size:10px!important;color:#9b938b!important}.event-paper-stars i.filled{color:#665e57!important}
+.event-paper-review{position:relative!important;height:66px!important;overflow:hidden!important;background:repeating-linear-gradient(to bottom,transparent 0 19px,#aaa29a 19px 20px)!important;padding-top:2px!important}
+.event-paper-review span{display:-webkit-box!important;-webkit-box-orient:vertical!important;-webkit-line-clamp:3!important;overflow:hidden!important;font-size:7px!important;line-height:20px!important;color:#5d554f!important;min-height:60px!important;white-space:normal!important}
+.event-paper-card.placeholder .event-paper-title{color:#aaa29a!important}.event-paper-card.placeholder .event-paper-review span{color:transparent!important}
+@media(max-width:1150px){.event-index-grid{gap:12px!important;padding:14px!important}.event-index-card.event-paper-card{grid-template-rows:220px 1px 22px 60px!important}.event-paper-photo{height:220px!important;min-height:220px!important;max-height:220px!important}}
+@media(max-width:900px){.event-content.event-archive-content{overflow:auto!important}.event-index-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}.event-index-card.event-paper-card{grid-template-rows:230px 1px 22px 60px!important}.event-paper-photo{height:230px!important;min-height:230px!important;max-height:230px!important}}
+@media(max-width:650px){.event-index-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important;padding:10px!important}.event-index-card.event-paper-card{grid-template-rows:170px 1px 20px 54px!important}.event-paper-photo{height:170px!important;min-height:170px!important;max-height:170px!important}.event-paper-title{font-size:7px!important}.event-paper-stars i{font-size:8px!important}.event-paper-review{height:54px!important;background:repeating-linear-gradient(to bottom,transparent 0 16px,#aaa29a 16px 17px)!important}.event-paper-review span{font-size:6px!important;line-height:17px!important}}
+
 </style>
 </head>
 <body>
@@ -2719,30 +2763,43 @@ body{background:#000!important}
   async function renderEventPhotoPreview(existing=null,file=null){const box=$('#eventPhotoPreview');if(!box)return;box.innerHTML='';let src='';if(file){if(eventPendingPreviewUrl){try{URL.revokeObjectURL(eventPendingPreviewUrl)}catch{}}eventPendingPreviewUrl=URL.createObjectURL(file);src=eventPendingPreviewUrl}else if(existing?.media?.fileId)src=await eventMediaSrc(existing);if(src){const img=document.createElement('img');img.src=src;img.alt='선택한 사진';box.appendChild(img)}else box.innerHTML=''}
   function openEventReviewEditor(entry=null,category='movie'){if(!currentUser){requireLogin(()=>openEventReviewEditor(entry,category));return}if(entry&&!canEditEventReview(entry)){openEventReviewView(entry.id);return}clearEventPendingPreview();const cat=entry?.category||category||'movie';$('#eventReviewId').value=entry?.id||'';$('#eventReviewMediaId').value=entry?.media?.fileId||'';$('#eventReviewCategory').value=cat;$('#eventReviewDate').value=entry?.date||iso(today.getFullYear(),today.getMonth(),today.getDate());$('#eventReviewTitle').value=entry?.title||'';$('#eventReviewPlace').value=entry?.place||'';$('#eventReviewOneLine').value=entry?.oneLine||'';$('#eventReviewText').value=entry?.review||'';eventOriginalMedia=entry?.media||null;configureEventReviewCategory(cat);setEventReviewRating(entry?.rating||0);$('#eventReviewDelete').hidden=!entry;$('#eventReviewModalTitle').textContent=entry?'기록 수정':(cat==='travel'?'여행 리뷰':'아카이브 기록');renderEventPhotoPreview(entry);openModal('eventReviewModal')}
   function renderEventArchive(){
-    const grid=$('#eventIndexGrid');if(!grid)return;let rows=visibleEventRows().filter(r=>r.category!=='travel');if(eventCategory!=='all')rows=rows.filter(r=>r.category===eventCategory);rows=sortEventRows(rows,eventSortMode).slice(0,5);grid.innerHTML='';
-    $$('#eventCategoryTabs .event-category').forEach(b=>b.classList.toggle('active',b.dataset.eventCategory===eventCategory));$('#eventSort').value=eventSortMode;
+    const grid=$('#eventIndexGrid');if(!grid)return;
+    let rows=visibleEventRows().filter(r=>r.category!=='travel');
+    if(eventCategory!=='all')rows=rows.filter(r=>r.category===eventCategory);
+    rows=sortEventRows(rows,eventSortMode).slice(0,5);
+    grid.innerHTML='';
+    $$('#eventCategoryTabs .event-category').forEach(b=>b.classList.toggle('active',b.dataset.eventCategory===eventCategory));
+    $('#eventSort').value=eventSortMode;
     const total=5,fallbacks=['movie','performance','book','music','movie'];
+    const cardMarkup=(r,cat,placeholder=false)=>{
+      const title=placeholder?eventCategoryLabel(cat):(r.title||eventCategoryLabel(cat));
+      const stars=placeholder?'☆☆☆☆☆':starText(r.rating);
+      const one=placeholder?'':((r.oneLine||String(r.review||'').replace(/\s+/g,' ').trim().slice(0,120)||'').trim());
+      const date=placeholder?'':String(r.date||'').replaceAll('-','.');
+      return `<div class="event-paper-photo event-art ${escapeHtml(cat)}"></div>
+        <div class="event-paper-rule"></div>
+        <div class="event-paper-meta">
+          <span class="event-paper-circle">○</span>
+          <span class="event-paper-title">${escapeHtml(title)}</span>
+          <span class="event-paper-date">${escapeHtml(date)}</span>
+          <span class="event-paper-stars">${[...stars].map(x=>`<i class="${x==='★'?'filled':''}">${x}</i>`).join('')}</span>
+        </div>
+        <div class="event-paper-review"><span>${escapeHtml(one)}</span></div>`;
+    };
     for(let i=0;i<total;i++){
-      const r=rows[i];
+      const r=rows[i],cat=r?.category||(eventCategory==='all'?fallbacks[i]:eventCategory);
+      const card=document.createElement('button');card.type='button';card.className='event-index-card event-paper-card'+(r?'':' placeholder');
       if(r){
-        const card=document.createElement('button');
-        card.type='button';
-        card.className='event-index-card';
-        card.dataset.eventReviewId=r.id;
-        const stars=starText(r.rating),one=(r.oneLine||String(r.review||'').replace(/\s+/g,' ').trim().slice(0,90)||'').trim();
-        card.innerHTML=`<div class="event-index-no">${String(i+1).padStart(2,'0')}</div><b class="event-index-title">${escapeHtml(r.title)}</b><div class="event-index-stars">${[...stars].map(x=>`<span class="${x==='★'?'filled':''}">${x}</span>`).join('')}</div><div class="event-art ${escapeHtml(r.category)}"></div><p class="event-index-review">${escapeHtml(one||'—')}</p><div class="event-index-meta"><span>${eventCategoryLabel(r.category)}</span><span>${escapeHtml((r.date||'').replaceAll('-','.'))}</span></div>`;
-        fillEventImage(card.querySelector('.event-art'),r,eventCategoryLabel(r.category));
+        card.dataset.eventReviewId=r.id;card.innerHTML=cardMarkup(r,cat,false);
+        fillEventImage(card.querySelector('.event-art'),r,eventCategoryLabel(cat));
         card.addEventListener('click',()=>openEventReviewView(r.id));
-        grid.appendChild(card);
-        continue;
+      }else{
+        card.innerHTML=cardMarkup(null,cat,true);
+        const art=card.querySelector('.event-art');
+        if(art) art.innerHTML='<div class="event-paper-empty-photo"></div>';
+        card.addEventListener('click',()=>openEventReviewEditor(null,cat));
       }
-      const cat=eventCategory==='all'?fallbacks[i]:eventCategory;
-      const card=document.createElement('button');
-      card.type='button';
-      card.className='event-index-card placeholder';
-      card.innerHTML=`<div class="event-index-no">${String(i+1).padStart(2,'0')}</div><b class="event-index-title">${eventCategoryLabel(cat)}</b><div class="event-index-stars">☆☆☆☆☆</div><div class="event-art ${cat}">${eventPlaceholderMarkup(cat,eventCategoryLabel(cat))}</div><p class="event-index-review">한 줄 평</p><div class="event-index-meta"><span>${eventCategoryLabel(cat)}</span><span>—</span></div>`;
-      card.addEventListener('click',()=>openEventReviewEditor(null,cat));
-      grid.appendChild(card)
+      grid.appendChild(card);
     }
   }
   function renderTravelArchive(){
