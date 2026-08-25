@@ -122,7 +122,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 .photo-placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#555;background:linear-gradient(135deg,#efefef,#dedede)}
 
 .page-dots{position:absolute;left:50%;bottom:10px;transform:translateX(-50%);display:flex;gap:7px;z-index:8}.dotnav{width:7px;height:7px;border-radius:50%;background:#777;border:0;padding:0;transition:.2s}.dotnav.active{background:#111;transform:scale(1.35)}
-.side-word{position:absolute;left:1.8vw;bottom:7.3vh;writing-mode:vertical-rl;transform:rotate(180deg);font-size:11px;color:#fff;font-weight:800;letter-spacing:.11em}
+.side-word{position:absolute;left:5.8vw;bottom:7.1vh;writing-mode:vertical-rl;transform:rotate(180deg);font-size:11px;color:#fff;font-weight:800;letter-spacing:.18em}
 .hint{position:absolute;right:1.8vw;bottom:5.5vh;font-size:10px;font-weight:800;letter-spacing:.08em;color:#555;display:flex;align-items:center;gap:8px}.wheel{width:20px;height:28px;border:1px solid #555;border-radius:12px;position:relative}.wheel:before{content:"";width:2px;height:6px;background:#555;position:absolute;left:8px;top:5px;animation:scrollDot 1.4s infinite}@keyframes scrollDot{0%{transform:translateY(0);opacity:1}75%{transform:translateY(8px);opacity:0}100%{opacity:0}}
 
 
@@ -174,8 +174,27 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 .album-lightbox .modal{width:min(880px,calc(100% - 24px))}.album-lightbox-image{width:100%;max-height:68vh;object-fit:contain;background:#eee;display:block}.album-lightbox-meta{display:flex;justify-content:space-between;gap:12px;padding-top:10px;font-size:11px}.album-lightbox-meta b{font-size:12px}
 .album-shell.line-active .album-frame:before{animation:drawFrameLine .62s cubic-bezier(.2,.75,.2,1) both;transform-origin:left center}.album-shell.line-active .album-frame:after{animation:drawFrameLine .62s .12s cubic-bezier(.2,.75,.2,1) both;transform-origin:right center}
 
+
+/* Instagram-like record refresh */
+.record-main{background:linear-gradient(180deg,#fff 0%,#fafafa 100%)}
+.record-feed-inner{width:min(520px,100%)}
+.record-post,.diary-entry,.album-folder,.album-photo{border-radius:20px;overflow:hidden;border-color:rgba(0,0,0,.18)}
+.record-post{box-shadow:0 10px 28px rgba(0,0,0,.06)}
+.post-head{border-bottom:0;padding-bottom:6px}
+.post-avatar{border-radius:50%;background:linear-gradient(145deg,#f7d7e1,#dce8f4);border:0;color:#111}
+.post-meta b{font-size:12px}.post-meta span{font-size:8px}
+.post-media{border-top:1px solid rgba(0,0,0,.08);border-bottom:1px solid rgba(0,0,0,.08);background:#f1f1f1}
+.post-copy{padding:10px 12px 14px}.post-title{font-size:12px;font-weight:800}.post-body{line-height:1.65}.post-tag{border-radius:999px;background:#f4f4f4;border-color:rgba(0,0,0,.18)}
+.post-actions{display:flex;justify-content:space-between;align-items:center;padding:9px 12px 0;font-size:12px;font-weight:800}.post-actions-left{display:flex;gap:12px;align-items:center}.post-action-icon{display:inline-flex;align-items:center;gap:4px}
+.diary-entry{grid-template-columns:minmax(0,1fr);gap:0;border:1px solid rgba(0,0,0,.14);padding:0;background:linear-gradient(180deg,#fff,#fbfbfb);margin-bottom:14px}
+.diary-date{padding:14px 16px;border-bottom:1px solid rgba(0,0,0,.08);font-size:15px;display:flex;justify-content:space-between;align-items:end}.diary-date span{margin-top:0;font-size:8px}
+.diary-content{padding:14px 16px 16px}.diary-title{font-size:20px}.diary-media{grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;margin-top:14px}.diary-media-item{border-radius:10px}
+.album-shell{background:linear-gradient(180deg,#fff 0%,#fafafa 100%)}
+.album-cover,.album-photo{border-radius:16px}.album-folder-copy{padding:11px 11px 13px}.album-folder-copy b{font-size:11px}.album-photo-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.album-photo span{border-radius:999px;border:0;box-shadow:0 2px 10px rgba(0,0,0,.12)}
+@media (max-width:600px){.record-post,.diary-entry,.album-folder,.album-photo{border-radius:14px}.post-actions{padding:7px 8px 0;font-size:9px}.record-feed-inner{width:100%}.diary-date{padding:9px 10px;font-size:12px}.diary-content{padding:10px}.album-photo-grid{gap:4px}}
+
 /* MODALS */
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,.32);display:none;align-items:flex-start;justify-content:center;padding-top:92px;z-index:100;backdrop-filter:blur(4px)}.overlay.open{display:flex}.modal{width:min(720px,calc(100% - 28px));background:#fff;border:3px solid #111;box-shadow:12px 12px 0 rgba(0,0,0,.15)}.modal-head{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:2px solid #111}.modal-body{padding:18px}.x{border:0;background:transparent;font-size:28px;line-height:1;padding:0 2px}.google{width:100%;height:50px;border:2px solid #111;background:#fff;font-weight:800;font-size:14px}.searchbox{width:100%;height:50px;border:2px solid #111;padding:0 14px;font-size:14px}.hinttext{font-size:12px;color:#666;margin-top:11px;line-height:1.5}.form{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field{display:flex;flex-direction:column;gap:8px}.field.full{grid-column:1/-1}.field label{font-size:12px;font-weight:800}.field input,.field select,.field textarea{height:44px;border:2px solid #111;padding:0 12px;background:#fff}.field textarea{height:130px;padding:12px;resize:vertical}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}.secondary{height:40px;border:2px solid #111;background:#fff;padding:0 14px;font-weight:800}.readonly{padding:10px 12px;border:1px solid #111;background:#f5f5f5;font-size:12px;margin-bottom:12px}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.32);display:none;align-items:flex-start;justify-content:center;padding-top:92px;z-index:100;backdrop-filter:blur(4px)}.overlay.open{display:flex}.modal{width:min(720px,calc(100% - 28px));background:#fff;border:3px solid #111;box-shadow:12px 12px 0 rgba(0,0,0,.15)}.modal-head{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:2px solid #111}.modal-body{padding:18px}.x{border:0;background:transparent;font-size:28px;line-height:1;padding:0 2px}.google{width:100%;height:50px;border:2px solid #111;background:#fff;font-weight:800;font-size:14px}.searchbox{width:100%;height:50px;border:2px solid #111;padding:0 14px;font-size:14px}.hinttext{font-size:12px;color:#666;margin-top:11px;line-height:1.5}.form{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field{display:flex;flex-direction:column;gap:8px}.field.full{grid-column:1/-1}.field label{font-size:12px;font-weight:800}.field input,.field select,.field textarea{height:44px;border:2px solid #111;padding:0 12px;background:#fff}.field textarea{height:130px;padding:12px;resize:vertical}.schedule-range-check{height:44px;border:2px solid #111;display:flex;align-items:center;gap:10px;padding:0 12px;background:#f8f8f8}.schedule-range-check input{width:18px;height:18px;margin:0}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}.secondary{height:40px;border:2px solid #111;background:#fff;padding:0 14px;font-weight:800}.readonly{padding:10px 12px;border:1px solid #111;background:#f5f5f5;font-size:12px;margin-bottom:12px}
 .toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%) translateY(20px);background:#111;color:#fff;padding:12px 16px;font-size:13px;font-weight:700;opacity:0;pointer-events:none;transition:.2s;z-index:120}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .hidden-file{display:none}
 .login-stack{display:grid;gap:10px}.login-stack input{height:48px;border:2px solid #111;padding:0 13px;font-size:16px}.login-stack button{height:44px;border:2px solid #111;background:#111;color:#fff;font-weight:800}.login-stack .logout{background:#fff;color:#111}
@@ -359,7 +378,7 @@ body.record-mode .hint{display:none}
 .google-setup{border-top:1px solid #111;padding-top:12px;display:grid;gap:9px}
 .google-setup summary{cursor:pointer;font-size:11px;font-weight:800}
 .google-config-grid{display:grid;gap:8px;margin-top:10px}.google-config-grid label{font-size:10px;font-weight:800;display:grid;gap:4px}
-.google-config-grid input{width:100%;height:42px;border:2px solid #111;padding:0 10px;font-size:14px;background:#fff}
+.google-config-grid input{width:100%;height:42px;border:2px solid #111;padding:0 10px;font-size:14px;background:#fff}.google-config-grid textarea{width:100%;min-height:110px;border:2px solid #111;padding:9px 10px;font-size:12px;background:#fff;resize:vertical;line-height:1.5}
 .google-config-save{height:42px;border:2px solid #111;background:#111;color:#fff;font-weight:800}
 .google-config-note{font-size:10px;color:#555;line-height:1.55;margin:0}
 .cloud-sync{font-size:9px;font-weight:800;letter-spacing:.04em;color:#444}
@@ -390,12 +409,13 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
 .emotion-frame{height:100%;min-height:0;border-left:var(--rule) solid #111;border-right:var(--rule) solid #111;position:relative;padding:18px 18px 16px;display:grid;grid-template-rows:auto minmax(0,1fr);gap:14px}
 .emotion-frame:before,.emotion-frame:after{content:"";position:absolute;left:16px;right:16px;height:var(--rule);background:#111}.emotion-frame:before{top:0}.emotion-frame:after{bottom:0}
 .emotion-toolbar{display:flex;align-items:end;justify-content:space-between;gap:12px;min-width:0}.emotion-heading{margin:0;font-family:"Iowan Old Style","Palatino Linotype","Book Antiqua",Palatino,Georgia,serif;font-size:34px;font-weight:400;letter-spacing:-.055em;line-height:1}.emotion-actions{display:flex;align-items:center;gap:6px}.emotion-new{height:30px;border:1px solid #111;background:var(--tabEmotion);padding:0 10px;font-size:9px;font-weight:800}
-.emotion-content{min-height:0;border-top:1px solid #111;padding-top:12px;display:grid;grid-template-rows:auto auto minmax(0,1fr);gap:12px}.emotion-note{font-size:9px;color:#666;line-height:1.5}.emotion-couple-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.emotion-person-card{min-width:0;border:1px solid #111;background:#fff;padding:12px;position:relative}.emotion-person-card.mine-card:before,.emotion-person-card.partner-card:before{content:"";position:absolute;left:0;right:0;top:0;height:6px}.emotion-person-card.mine-card:before{background:var(--mine)}.emotion-person-card.partner-card:before{background:var(--partner)}
-.emotion-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;padding-top:4px}.emotion-card-head b{font-size:13px}.emotion-card-head span{font-size:8px;color:#666}.emotion-mood{display:inline-block;border:1px solid #111;padding:4px 7px;font-size:9px;font-weight:800;margin-top:10px;background:#f7f7f7}.emotion-lines{display:grid;gap:4px;margin-top:9px}.emotion-line{font-size:10px;line-height:1.5;border-bottom:1px solid #ddd;padding-bottom:4px;min-height:20px}.emotion-flags{display:flex;gap:5px;flex-wrap:wrap;margin-top:9px}.emotion-flag{border:1px solid #111;padding:3px 6px;font-size:7px;font-weight:800;background:#fff}.emotion-empty-card{font-size:9px;color:#666;line-height:1.6;padding:16px 0 6px}
-.emotion-timeline{min-height:0;overflow:auto;scrollbar-width:thin;border-top:1px solid #111;padding:0 2px 16px 0}.emotion-entry{display:grid;grid-template-columns:92px minmax(0,1fr) auto;gap:14px;border-bottom:1px solid #111;padding:12px 3px;align-items:start}.emotion-entry-date{font-family:"Iowan Old Style","Palatino Linotype",Georgia,serif;font-size:20px;letter-spacing:-.04em}.emotion-entry-date span{display:block;font-family:Arial,"Apple SD Gothic Neo",sans-serif;font-size:7px;font-weight:800;letter-spacing:.08em;margin-top:4px}.emotion-entry-main{min-width:0}.emotion-entry-head{display:flex;align-items:center;gap:7px;flex-wrap:wrap}.emotion-owner-badge{font-size:8px;font-weight:800;border:1px solid #111;padding:3px 6px}.emotion-owner-badge.mine{background:var(--mine)}.emotion-owner-badge.partner{background:var(--partner)}.emotion-entry-mood{font-size:9px;font-weight:800}.emotion-entry-lines{font-size:9px;line-height:1.6;margin-top:6px;white-space:pre-wrap}.emotion-edit{height:28px;border:1px solid #111;background:#fff;padding:0 8px;font-size:8px;font-weight:800}.emotion-empty{min-height:160px;display:grid;place-items:center;text-align:center;font-size:9px;color:#666;background:#f7f7f7;border-bottom:1px solid #111}
+.emotion-content{min-height:0;border-top:1px solid #111;padding-top:12px;display:grid;grid-template-rows:auto minmax(0,1fr);gap:12px}.emotion-couple-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}.emotion-person-card{min-width:0;border:1px solid #111;background:linear-gradient(180deg,#fff,#fbfbfb);padding:12px;position:relative;border-radius:18px;overflow:hidden}.emotion-person-card.mine-card:before,.emotion-person-card.partner-card:before{content:"";position:absolute;left:0;right:0;top:0;height:8px}.emotion-person-card.mine-card:before{background:var(--mine)}.emotion-person-card.partner-card:before{background:var(--partner)}
+.emotion-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;padding-top:6px}.emotion-card-head b{font-size:13px}.emotion-card-head span{font-size:8px;color:#666}.emotion-mood{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(0,0,0,.14);padding:6px 9px;font-size:9px;font-weight:800;margin-top:10px;background:#f7f7f7;border-radius:999px}.emotion-mood i{font-style:normal;font-size:14px}.emotion-lines{display:grid;gap:5px;margin-top:10px}.emotion-line{font-size:10px;line-height:1.5;border-bottom:1px dashed #ddd;padding-bottom:5px;min-height:20px}.emotion-meta-panels{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:start;margin-top:10px}.emotion-tag-box{border:1px solid rgba(0,0,0,.12);border-radius:14px;padding:8px 9px;background:#fff}.emotion-tag-box b{display:block;font-size:8px;letter-spacing:.08em;margin-bottom:5px}.emotion-flags{display:flex;gap:5px;flex-wrap:wrap}.emotion-flag{border:1px solid rgba(0,0,0,.16);padding:4px 7px;font-size:7px;font-weight:800;background:#fff;border-radius:999px}.emotion-empty-card{font-size:9px;color:#666;line-height:1.6;padding:18px 0 8px}
+.emotion-timeline{min-height:0;overflow:auto;scrollbar-width:thin;border-top:1px solid #111;padding:0 2px 20px 0}.emotion-scroll-hint{position:sticky;top:0;z-index:2;background:linear-gradient(180deg,#fff 80%,rgba(255,255,255,0));padding:10px 0 8px;font-size:8px;font-weight:900;letter-spacing:.12em;color:#666}.emotion-entry{display:grid;grid-template-columns:92px minmax(0,1fr) auto;gap:14px;border-bottom:1px solid #111;padding:14px 3px;align-items:start}.emotion-entry-date{font-family:"Iowan Old Style","Palatino Linotype",Georgia,serif;font-size:20px;letter-spacing:-.04em}.emotion-entry-date span{display:block;font-family:Arial,"Apple SD Gothic Neo",sans-serif;font-size:7px;font-weight:800;letter-spacing:.08em;margin-top:4px}.emotion-entry-main{min-width:0}.emotion-entry-head{display:flex;align-items:center;gap:7px;flex-wrap:wrap}.emotion-owner-badge{font-size:8px;font-weight:800;border:1px solid rgba(0,0,0,.14);padding:3px 6px;border-radius:999px}.emotion-owner-badge.mine{background:var(--mine)}.emotion-owner-badge.partner{background:var(--partner)}.emotion-entry-mood{font-size:9px;font-weight:800;display:inline-flex;align-items:center;gap:4px}.emotion-entry-mood i{font-style:normal}.emotion-entry-lines{font-size:9px;line-height:1.6;margin-top:8px;white-space:pre-wrap;border:1px solid rgba(0,0,0,.1);border-radius:14px;padding:9px 10px;background:#fff}.emotion-entry-flags{margin-top:8px;display:flex;gap:6px;flex-wrap:wrap}.emotion-edit{height:28px;border:1px solid #111;background:#fff;padding:0 8px;font-size:8px;font-weight:800;border-radius:999px}.emotion-empty{min-height:160px;display:grid;place-items:center;text-align:center;font-size:9px;color:#666;background:#f7f7f7;border-bottom:1px solid #111}
+.emotion-insights{padding:16px 0 0;display:grid;gap:12px}.emotion-insight-card{border:1px solid #111;border-radius:18px;padding:14px 14px 12px;background:linear-gradient(180deg,#fff,#faf7ef)}.emotion-insight-head{display:flex;justify-content:space-between;align-items:end;gap:10px;margin-bottom:10px}.emotion-insight-head b{font-size:11px}.emotion-insight-head span{font-size:7px;color:#666}.emotion-mood-bars{display:grid;gap:8px}.emotion-mood-row{display:grid;grid-template-columns:86px minmax(0,1fr) 34px;gap:8px;align-items:center;font-size:9px}.emotion-mood-row label{display:flex;align-items:center;gap:6px;font-weight:800}.emotion-mood-bar{height:10px;border:1px solid #111;border-radius:999px;overflow:hidden;background:#fff}.emotion-mood-bar i{display:block;height:100%;background:#111}.emotion-mood-row span{font-size:8px;text-align:right}.emotion-graph-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:5px;align-items:end;height:110px;padding-top:6px;border-bottom:1px solid #111}.emotion-day-col{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:6px;height:100%}.emotion-day-pill{width:100%;min-height:14px;border:1px solid rgba(0,0,0,.14);border-radius:10px;display:grid;place-items:center;font-size:10px;background:#fff;padding:2px 0}.emotion-day-pill.has-period{background:#f7e4ea}.emotion-day-pill.has-intimacy{box-shadow:inset 0 0 0 2px #8ab1ea}.emotion-day-label{font-size:6px;color:#666;line-height:1.1;text-align:center}.emotion-insight-mini{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.emotion-mini-stat{border:1px solid rgba(0,0,0,.12);border-radius:14px;padding:10px 8px;background:#fff}.emotion-mini-stat strong{display:block;font-family:"Iowan Old Style","Palatino Linotype",Georgia,serif;font-size:24px;font-weight:400;line-height:1}.emotion-mini-stat span{display:block;font-size:7px;font-weight:800;color:#666;margin-top:5px}
 .emotion-frame.line-active:before{animation:drawFrameLine .62s cubic-bezier(.2,.75,.2,1) both;transform-origin:left center}.emotion-frame.line-active:after{animation:drawFrameLine .62s .12s cubic-bezier(.2,.75,.2,1) both;transform-origin:right center}
-.emotion-three-lines{display:grid;gap:7px}.emotion-three-lines input{width:100%}.emotion-checks{display:grid;grid-template-columns:1fr 1fr;gap:8px}.emotion-check{height:44px;border:2px solid #111;display:flex;align-items:center;gap:9px;padding:0 10px;font-size:11px;font-weight:800;background:#fff}.emotion-check input{width:18px;height:18px;margin:0}.emotion-sensitive-note{font-size:9px;color:#666;line-height:1.55;margin-top:8px}
-@media (max-width:600px){.emotion-shell{padding:7px;height:100%}.emotion-frame{padding:7px 7px 6px;border-left-width:2px;border-right-width:2px;grid-template-rows:34px minmax(0,1fr);gap:5px}.emotion-frame:before,.emotion-frame:after{height:2px;left:5px;right:5px}.emotion-heading{font-size:20px}.emotion-new{height:24px;font-size:7px;padding:0 7px}.emotion-content{padding-top:6px;gap:7px}.emotion-note{font-size:7px}.emotion-couple-grid{gap:5px}.emotion-person-card{padding:8px}.emotion-card-head b{font-size:9px}.emotion-card-head span{font-size:6px}.emotion-mood{font-size:7px;margin-top:7px;padding:3px 5px}.emotion-lines{gap:2px;margin-top:6px}.emotion-line{font-size:7px;min-height:15px;padding-bottom:2px}.emotion-flag{font-size:5.5px;padding:2px 4px}.emotion-entry{grid-template-columns:58px minmax(0,1fr) auto;gap:7px;padding:8px 1px}.emotion-entry-date{font-size:15px}.emotion-entry-date span{font-size:5.5px}.emotion-owner-badge{font-size:6px;padding:2px 4px}.emotion-entry-mood{font-size:7px}.emotion-entry-lines{font-size:7px;line-height:1.45}.emotion-edit{height:24px;font-size:6px;padding:0 5px}.emotion-checks{grid-template-columns:1fr}.emotion-check{height:42px;font-size:10px}}
+.emotion-form-grid{grid-template-columns:1fr 1fr}.emotion-three-lines{display:grid;gap:7px}.emotion-three-lines input{width:100%}.emotion-mood-picker{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}.emotion-mood-chip{height:64px;border:2px solid #111;background:#fff;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:4px;font-weight:800;padding:0 4px}.emotion-mood-chip span{font-size:10px}.emotion-mood-chip.active{background:#111;color:#fff}.emotion-checks{display:grid;grid-template-columns:1fr 1fr;gap:8px}.emotion-check{height:48px;border:2px solid #111;display:flex;align-items:center;gap:9px;padding:0 12px;font-size:11px;font-weight:800;background:#fff}.emotion-check input{width:18px;height:18px;margin:0}
+@media (max-width:600px){.emotion-shell{padding:7px;height:100%}.emotion-frame{padding:7px 7px 6px;border-left-width:2px;border-right-width:2px;grid-template-rows:34px minmax(0,1fr);gap:5px}.emotion-frame:before,.emotion-frame:after{height:2px;left:5px;right:5px}.emotion-heading{font-size:20px}.emotion-new{height:24px;font-size:7px;padding:0 7px}.emotion-content{padding-top:6px;gap:7px}.emotion-couple-grid{gap:5px}.emotion-person-card{padding:8px;border-radius:12px}.emotion-card-head b{font-size:9px}.emotion-card-head span{font-size:6px}.emotion-mood{font-size:7px;margin-top:7px;padding:3px 5px}.emotion-lines{gap:2px;margin-top:6px}.emotion-line{font-size:7px;min-height:15px;padding-bottom:2px}.emotion-flag{font-size:5.5px;padding:2px 4px}.emotion-meta-panels{grid-template-columns:1fr}.emotion-entry{grid-template-columns:58px minmax(0,1fr) auto;gap:7px;padding:8px 1px}.emotion-entry-date{font-size:15px}.emotion-entry-date span{font-size:5.5px}.emotion-owner-badge{font-size:6px;padding:2px 4px}.emotion-entry-mood{font-size:7px}.emotion-entry-lines{font-size:7px;line-height:1.45;padding:7px 8px;border-radius:10px}.emotion-edit{height:24px;font-size:6px;padding:0 5px}.emotion-form-grid{grid-template-columns:1fr}.emotion-mood-picker{grid-template-columns:repeat(3,minmax(0,1fr))}.emotion-mood-chip{height:54px}.emotion-mood-chip span{font-size:8px}.emotion-checks{grid-template-columns:1fr}.emotion-check{height:42px;font-size:10px}.emotion-insight-card{padding:10px;border-radius:12px}.emotion-mood-row{grid-template-columns:72px minmax(0,1fr) 24px;font-size:7px}.emotion-insight-mini{gap:5px}.emotion-mini-stat{padding:8px 6px}.emotion-mini-stat strong{font-size:18px}.emotion-mini-stat span{font-size:5.5px}.emotion-graph-grid{height:84px;gap:3px}.emotion-day-pill{font-size:8px}}
 
 .event-shell,.private-shell{min-height:0;height:100%;background:#fff;border:1px solid rgba(0,0,0,.12);padding:24px 34px 30px;overflow:hidden}
 .event-shell[hidden],.private-shell[hidden]{display:none!important}
@@ -406,12 +426,22 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
 .private-content{min-height:0;border-top:1px solid #111;padding-top:12px;display:grid;grid-template-rows:auto auto minmax(0,1fr);gap:10px}
 .private-owner-tabs,.private-feature-tabs{display:flex;gap:5px;flex-wrap:wrap}.private-owner,.private-feature{height:30px;border:1px solid #111;background:#fff;padding:0 10px;font-size:9px;font-weight:800}.private-owner.active{background:var(--tab4)}.private-feature.active{background:#111;color:#fff}
 .private-panel{min-height:0;overflow:auto;scrollbar-width:thin;border-top:1px solid #111;padding:12px 2px 18px 0}.private-panel[hidden]{display:none!important}
-.private-form{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:7px;margin-bottom:12px}.private-form textarea{grid-column:1/-1;height:88px;border:2px solid #111;padding:10px;resize:vertical}.private-form input[type="text"]{height:42px;border:2px solid #111;padding:0 10px}.private-add{height:42px;border:2px solid #111;background:#111;color:#fff;padding:0 13px;font-weight:800;white-space:nowrap}
-.private-readonly-note{font-size:9px;color:#666;border:1px solid #111;padding:8px 10px;margin-bottom:10px;background:#f6f6f6}.private-readonly-note[hidden]{display:none}
-.private-list{display:grid;gap:8px}.private-item{border:1px solid #111;background:#fff;padding:10px 11px}.private-item-head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}.private-item-head b{font-size:11px}.private-item-head span{font-size:8px;color:#666}.private-item p{margin:7px 0 0;font-size:10px;line-height:1.6;white-space:pre-wrap}.private-delete{border:0;background:transparent;padding:3px;font-size:8px;font-weight:800}.private-empty{min-height:180px;display:grid;place-items:center;border:1px solid #111;background:#f7f7f7;font-size:10px;color:#666;text-align:center;padding:18px}
-.routine-row,.check-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:9px;border-bottom:1px solid #111;padding:10px 2px}.routine-row:first-child,.check-row:first-child{border-top:1px solid #111}.routine-row input[type="checkbox"],.check-row input[type="checkbox"]{width:17px;height:17px;margin:0}.routine-copy b,.check-copy b{display:block;font-size:11px}.routine-copy span,.check-copy span{display:block;font-size:8px;color:#666;margin-top:3px}
+.private-list{display:grid;gap:8px}.private-empty{min-height:180px;display:grid;place-items:center;border:1px solid #111;background:#f7f7f7;font-size:10px;color:#666;text-align:center;padding:18px}
+.private-form{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:7px;margin-bottom:12px}.private-form textarea{grid-column:1/-1;height:88px;border:2px solid #111;padding:10px;resize:vertical}.private-form input,.private-form select{height:42px;border:2px solid #111;background:#fff;padding:0 10px;min-width:0}.private-form .wide{grid-column:1/-1}.private-add{height:42px;border:2px solid #111;background:#111;color:#fff;padding:0 13px;font-weight:800;white-space:nowrap}
+.private-item{border:1px solid rgba(0,0,0,.14);background:#fff;padding:10px 11px;border-radius:16px}.private-item-head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}.private-item-head b{font-size:11px}.private-item-head span{display:block;font-size:8px;color:#666;margin-top:3px}.private-item p{margin:7px 0 0;font-size:10px;line-height:1.6;white-space:pre-wrap}.private-delete{border:0;background:transparent;padding:3px;font-size:8px;font-weight:800}
+.private-dashboard{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px}.private-column{min-width:0;border:1px solid #111;border-radius:22px;padding:14px;background:linear-gradient(180deg,#fff,#fafafa)}.private-column-head{display:flex;justify-content:space-between;align-items:end;gap:10px;padding-bottom:9px;border-bottom:1px solid #111;margin-bottom:10px}.private-column-head b{font-size:11px;letter-spacing:.08em}.private-column-head span{font-size:7px;color:#666}.private-column .private-list{max-height:430px;overflow:auto;padding-right:2px}.private-memo-form{display:grid;gap:7px;margin-bottom:12px}.private-memo-form textarea{height:100px;border:2px solid #111;padding:10px;resize:vertical}.private-memo-form .private-add{justify-self:start;min-width:120px}
+/* routine challenge */
+.challenge-summary{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid #111;border-radius:20px;margin-bottom:12px;overflow:hidden}.challenge-stat{padding:12px 10px;min-width:0;background:#fff}.challenge-stat+.challenge-stat{border-left:1px solid #111}.challenge-stat strong{display:block;font-family:"Iowan Old Style","Palatino Linotype",Georgia,serif;font-size:28px;font-weight:400;letter-spacing:-.05em;line-height:1}.challenge-stat span{display:block;font-size:7px;font-weight:800;letter-spacing:.08em;margin-top:5px;color:#555}
+.routine-layout{display:grid;grid-template-columns:minmax(260px,.88fr) minmax(0,1.12fr);gap:14px}.routine-side,.routine-main{display:grid;gap:12px;align-content:start}.routine-creator,.routine-hero,.challenge-graph,.routine-badges,.routine-card{border:1px solid #111;border-radius:24px;overflow:hidden;background:#fff}.routine-creator{padding:14px;background:linear-gradient(180deg,#0d0d0d,#1d1d1d);color:#fff}.routine-creator h3{margin:0 0 12px;font-size:12px;letter-spacing:.04em}.routine-suggestion-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:12px}.routine-suggestion{border:0;border-radius:999px;padding:10px 12px;text-align:left;font-size:10px;font-weight:800;color:#fff}.routine-suggestion:nth-child(8n+1){background:#1f63d4}.routine-suggestion:nth-child(8n+2){background:#ff6a1a}.routine-suggestion:nth-child(8n+3){background:#8e5be8}.routine-suggestion:nth-child(8n+4){background:#2fb560}.routine-suggestion:nth-child(8n+5){background:#ef4a3d}.routine-suggestion:nth-child(8n+6){background:#f08c97}.routine-suggestion:nth-child(8n+7){background:#775df0}.routine-suggestion:nth-child(8n+8){background:#0f8d46}.routine-creator-form{display:grid;grid-template-columns:minmax(0,1fr) 108px 108px auto;gap:7px}.routine-creator-form input,.routine-creator-form select{height:42px;border:0;background:#fff;color:#111;padding:0 10px}.routine-creator-form .private-add{height:42px;border-color:#fff;background:#fff;color:#111}
+.routine-hero{display:grid;grid-template-columns:minmax(0,1fr) 112px;background:#1f63d4;color:#fff}.routine-hero-copy{padding:18px 18px 16px}.routine-hero-kicker{font-size:8px;letter-spacing:.16em;opacity:.8}.routine-hero-title{margin:8px 0 4px;font-size:34px;font-family:"Iowan Old Style","Palatino Linotype",Georgia,serif;font-weight:600;line-height:.95}.routine-hero-sub{font-size:10px;opacity:.92;line-height:1.55}.routine-hero-side{display:flex;flex-direction:column;align-items:center;justify-content:center;border-left:1px solid rgba(255,255,255,.28)}.routine-hero-side strong{font-size:46px;line-height:1;font-family:"Iowan Old Style","Palatino Linotype",Georgia,serif}.routine-hero-side span{font-size:11px;font-weight:900;letter-spacing:.14em;opacity:.8}.routine-level-badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}.routine-level-badge{border:1px solid rgba(255,255,255,.45);border-radius:999px;padding:5px 9px;font-size:7px;font-weight:900;letter-spacing:.08em}
+.challenge-graph{padding:12px;margin:0;background:#fff}.challenge-graph-head{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:8px}.challenge-graph-head b{font-size:10px}.challenge-graph-head span{font-size:7px;color:#666}.challenge-bars{height:96px;display:grid;grid-template-columns:repeat(7,1fr);gap:5px;align-items:end;border-bottom:1px solid #111;padding:0 4px 4px}.challenge-bar-wrap{height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:4px}.challenge-bar{width:76%;min-height:2px;background:#1f63d4;border-radius:999px 999px 0 0}.challenge-bar-wrap span{font-size:6px;color:#666}
+.routine-badges{padding:14px}.routine-badge-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.routine-badge{background:#f6f8ff;border:1px solid rgba(0,0,0,.12);border-radius:18px;padding:10px 8px;text-align:center;min-height:110px;display:grid;align-content:start;justify-items:center;gap:5px}.routine-badge.locked{background:#f0f0f0;color:#888}.routine-badge-icon{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;background:#1f63d4;color:#fff;font-size:24px;font-weight:900}.routine-badge.locked .routine-badge-icon{background:#8c8c8c}.routine-badge strong{font-size:10px}.routine-badge span{font-size:7px;line-height:1.45}
+.routine-card{padding:14px;background:#1f63d4;color:#fff}.routine-card+.routine-card{margin-top:8px}.routine-card-top{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:7px;align-items:start}.routine-card-title b{display:block;font-size:18px;line-height:1.05}.routine-card-title span{display:block;font-size:8px;color:rgba(255,255,255,.78);margin-top:4px}.routine-card-level{display:inline-flex;margin-top:8px;border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:4px 8px;font-size:7px;font-weight:900;letter-spacing:.08em}.routine-stamp{width:62px;height:62px;border:2px solid rgba(255,255,255,.82);border-radius:50%;background:rgba(255,255,255,.12);font-size:10px;font-weight:900;letter-spacing:.06em;color:#fff}.routine-stamp.done{background:#fff;color:#1f63d4}.routine-stamp:disabled{opacity:.45}.routine-stamp-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:12px}.routine-day{aspect-ratio:1/1;border:1px solid rgba(255,255,255,.26);border-radius:50%;display:grid;place-items:center;font-size:7px;color:#cddcf7;background:rgba(255,255,255,.06)}.routine-day.done{background:#79acf8;color:#fff;border-color:#79acf8}.routine-day.today{outline:2px solid rgba(255,255,255,.65);outline-offset:1px}.routine-progress{height:8px;border:1px solid rgba(255,255,255,.3);margin-top:11px;overflow:hidden;border-radius:999px}.routine-progress i{display:block;height:100%;background:#fff}.routine-meta{display:flex;justify-content:space-between;gap:8px;font-size:8px;color:rgba(255,255,255,.82);margin-top:6px}
+/* planner checklist */
+.check-planner-form{display:grid;grid-template-columns:minmax(0,1.8fr) 128px 96px 100px 110px auto;gap:6px;margin-bottom:12px}.check-planner-form input,.check-planner-form select{height:40px;border:2px solid #111;background:#fff;padding:0 8px;min-width:0}.check-planner-form .private-add{height:40px}.planner-section{margin-top:12px}.planner-section-title{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #111;padding:0 2px 6px;margin-bottom:0}.planner-section-title b{font-size:10px;letter-spacing:.04em}.planner-section-title span{font-size:7px;color:#666}.planner-row{display:grid;grid-template-columns:auto 76px minmax(0,1fr) auto auto;gap:8px;align-items:center;border-bottom:1px solid #111;padding:9px 2px}.planner-row input[type="checkbox"]{width:17px;height:17px;margin:0}.planner-date{font-size:8px;line-height:1.35}.planner-date b{display:block;font-size:9px}.planner-copy{min-width:0}.planner-copy b{display:block;font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.planner-copy span{display:block;font-size:7px;color:#666;margin-top:3px}.planner-priority{border:1px solid #111;padding:3px 5px;font-size:6px;font-weight:900}.planner-row.done .planner-copy b{text-decoration:line-through;color:#777}.planner-row.overdue{background:#f5eded}
+
 .private-frame.line-active:before,.event-frame.line-active:before{animation:drawFrameLine .62s cubic-bezier(.2,.75,.2,1) both;transform-origin:left center}.private-frame.line-active:after,.event-frame.line-active:after{animation:drawFrameLine .62s .12s cubic-bezier(.2,.75,.2,1) both;transform-origin:right center}
-@media (max-width:600px){.event-shell,.private-shell{padding:7px;height:100%}.event-frame,.private-frame{padding:7px 7px 6px;border-left-width:2px;border-right-width:2px;grid-template-rows:34px minmax(0,1fr);gap:5px}.event-frame:before,.event-frame:after,.private-frame:before,.private-frame:after{height:2px;left:5px;right:5px}.event-heading,.private-heading{font-size:20px}.private-content{padding-top:6px;gap:6px}.private-owner,.private-feature{height:24px;font-size:7px;padding:0 7px}.private-panel{padding:7px 1px 12px 0}.private-form{gap:5px;margin-bottom:8px}.private-form textarea{height:72px;font-size:13px}.private-form input[type="text"]{height:40px;font-size:13px}.private-add{height:40px;font-size:9px;padding:0 9px}.private-item{padding:8px}.private-item-head b,.routine-copy b,.check-copy b{font-size:9px}.private-item p{font-size:8px}.private-item-head span,.routine-copy span,.check-copy span,.private-delete{font-size:6px}.routine-row,.check-row{padding:8px 1px;gap:7px}.private-readonly-note{font-size:7px;padding:6px 7px}}
+@media (max-width:600px){.event-shell,.private-shell{padding:7px;height:100%}.event-frame,.private-frame{padding:7px 7px 6px;border-left-width:2px;border-right-width:2px;grid-template-rows:34px minmax(0,1fr);gap:5px}.event-frame:before,.event-frame:after,.private-frame:before,.private-frame:after{height:2px;left:5px;right:5px}.event-heading,.private-heading{font-size:20px}.private-content{padding-top:6px;gap:6px}.private-owner,.private-feature{height:24px;font-size:7px;padding:0 7px}.private-panel{padding:7px 1px 12px 0}.private-dashboard{grid-template-columns:1fr;gap:8px}.private-column{padding:10px;border-radius:14px}.private-form,.routine-creator-form{gap:5px;margin-bottom:8px}.private-form textarea,.private-memo-form textarea{height:72px;font-size:13px}.private-form input,.private-form select,.routine-creator-form input,.routine-creator-form select{height:40px;font-size:12px}.private-add{height:40px;font-size:9px;padding:0 9px}.private-item{padding:8px}.private-item-head b{font-size:9px}.private-item p{font-size:8px}.private-item-head span,.private-delete{font-size:6px}.challenge-summary{grid-template-columns:repeat(3,1fr)}.challenge-stat{padding:8px 6px}.challenge-stat strong{font-size:20px}.challenge-stat span{font-size:5.5px}.routine-layout{grid-template-columns:1fr}.routine-creator{padding:10px}.routine-suggestion-grid{grid-template-columns:1fr 1fr;gap:6px}.routine-suggestion{padding:9px 10px;font-size:8px}.routine-creator-form{grid-template-columns:1fr 1fr}.routine-creator-form input{grid-column:1/-1}.routine-creator-form .private-add{grid-column:1/-1}.routine-hero{grid-template-columns:minmax(0,1fr) 72px}.routine-hero-copy{padding:12px}.routine-hero-title{font-size:24px}.routine-hero-side strong{font-size:28px}.challenge-bars{height:54px}.routine-badge-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.routine-badge{min-height:86px;border-radius:12px;padding:7px 5px}.routine-badge-icon{width:38px;height:38px;font-size:17px}.routine-card{padding:10px;border-radius:14px}.routine-card-title b{font-size:12px}.routine-card-title span{font-size:6px}.routine-stamp{width:46px;height:46px;font-size:7px}.routine-stamp-grid{grid-template-columns:repeat(5,1fr);gap:4px}.routine-day{font-size:5px}.check-planner-form{grid-template-columns:1fr 1fr}.check-planner-form input:first-child{grid-column:1/-1}.check-planner-form .private-add{grid-column:1/-1}.planner-row{grid-template-columns:auto 54px minmax(0,1fr) auto;gap:5px}.planner-priority{display:none}.planner-date{font-size:6px}.planner-date b{font-size:7px}.planner-copy b{font-size:8px}.planner-copy span{font-size:6px}}
 
 @media (prefers-reduced-motion:reduce){.record-page{transition:opacity .2s ease;transform:none!important}}
 
@@ -448,9 +478,9 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
             <button class="today" id="todayBtn">TODAY</button>
             <button class="mini-btn" id="nextMonth" aria-label="다음 달">→</button>
             <div class="filters">
-              <button class="filter" data-filter="mine" aria-pressed="true"><span class="swatch mine"></span>보민</button>
-              <button class="filter" data-filter="partner" aria-pressed="true"><span class="swatch partner"></span>동우</button>
-              <button class="filter" data-filter="shared" aria-pressed="true"><span class="swatch shared"></span>우리</button>
+              <button class="filter" data-filter="mine" aria-pressed="true"><span class="swatch mine"></span>관리자</button>
+              <button class="filter" data-filter="partner" aria-pressed="true"><span class="swatch partner"></span>가족</button>
+              <button class="filter" data-filter="shared" aria-pressed="true"><span class="swatch shared"></span>공유</button>
             </div>
             <button class="primary" id="addScheduleTop">+ 일정 등록</button>
           </div>
@@ -520,14 +550,10 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
     <section class="emotion-frame" id="emotionFrame">
       <div class="emotion-toolbar">
         <h2 class="emotion-heading">Emotion Diary</h2>
-        <div class="emotion-actions"><button class="emotion-new" id="newEmotionBtn" type="button">+ 3줄 일기</button></div>
+        <div class="emotion-actions"><button class="emotion-new" id="newEmotionBtn" type="button">+ 감정 기록</button></div>
       </div>
       <div class="emotion-content">
-        <div class="emotion-note">서로의 감정일기는 함께 볼 수 있습니다. 등록·수정·삭제는 작성자 본인만 가능합니다.</div>
-        <div class="emotion-couple-grid">
-          <article class="emotion-person-card mine-card" id="emotionMineCard"></article>
-          <article class="emotion-person-card partner-card" id="emotionPartnerCard"></article>
-        </div>
+        <div class="emotion-couple-grid" id="emotionPeopleGrid"></div>
         <div class="emotion-timeline" id="emotionTimeline"></div>
       </div>
     </section>
@@ -542,8 +568,8 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
           <button class="record-view active" type="button" data-record-view="feed">FEED</button>
           <button class="record-view" type="button" data-record-view="diary">DIARY</button>
           <button class="record-filter active" type="button" data-record-filter="all">전체</button>
-          <button class="record-filter" type="button" data-record-filter="mine">보민</button>
-          <button class="record-filter" type="button" data-record-filter="partner">동우</button>
+          <button class="record-filter" type="button" data-record-filter="mine">관리자</button>
+          <button class="record-filter" type="button" data-record-filter="partner">가족</button>
           <input class="record-date-search" id="recordDateSearch" type="date" aria-label="날짜별 기록 검색">
           <button class="record-date-clear" id="recordDateClear" type="button" aria-label="날짜 검색 초기화" hidden>×</button>
           <button class="new-record" type="button" id="newRecordTop">+ 새 기록</button>
@@ -596,21 +622,17 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
     <section class="private-frame" id="privateFrame">
       <div class="private-toolbar"><h2 class="private-heading">Private</h2></div>
       <div class="private-content">
-        <div class="private-owner-tabs" id="privateOwnerTabs">
-          <button class="private-owner" type="button" data-private-owner="mine">보민</button>
-          <button class="private-owner" type="button" data-private-owner="partner">동우</button>
-        </div>
+        <div class="private-owner-tabs" id="privateOwnerTabs"></div>
         <div class="private-feature-tabs" aria-label="개인 기능">
-          <button class="private-feature active" type="button" data-private-feature="memo">MEMO</button>
+          <button class="private-feature active" type="button" data-private-feature="memo">DASHBOARD</button>
           <button class="private-feature" type="button" data-private-feature="routine">ROUTINE</button>
-          <button class="private-feature" type="button" data-private-feature="checklist">CHECKLIST</button>
         </div>
         <div class="private-panel" id="privatePanel"></div>
       </div>
     </section>
   </section>
 
-  <div class="side-word">PRIVATE FAMILY ARCHIVE</div>
+  <div class="side-word">MADE BY BOMIN</div>
   <div class="hint"><span class="wheel"></span>SCROLL TO FLIP</div>
 </div>
 
@@ -643,15 +665,18 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
             <label>OAuth 웹 클라이언트 ID
               <input id="googleClientId" autocomplete="off" placeholder="xxxxxxxx.apps.googleusercontent.com">
             </label>
-            <label>보민 Google 이메일
-              <input id="googleMineEmail" type="email" autocomplete="email" placeholder="example@gmail.com">
+            <label>관리자 Google 이메일
+              <input id="googleAdminEmail" type="email" autocomplete="email" placeholder="admin@gmail.com">
             </label>
-            <label>동우 Google 이메일
-              <input id="googlePartnerEmail" type="email" autocomplete="email" placeholder="example@gmail.com">
+            <label>가족 구성원 · 최대 10명 (관리자에서만 설정)
+              <textarea id="googleFamilyUsers" rows="6" placeholder="한 줄에 한 명씩: 이름 | 이메일&#10;예: 가족1 | family1@gmail.com"></textarea>
+            </label>
+            <label>내 공유 상대 Google 이메일 (선택)
+              <input id="googlePartnerEmail" type="email" autocomplete="email" placeholder="서로 같은 상대를 설정했을 때 감정일기 공유">
             </label>
             <button type="button" class="google-config-save" id="googleConfigSave">설정 저장</button>
           </div>
-          <p class="google-config-note">이 값들은 이 기기의 브라우저에만 저장됩니다. 클라이언트 ID는 비밀번호가 아니며, 두 이메일은 AiderDear에 들어올 수 있는 계정을 제한하는 데 사용합니다.</p>
+          <p class="google-config-note">실제 로그인 허용 계정은 Google Cloud의 테스트 사용자에서 관리합니다. 관리자는 가족 목록을 한 번 설정하고 로그인하면 공용 폴더와 캘린더를 최대 10명에게 연결합니다. PRIVATE는 각자 별도 Drive 폴더에 저장되어 일반 사용자는 본인 것만, 관리자는 전체를 읽을 수 있습니다.</p>
         </details>
       </div>
     </div>
@@ -685,9 +710,12 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
         <input id="eventId" type="hidden">
         <div class="form">
           <div class="field full"><label for="eventTitle">일정 제목</label><input id="eventTitle" required maxlength="60"></div>
-          <div class="field"><label for="eventDate">날짜</label><input id="eventDate" type="date" required></div>
-          <div class="field"><label for="eventTime">시간</label><input id="eventTime" type="time"></div>
-          <div class="field full"><label for="eventOwner">일정 구분</label><select id="eventOwner"><option value="mine">보민</option><option value="partner">동우</option><option value="shared">우리</option></select></div>
+          <div class="field"><label for="eventDate">시작 날짜</label><input id="eventDate" type="date" required></div>
+          <div class="field"><label for="eventEndDate">종료 날짜</label><input id="eventEndDate" type="date"></div>
+          <div class="field"><label for="eventTime">시작 시간</label><input id="eventTime" type="time"></div>
+          <div class="field"><label for="eventEndTime">종료 시간</label><input id="eventEndTime" type="time"></div>
+          <div class="field full"><label class="schedule-range-check"><input id="eventAllDay" type="checkbox">하루 종일 / 날짜 범위 일정</label></div>
+          <div class="field full"><label for="eventOwner">일정 구분</label><select id="eventOwner"><option value="mine">관리자</option><option value="partner">가족</option><option value="shared">공유</option></select></div>
           <div class="field full"><label for="eventMemo">메모</label><textarea id="eventMemo"></textarea></div>
         </div>
         <div class="modal-actions"><button class="secondary" type="button" id="deleteEvent" hidden>삭제</button><button class="primary" type="submit" id="saveEvent">저장</button></div>
@@ -738,15 +766,16 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
 <!-- Emotion diary editor -->
 <div class="overlay" id="emotionModal" role="dialog" aria-modal="true" aria-labelledby="emotionModalTitle">
   <div class="modal">
-    <div class="modal-head"><b id="emotionModalTitle">3줄 감정일기</b><button class="x" data-close="emotionModal">×</button></div>
+    <div class="modal-head"><b id="emotionModalTitle">감정 기록</b><button class="x" data-close="emotionModal">×</button></div>
     <div class="modal-body">
       <form id="emotionForm">
         <input id="emotionEntryId" type="hidden">
-        <div class="form">
+        <input id="emotionMood" type="hidden" value="보통">
+        <div class="form emotion-form-grid">
           <div class="field"><label for="emotionDate">날짜</label><input id="emotionDate" type="date" required></div>
-          <div class="field"><label for="emotionMood">오늘의 감정</label><select id="emotionMood"><option>아주 좋음</option><option>좋음</option><option selected>보통</option><option>가라앉음</option><option>힘듦</option></select></div>
-          <div class="field full"><label>감정에 대한 3줄</label><div class="emotion-three-lines"><input id="emotionLine1" maxlength="100" placeholder="1. 지금 가장 크게 느끼는 감정"><input id="emotionLine2" maxlength="100" placeholder="2. 그 감정이 생긴 이유"><input id="emotionLine3" maxlength="100" placeholder="3. 오늘의 나에게 남기고 싶은 말"></div></div>
-          <div class="field full"><label>함께 표시할 기록</label><div class="emotion-checks"><label class="emotion-check"><input id="emotionPeriod" type="checkbox">생리</label><label class="emotion-check"><input id="emotionIntimacy" type="checkbox">성관계</label></div><div class="emotion-sensitive-note">선택한 항목은 이 감정일기 탭에서 상대방에게도 표시됩니다.</div></div>
+          <div class="field full"><label>오늘의 감정</label><div class="emotion-mood-picker"><button class="emotion-mood-chip active" type="button" data-emotion-mood="아주 좋음">😄<span>아주 좋음</span></button><button class="emotion-mood-chip" type="button" data-emotion-mood="좋음">🙂<span>좋음</span></button><button class="emotion-mood-chip" type="button" data-emotion-mood="보통">😐<span>보통</span></button><button class="emotion-mood-chip" type="button" data-emotion-mood="가라앉음">😔<span>가라앉음</span></button><button class="emotion-mood-chip" type="button" data-emotion-mood="힘듦">😣<span>힘듦</span></button></div></div>
+          <div class="field full"><label>3줄 일기</label><div class="emotion-three-lines"><input id="emotionLine1" maxlength="100" placeholder="1. 지금 가장 크게 느끼는 감정"><input id="emotionLine2" maxlength="100" placeholder="2. 그 감정이 생긴 이유"><input id="emotionLine3" maxlength="100" placeholder="3. 오늘의 나에게 남기고 싶은 말"></div></div>
+          <div class="field full"><label>기록 태그</label><div class="emotion-checks emotion-checks-split"><label class="emotion-check"><input id="emotionPeriod" type="checkbox">생리</label><label class="emotion-check"><input id="emotionIntimacy" type="checkbox">성관계</label></div></div>
         </div>
         <div class="modal-actions"><button class="secondary" type="button" id="deleteEmotion" hidden>삭제</button><button class="primary" type="submit">저장</button></div>
       </form>
@@ -779,11 +808,11 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
   let events=[];
 
   function iso(y,m,d){return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`}
-  function ownerLabel(owner){return owner==='mine'?'보민':owner==='partner'?'동우':'우리'}
+  function ownerLabel(owner){if(owner==='mine')return isAdmin?(currentUserName||'관리자'):'관리자';if(owner==='partner')return currentUser==='partner'?(currentUserName||'내 기록'):'가족';return '공유'}
   function escapeHtml(s=''){return s.replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
 
 
-  // Google Cloud connection: Calendar + Drive (two-person private app)
+  // Google Cloud connection: Calendar + Drive (family mode, up to 10 Google accounts)
   const GOOGLE_SCOPES=[
     'https://www.googleapis.com/auth/userinfo.email',
     'https://www.googleapis.com/auth/userinfo.profile',
@@ -800,18 +829,20 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
   const DEFAULT_ALBUM_ID='album-default';
   const CALENDAR_SELECTION_KEY='aiderdear-calendar-selection-v1';
   const PRIVATE_DATA_FILE_NAME='private-data.json';
-  const PRIVATE_MINE_FOLDER_NAME='AiderDear Private - Bomin';
-  const PRIVATE_PARTNER_FOLDER_NAME='AiderDear Private - Dongwoo';
-  const PRIVATE_VERSION=1;
+  const PRIVATE_FOLDER_PREFIX='AiderDear Private - ';
+  const PRIVATE_VERSION=2;
   const EMOTION_DATA_FILE_NAME='emotion-data.json';
-  const EMOTION_MINE_FOLDER_NAME='AiderDear Emotion - Bomin';
-  const EMOTION_PARTNER_FOLDER_NAME='AiderDear Emotion - Dongwoo';
-  const EMOTION_VERSION=1;
-  let googleConfig={clientId:'',mineEmail:'',partnerEmail:''};
+  const EMOTION_FOLDER_PREFIX='AiderDear Emotion - ';
+  const EMOTION_VERSION=2;
+  const FAMILY_LIMIT=10;
+  let googleConfig={clientId:'',adminEmail:'',familyUsers:[],partnerEmail:''};
   let googleToken='';
   let googleProfile=null;
   let googleTokenClient=null;
-  let currentUser='';
+  let currentUser=''; // legacy visual role: mine=admin, partner=member
+  let currentUserEmail='';
+  let currentUserName='';
+  let isAdmin=false;
   let pendingAfterLogin=null;
   let driveRootId='';
   let driveMediaFolderId='';
@@ -822,39 +853,39 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
   let driveLooseMedia=[];
   let lastSyncAt=null;
   let cloudSaveTimer=null;
-  let privateData={mine:{version:PRIVATE_VERSION,memos:[],routines:[],checklists:[]},partner:{version:PRIVATE_VERSION,memos:[],routines:[],checklists:[]}};
-  let privateRefs={mine:{folderId:'',fileId:'',writable:false},partner:{folderId:'',fileId:'',writable:false}};
-  let privateOwner='mine';
+  let privateData={};
+  let privateRefs={};
+  let privateOwner='';
   let privateFeature='memo';
-  let emotionData={mine:{version:EMOTION_VERSION,entries:[]},partner:{version:EMOTION_VERSION,entries:[]}};
-  let emotionRefs={mine:{folderId:'',fileId:'',writable:false},partner:{folderId:'',fileId:'',writable:false}};
+  let emotionData={};
+  let emotionRefs={};
 
   function normalizeEmail(v){return String(v||'').trim().toLowerCase()}
+  function normalizeName(v,email=''){const n=String(v||'').trim();return n||String(email||'').split('@')[0]||'가족'}
+  function normalizeFamilyUsers(list=[]){
+    const out=[],seen=new Set();for(const item of (Array.isArray(list)?list:[])){const email=normalizeEmail(item?.email);if(!email||!email.includes('@')||seen.has(email))continue;seen.add(email);out.push({name:normalizeName(item?.name,email),email});if(out.length>=FAMILY_LIMIT)break}return out;
+  }
+  function parseFamilyUsers(text){return normalizeFamilyUsers(String(text||'').split(/\n+/).map(line=>{const parts=line.split('|');return {name:(parts[0]||'').trim(),email:(parts[1]||parts[0]||'').trim()}}))}
+  function familyUsersText(list){return normalizeFamilyUsers(list).map(x=>`${x.name} | ${x.email}`).join('\n')}
+  function familyRoster(){const cloud=normalizeFamilyUsers(cloudData.familyUsers||[]);return cloud.length?cloud:normalizeFamilyUsers(googleConfig.familyUsers||[])}
+  function familyUser(email){email=normalizeEmail(email);return familyRoster().find(x=>x.email===email)||{name:normalizeName('',email),email}}
   function loadGoogleConfig(){
-    try{googleConfig={...googleConfig,...JSON.parse(localStorage.getItem(GOOGLE_CONFIG_KEY)||'{}')}}catch{}
-    googleConfig.clientId=String(googleConfig.clientId||'').trim();
-    googleConfig.mineEmail=normalizeEmail(googleConfig.mineEmail);
-    googleConfig.partnerEmail=normalizeEmail(googleConfig.partnerEmail);
+    let saved={};try{saved=JSON.parse(localStorage.getItem(GOOGLE_CONFIG_KEY)||'{}')}catch{}
+    googleConfig={...googleConfig,...saved};googleConfig.clientId=String(googleConfig.clientId||'').trim();
+    googleConfig.adminEmail=normalizeEmail(googleConfig.adminEmail||saved.mineEmail||'');googleConfig.partnerEmail=normalizeEmail(googleConfig.partnerEmail||'');
+    let family=normalizeFamilyUsers(googleConfig.familyUsers||[]);if(!family.length&&googleConfig.adminEmail)family.push({name:'보민',email:googleConfig.adminEmail});
+    const legacyPartner=normalizeEmail(saved.partnerEmail||'');if(legacyPartner&&!family.some(x=>x.email===legacyPartner))family.push({name:'동우',email:legacyPartner});googleConfig.familyUsers=normalizeFamilyUsers(family);
   }
   function saveGoogleConfig(){
-    googleConfig={
-      clientId:$('#googleClientId').value.trim(),
-      mineEmail:normalizeEmail($('#googleMineEmail').value),
-      partnerEmail:normalizeEmail($('#googlePartnerEmail').value)
-    };
-    localStorage.setItem(GOOGLE_CONFIG_KEY,JSON.stringify(googleConfig));
-    fillGoogleConfigUI();
-    setGoogleStatus('설정을 저장했습니다. 이제 Google 계정으로 로그인하세요.','ok');
-    return googleConfig;
+    const adminEmail=normalizeEmail($('#googleAdminEmail').value);let family=parseFamilyUsers($('#googleFamilyUsers').value);
+    if(adminEmail&&!family.some(x=>x.email===adminEmail))family.unshift({name:'관리자',email:adminEmail});family=normalizeFamilyUsers(family);
+    googleConfig={clientId:$('#googleClientId').value.trim(),adminEmail,familyUsers:family,partnerEmail:normalizeEmail($('#googlePartnerEmail').value)};
+    localStorage.setItem(GOOGLE_CONFIG_KEY,JSON.stringify(googleConfig));fillGoogleConfigUI();setGoogleStatus('설정을 저장했습니다. 이제 Google 계정으로 로그인하세요.','ok');return googleConfig;
   }
   function fillGoogleConfigUI(){
-    $('#googleClientId').value=googleConfig.clientId||'';
-    $('#googleMineEmail').value=googleConfig.mineEmail||'';
-    $('#googlePartnerEmail').value=googleConfig.partnerEmail||'';
+    $('#googleClientId').value=googleConfig.clientId||'';$('#googleAdminEmail').value=googleConfig.adminEmail||'';$('#googleFamilyUsers').value=familyUsersText(googleConfig.familyUsers||[]);$('#googlePartnerEmail').value=googleConfig.partnerEmail||'';
   }
-  function validGoogleConfig(){
-    return /\.apps\.googleusercontent\.com$/.test(googleConfig.clientId)&&googleConfig.mineEmail.includes('@')&&googleConfig.partnerEmail.includes('@');
-  }
+  function validGoogleConfig(){return /\.apps\.googleusercontent\.com$/.test(googleConfig.clientId)&&googleConfig.adminEmail.includes('@')}
   function setGoogleStatus(message,type=''){
     const el=$('#googleStatus'); if(!el)return; el.textContent=message; el.classList.toggle('ok',type==='ok'); el.classList.toggle('error',type==='error');
   }
@@ -864,6 +895,7 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
     if(!def){def={id:DEFAULT_ALBUM_ID,name:'기본 앨범',createdAt:Date.now()};cloudData.albums.unshift(def)}
     if(def.name==='기본 여행')def.name='기본 앨범';
     if(!Array.isArray(cloudData.records))cloudData.records=[];
+    cloudData.familyUsers=normalizeFamilyUsers(cloudData.familyUsers||[]);
     if(!Array.isArray(cloudData.ddays)||!cloudData.ddays.length)cloudData.ddays=[{id:'dday-us',title:'우리',date:'2025-11-01',mode:'since',createdAt:Date.now()}];
     cloudData.ddays=cloudData.ddays.filter(x=>x&&x.id&&/^\d{4}-\d{2}-\d{2}$/.test(x.date||'')).map(x=>({...x,title:String(x.title||'D-day'),mode:x.mode==='since'?'since':'countdown'}));
     if(!cloudData.activeDdayId||!cloudData.ddays.some(x=>x.id===cloudData.activeDdayId))cloudData.activeDdayId=cloudData.ddays[0]?.id||'';
@@ -875,8 +907,8 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
   function saveCalendarSelection(){localStorage.setItem(calendarSelectionStorageKey(),JSON.stringify([...selectedCalendarIds]))}
   function calendarOwner(source){
     const id=normalizeEmail(source?.id);
-    if(id===googleConfig.mineEmail)return 'mine';
-    if(id===googleConfig.partnerEmail)return 'partner';
+    if(id===googleConfig.adminEmail)return 'mine';
+    if(id===currentUserEmail)return currentUser==='mine'?'mine':'partner';
     if(source?.id===cloudData.calendarId)return 'shared';
     return currentUser||'shared';
   }
@@ -930,86 +962,48 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
     if(!driveDataFileId)return;
     await googleApi(`https://www.googleapis.com/upload/drive/v3/files/${encodeURIComponent(driveDataFileId)}?uploadType=media`,{method:'PATCH',headers:{'Content-Type':'application/json; charset=UTF-8'},body:JSON.stringify(data)});
   }
-  function blankPrivateData(){return {version:PRIVATE_VERSION,memos:[],routines:[],checklists:[]}}
-  function normalizePrivateData(data){
-    const d={...blankPrivateData(),...(data||{})};
-    d.memos=Array.isArray(d.memos)?d.memos.filter(Boolean):[];d.routines=Array.isArray(d.routines)?d.routines.filter(Boolean):[];d.checklists=Array.isArray(d.checklists)?d.checklists.filter(Boolean):[];d.version=PRIVATE_VERSION;return d;
+  function blankPrivateData(email='',name=''){return {version:PRIVATE_VERSION,profile:{email:normalizeEmail(email),name:normalizeName(name,email)},memos:[],routines:[],checklists:[]}}
+  function normalizePrivateData(data,email='',name=''){
+    const d={...blankPrivateData(email,name),...(data||{})};d.profile={email:normalizeEmail(d.profile?.email||email),name:normalizeName(d.profile?.name||name,d.profile?.email||email)};
+    d.memos=Array.isArray(d.memos)?d.memos.filter(Boolean):[];
+    d.routines=Array.isArray(d.routines)?d.routines.filter(Boolean).map(r=>({...r,goalDays:Math.max(7,Math.min(100,Number(r.goalDays)||30)),doneDates:Array.isArray(r.doneDates)?[...new Set(r.doneDates.filter(Boolean))]:[]})):[];
+    d.checklists=Array.isArray(d.checklists)?d.checklists.filter(Boolean).map(c=>({...c,date:c.date||'',time:c.time||'',priority:c.priority||'보통',category:c.category||'개인',done:!!c.done})):[];d.version=PRIVATE_VERSION;return d;
   }
-  function privateFolderName(owner){return owner==='mine'?PRIVATE_MINE_FOLDER_NAME:PRIVATE_PARTNER_FOLDER_NAME}
+  function privateFolderName(email){return `${PRIVATE_FOLDER_PREFIX}${normalizeEmail(email)}`}
   async function driveFindNamedFile(name,parentId){
     const q=`name='${String(name).replace(/'/g,"\\'")}' and '${parentId}' in parents and trashed=false`;const r=await driveQuery(q);return r.files?.[0]||null;
   }
-  async function driveCreateJsonInFolder(name,parentId,data){
-    const boundary='aiderdear_private_'+Date.now();
-    const meta=JSON.stringify({name,parents:[parentId],mimeType:'application/json',appProperties:{aiderdear:'private-v1'}});
-    const body=new Blob([`--${boundary}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n${meta}\r\n--${boundary}\r\nContent-Type: application/json\r\n\r\n${JSON.stringify(data)}\r\n--${boundary}--`],{type:`multipart/related; boundary=${boundary}`});
-    return googleApi('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,name',{method:'POST',headers:{'Content-Type':`multipart/related; boundary=${boundary}`},body});
+  async function driveCreateJsonInFolder(name,parentId,data,kind='private-v2'){
+    const boundary='aiderdear_private_'+Date.now();const meta=JSON.stringify({name,parents:[parentId],mimeType:'application/json',appProperties:{aiderdear:kind}});const body=new Blob([`--${boundary}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n${meta}\r\n--${boundary}\r\nContent-Type: application/json\r\n\r\n${JSON.stringify(data)}\r\n--${boundary}--`],{type:`multipart/related; boundary=${boundary}`});return googleApi('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,name',{method:'POST',headers:{'Content-Type':`multipart/related; boundary=${boundary}`},body});
   }
-  async function shareDriveReadOnly(fileId,email){
-    if(!email)return;try{await googleApi(`https://www.googleapis.com/drive/v3/files/${encodeURIComponent(fileId)}/permissions?sendNotificationEmail=true`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:'user',role:'reader',emailAddress:email})})}catch(err){const t=String(err?.message||err);if(!(t.includes('already')||t.includes('409')))throw err}
+  async function shareDriveReadOnly(fileId,email){if(!email)return;try{await googleApi(`https://www.googleapis.com/drive/v3/files/${encodeURIComponent(fileId)}/permissions?sendNotificationEmail=false`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:'user',role:'reader',emailAddress:email})})}catch(err){const t=String(err?.message||err);if(!(t.includes('already')||t.includes('409')))throw err}}
+  async function ensurePrivateOwner(email){
+    email=normalizeEmail(email);if(!email)return false;privateRefs[email]={folderId:'',fileId:'',writable:currentUserEmail===email};if(currentUserEmail!==email&&!isAdmin)return false;
+    let folder=await findDriveFolder(privateFolderName(email));if(!folder&&currentUserEmail===email){const legacy=isAdmin?'AiderDear Private - Bomin':'AiderDear Private - Dongwoo';const oldFolder=await findDriveFolder(legacy);if(oldFolder){folder=oldFolder;try{await googleApi(`https://www.googleapis.com/drive/v3/files/${encodeURIComponent(folder.id)}?fields=id,name`,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:privateFolderName(email)})})}catch{}}}if(!folder){if(currentUserEmail!==email)return false;folder=await createDriveFolder(privateFolderName(email),'',{aiderdear:'private-user-v2'});if(googleConfig.adminEmail&&email!==googleConfig.adminEmail)await shareDriveReadOnly(folder.id,googleConfig.adminEmail)}
+    privateRefs[email].folderId=folder.id;let file=await driveFindNamedFile(PRIVATE_DATA_FILE_NAME,folder.id);if(!file){if(currentUserEmail!==email)return false;file=await driveCreateJsonInFolder(PRIVATE_DATA_FILE_NAME,folder.id,blankPrivateData(email,currentUserName),'private-v2')}
+    privateRefs[email].fileId=file.id;const text=await googleApi(`https://www.googleapis.com/drive/v3/files/${encodeURIComponent(file.id)}?alt=media`,{},'text');privateData[email]=normalizePrivateData(JSON.parse(text||'{}'),email,email===currentUserEmail?currentUserName:'');return true;
   }
-  async function ensurePrivateOwner(owner){
-    const ref=privateRefs[owner];ref.folderId='';ref.fileId='';ref.writable=currentUser===owner;
-    if(owner==='mine'&&currentUser!=='mine')return false;
-    let folder=await findDriveFolder(privateFolderName(owner));
-    if(!folder){
-      if(currentUser!==owner)return false;
-      folder=await createDriveFolder(privateFolderName(owner),'',{aiderdear:`private-${owner}-v1`});
-      if(owner==='partner'&&googleConfig.mineEmail)await shareDriveReadOnly(folder.id,googleConfig.mineEmail);
-    }
-    ref.folderId=folder.id;
-    let file=await driveFindNamedFile(PRIVATE_DATA_FILE_NAME,folder.id);
-    if(!file){
-      if(currentUser!==owner)return false;
-      file=await driveCreateJsonInFolder(PRIVATE_DATA_FILE_NAME,folder.id,blankPrivateData());
-    }
-    ref.fileId=file.id;
-    const text=await googleApi(`https://www.googleapis.com/drive/v3/files/${encodeURIComponent(file.id)}?alt=media`,{},'text');
-    privateData[owner]=normalizePrivateData(JSON.parse(text||'{}'));return true;
+  async function discoverPrivateOwners(){
+    if(!isAdmin)return [currentUserEmail];const q=`name contains '${PRIVATE_FOLDER_PREFIX.replace(/'/g,"\\'")}' and mimeType='application/vnd.google-apps.folder' and trashed=false`;const r=await driveQuery(q);const emails=(r.files||[]).map(f=>normalizeEmail(String(f.name||'').slice(PRIVATE_FOLDER_PREFIX.length))).filter(Boolean);return [...new Set([currentUserEmail,...emails])].slice(0,FAMILY_LIMIT);
   }
   async function loadPrivateData(){
-    privateData={mine:blankPrivateData(),partner:blankPrivateData()};privateRefs={mine:{folderId:'',fileId:'',writable:false},partner:{folderId:'',fileId:'',writable:false}};
-    if(currentUser==='mine'){await ensurePrivateOwner('mine');await ensurePrivateOwner('partner')}else if(currentUser==='partner'){await ensurePrivateOwner('partner')}
-    if(currentUser==='partner')privateOwner='partner';else if(!['mine','partner'].includes(privateOwner))privateOwner='mine';renderPrivate();
+    privateData={};privateRefs={};await ensurePrivateOwner(currentUserEmail);if(isAdmin){for(const email of await discoverPrivateOwners()){if(email!==currentUserEmail)try{await ensurePrivateOwner(email)}catch(e){console.warn('PRIVATE read skipped',email,e)}}}privateOwner=currentUserEmail;renderPrivate();
   }
-  async function savePrivateData(owner){
-    if(!googleToken||currentUser!==owner||!privateRefs[owner]?.fileId)throw new Error('이 PRIVATE 기록을 수정할 권한이 없습니다.');privateData[owner]=normalizePrivateData(privateData[owner]);
-    await googleApi(`https://www.googleapis.com/upload/drive/v3/files/${encodeURIComponent(privateRefs[owner].fileId)}?uploadType=media`,{method:'PATCH',headers:{'Content-Type':'application/json; charset=UTF-8'},body:JSON.stringify(privateData[owner])});
+  async function savePrivateData(email){email=normalizeEmail(email);if(!googleToken||currentUserEmail!==email||!privateRefs[email]?.fileId)throw new Error('이 PRIVATE 기록을 수정할 권한이 없습니다.');privateData[email]=normalizePrivateData(privateData[email],email,currentUserName);await googleApi(`https://www.googleapis.com/upload/drive/v3/files/${encodeURIComponent(privateRefs[email].fileId)}?uploadType=media`,{method:'PATCH',headers:{'Content-Type':'application/json; charset=UTF-8'},body:JSON.stringify(privateData[email])})}
+  function blankEmotionData(email='',name=''){return {version:EMOTION_VERSION,profile:{email:normalizeEmail(email),name:normalizeName(name,email)},entries:[]}}
+  function normalizeEmotionData(data,email='',name=''){
+    const d={...blankEmotionData(email,name),...(data||{})};d.profile={email:normalizeEmail(d.profile?.email||email),name:normalizeName(d.profile?.name||name,d.profile?.email||email)};d.entries=Array.isArray(d.entries)?d.entries.filter(x=>x&&x.id&&/^\d{4}-\d{2}-\d{2}$/.test(x.date||'')).map(x=>({...x,owner:d.profile.email,mood:String(x.mood||'보통'),lines:Array.isArray(x.lines)?x.lines.slice(0,3).map(v=>String(v||'')):[String(x.line1||''),String(x.line2||''),String(x.line3||'')],period:!!x.period,intimacy:!!x.intimacy})):[];d.version=EMOTION_VERSION;return d;
   }
-  function blankEmotionData(){return {version:EMOTION_VERSION,entries:[]}}
-  function normalizeEmotionData(data,owner){
-    const d={...blankEmotionData(),...(data||{})};
-    d.entries=Array.isArray(d.entries)?d.entries.filter(x=>x&&x.id&&/^\d{4}-\d{2}-\d{2}$/.test(x.date||'')).map(x=>({...x,owner,mood:String(x.mood||'보통'),lines:Array.isArray(x.lines)?x.lines.slice(0,3).map(v=>String(v||'')):[String(x.line1||''),String(x.line2||''),String(x.line3||'')],period:!!x.period,intimacy:!!x.intimacy})):[];
-    d.version=EMOTION_VERSION;return d;
+  function emotionFolderName(email){return `${EMOTION_FOLDER_PREFIX}${normalizeEmail(email)}`}
+  async function ensureEmotionOwner(email){
+    email=normalizeEmail(email);if(!email)return false;emotionRefs[email]={folderId:'',fileId:'',writable:currentUserEmail===email};let folder=await findDriveFolder(emotionFolderName(email));if(!folder&&currentUserEmail===email){const legacy=isAdmin?'AiderDear Emotion - Bomin':'AiderDear Emotion - Dongwoo';const oldFolder=await findDriveFolder(legacy);if(oldFolder){folder=oldFolder;try{await googleApi(`https://www.googleapis.com/drive/v3/files/${encodeURIComponent(folder.id)}?fields=id,name`,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:emotionFolderName(email)})})}catch{}}}if(!folder){if(currentUserEmail!==email)return false;folder=await createDriveFolder(emotionFolderName(email),'',{aiderdear:'emotion-user-v2'});if(googleConfig.adminEmail&&email!==googleConfig.adminEmail)await shareDriveReadOnly(folder.id,googleConfig.adminEmail);if(googleConfig.partnerEmail&&googleConfig.partnerEmail!==email)await shareDriveReadOnly(folder.id,googleConfig.partnerEmail)}
+    emotionRefs[email].folderId=folder.id;let file=await driveFindNamedFile(EMOTION_DATA_FILE_NAME,folder.id);if(!file){if(currentUserEmail!==email)return false;file=await driveCreateJsonInFolder(EMOTION_DATA_FILE_NAME,folder.id,blankEmotionData(email,currentUserName),'emotion-v2')}emotionRefs[email].fileId=file.id;const text=await googleApi(`https://www.googleapis.com/drive/v3/files/${encodeURIComponent(file.id)}?alt=media`,{},'text');emotionData[email]=normalizeEmotionData(JSON.parse(text||'{}'),email,email===currentUserEmail?currentUserName:'');return true;
   }
-  function emotionFolderName(owner){return owner==='mine'?EMOTION_MINE_FOLDER_NAME:EMOTION_PARTNER_FOLDER_NAME}
-  async function driveCreateEmotionJsonInFolder(name,parentId,data){
-    const boundary='aiderdear_emotion_'+Date.now();
-    const meta=JSON.stringify({name,parents:[parentId],mimeType:'application/json',appProperties:{aiderdear:'emotion-v1'}});
-    const body=new Blob([`--${boundary}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n${meta}\r\n--${boundary}\r\nContent-Type: application/json\r\n\r\n${JSON.stringify(data)}\r\n--${boundary}--`],{type:`multipart/related; boundary=${boundary}`});
-    return googleApi('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,name',{method:'POST',headers:{'Content-Type':`multipart/related; boundary=${boundary}`},body});
-  }
-  async function ensureEmotionOwner(owner){
-    const ref=emotionRefs[owner];ref.folderId='';ref.fileId='';ref.writable=currentUser===owner;
-    let folder=await findDriveFolder(emotionFolderName(owner));
-    if(!folder){
-      if(currentUser!==owner)return false;
-      folder=await createDriveFolder(emotionFolderName(owner),'',{aiderdear:`emotion-${owner}-v1`});
-      const otherEmail=owner==='mine'?googleConfig.partnerEmail:googleConfig.mineEmail;if(otherEmail)await shareDriveReadOnly(folder.id,otherEmail);
-    }
-    ref.folderId=folder.id;let file=await driveFindNamedFile(EMOTION_DATA_FILE_NAME,folder.id);
-    if(!file){if(currentUser!==owner)return false;file=await driveCreateEmotionJsonInFolder(EMOTION_DATA_FILE_NAME,folder.id,blankEmotionData())}
-    ref.fileId=file.id;const text=await googleApi(`https://www.googleapis.com/drive/v3/files/${encodeURIComponent(file.id)}?alt=media`,{},'text');emotionData[owner]=normalizeEmotionData(JSON.parse(text||'{}'),owner);return true;
-  }
+  async function discoverEmotionOwners(){if(!isAdmin)return [currentUserEmail];const q=`name contains '${EMOTION_FOLDER_PREFIX.replace(/'/g,"\\'")}' and mimeType='application/vnd.google-apps.folder' and trashed=false`;const r=await driveQuery(q);const emails=(r.files||[]).map(f=>normalizeEmail(String(f.name||'').slice(EMOTION_FOLDER_PREFIX.length))).filter(Boolean);return [...new Set([currentUserEmail,...emails])].slice(0,FAMILY_LIMIT)}
   async function loadEmotionData(){
-    emotionData={mine:blankEmotionData(),partner:blankEmotionData()};emotionRefs={mine:{folderId:'',fileId:'',writable:false},partner:{folderId:'',fileId:'',writable:false}};
-    if(currentUser==='mine'){await ensureEmotionOwner('mine');await ensureEmotionOwner('partner')}else if(currentUser==='partner'){await ensureEmotionOwner('partner');await ensureEmotionOwner('mine')}
-    renderEmotion();
+    emotionData={};emotionRefs={};await ensureEmotionOwner(currentUserEmail);if(isAdmin){for(const email of await discoverEmotionOwners()){if(email!==currentUserEmail)try{await ensureEmotionOwner(email)}catch(e){console.warn('Emotion read skipped',email,e)}}}else if(googleConfig.partnerEmail){try{await ensureEmotionOwner(googleConfig.partnerEmail)}catch(e){console.warn('Partner emotion unavailable',e)}}renderEmotion();
   }
-  async function saveEmotionData(owner){
-    if(!googleToken||currentUser!==owner||!emotionRefs[owner]?.fileId)throw new Error('본인의 감정일기만 수정할 수 있습니다.');emotionData[owner]=normalizeEmotionData(emotionData[owner],owner);
-    await googleApi(`https://www.googleapis.com/upload/drive/v3/files/${encodeURIComponent(emotionRefs[owner].fileId)}?uploadType=media`,{method:'PATCH',headers:{'Content-Type':'application/json; charset=UTF-8'},body:JSON.stringify(emotionData[owner])});
-  }
+  async function saveEmotionData(email){email=normalizeEmail(email);if(!googleToken||currentUserEmail!==email||!emotionRefs[email]?.fileId)throw new Error('본인의 감정일기만 수정할 수 있습니다.');emotionData[email]=normalizeEmotionData(emotionData[email],email,currentUserName);await googleApi(`https://www.googleapis.com/upload/drive/v3/files/${encodeURIComponent(emotionRefs[email].fileId)}?uploadType=media`,{method:'PATCH',headers:{'Content-Type':'application/json; charset=UTF-8'},body:JSON.stringify(emotionData[email])})}
 
   async function driveLoadJsonFile(){
     const text=await googleApi(`https://www.googleapis.com/drive/v3/files/${encodeURIComponent(driveDataFileId)}?alt=media`,{},'text');
@@ -1054,47 +1048,31 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
   }
 
   async function ensureCloudDrive(){
-    let root=await findDriveFolder(ROOT_FOLDER_NAME);
-    if(!root){
-      if(currentUser!=='mine')throw new Error('처음 연결은 보민 계정으로 한 번 로그인해주세요. 보민 계정이 공용 Drive 폴더와 캘린더를 만든 뒤 동우 계정이 사용할 수 있습니다.');
-      root=await createDriveFolder(ROOT_FOLDER_NAME,'',{aiderdear:'root-v1'});
-    }
-    driveRootId=root.id;
-    if(currentUser==='mine')await shareDriveItem(driveRootId,googleConfig.partnerEmail);
-    let media=await findDriveFolder(MEDIA_FOLDER_NAME,driveRootId);
-    if(!media){
-      if(currentUser!=='mine')throw new Error('공용 Media 폴더가 아직 없습니다. 보민 계정으로 다시 로그인해 초기 설정을 완료해주세요.');
-      media=await createDriveFolder(MEDIA_FOLDER_NAME,driveRootId,{aiderdear:'media-folder-v1'});
-    }
-    driveMediaFolderId=media.id;
-    let data=await driveFindDataFile();
-    if(!data){
-      if(currentUser!=='mine')throw new Error('공용 데이터 파일이 아직 없습니다. 보민 계정으로 먼저 초기 설정을 완료해주세요.');
-      data=await driveCreateJsonFile(cloudData);
-    }
-    driveDataFileId=data.id;
-    await driveLoadJsonFile();
+    let root=await findDriveFolder(ROOT_FOLDER_NAME);if(!root){if(!isAdmin)throw new Error('처음 연결은 관리자 계정으로 한 번 로그인해주세요. 관리자가 가족용 Drive 폴더를 만든 뒤 다른 사용자가 접속할 수 있습니다.');root=await createDriveFolder(ROOT_FOLDER_NAME,'',{aiderdear:'root-v2'})}driveRootId=root.id;
+    if(isAdmin){for(const u of normalizeFamilyUsers(googleConfig.familyUsers||[])){if(u.email!==currentUserEmail)await shareDriveItem(driveRootId,u.email)}}
+    let media=await findDriveFolder(MEDIA_FOLDER_NAME,driveRootId);if(!media){if(!isAdmin)throw new Error('공용 Media 폴더가 아직 없습니다. 관리자가 먼저 초기 설정을 완료해주세요.');media=await createDriveFolder(MEDIA_FOLDER_NAME,driveRootId,{aiderdear:'media-folder-v1'})}driveMediaFolderId=media.id;
+    let data=await driveFindDataFile();if(!data){if(!isAdmin)throw new Error('공용 데이터 파일이 아직 없습니다. 관리자가 먼저 초기 설정을 완료해주세요.');cloudData.familyUsers=normalizeFamilyUsers(googleConfig.familyUsers||[]);data=await driveCreateJsonFile(cloudData)}driveDataFileId=data.id;await driveLoadJsonFile();
+    if(isAdmin){const roster=normalizeFamilyUsers(googleConfig.familyUsers||[]);if(roster.length){cloudData.familyUsers=roster;await driveUpdateJsonFile(cloudData)}}else{const roster=normalizeFamilyUsers(cloudData.familyUsers||[]);if(roster.length&&!roster.some(x=>x.email===currentUserEmail))throw new Error('AiderDear 가족 구성원으로 등록되지 않은 계정입니다. 관리자에게 계정 등록을 요청해주세요.')}
   }
+  async function shareCalendarAccess(calendarId,email){if(!email||email===currentUserEmail)return;try{await googleApi(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendarId)}/acl`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({role:'writer',scope:{type:'user',value:email}})})}catch(err){const t=String(err?.message||err);if(!(t.includes('409')||t.includes('already')))console.warn('Calendar share skipped',email,err)}}
   async function ensureCalendar(){
-    if(cloudData.calendarId)return;
-    if(currentUser!=='mine')throw new Error('공용 캘린더가 아직 없습니다. 보민 계정으로 먼저 초기 설정을 완료해주세요.');
-    const cal=await googleApi('https://www.googleapis.com/calendar/v3/calendars',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({summary:CALENDAR_NAME,timeZone:'Asia/Seoul'})});
-    cloudData.calendarId=cal.id;
-    if(googleConfig.partnerEmail){
-      await googleApi(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(cal.id)}/acl`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({role:'writer',scope:{type:'user',value:googleConfig.partnerEmail}})});
-    }
-    await saveCloudData();
+    if(!cloudData.calendarId){if(!isAdmin)throw new Error('공용 캘린더가 아직 없습니다. 관리자가 먼저 초기 설정을 완료해주세요.');const cal=await googleApi('https://www.googleapis.com/calendar/v3/calendars',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({summary:CALENDAR_NAME,timeZone:'Asia/Seoul'})});cloudData.calendarId=cal.id;await saveCloudData()}
+    if(isAdmin){for(const u of normalizeFamilyUsers(googleConfig.familyUsers||[]))await shareCalendarAccess(cloudData.calendarId,u.email)}
   }
   function addDays(date,n){const d=new Date(`${date}T00:00:00+09:00`);d.setDate(d.getDate()+n);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
-  function eventEndDateTime(date,time){const d=new Date(`${date}T${time}:00${SEOUL_OFFSET}`);d.setTime(d.getTime()+3600000);const parts=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(d).reduce((o,p)=>(o[p.type]=p.value,o),{});return `${parts.year}-${parts.month}-${parts.day}T${parts.hour}:${parts.minute}:00${SEOUL_OFFSET}`}
+  function dateRangeDays(start,end){const out=[];let cur=start||'';const last=end||start||'';if(!cur||!last)return out;let guard=0;while(cur<=last&&guard<370){out.push(cur);cur=addDays(cur,1);guard++}return out}
+  function eventOccursOnDate(e,date){const end=e.endDate||e.date||'';return !!e.date&&date>=e.date&&date<=end}
+  function eventDateLabelRange(e){const end=e.endDate||e.date;return e.date===end?e.date:`${e.date} → ${end}`}
+  function eventEndDateTime(date,time,endDate='',endTime=''){const start=`${date}T${(time||'00:00')}:00${SEOUL_OFFSET}`;const d=new Date(start);if(endDate){const ed=new Date(`${endDate}T${(endTime||time||'00:00')}:00${SEOUL_OFFSET}`);if(!isNaN(ed))return `${endDate}T${(endTime||time||'00:00')}:00${SEOUL_OFFSET}`}d.setTime(d.getTime()+3600000);const parts=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(d).reduce((o,p)=>(o[p.type]=p.value,o),{});return `${parts.year}-${parts.month}-${parts.day}T${parts.hour}:${parts.minute}:00${SEOUL_OFFSET}`}
   function toGoogleEvent(data){
-    const timed=!!data.time;
-    return {summary:data.title||'',description:data.memo||'',start:timed?{dateTime:`${data.date}T${data.time}:00${SEOUL_OFFSET}`,timeZone:'Asia/Seoul'}:{date:data.date},end:timed?{dateTime:eventEndDateTime(data.date,data.time),timeZone:'Asia/Seoul'}:{date:addDays(data.date,1)},extendedProperties:{private:{aiderdear:'1',aiderdearOwner:data.owner||'shared'}}};
+    const allDay=!!data.allDay||!data.time;
+    const endDate=(data.endDate&&data.endDate>=data.date)?data.endDate:data.date;
+    return {summary:data.title||'',description:data.memo||'',start:allDay?{date:data.date}:{dateTime:`${data.date}T${data.time}:00${SEOUL_OFFSET}`,timeZone:'Asia/Seoul'},end:allDay?{date:addDays(endDate,1)}:{dateTime:eventEndDateTime(data.date,data.time,endDate,data.endTime),timeZone:'Asia/Seoul'},extendedProperties:{private:{aiderdear:'1',aiderdearOwner:data.owner||'shared',aiderdearAuthorEmail:currentUserEmail||''}}};
   }
   function fromGoogleEvent(g,source){
-    const start=g.start||{};const date=start.date||(start.dateTime||'').slice(0,10);const time=start.dateTime?(start.dateTime||'').slice(11,16):'';
+    const start=g.start||{},end=g.end||{};const date=start.date||(start.dateTime||'').slice(0,10);const time=start.dateTime?(start.dateTime||'').slice(11,16):'';const allDay=!!start.date&&!start.dateTime;let endDate=allDay?addDays(end.date||date,-1):((end.dateTime||'').slice(0,10)||date);if(!endDate||endDate<date)endDate=date;const endTime=allDay?'':((end.dateTime||'').slice(11,16)||'');
     const isAiderDear=source.id===cloudData.calendarId;
-    return {id:`${source.id}::${g.id}`,googleEventId:g.id,calendarId:source.id,sourceTitle:source.summary||'Google Calendar',isAiderDear,title:g.summary||'(제목 없음)',date,time,owner:isAiderDear?(g.extendedProperties?.private?.aiderdearOwner||'shared'):calendarOwner(source),memo:g.description||''};
+    const owner=isAiderDear?(g.extendedProperties?.private?.aiderdearOwner||'shared'):calendarOwner(source);let authorEmail=normalizeEmail(g.extendedProperties?.private?.aiderdearAuthorEmail||'');if(isAiderDear&&!authorEmail){if(owner==='mine')authorEmail=googleConfig.adminEmail;else if(owner==='partner')authorEmail=familyRoster().find(x=>x.email!==googleConfig.adminEmail)?.email||''}return {id:`${source.id}::${g.id}`,googleEventId:g.id,calendarId:source.id,sourceTitle:source.summary||'Google Calendar',isAiderDear,title:g.summary||'(제목 없음)',date,endDate,time,endTime,allDay,owner,authorEmail,memo:g.description||''};
   }
   async function loadCalendarList(render=true){
     if(!googleToken)return [];
@@ -1126,7 +1104,7 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
     const fmt=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
     const params=new URLSearchParams({timeMin:`${fmt(gridStart)}T00:00:00${SEOUL_OFFSET}`,timeMax:`${fmt(gridEnd)}T00:00:00${SEOUL_OFFSET}`,singleEvents:'true',orderBy:'startTime',timeZone:'Asia/Seoul',maxResults:'2500'});
     const groups=await Promise.all(selectedCalendarSources().map(async source=>{try{const r=await googleApi(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(source.id)}/events?${params}`);return (r.items||[]).filter(x=>x.status!=='cancelled').map(x=>fromGoogleEvent(x,source))}catch(err){console.warn('Calendar read skipped',source.id,err);return []}}));
-    events=groups.flat();renderCalendar();
+    events=groups.flat();if(!isAdmin)events=events.filter(e=>!e.isAiderDear||e.owner==='shared'||normalizeEmail(e.authorEmail)===currentUserEmail);renderCalendar();
   }
   async function createCalendarEvent(data){const g=await googleApi(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(cloudData.calendarId)}/events`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(toGoogleEvent(data))});return fromGoogleEvent(g,calendarSources.find(x=>x.id===cloudData.calendarId)||{id:cloudData.calendarId,summary:'AiderDear'})}
   async function updateCalendarEvent(id,data){const g=await googleApi(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(cloudData.calendarId)}/events/${encodeURIComponent(id)}`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(toGoogleEvent(data))});return fromGoogleEvent(g,calendarSources.find(x=>x.id===cloudData.calendarId)||{id:cloudData.calendarId,summary:'AiderDear'})}
@@ -1134,7 +1112,7 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
 
   async function bootstrapGoogleData(){
     setGoogleStatus('Google Drive와 Calendar를 연결하는 중입니다…');
-    await ensureCloudDrive();normalizeCloudData();await ensureCalendar();await loadCalendarList();await loadCalendarEvents();await scanDriveMedia();await loadCoupleMedia();await loadPrivateData();await loadEmotionData();
+    await ensureCloudDrive();normalizeCloudData();if(!isAdmin&&cloudData.familyUsers?.length&&!cloudData.familyUsers.some(x=>x.email===currentUserEmail))throw new Error('등록되지 않은 가족 계정입니다.');await ensureCalendar();await loadCalendarList();await loadCalendarEvents();await scanDriveMedia();await loadCoupleMedia();await loadPrivateData();await loadEmotionData();
     refreshRecordAlbumSelect(DEFAULT_ALBUM_ID);renderAlbumFolders();renderRecordFeed();setDday();renderDdayList();renderPrivate();renderEmotion();
     lastSyncAt=new Date();applyLoginUI();setGoogleStatus(`${googleProfile?.email||''}\nDrive + Calendar 연결 완료 · ${lastSyncAt.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'})}`,'ok');
   }
@@ -1153,8 +1131,8 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
       const date=iso(cy,cm,day); const cell=document.createElement('div'); cell.className='day'+(out?' out':'');
       if(date===iso(today.getFullYear(),today.getMonth(),today.getDate())) cell.classList.add('today-cell');
       const n=document.createElement('div');n.className='daynum';n.textContent=String(day).padStart(2,'0');cell.appendChild(n);
-      events.filter(e=>e.date===date && filters[e.owner]).sort((a,b)=>(a.time||'').localeCompare(b.time||'')).slice(0,5).forEach(e=>{
-        const b=document.createElement('button');b.className=`ev ${e.owner}`;b.type='button';b.title=`${ownerLabel(e.owner)} · ${e.sourceTitle||'AiderDear'} · ${e.title}`;b.textContent=`${e.time?e.time+' ':''}${e.title}`;b.addEventListener('click',ev=>{ev.stopPropagation();openEvent(e)});cell.appendChild(b)
+      events.filter(e=>eventOccursOnDate(e,date) && filters[e.owner]).sort((a,b)=>(a.date||'').localeCompare(b.date||'')||(a.time||'').localeCompare(b.time||'')).slice(0,5).forEach(e=>{
+        const b=document.createElement('button');b.className=`ev ${e.owner}`;b.type='button';const range=(e.endDate&&e.endDate!==e.date)?` (${e.date.slice(5).replace('-','/')}~${e.endDate.slice(5).replace('-','/')})`:'';b.title=`${ownerLabel(e.owner)} · ${e.sourceTitle||'AiderDear'} · ${e.title}${range}`;b.textContent=`${e.time?e.time+' ':''}${e.title}`;b.addEventListener('click',ev=>{ev.stopPropagation();openEvent(e)});cell.appendChild(b)
       });
       cal.appendChild(cell);
     }
@@ -1162,13 +1140,13 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
   }
   function renderShared(){
     const y=shown.getFullYear(),m=shown.getMonth(); const list=$('#sharedList');list.innerHTML='';
-    const rows=events.filter(e=>{const d=new Date(e.date+'T00:00:00');return e.owner==='shared'&&d.getFullYear()===y&&d.getMonth()===m}).sort((a,b)=>a.date.localeCompare(b.date)||(a.time||'').localeCompare(b.time||''));
+    const rows=events.filter(e=>{const start=new Date(e.date+'T00:00:00');const end=new Date((e.endDate||e.date)+'T00:00:00');const first=new Date(y,m,1);const last=new Date(y,m+1,0);return e.owner==='shared'&&start<=last&&end>=first}).sort((a,b)=>a.date.localeCompare(b.date)||(a.time||'').localeCompare(b.time||''));
     if(!rows.length){return}
     rows.forEach(e=>{
       const d=Number(e.date.slice(8,10));
       const row=document.createElement('button');
       row.type='button'; row.className='shared-row'; row.style.cssText='width:100%;background:none;border-left:0;border-right:0;border-top:0;text-align:left';
-      row.innerHTML=`<div class="shared-date">${String(d).padStart(2,'0')}</div><div class="shared-line"><span>${e.time||'--:--'}</span><b>${escapeHtml(e.title)}</b>${e.memo?`<span> · ${escapeHtml(e.memo)}</span>`:''}</div>`;
+      row.innerHTML=`<div class="shared-date">${String(d).padStart(2,'0')}</div><div class="shared-line"><span>${e.endDate&&e.endDate!==e.date?`${e.date.slice(5).replace('-','/')}~${e.endDate.slice(5).replace('-','/')}`:(e.time||'--:--')}</span><b>${escapeHtml(e.title)}</b>${e.memo?`<span> · ${escapeHtml(e.memo)}</span>`:''}</div>`;
       row.addEventListener('click',ev=>{ev.stopPropagation();openEvent(e)}); list.appendChild(row);
     })
   }
@@ -1263,52 +1241,52 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
   $$('[data-close]').forEach(b=>b.addEventListener('click',()=>closeModal(b.dataset.close)));
   $$('.overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o){o.classList.remove('open');syncModalState()}}));
   document.addEventListener('keydown',e=>{if(e.key==='Escape'){$$('.overlay.open').forEach(o=>o.classList.remove('open'));syncModalState()}});
-  $('#searchInput').addEventListener('input',e=>{const q=e.target.value.trim().toLowerCase();if(!q){$('#searchHint').textContent='예: 데이트 · 기념일 · 제주도 · 병원';return}const ec=events.filter(x=>`${x.title} ${x.memo||''}`.toLowerCase().includes(q)).length;const rc=getRecords().filter(x=>`${x.title} ${x.body||''} ${x.mood||''}`.toLowerCase().includes(q)).length;const mc=[...(emotionData.mine?.entries||[]),...(emotionData.partner?.entries||[])].filter(x=>`${x.mood||''} ${(x.lines||[]).join(' ')}`.toLowerCase().includes(q)).length;$('#searchHint').textContent=`일정 ${ec}개 · 감정일기 ${mc}개 · 기록 ${rc}개`});
+  $('#searchInput').addEventListener('input',e=>{const q=e.target.value.trim().toLowerCase();if(!q){$('#searchHint').textContent='예: 데이트 · 기념일 · 제주도 · 병원';return}const ec=events.filter(x=>`${x.title} ${x.memo||''}`.toLowerCase().includes(q)).length;const rc=getRecords().filter(x=>`${x.title} ${x.body||''} ${x.mood||''}`.toLowerCase().includes(q)).length;const mc=Object.values(emotionData).flatMap(d=>d?.entries||[]).filter(x=>`${x.mood||''} ${(x.lines||[]).join(' ')}`.toLowerCase().includes(q)).length;$('#searchHint').textContent=`일정 ${ec}개 · 감정일기 ${mc}개 · 기록 ${rc}개`});
 
-  // Google login + two-person access control
+  // Google login + family access control (up to 10 test users)
   function applyLoginUI(){
-    $('#loginBtn').innerHTML=`<span class="plusmark"></span>${currentUser?ownerLabel(currentUser):'로그인'}`;
+    $('#loginBtn').innerHTML=`<span class="plusmark"></span>${currentUser?(currentUserName||'로그인'):'로그인'}`;
     $('#logoutBtn').hidden=!currentUser;$('#syncNowBtn').hidden=!currentUser;$('#calendarSyncDetails').hidden=!currentUser;
     $('#googleLoginBtn').textContent=currentUser?'Google 다시 연결':'Google 계정으로 로그인';
     if(currentUser&&googleProfile?.email&&googleToken)setGoogleStatus(`${googleProfile.email}\nDrive + Calendar 연결 완료`,'ok');
   }
-  function canEdit(owner){if(!currentUser)return false;if(currentUser==='mine')return true;return owner==='partner'||owner==='shared'}
+  function canEdit(owner){if(!currentUser)return false;return owner===(isAdmin?'mine':'partner')||owner==='shared'}
+  function canEditEvent(e){if(!currentUserEmail||!e?.isAiderDear)return false;if(normalizeEmail(e.authorEmail))return normalizeEmail(e.authorEmail)===currentUserEmail;return isAdmin?e.owner==='mine':e.owner==='partner'}
   function configureOwnerOptions(selected){
-    const sel=$('#eventOwner');[...sel.options].forEach(opt=>{opt.disabled=currentUser==='partner'&&opt.value==='mine'});
+    const sel=$('#eventOwner');[...sel.options].forEach(opt=>{opt.disabled=!isAdmin&&opt.value==='mine'});
     if(selected&&[...sel.options].some(o=>o.value===selected&&!o.disabled))sel.value=selected;else sel.value=currentUser==='partner'?'partner':'mine';
   }
   async function startGoogleLogin(){
     saveGoogleConfig();
-    if(!validGoogleConfig()){$('#googleSetupDetails').open=true;setGoogleStatus('클라이언트 ID와 두 사람의 Google 이메일을 먼저 정확히 입력해주세요.','error');return}
+    if(!validGoogleConfig()){$('#googleSetupDetails').open=true;setGoogleStatus('클라이언트 ID와 관리자 Google 이메일을 먼저 입력해주세요.','error');return}
     if(location.protocol==='file:'){setGoogleStatus('Google 로그인은 index.html 파일을 더블클릭한 file:// 주소에서는 작동하지 않습니다. Vercel 주소 또는 http://localhost 주소에서 열어주세요.','error');return}
     if(!window.google?.accounts?.oauth2){setGoogleStatus('Google 로그인 라이브러리를 불러오는 중입니다. 잠시 후 로그인 버튼을 다시 눌러주세요.','error');return}
     googleTokenClient=google.accounts.oauth2.initTokenClient({client_id:googleConfig.clientId,scope:GOOGLE_SCOPES,callback:async response=>{
       if(response.error){setGoogleStatus(response.error_description||response.error,'error');return}
       googleToken=response.access_token||'';
       try{
-        googleProfile=await googleApi('https://www.googleapis.com/oauth2/v3/userinfo');const email=normalizeEmail(googleProfile.email);
-        currentUser=email===googleConfig.mineEmail?'mine':email===googleConfig.partnerEmail?'partner':'';
-        if(!currentUser){google.accounts.oauth2.revoke(googleToken,()=>{});googleToken='';throw new Error(`허용되지 않은 계정입니다: ${email}`)}
-        applyLoginUI();await bootstrapGoogleData();closeModal('loginModal');toast(`${ownerLabel(currentUser)} Google 연결 완료`);
+        googleProfile=await googleApi('https://www.googleapis.com/oauth2/v3/userinfo');const email=normalizeEmail(googleProfile.email);currentUserEmail=email;currentUserName=normalizeName(googleProfile.name,email);isAdmin=email===googleConfig.adminEmail;currentUser=isAdmin?'mine':'partner';
+        applyLoginUI();await bootstrapGoogleData();closeModal('loginModal');toast(`${currentUserName} Google 연결 완료`);
         const pending=pendingAfterLogin;pendingAfterLogin=null;if(pending)setTimeout(pending,80);
-      }catch(err){currentUser='';applyLoginUI();setGoogleStatus(googleErrorMessage(err),'error')}
+      }catch(err){const badToken=googleToken;currentUser='';currentUserEmail='';currentUserName='';isAdmin=false;googleToken='';if(badToken&&window.google?.accounts?.oauth2)google.accounts.oauth2.revoke(badToken,()=>{});applyLoginUI();setGoogleStatus(googleErrorMessage(err),'error')}
     },error_callback:()=>{if(currentUser||googleToken)return;setGoogleStatus('Google 로그인 창이 닫혔거나 열리지 않았습니다.','error')}});
     googleTokenClient.requestAccessToken({prompt:'select_account'});
   }
   $('#googleConfigSave').addEventListener('click',saveGoogleConfig);
   $('#googleLoginBtn').addEventListener('click',startGoogleLogin);
   $('#logoutBtn').addEventListener('click',()=>{
-    const token=googleToken;googleToken='';googleProfile=null;currentUser='';events=[];driveRootId='';driveMediaFolderId='';driveDataFileId='';
-    privateData={mine:blankPrivateData(),partner:blankPrivateData()};privateRefs={mine:{folderId:'',fileId:'',writable:false},partner:{folderId:'',fileId:'',writable:false}};privateOwner='mine';privateFeature='memo';
-    emotionData={mine:blankEmotionData(),partner:blankEmotionData()};emotionRefs={mine:{folderId:'',fileId:'',writable:false},partner:{folderId:'',fileId:'',writable:false}};
+    const token=googleToken;googleToken='';googleProfile=null;currentUser='';currentUserEmail='';currentUserName='';isAdmin=false;events=[];driveRootId='';driveMediaFolderId='';driveDataFileId='';
+    privateData={};privateRefs={};privateOwner='';privateFeature='memo';emotionData={};emotionRefs={};
     cloudData={version:CLOUD_VERSION,calendarId:'',albums:[{id:DEFAULT_ALBUM_ID,name:'기본 앨범',createdAt:Date.now()}],records:[],coupleMedia:null,ddays:[{id:'dday-us',title:'우리',date:'2025-11-01',mode:'since',createdAt:Date.now()}],activeDdayId:'dday-us'};calendarSources=[];selectedCalendarIds=new Set();driveLooseMedia=[];
     for(const url of recordMediaUrlCache.values())URL.revokeObjectURL(url);recordMediaUrlCache.clear();
     clearActiveMediaUrl();const v=$('#coupleVideo2');v.pause();v.hidden=true;v.removeAttribute('src');const img=$('#couplePhoto2');img.hidden=true;img.removeAttribute('src');$('#mediaPlaceholder2').style.display='flex';
     applyLoginUI();renderCalendar();renderAlbumFolders();renderRecordFeed();renderPrivate();renderEmotion();closeModal('loginModal');setGoogleStatus('로그아웃했습니다.');if(token&&window.google?.accounts?.oauth2)google.accounts.oauth2.revoke(token,()=>{});
   });
   function requireLogin(afterLogin=null){if(currentUser&&googleToken)return true;if(afterLogin)pendingAfterLogin=afterLogin;openModal('loginModal');return false}
+  function syncEventAllDayFields(readonly=false){const off=$('#eventAllDay').checked;$('#eventTime').disabled=readonly||off;$('#eventEndTime').disabled=readonly||off;if(off){$('#eventTime').value='';$('#eventEndTime').value='';}}
   function setScheduleReadOnly(readonly){
-    ['eventTitle','eventDate','eventTime','eventOwner','eventMemo'].forEach(id=>{$('#'+id).disabled=readonly});
+    ['eventTitle','eventDate','eventEndDate','eventTime','eventEndTime','eventAllDay','eventOwner','eventMemo'].forEach(id=>{$('#'+id).disabled=readonly});
+    syncEventAllDayFields(readonly);
     $('#saveEvent').hidden=readonly;
     $('#deleteEvent').hidden=readonly;
   }
@@ -1318,42 +1296,52 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
     $('#eventId').value='';
     $('#eventTitle').value='';
     $('#eventDate').value=iso(shown.getFullYear(),shown.getMonth(),Math.min(today.getDate(),new Date(shown.getFullYear(),shown.getMonth()+1,0).getDate()));
+    $('#eventEndDate').value=$('#eventDate').value;
     $('#eventTime').value='';
+    $('#eventEndTime').value='';
+    $('#eventAllDay').checked=true;
     configureOwnerOptions(owner==='shared'?'shared':(currentUser==='partner'?'partner':'mine'));
     $('#eventMemo').value='';
     setScheduleReadOnly(false);
+    syncEventAllDayFields(false);
     $('#deleteEvent').hidden=true;
     openModal('scheduleModal');
   }
   function openEvent(e){
     if(!currentUser){requireLogin(()=>openEvent(e));return;}
-    const editable=!!e.isAiderDear&&canEdit(e.owner);
+    const editable=canEditEvent(e);
     $('#scheduleModalTitle').textContent=editable?'일정 수정':'일정 보기';
     $('#eventId').value=e.id;
     $('#eventTitle').value=e.title;
     $('#eventDate').value=e.date;
+    $('#eventEndDate').value=e.endDate||e.date;
     $('#eventTime').value=e.time||'';
+    $('#eventEndTime').value=e.endTime||'';
+    $('#eventAllDay').checked=!!e.allDay;
     configureOwnerOptions(e.owner);
     $('#eventOwner').value=e.owner;
     $('#eventMemo').value=e.memo||'';
     setScheduleReadOnly(!editable);
+    syncEventAllDayFields(!editable);
     if(editable) $('#deleteEvent').hidden=false;
     openModal('scheduleModal');
   }
+
+  $('#eventAllDay').addEventListener('change',()=>syncEventAllDayFields(false));
   $('#addScheduleTop').addEventListener('click',()=>newEvent(currentUser==='partner'?'partner':'mine'));
   $('#addScheduleBottom').addEventListener('click',()=>newEvent('shared'));
   $('#scheduleForm').addEventListener('submit',async e=>{
     e.preventDefault();if(!currentUser||!googleToken)return;
     const id=$('#eventId').value;const title=$('#eventTitle').value.trim();if(!title)return;
-    const data={title,date:$('#eventDate').value,time:$('#eventTime').value,owner:$('#eventOwner').value,memo:$('#eventMemo').value.trim()};
+    const data={title,date:$('#eventDate').value,endDate:$('#eventEndDate').value||$('#eventDate').value,time:$('#eventAllDay').checked?'':$('#eventTime').value,endTime:$('#eventAllDay').checked?'':($('#eventEndTime').value||$('#eventTime').value),allDay:$('#eventAllDay').checked,owner:$('#eventOwner').value,memo:$('#eventMemo').value.trim()};
     try{
       $('#saveEvent').disabled=true;
-      if(id){const old=events.find(x=>x.id===id);if(old?.isAiderDear&&canEdit(old.owner))await updateCalendarEvent(old.googleEventId||old.id,data)}else await createCalendarEvent(data);
+      if(id){const old=events.find(x=>x.id===id);if(old?.isAiderDear&&canEditEvent(old))await updateCalendarEvent(old.googleEventId||old.id,data)}else await createCalendarEvent(data);
       await loadCalendarEvents();closeModal('scheduleModal');toast('Google Calendar에 저장했습니다.');
     }catch(err){toast(googleErrorMessage(err))}finally{$('#saveEvent').disabled=false}
   });
   $('#deleteEvent').addEventListener('click',async()=>{
-    const id=$('#eventId').value;const old=events.find(x=>x.id===id);if(!old||!old.isAiderDear||!canEdit(old.owner))return;
+    const id=$('#eventId').value;const old=events.find(x=>x.id===id);if(!old||!old.isAiderDear||!canEditEvent(old))return;
     try{await deleteCalendarEvent(old.googleEventId||old.id);await loadCalendarEvents();closeModal('scheduleModal');toast('Google Calendar에서 삭제했습니다.')}catch(err){toast(googleErrorMessage(err))}
   });
 
@@ -1418,20 +1406,22 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
 
   function getRecords(){
     let rows=Array.isArray(cloudData.records)?cloudData.records:[];let changed=false;
-    rows=rows.map((r,i)=>{let next={...r};if(!next.id){changed=true;next.id='r-'+(Date.now()-i)}if(!next.folderId){changed=true;next.folderId=DEFAULT_ALBUM_ID}if(!next.kind){changed=true;next.kind='record'}if(!Array.isArray(next.media)){changed=true;next.media=(Array.isArray(next.photos)?next.photos:[]).map(src=>({kind:'image',src}))}return next});
+    rows=rows.map((r,i)=>{let next={...r};if(!next.id){changed=true;next.id='r-'+(Date.now()-i)}if(!next.folderId){changed=true;next.folderId=DEFAULT_ALBUM_ID}if(!next.kind){changed=true;next.kind='record'}if(!Array.isArray(next.media)){changed=true;next.media=(Array.isArray(next.photos)?next.photos:[]).map(src=>({kind:'image',src}))}if(!next.authorEmail){const legacy=next.author==='mine'?googleConfig.adminEmail:(next.author==='partner'?familyRoster().find(x=>x.email!==googleConfig.adminEmail)?.email:'');if(legacy){next.authorEmail=legacy;changed=true}}return next});
     if(changed){cloudData.records=rows;scheduleCloudSave()}return rows;
   }
   function putRecords(rows){cloudData.records=rows;scheduleCloudSave()}
+  function visibleRecords(){const rows=getRecords();return isAdmin?rows:rows.filter(r=>normalizeEmail(r.authorEmail)===currentUserEmail||r.author==='shared'||r.visibility==='shared')}
+  function recordAuthorLabel(r){const email=normalizeEmail(r?.authorEmail);if(email)return familyUser(email).name||email.split('@')[0];return ownerLabel(r?.author||'shared')}
 
   function getAlbumMediaItems(){
     const folders=getAlbumFolders();
     const valid=new Set(folders.map(f=>f.id));
     const items=[];
-    getRecords().forEach(r=>{
+    visibleRecords().forEach(r=>{
       const fid=valid.has(r.folderId)?r.folderId:DEFAULT_ALBUM_ID;
       recordMediaItems(r).forEach((media,index)=>items.push({...media,index,recordId:r.id,title:r.title||'기록',date:r.date||'',author:r.author||'mine',folderId:fid}));
     });
-    driveLooseMedia.forEach((media,index)=>items.push({...media,index,folderId:valid.has(media.folderId)?media.folderId:DEFAULT_ALBUM_ID}));
+    if(isAdmin)driveLooseMedia.forEach((media,index)=>items.push({...media,index,folderId:valid.has(media.folderId)?media.folderId:DEFAULT_ALBUM_ID}));
     return items;
   }
   async function fillAlbumPreview(container,item,alt){
@@ -1502,10 +1492,10 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
     return new Promise((resolve,reject)=>{const reader=new FileReader();reader.onerror=()=>reject(reader.error);reader.onload=()=>{const original=String(reader.result);const img=new Image();img.onload=()=>{const max=1600;let w=img.width,h=img.height;if(Math.max(w,h)>max){const s=max/Math.max(w,h);w=Math.round(w*s);h=Math.round(h*s)}const canvas=document.createElement('canvas');canvas.width=w;canvas.height=h;const ctx=canvas.getContext('2d');ctx.drawImage(img,0,0,w,h);resolve(canvas.toDataURL('image/jpeg',.84))};img.onerror=()=>resolve(original);img.src=original};reader.readAsDataURL(file)})
   }
   function recordDateLabel(date){if(!date)return '';const [y,m,d]=date.split('-');return `${y}. ${m}. ${d}`}
-  function canEditRecord(r){return !!currentUser && r.author===currentUser}
+  function canEditRecord(r){return !!currentUserEmail && normalizeEmail(r.authorEmail)===currentUserEmail}
 
   function renderRecordFeed(){
-    const allRows=getRecords().sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+    const allRows=visibleRecords().sort((a,b)=>(b.date||'').localeCompare(a.date||''));
     let rows=allRows.filter(r=>(r.kind||'record')===(recordView==='diary'?'diary':'record'));
     let filtered=rows;
     if(recordFilter!=='all') filtered=filtered.filter(r=>r.author===recordFilter);
@@ -1524,7 +1514,7 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
   }
   function buildPost(r){
     const post=document.createElement('article');post.className='record-post';post.dataset.id=r.id;
-    const head=document.createElement('div');head.className='post-head';const who=ownerLabel(r.author||'mine');
+    const head=document.createElement('div');head.className='post-head';const who=recordAuthorLabel(r);
     head.innerHTML=`<div class="post-avatar">${who.slice(0,1)}</div><div class="post-meta"><b>${escapeHtml(who)}</b><span>${recordDateLabel(r.date)}</span></div><div class="post-menu"></div>`;
     const menu=head.querySelector('.post-menu');
     if(canEditRecord(r)){const edit=document.createElement('button');edit.type='button';edit.textContent='수정';edit.addEventListener('click',()=>openRecordEdit(r.id));const del=document.createElement('button');del.type='button';del.textContent='삭제';del.addEventListener('click',()=>deleteRecord(r.id));menu.append(edit,del)}
@@ -1539,10 +1529,10 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
       const sync=async()=>{stage.innerHTML='';const item=items[idx],src=await recordMediaSrc(item);if(item.kind==='video'){const v=document.createElement('video');v.src=src;v.controls=true;v.playsInline=true;v.preload='metadata';stage.appendChild(v)}else{const img=document.createElement('img');img.src=src;img.alt=r.title||'기록 사진';stage.appendChild(img)}count.textContent=`${idx+1} / ${items.length}`;prev.hidden=items.length<2;next.hidden=items.length<2;[...dots.children].forEach((d,i)=>d.classList.toggle('active',i===idx))};
       prev.addEventListener('click',()=>{idx=(idx-1+items.length)%items.length;sync()});next.addEventListener('click',()=>{idx=(idx+1)%items.length;sync()});sync();
     }else{media.classList.add('empty');media.innerHTML='<span>Our moment</span>'}
-    const copy=document.createElement('div');copy.className='post-copy';const title=document.createElement('h3');title.className='post-title';title.textContent=r.title||'제목 없음';copy.appendChild(title);if(r.body){const body=document.createElement('p');body.className='post-body';body.textContent=r.body;copy.appendChild(body)}const tags=document.createElement('div');tags.className='post-tags';tags.innerHTML=`<span class="post-tag">${escapeHtml(r.mood||'일상')}</span><span class="post-tag">${escapeHtml(who)}</span>`;copy.appendChild(tags);post.append(head,media,copy);return post;
+    const actions=document.createElement('div');actions.className='post-actions';actions.innerHTML=`<div class="post-actions-left"><span class="post-action-icon">♥ <small>${recordMediaItems(r).length||1}</small></span><span class="post-action-icon">💬 <small>${Math.max(1,Math.min(9,(r.body||'').length?Math.ceil((r.body||'').length/80):1))}</small></span><span class="post-action-icon">↗</span></div><span>${escapeHtml(r.mood||'일상')}</span>`;const copy=document.createElement('div');copy.className='post-copy';const title=document.createElement('h3');title.className='post-title';title.textContent=r.title||'제목 없음';copy.appendChild(title);if(r.body){const body=document.createElement('p');body.className='post-body';body.textContent=r.body;copy.appendChild(body)}const tags=document.createElement('div');tags.className='post-tags';tags.innerHTML=`<span class="post-tag">${escapeHtml(r.mood||'일상')}</span><span class="post-tag">${escapeHtml(who)}</span>`;copy.appendChild(tags);post.append(head,media,actions,copy);return post;
   }
   function buildDiaryEntry(r){
-    const entry=document.createElement('article');entry.className='diary-entry';const who=ownerLabel(r.author||'mine');const parts=(r.date||'').split('-');const date=document.createElement('div');date.className='diary-date';date.innerHTML=`${parts[1]||'--'}.${parts[2]||'--'}<span>${parts[0]||''} · ${escapeHtml(who)}</span>`;
+    const entry=document.createElement('article');entry.className='diary-entry';const who=recordAuthorLabel(r);const parts=(r.date||'').split('-');const date=document.createElement('div');date.className='diary-date';date.innerHTML=`<strong>${parts[1]||'--'}.${parts[2]||'--'}</strong><span>${parts[0]||''} · ${escapeHtml(who)}</span>`;
     const content=document.createElement('div');content.className='diary-content';const top=document.createElement('div');top.className='diary-top';const title=document.createElement('h3');title.className='diary-title';title.textContent=r.title||'오늘의 일기';top.appendChild(title);const actions=document.createElement('div');actions.className='diary-actions';if(canEditRecord(r)){const e=document.createElement('button');e.type='button';e.textContent='수정';e.addEventListener('click',()=>openRecordEdit(r.id));const d=document.createElement('button');d.type='button';d.textContent='삭제';d.addEventListener('click',()=>deleteRecord(r.id));actions.append(e,d)}top.appendChild(actions);content.appendChild(top);
     if(r.body){const body=document.createElement('p');body.className='diary-body';body.textContent=r.body;content.appendChild(body)}
     const items=recordMediaItems(r);if(items.length){const media=document.createElement('div');media.className='diary-media';items.slice(0,6).forEach(item=>{const cell=document.createElement('div');cell.className='diary-media-item';recordMediaSrc(item).then(src=>{if(item.kind==='video'){const v=document.createElement('video');v.src=src;v.muted=true;v.playsInline=true;v.preload='metadata';cell.appendChild(v)}else{const img=document.createElement('img');img.src=src;img.alt=r.title||'일기 사진';cell.appendChild(img)}});media.appendChild(cell)});content.appendChild(media)}
@@ -1584,7 +1574,7 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
   $('#recordForm').addEventListener('submit',async e=>{
     e.preventDefault();if(!currentUser||!googleToken)return;
     const rows=getRecords();const id=$('#recordId').value;const existing=id?rows.find(x=>x.id===id):null;if(existing&&!canEditRecord(existing))return;
-    const data={id:id||('r'+Date.now()),kind:$('#recordKind').value||'record',title:$('#recordTitle').value.trim(),date:$('#recordDate').value,mood:$('#recordMood').value,body:$('#recordBody').value.trim(),media:recordMedia.map(x=>({...x})),photos:[],folderId:$('#recordAlbumFolder').value||DEFAULT_ALBUM_ID,author:existing?.author||currentUser};
+    const data={id:id||('r'+Date.now()),kind:$('#recordKind').value||'record',title:$('#recordTitle').value.trim(),date:$('#recordDate').value,mood:$('#recordMood').value,body:$('#recordBody').value.trim(),media:recordMedia.map(x=>({...x})),photos:[],folderId:$('#recordAlbumFolder').value||DEFAULT_ALBUM_ID,author:existing?.author||currentUser,authorEmail:existing?.authorEmail||currentUserEmail};
     if(id){const idx=rows.findIndex(x=>x.id===id);if(idx>=0)rows[idx]=data}else rows.unshift(data);
     try{
       putRecords(rows);await saveCloudData();const newIds=new Set(recordMedia.map(x=>x.fileId||x.key).filter(Boolean));recordOriginalVideoKeys.filter(k=>!newIds.has(k)).forEach(deleteRecordMediaBlob);
@@ -1627,86 +1617,50 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
   $('#recordStage').addEventListener('touchend',e=>{if(recordTouchY==null)return;const y=e.changedTouches[0]?.clientY??recordTouchY,d=recordTouchY-y,sc=recordTouchScroll;const atBottom=sc&&sc.scrollTop+sc.clientHeight>=sc.scrollHeight-4,atTop=sc&&sc.scrollTop<=3;if(Math.abs(d)>45){if(recordPageIndex===0&&d>0&&atBottom)goRecordPage(1);else if(recordPageIndex===1&&d<0&&atTop)goRecordPage(0)}recordTouchY=null;recordTouchScroll=null},{passive:true});
   $$('.record-dot').forEach(b=>b.addEventListener('click',()=>goRecordPage(Number(b.dataset.recordPage))));
 
-  function emotionEntries(owner){return (emotionData[owner]?.entries||[]).slice().sort((a,b)=>(b.date||'').localeCompare(a.date||'')||(b.updatedAt||b.createdAt||0)-(a.updatedAt||a.createdAt||0))}
-  function latestEmotion(owner){return emotionEntries(owner)[0]||null}
+  function emotionEntries(email){return (emotionData[email]?.entries||[]).slice().sort((a,b)=>(b.date||'').localeCompare(a.date||'')||(b.updatedAt||b.createdAt||0)-(a.updatedAt||a.createdAt||0))}
+  function latestEmotion(email){return emotionEntries(email)[0]||null}
   function emotionDatePretty(date){if(!date)return '';const [y,m,d]=date.split('-');return `${y}. ${m}. ${d}`}
   function emotionLinesText(entry){return (entry?.lines||[]).filter(Boolean).join('\n')}
   function emotionFlagsHtml(entry){const f=[];if(entry?.period)f.push('<span class="emotion-flag">생리</span>');if(entry?.intimacy)f.push('<span class="emotion-flag">성관계</span>');return f.join('')}
-  function renderEmotionCard(owner){
-    const el=$(owner==='mine'?'#emotionMineCard':'#emotionPartnerCard');if(!el)return;const e=latestEmotion(owner),label=ownerLabel(owner),available=!!emotionRefs[owner]?.fileId;
-    if(!currentUser){el.innerHTML=`<div class="emotion-card-head"><b>${label}</b></div><div class="emotion-empty-card">Google 로그인 후 확인할 수 있습니다.</div>`;return}
-    if(!available){el.innerHTML=`<div class="emotion-card-head"><b>${label}</b></div><div class="emotion-empty-card">${label}이 감정일기를 처음 작성하면<br>여기에 함께 표시됩니다.</div>`;return}
-    if(!e){el.innerHTML=`<div class="emotion-card-head"><b>${label}</b></div><div class="emotion-empty-card">아직 감정일기가 없습니다.</div>`;return}
-    const lines=(e.lines||[]).map((v,i)=>`<div class="emotion-line">${i+1}. ${escapeHtml(v||'')}</div>`).join('');
-    el.innerHTML=`<div class="emotion-card-head"><b>${label}</b><span>${emotionDatePretty(e.date)}</span></div><span class="emotion-mood">${escapeHtml(e.mood||'보통')}</span><div class="emotion-lines">${lines}</div><div class="emotion-flags">${emotionFlagsHtml(e)}</div>`;
-  }
+  function emotionVisibleOwners(){const keys=Object.keys(emotionData).filter(e=>emotionRefs[e]?.fileId);keys.sort((a,b)=>a===currentUserEmail?-1:b===currentUserEmail?1:0);return keys.slice(0,FAMILY_LIMIT)}
   function renderEmotion(){
-    renderEmotionCard('mine');renderEmotionCard('partner');const box=$('#emotionTimeline');if(!box)return;if(!currentUser){box.innerHTML='<div class="emotion-empty">Google 로그인 후 감정일기를 함께 볼 수 있습니다.</div>';return}
-    const rows=[...emotionEntries('mine'),...emotionEntries('partner')].sort((a,b)=>(b.date||'').localeCompare(a.date||'')||(b.updatedAt||b.createdAt||0)-(a.updatedAt||a.createdAt||0));
-    if(!rows.length){box.innerHTML='<div class="emotion-empty">아직 작성된 감정일기가 없습니다.</div>';return}
-    box.innerHTML=rows.map(e=>{const editable=currentUser===e.owner;const ownerClass=e.owner==='mine'?'mine':'partner';return `<article class="emotion-entry"><div class="emotion-entry-date">${escapeHtml((e.date||'').slice(5).replace('-','.'))}<span>${escapeHtml((e.date||'').slice(0,4))}</span></div><div class="emotion-entry-main"><div class="emotion-entry-head"><span class="emotion-owner-badge ${ownerClass}">${ownerLabel(e.owner)}</span><span class="emotion-entry-mood">${escapeHtml(e.mood||'보통')}</span>${emotionFlagsHtml(e)}</div><div class="emotion-entry-lines">${escapeHtml(emotionLinesText(e))}</div></div>${editable?`<button class="emotion-edit" type="button" data-emotion-edit="${escapeHtml(e.id)}" data-owner="${e.owner}">수정</button>`:'<span></span>'}</article>`}).join('');
+    const people=$('#emotionPeopleGrid'),box=$('#emotionTimeline');if(!people||!box)return;if(!currentUser){people.innerHTML='';box.innerHTML='<div class="emotion-empty">Google 로그인 후 감정일기를 확인할 수 있습니다.</div>';return}
+    const owners=emotionVisibleOwners();people.innerHTML=owners.map(email=>{const d=emotionData[email],e=latestEmotion(email),label=d?.profile?.name||familyUser(email).name||email,cls=email===currentUserEmail?'mine-card':'partner-card';if(!e)return `<article class="emotion-person-card ${cls}"><div class="emotion-card-head"><b>${escapeHtml(label)}</b></div><div class="emotion-empty-card">아직 감정일기가 없습니다.</div></article>`;const lines=(e.lines||[]).map((v,i)=>`<div class="emotion-line">${i+1}. ${escapeHtml(v||'')}</div>`).join('');return `<article class="emotion-person-card ${cls}"><div class="emotion-card-head"><b>${escapeHtml(label)}</b><span>${emotionDatePretty(e.date)}</span></div><span class="emotion-mood">${escapeHtml(e.mood||'보통')}</span><div class="emotion-lines">${lines}</div><div class="emotion-flags">${emotionFlagsHtml(e)}</div></article>`}).join('');
+    const rows=owners.flatMap(emotionEntries).sort((a,b)=>(b.date||'').localeCompare(a.date||'')||(b.updatedAt||b.createdAt||0)-(a.updatedAt||a.createdAt||0));if(!rows.length){box.innerHTML='<div class="emotion-empty">아직 작성된 감정일기가 없습니다.</div>';return}
+    box.innerHTML=rows.map(e=>{const editable=currentUserEmail===normalizeEmail(e.owner),ownerEmail=normalizeEmail(e.owner),label=emotionData[ownerEmail]?.profile?.name||familyUser(ownerEmail).name||ownerEmail,ownerClass=editable?'mine':'partner';return `<article class="emotion-entry"><div class="emotion-entry-date">${escapeHtml((e.date||'').slice(5).replace('-','.'))}<span>${escapeHtml((e.date||'').slice(0,4))}</span></div><div class="emotion-entry-main"><div class="emotion-entry-head"><span class="emotion-owner-badge ${ownerClass}">${escapeHtml(label)}</span><span class="emotion-entry-mood">${escapeHtml(e.mood||'보통')}</span>${emotionFlagsHtml(e)}</div><div class="emotion-entry-lines">${escapeHtml(emotionLinesText(e))}</div></div>${editable?`<button class="emotion-edit" type="button" data-emotion-edit="${escapeHtml(e.id)}">수정</button>`:'<span></span>'}</article>`}).join('');
   }
-  function openEmotionEditor(entry=null){
-    if(!currentUser){requireLogin(()=>openEmotionEditor(entry));return}if(entry&&entry.owner!==currentUser){toast('본인의 감정일기만 수정할 수 있습니다.');return}
-    const date=entry?.date||iso(today.getFullYear(),today.getMonth(),today.getDate());$('#emotionEntryId').value=entry?.id||'';$('#emotionDate').value=date;$('#emotionMood').value=entry?.mood||'보통';const lines=entry?.lines||[];$('#emotionLine1').value=lines[0]||'';$('#emotionLine2').value=lines[1]||'';$('#emotionLine3').value=lines[2]||'';$('#emotionPeriod').checked=!!entry?.period;$('#emotionIntimacy').checked=!!entry?.intimacy;$('#deleteEmotion').hidden=!entry;$('#emotionModalTitle').textContent=entry?'감정일기 수정':'3줄 감정일기';openModal('emotionModal');
-  }
+  function openEmotionEditor(entry=null){if(!currentUser){requireLogin(()=>openEmotionEditor(entry));return}if(entry&&normalizeEmail(entry.owner)!==currentUserEmail){toast('본인의 감정일기만 수정할 수 있습니다.');return}const date=entry?.date||iso(today.getFullYear(),today.getMonth(),today.getDate());$('#emotionEntryId').value=entry?.id||'';$('#emotionDate').value=date;$('#emotionMood').value=entry?.mood||'보통';const lines=entry?.lines||[];$('#emotionLine1').value=lines[0]||'';$('#emotionLine2').value=lines[1]||'';$('#emotionLine3').value=lines[2]||'';$('#emotionPeriod').checked=!!entry?.period;$('#emotionIntimacy').checked=!!entry?.intimacy;$('#deleteEmotion').hidden=!entry;$('#emotionModalTitle').textContent=entry?'감정일기 수정':'3줄 감정일기';openModal('emotionModal')}
   $('#newEmotionBtn').addEventListener('click',()=>openEmotionEditor());
-  $('#emotionTimeline').addEventListener('click',e=>{const b=e.target.closest('[data-emotion-edit]');if(!b)return;const entry=emotionData[currentUser]?.entries?.find(x=>x.id===b.dataset.emotionEdit);if(entry)openEmotionEditor(entry)});
-  $('#emotionForm').addEventListener('submit',async e=>{
-    e.preventDefault();if(!currentUser||!emotionRefs[currentUser]?.writable)return;const id=$('#emotionEntryId').value;const d=emotionData[currentUser],existing=id?d.entries.find(x=>x.id===id):null;if(existing&&existing.owner!==currentUser)return;
-    const date=$('#emotionDate').value;if(!date)return;const sameDay=!id?d.entries.find(x=>x.date===date):null;if(sameDay){openEmotionEditor(sameDay);toast('이 날짜의 감정일기가 있어 수정 화면을 열었습니다.');return}
-    const item={id:id||('em-'+Date.now()),owner:currentUser,date,mood:$('#emotionMood').value,lines:[$('#emotionLine1').value.trim(),$('#emotionLine2').value.trim(),$('#emotionLine3').value.trim()],period:$('#emotionPeriod').checked,intimacy:$('#emotionIntimacy').checked,createdAt:existing?.createdAt||Date.now(),updatedAt:Date.now()};
-    if(existing){const i=d.entries.findIndex(x=>x.id===id);d.entries[i]=item}else d.entries.push(item);
-    try{await saveEmotionData(currentUser);closeModal('emotionModal');renderEmotion();toast('감정일기를 저장했습니다.')}catch(err){toast(googleErrorMessage(err))}
-  });
-  $('#deleteEmotion').addEventListener('click',async()=>{const id=$('#emotionEntryId').value;if(!id||!currentUser)return;const d=emotionData[currentUser];if(!d.entries.some(x=>x.id===id))return;d.entries=d.entries.filter(x=>x.id!==id);try{await saveEmotionData(currentUser);closeModal('emotionModal');renderEmotion();toast('감정일기를 삭제했습니다.')}catch(err){toast(googleErrorMessage(err))}});
-
-  function privateCanWrite(){return !!currentUser&&currentUser===privateOwner&&privateRefs[privateOwner]?.writable}
+  $('#emotionTimeline').addEventListener('click',e=>{const b=e.target.closest('[data-emotion-edit]');if(!b)return;const entry=emotionData[currentUserEmail]?.entries?.find(x=>x.id===b.dataset.emotionEdit);if(entry)openEmotionEditor(entry)});
+  $('#emotionForm').addEventListener('submit',async e=>{e.preventDefault();if(!currentUserEmail||!emotionRefs[currentUserEmail]?.writable)return;const id=$('#emotionEntryId').value,d=emotionData[currentUserEmail],existing=id?d.entries.find(x=>x.id===id):null;const date=$('#emotionDate').value;if(!date)return;const sameDay=!id?d.entries.find(x=>x.date===date):null;if(sameDay){openEmotionEditor(sameDay);toast('이 날짜의 감정일기가 있어 수정 화면을 열었습니다.');return}const item={id:id||('em-'+Date.now()),owner:currentUserEmail,date,mood:$('#emotionMood').value,lines:[$('#emotionLine1').value.trim(),$('#emotionLine2').value.trim(),$('#emotionLine3').value.trim()],period:$('#emotionPeriod').checked,intimacy:$('#emotionIntimacy').checked,createdAt:existing?.createdAt||Date.now(),updatedAt:Date.now()};if(existing){const i=d.entries.findIndex(x=>x.id===id);d.entries[i]=item}else d.entries.push(item);try{await saveEmotionData(currentUserEmail);closeModal('emotionModal');renderEmotion();toast('감정일기를 저장했습니다.')}catch(err){toast(googleErrorMessage(err))}});
+  $('#deleteEmotion').addEventListener('click',async()=>{const id=$('#emotionEntryId').value;if(!id||!currentUserEmail)return;const d=emotionData[currentUserEmail];if(!d?.entries?.some(x=>x.id===id))return;d.entries=d.entries.filter(x=>x.id!==id);try{await saveEmotionData(currentUserEmail);closeModal('emotionModal');renderEmotion();toast('감정일기를 삭제했습니다.')}catch(err){toast(googleErrorMessage(err))}});
+  function privateCanWrite(){return !!currentUserEmail&&currentUserEmail===privateOwner&&privateRefs[privateOwner]?.writable}
   function privateDateLabel(ts){try{return new Date(ts).toLocaleString('ko-KR',{year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'})}catch{return ''}}
-  function renderPrivate(){
-    const panel=$('#privatePanel');if(!panel)return;
-    const mineBtn=$('[data-private-owner="mine"]'),partnerBtn=$('[data-private-owner="partner"]');
-    mineBtn.hidden=currentUser==='partner';partnerBtn.hidden=false;if(currentUser==='partner')privateOwner='partner';
-    $$('.private-owner').forEach(b=>b.classList.toggle('active',b.dataset.privateOwner===privateOwner));
-    $$('.private-feature').forEach(b=>b.classList.toggle('active',b.dataset.privateFeature===privateFeature));
-    if(!currentUser){panel.innerHTML='<div class="private-empty">Google 로그인 후 PRIVATE를 사용할 수 있습니다.</div>';return}
-    const data=privateData[privateOwner]||blankPrivateData(),writable=privateCanWrite();
-    if(privateOwner==='partner'&&currentUser==='mine'&&!privateRefs.partner.fileId){panel.innerHTML='<div class="private-empty">동우가 한 번 로그인해 PRIVATE를 시작하면<br>여기에서 동우의 기록을 열람할 수 있습니다.</div>';return}
-    const note=!writable?'<div class="private-readonly-note">동우의 PRIVATE는 보민에게 읽기 전용으로 표시됩니다.</div>':'';
-    if(privateFeature==='memo'){
-      const form=writable?'<form class="private-form" id="privateMemoForm"><textarea id="privateMemoText" maxlength="2000" placeholder="메모를 남겨보세요."></textarea><button class="private-add" type="submit">+ 메모</button></form>':'';
-      const rows=data.memos.length?data.memos.slice().sort((a,b)=>(b.createdAt||0)-(a.createdAt||0)).map(m=>`<article class="private-item"><div class="private-item-head"><div><b>MEMO</b><span>${escapeHtml(privateDateLabel(m.createdAt))}</span></div>${writable?`<button class="private-delete" type="button" data-private-delete="memo" data-id="${escapeHtml(m.id)}">삭제</button>`:''}</div><p>${escapeHtml(m.text||'')}</p></article>`).join(''):'<div class="private-empty">아직 메모가 없습니다.</div>';
-      panel.innerHTML=note+form+`<div class="private-list">${rows}</div>`;
-    }else if(privateFeature==='routine'){
-      const form=writable?'<form class="private-form" id="privateRoutineForm"><input type="text" id="privateRoutineText" maxlength="80" placeholder="새 루틴"><button class="private-add" type="submit">+ 루틴</button></form>':'';
-      const key=iso(today.getFullYear(),today.getMonth(),today.getDate());const rows=data.routines.length?data.routines.map(r=>{const done=(r.doneDates||[]).includes(key);return `<div class="routine-row"><input type="checkbox" data-routine-toggle="${escapeHtml(r.id)}" ${done?'checked':''} ${writable?'':'disabled'}><div class="routine-copy"><b>${escapeHtml(r.text||'')}</b><span>${done?'오늘 완료':'오늘 미완료'}</span></div>${writable?`<button class="private-delete" type="button" data-private-delete="routine" data-id="${escapeHtml(r.id)}">삭제</button>`:''}</div>`}).join(''):'<div class="private-empty">아직 루틴이 없습니다.</div>';
-      panel.innerHTML=note+form+`<div class="private-list">${rows}</div>`;
-    }else{
-      const form=writable?'<form class="private-form" id="privateChecklistForm"><input type="text" id="privateChecklistText" maxlength="120" placeholder="체크할 항목"><button class="private-add" type="submit">+ 항목</button></form>':'';
-      const rows=data.checklists.length?data.checklists.map(c=>`<div class="check-row"><input type="checkbox" data-check-toggle="${escapeHtml(c.id)}" ${c.done?'checked':''} ${writable?'':'disabled'}><div class="check-copy"><b>${escapeHtml(c.text||'')}</b><span>${c.done?'완료':'미완료'}</span></div>${writable?`<button class="private-delete" type="button" data-private-delete="checklist" data-id="${escapeHtml(c.id)}">삭제</button>`:''}</div>`).join(''):'<div class="private-empty">아직 체크리스트가 없습니다.</div>';
-      panel.innerHTML=note+form+`<div class="private-list">${rows}</div>`;
-    }
+  function dateKeyOffset(n){const d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()+n);return iso(d.getFullYear(),d.getMonth(),d.getDate())}
+  function routineStreak(r){const set=new Set(r.doneDates||[]);let n=0;for(let i=0;i<366;i++){if(set.has(dateKeyOffset(-i)))n++;else if(i===0)continue;else break}return n}
+  function routineWindow(r,days=28){const set=new Set(r.doneDates||[]),arr=[];for(let i=days-1;i>=0;i--){const key=dateKeyOffset(-i);arr.push({key,done:set.has(key),today:i===0})}return arr}
+  function renderPrivateOwnerTabs(){const box=$('#privateOwnerTabs');if(!box)return;let owners=isAdmin?Object.keys(privateData).slice(0,FAMILY_LIMIT):[currentUserEmail];owners=[...new Set(owners.filter(Boolean))];owners.sort((a,b)=>a===currentUserEmail?-1:b===currentUserEmail?1:0);if(!owners.includes(privateOwner))privateOwner=currentUserEmail;box.innerHTML=owners.map(email=>{const p=privateData[email]?.profile||familyUser(email);return `<button class="private-owner ${email===privateOwner?'active':''}" type="button" data-private-owner="${escapeHtml(email)}">${escapeHtml(p?.name||email.split('@')[0])}</button>`}).join('')}
+  function routineBadgeState(routines){const total=routines.reduce((n,r)=>n+(r.doneDates||[]).length,0),best=Math.max(0,...routines.map(r=>routineStreak(r)));return [{icon:'👍',title:'습관의 시작',desc:'첫 스탬프를 기록했어요.',unlocked:total>=1},{icon:'✔',title:'실천의 시작',desc:'연속 3일 루틴을 이어갔어요.',unlocked:best>=3},{icon:'🏅',title:'첫 완주',desc:'하나의 챌린지를 완주했어요.',unlocked:routines.some(r=>(r.doneDates||[]).length>=Number(r.goalDays||30))},{icon:'🌱',title:'성장의 냄새',desc:'누적 14회 스탬프를 달성했어요.',unlocked:total>=14},{icon:'📣',title:'각성 선언',desc:'연속 7일 실천에 성공했어요.',unlocked:best>=7},{icon:'💥',title:'파급효과',desc:'누적 30회 스탬프를 달성했어요.',unlocked:total>=30}];}
+  function routineSuggestionButtons(){const items=['🛼 매일 운동하기','🏃 달리기 연습','💪 근육 늘리기','🥗 건강한 식습관','🚭 금연하기','📝 책읽는 습관','💡 생산성 높이기','💬 외국어 배우기','👍 SNS 운영하기','☕ 마음챙김','🌞 모닝루틴','🧘 명상하기'];return items.map(t=>`<button type="button" class="routine-suggestion" data-routine-suggest="${escapeHtml(t.replace(/^\S+\s/,''))}">${escapeHtml(t)}</button>`).join('')}
+  function renderRoutinePanel(data,writable,note){
+    const todayKey=dateKeyOffset(0),routines=data.routines||[],doneToday=routines.filter(r=>(r.doneDates||[]).includes(todayKey)).length,totalStamps=routines.reduce((n,r)=>n+(r.doneDates||[]).length,0),rate=routines.length?Math.round(doneToday/routines.length*100):0;
+    const bars=[];for(let i=6;i>=0;i--){const key=dateKeyOffset(-i),cnt=routines.filter(r=>(r.doneDates||[]).includes(key)).length,pct=routines.length?Math.round(cnt/routines.length*100):0;bars.push(`<div class="challenge-bar-wrap"><div class="challenge-bar" style="height:${Math.max(2,pct)}%"></div><span>${key.slice(5).replace('-','/')}</span></div>`)}
+    const featured=routines.slice().sort((a,b)=>(routineStreak(b)-routineStreak(a))||((b.doneDates||[]).length-(a.doneDates||[]).length))[0];
+    const featuredDays=featured?(featured.doneDates||[]).length:0,featuredGoal=Number(featured?.goalDays||30),heroTitle=featured?.text||'새로운 습관',heroLevel=(featured?.level||'MINI').toUpperCase();
+    const form=writable?`<section class="routine-creator"><h3>새로운 습관 만들기</h3><div class="routine-suggestion-grid">${routineSuggestionButtons()}</div><form class="routine-creator-form" id="privateRoutineForm"><input type="text" id="privateRoutineText" maxlength="80" placeholder="예: 일본어 공부"><select id="privateRoutineGoal"><option value="7">7일</option><option value="14">14일</option><option value="21">21일</option><option value="30" selected>30일</option><option value="66">66일</option><option value="100">100일</option></select><select id="privateRoutineLevel"><option value="MINI">MINI</option><option value="MORE">MORE</option><option value="MAX">MAX</option></select><button class="private-add" type="submit">+ 시작</button></form></section>`:'';
+    const badgeMarkup=routineBadgeState(routines).map(b=>`<article class="routine-badge ${b.unlocked?'':'locked'}"><div class="routine-badge-icon">${b.icon}</div><strong>${escapeHtml(b.title)}</strong><span>${escapeHtml(b.desc)}</span></article>`).join('');
+    const cards=routines.length?routines.map(r=>{const done=(r.doneDates||[]).includes(todayKey),goal=Number(r.goalDays)||30,stamps=(r.doneDates||[]).length,progress=Math.min(100,Math.round(stamps/goal*100)),grid=routineWindow(r,Math.min(25,goal)).map(d=>`<span class="routine-day ${d.done?'done':''} ${d.today?'today':''}" title="${d.key}">${d.done?'✓':d.key.slice(8)}</span>`).join('');return `<article class="routine-card"><div class="routine-card-top"><div class="routine-card-title"><b>${escapeHtml(r.text||'Routine')}</b><span>${goal} DAYS CHALLENGE · 연속 ${routineStreak(r)}일</span><span class="routine-card-level">${escapeHtml((r.level||'MINI').toUpperCase())}</span></div><button class="routine-stamp ${done?'done':''}" type="button" data-routine-toggle="${escapeHtml(r.id)}" ${writable?'':'disabled'}>${done?'TODAY':'STAMP'}</button>${writable?`<button class="private-delete" type="button" data-private-delete="routine" data-id="${escapeHtml(r.id)}">삭제</button>`:''}</div><div class="routine-stamp-grid">${grid}</div><div class="routine-progress"><i style="width:${progress}%"></i></div><div class="routine-meta"><span>${stamps} stamps</span><span>${progress}% complete</span></div></article>`}).join(''):'<div class="private-empty">새로운 루틴 챌린지를 시작해보세요.</div>';
+    return note+`<div class="challenge-summary"><div class="challenge-stat"><strong>${doneToday}/${routines.length}</strong><span>TODAY STAMPS</span></div><div class="challenge-stat"><strong>${rate}%</strong><span>TODAY RATE</span></div><div class="challenge-stat"><strong>${totalStamps}</strong><span>TOTAL STAMPS</span></div></div><div class="routine-layout"><div class="routine-side">${form}<section class="routine-badges"><div class="private-column-head"><b>기록 배지</b><span>챌린지 보상</span></div><div class="routine-badge-grid">${badgeMarkup}</div></section></div><div class="routine-main"><section class="routine-hero"><div class="routine-hero-copy"><div class="routine-hero-kicker">안녕하세요, 오늘도 실천해 볼까요?</div><h3 class="routine-hero-title">${escapeHtml(heroTitle)}</h3><div class="routine-hero-sub">${featured?`${featuredGoal}일 챌린지 진행 중 · 연속 ${routineStreak(featured)}일`: '새로운 챌린지를 만들고 매일 스탬프를 찍어보세요.'}</div><div class="routine-level-badges"><span class="routine-level-badge">${escapeHtml(heroLevel)}</span><span class="routine-level-badge">${featuredDays}/${featuredGoal} DAYS</span></div></div><div class="routine-hero-side"><span>DAY</span><strong>${featuredDays}</strong></div></section><div class="challenge-graph"><div class="challenge-graph-head"><b>7 DAYS PROGRESS</b><span>일별 루틴 완료율</span></div><div class="challenge-bars">${bars.join('')}</div></div><div class="private-list">${cards}</div></div></div>`;
   }
-  $$('.private-owner').forEach(b=>b.addEventListener('click',()=>{if(currentUser==='partner'&&b.dataset.privateOwner==='mine')return;privateOwner=b.dataset.privateOwner;renderPrivate()}));
+  function checklistSection(title,items,writable){if(!items.length)return '';return `<section class="planner-section"><div class="planner-section-title"><b>${title}</b><span>${items.length} ITEMS</span></div>${items.map(c=>{const overdue=!c.done&&c.date&&c.date<dateKeyOffset(0);return `<div class="planner-row ${c.done?'done':''} ${overdue?'overdue':''}"><input type="checkbox" data-check-toggle="${escapeHtml(c.id)}" ${c.done?'checked':''} ${writable?'':'disabled'}><div class="planner-date"><b>${escapeHtml(c.date?c.date.slice(5).replace('-','.'):'NO DATE')}</b>${escapeHtml(c.time||'')}</div><div class="planner-copy"><b>${escapeHtml(c.text||'')}</b><span>${escapeHtml(c.category||'개인')}</span></div><span class="planner-priority">${escapeHtml(c.priority||'보통')}</span>${writable?`<button class="private-delete" type="button" data-private-delete="checklist" data-id="${escapeHtml(c.id)}">삭제</button>`:''}</div>`}).join('')}</section>`}
+  function renderChecklistPanel(data,writable,note){const todayKey=dateKeyOffset(0),list=(data.checklists||[]).slice().sort((a,b)=>(Number(a.done)-Number(b.done))||(a.date||'9999').localeCompare(b.date||'9999')||(a.time||'').localeCompare(b.time||''));const form=writable?`<form class="check-planner-form" id="privateChecklistForm"><input type="text" id="privateChecklistText" maxlength="120" placeholder="할 일 / 개인 일정"><input type="date" id="privateChecklistDate" value="${todayKey}"><input type="time" id="privateChecklistTime"><select id="privateChecklistPriority"><option>보통</option><option>높음</option><option>낮음</option></select><input type="text" id="privateChecklistCategory" maxlength="30" value="개인" placeholder="분류"><button class="private-add" type="submit">+ 추가</button></form>`:'';const todayItems=list.filter(c=>c.date===todayKey),upcoming=list.filter(c=>c.date&&c.date>todayKey),noDate=list.filter(c=>!c.date),past=list.filter(c=>c.date&&c.date<todayKey);const body=checklistSection('TODAY',todayItems,writable)+checklistSection('UPCOMING',upcoming,writable)+checklistSection('PAST / OVERDUE',past,writable)+checklistSection('SOMEDAY',noDate,writable);return note+form+(body||'<div class="private-empty">개인 일정과 할 일을 날짜·시간·우선순위별로 관리할 수 있습니다.</div>')}
+  function renderPrivateDashboard(data,writable){const memoForm=writable?'<form class="private-memo-form" id="privateMemoForm"><textarea id="privateMemoText" maxlength="2000" placeholder="생각, 아이디어, 기억할 내용을 자유롭게 메모하세요."></textarea><button class="private-add" type="submit">+ 메모</button></form>':'';const memoRows=data.memos.length?data.memos.slice().sort((a,b)=>(b.createdAt||0)-(a.createdAt||0)).map(m=>`<article class="private-item"><div class="private-item-head"><div><b>MEMO</b><span>${escapeHtml(privateDateLabel(m.createdAt))}</span></div>${writable?`<button class="private-delete" type="button" data-private-delete="memo" data-id="${escapeHtml(m.id)}">삭제</button>`:''}</div><p>${escapeHtml(m.text||'')}</p></article>`).join(''):'<div class="private-empty">아직 메모가 없습니다.</div>';const checklistHtml=renderChecklistPanel(data,writable,'');return `<div class="private-dashboard"><section class="private-column"><div class="private-column-head"><b>MEMO</b><span>생각 보관함</span></div>${memoForm}<div class="private-list">${memoRows}</div></section><section class="private-column"><div class="private-column-head"><b>CHECKLIST</b><span>개인 일정 플래너</span></div>${checklistHtml}</section></div>`}
+  function renderPrivate(){const panel=$('#privatePanel');if(!panel)return;if(!currentUserEmail){panel.innerHTML='<div class="private-empty">Google 로그인 후 PRIVATE를 사용할 수 있습니다.</div>';return}renderPrivateOwnerTabs();$$('.private-feature').forEach(b=>b.classList.toggle('active',b.dataset.privateFeature===privateFeature));const data=privateData[privateOwner]||blankPrivateData(privateOwner),writable=privateCanWrite();if(privateFeature==='memo')panel.innerHTML=renderPrivateDashboard(data,writable);else if(privateFeature==='routine')panel.innerHTML=renderRoutinePanel(data,writable,'');else panel.innerHTML=renderChecklistPanel(data,writable,'')}
+  $('#privateOwnerTabs').addEventListener('click',e=>{const b=e.target.closest('[data-private-owner]');if(!b)return;const email=normalizeEmail(b.dataset.privateOwner);if(!isAdmin&&email!==currentUserEmail)return;privateOwner=email;renderPrivate()});
   $$('.private-feature').forEach(b=>b.addEventListener('click',()=>{privateFeature=b.dataset.privateFeature;renderPrivate()}));
-  $('#privatePanel').addEventListener('submit',async e=>{
-    e.preventDefault();if(!privateCanWrite())return;const d=privateData[privateOwner];
-    if(e.target.id==='privateMemoForm'){const v=$('#privateMemoText')?.value.trim();if(v)d.memos.push({id:'pm-'+Date.now(),text:v,createdAt:Date.now()})}
-    if(e.target.id==='privateRoutineForm'){const v=$('#privateRoutineText')?.value.trim();if(v)d.routines.push({id:'pr-'+Date.now(),text:v,doneDates:[],createdAt:Date.now()})}
-    if(e.target.id==='privateChecklistForm'){const v=$('#privateChecklistText')?.value.trim();if(v)d.checklists.push({id:'pc-'+Date.now(),text:v,done:false,createdAt:Date.now()})}
-    try{await savePrivateData(privateOwner);renderPrivate();toast('PRIVATE에 저장했습니다.')}catch(err){toast(googleErrorMessage(err))}
-  });
-  $('#privatePanel').addEventListener('change',async e=>{
-    if(!privateCanWrite())return;const d=privateData[privateOwner],todayKey=iso(today.getFullYear(),today.getMonth(),today.getDate());
-    if(e.target.matches('[data-routine-toggle]')){const r=d.routines.find(x=>x.id===e.target.dataset.routineToggle);if(r){r.doneDates=Array.isArray(r.doneDates)?r.doneDates:[];r.doneDates=e.target.checked?[...new Set([...r.doneDates,todayKey])]:r.doneDates.filter(x=>x!==todayKey)}}
-    if(e.target.matches('[data-check-toggle]')){const c=d.checklists.find(x=>x.id===e.target.dataset.checkToggle);if(c)c.done=e.target.checked}
-    try{await savePrivateData(privateOwner);renderPrivate()}catch(err){toast(googleErrorMessage(err))}
-  });
-  $('#privatePanel').addEventListener('click',async e=>{
-    const b=e.target.closest('[data-private-delete]');if(!b||!privateCanWrite())return;const d=privateData[privateOwner],id=b.dataset.id;
-    if(b.dataset.privateDelete==='memo')d.memos=d.memos.filter(x=>x.id!==id);if(b.dataset.privateDelete==='routine')d.routines=d.routines.filter(x=>x.id!==id);if(b.dataset.privateDelete==='checklist')d.checklists=d.checklists.filter(x=>x.id!==id);
-    try{await savePrivateData(privateOwner);renderPrivate()}catch(err){toast(googleErrorMessage(err))}
-  });
+  $('#privatePanel').addEventListener('submit',async e=>{e.preventDefault();if(!privateCanWrite())return;const d=privateData[privateOwner];if(e.target.id==='privateMemoForm'){const v=$('#privateMemoText')?.value.trim();if(v)d.memos.push({id:'pm-'+Date.now(),text:v,createdAt:Date.now()})}if(e.target.id==='privateRoutineForm'){const v=$('#privateRoutineText')?.value.trim();if(v)d.routines.push({id:'pr-'+Date.now(),text:v,goalDays:Number($('#privateRoutineGoal')?.value)||30,level:($('#privateRoutineLevel')?.value||'MINI').toUpperCase(),doneDates:[],createdAt:Date.now()})}if(e.target.id==='privateChecklistForm'){const v=$('#privateChecklistText')?.value.trim();if(v)d.checklists.push({id:'pc-'+Date.now(),text:v,date:$('#privateChecklistDate')?.value||'',time:$('#privateChecklistTime')?.value||'',priority:$('#privateChecklistPriority')?.value||'보통',category:$('#privateChecklistCategory')?.value.trim()||'개인',done:false,createdAt:Date.now()})}try{await savePrivateData(privateOwner);renderPrivate();toast('PRIVATE에 저장했습니다.')}catch(err){toast(googleErrorMessage(err))}});
+  $('#privatePanel').addEventListener('change',async e=>{if(!privateCanWrite())return;const d=privateData[privateOwner];if(e.target.matches('[data-check-toggle]')){const c=d.checklists.find(x=>x.id===e.target.dataset.checkToggle);if(c)c.done=e.target.checked;try{await savePrivateData(privateOwner);renderPrivate()}catch(err){toast(googleErrorMessage(err))}}});
+  $('#privatePanel').addEventListener('click',async e=>{if(!privateCanWrite())return;const suggest=e.target.closest('[data-routine-suggest]');if(suggest){const input=$('#privateRoutineText');if(input)input.value=suggest.dataset.routineSuggest||'';return}const stamp=e.target.closest('[data-routine-toggle]');if(stamp){const d=privateData[privateOwner],r=d.routines.find(x=>x.id===stamp.dataset.routineToggle),key=dateKeyOffset(0);if(r){r.doneDates=Array.isArray(r.doneDates)?r.doneDates:[];r.doneDates=r.doneDates.includes(key)?r.doneDates.filter(x=>x!==key):[...new Set([...r.doneDates,key])];try{await savePrivateData(privateOwner);renderPrivate();toast(r.doneDates.includes(key)?'오늘의 스탬프를 찍었습니다.':'오늘 스탬프를 취소했습니다.')}catch(err){toast(googleErrorMessage(err))}}return}const b=e.target.closest('[data-private-delete]');if(!b)return;const d=privateData[privateOwner],id=b.dataset.id;if(b.dataset.privateDelete==='memo')d.memos=d.memos.filter(x=>x.id!==id);if(b.dataset.privateDelete==='routine')d.routines=d.routines.filter(x=>x.id!==id);if(b.dataset.privateDelete==='checklist')d.checklists=d.checklists.filter(x=>x.id!==id);try{await savePrivateData(privateOwner);renderPrivate()}catch(err){toast(googleErrorMessage(err))}});
 
   function animateStandaloneFrame(id){const el=$(id);if(!el)return;el.classList.remove('line-active');void el.offsetWidth;el.classList.add('line-active')}
   function showMainTab(tab){
@@ -1719,7 +1673,7 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
     if(tab==='emotion'){renderEmotion();animateStandaloneFrame('#emotionFrame');return}
     if(tab==='record'){goRecordPage(0,true);return}
     if(tab==='event'){animateStandaloneFrame('#eventFrame');return}
-    if(tab==='private'){privateOwner=currentUser==='partner'?'partner':privateOwner;renderPrivate();animateStandaloneFrame('#privateFrame');return}
+    if(tab==='private'){privateOwner=currentUserEmail||privateOwner;renderPrivate();animateStandaloneFrame('#privateFrame');return}
   }
   $$('.tab').forEach(t=>t.addEventListener('click',()=>showMainTab(t.dataset.tab)));
   function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._timer);t._timer=setTimeout(()=>t.classList.remove('show'),1800)}
