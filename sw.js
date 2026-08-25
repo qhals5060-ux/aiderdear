@@ -1,4 +1,4 @@
-const CACHE='aiderdear-v38-routine-layout';
+const CACHE='aiderdear-v39-drive-invite';
 const APP_SHELL=['./','./index.html','./manifest.webmanifest','./aiderdear-icon.svg','./aiderdear-icon-180.png','./aiderdear-icon-192.png','./aiderdear-icon-512.png','./aiderdear-sky.jpg'];
 
 self.addEventListener('install',event=>{
