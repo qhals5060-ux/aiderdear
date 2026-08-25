@@ -557,6 +557,52 @@ body.modal-open .emotion-stage{pointer-events:none}
 @media(max-width:800px){.mood-balance-layout{grid-template-columns:minmax(0,1fr) 78px!important}.mood-donut{width:70px!important;max-width:70px!important}.emotion-mindmap{min-height:240px}.mindmap-node{min-width:60px;max-width:90px;font-size:6px;padding:6px 7px}.mindmap-core{width:54px;height:54px;font-size:6px}}
 @media(max-width:600px){.mood-balance-layout{grid-template-columns:minmax(0,1fr) 58px!important}.mood-donut{width:54px!important;max-width:54px!important}.mood-donut-center strong{font-size:15px!important}.mood-legend-row{grid-template-columns:7px minmax(0,1fr) 16px 20px!important;font-size:5px!important}.mood-legend-row b{font-size:5px!important}.mood-legend-row .mood-percent{font-size:4.5px!important}.emotion-mindmap{min-height:220px}.mindmap-node{min-width:48px;max-width:72px;font-size:5px;padding:5px}.mindmap-core{width:46px;height:46px;font-size:5px}.therapy-item p{font-size:6px!important}}
 
+
+/* ===== AiderDear v13 detail refinements ===== */
+.account-stack.account-inline{display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:3px!important;min-width:0!important}
+.account-stack.account-inline .account-name,.account-stack.account-inline .sync-mini{font-size:9px!important;line-height:1.1!important;padding:0!important;color:#111!important;letter-spacing:0!important}
+
+/* Emotion THIS MONTH — 3:2 calendar + bucket list */
+.emotion-record-content{min-height:0!important;overflow:hidden!important}
+.emotion-month-split{height:100%;min-height:0;display:grid;grid-template-columns:minmax(0,3fr) minmax(260px,2fr);gap:14px}
+.emotion-month-calendar{margin:0!important;height:100%;min-height:0;display:grid;grid-template-rows:auto auto minmax(0,1fr);padding:13px 14px!important;border-radius:22px!important}
+.emotion-month-calendar .emotion-month-grid{min-height:0;grid-template-rows:repeat(6,minmax(0,1fr));gap:5px!important;padding-top:8px!important}
+.emotion-month-calendar .emotion-month-day{min-height:0!important;border-radius:12px!important;padding:5px!important}
+.emotion-month-calendar .emotion-mini-blob{width:21px!important;height:19px!important;font-size:8px!important}
+.bucket-board{height:100%;min-height:0;border:1px solid rgba(0,0,0,.12);border-radius:22px;padding:13px 14px 14px;background:linear-gradient(180deg,#fcfdff,#f7fbff);display:grid;grid-template-rows:auto auto minmax(0,1fr);gap:10px;overflow:hidden}
+.bucket-head{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;padding-bottom:10px;border-bottom:1px solid #ddd}.bucket-head b{display:block;font-family:"Iowan Old Style","Palatino Linotype",Georgia,serif;font-size:20px;font-weight:500;line-height:1}.bucket-head span{display:block;font-size:6px;letter-spacing:.14em;color:#777;margin-top:5px}.bucket-head button{height:26px;border:1px solid #111;border-radius:999px;background:#fff;padding:0 9px;font-size:7px;font-weight:900;letter-spacing:.08em}
+.bucket-form{display:grid;grid-template-columns:minmax(0,1fr) 34px;gap:6px}.bucket-form input{height:34px;border:1px solid #111;border-radius:999px;padding:0 12px;font-size:9px;background:#fff}.bucket-form button{width:34px;height:34px;border:1px solid #111;border-radius:50%;background:#111;color:#fff;font-size:18px;line-height:1}
+.bucket-drops{min-height:0;overflow:auto;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-auto-rows:92px;gap:8px;padding:4px 2px 8px;align-content:start;scrollbar-width:thin}
+.bucket-drop{position:relative;border:1px solid rgba(70,104,140,.18);background:var(--drop,#dcecf7);border-radius:52% 48% 52% 48% / 60% 58% 42% 40%;padding:15px 9px 10px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:8px;font-weight:800;line-height:1.35;color:#263747;box-shadow:inset 7px 8px 16px rgba(255,255,255,.62),0 5px 14px rgba(83,123,156,.08);cursor:pointer;transform-origin:center;overflow:hidden}.bucket-drop:before{content:"";position:absolute;width:20%;height:22%;left:22%;top:13%;border-radius:50%;background:rgba(255,255,255,.72);filter:blur(.5px)}.bucket-drop:nth-child(6n+2){--drop:#e6ddf4}.bucket-drop:nth-child(6n+3){--drop:#f5dce3}.bucket-drop:nth-child(6n+4){--drop:#dcebd5}.bucket-drop:nth-child(6n+5){--drop:#f5e9c6}.bucket-drop:nth-child(6n+6){--drop:#d9e6f6}.bucket-drop span{position:relative;z-index:1}.bucket-drop.popping{animation:bucketPop .42s cubic-bezier(.22,.9,.28,1) forwards}.bucket-drop.popping:after{content:"";position:absolute;inset:10%;border:2px solid rgba(105,153,190,.45);border-radius:50%;animation:bucketRipple .42s ease-out forwards}
+@keyframes bucketPop{0%{transform:scale(1);opacity:1}45%{transform:scale(1.22);opacity:.95}72%{transform:scale(.72);opacity:.7}100%{transform:scale(.05);opacity:0}}
+@keyframes bucketRipple{0%{transform:scale(.2);opacity:.8}100%{transform:scale(1.8);opacity:0}}
+.bucket-empty{grid-column:1/-1;min-height:210px;display:grid;place-items:center;text-align:center;font-family:"Iowan Old Style","Palatino Linotype",Georgia,serif;font-size:24px;color:#b2bdc7}
+.bucket-history{min-height:0;overflow:auto;padding:2px;scrollbar-width:thin}.bucket-history-list{display:grid;gap:7px}.bucket-history-row{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:8px;align-items:center;border-bottom:1px solid #e3e3e3;padding:8px 2px}.bucket-history-row i{width:26px;height:26px;border-radius:50% 50% 55% 45%;background:#dcecf7;display:grid;place-items:center;font-style:normal;font-size:10px}.bucket-history-row b{font-size:8px}.bucket-history-row span{font-size:6px;color:#888}.bucket-history-empty{min-height:180px;display:grid;place-items:center;font-size:8px;color:#999}
+
+/* Insights — integrated MOOD BALANCE + EMOTION x WANT, therapy at right */
+.emotion-insight-content{overflow:hidden!important}
+.emotion-insights-fixed.v13-insights{display:grid!important;grid-template-columns:minmax(0,1.25fr) minmax(320px,.75fr)!important;grid-template-rows:minmax(0,1fr)!important;gap:14px!important;height:100%!important;overflow:hidden!important}
+.emotion-insights-fixed.v13-insights .emotion-insight-card{height:100%;min-height:0!important;border-radius:22px!important;padding:13px 14px!important;overflow:hidden!important}
+.mood-network-card{grid-column:1!important;grid-row:1!important}.therapy-v13-card{grid-column:2!important;grid-row:1!important;background:linear-gradient(180deg,#fff,#fbfaf6)!important}
+.balance-network{position:relative;height:calc(100% - 24px);min-height:0;background:radial-gradient(circle at 26% 50%,rgba(255,255,255,.96) 0 20%,rgba(250,250,246,.85) 20% 100%);border-radius:18px;overflow:hidden}
+.balance-network svg{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.balance-donut{position:absolute;left:25%;top:50%;transform:translate(-50%,-50%);width:min(230px,31%);aspect-ratio:1;border-radius:50%;display:grid;place-items:center;z-index:3;box-shadow:0 12px 30px rgba(0,0,0,.055)}.balance-donut:after{content:"";width:54%;height:54%;border-radius:50%;background:#fff;border:1px solid rgba(0,0,0,.1);position:absolute}.balance-donut-center{position:relative;z-index:2;text-align:center}.balance-donut-center strong{display:block;font-family:"Iowan Old Style","Palatino Linotype",Georgia,serif;font-size:40px;font-weight:400;line-height:.9}.balance-donut-center span{display:block;font-size:6px;font-weight:900;letter-spacing:.14em;margin-top:7px;color:#777}
+.balance-mood-node,.balance-want-node{position:absolute;transform:translate(-50%,-50%);z-index:4;border:1px solid rgba(0,0,0,.12);box-shadow:0 4px 14px rgba(0,0,0,.035);white-space:nowrap}.balance-mood-node{min-width:82px;border-radius:999px;padding:7px 9px;font-size:7px;font-weight:900;text-align:center}.balance-mood-node em,.balance-want-node em{font-style:normal;font-size:5px;color:#777;margin-left:4px}.balance-want-node{min-width:76px;max-width:128px;border-radius:999px;padding:7px 10px;background:#fff;font-size:7px;text-align:center}.balance-node-empty{opacity:.42}.balance-caption{position:absolute;left:49%;top:8%;font-size:6px;font-weight:900;letter-spacing:.13em;color:#999;z-index:2}
+.balance-mini-legend{position:absolute;left:3%;right:52%;bottom:4%;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:3px 8px;z-index:5}.balance-mini-row{display:grid;grid-template-columns:7px minmax(0,1fr) 22px;gap:4px;align-items:center;font-size:5.5px}.balance-mini-row i{width:6px;height:6px;border-radius:50%}.balance-mini-row b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:5.5px}.balance-mini-row span{text-align:right;color:#888;font-size:5px}
+.therapy-v13-list{height:calc(100% - 24px);display:grid;grid-template-rows:repeat(3,minmax(0,1fr));gap:9px}.therapy-v13-item{min-height:0;border:1px solid rgba(0,0,0,.11);border-radius:18px;padding:11px 12px;background:#fff;display:grid;grid-template-rows:auto auto minmax(0,1fr);gap:6px;overflow:hidden}.therapy-v13-top{display:flex;justify-content:space-between;align-items:center;gap:8px}.therapy-v13-rank{font-size:6px;font-weight:900;letter-spacing:.13em;color:#888}.therapy-v13-count{font-size:6px;color:#888}.therapy-v13-title{display:flex;align-items:center;gap:7px}.therapy-v13-title i{font-style:normal;font-size:19px}.therapy-v13-title b{font-size:12px}.therapy-v13-body{min-height:0;overflow:auto;scrollbar-width:thin;font-size:7px;line-height:1.62;color:#444}.therapy-v13-body strong{display:block;font-size:6px;letter-spacing:.07em;color:#111;margin:5px 0 2px}.therapy-v13-tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:3px}.therapy-v13-tags span{border:1px solid rgba(0,0,0,.1);border-radius:999px;padding:3px 6px;font-size:5.5px;background:#fbfbf8}.therapy-v13-empty{display:grid;place-items:center;text-align:center;color:#aaa;font-size:8px}
+
+/* Record = photo/video only */
+.record-controls .record-view,.record-controls .new-diary{display:none!important}
+
+/* Pastel file-folder albums */
+.album-folder-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:18px 16px!important;padding:12px 4px!important;overflow:visible!important}
+.album-folder{--folder-color:#F6D6DE;position:relative!important;border:0!important;background:transparent!important;padding:18px 0 0!important;overflow:visible!important;border-radius:0!important;box-shadow:none!important;text-align:left!important}.album-folder:before{content:"";position:absolute;left:10px;top:0;width:42%;height:25px;background:var(--folder-color);border:1px solid rgba(0,0,0,.12);border-bottom:0;border-radius:12px 14px 0 0;z-index:0}.album-folder-body{position:relative;z-index:1;background:var(--folder-color);border:1px solid rgba(0,0,0,.12);border-radius:12px 18px 18px 18px;padding:14px 13px 12px;min-height:168px;box-shadow:0 10px 22px rgba(0,0,0,.045);transition:transform .18s ease,box-shadow .18s ease}.album-folder:hover .album-folder-body{transform:translateY(-3px);box-shadow:0 13px 28px rgba(0,0,0,.075)}.album-folder .album-cover{height:102px!important;aspect-ratio:auto!important;border:0!important;border-radius:12px!important;background:rgba(255,255,255,.46)!important;box-shadow:inset 0 0 0 1px rgba(255,255,255,.4);overflow:hidden!important}.album-folder .album-cover img,.album-folder .album-cover video{opacity:.9}.album-folder-copy{padding:10px 2px 0!important}.album-folder-copy b{font-size:11px!important}.album-folder-copy span{font-size:7px!important;color:rgba(0,0,0,.55)!important}.album-folder-color-chip{position:absolute;right:11px;top:10px;width:13px;height:13px;border-radius:50%;border:1px solid rgba(0,0,0,.15);background:rgba(255,255,255,.55)}
+.album-color-picker{display:flex;gap:10px;flex-wrap:wrap;padding:6px 0}.album-color-picker button{width:36px;height:36px;border:2px solid transparent;border-radius:50%;background:var(--swatch);box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}.album-color-picker button.active{border-color:#111;transform:scale(1.06)}.album-folder-modal .field{margin-bottom:14px}
+.new-folder-inline{grid-template-columns:minmax(0,1fr) 96px auto auto!important}.new-folder-inline select{height:44px;border:2px solid #111;background:#fff;padding:0 8px}
+
+@media(max-width:950px){.emotion-month-split{grid-template-columns:minmax(0,1.45fr) minmax(220px,1fr);gap:9px}.bucket-drops{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:76px}.balance-donut{width:min(190px,31%)}.emotion-insights-fixed.v13-insights{grid-template-columns:minmax(0,1.1fr) minmax(280px,.9fr)!important}.album-folder-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media(max-width:650px){.account-stack.account-inline .account-name,.account-stack.account-inline .sync-mini{font-size:7px!important}.emotion-month-split{grid-template-columns:minmax(0,1.55fr) minmax(160px,1fr);gap:5px}.emotion-month-calendar,.bucket-board{padding:7px!important;border-radius:12px!important}.bucket-head b{font-size:13px}.bucket-head span{display:none}.bucket-head button{height:22px;font-size:5.5px;padding:0 6px}.bucket-form{grid-template-columns:minmax(0,1fr) 26px;gap:3px}.bucket-form input{height:27px;font-size:6px;padding:0 7px}.bucket-form button{width:26px;height:26px;font-size:14px}.bucket-drops{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:52px;gap:4px}.bucket-drop{padding:8px 4px;font-size:5.5px}.emotion-month-calendar .emotion-month-grid{gap:2px!important}.emotion-month-calendar .emotion-month-day{padding:3px!important;border-radius:7px!important}.emotion-month-calendar .emotion-mini-blob{width:14px!important;height:13px!important;font-size:5.5px!important}.emotion-insights-fixed.v13-insights{grid-template-columns:minmax(0,1.1fr) minmax(190px,.9fr)!important;gap:5px!important}.emotion-insights-fixed.v13-insights .emotion-insight-card{padding:7px!important;border-radius:12px!important}.balance-donut{width:min(115px,30%)}.balance-donut-center strong{font-size:20px}.balance-mood-node,.balance-want-node{min-width:40px;max-width:66px;padding:4px;font-size:4.5px}.balance-mini-legend{display:none}.therapy-v13-list{gap:4px}.therapy-v13-item{padding:6px;border-radius:9px;gap:3px}.therapy-v13-title i{font-size:12px}.therapy-v13-title b{font-size:7px}.therapy-v13-body{font-size:4.8px;line-height:1.45}.therapy-v13-tags span{font-size:4px;padding:2px 3px}.album-folder-grid{gap:11px 8px!important}.album-folder{padding-top:11px!important}.album-folder:before{height:16px;border-radius:7px 8px 0 0}.album-folder-body{min-height:112px;padding:8px;border-radius:8px 11px 11px 11px}.album-folder .album-cover{height:66px!important;border-radius:7px!important}.new-folder-inline{grid-template-columns:1fr 72px!important}.new-folder-inline .folder-save,.new-folder-inline #recordFolderCancel{grid-row:2}.new-folder-inline .folder-save{grid-column:1}.new-folder-inline #recordFolderCancel{grid-column:2}}
+
 </style>
 </head>
 <body>
@@ -669,22 +715,29 @@ body.modal-open .emotion-stage{pointer-events:none}
           <div class="emotion-title-group"><h2 class="emotion-heading">Emotion</h2><span class="emotion-insight-kicker">THIS MONTH</span></div>
           <div class="emotion-actions">
             <button class="emotion-new" id="newEmotionDiaryBtn" type="button">감정기록</button>
-            <button class="emotion-new emotion-cycle-btn" id="newEmotionCycleBtn" type="button">생리기록</button>
           </div>
         </div>
         <div class="emotion-content emotion-record-content">
-          <section class="emotion-month-board emotion-month-full" aria-label="월별 감정 기록">
-            <div class="emotion-month-head">
-              <b id="emotionMonthTitle">MOOD CALENDAR</b>
-              <div class="emotion-month-controls">
-                <button type="button" id="emotionPrevMonth" aria-label="이전 달">←</button>
-                <button type="button" id="emotionTodayMonth">TODAY</button>
-                <button type="button" id="emotionNextMonth" aria-label="다음 달">→</button>
+          <div class="emotion-month-split">
+            <section class="emotion-month-board emotion-month-calendar" aria-label="월별 감정 기록">
+              <div class="emotion-month-head">
+                <b id="emotionMonthTitle">MOOD CALENDAR</b>
+                <div class="emotion-month-controls">
+                  <button type="button" id="emotionPrevMonth" aria-label="이전 달">←</button>
+                  <button type="button" id="emotionTodayMonth">TODAY</button>
+                  <button type="button" id="emotionNextMonth" aria-label="다음 달">→</button>
+                </div>
               </div>
-            </div>
-            <div class="emotion-week-head"><span>SUN</span><span>MON</span><span>TUE</span><span>WED</span><span>THU</span><span>FRI</span><span>SAT</span></div>
-            <div class="emotion-month-grid" id="emotionMoodCalendar"></div>
-          </section>
+              <div class="emotion-week-head"><span>SUN</span><span>MON</span><span>TUE</span><span>WED</span><span>THU</span><span>FRI</span><span>SAT</span></div>
+              <div class="emotion-month-grid" id="emotionMoodCalendar"></div>
+            </section>
+            <aside class="bucket-board" aria-label="버킷리스트">
+              <div class="bucket-head"><div><b>Bucket List</b><span>OUR LITTLE WISHES</span></div><button id="bucketHistoryBtn" type="button">HISTORY</button></div>
+              <form class="bucket-form" id="bucketForm"><input id="bucketInput" maxlength="80" placeholder="하고 싶은 일을 적어주세요"><button type="submit" aria-label="버킷리스트 추가">+</button></form>
+              <div class="bucket-drops" id="bucketDrops"></div>
+              <div class="bucket-history" id="bucketHistory" hidden></div>
+            </aside>
+          </div>
         </div>
       </section>
     </section>
@@ -710,14 +763,11 @@ body.modal-open .emotion-stage{pointer-events:none}
       <div class="record-toolbar">
         <div class="record-heading"><h2>Our Records</h2></div>
         <div class="record-controls" aria-label="기록 필터">
-          <button class="record-view active" type="button" data-record-view="feed">FEED</button>
-          <button class="record-view" type="button" data-record-view="diary">DIARY</button>
           <button class="record-filter active" type="button" data-record-filter="all">전체</button>
           <span id="recordPeopleFilters" class="record-people-filters"></span>
           <input class="record-date-search" id="recordDateSearch" type="date" aria-label="날짜별 기록 검색">
           <button class="record-date-clear" id="recordDateClear" type="button" aria-label="날짜 검색 초기화" hidden>×</button>
           <button class="new-record" type="button" id="newRecordTop">+ 새 기록</button>
-          <button class="new-diary" type="button" id="newDiaryTop">+ 일기</button>
         </div>
       </div>
       <div class="record-feed" id="recordFeed"><div class="record-feed-inner" id="recordFeedInner"></div></div>
@@ -928,6 +978,7 @@ body.modal-open .emotion-stage{pointer-events:none}
             </div>
             <div class="new-folder-inline" id="recordNewFolderInline" hidden>
               <input id="recordNewFolderName" maxlength="30" placeholder="새 앨범 이름" aria-label="새 앨범 이름">
+              <select id="recordNewFolderColor" aria-label="앨범 색상"><option value="#F6D6DE">핑크</option><option value="#F6E7B7">크림</option><option value="#DCEBCB">그린</option><option value="#CFE5F6">블루</option><option value="#DED6F4">라벤더</option><option value="#F2D6C9">피치</option></select>
               <button class="folder-save" id="recordFolderSave" type="button">추가</button>
               <button id="recordFolderCancel" type="button">취소</button>
             </div>
@@ -988,6 +1039,20 @@ body.modal-open .emotion-stage{pointer-events:none}
   </div>
 </div>
 
+<!-- Album folder editor -->
+<div class="overlay" id="albumFolderModal" role="dialog" aria-modal="true" aria-labelledby="albumFolderModalTitle">
+  <div class="modal album-folder-modal">
+    <div class="modal-head"><b id="albumFolderModalTitle">새 앨범 폴더</b><button class="x" data-close="albumFolderModal">×</button></div>
+    <div class="modal-body">
+      <form id="albumFolderForm">
+        <div class="field full"><label for="albumFolderNameInput">폴더 이름</label><input id="albumFolderNameInput" maxlength="30" required placeholder="예: 제주도 2026"></div>
+        <div class="field full"><label>폴더 색상</label><div class="album-color-picker" id="albumColorPicker"><button type="button" data-album-color="#F6D6DE" style="--swatch:#F6D6DE" aria-label="핑크"></button><button type="button" data-album-color="#F6E7B7" style="--swatch:#F6E7B7" aria-label="크림"></button><button type="button" data-album-color="#DCEBCB" style="--swatch:#DCEBCB" aria-label="그린"></button><button type="button" data-album-color="#CFE5F6" style="--swatch:#CFE5F6" aria-label="블루"></button><button type="button" data-album-color="#DED6F4" style="--swatch:#DED6F4" aria-label="라벤더"></button><button type="button" data-album-color="#F2D6C9" style="--swatch:#F2D6C9" aria-label="피치"></button></div><input id="albumFolderColorInput" type="hidden" value="#F6D6DE"></div>
+        <div class="modal-actions"><button class="primary" type="submit">폴더 만들기</button></div>
+      </form>
+    </div>
+  </div>
+</div>
+
 <!-- Album photo viewer -->
 <div class="overlay album-lightbox" id="albumLightbox" role="dialog" aria-modal="true" aria-labelledby="albumLightboxTitle">
   <div class="modal">
@@ -1033,6 +1098,7 @@ body.modal-open .emotion-stage{pointer-events:none}
   const CALENDAR_NAME='AiderDear';
   const SEOUL_OFFSET='+09:00';
   const DEFAULT_ALBUM_ID='album-default';
+  const ALBUM_PASTELS=['#F6D6DE','#F6E7B7','#DCEBCB','#CFE5F6','#DED6F4','#F2D6C9'];
   const CALENDAR_SELECTION_KEY='aiderdear-calendar-selection-v1';
   const PRIVATE_DATA_FILE_NAME='private-data.json';
   const PRIVATE_FOLDER_PREFIX='AiderDear Private - ';
@@ -1053,7 +1119,7 @@ body.modal-open .emotion-stage{pointer-events:none}
   let driveRootId='';
   let driveMediaFolderId='';
   let driveDataFileId='';
-  let cloudData={version:CLOUD_VERSION,calendarId:'',albums:[{id:DEFAULT_ALBUM_ID,name:'기본 앨범',createdAt:Date.now()}],records:[],coupleMedia:null,ddays:[{id:'dday-us',title:'우리',date:'2025-11-01',mode:'since',createdAt:Date.now()}],activeDdayId:'dday-us',letters:[]};
+  let cloudData={version:CLOUD_VERSION,calendarId:'',albums:[{id:DEFAULT_ALBUM_ID,name:'기본 앨범',createdAt:Date.now()}],records:[],coupleMedia:null,ddays:[{id:'dday-us',title:'우리',date:'2025-11-01',mode:'since',createdAt:Date.now()}],activeDdayId:'dday-us',letters:[],bucketItems:[]};
   let calendarSources=[];
   let selectedCalendarIds=new Set();
   let driveLooseMedia=[];
@@ -1108,6 +1174,7 @@ body.modal-open .emotion-stage{pointer-events:none}
     let def=cloudData.albums.find(f=>f.id===DEFAULT_ALBUM_ID);
     if(!def){def={id:DEFAULT_ALBUM_ID,name:'기본 앨범',createdAt:Date.now()};cloudData.albums.unshift(def)}
     if(def.name==='기본 여행')def.name='기본 앨범';
+    cloudData.albums=cloudData.albums.filter(f=>f&&f.id&&f.name).map((f,i)=>({...f,color:ALBUM_PASTELS.includes(f.color)?f.color:ALBUM_PASTELS[i%ALBUM_PASTELS.length]}));
     if(!Array.isArray(cloudData.records))cloudData.records=[];
     cloudData.familyUsers=normalizeFamilyUsers(cloudData.familyUsers||[]);
     if(!Array.isArray(cloudData.ddays)||!cloudData.ddays.length)cloudData.ddays=[{id:'dday-us',title:'우리',date:'2025-11-01',mode:'since',createdAt:Date.now()}];
@@ -1115,6 +1182,8 @@ body.modal-open .emotion-stage{pointer-events:none}
     if(!cloudData.activeDdayId||!cloudData.ddays.some(x=>x.id===cloudData.activeDdayId))cloudData.activeDdayId=cloudData.ddays[0]?.id||'';
     if(!Array.isArray(cloudData.letters))cloudData.letters=[];
     cloudData.letters=cloudData.letters.filter(x=>x&&x.id&&x.fromEmail&&x.toEmail).map(x=>({...x,fromEmail:normalizeEmail(x.fromEmail),toEmail:normalizeEmail(x.toEmail),fromName:String(x.fromName||''),toName:String(x.toName||''),body:String(x.body||'').slice(0,220),createdAt:Number(x.createdAt)||Date.now(),readBy:Array.isArray(x.readBy)?[...new Set(x.readBy.map(normalizeEmail).filter(Boolean))]:[]}));
+    if(!Array.isArray(cloudData.bucketItems))cloudData.bucketItems=[];
+    cloudData.bucketItems=cloudData.bucketItems.filter(x=>x&&x.id&&String(x.text||'').trim()).map(x=>({...x,text:String(x.text||'').trim().slice(0,80),createdAt:Number(x.createdAt)||Date.now(),createdBy:normalizeEmail(x.createdBy||''),completedAt:x.completedAt?Number(x.completedAt):0,completedBy:normalizeEmail(x.completedBy||'')}));
   }
   function calendarSelectionStorageKey(){return `${CALENDAR_SELECTION_KEY}:${normalizeEmail(googleProfile?.email||currentUser||'guest')}`}
   function loadCalendarSelection(){
@@ -1519,7 +1588,7 @@ body.modal-open .emotion-stage{pointer-events:none}
   $('#logoutBtn').addEventListener('click',()=>{
     const token=googleToken;googleToken='';googleProfile=null;currentUser='';currentUserEmail='';currentUserName='';isAdmin=false;events=[];driveRootId='';driveMediaFolderId='';driveDataFileId='';
     privateData={};privateRefs={};privateOwner='';privateFeature='memo';emotionData={};emotionRefs={};schedulePersonFilters=new Set();
-    cloudData={version:CLOUD_VERSION,calendarId:'',albums:[{id:DEFAULT_ALBUM_ID,name:'기본 앨범',createdAt:Date.now()}],records:[],coupleMedia:null,ddays:[{id:'dday-us',title:'우리',date:'2025-11-01',mode:'since',createdAt:Date.now()}],activeDdayId:'dday-us',letters:[]};calendarSources=[];selectedCalendarIds=new Set();driveLooseMedia=[];
+    cloudData={version:CLOUD_VERSION,calendarId:'',albums:[{id:DEFAULT_ALBUM_ID,name:'기본 앨범',createdAt:Date.now()}],records:[],coupleMedia:null,ddays:[{id:'dday-us',title:'우리',date:'2025-11-01',mode:'since',createdAt:Date.now()}],activeDdayId:'dday-us',letters:[],bucketItems:[]};calendarSources=[];selectedCalendarIds=new Set();driveLooseMedia=[];
     for(const url of recordMediaUrlCache.values())URL.revokeObjectURL(url);recordMediaUrlCache.clear();
     clearActiveMediaUrl();const v=$('#coupleVideo2');v.pause();v.hidden=true;v.removeAttribute('src');const img=$('#couplePhoto2');img.hidden=true;img.removeAttribute('src');$('#mediaPlaceholder2').style.display='flex';
     applyLoginUI();updateMailBadge();renderCalendar();renderAlbumFolders();renderRecordFeed();renderPrivate();renderEmotion();closeModal('loginModal');setGoogleStatus('로그아웃했습니다.');if(token&&window.google?.accounts?.oauth2)google.accounts.oauth2.revoke(token,()=>{});
@@ -1595,15 +1664,17 @@ body.modal-open .emotion-stage{pointer-events:none}
 
   function getAlbumFolders(){
     if(!Array.isArray(cloudData.albums))cloudData.albums=[];
-    if(!cloudData.albums.some(f=>f.id===DEFAULT_ALBUM_ID))cloudData.albums.unshift({id:DEFAULT_ALBUM_ID,name:'기본 앨범',createdAt:Date.now()});
-    const def=cloudData.albums.find(f=>f.id===DEFAULT_ALBUM_ID);if(def&&def.name==='기본 여행'){def.name='기본 앨범';scheduleCloudSave()}
+    if(!cloudData.albums.some(f=>f.id===DEFAULT_ALBUM_ID))cloudData.albums.unshift({id:DEFAULT_ALBUM_ID,name:'기본 앨범',color:ALBUM_PASTELS[3],createdAt:Date.now()});
+    let changed=false;cloudData.albums.forEach((f,i)=>{if(f&&f.id&&f.name&&!ALBUM_PASTELS.includes(f.color)){f.color=ALBUM_PASTELS[i%ALBUM_PASTELS.length];changed=true}});
+    const def=cloudData.albums.find(f=>f.id===DEFAULT_ALBUM_ID);if(def&&def.name==='기본 여행'){def.name='기본 앨범';changed=true}if(changed)scheduleCloudSave();
     return cloudData.albums.filter(f=>f&&f.id&&f.name);
   }
   function putAlbumFolders(folders){cloudData.albums=folders;scheduleCloudSave()}
   function albumName(id){return getAlbumFolders().find(f=>f.id===id)?.name||'기본 앨범'}
-  function createAlbumFolder(name){
-    name=(name||'').trim();if(!name)return null;const folders=getAlbumFolders();const duplicate=folders.find(f=>f.name.toLowerCase()===name.toLowerCase());if(duplicate)return duplicate;
-    const folder={id:'album-'+Date.now()+'-'+Math.random().toString(36).slice(2,7),name,createdAt:Date.now()};folders.push(folder);putAlbumFolders(folders);return folder;
+  function albumColor(id){return getAlbumFolders().find(f=>f.id===id)?.color||ALBUM_PASTELS[0]}
+  function createAlbumFolder(name,color=ALBUM_PASTELS[0]){
+    name=(name||'').trim();if(!name)return null;color=ALBUM_PASTELS.includes(color)?color:ALBUM_PASTELS[0];const folders=getAlbumFolders();const duplicate=folders.find(f=>f.name.toLowerCase()===name.toLowerCase());if(duplicate)return duplicate;
+    const folder={id:'album-'+Date.now()+'-'+Math.random().toString(36).slice(2,7),name,color,createdAt:Date.now()};folders.push(folder);putAlbumFolders(folders);return folder;
   }
   function refreshRecordAlbumSelect(selected){
     const sel=$('#recordAlbumFolder'); if(!sel)return;
@@ -1618,16 +1689,18 @@ body.modal-open .emotion-stage{pointer-events:none}
   $('#recordFolderAdd').addEventListener('click',()=>showRecordFolderInput(true));
   $('#recordFolderCancel').addEventListener('click',()=>showRecordFolderInput(false));
   $('#recordFolderSave').addEventListener('click',()=>{
-    const folder=createAlbumFolder($('#recordNewFolderName').value);
+    const folder=createAlbumFolder($('#recordNewFolderName').value,$('#recordNewFolderColor')?.value||ALBUM_PASTELS[0]);
     if(!folder){toast('폴더 이름을 입력해주세요.');return}
     refreshRecordAlbumSelect(folder.id);showRecordFolderInput(false);renderAlbumFolders();toast('앨범을 추가했습니다.');
   });
   $('#recordNewFolderName').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();$('#recordFolderSave').click()}});
+  function selectAlbumFolderColor(color){color=ALBUM_PASTELS.includes(color)?color:ALBUM_PASTELS[0];$('#albumFolderColorInput').value=color;$$('[data-album-color]').forEach(b=>b.classList.toggle('active',b.dataset.albumColor===color))}
   $('#albumNewFolderTop').addEventListener('click',()=>{
     if(!currentUser){requireLogin(()=>$('#albumNewFolderTop').click());return}
-    const name=prompt('새 앨범 이름을 입력하세요.'); if(name===null)return;
-    const folder=createAlbumFolder(name); if(!folder){toast('폴더 이름을 입력해주세요.');return} renderAlbumFolders(); toast('앨범을 추가했습니다.');
+    $('#albumFolderNameInput').value='';selectAlbumFolderColor(ALBUM_PASTELS[getAlbumFolders().length%ALBUM_PASTELS.length]);openModal('albumFolderModal');
   });
+  $('#albumColorPicker').addEventListener('click',e=>{const b=e.target.closest('[data-album-color]');if(b)selectAlbumFolderColor(b.dataset.albumColor)});
+  $('#albumFolderForm').addEventListener('submit',e=>{e.preventDefault();const folder=createAlbumFolder($('#albumFolderNameInput').value,$('#albumFolderColorInput').value);if(!folder){toast('폴더 이름을 입력해주세요.');return}closeModal('albumFolderModal');renderAlbumFolders();toast('앨범 폴더를 추가했습니다.')});
 
   async function saveRecordMediaBlob(file){return driveUploadMedia(file,'record')}
   async function loadRecordMediaBlob(fileId){return driveMediaBlob(fileId)}
@@ -1659,7 +1732,7 @@ body.modal-open .emotion-stage{pointer-events:none}
     const folders=getAlbumFolders();
     const valid=new Set(folders.map(f=>f.id));
     const items=[];
-    visibleRecords().forEach(r=>{
+    visibleRecords().filter(r=>(r.kind||'record')==='record').forEach(r=>{
       const fid=valid.has(r.folderId)?r.folderId:DEFAULT_ALBUM_ID;
       recordMediaItems(r).forEach((media,index)=>items.push({...media,index,recordId:r.id,title:r.title||'기록',date:r.date||'',author:r.author||'mine',folderId:fid}));
     });
@@ -1682,11 +1755,13 @@ body.modal-open .emotion-stage{pointer-events:none}
     const items=getAlbumMediaItems(); const folders=getAlbumFolders();
     folders.forEach(folder=>{
       const media=items.filter(x=>x.folderId===folder.id);
-      const card=document.createElement('button'); card.type='button'; card.className='album-folder';
+      const card=document.createElement('button');card.type='button';card.className='album-folder';card.style.setProperty('--folder-color',folder.color||ALBUM_PASTELS[0]);
+      const body=document.createElement('div');body.className='album-folder-body';
+      const chip=document.createElement('span');chip.className='album-folder-color-chip';
       const cover=document.createElement('div');cover.className='album-cover';
       if(media[0])fillAlbumPreview(cover,media[0],folder.name);else{const s=document.createElement('span');s.textContent='AiderDear';cover.appendChild(s)}
       const copy=document.createElement('div');copy.className='album-folder-copy';copy.innerHTML=`<b>${escapeHtml(folder.name)}</b><span>${media.length}개의 미디어</span>`;
-      card.append(cover,copy);card.addEventListener('click',()=>openAlbumFolder(folder.id));grid.appendChild(card);
+      body.append(chip,cover,copy);card.appendChild(body);card.addEventListener('click',()=>openAlbumFolder(folder.id));grid.appendChild(card);
     });
   }
   function openAlbumFolder(id){
@@ -1738,22 +1813,19 @@ body.modal-open .emotion-stage{pointer-events:none}
   function renderRecordPeopleFilters(){const box=$('#recordPeopleFilters');if(!box)return;const people=scheduleVisiblePeople(),allBtn=$('[data-record-filter="all"]');if(people.length<=1){box.innerHTML='';if(recordFilter!=='all')recordFilter='all';if(allBtn)allBtn.classList.add('active');return}if(allBtn)allBtn.classList.toggle('active',recordFilter==='all');box.innerHTML=people.map(p=>`<button class="record-filter ${recordFilter===p.email?'active':''}" type="button" data-record-filter="${escapeHtml(p.email)}">${escapeHtml(p.name)}</button>`).join('')}
 
   function renderRecordFeed(){
-    renderRecordPeopleFilters();const allRows=visibleRecords().sort((a,b)=>(b.date||'').localeCompare(a.date||''));
-    let rows=allRows.filter(r=>(r.kind||'record')===(recordView==='diary'?'diary':'record'));
-    let filtered=rows;
+    renderRecordPeopleFilters();const allRows=visibleRecords().filter(r=>(r.kind||'record')==='record').sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+    const rows=allRows;let filtered=rows;
     if(recordFilter!=='all') filtered=filtered.filter(r=>normalizeEmail(r.authorEmail)===normalizeEmail(recordFilter));
     if(recordDateSearch) filtered=filtered.filter(r=>(r.date||'')===recordDateSearch);
     else if(recordMonth!=='all') filtered=filtered.filter(r=>(r.date||'').slice(0,7)===recordMonth);
-    const wrap=$('#recordFeedInner');wrap.innerHTML='';wrap.classList.toggle('diary-view',recordView==='diary');
+    const wrap=$('#recordFeedInner');wrap.innerHTML='';wrap.classList.remove('diary-view');
     $('#recordCount').textContent=rows.length;
     $('#photoCount').textContent=rows.reduce((n,r)=>n+recordMediaItems(r).length,0);
     renderRecordMonths(rows);
     if(!filtered.length){
-      const e=document.createElement('div');e.className='record-empty';
-      e.innerHTML=recordView==='diary'?'<div><strong>Dear today,</strong><span>아직 일기가 없습니다.<br>오늘의 마음을 남겨보세요.</span></div>':'<div><strong>Dear today,</strong><span>선택한 조건에 기록이 없습니다.<br>첫 사진과 글을 남겨보세요.</span></div>';
-      e.addEventListener('click',recordView==='diary'?openNewDiary:openNewRecord);wrap.appendChild(e);return;
+      const e=document.createElement('div');e.className='record-empty';e.innerHTML='<div><strong>Dear today,</strong><span>선택한 조건에 기록이 없습니다.<br>첫 사진과 동영상을 남겨보세요.</span></div>';e.addEventListener('click',openNewRecord);wrap.appendChild(e);return;
     }
-    filtered.forEach(r=>wrap.appendChild(recordView==='diary'?buildDiaryEntry(r):buildPost(r)));
+    filtered.forEach(r=>wrap.appendChild(buildPost(r)));
   }
   function buildPost(r){
     const post=document.createElement('article');post.className='record-post';post.dataset.id=r.id;
@@ -1784,17 +1856,15 @@ body.modal-open .emotion-stage{pointer-events:none}
   function renderRecordMonths(rows){
     const counts={};rows.forEach(r=>{const m=(r.date||'').slice(0,7);if(m)counts[m]=(counts[m]||0)+1});const box=$('#recordMonths');box.innerHTML='';const all=document.createElement('button');all.type='button';all.className='record-month'+(recordMonth==='all'?' active':'');all.innerHTML=`<span>모든 기록</span><b>${rows.length}</b>`;all.addEventListener('click',()=>{recordMonth='all';recordDateSearch='';$('#recordDateSearch').value='';$('#recordDateClear').hidden=true;renderRecordFeed()});box.appendChild(all);Object.keys(counts).sort().reverse().forEach(m=>{const [y,mo]=m.split('-');const b=document.createElement('button');b.type='button';b.className='record-month'+(recordMonth===m?' active':'');b.innerHTML=`<span>${y}. ${mo}</span><b>${counts[m]}</b>`;b.addEventListener('click',()=>{recordMonth=m;recordDateSearch='';$('#recordDateSearch').value='';$('#recordDateClear').hidden=true;renderRecordFeed()});box.appendChild(b)})
   }
-  function configureRecordModal(kind){
-    const diary=kind==='diary';$('#recordKind').value=kind;$('#recordModalTitle').textContent=diary?'일기 작성':'기록 등록';$('#recordBodyLabel').textContent=diary?'오늘의 일기':'사진과 함께 남길 글';$('#recordBody').placeholder=diary?'오늘 있었던 일과 마음을 자유롭게 남겨보세요.':'사진과 함께 기억하고 싶은 이야기를 남겨보세요.';
+  function configureRecordModal(){
+    $('#recordKind').value='record';$('#recordModalTitle').textContent='기록 등록';$('#recordBodyLabel').textContent='사진과 함께 남길 글';$('#recordBody').placeholder='사진과 함께 기억하고 싶은 이야기를 남겨보세요.';
   }
   function openNewRecord(){
-    if(!currentUser){requireLogin(openNewRecord);return}configureRecordModal('record');$('#recordId').value='';$('#recordTitle').value='';$('#recordBody').value='';$('#recordDate').value=iso(today.getFullYear(),today.getMonth(),today.getDate());$('#recordMood').value='일상';recordMedia=[];recordOriginalVideoKeys=[];refreshRecordAlbumSelect(DEFAULT_ALBUM_ID);showRecordFolderInput(false);renderRecordPreviews();openModal('recordModal')
+    if(!currentUser){requireLogin(openNewRecord);return}configureRecordModal();$('#recordId').value='';$('#recordTitle').value='';$('#recordBody').value='';$('#recordDate').value=iso(today.getFullYear(),today.getMonth(),today.getDate());$('#recordMood').value='일상';recordMedia=[];recordOriginalVideoKeys=[];refreshRecordAlbumSelect(DEFAULT_ALBUM_ID);showRecordFolderInput(false);renderRecordPreviews();openModal('recordModal')
   }
-  function openNewDiary(){
-    if(!currentUser){requireLogin(openNewDiary);return}configureRecordModal('diary');$('#recordId').value='';$('#recordTitle').value='';$('#recordBody').value='';$('#recordDate').value=iso(today.getFullYear(),today.getMonth(),today.getDate());$('#recordMood').value='일상';recordMedia=[];recordOriginalVideoKeys=[];refreshRecordAlbumSelect(DEFAULT_ALBUM_ID);showRecordFolderInput(false);renderRecordPreviews();openModal('recordModal')
-  }
+  function openNewDiary(){openNewRecord()}
   function openRecordEdit(id){
-    const r=getRecords().find(x=>x.id===id);if(!r||!canEditRecord(r))return;configureRecordModal(r.kind||'record');$('#recordModalTitle').textContent=(r.kind||'record')==='diary'?'일기 수정':'기록 수정';$('#recordId').value=r.id;$('#recordTitle').value=r.title||'';$('#recordBody').value=r.body||'';$('#recordDate').value=r.date||'';$('#recordMood').value=r.mood||'일상';recordMedia=recordMediaItems(r).map(x=>({...x}));recordOriginalVideoKeys=recordMedia.map(x=>x.fileId||x.key).filter(Boolean);refreshRecordAlbumSelect(r.folderId||DEFAULT_ALBUM_ID);showRecordFolderInput(false);renderRecordPreviews();openModal('recordModal')
+    const r=getRecords().find(x=>x.id===id);if(!r||!canEditRecord(r))return;configureRecordModal();$('#recordModalTitle').textContent='기록 수정';$('#recordId').value=r.id;$('#recordTitle').value=r.title||'';$('#recordBody').value=r.body||'';$('#recordDate').value=r.date||'';$('#recordMood').value=r.mood||'일상';recordMedia=recordMediaItems(r).map(x=>({...x}));recordOriginalVideoKeys=recordMedia.map(x=>x.fileId||x.key).filter(Boolean);refreshRecordAlbumSelect(r.folderId||DEFAULT_ALBUM_ID);showRecordFolderInput(false);renderRecordPreviews();openModal('recordModal')
   }
   async function deleteRecord(id){
     const rows=getRecords();const r=rows.find(x=>x.id===id);if(!r||!canEditRecord(r))return;if(!confirm('이 기록을 삭제할까요?'))return;
@@ -1813,18 +1883,17 @@ body.modal-open .emotion-stage{pointer-events:none}
     }
     e.target.value='';renderRecordPreviews();
   });
-  $('#recordBtn').addEventListener('click',openNewRecord);$('#newRecordTop').addEventListener('click',openNewRecord);$('#newDiaryTop').addEventListener('click',openNewDiary);
+  $('#recordBtn').addEventListener('click',openNewRecord);$('#newRecordTop').addEventListener('click',openNewRecord);
   $('#recordForm').addEventListener('submit',async e=>{
     e.preventDefault();if(!currentUser||!googleToken)return;
     const rows=getRecords();const id=$('#recordId').value;const existing=id?rows.find(x=>x.id===id):null;if(existing&&!canEditRecord(existing))return;
-    const data={id:id||('r'+Date.now()),kind:$('#recordKind').value||'record',title:$('#recordTitle').value.trim(),date:$('#recordDate').value,mood:$('#recordMood').value,body:$('#recordBody').value.trim(),media:recordMedia.map(x=>({...x})),photos:[],folderId:$('#recordAlbumFolder').value||DEFAULT_ALBUM_ID,author:existing?.author||currentUser,authorEmail:existing?.authorEmail||currentUserEmail};
+    const data={id:id||('r'+Date.now()),kind:'record',title:$('#recordTitle').value.trim(),date:$('#recordDate').value,mood:$('#recordMood').value,body:$('#recordBody').value.trim(),media:recordMedia.map(x=>({...x})),photos:[],folderId:$('#recordAlbumFolder').value||DEFAULT_ALBUM_ID,author:existing?.author||currentUser,authorEmail:existing?.authorEmail||currentUserEmail};
     if(id){const idx=rows.findIndex(x=>x.id===id);if(idx>=0)rows[idx]=data}else rows.unshift(data);
     try{
       putRecords(rows);await saveCloudData();const newIds=new Set(recordMedia.map(x=>x.fileId||x.key).filter(Boolean));recordOriginalVideoKeys.filter(k=>!newIds.has(k)).forEach(deleteRecordMediaBlob);
-      recordView=data.kind==='diary'?'diary':'feed';$$('.record-view').forEach(x=>x.classList.toggle('active',x.dataset.recordView===recordView));closeModal('recordModal');renderRecordFeed();renderAlbumFolders();toast('Google Drive에 저장했습니다.');
+      recordView='feed';closeModal('recordModal');renderRecordFeed();renderAlbumFolders();toast('Google Drive에 저장했습니다.');
     }catch(err){toast(googleErrorMessage(err))}
   });
-  $$('.record-view').forEach(b=>b.addEventListener('click',()=>{recordView=b.dataset.recordView;$$('.record-view').forEach(x=>x.classList.toggle('active',x===b));recordMonth='all';recordDateSearch='';$('#recordDateSearch').value='';$('#recordDateClear').hidden=true;renderRecordFeed()}));
   $('.record-controls').addEventListener('click',e=>{const b=e.target.closest('[data-record-filter]');if(!b)return;recordFilter=b.dataset.recordFilter||'all';renderRecordFeed()});
   $('#recordDateSearch').addEventListener('change',e=>{recordDateSearch=e.target.value||'';$('#recordDateClear').hidden=!recordDateSearch;if(recordDateSearch)recordMonth='all';renderRecordFeed()});
   $('#recordDateClear').addEventListener('click',()=>{recordDateSearch='';$('#recordDateSearch').value='';$('#recordDateClear').hidden=true;renderRecordFeed()});
@@ -1890,9 +1959,23 @@ body.modal-open .emotion-stage{pointer-events:none}
   function miniMoodStyle(mood){const colors=['#f2dc68','#acd98d','#efb6c0','#b8d6c2','#c8b5df','#c9d6d6','#a9c4e9','#e67878','#b9acd4','#7f95bd'];return `background:${colors[emotionMiniColorIndex(mood)]||'#eee'}`}
   function renderEmotionMoodCalendar(rows,owners){
     const box=$('#emotionMoodCalendar');if(!box)return;const y=emotionShown.getFullYear(),m=emotionShown.getMonth(),first=new Date(y,m,1).getDay(),days=new Date(y,m+1,0).getDate(),prevDays=new Date(y,m,0).getDate();$('#emotionMonthTitle').textContent=`${y}. ${String(m+1).padStart(2,'0')}`;let html='';
-    for(let i=0;i<42;i++){let cy=y,cm=m,day,out=false;if(i<first){day=prevDays-first+i+1;cm=m-1;out=true;if(cm<0){cm=11;cy--}}else if(i>=first+days){day=i-first-days+1;cm=m+1;out=true;if(cm>11){cm=0;cy++}}else day=i-first+1;const date=iso(cy,cm,day),dayRows=rows.filter(r=>r.date===date);let moodItems=[];dayRows.forEach(r=>{const ownerEmail=normalizeEmail(r.owner),label=emotionData[ownerEmail]?.profile?.name||familyUser(ownerEmail).name||'';entryMoods(r).forEach(mood=>moodItems.push({mood,ownerEmail,label}))});moodItems=moodItems.slice(0,6);const moods=moodItems.map(x=>`<span class="emotion-mini-blob" title="${escapeHtml(x.label)} · ${escapeHtml(x.mood)}" style="${miniMoodStyle(x.mood)}">${escapeHtml(EMOTION_FACES[x.mood]||'•ᴗ•')}</span>`).join('');const period=dayRows.some(r=>r.period),flags=period?`<div class="emotion-day-flags"><span class="period">P</span></div>`:'';html+=`<button class="emotion-month-day ${out?'out':''} ${date===iso(today.getFullYear(),today.getMonth(),today.getDate())?'today':''}" type="button" data-emotion-day-open="${date}" ${out?'tabindex="-1"':''}><span class="emotion-month-num">${String(day).padStart(2,'0')}</span><div class="emotion-day-moods">${moods}</div>${flags}</button>`}
+    for(let i=0;i<42;i++){let cy=y,cm=m,day,out=false;if(i<first){day=prevDays-first+i+1;cm=m-1;out=true;if(cm<0){cm=11;cy--}}else if(i>=first+days){day=i-first-days+1;cm=m+1;out=true;if(cm>11){cm=0;cy++}}else day=i-first+1;const date=iso(cy,cm,day),dayRows=rows.filter(r=>r.date===date);let moodItems=[];dayRows.forEach(r=>{const ownerEmail=normalizeEmail(r.owner),label=emotionData[ownerEmail]?.profile?.name||familyUser(ownerEmail).name||'';entryMoods(r).forEach(mood=>moodItems.push({mood,ownerEmail,label}))});moodItems=moodItems.slice(0,6);const moods=moodItems.map(x=>`<span class="emotion-mini-blob" title="${escapeHtml(x.label)} · ${escapeHtml(x.mood)}" style="${miniMoodStyle(x.mood)}">${escapeHtml(EMOTION_FACES[x.mood]||'•ᴗ•')}</span>`).join('');const flags='';html+=`<button class="emotion-month-day ${out?'out':''} ${date===iso(today.getFullYear(),today.getMonth(),today.getDate())?'today':''}" type="button" data-emotion-day-open="${date}" ${out?'tabindex="-1"':''}><span class="emotion-month-num">${String(day).padStart(2,'0')}</span><div class="emotion-day-moods">${moods}</div>${flags}</button>`}
     box.innerHTML=html;
   }
+  let bucketHistoryOpen=false;
+  function bucketItems(){normalizeCloudData();return cloudData.bucketItems||[]}
+  function bucketDate(ts){if(!ts)return '';return new Date(ts).toLocaleDateString('ko-KR',{year:'numeric',month:'2-digit',day:'2-digit'})}
+  function bucketUserName(email){email=normalizeEmail(email);return familyUser(email)?.name||storedDisplayName(email)||email.split('@')[0]||''}
+  function renderBucketList(){
+    const drops=$('#bucketDrops'),history=$('#bucketHistory'),toggle=$('#bucketHistoryBtn');if(!drops||!history||!toggle)return;
+    const all=bucketItems(),active=all.filter(x=>!x.completedAt).sort((a,b)=>(a.createdAt||0)-(b.createdAt||0)),done=all.filter(x=>x.completedAt).sort((a,b)=>(b.completedAt||0)-(a.completedAt||0));
+    toggle.textContent=bucketHistoryOpen?'BACK':'HISTORY';drops.hidden=bucketHistoryOpen;history.hidden=!bucketHistoryOpen;
+    if(!bucketHistoryOpen){drops.innerHTML=active.length?active.map((item,i)=>`<button class="bucket-drop" type="button" data-bucket-pop="${escapeHtml(item.id)}" aria-label="완료: ${escapeHtml(item.text)}"><span>${escapeHtml(item.text)}</span></button>`).join(''):'<div class="bucket-empty">Dream a little.</div>'}
+    else{history.innerHTML=done.length?`<div class="bucket-history-list">${done.map(item=>`<div class="bucket-history-row"><i>✓</i><div><b>${escapeHtml(item.text)}</b><span>${escapeHtml(bucketDate(item.createdAt))} → ${escapeHtml(bucketDate(item.completedAt))}</span></div><span>${escapeHtml(bucketUserName(item.completedBy||item.createdBy)||'')}</span></div>`).join('')}</div>`:'<div class="bucket-history-empty">완료한 버킷리스트가 아직 없습니다.</div>'}
+  }
+  $('#bucketHistoryBtn').addEventListener('click',()=>{bucketHistoryOpen=!bucketHistoryOpen;renderBucketList()});
+  $('#bucketForm').addEventListener('submit',async e=>{e.preventDefault();if(!currentUser||!googleToken){requireLogin();return}const input=$('#bucketInput'),text=String(input.value||'').trim();if(!text)return;cloudData.bucketItems.push({id:'bucket-'+Date.now()+'-'+Math.random().toString(36).slice(2,6),text:text.slice(0,80),createdAt:Date.now(),createdBy:currentUserEmail,completedAt:0,completedBy:''});input.value='';try{await saveCloudData();renderBucketList()}catch(err){toast(googleErrorMessage(err))}});
+  $('#bucketDrops').addEventListener('click',e=>{const b=e.target.closest('[data-bucket-pop]');if(!b||b.classList.contains('popping'))return;if(!currentUser||!googleToken){requireLogin();return}const item=cloudData.bucketItems.find(x=>x.id===b.dataset.bucketPop);if(!item||item.completedAt)return;b.classList.add('popping');setTimeout(async()=>{item.completedAt=Date.now();item.completedBy=currentUserEmail;try{await saveCloudData();renderBucketList()}catch(err){toast(googleErrorMessage(err));renderBucketList()}},390)});
   function countWantByMood(rows,mood){const counts={};rows.filter(r=>entryMoods(r).includes(mood)).forEach(r=>(r.wants||[]).forEach(w=>{w=cleanEmotionWant(w);if(w)counts[w]=(counts[w]||0)+1}));return Object.entries(counts).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0]))}
   function emotionMoodColor(mood){const colors={'기쁨':'#f2dc68','행복':'#acd98d','설렘':'#efb6c0','편안함':'#b8d6c2','감사':'#c8b5df','피곤함':'#c9d6d6','불안':'#a9c4e9','짜증':'#e67878','외로움':'#b9acd4','슬픔':'#7f95bd'};return colors[mood]||'#deded8'}
   function emotionCareBase(mood){const map={
@@ -1911,14 +1994,27 @@ body.modal-open .emotion-stage{pointer-events:none}
   function emotionAdaptiveCare(mood,rows,count,total,rank=0){const moodRows=(rows||[]).filter(r=>entryMoods(r).includes(mood)),recent7=moodRows.filter(r=>(r.date||'')>=dateKeyOffset(-6)).length,older=Math.max(0,count-recent7),expected=older/23*7,trend=recent7>Math.max(1,expected*1.35)?'최근 7일에 이 감정이 이전보다 더 자주 나타나는 흐름입니다.':recent7===0&&count>0?'최근 7일에는 이 감정이 나타나지 않았습니다.':'최근 기록에서는 큰 급증 없이 이어지고 있습니다.';const wants=countWantByMood(rows,mood).slice(0,2),bases=emotionCareBase(mood),seed=(count*7+rank*3+wants.reduce((n,[w,c])=>n+w.length+c,0))%bases.length,base=bases[seed]||bases[0],wantText=wants.length?emotionWantAdvice(wants[0][0]):'함께 기록된 “하고 싶은 것”이 아직 적습니다. 다음 기록에서 감정과 함께 원하는 행동을 남기면 나에게 맞는 회복 패턴을 더 구체적으로 볼 수 있습니다.';const pct=total?Math.round(count/total*100):0;return {text:`${trend} ${base} ${wantText}`,pct,wants}}
   function buildMoodDonut(moodCounts,total){if(!total)return 'conic-gradient(#ecece6 0 100%)';let cursor=0,segments=[];EMOTION_MOODS.forEach(m=>{const c=moodCounts[m]||0;if(!c)return;const start=cursor,end=cursor+(c/total*100);segments.push(`${emotionMoodColor(m)} ${start.toFixed(2)}% ${end.toFixed(2)}%`);cursor=end});return `conic-gradient(${segments.join(',')})`}
   function renderEmotionWantMindmap(rows,moodCounts){const active=Object.entries(moodCounts).sort((a,b)=>b[1]-a[1]||EMOTION_MOODS.indexOf(a[0])-EMOTION_MOODS.indexOf(b[0])).slice(0,5),moods=active.length?active:EMOTION_MOODS.slice(0,5).map(m=>[m,0]),wantCounts={};(rows||[]).forEach(r=>(r.wants||[]).forEach(w=>{w=cleanEmotionWant(w);if(w)wantCounts[w]=(wantCounts[w]||0)+1}));let wants=Object.entries(wantCounts).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0])).slice(0,7);if(!wants.length)wants=EMOTION_WANTS.slice(0,5).map(w=>[w,0]);const moodPos=moods.map((_,i)=>({x:i%2?28:18,y:14+(72*(i/(Math.max(1,moods.length-1))))})),wantPos=wants.map((_,i)=>({x:i%2?72:82,y:12+(76*(i/(Math.max(1,wants.length-1))))}));const lines=[];moods.forEach(([m,c],i)=>{const a=moodPos[i];lines.push(`<line x1="50" y1="50" x2="${a.x}" y2="${a.y}" stroke="${emotionMoodColor(m)}" stroke-opacity=".24" stroke-width="1.2"/>`);const links=countWantByMood(rows,m).slice(0,4);links.forEach(([w,n])=>{const j=wants.findIndex(x=>x[0]===w);if(j<0)return;const b=wantPos[j];lines.push(`<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" stroke="${emotionMoodColor(m)}" stroke-opacity="${Math.min(.7,.22+n*.1)}" stroke-width="${Math.min(4,1+n*.55)}"/>`)})});wants.forEach(([w,c],i)=>{const b=wantPos[i];lines.push(`<line x1="50" y1="50" x2="${b.x}" y2="${b.y}" stroke="#111" stroke-opacity=".08" stroke-width="1"/>`)});const moodNodes=moods.map(([m,c],i)=>{const a=moodPos[i],meta=emotionMoodMeta(m);return `<div class="mindmap-node mood ${c?'':'mindmap-empty-dot'}" style="left:${a.x}%;top:${a.y}%;background:${emotionMoodColor(m)}55">${meta.emoji} ${escapeHtml(m)}${c?`<em>${c}</em>`:''}</div>`}).join(''),wantNodes=wants.map(([w,c],i)=>{const a=wantPos[i];return `<div class="mindmap-node want ${c?'':'mindmap-empty-dot'}" style="left:${a.x}%;top:${a.y}%">${escapeHtml(w)}${c?`<em>${c}</em>`:''}</div>`}).join('');return `<div class="emotion-mindmap"><svg viewBox="0 0 100 100" preserveAspectRatio="none">${lines.join('')}</svg><div class="mindmap-core">EMOTION<br>×<br>WANT</div>${moodNodes}${wantNodes}</div>`}
-  function renderEmotionInsights(rows=[]){
-    const all=(rows||[]).slice(),last30=all.filter(r=>(r.date||'')>=dateKeyOffset(-29)),moodEvents=last30.flatMap(r=>entryMoods(r).map(mood=>({mood,entry:r}))),total=moodEvents.length,moodCounts={};moodEvents.forEach(x=>moodCounts[x.mood]=(moodCounts[x.mood]||0)+1);
-    const donut=buildMoodDonut(moodCounts,total),legend=EMOTION_MOODS.map(m=>{const count=moodCounts[m]||0,pct=total?Math.round(count/total*100):0;return `<div class="mood-legend-row"><i class="mood-legend-dot" style="background:${emotionMoodColor(m)}"></i><b>${emotionMoodMeta(m).emoji} ${escapeHtml(m)}</b><span class="mood-count">${count}</span><span class="mood-percent">${pct}%</span></div>`}).join('');
-    const activeMoods=Object.entries(moodCounts).sort((a,b)=>b[1]-a[1]||EMOTION_MOODS.indexOf(a[0])-EMOTION_MOODS.indexOf(b[0])),mindmap=renderEmotionWantMindmap(last30,moodCounts);
-    const top3=activeMoods.slice(0,3),therapy=top3.length?top3.map(([mood,count],i)=>{const meta=emotionMoodMeta(mood),care=emotionAdaptiveCare(mood,last30,count,total,i);const context=care.wants.length?care.wants.map(([w,c])=>`<span>${escapeHtml(w)} ${c}</span>`).join(''):'';return `<article class="therapy-item"><div class="therapy-rank"><span>TOP ${i+1}</span><span>${count}회 · ${care.pct}%</span></div><div class="therapy-mood-title"><i>${meta.emoji}</i><b>${escapeHtml(mood)}</b></div>${context?`<div class="therapy-context">${context}</div>`:''}<p>${escapeHtml(care.text)}</p></article>`}).join(''):`<article class="therapy-item therapy-empty"><div><b>—</b></div></article><article class="therapy-item therapy-empty"><div><b>—</b></div></article><article class="therapy-item therapy-empty"><div><b>—</b></div></article>`;
-    return `<section class="emotion-insights emotion-insights-fixed"><article class="emotion-insight-card mood-balance-card"><div class="emotion-insight-head"><b>MOOD BALANCE</b></div><div class="mood-balance-layout"><div class="mood-legend-table">${legend}</div><div class="mood-donut" style="background:${donut}"><div class="mood-donut-center"><strong>${total}</strong><span>MOODS</span></div></div></div></article><article class="emotion-insight-card desire-card"><div class="emotion-insight-head"><b>EMOTION × WANT</b></div>${mindmap}</article><article class="emotion-insight-card therapy-card"><div class="emotion-insight-head"><b>최근 30일 동안 가장 많이 느낀 감정</b></div><div class="therapy-grid">${therapy}</div></article></section>`;
+  function emotionTherapyDetail(mood,rows,count,total,rank){
+    const meta=emotionMoodMeta(mood),last7=rows.filter(r=>(r.date||'')>=dateKeyOffset(-6)),prev=rows.filter(r=>(r.date||'')<dateKeyOffset(-6)),a=last7.reduce((n,r)=>n+(entryMoods(r).includes(mood)?1:0),0),b=prev.reduce((n,r)=>n+(entryMoods(r).includes(mood)?1:0),0),prevWeekly=b/Math.max(1,23)*7,trend=a>prevWeekly+1?'최근 일주일에 더 자주 나타났어요.':a+1<prevWeekly?'최근 일주일에는 조금 잦아들었어요.':'최근 한 달 동안 비교적 비슷한 빈도로 나타났어요.';
+    const wants=countWantByMood(rows,mood).slice(0,3),primary=wants[0]?.[0]||'',base=emotionAdaptiveCare(mood,rows,count,total,rank),actionMap={
+      '기쁨':'좋았던 순간을 20초 정도 천천히 떠올리고, 그 감정을 만든 행동 하나를 다음 주 일정에 다시 넣어보세요.','행복':'지금의 만족을 만든 조건 하나를 골라 반복 가능한 작은 습관으로 남겨보세요.','설렘':'기대되는 일에서 내가 통제할 수 있는 준비 행동을 10분만 먼저 시작해 보세요.','편안함':'편안함을 만든 장소·사람·시간 중 하나를 표시하고 다음 회복 시간에 의도적으로 재현해 보세요.','감사':'감사한 대상을 한 사람 또는 한 장면으로 구체화하고 짧게 표현해 보세요.','피곤함':'오늘 할 일을 한 단계 줄이고 수면·식사·수분·휴식 중 가장 부족한 것 하나부터 채워보세요.','불안':'걱정을 “확인된 사실 / 예상” 두 칸으로 나눈 뒤 지금 할 수 있는 행동 하나만 선택해 보세요.','짜증':'반응하기 전에 10분의 간격을 두고, 내가 지키고 싶은 경계나 필요를 한 문장으로 정리해 보세요.','외로움':'부담이 가장 적은 사람 한 명에게 짧은 안부나 함께할 작은 약속을 제안해 보세요.','슬픔':'감정을 빨리 없애려 하기보다 몸을 편하게 두고, 오늘 견딜 수 있는 크기의 일 하나만 남겨보세요.'};
+    const questionMap={'기쁨':'이 기쁨을 만든 것은 사람, 장소, 성취, 휴식 중 무엇에 가장 가까웠나요?','행복':'행복했던 날에 반복해서 등장하는 생활 리듬은 무엇인가요?','설렘':'설렘이 커질 때 기대와 긴장 중 어느 쪽이 더 커지는지 살펴보세요.','편안함':'편안함을 깨뜨리는 직전의 자극은 무엇이었나요?','감사':'감사가 느껴진 순간에 내가 받은 것과 내가 기여한 것은 각각 무엇이었나요?','피곤함':'피로가 강했던 날은 수면 부족인지, 일정 과부하인지, 감정 소진인지 구분해 보세요.','불안':'불안 직전에 반복해서 나타나는 상황·생각·사람이 있나요?','짜증':'짜증이 올라온 순간에 사실은 어떤 필요나 경계가 지켜지지 않았나요?','외로움':'혼자 있고 싶은 외로움인지, 누군가와 연결되고 싶은 외로움인지 구분해 보세요.','슬픔':'슬픔이 올라올 때 더 필요한 것은 휴식, 표현, 위로, 거리두기 중 무엇인가요?'};
+    const wantNote=primary?`‘${primary}’를 하고 싶다는 기록이 함께 가장 자주 나타났어요. 실제로 그 행동을 했던 날의 다음 감정도 비교해 보면 나에게 도움이 되는 회복 행동인지 확인할 수 있어요.`:'하고 싶은 행동도 함께 기록하면 이 감정이 나타날 때 필요한 회복 패턴을 더 구체적으로 찾을 수 있어요.';
+    return {meta,trend,wants,action:actionMap[mood]||base.text,question:questionMap[mood]||'이 감정이 나타나기 직전에 어떤 일이 있었는지 한 가지 단서를 적어보세요.',wantNote,pct:total?Math.round(count/total*100):0};
   }
-  function renderEmotion(){const owners=currentUser?emotionVisibleOwners():[],allRows=currentUser?owners.flatMap(emotionEntries).sort((a,b)=>(b.date||'').localeCompare(a.date||'')||(b.updatedAt||b.createdAt||0)-(a.updatedAt||a.createdAt||0)):[];renderEmotionMoodCalendar(allRows,owners);const insights=$('#emotionInsightsPage');if(insights)insights.innerHTML=renderEmotionInsights(allRows)}
+  function renderMoodWantNetwork(rows,moodCounts,total,donut){
+    const active=Object.entries(moodCounts).sort((a,b)=>b[1]-a[1]||EMOTION_MOODS.indexOf(a[0])-EMOTION_MOODS.indexOf(b[0])).slice(0,5),moods=active.length?active:EMOTION_MOODS.slice(0,5).map(m=>[m,0]),wantCounts={};rows.forEach(r=>(r.wants||[]).forEach(w=>{w=cleanEmotionWant(w);if(w)wantCounts[w]=(wantCounts[w]||0)+1}));let wants=Object.entries(wantCounts).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0])).slice(0,6);if(!wants.length)wants=EMOTION_WANTS.slice(0,6).map(w=>[w,0]);
+    const moodY=[16,33,50,67,84],wantY=[10,26,42,58,74,90],lines=[];moods.forEach(([m,c],i)=>{const y=moodY[i];lines.push(`<line x1="25" y1="50" x2="53" y2="${y}" stroke="${emotionMoodColor(m)}" stroke-opacity="${c?'.6':'.14'}" stroke-width="${c?Math.min(4,1+c*.35):1}"/>`);countWantByMood(rows,m).slice(0,4).forEach(([w,n])=>{const j=wants.findIndex(x=>x[0]===w);if(j<0)return;lines.push(`<path d="M53 ${y} C63 ${y},67 ${wantY[j]},78 ${wantY[j]}" fill="none" stroke="${emotionMoodColor(m)}" stroke-opacity="${Math.min(.78,.24+n*.12)}" stroke-width="${Math.min(4,1+n*.55)}"/>`)})});
+    const moodNodes=moods.map(([m,c],i)=>`<div class="balance-mood-node ${c?'':'balance-node-empty'}" style="left:53%;top:${moodY[i]}%;background:${emotionMoodColor(m)}55">${emotionMoodMeta(m).emoji} ${escapeHtml(m)}${c?`<em>${c}</em>`:''}</div>`).join(''),wantNodes=wants.map(([w,c],i)=>`<div class="balance-want-node ${c?'':'balance-node-empty'}" style="left:84%;top:${wantY[i]}%">${escapeHtml(w)}${c?`<em>${c}</em>`:''}</div>`).join('');
+    const legend=EMOTION_MOODS.map(m=>{const c=moodCounts[m]||0,p=total?Math.round(c/total*100):0;return `<div class="balance-mini-row"><i style="background:${emotionMoodColor(m)}"></i><b>${emotionMoodMeta(m).emoji} ${escapeHtml(m)}</b><span>${p}%</span></div>`}).join('');
+    return `<div class="balance-network"><svg viewBox="0 0 100 100" preserveAspectRatio="none">${lines.join('')}</svg><div class="balance-donut" style="background:${donut}"><div class="balance-donut-center"><strong>${total}</strong><span>MOOD MOMENTS</span></div></div><div class="balance-caption">EMOTION × WANT</div>${moodNodes}${wantNodes}<div class="balance-mini-legend">${legend}</div></div>`;
+  }
+  function renderEmotionInsights(rows=[]){
+    const all=(rows||[]).slice(),last30=all.filter(r=>(r.date||'')>=dateKeyOffset(-29)),moodEvents=last30.flatMap(r=>entryMoods(r).map(mood=>({mood,entry:r}))),total=moodEvents.length,moodCounts={};moodEvents.forEach(x=>moodCounts[x.mood]=(moodCounts[x.mood]||0)+1);const donut=buildMoodDonut(moodCounts,total),network=renderMoodWantNetwork(last30,moodCounts,total,donut),active=Object.entries(moodCounts).sort((a,b)=>b[1]-a[1]||EMOTION_MOODS.indexOf(a[0])-EMOTION_MOODS.indexOf(b[0])).slice(0,3);
+    const therapy=active.length?active.map(([mood,count],i)=>{const d=emotionTherapyDetail(mood,last30,count,total,i),tags=d.wants.length?d.wants.map(([w,c])=>`<span>${escapeHtml(w)} ${c}</span>`).join(''):'';return `<article class="therapy-v13-item"><div class="therapy-v13-top"><span class="therapy-v13-rank">TOP ${i+1}</span><span class="therapy-v13-count">${count}회 · ${d.pct}%</span></div><div class="therapy-v13-title"><i>${d.meta.emoji}</i><b>${escapeHtml(mood)}</b></div><div class="therapy-v13-body">${tags?`<div class="therapy-v13-tags">${tags}</div>`:''}<strong>PATTERN</strong>${escapeHtml(d.trend)}<strong>오늘의 마음 돌봄</strong>${escapeHtml(d.action)}<strong>함께 추적해보기</strong>${escapeHtml(d.wantNote)} ${escapeHtml(d.question)}</div></article>`}).join(''):`<article class="therapy-v13-item therapy-v13-empty">감정 기록이 쌓이면<br>가장 자주 느낀 감정을 분석합니다.</article><article class="therapy-v13-item therapy-v13-empty">—</article><article class="therapy-v13-item therapy-v13-empty">—</article>`;
+    return `<section class="emotion-insights emotion-insights-fixed v13-insights"><article class="emotion-insight-card mood-network-card"><div class="emotion-insight-head"><b>MOOD BALANCE</b></div>${network}</article><article class="emotion-insight-card therapy-v13-card"><div class="emotion-insight-head"><b>최근 30일 동안 가장 많이 느낀 감정</b></div><div class="therapy-v13-list">${therapy}</div></article></section>`;
+  }
+  function renderEmotion(){const owners=currentUser?emotionVisibleOwners():[],allRows=currentUser?owners.flatMap(emotionEntries).sort((a,b)=>(b.date||'').localeCompare(a.date||'')||(b.updatedAt||b.createdAt||0)-(a.updatedAt||a.createdAt||0)):[];renderEmotionMoodCalendar(allRows,owners);renderBucketList();const insights=$('#emotionInsightsPage');if(insights)insights.innerHTML=renderEmotionInsights(allRows)}
   function goEmotionPage(next,force=false){next=Math.max(0,Math.min(1,next));if((next===emotionPageIndex&&!force)||emotionFlipLocked)return;emotionFlipLocked=true;[$('#emotionRecordPage'),$('#emotionInsightPage')].forEach((page,i)=>{page.classList.remove('current','next','prev');page.classList.add(i===next?'current':(i<next?'prev':'next'));page.setAttribute('aria-hidden',i===next?'false':'true')});$$('.emotion-dot').forEach((d,i)=>d.classList.toggle('active',i===next));emotionPageIndex=next;animateStandaloneFrame(next===0?'#emotionFrame':'#emotionInsightFrame');setTimeout(()=>emotionFlipLocked=false,760)}
   $('#emotionStage').addEventListener('wheel',e=>{if(Math.abs(e.deltaY)<16)return;e.preventDefault();goEmotionPage(emotionPageIndex+(e.deltaY>0?1:-1))},{passive:false});
   $('#emotionStage').addEventListener('touchstart',e=>{emotionTouchY=e.touches[0]?.clientY??null},{passive:true});
@@ -1929,7 +2025,6 @@ body.modal-open .emotion-stage{pointer-events:none}
   $('#emotionTodayMonth').addEventListener('click',()=>{emotionShown=new Date(today.getFullYear(),today.getMonth(),1);renderEmotion()});
   $('#emotionMoodCalendar').addEventListener('click',e=>{const b=e.target.closest('[data-emotion-day-open]');if(!b)return;const date=b.dataset.emotionDayOpen;const entry=entryForDate(currentUserEmail,date);openEmotionEditor(entry,'journal',date)});
   $('#newEmotionDiaryBtn').addEventListener('click',()=>openEmotionEditor(entryForDate(currentUserEmail,iso(today.getFullYear(),today.getMonth(),today.getDate())),'journal'));
-  $('#newEmotionCycleBtn').addEventListener('click',()=>openEmotionEditor(entryForDate(currentUserEmail,iso(today.getFullYear(),today.getMonth(),today.getDate())),'cycle'));
   $('#emotionForm').addEventListener('submit',async e=>{e.preventDefault();if(!currentUserEmail||!emotionRefs[currentUserEmail]?.writable)return;const id=$('#emotionEntryId').value,d=emotionData[currentUserEmail],date=$('#emotionDate').value;if(!date)return;let existing=id?d.entries.find(x=>x.id===id):d.entries.find(x=>x.date===date);if(!existing){existing={id:'em-'+Date.now(),owner:currentUserEmail,date,mood:'',moods:[],wants:[],lines:['','',''],period:false,intimacy:false,createdAt:Date.now(),updatedAt:Date.now()};d.entries.push(existing)}existing.date=date;existing.owner=currentUserEmail;if(emotionView==='journal'){const moods=selectedEmotionMoods(),lines=[$('#emotionLine1').value.trim(),$('#emotionLine2').value.trim(),$('#emotionLine3').value.trim()],wants=selectedEmotionWants();if(!moods.length&&!lines.some(Boolean)&&!wants.length){toast('기록할 내용을 선택하거나 입력해주세요.');return}existing.moods=moods;existing.mood=moods[0]||'';existing.wants=wants;existing.lines=lines}else{existing.period=$('#emotionPeriod').checked}existing.updatedAt=Date.now();try{await saveEmotionData(currentUserEmail);closeModal('emotionModal');renderEmotion();toast(`${emotionViewLabel()} 저장 완료`)}catch(err){toast(googleErrorMessage(err))}});
   $('#deleteEmotion').addEventListener('click',async()=>{const id=$('#emotionEntryId').value;if(!id||!currentUserEmail)return;const d=emotionData[currentUserEmail],entry=d?.entries?.find(x=>x.id===id);if(!entry)return;if(emotionView==='journal'){entry.mood='';entry.moods=[];entry.wants=[];entry.lines=['','','']}else{entry.period=false}if(!entryMoods(entry).length&&!(entry.lines||[]).some(Boolean)&&!(entry.wants||[]).length&&!entry.period)d.entries=d.entries.filter(x=>x.id!==id);try{await saveEmotionData(currentUserEmail);closeModal('emotionModal');renderEmotion();toast(`${emotionViewLabel()} 삭제 완료`)}catch(err){toast(googleErrorMessage(err))}});
   function privateCanWrite(){return !!currentUserEmail&&currentUserEmail===privateOwner&&privateRefs[privateOwner]?.writable}
@@ -1976,7 +2071,7 @@ body.modal-open .emotion-stage{pointer-events:none}
   $$('.tab').forEach(t=>t.addEventListener('click',()=>showMainTab(t.dataset.tab)));
   function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._timer);t._timer=setTimeout(()=>t.classList.remove('show'),1800)}
   $('#stage').addEventListener('pointerdown',e=>{if(e.target.closest('button,input,select,textarea,label,a'))e.stopPropagation()});
-    loadGoogleConfig();fillGoogleConfigUI();normalizeCloudData();getAlbumFolders();refreshRecordAlbumSelect(DEFAULT_ALBUM_ID);renderAlbumFolders();renderPrivate();renderEmotion();applyLoginUI();setDday();renderDdayList();renderCalendar();if('serviceWorker' in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+    loadGoogleConfig();fillGoogleConfigUI();normalizeCloudData();selectAlbumFolderColor(ALBUM_PASTELS[0]);getAlbumFolders();refreshRecordAlbumSelect(DEFAULT_ALBUM_ID);renderAlbumFolders();renderPrivate();renderEmotion();applyLoginUI();setDday();renderDdayList();renderCalendar();if('serviceWorker' in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
 })();
 </script>
 </body>
