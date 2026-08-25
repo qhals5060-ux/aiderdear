@@ -722,7 +722,7 @@ body.event-mode .hint,body.private-mode .hint{display:flex}
   #stage #calendar>.week,#stage #calendar>.day{min-height:0!important}
 }
 
-/* ===== AiderDear v20 visual system ===== */
+/* ===== AiderDear v21: public tab navigation + v20 visual system ===== */
 :root{
   --bg:#d9e2e5;
   --paper:#fffdf9;
@@ -2468,7 +2468,8 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
 
   function animateStandaloneFrame(id){const el=$(id);if(!el)return;el.classList.remove('line-active');void el.offsetWidth;el.classList.add('line-active')}
   function showMainTab(tab){
-    if((tab==='emotion'||tab==='record'||tab==='event'||tab==='private')&&!currentUser){requireLogin(()=>showMainTab(tab));return}
+    // Navigation itself is always available. Individual write/sync actions
+    // request Google login only when they actually need it.
     $$('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===tab));
     document.body.classList.toggle('emotion-mode',tab==='emotion');document.body.classList.toggle('record-mode',tab==='record');document.body.classList.toggle('event-mode',tab==='event');document.body.classList.toggle('private-mode',tab==='private');
     $('#stage').hidden=tab!=='schedule';$('#emotionStage').hidden=tab!=='emotion';$('#recordStage').hidden=tab!=='record';$('#eventStage').hidden=tab!=='event';$('#privateStage').hidden=tab!=='private';$('#stage').setAttribute('aria-hidden',tab==='schedule'?'false':'true');
