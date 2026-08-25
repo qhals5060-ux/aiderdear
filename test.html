@@ -1438,67 +1438,6 @@ body{background:#000!important}
   #emotionInsightPage .emotion-content{overflow:auto!important;padding-right:3px!important}.insights-v32{height:auto;display:grid;grid-template-columns:1fr;gap:10px;overflow:visible}.insights-v32-card{border-radius:12px}.insights-v32-left,.insights-v32-right{padding:12px}.mood-v32-top{grid-template-columns:1fr;gap:10px}.mood-v32-donut{width:170px}.mood-v32-list{grid-template-columns:repeat(2,1fr);gap:0 8px}.activity-v32-grid{grid-template-columns:1fr;gap:9px}.activity-v32-panel{border-right:0;border-bottom:1px solid #ddd;padding:0 0 9px}.pattern-v32{grid-column:auto}.top-v32-cards{display:flex;overflow-x:auto;padding-bottom:4px}.top-v32-card{min-width:128px;min-height:76px}.analysis-v32-row{min-height:74px}.care-v32-actions{grid-template-columns:1fr}.care-v32-btn{min-height:44px}.emotion-core-grid{grid-template-columns:1fr}.emotion-data-chip{min-height:36px}.emotion-intensity-btn{height:40px}
 }
 
-
-
-/* ===== AiderDear v33 · Emotion bucket + meditation + Record refinement ===== */
-/* Insights: keep the heading rule separate from the two analysis cards. */
-#emotionInsightPage .emotion-content{padding-top:13px!important}
-#emotionInsightPage .insights-v32{margin-top:1px!important}
-
-/* Bucket: image attachment and ultra-tight rhythm. */
-.bucket-form{grid-template-columns:minmax(0,1fr) 27px 27px!important;gap:3px!important;margin-bottom:2px!important}
-.bucket-form input{height:27px!important;border-radius:8px!important;padding:0 8px!important;font-size:8px!important}
-.bucket-form button{width:27px!important;height:27px!important;border-radius:7px!important;font-size:13px!important;box-shadow:none!important}
-.bucket-form .bucket-photo-pick{background:#fff!important;border:1px solid #ddd5ca!important;color:#746b61!important}
-.bucket-form .bucket-photo-pick.has-photo{background:#eee8df!important;color:#111!important;border-color:#b7aa9b!important}
-.bucket-form .bucket-submit{background:#aaa095!important;color:#fff!important;border:0!important;font-size:16px!important}
-.bucket-drops{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:2px 3px!important;padding:0!important;align-content:start!important}
-.bucket-card{height:44px!important;min-height:44px!important;border-radius:8px!important;box-shadow:none!important;border-color:#ebe5dd!important}
-.bucket-card-main{height:44px!important;grid-template-columns:10px minmax(0,1fr)!important;gap:5px!important;padding:4px 4px 4px 6px!important}
-.bucket-card-main.has-photo{grid-template-columns:10px 34px minmax(0,1fr)!important}
-.bucket-check{width:9px!important;height:9px!important;border-radius:3px!important}
-.bucket-thumb{width:34px;height:34px;display:block;overflow:hidden;border-radius:6px;background:#f2eee8;flex:none}
-.bucket-thumb img{width:100%;height:100%;object-fit:cover;display:block}
-.bucket-copy b{font-size:8px!important;line-height:1.12!important;margin:0 0 1px!important;-webkit-line-clamp:1!important}
-.bucket-copy span{font-size:5.8px!important;line-height:1!important}
-.bucket-drop-tools{gap:1px!important;padding-right:3px!important}
-.bucket-drop-tools button{width:13px!important;height:13px!important;font-size:5.5px!important;border-color:#ddd5ca!important}
-.bucket-history-list{gap:2px!important}.bucket-history-row{min-height:38px!important;padding:3px 5px!important;gap:5px!important}.bucket-history-row .bucket-thumb{width:28px;height:28px;border-radius:5px}.bucket-history-row b{font-size:8px!important}.bucket-history-row span,.bucket-history-actions button{font-size:5.8px!important}
-@media(max-width:650px){.bucket-form{grid-template-columns:minmax(0,1fr) 24px 24px!important}.bucket-form input{height:24px!important;font-size:6px!important}.bucket-form button{width:24px!important;height:24px!important}.bucket-card{height:40px!important;min-height:40px!important}.bucket-card-main{height:40px!important}.bucket-card-main.has-photo{grid-template-columns:8px 30px minmax(0,1fr)!important}.bucket-thumb{width:30px;height:30px}.bucket-copy b{font-size:7px!important}}
-
-/* CARE meditation — calm editorial, no therapy referral card. */
-.meditation-guide{display:grid;justify-items:center;gap:12px;padding:8px 4px 10px;text-align:center}
-.meditation-kicker{font-size:7px;font-weight:900;letter-spacing:.18em;color:#8a827a}
-.meditation-orb{width:165px;height:165px;border:1px solid #171717;border-radius:50%;display:grid;place-items:center;align-content:center;gap:6px;background:#fbfaf6;transition:transform 2.8s ease,background 2.8s ease}
-.meditation-orb.active{animation:meditationPulse 8s ease-in-out infinite;background:#f3f0e9}
-@keyframes meditationPulse{0%,100%{transform:scale(.94)}50%{transform:scale(1.06)}}
-.meditation-orb span{font-family:"Iowan Old Style",Georgia,serif;font-size:16px}.meditation-orb strong{font-size:24px;font-weight:400;letter-spacing:.05em}
-.meditation-guide p{max-width:390px;min-height:38px;margin:0;font-size:8px;line-height:1.7;color:#625b54}
-.meditation-duration{display:flex;gap:5px}.meditation-duration button{height:30px;min-width:60px;border:1px solid #bbb4ab;background:#fff;font-size:7px;font-weight:900;letter-spacing:.08em}.meditation-duration button.active{background:#111;color:#fff;border-color:#111}
-.meditation-progress{width:min(360px,86%);height:2px;background:#e6e1da;overflow:hidden}.meditation-progress i{display:block;width:0;height:100%;background:#111;transition:width .3s linear}
-
-/* Record page: follow supplied editorial spread reference. */
-.record-shell{padding:22px 32px 28px!important;grid-template-columns:minmax(0,4.35fr) minmax(215px,1fr)!important;gap:16px!important;border:0!important;background:#fff!important}
-.record-main,.record-aside{padding:18px 18px 16px!important;border-left:2px solid #111!important;border-right:2px solid #111!important}
-.record-main:before,.record-main:after,.record-aside:before,.record-aside:after{left:16px!important;right:16px!important;height:2px!important}
-.record-main{grid-template-rows:auto minmax(0,1fr)!important;gap:12px!important}.record-toolbar{align-items:center!important;border-bottom:1px solid #111!important;padding:0 3px 11px!important}.record-heading h2{font-size:38px!important;letter-spacing:-.045em!important}
-.record-controls{gap:5px!important}.record-filter,.new-record,.record-date-search,.record-date-clear{height:30px!important;font-size:7px!important}.new-record{background:#ead5af!important}.record-date-search{min-width:120px!important}
-.record-feed{border-top:0!important;padding:8px 0 5px!important}.record-feed-inner{width:100%!important;max-width:none!important;gap:12px!important}
-.record-empty{height:100%!important;min-height:0!important;border:1px dashed #d3d3d3!important;background:#fff!important;padding:16px!important;cursor:pointer!important}
-.record-empty-inner{display:grid;justify-items:center;gap:9px}.record-empty-icon{position:relative;width:66px;height:54px;display:grid;place-items:center}.record-empty-icon>span{font-size:50px;line-height:1;font-weight:300}.record-empty-icon i{position:absolute;right:0;bottom:0;width:25px;height:25px;border-radius:50%;display:grid;place-items:center;background:#c7a56f;color:#fff;font-style:normal;font-size:20px}.record-empty strong{font-size:31px!important;margin:0!important}.record-empty span{font-size:9px!important;color:#777!important;line-height:1.65!important}.record-empty button{margin-top:12px;height:36px;padding:0 18px;border:0;background:#111;color:#fff;font-size:8px;font-weight:900}
-.record-aside{grid-template-rows:auto auto minmax(0,1fr)!important;gap:12px!important}.record-aside-title{font-size:25px!important;border-bottom:1px solid #111;padding:0 0 12px!important}.record-stats{border-top:0!important;border-bottom:1px solid #111!important}.record-stat{padding:12px 4px!important}.record-stat strong{font-family:"Iowan Old Style",Georgia,serif;font-size:29px!important}.record-months{padding-top:9px!important}.record-month{border:0!important;border-radius:10px!important;margin:0 0 5px!important;padding:10px 9px!important;background:#fff!important}.record-month.active,.record-month:hover{background:#f3eadf!important}.record-month span{font-size:9px!important}.record-month b{font-size:8px!important}
-/* Existing posts remain usable, but sit naturally in the large editorial field. */
-.record-post{width:min(560px,100%);margin:0 auto;border:1px solid #111!important;background:#fff!important}
-
-/* Album: large clean paper spread with subdued pastel folder card. */
-.album-shell{padding:22px 32px 28px!important;border:0!important;background:#fff!important}.album-frame{padding:18px 18px 16px!important;border-left:2px solid #111!important;border-right:2px solid #111!important;gap:12px!important}.album-frame:before,.album-frame:after{height:2px!important;left:16px!important;right:16px!important}
-.album-toolbar{align-items:center!important;border-bottom:1px solid #111!important;padding:0 3px 12px!important}.album-heading{font-size:38px!important}.album-new-folder{height:34px!important;border:0!important;border-radius:8px!important;background:#f0e8df!important;padding:0 15px!important;font-size:8px!important}.album-back{height:32px!important;font-size:8px!important}
-.album-content{border-top:0!important;padding:24px 18px 16px!important}.album-folder-grid{display:grid!important;grid-template-columns:repeat(auto-fill,minmax(240px,300px))!important;gap:24px!important;padding:0!important;align-content:start!important;justify-content:start!important}
-.album-folder{padding:0!important;border:1px solid #e1ddd8!important;border-radius:14px!important;background:#fff!important;overflow:hidden!important;box-shadow:0 8px 16px rgba(0,0,0,.035)!important}.album-folder:before{display:none!important;content:none!important}.album-folder-body{min-height:360px!important;border:0!important;border-radius:0!important;padding:0!important;background:#fff!important;box-shadow:none!important;overflow:hidden!important;display:grid!important;grid-template-rows:minmax(0,1fr) auto!important}.album-folder-body:before,.album-folder-body:after,.album-folder-color-chip{display:none!important;content:none!important}.album-folder .album-cover{display:grid!important;height:auto!important;min-height:280px!important;border:0!important;border-radius:0!important;background:color-mix(in srgb,var(--folder-color) 28%,#faf7f4 72%)!important;place-items:center!important;overflow:hidden!important}.album-folder .album-cover img,.album-folder .album-cover video{width:100%!important;height:100%!important;object-fit:cover!important;opacity:1!important}.album-folder .album-cover span{font-size:34px!important;color:#b7aca4!important}.album-folder-copy{padding:14px 16px 16px!important;text-align:left!important;background:#fff!important}.album-folder-copy b{font-size:12px!important}.album-folder-copy span{font-size:8px!important;color:#777!important;margin-top:5px!important}
-.album-photo-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:5px!important}
-@media(max-width:950px){.record-shell{grid-template-columns:minmax(0,3fr) minmax(190px,1fr)!important;padding:14px!important}.album-folder-grid{grid-template-columns:repeat(auto-fill,minmax(210px,260px))!important}.album-folder-body{min-height:310px!important}.album-folder .album-cover{min-height:235px!important}}
-@media(max-width:700px){.record-shell{grid-template-columns:1fr!important;padding:7px!important}.record-aside{display:none!important}.record-heading h2{font-size:25px!important}.record-toolbar{align-items:flex-start!important}.record-controls{max-width:65%!important}.record-filter,.new-record,.record-date-search,.record-date-clear{min-height:36px!important}.album-shell{padding:7px!important}.album-heading{font-size:25px!important}.album-content{padding:12px 6px!important}.album-folder-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}.album-folder-body{min-height:240px!important}.album-folder .album-cover{min-height:180px!important}.album-new-folder{min-height:40px!important}}
-
 </style>
 </head>
 <body>
@@ -1628,7 +1567,7 @@ body{background:#000!important}
             </section>
             <aside class="bucket-board" aria-label="버킷리스트">
               <div class="bucket-head"><div><b>Bucket List</b></div><button id="bucketHistoryBtn" type="button">HISTORY</button></div>
-              <form class="bucket-form" id="bucketForm"><input id="bucketInput" maxlength="80" placeholder="하고 싶은 일을 적어주세요"><button class="bucket-photo-pick" id="bucketPhotoPick" type="button" aria-label="사진 첨부" title="사진 첨부">▧</button><button class="bucket-submit" type="submit" aria-label="버킷리스트 추가">+</button><input id="bucketPhotoInput" type="file" accept="image/*" hidden></form>
+              <form class="bucket-form" id="bucketForm"><input id="bucketInput" maxlength="80" placeholder="하고 싶은 일을 적어주세요"><button type="submit" aria-label="버킷리스트 추가">+</button></form>
               <div class="bucket-drops" id="bucketDrops"></div>
               <div class="bucket-history" id="bucketHistory" hidden></div>
             </aside>
@@ -1941,7 +1880,7 @@ body{background:#000!important}
         <div class="form emotion-form-grid">
           <div class="emotion-core-grid full">
             <div class="field"><label for="emotionDate">날짜</label><input id="emotionDate" type="date" required></div>
-            <div class="field" id="emotionTimeField"><label for="emotionTime">시간</label><input id="emotionTime" type="time"></div>
+            <div class="field"><label for="emotionTime">시간</label><input id="emotionTime" type="time"></div>
           </div>
           <div class="field full" id="emotionJournalSection">
             <label>감정</label>
@@ -2129,19 +2068,13 @@ body{background:#000!important}
   </div>
 </div>
 
-<!-- Emotion CARE: meditation -->
-<div class="overlay" id="careMeditationModal" role="dialog" aria-modal="true" aria-labelledby="careMeditationTitle">
-  <div class="modal care-modal meditation-modal">
-    <div class="modal-head"><b id="careMeditationTitle">명상하기</b><button class="x" data-close="careMeditationModal">×</button></div>
+<!-- Emotion CARE: therapy -->
+<div class="overlay" id="careTherapyModal" role="dialog" aria-modal="true" aria-labelledby="careTherapyTitle">
+  <div class="modal care-modal">
+    <div class="modal-head"><b id="careTherapyTitle">심리테라피 연결</b><button class="x" data-close="careTherapyModal">×</button></div>
     <div class="modal-body">
-      <div class="meditation-guide">
-        <div class="meditation-kicker">QUIET MOMENT</div>
-        <div class="meditation-orb" id="meditationOrb"><span id="meditationPhase">준비</span><strong id="meditationClock">03:00</strong></div>
-        <p id="meditationPrompt">편안한 자세를 잡고, 시선을 천천히 한 곳에 두세요.</p>
-        <div class="meditation-duration" aria-label="명상 시간"><button type="button" class="active" data-meditation-minutes="3">3 MIN</button><button type="button" data-meditation-minutes="5">5 MIN</button><button type="button" data-meditation-minutes="10">10 MIN</button></div>
-        <div class="meditation-progress"><i id="meditationProgress"></i></div>
-        <div class="care-breath-actions"><button type="button" id="meditationReset">RESET</button><button class="primary" type="button" id="meditationStart">START</button></div>
-      </div>
+      <div class="care-therapy-copy"><strong>필요할 때, 전문가와 이야기해볼 수 있어요.</strong>감정이 반복적으로 부담스럽게 느껴진다면 전문가와 이야기를 나누는 선택도 가능합니다. 이 화면의 기록과 Insights는 진단이 아니라 자기이해를 돕기 위한 기록 기반 관찰입니다.</div>
+      <div class="modal-actions"><button class="secondary" type="button" data-close="careTherapyModal">닫기</button><button class="primary" type="button" id="careTherapySearch">상담 알아보기</button></div>
     </div>
   </div>
 </div>
@@ -2452,7 +2385,7 @@ body{background:#000!important}
   async function scanDriveMedia(){
     if(!driveRootId)return;
     const [rootFiles,mediaFiles]=await Promise.all([driveListFolderFiles(driveRootId),driveMediaFolderId?driveListFolderFiles(driveMediaFolderId):Promise.resolve([])]);
-    const referenced=new Set();getRecords().forEach(r=>recordMediaItems(r).forEach(x=>{const id=x.fileId||x.key;if(id)referenced.add(id)}));(cloudData.eventReviews||[]).forEach(r=>{if(r?.media?.fileId)referenced.add(r.media.fileId)});(cloudData.bucketItems||[]).forEach(r=>{if(r?.photo?.fileId)referenced.add(r.photo.fileId)});if(cloudData.coupleMedia?.fileId)referenced.add(cloudData.coupleMedia.fileId);
+    const referenced=new Set();getRecords().forEach(r=>recordMediaItems(r).forEach(x=>{const id=x.fileId||x.key;if(id)referenced.add(id)}));(cloudData.eventReviews||[]).forEach(r=>{if(r?.media?.fileId)referenced.add(r.media.fileId)});if(cloudData.coupleMedia?.fileId)referenced.add(cloudData.coupleMedia.fileId);
     const seen=new Set();driveLooseMedia=[...rootFiles,...mediaFiles].filter(f=>{if(seen.has(f.id))return false;seen.add(f.id);return (String(f.mimeType).startsWith('image/')||String(f.mimeType).startsWith('video/'))&&!referenced.has(f.id)}).map(f=>({kind:String(f.mimeType).startsWith('video/')?'video':'image',fileId:f.id,name:f.name,type:f.mimeType,title:f.name||'Drive 미디어',date:String(f.createdTime||f.modifiedTime||'').slice(0,10),folderId:DEFAULT_ALBUM_ID,author:'shared',driveImported:true}));
   }
 
@@ -2949,7 +2882,7 @@ body{background:#000!important}
     $('#photoCount').textContent=rows.reduce((n,r)=>n+recordMediaItems(r).length,0);
     renderRecordMonths(rows);
     if(!filtered.length){
-      const e=document.createElement('div');e.className='record-empty';e.innerHTML='<div class="record-empty-inner"><div class="record-empty-icon" aria-hidden="true"><span>▧</span><i>+</i></div><strong>Dear today,</strong><span>선택한 조건에 기록이 없습니다.<br>첫 사진과 동영상을 남겨보세요.</span><button type="button">+ 새 기록 시작</button></div>';e.addEventListener('click',openNewRecord);wrap.appendChild(e);return;
+      const e=document.createElement('div');e.className='record-empty';e.innerHTML='<div><strong>Dear today,</strong><span>선택한 조건에 기록이 없습니다.<br>첫 사진과 동영상을 남겨보세요.</span></div>';e.addEventListener('click',openNewRecord);wrap.appendChild(e);return;
     }
     filtered.forEach(r=>wrap.appendChild(buildPost(r)));
   }
@@ -3164,7 +3097,7 @@ body{background:#000!important}
   function setEmotionIntensity(v=3){v=Math.max(1,Math.min(5,Number(v)||3));$('#emotionIntensity').value=String(v);$$('[data-emotion-intensity]').forEach(btn=>btn.classList.toggle('active',Number(btn.dataset.emotionIntensity)===v))}
   $$('[data-emotion-intensity]').forEach(btn=>btn.addEventListener('click',()=>setEmotionIntensity(btn.dataset.emotionIntensity)));
   function emotionViewLabel(view=emotionView){return view==='cycle'?'생리기록':'감정기록'}
-  function configureEmotionModal(view=emotionView){emotionView=view==='cycle'?'cycle':'journal';$('#emotionJournalSection').hidden=emotionView==='cycle';$('#emotionCycleSection').hidden=emotionView!=='cycle';if($('#emotionTimeField'))$('#emotionTimeField').hidden=emotionView==='cycle';$('#emotionModalTitle').textContent=emotionViewLabel()}
+  function configureEmotionModal(view=emotionView){emotionView=view==='cycle'?'cycle':'journal';$('#emotionJournalSection').hidden=emotionView==='cycle';$('#emotionCycleSection').hidden=emotionView!=='cycle';$('#emotionModalTitle').textContent=emotionViewLabel()}
   function entryForDate(email,date){return emotionData[email]?.entries?.find(x=>x.date===date)||null}
   function openEmotionEditor(entry=null,view='journal',presetDate=''){
     if(!currentUser){requireLogin(()=>openEmotionEditor(entry,view,presetDate));return}
@@ -3184,38 +3117,24 @@ body{background:#000!important}
     for(let i=0;i<42;i++){let cy=y,cm=m,day,out=false;if(i<first){day=prevDays-first+i+1;cm=m-1;out=true;if(cm<0){cm=11;cy--}}else if(i>=first+days){day=i-first-days+1;cm=m+1;out=true;if(cm>11){cm=0;cy++}}else day=i-first+1;const date=iso(cy,cm,day),dayRows=rows.filter(r=>r.date===date);let moodItems=[];dayRows.forEach(r=>{const ownerEmail=normalizeEmail(r.owner),label=emotionData[ownerEmail]?.profile?.name||familyUser(ownerEmail).name||'';entryMoods(r).forEach(mood=>moodItems.push({mood,ownerEmail,label}))});moodItems=moodItems.slice(0,6);const moods=moodItems.map(x=>`<span class="emotion-mini-blob" title="${escapeHtml(x.label)} · ${escapeHtml(x.mood)}" style="${miniMoodStyle(x.mood)}">${escapeHtml(EMOTION_FACES[x.mood]||'•ᴗ•')}</span>`).join('');const period=dayRows.some(r=>r.period);const flags=period?'<div class="emotion-day-flags"><span class="period" title="생리일">P</span></div>':'';html+=`<button class="emotion-month-day ${out?'out':''} ${date===iso(today.getFullYear(),today.getMonth(),today.getDate())?'today':''}" type="button" data-emotion-day-open="${date}" ${out?'tabindex="-1"':''}><span class="emotion-month-num">${String(day).padStart(2,'0')}</span><div class="emotion-day-moods">${moods}</div>${flags}</button>`}
     box.innerHTML=html;
   }
-  let bucketHistoryOpen=false,bucketPendingPhoto=null,bucketPhotoTargetId='';
+  let bucketHistoryOpen=false;
   function bucketItems(){normalizeCloudData();return (cloudData.bucketItems||[]).filter(x=>pairVisible(x,'createdBy'))}
   function bucketDate(ts){if(!ts)return '';return new Date(ts).toLocaleDateString('ko-KR',{year:'numeric',month:'2-digit',day:'2-digit'})}
   function bucketUserName(email){email=normalizeEmail(email);return familyUser(email)?.name||storedDisplayName(email)||email.split('@')[0]||''}
-  async function hydrateBucketImages(){
-    const imgs=[...document.querySelectorAll('[data-bucket-photo-file]')];
-    for(const img of imgs){const fileId=img.dataset.bucketPhotoFile;if(!fileId||img.dataset.loaded==='1')continue;try{const src=await recordMediaSrc({kind:'image',fileId});if(src){img.src=src;img.dataset.loaded='1'}}catch{}}
-  }
-  function bucketPhotoHtml(item){const id=item?.photo?.fileId;if(!id)return '';return `<span class="bucket-thumb"><img data-bucket-photo-file="${escapeHtml(id)}" alt="${escapeHtml(item.text||'버킷리스트 사진')}"></span>`}
   function renderBucketList(){
     const drops=$('#bucketDrops'),history=$('#bucketHistory'),toggle=$('#bucketHistoryBtn');if(!drops||!history||!toggle)return;
     const all=bucketItems(),active=all.filter(x=>!x.completedAt).sort((a,b)=>(a.createdAt||0)-(b.createdAt||0)),done=all.filter(x=>x.completedAt).sort((a,b)=>(b.completedAt||0)-(a.completedAt||0));
     toggle.textContent=bucketHistoryOpen?'BACK':'HISTORY';drops.hidden=bucketHistoryOpen;history.hidden=!bucketHistoryOpen;
     if(!bucketHistoryOpen){
-      drops.innerHTML=active.length?active.map(item=>`<div class="bucket-drop" data-bucket-id="${escapeHtml(item.id)}"><div class="bucket-card"><button class="bucket-card-main ${item?.photo?.fileId?'has-photo':''}" type="button" data-bucket-pop="${escapeHtml(item.id)}" aria-label="완료: ${escapeHtml(item.text)}"><span class="bucket-check" aria-hidden="true"></span>${bucketPhotoHtml(item)}<span class="bucket-copy"><b>${escapeHtml(item.text)}</b><span>${escapeHtml(bucketDate(item.createdAt))}</span></span></button><div class="bucket-drop-tools"><button type="button" data-bucket-photo="${escapeHtml(item.id)}" aria-label="사진 ${item?.photo?.fileId?'교체':'첨부'}" title="사진 ${item?.photo?.fileId?'교체':'첨부'}">▧</button><button type="button" data-bucket-edit="${escapeHtml(item.id)}" aria-label="수정">✎</button><button type="button" data-bucket-delete="${escapeHtml(item.id)}" aria-label="삭제">×</button></div></div></div>`).join(''):'<div class="bucket-empty">하고 싶은 일들을 차곡차곡 적어보세요.</div>';
-      hydrateBucketImages();
+      drops.innerHTML=active.length?active.map(item=>`<div class="bucket-drop" data-bucket-id="${escapeHtml(item.id)}"><div class="bucket-card"><button class="bucket-card-main" type="button" data-bucket-pop="${escapeHtml(item.id)}" aria-label="완료: ${escapeHtml(item.text)}"><span class="bucket-check" aria-hidden="true"></span><span class="bucket-copy"><b>${escapeHtml(item.text)}</b><span>${escapeHtml(bucketDate(item.createdAt))} · 눌러서 완료하기</span></span></button><div class="bucket-drop-tools"><button type="button" data-bucket-edit="${escapeHtml(item.id)}" aria-label="수정">✎</button><button type="button" data-bucket-delete="${escapeHtml(item.id)}" aria-label="삭제">×</button></div></div></div>`).join(''):'<div class="bucket-empty">하고 싶은 일들을 차곡차곡 적어보세요.</div>'
     } else {
-      history.innerHTML=done.length?`<div class="bucket-history-list">${done.map(item=>`<div class="bucket-history-row">${bucketPhotoHtml(item)}<i>✓</i><div><b>${escapeHtml(item.text)}</b><span>${escapeHtml(bucketDate(item.createdAt))} → ${escapeHtml(bucketDate(item.completedAt))}</span></div><div class="bucket-history-actions"><button type="button" data-bucket-restore="${escapeHtml(item.id)}">되돌리기</button><button type="button" data-bucket-delete="${escapeHtml(item.id)}">삭제</button></div></div>`).join('')}</div>`:'<div class="bucket-history-empty">완료한 버킷리스트가 아직 없습니다.</div>';
-      hydrateBucketImages();
+      history.innerHTML=done.length?`<div class="bucket-history-list">${done.map(item=>`<div class="bucket-history-row"><i>✓</i><div><b>${escapeHtml(item.text)}</b><span>${escapeHtml(bucketDate(item.createdAt))} → ${escapeHtml(bucketDate(item.completedAt))}</span></div><div class="bucket-history-actions"><button type="button" data-bucket-restore="${escapeHtml(item.id)}">되돌리기</button><button type="button" data-bucket-delete="${escapeHtml(item.id)}">삭제</button></div></div>`).join('')}</div>`:'<div class="bucket-history-empty">완료한 버킷리스트가 아직 없습니다.</div>'
     }
   }
-  function resetBucketPendingPhoto(){bucketPendingPhoto=null;bucketPhotoTargetId='';const pick=$('#bucketPhotoPick');if(pick){pick.classList.remove('has-photo');pick.title='사진 첨부';pick.textContent='▧'}const input=$('#bucketPhotoInput');if(input)input.value=''}
   $('#bucketHistoryBtn').addEventListener('click',()=>{bucketHistoryOpen=!bucketHistoryOpen;renderBucketList()});
-  $('#bucketPhotoPick').addEventListener('click',()=>{if(!currentUser||!googleToken){requireLogin();return}bucketPhotoTargetId='';$('#bucketPhotoInput').click()});
-  $('#bucketPhotoInput').addEventListener('change',async e=>{
-    const file=e.target.files?.[0];if(!file)return;if(!String(file.type).startsWith('image/')){toast('이미지 파일을 선택해주세요.');e.target.value='';return}if(file.size>25*1024*1024){toast('사진은 25MB 이하로 선택해주세요.');e.target.value='';return}
-    if(bucketPhotoTargetId){const item=cloudData.bucketItems.find(x=>x.id===bucketPhotoTargetId);const target=bucketPhotoTargetId;bucketPhotoTargetId='';if(!item){e.target.value='';return}try{toast('버킷리스트 사진을 업로드하고 있습니다.');const uploaded=await driveUploadMedia(file,'bucket');const old=item.photo?.fileId||'';item.photo={fileId:uploaded.id,name:file.name,type:file.type};item.updatedAt=Date.now();await saveCloudData();if(old&&old!==uploaded.id)driveDeleteFile(old);renderBucketList();toast('사진을 저장했습니다.')}catch(err){toast(googleErrorMessage(err))}e.target.value='';return}
-    bucketPendingPhoto=file;const pick=$('#bucketPhotoPick');pick.classList.add('has-photo');pick.title=file.name;pick.textContent='✓';e.target.value='';
-  });
-  $('#bucketForm').addEventListener('submit',async e=>{e.preventDefault();if(!currentUser||!googleToken){requireLogin();return}const input=$('#bucketInput'),text=String(input.value||'').trim();if(!text)return;let photo=null,uploadedId='';try{if(bucketPendingPhoto){toast('사진을 업로드하고 있습니다.');const uploaded=await driveUploadMedia(bucketPendingPhoto,'bucket');uploadedId=uploaded.id;photo={fileId:uploaded.id,name:bucketPendingPhoto.name,type:bucketPendingPhoto.type}}cloudData.bucketItems.push({id:'bucket-'+Date.now()+'-'+Math.random().toString(36).slice(2,6),text:text.slice(0,80),photo,createdAt:Date.now(),createdBy:currentUserEmail,pairKey:currentPairKey(),completedAt:0,completedBy:''});input.value='';resetBucketPendingPhoto();await saveCloudData();renderBucketList()}catch(err){if(uploadedId)driveDeleteFile(uploadedId);toast(googleErrorMessage(err))}});
-  $('#bucketDrops').addEventListener('click',async e=>{if(!currentUser||!googleToken){requireLogin();return}const photo=e.target.closest('[data-bucket-photo]');if(photo){bucketPhotoTargetId=photo.dataset.bucketPhoto||'';$('#bucketPhotoInput').click();return}const edit=e.target.closest('[data-bucket-edit]');if(edit){const item=cloudData.bucketItems.find(x=>x.id===edit.dataset.bucketEdit);if(!item)return;const next=prompt('버킷리스트를 수정하세요.',item.text||'');if(next===null)return;const text=String(next).trim();if(!text)return;item.text=text.slice(0,80);item.updatedAt=Date.now();try{await saveCloudData();renderBucketList()}catch(err){toast(googleErrorMessage(err))}return}const del=e.target.closest('[data-bucket-delete]');if(del){const item=cloudData.bucketItems.find(x=>x.id===del.dataset.bucketDelete);if(!item||!confirm(`“${item.text}” 버킷리스트를 삭제할까요?`))return;cloudData.bucketItems=cloudData.bucketItems.filter(x=>x.id!==item.id);try{await saveCloudData();if(item.photo?.fileId)driveDeleteFile(item.photo.fileId);renderBucketList()}catch(err){toast(googleErrorMessage(err))}return}const b=e.target.closest('[data-bucket-pop]');if(!b)return;const wrap=b.closest('.bucket-drop');if(wrap?.classList.contains('popping'))return;const item=cloudData.bucketItems.find(x=>x.id===b.dataset.bucketPop);if(!item||item.completedAt)return;wrap?.classList.add('popping');setTimeout(async()=>{item.completedAt=Date.now();item.completedBy=currentUserEmail;try{await saveCloudData();renderBucketList()}catch(err){toast(googleErrorMessage(err));renderBucketList()}},260)});
-  $('#bucketHistory').addEventListener('click',async e=>{if(!currentUser||!googleToken){requireLogin();return}const restore=e.target.closest('[data-bucket-restore]');if(restore){const item=cloudData.bucketItems.find(x=>x.id===restore.dataset.bucketRestore);if(!item)return;item.completedAt=0;item.completedBy='';try{await saveCloudData();renderBucketList()}catch(err){toast(googleErrorMessage(err))}return}const del=e.target.closest('[data-bucket-delete]');if(del){const item=cloudData.bucketItems.find(x=>x.id===del.dataset.bucketDelete);if(!item||!confirm(`“${item.text}” 기록을 삭제할까요?`))return;cloudData.bucketItems=cloudData.bucketItems.filter(x=>x.id!==item.id);try{await saveCloudData();if(item.photo?.fileId)driveDeleteFile(item.photo.fileId);renderBucketList()}catch(err){toast(googleErrorMessage(err))}}});
+  $('#bucketForm').addEventListener('submit',async e=>{e.preventDefault();if(!currentUser||!googleToken){requireLogin();return}const input=$('#bucketInput'),text=String(input.value||'').trim();if(!text)return;cloudData.bucketItems.push({id:'bucket-'+Date.now()+'-'+Math.random().toString(36).slice(2,6),text:text.slice(0,80),createdAt:Date.now(),createdBy:currentUserEmail,pairKey:currentPairKey(),completedAt:0,completedBy:''});input.value='';try{await saveCloudData();renderBucketList()}catch(err){toast(googleErrorMessage(err))}});
+  $('#bucketDrops').addEventListener('click',async e=>{if(!currentUser||!googleToken){requireLogin();return}const edit=e.target.closest('[data-bucket-edit]');if(edit){const item=cloudData.bucketItems.find(x=>x.id===edit.dataset.bucketEdit);if(!item)return;const next=prompt('버킷리스트를 수정하세요.',item.text||'');if(next===null)return;const text=String(next).trim();if(!text)return;item.text=text.slice(0,80);item.updatedAt=Date.now();try{await saveCloudData();renderBucketList()}catch(err){toast(googleErrorMessage(err))}return}const del=e.target.closest('[data-bucket-delete]');if(del){const item=cloudData.bucketItems.find(x=>x.id===del.dataset.bucketDelete);if(!item||!confirm(`“${item.text}” 버킷리스트를 삭제할까요?`))return;cloudData.bucketItems=cloudData.bucketItems.filter(x=>x.id!==item.id);try{await saveCloudData();renderBucketList()}catch(err){toast(googleErrorMessage(err))}return}const b=e.target.closest('[data-bucket-pop]');if(!b)return;const wrap=b.closest('.bucket-drop');if(wrap?.classList.contains('popping'))return;const item=cloudData.bucketItems.find(x=>x.id===b.dataset.bucketPop);if(!item||item.completedAt)return;wrap?.classList.add('popping');setTimeout(async()=>{item.completedAt=Date.now();item.completedBy=currentUserEmail;try{await saveCloudData();renderBucketList()}catch(err){toast(googleErrorMessage(err));renderBucketList()}},390)});
+  $('#bucketHistory').addEventListener('click',async e=>{if(!currentUser||!googleToken){requireLogin();return}const restore=e.target.closest('[data-bucket-restore]');if(restore){const item=cloudData.bucketItems.find(x=>x.id===restore.dataset.bucketRestore);if(!item)return;item.completedAt=0;item.completedBy='';try{await saveCloudData();renderBucketList()}catch(err){toast(googleErrorMessage(err))}return}const del=e.target.closest('[data-bucket-delete]');if(del){const item=cloudData.bucketItems.find(x=>x.id===del.dataset.bucketDelete);if(!item||!confirm(`“${item.text}” 기록을 삭제할까요?`))return;cloudData.bucketItems=cloudData.bucketItems.filter(x=>x.id!==item.id);try{await saveCloudData();renderBucketList()}catch(err){toast(googleErrorMessage(err))}}});
   function countWantByMood(rows,mood){const counts={};rows.filter(r=>entryMoods(r).includes(mood)).forEach(r=>(r.wants||[]).forEach(w=>{w=cleanEmotionWant(w);if(w)counts[w]=(counts[w]||0)+1}));return Object.entries(counts).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0]))}
   function emotionMoodColor(mood){const colors={'기쁨':'#f2dc68','행복':'#acd98d','설렘':'#efb6c0','편안함':'#b8d6c2','감사':'#c8b5df','피곤함':'#c9d6d6','불안':'#a9c4e9','짜증':'#e67878','외로움':'#b9acd4','슬픔':'#7f95bd'};return colors[mood]||'#deded8'}
   function emotionCareBase(mood){const map={
@@ -3256,7 +3175,7 @@ body{background:#000!important}
   function insightMoodStats(rows=[]){const counts={};let total=0;rows.forEach(r=>entryMoods(r).forEach(m=>{counts[m]=(counts[m]||0)+1;total++}));return {counts,total}}
   function insightMoodPct(count,total){return total?Math.round(count/total*100):0}
   function insightArrayCounts(rows,key){const counts={};rows.forEach(r=>(Array.isArray(r?.[key])?r[key]:[]).forEach(v=>{v=emotionTokenClean(v);if(v)counts[v]=(counts[v]||0)+1}));return Object.entries(counts).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0]))}
-  function insightDistribution(rows,key,limit=4){const all=insightArrayCounts(rows,key),sum=all.reduce((n,[,c])=>n+c,0),items=all.slice(0,limit);return items.map(([label,count])=>({label,count,pct:sum?Math.round(count/sum*100):0}))}
+  function insightDistribution(rows,key,limit=4){const items=insightArrayCounts(rows,key).slice(0,limit),sum=items.reduce((n,[,c])=>n+c,0);return items.map(([label,count])=>({label,count,pct:sum?Math.round(count/sum*100):0}))}
   function insightDateTime(row){if(!row?.date)return null;const t=/^\d{2}:\d{2}$/.test(row.time||'')?row.time:'';if(t){const d=new Date(`${row.date}T${t}:00`);if(!Number.isNaN(d.getTime()))return d}return null}
   function insightTimeBand(row){const d=insightDateTime(row);if(!d)return '';const h=d.getHours();if(h<6)return '새벽 0–6시';if(h<9)return '오전 6–9시';if(h<12)return '오전 9–12시';if(h<15)return '오후 12–3시';if(h<18)return '오후 3–6시';if(h<21)return '저녁 6–9시';return '밤 9시 이후'}
   function insightTopTime(rows){const counts={};rows.forEach(r=>{const k=insightTimeBand(r);if(k)counts[k]=(counts[k]||0)+1});const arr=Object.entries(counts).sort((a,b)=>b[1]-a[1]);if(!arr.length)return '시간 기록이 더 쌓이면 자주 나타나는 시간대를 보여드릴게요.';const max=arr[0][1],tops=arr.filter(x=>x[1]===max).slice(0,2).map(x=>x[0]);return `${tops.join(', ')}에 비교적 자주 기록되었어요.`}
@@ -3289,7 +3208,7 @@ body{background:#000!important}
       <aside class="insights-v32-card insights-v32-right">
         <section class="top-v32"><h3>최근 30일 동안 가장 많이 느낀 감정</h3><div class="top-v32-cards">${topCards}</div></section>
         <section class="analysis-v32"><b class="analysis-v32-title">${escapeHtml(mood)} 분석</b><div class="analysis-v32-list"><div class="analysis-v32-row"><span class="analysis-v32-icon">◷</span><div><b>언제 자주 느꼈나요?</b><p>${escapeHtml(timeText)}</p></div></div><div class="analysis-v32-row"><span class="analysis-v32-icon">⌖</span><div><b>어떤 상황에서 자주 느꼈나요?</b><p>${escapeHtml(contextText)}</p></div></div><div class="analysis-v32-row"><span class="analysis-v32-icon">⌁</span><div><b>감정 패턴</b><p>${escapeHtml(emotionPattern)}</p></div></div></div></section>
-        <section class="care-v32"><div class="care-v32-label">CARE</div><div class="care-v32-actions"><button class="care-v32-btn" type="button" data-care-action="breath">≋ 호흡하기</button><button class="care-v32-btn" type="button" data-care-action="write">▧ 생각 정리하기</button><button class="care-v32-btn" type="button" data-care-action="meditate">◌ 명상하기</button></div></section>
+        <section class="care-v32"><div class="care-v32-label">CARE</div><div class="care-v32-actions"><button class="care-v32-btn" type="button" data-care-action="breath">≋ 호흡하기</button><button class="care-v32-btn" type="button" data-care-action="write">▧ 생각 정리하기</button><button class="care-v32-btn" type="button" data-care-action="therapy">♡ 심리테라피 연결</button></div></section>
       </aside>
     </section>`
   }
@@ -3333,7 +3252,7 @@ body{background:#000!important}
   /* Emotion Insights interactions */
   $('#emotionInsightsPage').addEventListener('click',e=>{
     const moodBtn=e.target.closest('[data-insight-emotion]');if(moodBtn&&moodBtn.dataset.insightEmotion){selectedInsightEmotion=normalizeMoodValue(moodBtn.dataset.insightEmotion)||moodBtn.dataset.insightEmotion;const ownRows=currentUserEmail?emotionEntries(currentUserEmail):[];$('#emotionInsightsPage').innerHTML=renderEmotionInsights(ownRows);return}
-    const care=e.target.closest('[data-care-action]');if(!care)return;if(care.dataset.careAction==='breath'){resetBreathingGuide();openModal('careBreathModal')}else if(care.dataset.careAction==='write'){loadCareWriting();openModal('careWriteModal')}else if(care.dataset.careAction==='meditate'){resetMeditation();openModal('careMeditationModal')}
+    const care=e.target.closest('[data-care-action]');if(!care)return;if(care.dataset.careAction==='breath'){resetBreathingGuide();openModal('careBreathModal')}else if(care.dataset.careAction==='write'){loadCareWriting();openModal('careWriteModal')}else if(care.dataset.careAction==='therapy')openModal('careTherapyModal')
   });
   let careBreathTimer=null,careBreathElapsed=0,careBreathPhaseIndex=0,careBreathPhaseElapsed=0;
   const CARE_BREATH_PHASES=[{name:'들이마시기',seconds:4,cls:'inhale'},{name:'유지',seconds:4,cls:'hold'},{name:'내쉬기',seconds:6,cls:'exhale'}];
@@ -3344,14 +3263,7 @@ body{background:#000!important}
   function careWritingKey(){return `aiderdear_care_notes_${currentUserEmail||'local'}`}
   function loadCareWriting(){let d={};try{d=JSON.parse(localStorage.getItem(careWritingKey())||'{}')}catch{};$('#careWrite1').value=d.a||'';$('#careWrite2').value=d.b||'';$('#careWrite3').value=d.c||''}
   $('#careWriteSave').addEventListener('click',()=>{localStorage.setItem(careWritingKey(),JSON.stringify({a:$('#careWrite1').value.trim(),b:$('#careWrite2').value.trim(),c:$('#careWrite3').value.trim(),updatedAt:Date.now()}));closeModal('careWriteModal');toast('생각 정리를 이 브라우저에 저장했습니다.')});
-  let meditationTimer=null,meditationMinutes=3,meditationRemaining=180,meditationStarted=false;
-  const MEDITATION_PROMPTS=['편안한 자세를 잡고, 시선을 천천히 한 곳에 두세요.','숨이 들어오고 나가는 감각만 가볍게 알아차려 보세요.','생각이 떠오르면 없애려 하지 말고, 다시 호흡으로 돌아오세요.','어깨와 턱의 힘을 조금 풀어주세요.','지금 느껴지는 감정을 판단하지 않고 잠시 곁에 두어보세요.','마지막 몇 번의 호흡을 천천히 느껴보세요.'];
-  function meditationFormat(sec){sec=Math.max(0,sec|0);return `${String(Math.floor(sec/60)).padStart(2,'0')}:${String(sec%60).padStart(2,'0')}`}
-  function renderMeditation(){const total=meditationMinutes*60,elapsed=Math.max(0,total-meditationRemaining),ratio=total?elapsed/total:0;$('#meditationClock').textContent=meditationFormat(meditationRemaining);$('#meditationProgress').style.width=`${Math.min(100,ratio*100)}%`;const p=Math.min(MEDITATION_PROMPTS.length-1,Math.floor(ratio*MEDITATION_PROMPTS.length));$('#meditationPrompt').textContent=meditationRemaining<=0?'잠시 눈을 뜨고, 지금의 몸과 마음을 알아차려 보세요.':MEDITATION_PROMPTS[p];$('#meditationPhase').textContent=meditationRemaining<=0?'완료':meditationStarted?'명상 중':'준비';$('#meditationOrb').classList.toggle('active',meditationStarted&&meditationRemaining>0);$('#meditationStart').textContent=meditationRemaining<=0?'AGAIN':meditationStarted?'PAUSE':(elapsed>0?'RESUME':'START')}
-  function resetMeditation(){if(meditationTimer){clearInterval(meditationTimer);meditationTimer=null}meditationStarted=false;meditationRemaining=meditationMinutes*60;renderMeditation()}
-  function startMeditation(){if(meditationRemaining<=0){resetMeditation()}if(meditationStarted){meditationStarted=false;if(meditationTimer){clearInterval(meditationTimer);meditationTimer=null}renderMeditation();return}meditationStarted=true;renderMeditation();meditationTimer=setInterval(()=>{meditationRemaining--;if(meditationRemaining<=0){meditationRemaining=0;meditationStarted=false;clearInterval(meditationTimer);meditationTimer=null}renderMeditation()},1000)}
-  $$('[data-meditation-minutes]').forEach(btn=>btn.addEventListener('click',()=>{meditationMinutes=Number(btn.dataset.meditationMinutes)||3;$$('[data-meditation-minutes]').forEach(b=>b.classList.toggle('active',b===btn));resetMeditation()}));
-  $('#meditationStart').addEventListener('click',startMeditation);$('#meditationReset').addEventListener('click',resetMeditation);renderMeditation();
+  $('#careTherapySearch').addEventListener('click',()=>window.open('https://www.google.com/search?q='+encodeURIComponent('심리상담 센터'),'_blank','noopener'));
   function privateCanWrite(){return !!currentUserEmail&&currentUserEmail===privateOwner&&privateRefs[privateOwner]?.writable}
   function privateDateLabel(ts){try{return new Date(ts).toLocaleString('ko-KR',{year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'})}catch{return ''}}
   function dateKeyOffset(n){const d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()+n);return iso(d.getFullYear(),d.getMonth(),d.getDate())}
@@ -3420,5 +3332,5 @@ body{background:#000!important}
     loadGoogleConfig();fillGoogleConfigUI();$('#autoLoginCheck').checked=autoLoginEnabled();normalizeCloudData();selectAlbumFolderColor(ALBUM_PASTELS[0]);getAlbumFolders();refreshRecordAlbumSelect(DEFAULT_ALBUM_ID);renderAlbumFolders();renderEventArchive();renderTravelArchive();renderPrivate();renderEmotion();applyLoginUI();setDday();renderDdayList();renderCalendar();setTimeout(()=>tryAutoLogin(),450);if('serviceWorker' in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
 })();
 </script>
-</body>
+<script>window.addEventListener('load',()=>setTimeout(()=>{document.querySelector('[data-tab="emotion"]')?.click();setTimeout(()=>{try{goEmotionPage(1,true); const e=document.getElementById('emotionInsightsPage'); if(e)e.innerHTML=renderEmotionInsights([{id:'1',owner:'',date:'2026-08-25',time:'10:20',mood:'불안',moods:['불안'],intensity:4,context:['업무/작업','대기'],currentActivities:['업무/작업'],afterActivities:['산책'],nextEmotion:'편안함',wants:[],lines:[],createdAt:1},{id:'2',owner:'',date:'2026-08-24',time:'15:10',mood:'불안',moods:['불안'],intensity:3,context:['업무/작업'],currentActivities:['업무/작업'],afterActivities:['음악 듣기'],nextEmotion:'편안함',wants:[],lines:[],createdAt:2},{id:'3',owner:'',date:'2026-08-23',time:'20:10',mood:'편안함',moods:['편안함'],intensity:2,context:['휴식'],currentActivities:['휴식'],afterActivities:['기록하기'],nextEmotion:'행복',wants:[],lines:[],createdAt:3},{id:'4',owner:'',date:'2026-08-22',time:'11:10',mood:'기쁨',moods:['기쁨'],intensity:4,context:['관계/대화'],currentActivities:['대화'],afterActivities:['대화하기'],nextEmotion:'행복',wants:[],lines:[],createdAt:4},{id:'5',owner:'',date:'2026-08-21',time:'14:10',mood:'불안',moods:['불안'],intensity:5,context:['이동'],currentActivities:['이동 중'],afterActivities:['호흡'],nextEmotion:'편안함',wants:[],lines:[],createdAt:5},{id:'6',owner:'',date:'2026-08-20',time:'16:10',mood:'피곤함',moods:['피곤함'],intensity:3,context:['업무/작업'],currentActivities:['업무/작업'],afterActivities:['잠자기'],nextEmotion:'편안함',wants:[],lines:[],createdAt:6}]);}catch(err){console.error(err)}},600)},900));</script></body>
 </html>
