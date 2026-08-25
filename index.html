@@ -2636,16 +2636,16 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   function importJoinConfigFromHash(){
     if(!location.hash.startsWith(JOIN_HASH_PREFIX))return false;
     try{
-      const payload=decodeJoinPayload(location.hash.slice(JOIN_HASH_PREFIX.length)),clientId=String(payload?.clientId||'').trim(),adminEmail=normalizeEmail(payload?.adminEmail),rootFolderId=String(payload?.rootFolderId||'').trim();
+      const payload=decodeJoinPayload(location.hash.slice(JOIN_HASH_PREFIX.length)),clientId=String(payload?.clientId||'').trim(),adminEmail=normalizeEmail(payload?.adminEmail),rootFolderId=String(payload?.rootFolderId||'').trim(),familyUsers=normalizeFamilyUsers(payload?.familyUsers||[]);
       if(!/\.apps\.googleusercontent\.com$/.test(clientId)||!adminEmail.includes('@')||(rootFolderId&&!/^[A-Za-z0-9_-]{10,}$/.test(rootFolderId)))throw new Error('invalid invite');
       let saved={};try{saved=JSON.parse(localStorage.getItem(GOOGLE_CONFIG_KEY)||'{}')}catch{}
-      localStorage.setItem(GOOGLE_CONFIG_KEY,JSON.stringify({...saved,clientId,adminEmail,rootFolderId}));history.replaceState(null,'',location.pathname+location.search);return true;
+      localStorage.setItem(GOOGLE_CONFIG_KEY,JSON.stringify({...saved,clientId,adminEmail,rootFolderId,...(familyUsers.length?{familyUsers}:{})}));history.replaceState(null,'',location.pathname+location.search);return true;
     }catch{history.replaceState(null,'',location.pathname+location.search);return false}
   }
   function partnerInviteUrl(){
     if(!validGoogleConfig())throw new Error('OAuth 클라이언트 ID와 관리자 이메일을 먼저 저장해주세요.');
     const rootFolderId=String(driveRootId||googleConfig.rootFolderId||'').trim();if(!rootFolderId)throw new Error('공용 Drive 폴더를 먼저 준비해주세요. 관리자 설정 저장 후 다시 시도해주세요.');
-    const url=new URL(location.href);url.hash=`join=${encodeJoinPayload({clientId:googleConfig.clientId,adminEmail:googleConfig.adminEmail,rootFolderId})}`;return url.toString();
+    const familyUsers=normalizeFamilyUsers(googleConfig.familyUsers||[]),url=new URL(location.href);url.hash=`join=${encodeJoinPayload({clientId:googleConfig.clientId,adminEmail:googleConfig.adminEmail,rootFolderId,familyUsers})}`;return url.toString();
   }
   async function copyPartnerInvite(){
     if(!currentUserEmail||!isAdmin){toast('관리자 로그인 후 초대 링크를 만들 수 있습니다.');return}
@@ -2771,6 +2771,16 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
     const body=new Blob([`--${boundary}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n${meta}\r\n--${boundary}\r\nContent-Type: application/json\r\n\r\n${JSON.stringify(data)}\r\n--${boundary}--`],{type:`multipart/related; boundary=${boundary}`});
     return googleApi('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,name',{method:'POST',headers:{'Content-Type':`multipart/related; boundary=${boundary}`},body});
   }
+  function bootstrapFamilyRoster(){
+    const roster=normalizeFamilyUsers(googleConfig.familyUsers||[]);if(googleConfig.adminEmail&&!roster.some(user=>user.email===googleConfig.adminEmail))roster.unshift({name:storedDisplayName(googleConfig.adminEmail)||normalizeName('',googleConfig.adminEmail),email:googleConfig.adminEmail});
+    if(currentUserEmail&&!roster.some(user=>user.email===currentUserEmail))roster.push({name:currentUserName||storedDisplayName(currentUserEmail)||normalizeName('',currentUserEmail),email:currentUserEmail});return normalizeFamilyUsers(roster);
+  }
+  async function createMissingSharedFolder(name,parentId,appProperties){
+    try{return await createDriveFolder(name,parentId,appProperties)}catch(err){const existing=await findDriveFolder(name,parentId);if(existing)return existing;throw new Error(`공용 ${name} 폴더가 없고 현재 계정으로 생성할 수도 없습니다. 관리자가 공용 Drive 폴더에 편집자 권한을 다시 부여해주세요.`)}
+  }
+  async function createMissingSharedData(){
+    cloudData.familyUsers=bootstrapFamilyRoster();try{return await driveCreateJsonFile(cloudData)}catch(err){const existing=await driveFindDataFile();if(existing)return existing;throw new Error('공용 데이터 파일이 없고 현재 계정으로 생성할 수도 없습니다. 관리자가 공용 Drive 폴더에 편집자 권한을 다시 부여해주세요.')}
+  }
   async function driveUpdateJsonFile(data){
     if(!driveDataFileId)return;
     await googleApi(`https://www.googleapis.com/upload/drive/v3/files/${encodeURIComponent(driveDataFileId)}?uploadType=media`,{method:'PATCH',headers:{'Content-Type':'application/json; charset=UTF-8'},body:JSON.stringify(data)});
@@ -2894,8 +2904,8 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
     if(!root)root=await findDriveFolder(ROOT_FOLDER_NAME,'',isAdmin);if(!root){if(!isAdmin)throw new Error('Google 로그인은 완료됐지만 공용 Drive 폴더 정보를 찾지 못했습니다. 관리자가 설정을 저장한 뒤 만든 새 초대 링크로 다시 접속해주세요.');root=await createDriveFolder(ROOT_FOLDER_NAME,'',{aiderdear:'root-v2'})}driveRootId=root.id;
     if(googleConfig.rootFolderId!==driveRootId){googleConfig.rootFolderId=driveRootId;localStorage.setItem(GOOGLE_CONFIG_KEY,JSON.stringify(googleConfig))}
     if(isAdmin){for(const u of normalizeFamilyUsers(googleConfig.familyUsers||[])){if(u.email!==currentUserEmail)await ensureDriveUserPermission(driveRootId,u.email)}}
-    let media=await findDriveFolder(MEDIA_FOLDER_NAME,driveRootId);if(!media){if(!isAdmin)throw new Error('공용 Media 폴더가 아직 없습니다. 관리자가 먼저 초기 설정을 완료해주세요.');media=await createDriveFolder(MEDIA_FOLDER_NAME,driveRootId,{aiderdear:'media-folder-v1'})}driveMediaFolderId=media.id;
-    let data=await driveFindDataFile();if(!data){if(!isAdmin)throw new Error('공용 데이터 파일이 아직 없습니다. 관리자가 먼저 초기 설정을 완료해주세요.');cloudData.familyUsers=normalizeFamilyUsers(googleConfig.familyUsers||[]);data=await driveCreateJsonFile(cloudData)}driveDataFileId=data.id;await driveLoadJsonFile();
+    let media=await findDriveFolder(MEDIA_FOLDER_NAME,driveRootId);if(!media)media=await createMissingSharedFolder(MEDIA_FOLDER_NAME,driveRootId,{aiderdear:'media-folder-v1'});driveMediaFolderId=media.id;
+    let data=await driveFindDataFile();if(!data)data=await createMissingSharedData();driveDataFileId=data.id;await driveLoadJsonFile();
     if(isAdmin){const roster=normalizeFamilyUsers(googleConfig.familyUsers||[]),existing=new Map(normalizeFamilyUsers(cloudData.familyUsers||[]).map(x=>[x.email,x]));if(roster.length){cloudData.familyUsers=roster.map(x=>({email:x.email,name:x.email===currentUserEmail?(currentUserName||x.name):(existing.get(x.email)?.name||x.name)}));await driveUpdateJsonFile(cloudData)}}else{const roster=normalizeFamilyUsers(cloudData.familyUsers||[]);if(roster.length&&!roster.some(x=>x.email===currentUserEmail))throw new Error('AiderDear 가족 구성원으로 등록되지 않은 계정입니다. 관리자에게 계정 등록을 요청해주세요.')}
   }
   async function shareCalendarAccess(calendarId,email){if(!email||email===currentUserEmail)return;try{await googleApi(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendarId)}/acl`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({role:'writer',scope:{type:'user',value:email}})})}catch(err){const t=String(err?.message||err);if(!(t.includes('409')||t.includes('already')))throw err}}
