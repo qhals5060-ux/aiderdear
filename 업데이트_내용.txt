@@ -1,3 +1,10 @@
+AiderDear v42
+
+- ROUTINES와 + CREATE 탭을 Routine 제목 오른쪽 상단으로 이동
+- BIG GOALS를 루틴당 최대 3개로 제한
+- 목표별 진행표를 최근 10일의 루틴별 MINI·MORE·MAX·SKIP 현황으로 교체
+- 데스크톱 루틴 화면의 카드와 기록 원형 크기를 프레임 높이에 맞춰 조정하고 내부 세로 스크롤 제거
+
 AiderDear v41
 
 - Firebase Authentication 기반의 일반 Google 로그인 적용
