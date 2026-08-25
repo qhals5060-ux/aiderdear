@@ -1,5 +1,5 @@
-const CACHE='aiderdear-v22-detail';
-const ASSETS=['./','./index.html','./manifest.webmanifest','./aiderdear-v22-detail','./aiderdear-v22-detail'];
+const CACHE='aiderdear-v24-partner';
+const ASSETS=['./','./index.html','./manifest.webmanifest','./aiderdear-icon.svg','./aiderdear-sky.jpg'];
 self.addEventListener('install',event=>{self.skipWaiting();event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)).catch(()=>{}))});
 self.addEventListener('activate',event=>event.waitUntil(Promise.all([self.clients.claim(),caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k))))])));
 self.addEventListener('fetch',event=>{

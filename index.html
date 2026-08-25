@@ -964,6 +964,16 @@ html,body{background-image:linear-gradient(rgba(18,28,41,.42),rgba(18,28,41,.42)
 @media(max-width:900px){.event-index-grid{grid-template-columns:repeat(5,minmax(0,1fr))!important}.event-index-card{padding:7px!important}.event-art{width:84%!important}.bucket-form{padding:14px 16px 12px!important}.bucket-drop{--w:70px;--h:90px}}
 @media(max-width:650px){.event-index-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;grid-template-rows:auto!important}.matrix-add-form{padding-left:26px!important;grid-template-columns:1fr 72px 72px!important}.matrix-body-wrap{grid-template-columns:30px minmax(0,1fr)!important}.matrix-axis-top{padding-left:30px!important}.eisenhower-wrap:before{left:30px!important}.bucket-form{grid-template-columns:minmax(0,1fr) 38px!important}.bucket-form input{height:44px!important;font-size:11px!important}.bucket-form button{width:38px!important;height:38px!important;font-size:22px!important}.bucket-drops{gap:10px!important}.bucket-xs{--w:58px;--h:76px}.bucket-sm{--w:66px;--h:84px}.bucket-md{--w:78px;--h:98px}.bucket-lg{--w:90px;--h:112px}}
 
+
+/* v24 login + partner clarity */
+.logo{color:#13273f!important;text-shadow:0 1px 0 rgba(255,255,255,.96),0 0 8px rgba(255,255,255,.72),0 1px 2px rgba(15,29,45,.18)!important;filter:contrast(1.08)}
+.logo small{color:#19314b!important;text-shadow:0 1px 2px rgba(255,255,255,.9)!important}
+.top-actions{background:rgba(255,255,255,.68)!important;border:1px solid rgba(30,52,75,.18)!important;border-radius:999px!important;padding:4px 9px!important;box-shadow:0 3px 13px rgba(19,38,58,.12)!important;backdrop-filter:blur(5px)}
+.account-name,.sync-mini,.mailbox-top{color:#101d2b!important;text-shadow:0 1px 0 rgba(255,255,255,.96)!important;font-weight:900!important}
+.account-stack.account-inline .account-name,.account-stack.account-inline .sync-mini{font-size:10px!important;color:#101d2b!important}.mailbox-icon{filter:contrast(1.35)}
+.login-compact-modal{width:min(650px,calc(100% - 28px))!important}.login-compact-panel{gap:10px!important}.login-primary-row{display:flex;align-items:center;gap:12px}.login-primary-row .google-login-btn{flex:1;height:48px}.auto-login-check{height:48px;display:flex;align-items:center;gap:7px;padding:0 12px;border:1px solid #aaa;background:#fff;font-size:11px;font-weight:800;white-space:nowrap}.auto-login-check input{width:17px;height:17px}.login-secondary-row{display:flex;gap:6px;flex-wrap:wrap}.login-secondary-row button{height:32px!important}.google-status.compact{min-height:32px!important;padding:8px 10px!important;font-size:10px!important;white-space:normal!important}.partner-quick{display:grid;grid-template-columns:minmax(0,1fr) 64px;gap:6px 8px;padding:10px;border:1px solid #bbb;background:#fafafa}.partner-quick label{display:grid;grid-template-columns:70px minmax(0,1fr);align-items:center;gap:8px;font-size:10px;font-weight:800}.partner-quick select{height:36px;border:1px solid #111;background:#fff;padding:0 9px;font-size:10px}.partner-quick button{height:36px}.partner-quick small{grid-column:1/-1;font-size:8px;color:#666;line-height:1.5}.admin-setup summary{font-weight:900}.admin-setup .google-config-note{margin:8px 0 0!important;font-weight:700!important;color:#555!important}.admin-setup input:disabled,.admin-setup textarea:disabled{background:#eee!important;color:#888!important}.admin-setup button:disabled{opacity:.45}
+@media(max-width:650px){.top-actions{padding:3px 5px!important}.account-stack.account-inline .account-name,.account-stack.account-inline .sync-mini{font-size:7px!important}.login-primary-row{display:grid;grid-template-columns:1fr}.auto-login-check{height:38px}.partner-quick{grid-template-columns:1fr 54px}.partner-quick label{grid-template-columns:58px 1fr}}
+
 </style>
 </head>
 <body>
@@ -1269,22 +1279,32 @@ html,body{background-image:linear-gradient(rgba(18,28,41,.42),rgba(18,28,41,.42)
 
 <!-- Login -->
 <div class="overlay" id="loginModal" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
-  <div class="modal">
+  <div class="modal login-compact-modal">
     <div class="modal-head"><b id="loginTitle">Google 연결</b><button class="x" data-close="loginModal">×</button></div>
     <div class="modal-body">
-      <div class="google-login-panel">
-        <button type="button" class="google-login-btn" id="googleLoginBtn">Google 계정으로 로그인</button>
-        <button type="button" class="secondary" id="displayNameBtn" hidden>내 이름 변경</button>
-        <button type="button" class="secondary" id="logoutBtn" hidden>로그아웃</button>
-        <div class="google-status" id="googleStatus">처음 한 번만 Google 설정을 입력한 뒤 로그인하면 됩니다.</div>
-        <button type="button" class="secondary sync-now" id="syncNowBtn" hidden>지금 동기화</button>
+      <div class="google-login-panel login-compact-panel">
+        <div class="login-primary-row">
+          <button type="button" class="google-login-btn" id="googleLoginBtn">Google 계정으로 로그인</button>
+          <label class="auto-login-check"><input id="autoLoginCheck" type="checkbox"><span>자동 로그인</span></label>
+        </div>
+        <div class="login-secondary-row">
+          <button type="button" class="secondary" id="displayNameBtn" hidden>이름 변경</button>
+          <button type="button" class="secondary sync-now" id="syncNowBtn" hidden>지금 동기화</button>
+          <button type="button" class="secondary" id="logoutBtn" hidden>로그아웃</button>
+        </div>
+        <div class="google-status compact" id="googleStatus">Google 계정을 연결해주세요.</div>
+        <div class="partner-quick" id="partnerQuickBox">
+          <label><span>공유 상대</span><select id="googlePartnerEmail"><option value="">선택 안 함</option></select></label>
+          <button type="button" class="secondary" id="partnerSaveBtn">저장</button>
+          <small id="partnerMatchStatus">서로 같은 상대를 선택하면 PRIVATE를 제외한 기록을 함께 볼 수 있습니다.</small>
+        </div>
         <details class="google-setup" id="calendarSyncDetails" hidden>
-          <summary>불러올 Google Calendar 선택</summary>
+          <summary>불러올 Google Calendar</summary>
           <div class="calendar-picker" id="calendarPicker"><div class="google-config-note">로그인하면 캘린더 목록을 불러옵니다.</div></div>
-          <p class="google-config-note">AiderDear 공유 캘린더는 항상 표시됩니다. 다른 Google 캘린더는 읽기 전용으로 AiderDear 일정 화면에 함께 표시됩니다.</p>
+          <p class="google-config-note">AiderDear 캘린더와 대한민국 공휴일은 기본 표시됩니다.</p>
         </details>
-        <details class="google-setup" id="googleSetupDetails">
-          <summary>처음 연결할 때만: Google 설정</summary>
+        <details class="google-setup admin-setup" id="googleSetupDetails">
+          <summary>관리자 모드</summary>
           <div class="google-config-grid">
             <label>OAuth 웹 클라이언트 ID
               <input id="googleClientId" autocomplete="off" placeholder="xxxxxxxx.apps.googleusercontent.com">
@@ -1292,15 +1312,12 @@ html,body{background-image:linear-gradient(rgba(18,28,41,.42),rgba(18,28,41,.42)
             <label>관리자 Google 이메일
               <input id="googleAdminEmail" type="email" autocomplete="email" placeholder="admin@gmail.com">
             </label>
-            <label>가족 구성원 · 최대 10명 (관리자에서만 설정)
-              <textarea id="googleFamilyUsers" rows="6" placeholder="한 줄에 한 명씩: 이름 | 이메일&#10;예: 가족1 | family1@gmail.com"></textarea>
+            <label>로그인 허용 이메일 · 최대 10명
+              <textarea id="googleFamilyUsers" rows="5" placeholder="한 줄에 한 명씩: 이름 | 이메일&#10;예: 보민 | example@gmail.com"></textarea>
             </label>
-            <label>내 공유 상대 Google 이메일 (선택)
-              <input id="googlePartnerEmail" type="email" autocomplete="email" placeholder="서로 같은 상대를 설정했을 때 감정일기 공유">
-            </label>
-            <button type="button" class="google-config-save" id="googleConfigSave">설정 저장</button>
+            <button type="button" class="google-config-save" id="googleConfigSave">관리자 설정 저장</button>
           </div>
-          <p class="google-config-note">실제 로그인 허용 계정은 Google Cloud의 테스트 사용자에서 관리합니다. 관리자는 가족 목록을 한 번 설정하고 로그인하면 공용 폴더와 캘린더를 최대 10명에게 연결합니다. PRIVATE는 각자 별도 Drive 폴더에 저장되어 일반 사용자는 본인 것만, 관리자는 전체를 읽을 수 있습니다.</p>
+          <p class="google-config-note">관리자 모드에서 이메일 등록과 앱 로그인 허용이 가능합니다.</p>
         </details>
       </div>
     </div>
@@ -1538,6 +1555,7 @@ html,body{background-image:linear-gradient(rgba(18,28,41,.42),rgba(18,28,41,.42)
   const EMOTION_VERSION=3;
   const FAMILY_LIMIT=10;
   let googleConfig={clientId:'',adminEmail:'',familyUsers:[],partnerEmail:''};
+  const AUTO_LOGIN_KEY='aiderdear-auto-login';
   let googleToken='';
   let googleProfile=null;
   let googleTokenClient=null;
@@ -1549,7 +1567,7 @@ html,body{background-image:linear-gradient(rgba(18,28,41,.42),rgba(18,28,41,.42)
   let driveRootId='';
   let driveMediaFolderId='';
   let driveDataFileId='';
-  let cloudData={version:CLOUD_VERSION,calendarId:'',albums:[{id:DEFAULT_ALBUM_ID,name:'기본 앨범',createdAt:Date.now()}],records:[],coupleMedia:null,ddays:[{id:'dday-us',title:'우리',date:'2025-11-01',mode:'since',createdAt:Date.now()}],activeDdayId:'dday-us',letters:[],bucketItems:[],eventReviews:[]};
+  let cloudData={version:CLOUD_VERSION,calendarId:'',albums:[{id:DEFAULT_ALBUM_ID,name:'기본 앨범',createdAt:Date.now()}],records:[],coupleMedia:null,ddays:[{id:'dday-us',title:'우리',date:'2025-11-01',mode:'since',createdAt:Date.now()}],activeDdayId:'dday-us',letters:[],bucketItems:[],eventReviews:[],partnerChoices:{}};
   let calendarSources=[];
   let selectedCalendarIds=new Set();
   let driveLooseMedia=[];
@@ -1573,10 +1591,15 @@ html,body{background-image:linear-gradient(rgba(18,28,41,.42),rgba(18,28,41,.42)
   function familyUser(email){email=normalizeEmail(email);return familyRoster().find(x=>x.email===email)||{name:normalizeName('',email),email}}
   function displayNameStorageKey(email){return `aiderdear-display-name:${normalizeEmail(email)}`}
   function storedDisplayName(email){return String(localStorage.getItem(displayNameStorageKey(email))||'').trim()}
-  function sharedPartner(){const email=normalizeEmail(googleConfig.partnerEmail);if(!email||email===currentUserEmail)return null;const p=emotionData[email]?.profile||privateData[email]?.profile||familyUser(email);return {email,name:normalizeName(p?.name,email)}}
-  function scheduleVisiblePeople(){if(!currentUserEmail)return [];const partner=sharedPartner();const meName=currentUserName||familyUser(currentUserEmail).name||'보민';const partnerEmail=partner?.email||normalizeEmail(googleConfig.partnerEmail)||'partner';const partnerName=partner?.name||familyUser(partnerEmail).name||'동우';return [{id:'mine',email:currentUserEmail,name:meName,kind:'mine'},{id:'partner',email:partnerEmail,name:partnerName,kind:'partner'},{id:'shared',email:'shared',name:'공유',kind:'shared'}]}
+  function selectedPartner(){const email=normalizeEmail(googleConfig.partnerEmail);if(!email||email===currentUserEmail)return null;const p=emotionData[email]?.profile||privateData[email]?.profile||familyUser(email);return {email,name:normalizeName(p?.name,email)}}
+  function pairKeyFor(a,b){a=normalizeEmail(a);b=normalizeEmail(b);if(!a)return '';if(!b)return `solo:${a}`;return [a,b].sort().join('::')}
+  function mutualPartner(){const selected=selectedPartner();if(!selected||!currentUserEmail)return null;const choices=cloudData.partnerChoices&&typeof cloudData.partnerChoices==='object'?cloudData.partnerChoices:{};return normalizeEmail(choices[selected.email])===currentUserEmail?selected:null}
+  function sharedPartner(){return mutualPartner()}
+  function currentPairKey(){const p=mutualPartner();return pairKeyFor(currentUserEmail,p?.email||'')}
+  function pairVisible(item={},authorField='authorEmail'){if(isAdmin)return true;const p=mutualPartner(),pair=currentPairKey(),stored=String(item?.pairKey||'');if(stored)return stored===pair;const author=normalizeEmail(item?.[authorField]||item?.createdBy||'');if(author===currentUserEmail)return true;if(p&&author===p.email)return true;if(!author&&p)return true;return false}
+  function scheduleVisiblePeople(){if(!currentUserEmail)return [];const p=mutualPartner();const meName=currentUserName||familyUser(currentUserEmail).name||'보민';return [{id:'mine',email:currentUserEmail,name:meName,kind:'mine'},{id:'partner',email:p?.email||'',name:p?.name||'파트너',kind:'partner'},{id:'shared',email:'shared',name:'공유',kind:'shared'}]}
   function renderSchedulePeopleFilters(){const box=$('#schedulePeopleFilters');if(!box)return;const people=scheduleVisiblePeople();if(!people.length){box.innerHTML='';schedulePersonFilters=new Set();return}const valid=new Set(people.map(p=>p.id));if(!schedulePersonFilters.size||![...schedulePersonFilters].some(x=>valid.has(x)))schedulePersonFilters=new Set(valid);else schedulePersonFilters=new Set([...schedulePersonFilters].filter(x=>valid.has(x)));box.innerHTML=people.map(p=>`<button class="filter filter-person" type="button" data-person-filter="${escapeHtml(p.id)}" aria-pressed="${schedulePersonFilters.has(p.id)}"><span class="swatch ${p.kind}"></span><span class="filter-name">${escapeHtml(p.name)}</span></button>`).join('')}
-  function eventPassesPersonFilter(e){if(!e?.isAiderDear)return true;const active=schedulePersonFilters.size?schedulePersonFilters:new Set(scheduleVisiblePeople().map(p=>p.id));const partner=sharedPartner();const author=normalizeEmail(e.authorEmail);if(e.owner==='shared'||(!author&&e.owner==='shared'))return active.has('shared');if(author&&author===currentUserEmail)return active.has('mine');if(author&&partner&&author===partner.email)return active.has('partner');if(e.owner==='mine')return active.has('mine');if(e.owner==='partner')return active.has('partner');if(author&&author!==currentUserEmail)return active.has('partner');return active.has('shared')}
+  function eventPassesPersonFilter(e){if(!e?.isAiderDear)return true;const active=schedulePersonFilters.size?schedulePersonFilters:new Set(scheduleVisiblePeople().map(p=>p.id));const partner=mutualPartner();const author=normalizeEmail(e.authorEmail);if(e.owner==='shared'||(!author&&e.owner==='shared'))return active.has('shared');if(author&&author===currentUserEmail)return active.has('mine');if(partner&&author===partner.email)return active.has('partner');if(e.owner==='mine')return active.has('mine');if(e.owner==='partner')return !!partner&&active.has('partner');return false}
   async function syncCurrentDisplayName(){if(!currentUserEmail||!currentUserName)return;localStorage.setItem(displayNameStorageKey(currentUserEmail),currentUserName);let changed=false;const roster=normalizeFamilyUsers(cloudData.familyUsers||googleConfig.familyUsers||[]);const row=roster.find(x=>x.email===currentUserEmail);if(row&&row.name!==currentUserName){row.name=currentUserName;cloudData.familyUsers=roster;changed=true}if(privateData[currentUserEmail]){privateData[currentUserEmail].profile.name=currentUserName;try{await savePrivateData(currentUserEmail)}catch{}}if(emotionData[currentUserEmail]){emotionData[currentUserEmail].profile.name=currentUserName;try{await saveEmotionData(currentUserEmail)}catch{}}if(changed)try{await saveCloudData()}catch{}renderSchedulePeopleFilters();renderCalendar();renderEmotion();renderPrivate()}
   async function changeDisplayName(force=false){if(!currentUserEmail)return;const suggested=storedDisplayName(currentUserEmail)||currentUserName||String(googleProfile?.given_name||googleProfile?.name||'').trim()||currentUserEmail.split('@')[0];const value=window.prompt(force?'AiderDear에서 사용할 이름을 입력해주세요.':'표시 이름을 입력해주세요.',suggested);const name=String(value==null?suggested:value).trim()||suggested;currentUserName=name;localStorage.setItem(displayNameStorageKey(currentUserEmail),name);applyLoginUI();if(driveDataFileId)await syncCurrentDisplayName();}
   function loadGoogleConfig(){
@@ -1586,14 +1609,17 @@ html,body{background-image:linear-gradient(rgba(18,28,41,.42),rgba(18,28,41,.42)
     let family=normalizeFamilyUsers(googleConfig.familyUsers||[]);if(!family.length&&googleConfig.adminEmail)family.push({name:storedDisplayName(googleConfig.adminEmail)||normalizeName('',googleConfig.adminEmail),email:googleConfig.adminEmail});
     const legacyPartner=normalizeEmail(saved.partnerEmail||'');if(legacyPartner&&!family.some(x=>x.email===legacyPartner))family.push({name:storedDisplayName(legacyPartner)||normalizeName('',legacyPartner),email:legacyPartner});googleConfig.familyUsers=normalizeFamilyUsers(family);
   }
+  function partnerRoster(){const roster=familyRoster();return roster.filter(x=>x.email&&x.email!==currentUserEmail)}
+  function fillPartnerSelect(){const sel=$('#googlePartnerEmail');if(!sel)return;const wanted=normalizeEmail(googleConfig.partnerEmail);const roster=partnerRoster();sel.innerHTML='<option value="">선택 안 함</option>'+roster.map(x=>`<option value="${escapeHtml(x.email)}">${escapeHtml(x.name)} · ${escapeHtml(x.email)}</option>`).join('');if(wanted&&!roster.some(x=>x.email===wanted)){const o=document.createElement('option');o.value=wanted;o.textContent=(familyUser(wanted).name||wanted.split('@')[0])+' · '+wanted;sel.appendChild(o)}sel.value=wanted||'';renderPartnerMatchStatus()}
+  function renderPartnerMatchStatus(){const el=$('#partnerMatchStatus');if(!el)return;const selected=selectedPartner(),matched=mutualPartner();if(matched)el.textContent=`${matched.name}님과 서로 연결되었습니다. PRIVATE를 제외한 탭이 공유됩니다.`;else if(selected)el.textContent=`${selected.name}님의 선택을 기다리는 중입니다.`;else el.textContent='서로 같은 상대를 선택하면 PRIVATE를 제외한 기록을 함께 볼 수 있습니다.'}
   function saveGoogleConfig(){
     const adminEmail=normalizeEmail($('#googleAdminEmail').value);let family=parseFamilyUsers($('#googleFamilyUsers').value);
     if(adminEmail&&!family.some(x=>x.email===adminEmail))family.unshift({name:storedDisplayName(adminEmail)||normalizeName('',adminEmail),email:adminEmail});family=normalizeFamilyUsers(family);
-    googleConfig={clientId:$('#googleClientId').value.trim(),adminEmail,familyUsers:family,partnerEmail:normalizeEmail($('#googlePartnerEmail').value)};
-    localStorage.setItem(GOOGLE_CONFIG_KEY,JSON.stringify(googleConfig));fillGoogleConfigUI();setGoogleStatus('설정을 저장했습니다. 이제 Google 계정으로 로그인하세요.','ok');return googleConfig;
+    googleConfig={clientId:$('#googleClientId').value.trim(),adminEmail,familyUsers:family,partnerEmail:normalizeEmail($('#googlePartnerEmail')?.value||googleConfig.partnerEmail)};
+    localStorage.setItem(GOOGLE_CONFIG_KEY,JSON.stringify(googleConfig));fillGoogleConfigUI();setGoogleStatus('설정을 저장했습니다.','ok');return googleConfig;
   }
   function fillGoogleConfigUI(){
-    $('#googleClientId').value=googleConfig.clientId||'';$('#googleAdminEmail').value=googleConfig.adminEmail||'';$('#googleFamilyUsers').value=familyUsersText(googleConfig.familyUsers||[]);$('#googlePartnerEmail').value=googleConfig.partnerEmail||'';
+    $('#googleClientId').value=googleConfig.clientId||'';$('#googleAdminEmail').value=googleConfig.adminEmail||'';$('#googleFamilyUsers').value=familyUsersText(googleConfig.familyUsers||[]);fillPartnerSelect();
   }
   function validGoogleConfig(){return /\.apps\.googleusercontent\.com$/.test(googleConfig.clientId)&&googleConfig.adminEmail.includes('@')}
   function setGoogleStatus(message,type=''){
@@ -1607,6 +1633,7 @@ html,body{background-image:linear-gradient(rgba(18,28,41,.42),rgba(18,28,41,.42)
     cloudData.albums=cloudData.albums.filter(f=>f&&f.id&&f.name).map((f,i)=>({...f,color:ALBUM_PASTELS.includes(f.color)?f.color:ALBUM_PASTELS[i%ALBUM_PASTELS.length]}));
     if(!Array.isArray(cloudData.records))cloudData.records=[];
     cloudData.familyUsers=normalizeFamilyUsers(cloudData.familyUsers||[]);
+    if(!cloudData.partnerChoices||typeof cloudData.partnerChoices!=='object'||Array.isArray(cloudData.partnerChoices))cloudData.partnerChoices={};else cloudData.partnerChoices=Object.fromEntries(Object.entries(cloudData.partnerChoices).map(([k,v])=>[normalizeEmail(k),normalizeEmail(v)]).filter(([k,v])=>k&&v));
     if(!Array.isArray(cloudData.ddays)||!cloudData.ddays.length)cloudData.ddays=[{id:'dday-us',title:'우리',date:'2025-11-01',mode:'since',createdAt:Date.now()}];
     cloudData.ddays=cloudData.ddays.filter(x=>x&&x.id&&/^\d{4}-\d{2}-\d{2}$/.test(x.date||'')).map(x=>({...x,title:String(x.title||'D-day'),mode:x.mode==='since'?'since':'countdown'}));
     if(!cloudData.activeDdayId||!cloudData.ddays.some(x=>x.id===cloudData.activeDdayId))cloudData.activeDdayId=cloudData.ddays[0]?.id||'';
@@ -1636,6 +1663,13 @@ html,body{background-image:linear-gradient(rgba(18,28,41,.42),rgba(18,28,41,.42)
     if(msg.includes('403'))return 'Google 권한이 없습니다. Drive와 Calendar 권한을 모두 허용했는지 확인해주세요.';
     return msg;
   }
+  async function syncPartnerChoice(save=true){if(!currentUserEmail||!driveDataFileId)return;normalizeCloudData();const selected=normalizeEmail(googleConfig.partnerEmail);if(selected&&selected!==currentUserEmail)cloudData.partnerChoices[currentUserEmail]=selected;else delete cloudData.partnerChoices[currentUserEmail];if(save)await driveUpdateJsonFile(cloudData);fillPartnerSelect();renderSchedulePeopleFilters();renderPartnerMatchStatus()}
+  function updateAdminConfigAccess(){const locked=!!currentUserEmail&&!isAdmin;['googleAdminEmail','googleFamilyUsers'].forEach(id=>{const el=$('#'+id);if(el)el.disabled=locked});const btn=$('#googleConfigSave');if(btn)btn.disabled=locked;const details=$('#googleSetupDetails');if(details&&locked)details.open=false}
+  function autoLoginEnabled(){return localStorage.getItem(AUTO_LOGIN_KEY)==='1'}
+  function setAutoLoginEnabled(v){localStorage.setItem(AUTO_LOGIN_KEY,v?'1':'0')}
+  let autoLoginTried=false;
+  function tryAutoLogin(attempt=0){if(autoLoginTried||!autoLoginEnabled()||currentUser||!validGoogleConfig()||location.protocol==='file:')return;if(!window.google?.accounts?.oauth2){if(attempt<20)setTimeout(()=>tryAutoLogin(attempt+1),250);return}autoLoginTried=true;startGoogleLogin(true)}
+
   async function googleApi(url,options={},responseType='json'){
     if(!googleToken)throw new Error('Google 로그인이 필요합니다.');
     const headers=new Headers(options.headers||{});headers.set('Authorization',`Bearer ${googleToken}`);
@@ -1715,12 +1749,12 @@ html,body{background-image:linear-gradient(rgba(18,28,41,.42),rgba(18,28,41,.42)
   }
   function emotionFolderName(email){return `${EMOTION_FOLDER_PREFIX}${normalizeEmail(email)}`}
   async function ensureEmotionOwner(email){
-    email=normalizeEmail(email);if(!email)return false;emotionRefs[email]={folderId:'',fileId:'',writable:currentUserEmail===email};let folder=await findDriveFolder(emotionFolderName(email));if(!folder&&currentUserEmail===email){const legacy=isAdmin?'AiderDear Emotion - Bomin':'AiderDear Emotion - Dongwoo';const oldFolder=await findDriveFolder(legacy);if(oldFolder){folder=oldFolder;try{await googleApi(`https://www.googleapis.com/drive/v3/files/${encodeURIComponent(folder.id)}?fields=id,name`,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:emotionFolderName(email)})})}catch{}}}if(!folder){if(currentUserEmail!==email)return false;folder=await createDriveFolder(emotionFolderName(email),'',{aiderdear:'emotion-user-v2'});;if(googleConfig.partnerEmail&&googleConfig.partnerEmail!==email)await shareDriveReadOnly(folder.id,googleConfig.partnerEmail)}
+    email=normalizeEmail(email);if(!email)return false;emotionRefs[email]={folderId:'',fileId:'',writable:currentUserEmail===email};let folder=await findDriveFolder(emotionFolderName(email));if(!folder&&currentUserEmail===email){const legacy=isAdmin?'AiderDear Emotion - Bomin':'AiderDear Emotion - Dongwoo';const oldFolder=await findDriveFolder(legacy);if(oldFolder){folder=oldFolder;try{await googleApi(`https://www.googleapis.com/drive/v3/files/${encodeURIComponent(folder.id)}?fields=id,name`,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:emotionFolderName(email)})})}catch{}}}if(!folder){if(currentUserEmail!==email)return false;folder=await createDriveFolder(emotionFolderName(email),'',{aiderdear:'emotion-user-v2'});;if(mutualPartner()&&mutualPartner().email!==email)await shareDriveReadOnly(folder.id,mutualPartner().email)}
     emotionRefs[email].folderId=folder.id;let file=await driveFindNamedFile(EMOTION_DATA_FILE_NAME,folder.id);if(!file){if(currentUserEmail!==email)return false;file=await driveCreateJsonInFolder(EMOTION_DATA_FILE_NAME,folder.id,blankEmotionData(email,currentUserName),'emotion-v2')}emotionRefs[email].fileId=file.id;const text=await googleApi(`https://www.googleapis.com/drive/v3/files/${encodeURIComponent(file.id)}?alt=media`,{},'text');emotionData[email]=normalizeEmotionData(JSON.parse(text||'{}'),email,email===currentUserEmail?currentUserName:'');return true;
   }
   async function discoverEmotionOwners(){if(!isAdmin)return [currentUserEmail];const q=`name contains '${EMOTION_FOLDER_PREFIX.replace(/'/g,"\\'")}' and mimeType='application/vnd.google-apps.folder' and trashed=false`;const r=await driveQuery(q);const emails=(r.files||[]).map(f=>normalizeEmail(String(f.name||'').slice(EMOTION_FOLDER_PREFIX.length))).filter(Boolean);return [...new Set([currentUserEmail,...emails])].slice(0,FAMILY_LIMIT)}
   async function loadEmotionData(){
-    emotionData={};emotionRefs={};await ensureEmotionOwner(currentUserEmail);if(isAdmin){for(const email of await discoverEmotionOwners()){if(email!==currentUserEmail)try{await ensureEmotionOwner(email)}catch(e){console.warn('Emotion read skipped',email,e)}}}else if(googleConfig.partnerEmail){try{await ensureEmotionOwner(googleConfig.partnerEmail)}catch(e){console.warn('Partner emotion unavailable',e)}}renderEmotion();
+    emotionData={};emotionRefs={};await ensureEmotionOwner(currentUserEmail);if(isAdmin){for(const email of await discoverEmotionOwners()){if(email!==currentUserEmail)try{await ensureEmotionOwner(email)}catch(e){console.warn('Emotion read skipped',email,e)}}}else if(mutualPartner()){try{await ensureEmotionOwner(mutualPartner().email)}catch(e){console.warn('Partner emotion unavailable',e)}}renderEmotion();
   }
   async function saveEmotionData(email){email=normalizeEmail(email);if(!googleToken||currentUserEmail!==email||!emotionRefs[email]?.fileId)throw new Error('본인의 감정일기만 수정할 수 있습니다.');emotionData[email]=normalizeEmotionData(emotionData[email],email,currentUserName);await googleApi(`https://www.googleapis.com/upload/drive/v3/files/${encodeURIComponent(emotionRefs[email].fileId)}?uploadType=media`,{method:'PATCH',headers:{'Content-Type':'application/json; charset=UTF-8'},body:JSON.stringify(emotionData[email])})}
 
@@ -1776,7 +1810,7 @@ html,body{background-image:linear-gradient(rgba(18,28,41,.42),rgba(18,28,41,.42)
   async function shareCalendarAccess(calendarId,email){if(!email||email===currentUserEmail)return;try{await googleApi(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendarId)}/acl`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({role:'writer',scope:{type:'user',value:email}})})}catch(err){const t=String(err?.message||err);if(!(t.includes('409')||t.includes('already')))console.warn('Calendar share skipped',email,err)}}
   async function ensureCalendar(){
     if(!cloudData.calendarId){if(!isAdmin)throw new Error('공용 캘린더가 아직 없습니다. 관리자가 먼저 초기 설정을 완료해주세요.');const cal=await googleApi('https://www.googleapis.com/calendar/v3/calendars',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({summary:CALENDAR_NAME,timeZone:'Asia/Seoul'})});cloudData.calendarId=cal.id;await saveCloudData()}
-    if(isAdmin){for(const u of normalizeFamilyUsers(googleConfig.familyUsers||[]))await shareCalendarAccess(cloudData.calendarId,u.email)}
+    if(isAdmin){for(const u of normalizeFamilyUsers(googleConfig.familyUsers||[]))await shareCalendarAccess(cloudData.calendarId,u.email)}const partner=mutualPartner();if(partner)await shareCalendarAccess(cloudData.calendarId,partner.email)
   }
   function addDays(date,n){const d=new Date(`${date}T00:00:00+09:00`);d.setDate(d.getDate()+n);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
   function dateRangeDays(start,end){const out=[];let cur=start||'';const last=end||start||'';if(!cur||!last)return out;let guard=0;while(cur<=last&&guard<370){out.push(cur);cur=addDays(cur,1);guard++}return out}
@@ -1786,12 +1820,12 @@ html,body{background-image:linear-gradient(rgba(18,28,41,.42),rgba(18,28,41,.42)
   function toGoogleEvent(data){
     const allDay=!!data.allDay||!data.time;
     const endDate=(data.endDate&&data.endDate>=data.date)?data.endDate:data.date;
-    return {summary:data.title||'',description:data.memo||'',start:allDay?{date:data.date}:{dateTime:`${data.date}T${data.time}:00${SEOUL_OFFSET}`,timeZone:'Asia/Seoul'},end:allDay?{date:addDays(endDate,1)}:{dateTime:eventEndDateTime(data.date,data.time,endDate,data.endTime),timeZone:'Asia/Seoul'},extendedProperties:{private:{aiderdear:'1',aiderdearOwner:data.owner||'shared',aiderdearAuthorEmail:currentUserEmail||''}}};
+    return {summary:data.title||'',description:data.memo||'',start:allDay?{date:data.date}:{dateTime:`${data.date}T${data.time}:00${SEOUL_OFFSET}`,timeZone:'Asia/Seoul'},end:allDay?{date:addDays(endDate,1)}:{dateTime:eventEndDateTime(data.date,data.time,endDate,data.endTime),timeZone:'Asia/Seoul'},extendedProperties:{private:{aiderdear:'1',aiderdearOwner:data.owner||'shared',aiderdearAuthorEmail:currentUserEmail||'',aiderdearPairKey:data.owner==='shared'?currentPairKey():''}}};
   }
   function fromGoogleEvent(g,source){
     const start=g.start||{},end=g.end||{};const date=start.date||(start.dateTime||'').slice(0,10);const time=start.dateTime?(start.dateTime||'').slice(11,16):'';const allDay=!!start.date&&!start.dateTime;let endDate=allDay?addDays(end.date||date,-1):((end.dateTime||'').slice(0,10)||date);if(!endDate||endDate<date)endDate=date;const endTime=allDay?'':((end.dateTime||'').slice(11,16)||'');
     const isAiderDear=source.id===cloudData.calendarId;const isHoliday=source.id===KOREA_HOLIDAY_CALENDAR_ID||!!source.isHoliday;
-    const owner=isHoliday?'holiday':(isAiderDear?(g.extendedProperties?.private?.aiderdearOwner||'shared'):calendarOwner(source));let authorEmail=normalizeEmail(g.extendedProperties?.private?.aiderdearAuthorEmail||'');if(isAiderDear&&!authorEmail){if(owner==='mine')authorEmail=googleConfig.adminEmail;else if(owner==='partner')authorEmail=familyRoster().find(x=>x.email!==googleConfig.adminEmail)?.email||''}return {id:`${source.id}::${g.id}`,googleEventId:g.id,calendarId:source.id,sourceTitle:source.summary||'Google Calendar',isAiderDear,isHoliday,title:g.summary||'(제목 없음)',date,endDate,time,endTime,allDay,owner,authorEmail,memo:g.description||''};
+    const owner=isHoliday?'holiday':(isAiderDear?(g.extendedProperties?.private?.aiderdearOwner||'shared'):calendarOwner(source));let authorEmail=normalizeEmail(g.extendedProperties?.private?.aiderdearAuthorEmail||'');if(isAiderDear&&!authorEmail){if(owner==='mine')authorEmail=googleConfig.adminEmail;else if(owner==='partner')authorEmail=familyRoster().find(x=>x.email!==googleConfig.adminEmail)?.email||''}const pairKey=String(g.extendedProperties?.private?.aiderdearPairKey||'');return {id:`${source.id}::${g.id}`,googleEventId:g.id,calendarId:source.id,sourceTitle:source.summary||'Google Calendar',isAiderDear,isHoliday,title:g.summary||'(제목 없음)',date,endDate,time,endTime,allDay,owner,authorEmail,pairKey,memo:g.description||''};
   }
   async function loadCalendarList(render=true){
     if(!googleToken)return [];
@@ -1824,7 +1858,7 @@ html,body{background-image:linear-gradient(rgba(18,28,41,.42),rgba(18,28,41,.42)
     const fmt=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
     const params=new URLSearchParams({timeMin:`${fmt(gridStart)}T00:00:00${SEOUL_OFFSET}`,timeMax:`${fmt(gridEnd)}T00:00:00${SEOUL_OFFSET}`,singleEvents:'true',orderBy:'startTime',timeZone:'Asia/Seoul',maxResults:'2500'});
     const groups=await Promise.all(selectedCalendarSources().map(async source=>{try{const r=await googleApi(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(source.id)}/events?${params}`);return (r.items||[]).filter(x=>x.status!=='cancelled').map(x=>fromGoogleEvent(x,source))}catch(err){console.warn('Calendar read skipped',source.id,err);return []}}));
-    events=groups.flat();if(!isAdmin){const partner=normalizeEmail(googleConfig.partnerEmail);events=events.filter(e=>!e.isAiderDear||normalizeEmail(e.authorEmail)===currentUserEmail||(partner&&normalizeEmail(e.authorEmail)===partner)||(!e.authorEmail&&e.owner==='shared'))}renderSchedulePeopleFilters();renderCalendar();
+    events=groups.flat();if(!isAdmin){const partner=mutualPartner();const pair=currentPairKey();events=events.filter(e=>!e.isAiderDear||e.isHoliday||(e.pairKey?e.pairKey===pair:(normalizeEmail(e.authorEmail)===currentUserEmail||(partner&&normalizeEmail(e.authorEmail)===partner.email)||(!e.authorEmail&&e.owner==='shared'))))}renderSchedulePeopleFilters();renderCalendar();
   }
   async function createCalendarEvent(data){const g=await googleApi(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(cloudData.calendarId)}/events`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(toGoogleEvent(data))});return fromGoogleEvent(g,calendarSources.find(x=>x.id===cloudData.calendarId)||{id:cloudData.calendarId,summary:'AiderDear'})}
   async function updateCalendarEvent(id,data){const g=await googleApi(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(cloudData.calendarId)}/events/${encodeURIComponent(id)}`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(toGoogleEvent(data))});return fromGoogleEvent(g,calendarSources.find(x=>x.id===cloudData.calendarId)||{id:cloudData.calendarId,summary:'AiderDear'})}
@@ -1832,7 +1866,7 @@ html,body{background-image:linear-gradient(rgba(18,28,41,.42),rgba(18,28,41,.42)
 
   async function bootstrapGoogleData(){
     setGoogleStatus('Google Drive와 Calendar를 연결하는 중입니다…');
-    await ensureCloudDrive();normalizeCloudData();if(!isAdmin&&cloudData.familyUsers?.length&&!cloudData.familyUsers.some(x=>x.email===currentUserEmail))throw new Error('등록되지 않은 가족 계정입니다.');await ensureCalendar();await loadCalendarList();await loadCalendarEvents();await scanDriveMedia();await loadCoupleMedia();await loadPrivateData();await loadEmotionData();
+    await ensureCloudDrive();normalizeCloudData();await syncPartnerChoice(true);if(!isAdmin&&cloudData.familyUsers?.length&&!cloudData.familyUsers.some(x=>x.email===currentUserEmail))throw new Error('등록되지 않은 가족 계정입니다.');await ensureCalendar();await loadCalendarList();await loadCalendarEvents();await scanDriveMedia();await loadCoupleMedia();await loadPrivateData();await loadEmotionData();
     refreshRecordAlbumSelect(DEFAULT_ALBUM_ID);renderAlbumFolders();renderRecordFeed();renderEventArchive();renderTravelArchive();setDday();renderDdayList();renderPrivate();renderEmotion();
     lastSyncAt=new Date();applyLoginUI();updateMailBadge();setGoogleStatus(`${googleProfile?.email||''}\nDrive + Calendar 연결 완료 · ${lastSyncAt.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'})}`,'ok');setTimeout(showUnreadLetterPopup,180);
   }
@@ -1872,7 +1906,7 @@ html,body{background-image:linear-gradient(rgba(18,28,41,.42),rgba(18,28,41,.42)
       row.addEventListener('click',ev=>{ev.stopPropagation();openEvent(e)}); list.appendChild(row);
     })
   }
-  function getDdays(){normalizeCloudData();return cloudData.ddays}
+  function getDdays(){normalizeCloudData();return (cloudData.ddays||[]).filter(x=>pairVisible(x,'createdBy'))}
   function ddayText(item){
     if(!item)return 'D-DAY';const now=new Date();now.setHours(0,0,0,0);const target=new Date(`${item.date}T00:00:00`);target.setHours(0,0,0,0);const diff=Math.round((target-now)/86400000);
     if(item.mode==='since'){const passed=-diff;return passed>=0?`D+${passed+1}`:`D${diff}`}
@@ -1892,7 +1926,7 @@ html,body{background-image:linear-gradient(rgba(18,28,41,.42),rgba(18,28,41,.42)
     });
   }
   $('#ddayManageBtn').addEventListener('click',()=>{if(!currentUser){requireLogin(()=>$('#ddayManageBtn').click());return}renderDdayList();$('#ddayTitle').value='';$('#ddayDate').value=iso(today.getFullYear(),today.getMonth(),today.getDate());$('#ddayMode').value='countdown';openModal('ddayModal')});
-  $('#ddayForm').addEventListener('submit',async e=>{e.preventDefault();if(!currentUser||!googleToken)return;const title=$('#ddayTitle').value.trim(),date=$('#ddayDate').value;if(!title||!date)return;const item={id:'dday-'+Date.now(),title,date,mode:$('#ddayMode').value==='since'?'since':'countdown',createdAt:Date.now()};cloudData.ddays.push(item);cloudData.activeDdayId=item.id;await saveCloudData();setDday();renderDdayList();$('#ddayTitle').value='';toast('D-day를 추가했습니다.')});
+  $('#ddayForm').addEventListener('submit',async e=>{e.preventDefault();if(!currentUser||!googleToken)return;const title=$('#ddayTitle').value.trim(),date=$('#ddayDate').value;if(!title||!date)return;const item={id:'dday-'+Date.now(),title,date,mode:$('#ddayMode').value==='since'?'since':'countdown',createdAt:Date.now(),createdBy:currentUserEmail,pairKey:currentPairKey()};cloudData.ddays.push(item);cloudData.activeDdayId=item.id;await saveCloudData();setDday();renderDdayList();$('#ddayTitle').value='';toast('D-day를 추가했습니다.')});
 
   // couple photo / video media — Google Drive
   let activeMediaUrl='';
@@ -1993,15 +2027,15 @@ html,body{background-image:linear-gradient(rgba(18,28,41,.42),rgba(18,28,41,.42)
     $('#loginBtn').textContent=currentUser?(currentUserName||'로그인'):'로그인';$('#syncBtn').hidden=!currentUser;
     $('#logoutBtn').hidden=!currentUser;$('#displayNameBtn').hidden=!currentUser;$('#syncNowBtn').hidden=!currentUser;$('#calendarSyncDetails').hidden=!currentUser;
     $('#googleLoginBtn').textContent=currentUser?'Google 다시 연결':'Google 계정으로 로그인';
-    if(currentUser&&googleProfile?.email&&googleToken)setGoogleStatus(`${googleProfile.email}\nDrive + Calendar 연결 완료`,'ok');renderSchedulePeopleFilters();
+    if(currentUser&&googleProfile?.email&&googleToken)setGoogleStatus(`${googleProfile.email} · Drive + Calendar 연결 완료`,'ok');updateAdminConfigAccess();fillPartnerSelect();renderSchedulePeopleFilters();renderPartnerMatchStatus();
   }
   function canEdit(owner){if(!currentUser)return false;return owner===(isAdmin?'mine':'partner')||owner==='shared'}
   function canEditEvent(e){if(!currentUserEmail||!e?.isAiderDear)return false;if(normalizeEmail(e.authorEmail))return normalizeEmail(e.authorEmail)===currentUserEmail;return isAdmin?e.owner==='mine':e.owner==='partner'}
   function configureOwnerOptions(selected){
     const sel=$('#eventOwner'),field=$('#eventOwnerField');if(!sel)return;const personal=currentUser==='partner'?'partner':'mine',partner=sharedPartner();const myName=currentUserName||'내 일정';sel.innerHTML=`<option value="${personal}">${escapeHtml(myName)}</option>`+(partner?`<option value="shared">${escapeHtml(myName)} + ${escapeHtml(partner.name)}</option>`:'');field.hidden=!partner;if(selected==='shared'&&partner)sel.value='shared';else sel.value=personal;
   }
-  async function startGoogleLogin(){
-    saveGoogleConfig();
+  async function startGoogleLogin(auto=false){
+    if(!auto)saveGoogleConfig();
     if(!validGoogleConfig()){$('#googleSetupDetails').open=true;setGoogleStatus('클라이언트 ID와 관리자 Google 이메일을 먼저 입력해주세요.','error');return}
     if(location.protocol==='file:'){setGoogleStatus('Google 로그인은 index.html 파일을 더블클릭한 file:// 주소에서는 작동하지 않습니다. Vercel 주소 또는 http://localhost 주소에서 열어주세요.','error');return}
     if(!window.google?.accounts?.oauth2){setGoogleStatus('Google 로그인 라이브러리를 불러오는 중입니다. 잠시 후 로그인 버튼을 다시 눌러주세요.','error');return}
@@ -2013,16 +2047,18 @@ html,body{background-image:linear-gradient(rgba(18,28,41,.42),rgba(18,28,41,.42)
         if(!currentUserName)await changeDisplayName(true);applyLoginUI();await bootstrapGoogleData();await syncCurrentDisplayName();closeModal('loginModal');toast(`${currentUserName} Google 연결 완료`);
         const pending=pendingAfterLogin;pendingAfterLogin=null;if(pending)setTimeout(pending,80);
       }catch(err){const badToken=googleToken;currentUser='';currentUserEmail='';currentUserName='';isAdmin=false;googleToken='';if(badToken&&window.google?.accounts?.oauth2)google.accounts.oauth2.revoke(badToken,()=>{});applyLoginUI();setGoogleStatus(googleErrorMessage(err),'error')}
-    },error_callback:()=>{if(currentUser||googleToken)return;setGoogleStatus('Google 로그인 창이 닫혔거나 열리지 않았습니다.','error')}});
-    googleTokenClient.requestAccessToken({prompt:'select_account'});
+    },error_callback:()=>{if(currentUser||googleToken)return;if(!auto)setGoogleStatus('Google 로그인 창이 닫혔거나 열리지 않았습니다.','error')}});
+    googleTokenClient.requestAccessToken({prompt:auto?'':'select_account'});
   }
-  $('#googleConfigSave').addEventListener('click',saveGoogleConfig);
-  $('#googleLoginBtn').addEventListener('click',startGoogleLogin);
+  $('#googleConfigSave').addEventListener('click',async()=>{if(currentUserEmail&&!isAdmin){toast('관리자만 로그인 허용 이메일을 변경할 수 있습니다.');return}saveGoogleConfig();if(currentUserEmail&&driveDataFileId)try{await syncPartnerChoice(true)}catch(err){toast(googleErrorMessage(err))}});
+  $('#partnerSaveBtn').addEventListener('click',async()=>{googleConfig.partnerEmail=normalizeEmail($('#googlePartnerEmail').value);localStorage.setItem(GOOGLE_CONFIG_KEY,JSON.stringify(googleConfig));if(currentUserEmail&&driveDataFileId){try{await syncPartnerChoice(true);await loadCalendarEvents();await loadEmotionData();renderRecordFeed();renderAlbumFolders();renderEventArchive();renderTravelArchive();renderBucketList();toast(mutualPartner()?`${mutualPartner().name}님과 연결되었습니다.`:'공유 상대 설정을 저장했습니다.')}catch(err){toast(googleErrorMessage(err))}}else{fillPartnerSelect();toast('공유 상대 설정을 저장했습니다.')}});
+  $('#autoLoginCheck').addEventListener('change',e=>setAutoLoginEnabled(e.target.checked));
+  $('#googleLoginBtn').addEventListener('click',()=>startGoogleLogin(false));
   $('#displayNameBtn').addEventListener('click',()=>changeDisplayName(false));
   $('#logoutBtn').addEventListener('click',()=>{
     const token=googleToken;googleToken='';googleProfile=null;currentUser='';currentUserEmail='';currentUserName='';isAdmin=false;events=[];driveRootId='';driveMediaFolderId='';driveDataFileId='';
     privateData={};privateRefs={};privateOwner='';privateFeature='memo';emotionData={};emotionRefs={};schedulePersonFilters=new Set();
-    cloudData={version:CLOUD_VERSION,calendarId:'',albums:[{id:DEFAULT_ALBUM_ID,name:'기본 앨범',createdAt:Date.now()}],records:[],coupleMedia:null,ddays:[{id:'dday-us',title:'우리',date:'2025-11-01',mode:'since',createdAt:Date.now()}],activeDdayId:'dday-us',letters:[],bucketItems:[],eventReviews:[]};calendarSources=[];selectedCalendarIds=new Set();driveLooseMedia=[];
+    cloudData={version:CLOUD_VERSION,calendarId:'',albums:[{id:DEFAULT_ALBUM_ID,name:'기본 앨범',createdAt:Date.now()}],records:[],coupleMedia:null,ddays:[{id:'dday-us',title:'우리',date:'2025-11-01',mode:'since',createdAt:Date.now()}],activeDdayId:'dday-us',letters:[],bucketItems:[],eventReviews:[],partnerChoices:{}};calendarSources=[];selectedCalendarIds=new Set();driveLooseMedia=[];
     for(const url of recordMediaUrlCache.values())URL.revokeObjectURL(url);recordMediaUrlCache.clear();
     clearActiveMediaUrl();const v=$('#coupleVideo2');v.pause();v.hidden=true;v.removeAttribute('src');const img=$('#couplePhoto2');img.hidden=true;img.removeAttribute('src');$('#mediaPlaceholder2').style.display='flex';
     applyLoginUI();updateMailBadge();renderCalendar();renderAlbumFolders();renderRecordFeed();renderPrivate();renderEmotion();closeModal('loginModal');setGoogleStatus('로그아웃했습니다.');if(token&&window.google?.accounts?.oauth2)google.accounts.oauth2.revoke(token,()=>{});
@@ -2159,7 +2195,7 @@ html,body{background-image:linear-gradient(rgba(18,28,41,.42),rgba(18,28,41,.42)
     if(changed){cloudData.records=rows;scheduleCloudSave()}return rows;
   }
   function putRecords(rows){cloudData.records=rows;scheduleCloudSave()}
-  function visibleRecords(){const rows=getRecords();return isAdmin?rows:rows.filter(r=>normalizeEmail(r.authorEmail)===currentUserEmail||r.author==='shared'||r.visibility==='shared')}
+  function visibleRecords(){const rows=getRecords();return rows.filter(r=>pairVisible(r,'authorEmail'))}
   function recordAuthorLabel(r){const email=normalizeEmail(r?.authorEmail);if(email)return familyUser(email).name||email.split('@')[0];return ownerLabel(r?.author||'shared')}
 
   function getAlbumMediaItems(){
@@ -2321,7 +2357,7 @@ html,body{background-image:linear-gradient(rgba(18,28,41,.42),rgba(18,28,41,.42)
   $('#recordForm').addEventListener('submit',async e=>{
     e.preventDefault();if(!currentUser||!googleToken)return;
     const rows=getRecords();const id=$('#recordId').value;const existing=id?rows.find(x=>x.id===id):null;if(existing&&!canEditRecord(existing))return;
-    const data={id:id||('r'+Date.now()),kind:'record',title:$('#recordTitle').value.trim(),date:$('#recordDate').value,mood:$('#recordMood').value,body:$('#recordBody').value.trim(),media:recordMedia.map(x=>({...x})),photos:[],folderId:$('#recordAlbumFolder').value||DEFAULT_ALBUM_ID,author:existing?.author||currentUser,authorEmail:existing?.authorEmail||currentUserEmail};
+    const data={id:id||('r'+Date.now()),kind:'record',title:$('#recordTitle').value.trim(),date:$('#recordDate').value,mood:$('#recordMood').value,body:$('#recordBody').value.trim(),media:recordMedia.map(x=>({...x})),photos:[],folderId:$('#recordAlbumFolder').value||DEFAULT_ALBUM_ID,author:existing?.author||currentUser,authorEmail:existing?.authorEmail||currentUserEmail,pairKey:existing?.pairKey||currentPairKey()};
     if(id){const idx=rows.findIndex(x=>x.id===id);if(idx>=0)rows[idx]=data}else rows.unshift(data);
     try{
       putRecords(rows);await saveCloudData();const newIds=new Set(recordMedia.map(x=>x.fileId||x.key).filter(Boolean));recordOriginalVideoKeys.filter(k=>!newIds.has(k)).forEach(deleteRecordMediaBlob);
@@ -2376,6 +2412,7 @@ html,body{background-image:linear-gradient(rgba(18,28,41,.42),rgba(18,28,41,.42)
   // EVENT ARCHIVE — movie / performance / book / music + travel
   let eventCategory='all',eventSortMode='date',travelSortMode='date',eventPageIndex=0,eventFlipLocked=false,eventTouchY=null,eventTouchScroll=null,eventPendingFile=null,eventPendingPreviewUrl='',eventOriginalMedia=null,eventViewId='';
   function eventRows(){normalizeCloudData();return cloudData.eventReviews||[]}
+  function visibleEventRows(){return eventRows().filter(r=>pairVisible(r,'authorEmail'))}
   function eventCategoryLabel(c){return ({movie:'MOVIE',performance:'PERFORMANCE',book:'BOOK',music:'MUSIC',travel:'TRAVEL'})[c]||'ARCHIVE'}
   function eventCategoryEmoji(c){return ({movie:'🎞',performance:'🎭',book:'📖',music:'◉',travel:'✈'})[c]||'✦'}
   function canEditEventReview(r){return !!currentUserEmail&&normalizeEmail(r?.authorEmail)===currentUserEmail}
@@ -2389,7 +2426,7 @@ html,body{background-image:linear-gradient(rgba(18,28,41,.42),rgba(18,28,41,.42)
   async function renderEventPhotoPreview(existing=null,file=null){const box=$('#eventPhotoPreview');if(!box)return;box.innerHTML='';let src='';if(file){if(eventPendingPreviewUrl){try{URL.revokeObjectURL(eventPendingPreviewUrl)}catch{}}eventPendingPreviewUrl=URL.createObjectURL(file);src=eventPendingPreviewUrl}else if(existing?.media?.fileId)src=await eventMediaSrc(existing);if(src){const img=document.createElement('img');img.src=src;img.alt='선택한 사진';box.appendChild(img)}else box.innerHTML=''}
   function openEventReviewEditor(entry=null,category='movie'){if(!currentUser){requireLogin(()=>openEventReviewEditor(entry,category));return}if(entry&&!canEditEventReview(entry)){openEventReviewView(entry.id);return}clearEventPendingPreview();const cat=entry?.category||category||'movie';$('#eventReviewId').value=entry?.id||'';$('#eventReviewMediaId').value=entry?.media?.fileId||'';$('#eventReviewCategory').value=cat;$('#eventReviewDate').value=entry?.date||iso(today.getFullYear(),today.getMonth(),today.getDate());$('#eventReviewTitle').value=entry?.title||'';$('#eventReviewPlace').value=entry?.place||'';$('#eventReviewOneLine').value=entry?.oneLine||'';$('#eventReviewText').value=entry?.review||'';eventOriginalMedia=entry?.media||null;configureEventReviewCategory(cat);setEventReviewRating(entry?.rating||0);$('#eventReviewDelete').hidden=!entry;$('#eventReviewModalTitle').textContent=entry?'기록 수정':(cat==='travel'?'여행 리뷰':'아카이브 기록');renderEventPhotoPreview(entry);openModal('eventReviewModal')}
   function renderEventArchive(){
-    const grid=$('#eventIndexGrid');if(!grid)return;let rows=eventRows().filter(r=>r.category!=='travel');if(eventCategory!=='all')rows=rows.filter(r=>r.category===eventCategory);rows=sortEventRows(rows,eventSortMode).slice(0,10);grid.innerHTML='';
+    const grid=$('#eventIndexGrid');if(!grid)return;let rows=visibleEventRows().filter(r=>r.category!=='travel');if(eventCategory!=='all')rows=rows.filter(r=>r.category===eventCategory);rows=sortEventRows(rows,eventSortMode).slice(0,10);grid.innerHTML='';
     $$('#eventCategoryTabs .event-category').forEach(b=>b.classList.toggle('active',b.dataset.eventCategory===eventCategory));$('#eventSort').value=eventSortMode;
     const total=10,fallbacks=['movie','performance','book','music','movie','performance','book','music','movie','performance'];
     for(let i=0;i<total;i++){
@@ -2398,7 +2435,7 @@ html,body{background-image:linear-gradient(rgba(18,28,41,.42),rgba(18,28,41,.42)
     }
   }
   function renderTravelArchive(){
-    const grid=$('#travelReviewGrid');if(!grid)return;let rows=sortEventRows(eventRows().filter(r=>r.category==='travel'),travelSortMode).slice(0,6);$('#travelSort').value=travelSortMode;grid.innerHTML='';const total=6;
+    const grid=$('#travelReviewGrid');if(!grid)return;let rows=sortEventRows(visibleEventRows().filter(r=>r.category==='travel'),travelSortMode).slice(0,6);$('#travelSort').value=travelSortMode;grid.innerHTML='';const total=6;
     for(let i=0;i<total;i++){const r=rows[i];if(r){const card=document.createElement('button');card.type='button';card.className='travel-card';card.dataset.eventReviewId=r.id;card.innerHTML=`<div class="travel-photo"></div><h3>${escapeHtml(r.title)}</h3><div class="travel-place">${escapeHtml(r.place||'')}</div><p class="travel-one-line">${escapeHtml(r.oneLine||'—')}</p><div class="travel-bottom"><span>${escapeHtml((r.date||'').replaceAll('-','.'))}</span><span class="travel-stars">${starText(r.rating)}</span></div>`;const photo=card.querySelector('.travel-photo');if(r.media?.fileId)eventMediaSrc(r).then(src=>{if(src){const img=document.createElement('img');img.src=src;img.alt=r.title||'여행 사진';photo.appendChild(img)}});else photo.innerHTML='<div class="travel-photo-placeholder">Travel</div>';card.addEventListener('click',()=>openEventReviewView(r.id));grid.appendChild(card);continue}const card=document.createElement('button');card.type='button';card.className='travel-card placeholder';card.innerHTML=`<div class="travel-photo"><div class="travel-photo-placeholder">Travel</div></div><h3>Place / Trip</h3><div class="travel-place">여행 리뷰</div><div class="travel-bottom"><span>—</span><span class="travel-stars">☆☆☆☆☆</span></div><div class="travel-slot-no">${String(i+1).padStart(2,'0')}</div>`;card.addEventListener('click',()=>openEventReviewEditor(null,'travel'));grid.appendChild(card)}
   }
   async function openEventReviewView(id){const r=eventRows().find(x=>x.id===id);if(!r)return;eventViewId=id;const body=$('#eventReviewViewBody');body.innerHTML=`<div class="event-view-media"></div><div class="event-view-copy"><div class="category">${eventCategoryLabel(r.category)}</div><h3>${escapeHtml(r.title)}</h3><div class="stars">${starText(r.rating)}</div>${r.place?`<div class="meta">${escapeHtml(r.place)}</div>`:''}<div class="meta">${escapeHtml((r.date||'').replaceAll('-','.'))}</div>${r.oneLine?`<blockquote class="event-view-one-line">${escapeHtml(r.oneLine)}</blockquote>`:''}<div class="event-view-review">${escapeHtml(r.review||'')}</div></div>`;const media=body.querySelector('.event-view-media');if(r.media?.fileId){const src=await eventMediaSrc(r);if(src){const img=document.createElement('img');img.src=src;img.alt=r.title||'리뷰 이미지';media.appendChild(img)}}else media.textContent=eventCategoryEmoji(r.category);$('#eventReviewViewTitle').textContent=r.category==='travel'?'Travel Review':'Review';$('#eventReviewEditBtn').hidden=!canEditEventReview(r);openModal('eventReviewViewModal')}
@@ -2407,7 +2444,7 @@ html,body{background-image:linear-gradient(rgba(18,28,41,.42),rgba(18,28,41,.42)
   $('#eventAddBtn').addEventListener('click',()=>openEventReviewEditor(null,eventCategory==='all'?'movie':eventCategory));$('#travelAddBtn').addEventListener('click',()=>openEventReviewEditor(null,'travel'));
   $('#eventReviewCategory').addEventListener('change',e=>configureEventReviewCategory(e.target.value));$('#eventStarInput').addEventListener('click',e=>{const b=e.target.closest('[data-star]');if(b)setEventReviewRating(Number(b.dataset.star))});
   $('#eventPhotoPick').addEventListener('click',()=>$('#eventPhotoInput').click());$('#eventPhotoInput').addEventListener('change',e=>{const f=e.target.files?.[0];if(!f)return;if(!f.type.startsWith('image/')){toast('사진 파일을 선택해주세요.');return}eventPendingFile=f;renderEventPhotoPreview(null,f);e.target.value='' });
-  $('#eventReviewForm').addEventListener('submit',async e=>{e.preventDefault();if(!currentUserEmail)return;const id=$('#eventReviewId').value,rows=eventRows(),existing=id?rows.find(x=>x.id===id):null;if(existing&&!canEditEventReview(existing))return;let media=existing?.media||null;try{if(eventPendingFile){toast('사진을 Drive에 저장하는 중…');const up=await driveUploadMedia(eventPendingFile,'event-review');media={fileId:up.id,name:eventPendingFile.name,type:eventPendingFile.type};if(existing?.media?.fileId&&existing.media.fileId!==media.fileId)driveDeleteFile(existing.media.fileId)}const item={id:id||('er-'+Date.now()),category:$('#eventReviewCategory').value,title:$('#eventReviewTitle').value.trim(),place:$('#eventReviewPlace').value.trim(),date:$('#eventReviewDate').value,rating:Number($('#eventReviewRating').value)||0,oneLine:$('#eventReviewOneLine').value.trim(),review:$('#eventReviewText').value.trim(),media,authorEmail:existing?.authorEmail||currentUserEmail,createdAt:existing?.createdAt||Date.now(),updatedAt:Date.now()};if(existing)rows[rows.findIndex(x=>x.id===id)]=item;else rows.push(item);cloudData.eventReviews=rows;await saveCloudData();clearEventPendingPreview();closeModal('eventReviewModal');renderEventArchive();renderTravelArchive();toast('리뷰를 저장했습니다.')}catch(err){toast(googleErrorMessage(err))}});
+  $('#eventReviewForm').addEventListener('submit',async e=>{e.preventDefault();if(!currentUserEmail)return;const id=$('#eventReviewId').value,rows=eventRows(),existing=id?rows.find(x=>x.id===id):null;if(existing&&!canEditEventReview(existing))return;let media=existing?.media||null;try{if(eventPendingFile){toast('사진을 Drive에 저장하는 중…');const up=await driveUploadMedia(eventPendingFile,'event-review');media={fileId:up.id,name:eventPendingFile.name,type:eventPendingFile.type};if(existing?.media?.fileId&&existing.media.fileId!==media.fileId)driveDeleteFile(existing.media.fileId)}const item={id:id||('er-'+Date.now()),category:$('#eventReviewCategory').value,title:$('#eventReviewTitle').value.trim(),place:$('#eventReviewPlace').value.trim(),date:$('#eventReviewDate').value,rating:Number($('#eventReviewRating').value)||0,oneLine:$('#eventReviewOneLine').value.trim(),review:$('#eventReviewText').value.trim(),media,authorEmail:existing?.authorEmail||currentUserEmail,createdAt:existing?.createdAt||Date.now(),updatedAt:Date.now(),pairKey:existing?.pairKey||currentPairKey()};if(existing)rows[rows.findIndex(x=>x.id===id)]=item;else rows.push(item);cloudData.eventReviews=rows;await saveCloudData();clearEventPendingPreview();closeModal('eventReviewModal');renderEventArchive();renderTravelArchive();toast('리뷰를 저장했습니다.')}catch(err){toast(googleErrorMessage(err))}});
   $('#eventReviewDelete').addEventListener('click',async()=>{const id=$('#eventReviewId').value,r=eventRows().find(x=>x.id===id);if(!r||!canEditEventReview(r))return;if(!confirm(`“${r.title}” 기록을 삭제할까요?`))return;cloudData.eventReviews=eventRows().filter(x=>x.id!==id);if(r.media?.fileId)driveDeleteFile(r.media.fileId);await saveCloudData();clearEventPendingPreview();closeModal('eventReviewModal');renderEventArchive();renderTravelArchive()});
   $('#eventReviewEditBtn').addEventListener('click',()=>{const r=eventRows().find(x=>x.id===eventViewId);if(!r)return;closeModal('eventReviewViewModal');openEventReviewEditor(r,r.category)});
   let eventWheelTarget=null;
@@ -2441,7 +2478,7 @@ html,body{background-image:linear-gradient(rgba(18,28,41,.42),rgba(18,28,41,.42)
     box.innerHTML=html;
   }
   let bucketHistoryOpen=false;
-  function bucketItems(){normalizeCloudData();return cloudData.bucketItems||[]}
+  function bucketItems(){normalizeCloudData();return (cloudData.bucketItems||[]).filter(x=>pairVisible(x,'createdBy'))}
   function bucketDate(ts){if(!ts)return '';return new Date(ts).toLocaleDateString('ko-KR',{year:'numeric',month:'2-digit',day:'2-digit'})}
   function bucketUserName(email){email=normalizeEmail(email);return familyUser(email)?.name||storedDisplayName(email)||email.split('@')[0]||''}
   function renderBucketList(){
@@ -2452,7 +2489,7 @@ html,body{background-image:linear-gradient(rgba(18,28,41,.42),rgba(18,28,41,.42)
     else{history.innerHTML=done.length?`<div class="bucket-history-list">${done.map(item=>`<div class="bucket-history-row"><i>✓</i><div><b>${escapeHtml(item.text)}</b><span>${escapeHtml(bucketDate(item.createdAt))} → ${escapeHtml(bucketDate(item.completedAt))}</span></div><div class="bucket-history-actions"><button type="button" data-bucket-restore="${escapeHtml(item.id)}">되돌리기</button><button type="button" data-bucket-delete="${escapeHtml(item.id)}">삭제</button></div></div>`).join('')}</div>`:'<div class="bucket-history-empty">완료한 버킷리스트가 아직 없습니다.</div>'}
   }
   $('#bucketHistoryBtn').addEventListener('click',()=>{bucketHistoryOpen=!bucketHistoryOpen;renderBucketList()});
-  $('#bucketForm').addEventListener('submit',async e=>{e.preventDefault();if(!currentUser||!googleToken){requireLogin();return}const input=$('#bucketInput'),text=String(input.value||'').trim();if(!text)return;cloudData.bucketItems.push({id:'bucket-'+Date.now()+'-'+Math.random().toString(36).slice(2,6),text:text.slice(0,80),createdAt:Date.now(),createdBy:currentUserEmail,completedAt:0,completedBy:''});input.value='';try{await saveCloudData();renderBucketList()}catch(err){toast(googleErrorMessage(err))}});
+  $('#bucketForm').addEventListener('submit',async e=>{e.preventDefault();if(!currentUser||!googleToken){requireLogin();return}const input=$('#bucketInput'),text=String(input.value||'').trim();if(!text)return;cloudData.bucketItems.push({id:'bucket-'+Date.now()+'-'+Math.random().toString(36).slice(2,6),text:text.slice(0,80),createdAt:Date.now(),createdBy:currentUserEmail,pairKey:currentPairKey(),completedAt:0,completedBy:''});input.value='';try{await saveCloudData();renderBucketList()}catch(err){toast(googleErrorMessage(err))}});
   $('#bucketDrops').addEventListener('click',async e=>{if(!currentUser||!googleToken){requireLogin();return}const edit=e.target.closest('[data-bucket-edit]');if(edit){const item=cloudData.bucketItems.find(x=>x.id===edit.dataset.bucketEdit);if(!item)return;const next=prompt('버킷리스트를 수정하세요.',item.text||'');if(next===null)return;const text=String(next).trim();if(!text)return;item.text=text.slice(0,80);item.updatedAt=Date.now();try{await saveCloudData();renderBucketList()}catch(err){toast(googleErrorMessage(err))}return}const del=e.target.closest('[data-bucket-delete]');if(del){const item=cloudData.bucketItems.find(x=>x.id===del.dataset.bucketDelete);if(!item||!confirm(`“${item.text}” 버킷리스트를 삭제할까요?`))return;cloudData.bucketItems=cloudData.bucketItems.filter(x=>x.id!==item.id);try{await saveCloudData();renderBucketList()}catch(err){toast(googleErrorMessage(err))}return}const b=e.target.closest('[data-bucket-pop]');if(!b)return;const wrap=b.closest('.bucket-drop');if(wrap?.classList.contains('popping'))return;const item=cloudData.bucketItems.find(x=>x.id===b.dataset.bucketPop);if(!item||item.completedAt)return;wrap?.classList.add('popping');setTimeout(async()=>{item.completedAt=Date.now();item.completedBy=currentUserEmail;try{await saveCloudData();renderBucketList()}catch(err){toast(googleErrorMessage(err));renderBucketList()}},390)});
   $('#bucketHistory').addEventListener('click',async e=>{if(!currentUser||!googleToken){requireLogin();return}const restore=e.target.closest('[data-bucket-restore]');if(restore){const item=cloudData.bucketItems.find(x=>x.id===restore.dataset.bucketRestore);if(!item)return;item.completedAt=0;item.completedBy='';try{await saveCloudData();renderBucketList()}catch(err){toast(googleErrorMessage(err))}return}const del=e.target.closest('[data-bucket-delete]');if(del){const item=cloudData.bucketItems.find(x=>x.id===del.dataset.bucketDelete);if(!item||!confirm(`“${item.text}” 기록을 삭제할까요?`))return;cloudData.bucketItems=cloudData.bucketItems.filter(x=>x.id!==item.id);try{await saveCloudData();renderBucketList()}catch(err){toast(googleErrorMessage(err))}}});
   function countWantByMood(rows,mood){const counts={};rows.filter(r=>entryMoods(r).includes(mood)).forEach(r=>(r.wants||[]).forEach(w=>{w=cleanEmotionWant(w);if(w)counts[w]=(counts[w]||0)+1}));return Object.entries(counts).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0]))}
@@ -2561,7 +2598,7 @@ html,body{background-image:linear-gradient(rgba(18,28,41,.42),rgba(18,28,41,.42)
   $$('.tab').forEach(t=>t.addEventListener('click',()=>showMainTab(t.dataset.tab)));
   function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._timer);t._timer=setTimeout(()=>t.classList.remove('show'),1800)}
   $('#stage').addEventListener('pointerdown',e=>{if(e.target.closest('button,input,select,textarea,label,a'))e.stopPropagation()});
-    loadGoogleConfig();fillGoogleConfigUI();normalizeCloudData();selectAlbumFolderColor(ALBUM_PASTELS[0]);getAlbumFolders();refreshRecordAlbumSelect(DEFAULT_ALBUM_ID);renderAlbumFolders();renderEventArchive();renderTravelArchive();renderPrivate();renderEmotion();applyLoginUI();setDday();renderDdayList();renderCalendar();if('serviceWorker' in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+    loadGoogleConfig();fillGoogleConfigUI();$('#autoLoginCheck').checked=autoLoginEnabled();normalizeCloudData();selectAlbumFolderColor(ALBUM_PASTELS[0]);getAlbumFolders();refreshRecordAlbumSelect(DEFAULT_ALBUM_ID);renderAlbumFolders();renderEventArchive();renderTravelArchive();renderPrivate();renderEmotion();applyLoginUI();setDday();renderDdayList();renderCalendar();setTimeout(()=>tryAutoLogin(),450);if('serviceWorker' in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
 })();
 </script>
 </body>
