@@ -1125,6 +1125,66 @@ body:before{background:linear-gradient(rgba(10,14,22,.66),rgba(10,14,22,.66)),ur
 .event-art.music img,.event-art.music .event-art-placeholder{clip-path:circle(50% at 50% 50%)!important}
 .event-art.performance img,.event-art.performance .event-art-placeholder{clip-path:polygon(0 0,100% 0,100% 36%,95% 42%,100% 48%,100% 100%,0 100%,0 48%,5% 42%,0 36%)!important}
 
+
+
+/* v27 user refinements */
+body:before{background:#000!important;filter:none!important;opacity:1!important}
+body{background:#000!important}
+.masthead .logo,.masthead .logo span,.masthead .logo em,.masthead .logo small{color:#fff!important;text-shadow:none!important}
+.top-actions,.nav-tools,.top-action,.account-name,.sync-mini,.mailbox-top{background:transparent!important;border:0!important;box-shadow:none!important}
+.account-name,.sync-mini,.mailbox-top,.mailbox-top span,.mailbox-top .mailbox-icon{color:#fff!important;text-shadow:none!important}
+.account-stack.account-inline .account-name,.account-stack.account-inline .sync-mini{color:#fff!important}
+.mailbox-top{padding:0!important}
+.top-action.account-name,.sync-mini,.mailbox-top{border-radius:0!important}
+
+/* emotion button relocation */
+.emotion-actions{display:none!important}
+.emotion-month-controls{display:flex!important;align-items:center!important;gap:6px!important;flex-wrap:wrap!important}
+.emotion-month-controls .emotion-new.month{height:30px!important;padding:0 10px!important;border:1px solid #111!important;background:#fff!important;font-size:9px!important;font-weight:800!important;white-space:nowrap!important}
+@media(max-width:650px){.emotion-month-controls .emotion-new.month{height:22px!important;font-size:6px!important;padding:0 6px!important}}
+
+/* bucket list: remove frame and reduce typography */
+.bucket-board{background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;padding:0!important}
+.bucket-board:before{display:none!important;content:none!important}
+.bucket-head{padding:2px 0 8px!important;border-bottom:0!important;margin-bottom:4px!important}
+.bucket-head b{font-size:18px!important;color:#5f564d!important}
+.bucket-head button{height:28px!important;padding:0 14px!important;font-size:10px!important}
+.bucket-form{grid-template-columns:minmax(0,1fr) 42px!important;gap:8px!important;padding:2px 0 6px!important;margin:0 0 4px!important}
+.bucket-form input{height:42px!important;font-size:12px!important;padding:0 14px!important;border-radius:14px!important}
+.bucket-form button{width:42px!important;height:42px!important;font-size:24px!important;border-radius:12px!important}
+.bucket-drops{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important;padding:6px 0 0!important}
+.bucket-card{border-radius:15px!important}
+.bucket-card-main{grid-template-columns:22px minmax(0,1fr)!important;gap:10px!important;padding:12px 8px 12px 10px!important}
+.bucket-check{width:18px!important;height:18px!important;border-radius:6px!important}
+.bucket-copy b{font-size:13px!important;line-height:1.3!important;margin-bottom:2px!important}
+.bucket-copy span{font-size:9px!important;line-height:1.25!important}
+.bucket-drop-tools{padding-right:8px!important;gap:4px!important}
+.bucket-drop-tools button{width:22px!important;height:22px!important;font-size:9px!important}
+.bucket-empty{min-height:120px!important;font-size:11px!important}
+.bucket-history-row b{font-size:12px!important}.bucket-history-row span,.bucket-history-actions button{font-size:10px!important}
+@media(max-width:760px){.bucket-head b{font-size:15px!important}.bucket-head button{height:24px!important;font-size:8px!important;padding:0 10px!important}.bucket-form{grid-template-columns:minmax(0,1fr) 34px!important}.bucket-form input{height:36px!important;font-size:10px!important}.bucket-form button{width:34px!important;height:34px!important;font-size:20px!important}.bucket-copy b{font-size:11px!important}.bucket-copy span{font-size:8px!important}}
+
+/* archive: 5 editorial vertical cards like reference */
+.event-content.event-archive-content{overflow:hidden!important}
+.event-index-grid{grid-template-columns:repeat(5,minmax(0,1fr))!important;grid-template-rows:none!important;gap:14px!important;border:0!important}
+.event-index-card{aspect-ratio:auto!important;min-height:430px!important;height:430px!important;border:0!important;border-radius:0!important;background:#f7f2ec!important;box-shadow:0 8px 24px rgba(41,30,18,.06)!important;padding:16px 14px 14px!important;display:grid!important;grid-template-columns:1fr!important;grid-template-rows:auto auto 1fr auto auto auto!important;grid-template-areas:'head' 'art' 'spacer' 'meta' 'stars' 'review' !important;gap:10px!important;align-content:start!important}
+.event-index-card:before{content:'';grid-area:head;display:block;height:1px;background:#2f2925;margin-bottom:2px}
+.event-index-no{position:absolute!important;left:12px!important;top:14px!important;font-size:12px!important;color:#b2aaa1!important;z-index:2}
+.event-index-title{grid-area:head!important;justify-self:end!important;align-self:start!important;font-family:"Iowan Old Style","Palatino Linotype",Georgia,serif!important;font-size:11px!important;font-weight:700!important;letter-spacing:0!important;color:#1d1713!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;padding-left:24px!important;margin-top:-6px!important}
+.event-art{grid-area:art!important;width:100%!important;height:250px!important;aspect-ratio:auto!important;margin:0!important;border:0!important;background:transparent!important;display:grid!important;place-items:center!important;overflow:hidden!important}
+.event-art img,.event-art-placeholder{position:static!important;width:100%!important;height:100%!important;max-width:none!important;max-height:none!important;object-fit:cover!important;object-position:center!important;border:0!important;background:#efe9e2!important;clip-path:none!important;border-radius:0!important}
+.event-art:before,.event-art:after{display:none!important;content:none!important}
+.event-index-meta{grid-area:meta!important;display:flex!important;justify-content:space-between!important;align-items:center!important;font-size:8px!important;color:#7c7268!important;margin:0!important}
+.event-index-meta span:first-child{display:inline!important}
+.event-index-stars{grid-area:stars!important;font-size:10px!important;letter-spacing:1px!important;color:#9c9287!important;height:auto!important;margin:0!important}
+.event-index-stars .filled{color:#2b241e!important}
+.event-index-review{grid-area:review!important;font-size:9px!important;line-height:1.55!important;color:#6c6257!important;white-space:normal!important;overflow:hidden!important;display:-webkit-box!important;-webkit-box-orient:vertical!important;-webkit-line-clamp:3!important;min-height:44px!important;margin:0!important;padding-top:4px!important;border-top:1px solid #bdb3a7!important}
+.event-index-card.placeholder .event-index-review{color:#a1988f!important}
+.event-empty{grid-column:1/-1!important;min-height:280px!important;border:1px solid #ddd0c0!important;border-radius:18px!important;background:#faf7f2!important}
+@media(max-width:1200px){.event-index-card{min-height:390px!important;height:390px!important}.event-art{height:220px!important}.event-index-title{font-size:10px!important}}
+@media(max-width:900px){.event-content.event-archive-content{overflow:auto!important}.event-index-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}.event-index-card{min-height:360px!important;height:360px!important}.event-art{height:195px!important}}
+@media(max-width:650px){.event-index-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}.event-index-card{min-height:300px!important;height:300px!important;padding:10px!important}.event-art{height:155px!important}.event-index-title{font-size:9px!important}.event-index-review{font-size:8px!important}}
+
 </style>
 </head>
 <body>
@@ -1235,9 +1295,7 @@ body:before{background:linear-gradient(rgba(10,14,22,.66),rgba(10,14,22,.66)),ur
       <section class="emotion-frame" id="emotionFrame">
         <div class="emotion-toolbar">
           <div class="emotion-title-group"><h2 class="emotion-heading">Emotion</h2><span class="emotion-insight-kicker">THIS MONTH</span></div>
-          <div class="emotion-actions">
-            <button class="emotion-new" id="newEmotionDiaryBtn" type="button">감정기록</button>
-          </div>
+          <div class="emotion-actions"></div>
         </div>
         <div class="emotion-content emotion-record-content">
           <div class="emotion-month-split">
@@ -1247,6 +1305,7 @@ body:before{background:linear-gradient(rgba(10,14,22,.66),rgba(10,14,22,.66)),ur
                 <div class="emotion-month-controls">
                   <button type="button" id="emotionPrevMonth" aria-label="이전 달">←</button>
                   <button type="button" id="emotionTodayMonth">TODAY</button>
+                  <button type="button" class="emotion-new month" id="newEmotionDiaryBtn">감정기록</button>
                   <button type="button" id="emotionNextMonth" aria-label="다음 달">→</button>
                 </div>
               </div>
@@ -2578,9 +2637,9 @@ body:before{background:linear-gradient(rgba(10,14,22,.66),rgba(10,14,22,.66)),ur
   async function renderEventPhotoPreview(existing=null,file=null){const box=$('#eventPhotoPreview');if(!box)return;box.innerHTML='';let src='';if(file){if(eventPendingPreviewUrl){try{URL.revokeObjectURL(eventPendingPreviewUrl)}catch{}}eventPendingPreviewUrl=URL.createObjectURL(file);src=eventPendingPreviewUrl}else if(existing?.media?.fileId)src=await eventMediaSrc(existing);if(src){const img=document.createElement('img');img.src=src;img.alt='선택한 사진';box.appendChild(img)}else box.innerHTML=''}
   function openEventReviewEditor(entry=null,category='movie'){if(!currentUser){requireLogin(()=>openEventReviewEditor(entry,category));return}if(entry&&!canEditEventReview(entry)){openEventReviewView(entry.id);return}clearEventPendingPreview();const cat=entry?.category||category||'movie';$('#eventReviewId').value=entry?.id||'';$('#eventReviewMediaId').value=entry?.media?.fileId||'';$('#eventReviewCategory').value=cat;$('#eventReviewDate').value=entry?.date||iso(today.getFullYear(),today.getMonth(),today.getDate());$('#eventReviewTitle').value=entry?.title||'';$('#eventReviewPlace').value=entry?.place||'';$('#eventReviewOneLine').value=entry?.oneLine||'';$('#eventReviewText').value=entry?.review||'';eventOriginalMedia=entry?.media||null;configureEventReviewCategory(cat);setEventReviewRating(entry?.rating||0);$('#eventReviewDelete').hidden=!entry;$('#eventReviewModalTitle').textContent=entry?'기록 수정':(cat==='travel'?'여행 리뷰':'아카이브 기록');renderEventPhotoPreview(entry);openModal('eventReviewModal')}
   function renderEventArchive(){
-    const grid=$('#eventIndexGrid');if(!grid)return;let rows=visibleEventRows().filter(r=>r.category!=='travel');if(eventCategory!=='all')rows=rows.filter(r=>r.category===eventCategory);rows=sortEventRows(rows,eventSortMode).slice(0,10);grid.innerHTML='';
+    const grid=$('#eventIndexGrid');if(!grid)return;let rows=visibleEventRows().filter(r=>r.category!=='travel');if(eventCategory!=='all')rows=rows.filter(r=>r.category===eventCategory);rows=sortEventRows(rows,eventSortMode).slice(0,5);grid.innerHTML='';
     $$('#eventCategoryTabs .event-category').forEach(b=>b.classList.toggle('active',b.dataset.eventCategory===eventCategory));$('#eventSort').value=eventSortMode;
-    const total=10,fallbacks=['movie','performance','book','music','movie','performance','book','music','movie','performance'];
+    const total=5,fallbacks=['movie','performance','book','music','movie'];
     for(let i=0;i<total;i++){
       const r=rows[i];
       if(r){
