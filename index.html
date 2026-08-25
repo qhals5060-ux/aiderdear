@@ -33,18 +33,18 @@ button,input,select,textarea{font:inherit;color:inherit}
 button{cursor:pointer}
 button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #111;outline-offset:2px}
 
-.app{height:100%;display:grid;grid-template-rows:80px 32px minmax(0,1fr);padding:0 7vw 3.8vh;position:relative}
+.app{height:100%;display:grid;grid-template-rows:80px 28px minmax(0,1fr);padding:0 7vw 3.8vh;position:relative}
 .masthead{position:relative;display:flex;align-items:center;justify-content:center}
 .logo{font-family:"Iowan Old Style","Palatino Linotype","Book Antiqua",Palatino,Georgia,serif;font-size:50px;font-weight:500;letter-spacing:-.065em;line-height:1;position:relative}
 .logo em{font-weight:400;font-style:italic;margin-left:.015em}
 .logo small{font-family:Arial,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;position:absolute;left:50%;top:52px;transform:translateX(-50%);font-size:7px;font-weight:700;letter-spacing:.18em;white-space:nowrap}
-.top-actions{position:absolute;right:0;top:31px;display:flex;gap:26px;align-items:center}
-.top-action{border:0;background:transparent;padding:8px 0;font-size:14px;font-weight:800;display:flex;align-items:center;gap:8px}
+.top-actions{position:absolute;right:0;top:18px;display:flex;gap:16px;align-items:center}
+.top-action{border:0;background:transparent;padding:4px 0;font-size:13px;font-weight:800;display:flex;align-items:center;gap:6px}.account-stack{display:grid;justify-items:end;gap:1px;min-width:72px}.account-name{font-size:13px;line-height:1.2}.sync-mini{border:0;background:transparent;padding:1px 0;font-size:8px;font-weight:800;color:#555;letter-spacing:.04em}.sync-mini[hidden]{display:none}.mailbox-top{position:relative;border:0;background:transparent;padding:5px 2px;font-size:11px;font-weight:800;display:flex;align-items:center;gap:5px}.mailbox-icon{font-size:16px;line-height:1}.mail-unread-badge{position:absolute;right:-8px;top:-3px;min-width:16px;height:16px;padding:0 4px;border-radius:9px;background:#111;color:#fff;display:grid;place-items:center;font-size:8px}.mail-unread-badge[hidden]{display:none}
 .plusmark{width:11px;height:11px;position:relative;display:inline-block}.plusmark:before,.plusmark:after{content:"";position:absolute;background:#111}.plusmark:before{width:11px;height:2px;left:0;top:4px}.plusmark:after{width:2px;height:11px;top:0;left:4px}
 
 .nav-row{display:flex;align-items:end;justify-content:flex-start;min-width:0;z-index:5;padding:0 12px 0 18px}
 .tabs{display:flex;align-items:end;z-index:5;padding:0;min-width:0}
-.tab{border:0;width:clamp(104px,9.4vw,140px);height:42px;background:transparent;font-size:13px;font-weight:800;letter-spacing:.015em;position:relative;isolation:isolate;padding:0 14px 5px;flex:0 0 auto}
+.tab{border:0;width:clamp(104px,9.4vw,140px);height:34px;background:transparent;font-size:12px;font-weight:800;letter-spacing:.015em;position:relative;isolation:isolate;padding:0 14px 4px;flex:0 0 auto}
 .tab+ .tab{margin-left:-18px}
 .tab:before{content:"";position:absolute;inset:0;clip-path:polygon(15% 0,85% 0,100% 100%,0 100%);background:var(--tab);z-index:-1;border:1px solid rgba(0,0,0,.07)}
 .tab[data-tab="schedule"]{--tab:var(--tab1);z-index:5}.tab[data-tab="emotion"]{--tab:var(--tabEmotion);z-index:4}.tab[data-tab="record"]{--tab:var(--tab2);z-index:3}.tab[data-tab="event"]{--tab:var(--tab3);z-index:2}.tab[data-tab="private"]{--tab:var(--tab4);z-index:1}
@@ -86,6 +86,19 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 .shared-date{font-size:20px;font-weight:300}
 .shared-line{min-width:0;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .shared-line b{font-size:11px}.shared-line span{font-size:10px;color:#555;margin-right:7px}
+
+
+/* compact search on the white frame */
+.frame-search{position:absolute;right:calc(7vw + 42px);top:112px;z-index:30;height:28px;display:flex;align-items:center;background:#fff;border:1px solid #111;box-shadow:3px 3px 0 rgba(0,0,0,.08)}
+.frame-search input{width:150px;height:26px;border:0;background:transparent;padding:0 8px;font-size:9px;outline:0}
+.frame-search button{width:30px;height:26px;border:0;border-left:1px solid #111;background:#fff;font-size:13px;display:grid;place-items:center}
+.frame-search:focus-within{box-shadow:0 0 0 2px #111}
+
+/* mailbox + short letter stationery */
+.mailbox-modal{width:min(760px,calc(100% - 28px))}.mailbox-grid{display:grid;grid-template-columns:minmax(250px,.78fr) minmax(0,1.22fr);gap:16px}.mail-compose,.mail-list-panel{border:1px solid #111;padding:14px;background:#fff}.mail-panel-head{display:flex;justify-content:space-between;gap:8px;align-items:end;border-bottom:1px solid #111;padding-bottom:8px;margin-bottom:10px}.mail-panel-head b{font-size:11px;letter-spacing:.08em}.mail-panel-head span{font-size:8px;color:#666}.mail-recipient{font-size:10px;font-weight:800;margin-bottom:8px}.mail-compose textarea{width:100%;height:150px;resize:none;border:1px solid #aaa;padding:12px 12px;font-size:11px;line-height:1.85;background:repeating-linear-gradient(to bottom,#fffdf8 0,#fffdf8 27px,#d7d1c8 28px)}.mail-char-count{text-align:right;font-size:7px;color:#777;margin-top:5px}.mail-send{width:100%;height:36px;border:1px solid #111;background:#111;color:#fff;font-size:10px;font-weight:800;margin-top:8px}.mail-send:disabled{opacity:.35}.mail-tabs{display:flex;gap:5px;margin-bottom:8px}.mail-tab{height:28px;border:1px solid #111;background:#fff;padding:0 9px;font-size:8px;font-weight:800}.mail-tab.active{background:#111;color:#fff}.mail-list{display:grid;gap:7px;max-height:360px;overflow:auto}.mail-row{border:1px solid #aaa;background:#fff;padding:9px 10px;text-align:left;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px}.mail-row.unread{border:2px solid #111;background:#fffaf1}.mail-row b{display:block;font-size:10px}.mail-row p{margin:4px 0 0;font-size:8px;color:#555;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.mail-row time{font-size:7px;color:#777}.mail-empty{min-height:130px;display:grid;place-items:center;text-align:center;font-size:9px;color:#777;background:#f8f8f8}
+.letter-view-modal{width:min(590px,calc(100% - 24px));border:0!important;background:transparent!important;box-shadow:none!important;overflow:visible!important}.letter-paper{position:relative;min-height:500px;padding:44px 58px 66px;background:#fffaf7;border:1px solid #e4ddd5;box-shadow:0 18px 50px rgba(0,0,0,.2);overflow:hidden}.letter-paper:before{content:"✣     ✧      ○\A\A                         ✣\A\A ○";white-space:pre;position:absolute;left:20px;top:16px;font-size:22px;line-height:2.2;color:#222;opacity:.9}.letter-paper:after{content:"🌼  🧸💜  🧸🩷  🧸💛";position:absolute;right:24px;bottom:22px;font-size:28px;letter-spacing:-7px;transform:rotate(-4deg)}.letter-close{position:absolute;right:16px;top:13px;z-index:2;width:32px;height:32px;border:0;background:transparent;font-size:24px}.letter-to,.letter-from{font-family:"Iowan Old Style",Georgia,serif;font-size:14px;display:flex;align-items:center;gap:10px}.letter-to{margin-top:5px}.letter-from{margin-top:30px}.letter-name-line{flex:1;border-bottom:1px solid #777;min-height:24px;padding:3px 4px;font-family:Arial,"Apple SD Gothic Neo",sans-serif;font-size:11px}.letter-body{margin-top:14px;min-height:250px;padding:3px 4px;font-size:12px;line-height:32px;white-space:pre-wrap;background:repeating-linear-gradient(to bottom,transparent 0,transparent 31px,#aaa 32px);position:relative;z-index:1}.letter-date{text-align:right;font-size:8px;color:#777;margin-top:10px;position:relative;z-index:1}.letter-next{display:block;margin:15px auto 0;border:1px solid #111;background:#fff;padding:7px 14px;font-size:9px;font-weight:800;position:relative;z-index:2}
+@media(max-width:800px){.frame-search{right:calc(7vw + 12px);top:108px}.frame-search input{width:115px}.mailbox-grid{grid-template-columns:1fr}.letter-paper{min-height:430px;padding:40px 34px 58px}.letter-paper:after{font-size:22px}.mail-list{max-height:240px}}
+@media(max-width:600px){.frame-search{top:106px;right:12px;height:24px}.frame-search input{width:92px;height:22px;font-size:7px}.frame-search button{height:22px;width:25px}.mailbox-top span:last-of-type{display:none}.top-actions{right:4px!important;top:9px!important;gap:8px!important}.account-stack{min-width:56px}.account-name{font-size:9px}.sync-mini{font-size:6px}.mailbox-icon{font-size:14px}.letter-paper{padding:38px 26px 55px;min-height:390px}.letter-body{font-size:10px;line-height:28px;background:repeating-linear-gradient(to bottom,transparent 0,transparent 27px,#aaa 28px)}}
 
 /* FRAME LINE MOTION */
 @keyframes drawFrameLine{from{transform:scaleX(0);opacity:.25}to{transform:scaleX(1);opacity:1}}
@@ -194,7 +207,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 @media (max-width:600px){.record-post,.diary-entry,.album-folder,.album-photo{border-radius:14px}.post-actions{padding:7px 8px 0;font-size:9px}.record-feed-inner{width:100%}.diary-date{padding:9px 10px;font-size:12px}.diary-content{padding:10px}.album-photo-grid{gap:4px}}
 
 /* MODALS */
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,.32);display:none;align-items:flex-start;justify-content:center;padding-top:92px;z-index:100;backdrop-filter:blur(4px)}.overlay.open{display:flex}.modal{width:min(720px,calc(100% - 28px));background:#fff;border:3px solid #111;box-shadow:12px 12px 0 rgba(0,0,0,.15)}.modal-head{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:2px solid #111}.modal-body{padding:18px}.x{border:0;background:transparent;font-size:28px;line-height:1;padding:0 2px}.google{width:100%;height:50px;border:2px solid #111;background:#fff;font-weight:800;font-size:14px}.searchbox{width:100%;height:50px;border:2px solid #111;padding:0 14px;font-size:14px}.hinttext{font-size:12px;color:#666;margin-top:11px;line-height:1.5}.form{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field{display:flex;flex-direction:column;gap:8px}.field.full{grid-column:1/-1}.field label{font-size:12px;font-weight:800}.field input,.field select,.field textarea{height:44px;border:2px solid #111;padding:0 12px;background:#fff}.field textarea{height:130px;padding:12px;resize:vertical}.schedule-range-check{height:44px;border:2px solid #111;display:flex;align-items:center;gap:10px;padding:0 12px;background:#f8f8f8}.schedule-range-check input{width:18px;height:18px;margin:0}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}.secondary{height:40px;border:2px solid #111;background:#fff;padding:0 14px;font-weight:800}.readonly{padding:10px 12px;border:1px solid #111;background:#f5f5f5;font-size:12px;margin-bottom:12px}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.32);display:none;align-items:center;justify-content:center;padding:18px;z-index:100;backdrop-filter:blur(4px);overflow:auto}.overlay.open{display:flex}.modal{width:min(720px,calc(100% - 28px));max-height:calc(100dvh - 36px);overflow:auto;background:#fff;border:3px solid #111;box-shadow:12px 12px 0 rgba(0,0,0,.15)}.modal-head{position:sticky;top:0;z-index:5;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:2px solid #111}.modal-body{padding:18px}.x{border:0;background:transparent;font-size:28px;line-height:1;padding:0 2px}.google{width:100%;height:50px;border:2px solid #111;background:#fff;font-weight:800;font-size:14px}.searchbox{width:100%;height:50px;border:2px solid #111;padding:0 14px;font-size:14px}.hinttext{font-size:12px;color:#666;margin-top:11px;line-height:1.5}.form{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field{display:flex;flex-direction:column;gap:8px}.field.full{grid-column:1/-1}.field label{font-size:12px;font-weight:800}.field input,.field select,.field textarea{height:44px;border:2px solid #111;padding:0 12px;background:#fff}.field textarea{height:130px;padding:12px;resize:vertical}.schedule-range-check{height:44px;border:2px solid #111;display:flex;align-items:center;gap:10px;padding:0 12px;background:#f8f8f8}.schedule-range-check input{width:18px;height:18px;margin:0}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px;position:sticky;bottom:-18px;background:#fff;border-top:1px solid #ddd;padding:12px 0 2px;z-index:4}.secondary{height:40px;border:2px solid #111;background:#fff;padding:0 14px;font-weight:800}.readonly{padding:10px 12px;border:1px solid #111;background:#f5f5f5;font-size:12px;margin-bottom:12px}
 .toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%) translateY(20px);background:#111;color:#fff;padding:12px 16px;font-size:13px;font-weight:700;opacity:0;pointer-events:none;transition:.2s;z-index:120}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .hidden-file{display:none}
 .login-stack{display:grid;gap:10px}.login-stack input{height:48px;border:2px solid #111;padding:0 13px;font-size:16px}.login-stack button{height:44px;border:2px solid #111;background:#111;color:#fff;font-weight:800}.login-stack .logout{background:#fff;color:#111}
@@ -368,6 +381,37 @@ button,input,select,textarea,label{touch-action:manipulation}
 body.modal-open .stage,body.modal-open .emotion-shell,body.modal-open .record-stage,body.modal-open .record-shell,body.modal-open .album-shell,body.modal-open .event-shell,body.modal-open .private-shell{pointer-events:none}
 body.record-mode .hint{display:none}
 
+
+/* v9 header utilities: search / mailbox / account sit above the white frame */
+.nav-row{justify-content:space-between;gap:14px;padding-right:0;overflow:visible}
+.nav-tools{display:flex;align-items:center;justify-content:flex-end;gap:9px;min-width:0;height:28px;position:relative;z-index:20}
+.top-actions{position:static;display:flex;align-items:center;gap:9px;height:28px}
+.frame-search{position:static!important;right:auto!important;top:auto!important;height:25px;display:flex;align-items:center;background:#fff;border:1px solid #111;box-shadow:none;flex:0 0 auto}
+.frame-search input{width:132px;height:23px;padding:0 7px;font-size:8px}.frame-search button{width:27px;height:23px;font-size:11px}
+.mailbox-top{height:25px;padding:0 5px;font-size:9px}.mailbox-icon{font-size:13px}.account-stack{min-width:58px;gap:0;align-self:center}.account-name{font-size:9px;padding:0;line-height:1.1}.sync-mini{font-size:6px;line-height:1;padding-top:2px}
+@media(max-width:900px){.nav-tools{gap:5px}.frame-search input{width:92px}.mailbox-top span:nth-of-type(2){display:none}.account-stack{min-width:45px}.tab{width:clamp(86px,10vw,112px)}}
+@media(max-width:650px){.nav-row{padding-left:4px;gap:4px}.nav-tools{gap:3px}.frame-search input{width:68px}.frame-search button{width:22px}.mailbox-top{padding:0 2px}.account-name{font-size:7px}.sync-mini{font-size:5px}.tab{width:82px;font-size:9px;padding-left:7px;padding-right:7px}.tab+.tab{margin-left:-13px}}
+
+/* v9 emotion page flip */
+.emotion-stage{position:relative;min-height:0;height:100%;perspective:1700px;perspective-origin:50% 46%;overflow:hidden}
+.emotion-stage[hidden]{display:none!important}.emotion-page{position:absolute!important;inset:0;transform-style:preserve-3d;backface-visibility:hidden;transform-origin:50% 0%;transition:transform .72s cubic-bezier(.2,.74,.22,1),opacity .42s ease}
+.emotion-page.current{transform:rotateX(0deg) translateY(0);opacity:1;z-index:2;pointer-events:auto}.emotion-page.next{transform:rotateX(87deg) translateY(-1%);opacity:.15;z-index:1;pointer-events:none}.emotion-page.prev{transform:rotateX(-87deg) translateY(1%);opacity:.15;z-index:1;pointer-events:none}
+.emotion-page-dots{position:absolute;left:50%;bottom:3px;transform:translateX(-50%);display:flex;gap:7px;z-index:12}.emotion-dot{width:7px;height:7px;border-radius:50%;background:#777;border:0;padding:0}.emotion-dot.active{background:#111;transform:scale(1.35)}
+body.emotion-mode .hint{display:flex}
+body.modal-open .emotion-stage{pointer-events:none}
+
+/* v9 emotion visual language: pastel moving-character mood archive */
+.emotion-record-content{overflow:auto;scrollbar-width:thin;display:block;padding-right:4px}.emotion-insight-content{overflow:auto;scrollbar-width:thin;display:block;padding:14px 4px 20px 0}
+.emotion-actions{gap:6px}.emotion-new{border-radius:999px;background:#fff;height:30px;padding:0 12px}.emotion-cycle-btn{background:#f8e5eb}
+.emotion-character-board{border:1px solid rgba(0,0,0,.12);border-radius:26px;padding:18px 18px 16px;background:linear-gradient(180deg,#fbfbf7,#f7f7f2);box-shadow:0 12px 28px rgba(0,0,0,.04)}
+.emotion-board-head{display:flex;justify-content:space-between;align-items:end;gap:18px;margin-bottom:16px}.emotion-board-head span{font-size:7px;font-weight:900;letter-spacing:.18em;color:#777}.emotion-board-head h3{margin:4px 0 0;font-size:18px;font-weight:800;letter-spacing:-.04em}.emotion-board-head small{font-size:8px;color:#777;max-width:260px;text-align:right;line-height:1.5}
+.emotion-character-grid{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:9px}.emotion-character{border:0;background:transparent;padding:0;display:grid;justify-items:center;gap:6px;min-width:0}.emotion-character-blob{width:56px;height:47px;display:grid;place-items:center;font-size:20px;font-weight:900;color:#222;box-shadow:inset 0 -3px 0 rgba(0,0,0,.05);transition:transform .18s ease;border:1px solid rgba(0,0,0,.05)}.emotion-character:hover .emotion-character-blob{transform:translateY(-4px) rotate(-2deg)}.emotion-character span:last-child{font-size:7px;font-weight:800;white-space:nowrap}.emotion-character:nth-child(1) .emotion-character-blob{background:#f2dc68;border-radius:50% 45% 58% 42%/55% 60% 40% 45%}.emotion-character:nth-child(2) .emotion-character-blob{background:#f2c5c8;border-radius:42% 58% 48% 52%/60% 42% 58% 40%}.emotion-character:nth-child(3) .emotion-character-blob{background:#e7b36c;border-radius:55% 45% 40% 60%/45% 58% 42% 55%}.emotion-character:nth-child(4) .emotion-character-blob{background:#b8d6c2;border-radius:48% 52% 60% 40%/52% 42% 58% 48%}.emotion-character:nth-child(5) .emotion-character-blob{background:#c8b5df;border-radius:60% 40% 52% 48%/43% 62% 38% 57%}.emotion-character:nth-child(6) .emotion-character-blob{background:#c9d6d6;border-radius:44% 56% 46% 54%/60% 48% 52% 40%}.emotion-character:nth-child(7) .emotion-character-blob{background:#a9c4e9;border-radius:58% 42% 60% 40%/48% 55% 45% 52%}.emotion-character:nth-child(8) .emotion-character-blob{background:#e67878;border-radius:50% 50% 40% 60%/60% 40% 60% 40%}.emotion-character:nth-child(9) .emotion-character-blob{background:#b9acd4;border-radius:45% 55% 60% 40%/42% 58% 45% 55%}.emotion-character:nth-child(10) .emotion-character-blob{background:#7f95bd;color:#fff;border-radius:60% 40% 45% 55%/55% 45% 60% 40%}
+.emotion-month-board{margin-top:13px;border:1px solid rgba(0,0,0,.12);border-radius:26px;padding:15px 16px;background:#fff}.emotion-month-head{display:flex;justify-content:space-between;align-items:end;gap:10px;padding-bottom:10px;border-bottom:1px solid #ddd}.emotion-month-head b{font-family:"Iowan Old Style","Palatino Linotype",Georgia,serif;font-size:20px;font-weight:500}.emotion-month-head span{font-size:7px;color:#777}.emotion-month-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;padding-top:12px}.emotion-month-day{min-height:62px;border:1px solid #ececec;border-radius:16px;padding:6px;background:#fbfbf8;display:flex;flex-direction:column;gap:4px}.emotion-month-day.out{opacity:.35}.emotion-month-day.today{box-shadow:inset 0 0 0 2px #111}.emotion-month-num{font-size:7px;font-weight:900}.emotion-day-moods{display:flex;gap:3px;align-items:center;flex-wrap:wrap;margin:auto 0}.emotion-mini-blob{width:25px;height:22px;border-radius:50% 45% 55% 45%;display:grid;place-items:center;font-size:10px;background:#eee;border:0}.emotion-mini-name{font-size:5.5px;color:#666;max-width:48px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.emotion-record-list-wrap{margin-top:13px;border-top:1px solid #111;padding-top:10px}.emotion-section-kicker{display:flex;justify-content:space-between;align-items:end;margin-bottom:4px}.emotion-section-kicker b{font-size:8px;letter-spacing:.12em}.emotion-section-kicker span{font-size:7px;color:#777}.emotion-timeline{max-height:none;overflow:visible;border-top:0}.emotion-entry{border:1px solid rgba(0,0,0,.1);border-radius:16px;margin-top:7px;padding:10px 11px;background:#fff;grid-template-columns:72px minmax(0,1fr) auto}.emotion-entry-date{font-size:16px}.emotion-entry-lines{border:0;padding:4px 0 0;background:transparent}.emotion-entry-flags{margin-top:5px}
+.emotion-insight-kicker{font-size:7px;font-weight:900;letter-spacing:.16em;color:#777;margin-bottom:3px}.emotion-insights{padding:0;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px}.emotion-insight-card{border-radius:24px;min-height:220px;background:linear-gradient(180deg,#fbfbf7,#fff)}.emotion-mood-bars{gap:10px}.emotion-mood-bar{height:12px;background:#f5f5f1}.emotion-mood-bar i{background:#111}.emotion-graph-grid{height:150px}.emotion-insight-mini{margin-top:12px}
+@media(max-width:1050px){.emotion-character-grid{grid-template-columns:repeat(5,1fr)}.emotion-character-blob{width:48px;height:42px}.emotion-insights{grid-template-columns:1fr}.emotion-month-day{min-height:54px}}
+@media(max-width:600px){.emotion-shell{padding:7px}.emotion-character-board,.emotion-month-board{border-radius:14px;padding:10px}.emotion-board-head{display:block;margin-bottom:10px}.emotion-board-head h3{font-size:13px}.emotion-board-head small{display:none}.emotion-character-grid{grid-template-columns:repeat(5,1fr);gap:6px}.emotion-character-blob{width:38px;height:34px;font-size:14px}.emotion-character span:last-child{font-size:5.5px}.emotion-month-grid{gap:3px}.emotion-month-day{min-height:45px;border-radius:9px;padding:4px}.emotion-mini-blob{width:18px;height:16px;font-size:7px}.emotion-page-dots{bottom:1px}.emotion-dot{width:6px;height:6px}.emotion-actions{gap:3px}.emotion-new{height:24px;font-size:6.5px;padding:0 7px}.emotion-entry{grid-template-columns:48px minmax(0,1fr) auto;padding:7px}.emotion-insight-card{border-radius:14px}.emotion-insight-content{padding-top:7px}}
+
 @media (prefers-reduced-motion:reduce){.page{transition:opacity .2s ease;transform:none!important}.wheel:before,.page.current.line-active .box:before,.page.current.line-active .box:after,.page.current.line-active .left-compose:before,.page.current.line-active .left-compose:after,.page.current.line-active .media-panel:before,.page.current.line-active .media-panel:after,.page.current.line-active .side-half+ .side-half:before,.page.current.line-active .action-card+ .action-card:before,.page.current.line-active .manifesto:after{animation:none;transform:scaleX(1)}}
 
 .google-login-panel{display:grid;gap:12px}
@@ -448,6 +492,42 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
 .emotion-title-group{display:flex;align-items:end;gap:18px;min-width:0}.emotion-feature-tabs{display:flex;gap:5px;flex-wrap:wrap}.emotion-feature{height:29px;border:1px solid #111;background:#fff;padding:0 10px;font-size:9px;font-weight:800}.emotion-feature.active{background:#111;color:#fff}.emotion-view-empty{min-height:130px;display:grid;place-items:center;text-align:center;font-size:9px;color:#777;background:#fafafa;border-bottom:1px solid #111}.emotion-insights-always{margin-top:14px}.emotion-mood-picker{grid-template-columns:repeat(5,minmax(0,1fr))}.emotion-mood-chip{height:66px}.emotion-mood-chip.active{background:#111;color:#fff}.emotion-card-focus{margin-top:10px;border:1px solid rgba(0,0,0,.12);border-radius:14px;padding:10px;background:#fff}.emotion-card-focus strong{display:block;font-size:9px;margin-bottom:5px}.emotion-card-focus p{font-size:9px;line-height:1.6;margin:0;white-space:pre-wrap}.cycle-summary{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.cycle-pill{border:1px solid rgba(0,0,0,.18);border-radius:999px;padding:6px 9px;font-size:8px;font-weight:800;background:#fff}.cycle-pill.period{background:#f8e5eb}.cycle-pill.intimacy{background:#e6eef9}.emotion-zero-chart{opacity:.55}.emotion-zero-chart .emotion-mood-bar i{width:0!important}
 @media (max-width:600px){.emotion-title-group{gap:7px;align-items:center}.emotion-feature-tabs{gap:2px}.emotion-feature{height:23px;font-size:6px;padding:0 5px}.emotion-mood-picker{grid-template-columns:repeat(2,minmax(0,1fr))}.emotion-mood-chip{height:50px}.emotion-view-empty{min-height:90px;font-size:7px}}
 
+
+/* v8 header/search responsive overrides */
+@media (max-width:980px){.frame-search{top:87px;right:20px}.account-stack{min-width:58px}.sync-mini{font-size:6.5px}}
+@media (max-width:600px){.frame-search{top:84px;right:12px}.top-actions{top:7px;right:4px;gap:7px}.account-name{font-size:8px;padding:4px 0}.sync-mini{font-size:5.5px}.mailbox-top{padding:3px 1px}.mailbox-icon{font-size:13px}}
+
+
+/* v9 header utilities: search / mailbox / account sit above the white frame */
+.nav-row{justify-content:space-between;gap:14px;padding-right:0;overflow:visible}
+.nav-tools{display:flex;align-items:center;justify-content:flex-end;gap:9px;min-width:0;height:28px;position:relative;z-index:20}
+.top-actions{position:static;display:flex;align-items:center;gap:9px;height:28px}
+.frame-search{position:static!important;right:auto!important;top:auto!important;height:25px;display:flex;align-items:center;background:#fff;border:1px solid #111;box-shadow:none;flex:0 0 auto}
+.frame-search input{width:132px;height:23px;padding:0 7px;font-size:8px}.frame-search button{width:27px;height:23px;font-size:11px}
+.mailbox-top{height:25px;padding:0 5px;font-size:9px}.mailbox-icon{font-size:13px}.account-stack{min-width:58px;gap:0;align-self:center}.account-name{font-size:9px;padding:0;line-height:1.1}.sync-mini{font-size:6px;line-height:1;padding-top:2px}
+@media(max-width:900px){.nav-tools{gap:5px}.frame-search input{width:92px}.mailbox-top span:nth-of-type(2){display:none}.account-stack{min-width:45px}.tab{width:clamp(86px,10vw,112px)}}
+@media(max-width:650px){.nav-row{padding-left:4px;gap:4px}.nav-tools{gap:3px}.frame-search input{width:68px}.frame-search button{width:22px}.mailbox-top{padding:0 2px}.account-name{font-size:7px}.sync-mini{font-size:5px}.tab{width:82px;font-size:9px;padding-left:7px;padding-right:7px}.tab+.tab{margin-left:-13px}}
+
+/* v9 emotion page flip */
+.emotion-stage{position:relative;min-height:0;height:100%;perspective:1700px;perspective-origin:50% 46%;overflow:hidden}
+.emotion-stage[hidden]{display:none!important}.emotion-page{position:absolute!important;inset:0;transform-style:preserve-3d;backface-visibility:hidden;transform-origin:50% 0%;transition:transform .72s cubic-bezier(.2,.74,.22,1),opacity .42s ease}
+.emotion-page.current{transform:rotateX(0deg) translateY(0);opacity:1;z-index:2;pointer-events:auto}.emotion-page.next{transform:rotateX(87deg) translateY(-1%);opacity:.15;z-index:1;pointer-events:none}.emotion-page.prev{transform:rotateX(-87deg) translateY(1%);opacity:.15;z-index:1;pointer-events:none}
+.emotion-page-dots{position:absolute;left:50%;bottom:3px;transform:translateX(-50%);display:flex;gap:7px;z-index:12}.emotion-dot{width:7px;height:7px;border-radius:50%;background:#777;border:0;padding:0}.emotion-dot.active{background:#111;transform:scale(1.35)}
+body.emotion-mode .hint{display:flex}
+body.modal-open .emotion-stage{pointer-events:none}
+
+/* v9 emotion visual language: pastel moving-character mood archive */
+.emotion-record-content{overflow:auto;scrollbar-width:thin;display:block;padding-right:4px}.emotion-insight-content{overflow:auto;scrollbar-width:thin;display:block;padding:14px 4px 20px 0}
+.emotion-actions{gap:6px}.emotion-new{border-radius:999px;background:#fff;height:30px;padding:0 12px}.emotion-cycle-btn{background:#f8e5eb}
+.emotion-character-board{border:1px solid rgba(0,0,0,.12);border-radius:26px;padding:18px 18px 16px;background:linear-gradient(180deg,#fbfbf7,#f7f7f2);box-shadow:0 12px 28px rgba(0,0,0,.04)}
+.emotion-board-head{display:flex;justify-content:space-between;align-items:end;gap:18px;margin-bottom:16px}.emotion-board-head span{font-size:7px;font-weight:900;letter-spacing:.18em;color:#777}.emotion-board-head h3{margin:4px 0 0;font-size:18px;font-weight:800;letter-spacing:-.04em}.emotion-board-head small{font-size:8px;color:#777;max-width:260px;text-align:right;line-height:1.5}
+.emotion-character-grid{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:9px}.emotion-character{border:0;background:transparent;padding:0;display:grid;justify-items:center;gap:6px;min-width:0}.emotion-character-blob{width:56px;height:47px;display:grid;place-items:center;font-size:20px;font-weight:900;color:#222;box-shadow:inset 0 -3px 0 rgba(0,0,0,.05);transition:transform .18s ease;border:1px solid rgba(0,0,0,.05)}.emotion-character:hover .emotion-character-blob{transform:translateY(-4px) rotate(-2deg)}.emotion-character span:last-child{font-size:7px;font-weight:800;white-space:nowrap}.emotion-character:nth-child(1) .emotion-character-blob{background:#f2dc68;border-radius:50% 45% 58% 42%/55% 60% 40% 45%}.emotion-character:nth-child(2) .emotion-character-blob{background:#f2c5c8;border-radius:42% 58% 48% 52%/60% 42% 58% 40%}.emotion-character:nth-child(3) .emotion-character-blob{background:#e7b36c;border-radius:55% 45% 40% 60%/45% 58% 42% 55%}.emotion-character:nth-child(4) .emotion-character-blob{background:#b8d6c2;border-radius:48% 52% 60% 40%/52% 42% 58% 48%}.emotion-character:nth-child(5) .emotion-character-blob{background:#c8b5df;border-radius:60% 40% 52% 48%/43% 62% 38% 57%}.emotion-character:nth-child(6) .emotion-character-blob{background:#c9d6d6;border-radius:44% 56% 46% 54%/60% 48% 52% 40%}.emotion-character:nth-child(7) .emotion-character-blob{background:#a9c4e9;border-radius:58% 42% 60% 40%/48% 55% 45% 52%}.emotion-character:nth-child(8) .emotion-character-blob{background:#e67878;border-radius:50% 50% 40% 60%/60% 40% 60% 40%}.emotion-character:nth-child(9) .emotion-character-blob{background:#b9acd4;border-radius:45% 55% 60% 40%/42% 58% 45% 55%}.emotion-character:nth-child(10) .emotion-character-blob{background:#7f95bd;color:#fff;border-radius:60% 40% 45% 55%/55% 45% 60% 40%}
+.emotion-month-board{margin-top:13px;border:1px solid rgba(0,0,0,.12);border-radius:26px;padding:15px 16px;background:#fff}.emotion-month-head{display:flex;justify-content:space-between;align-items:end;gap:10px;padding-bottom:10px;border-bottom:1px solid #ddd}.emotion-month-head b{font-family:"Iowan Old Style","Palatino Linotype",Georgia,serif;font-size:20px;font-weight:500}.emotion-month-head span{font-size:7px;color:#777}.emotion-month-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;padding-top:12px}.emotion-month-day{min-height:62px;border:1px solid #ececec;border-radius:16px;padding:6px;background:#fbfbf8;display:flex;flex-direction:column;gap:4px}.emotion-month-day.out{opacity:.35}.emotion-month-day.today{box-shadow:inset 0 0 0 2px #111}.emotion-month-num{font-size:7px;font-weight:900}.emotion-day-moods{display:flex;gap:3px;align-items:center;flex-wrap:wrap;margin:auto 0}.emotion-mini-blob{width:25px;height:22px;border-radius:50% 45% 55% 45%;display:grid;place-items:center;font-size:10px;background:#eee;border:0}.emotion-mini-name{font-size:5.5px;color:#666;max-width:48px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.emotion-record-list-wrap{margin-top:13px;border-top:1px solid #111;padding-top:10px}.emotion-section-kicker{display:flex;justify-content:space-between;align-items:end;margin-bottom:4px}.emotion-section-kicker b{font-size:8px;letter-spacing:.12em}.emotion-section-kicker span{font-size:7px;color:#777}.emotion-timeline{max-height:none;overflow:visible;border-top:0}.emotion-entry{border:1px solid rgba(0,0,0,.1);border-radius:16px;margin-top:7px;padding:10px 11px;background:#fff;grid-template-columns:72px minmax(0,1fr) auto}.emotion-entry-date{font-size:16px}.emotion-entry-lines{border:0;padding:4px 0 0;background:transparent}.emotion-entry-flags{margin-top:5px}
+.emotion-insight-kicker{font-size:7px;font-weight:900;letter-spacing:.16em;color:#777;margin-bottom:3px}.emotion-insights{padding:0;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px}.emotion-insight-card{border-radius:24px;min-height:220px;background:linear-gradient(180deg,#fbfbf7,#fff)}.emotion-mood-bars{gap:10px}.emotion-mood-bar{height:12px;background:#f5f5f1}.emotion-mood-bar i{background:#111}.emotion-graph-grid{height:150px}.emotion-insight-mini{margin-top:12px}
+@media(max-width:1050px){.emotion-character-grid{grid-template-columns:repeat(5,1fr)}.emotion-character-blob{width:48px;height:42px}.emotion-insights{grid-template-columns:1fr}.emotion-month-day{min-height:54px}}
+@media(max-width:600px){.emotion-shell{padding:7px}.emotion-character-board,.emotion-month-board{border-radius:14px;padding:10px}.emotion-board-head{display:block;margin-bottom:10px}.emotion-board-head h3{font-size:13px}.emotion-board-head small{display:none}.emotion-character-grid{grid-template-columns:repeat(5,1fr);gap:6px}.emotion-character-blob{width:38px;height:34px;font-size:14px}.emotion-character span:last-child{font-size:5.5px}.emotion-month-grid{gap:3px}.emotion-month-day{min-height:45px;border-radius:9px;padding:4px}.emotion-mini-blob{width:18px;height:16px;font-size:7px}.emotion-page-dots{bottom:1px}.emotion-dot{width:6px;height:6px}.emotion-actions{gap:3px}.emotion-new{height:24px;font-size:6.5px;padding:0 7px}.emotion-entry{grid-template-columns:48px minmax(0,1fr) auto;padding:7px}.emotion-insight-card{border-radius:14px}.emotion-insight-content{padding-top:7px}}
+
 @media (prefers-reduced-motion:reduce){.record-page{transition:opacity .2s ease;transform:none!important}}
 
 </style>
@@ -456,11 +536,6 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
 <div class="app" id="app">
   <header class="masthead">
     <div class="logo" aria-label="AiderDear"><span>Aider</span><em>Dear</em><small>DEAR US, ALWAYS</small></div>
-    <div class="top-actions">
-      <button class="top-action" id="searchBtn"><span class="plusmark"></span>검색</button>
-      <button class="top-action" id="syncBtn"><span class="plusmark"></span>동기화</button>
-      <button class="top-action" id="loginBtn"><span class="plusmark"></span>로그인</button>
-    </div>
   </header>
 
   <div class="nav-row">
@@ -471,6 +546,19 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
       <button class="tab" data-tab="event">EVENT</button>
       <button class="tab" data-tab="private">PRIVATE</button>
     </nav>
+    <div class="nav-tools" aria-label="빠른 도구">
+      <div class="frame-search" role="search">
+        <input id="quickSearchInput" type="search" placeholder="Search" aria-label="AiderDear 빠른 검색">
+        <button id="searchBtn" type="button" aria-label="검색 열기">⌕</button>
+      </div>
+      <div class="top-actions">
+        <button class="mailbox-top" id="mailboxBtn" type="button"><span class="mailbox-icon">✉</span><span>우편함</span><b class="mail-unread-badge" id="mailUnreadBadge" hidden>0</b></button>
+        <div class="account-stack">
+          <button class="top-action account-name" id="loginBtn">로그인</button>
+          <button class="sync-mini" id="syncBtn" type="button" hidden>↻ 동기화</button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <section class="stage" id="stage" aria-label="일정 화면">
@@ -547,24 +635,49 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
 
 
 
-  <section class="emotion-shell" id="emotionShell" aria-label="감정 기록" hidden>
-    <section class="emotion-frame" id="emotionFrame">
-      <div class="emotion-toolbar">
-        <div class="emotion-title-group">
-          <h2 class="emotion-heading">Emotion</h2>
-          <div class="emotion-feature-tabs" aria-label="감정 기록 종류">
-            <button class="emotion-feature active" type="button" data-emotion-view="mood">감정기록</button>
-            <button class="emotion-feature" type="button" data-emotion-view="diary">3줄일기</button>
-            <button class="emotion-feature" type="button" data-emotion-view="cycle">생리기록</button>
+  <section class="emotion-stage" id="emotionStage" aria-label="감정 기록과 인사이트" hidden>
+    <section class="emotion-shell emotion-page current" id="emotionRecordPage" aria-label="감정 기록" aria-hidden="false">
+      <section class="emotion-frame" id="emotionFrame">
+        <div class="emotion-toolbar">
+          <div class="emotion-title-group"><h2 class="emotion-heading">Emotion</h2></div>
+          <div class="emotion-actions">
+            <button class="emotion-new" id="newEmotionDiaryBtn" type="button">3줄일기</button>
+            <button class="emotion-new emotion-cycle-btn" id="newEmotionCycleBtn" type="button">생리기록</button>
           </div>
         </div>
-        <div class="emotion-actions"><button class="emotion-new" id="newEmotionBtn" type="button">+ 감정 기록</button></div>
-      </div>
-      <div class="emotion-content">
-        <div class="emotion-couple-grid" id="emotionPeopleGrid"></div>
-        <div class="emotion-timeline" id="emotionTimeline"></div>
-      </div>
+        <div class="emotion-content emotion-record-content">
+          <section class="emotion-character-board" aria-label="오늘의 감정 선택">
+            <div class="emotion-board-head">
+              <div><span>MY EMOTION LOG</span><h3>오늘의 감정을 골라보세요.</h3></div>
+              <small>감정 캐릭터를 누르면 오늘 기록으로 저장할 수 있어요.</small>
+            </div>
+            <div class="emotion-character-grid" id="emotionCharacterGrid"></div>
+          </section>
+          <section class="emotion-month-board" aria-label="월별 감정 기록">
+            <div class="emotion-month-head"><b id="emotionMonthTitle">MOOD CALENDAR</b><span>기록이 쌓이면 날짜마다 감정 캐릭터가 표시됩니다.</span></div>
+            <div class="emotion-month-grid" id="emotionMoodCalendar"></div>
+          </section>
+          <section class="emotion-record-list-wrap">
+            <div class="emotion-section-kicker"><b>RECENT RECORDS</b><span>감정 · 3줄일기 · 생리기록</span></div>
+            <div class="emotion-timeline" id="emotionTimeline"></div>
+          </section>
+        </div>
+      </section>
     </section>
+
+    <section class="emotion-shell emotion-page next" id="emotionInsightPage" aria-label="감정 인사이트" aria-hidden="true">
+      <section class="emotion-frame" id="emotionInsightFrame">
+        <div class="emotion-toolbar">
+          <div class="emotion-title-group"><h2 class="emotion-heading">Insights</h2><span class="emotion-insight-kicker">YOUR EMOTION ARCHIVE</span></div>
+        </div>
+        <div class="emotion-content emotion-insight-content" id="emotionInsightsPage"></div>
+      </section>
+    </section>
+
+    <div class="emotion-page-dots" aria-label="감정 페이지 위치">
+      <button class="emotion-dot active" type="button" data-emotion-page="0" aria-label="감정 기록 화면"></button>
+      <button class="emotion-dot" type="button" data-emotion-page="1" aria-label="인사이트 화면"></button>
+    </div>
   </section>
 
   <section class="record-stage" id="recordStage" aria-label="기록과 앨범 화면" hidden>
@@ -641,6 +754,45 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
 
   <div class="side-word">MADE BY BOMIN</div>
   <div class="hint"><span class="wheel"></span>SCROLL TO FLIP</div>
+</div>
+
+<!-- Mailbox -->
+<div class="overlay" id="mailboxModal" role="dialog" aria-modal="true" aria-labelledby="mailboxTitle">
+  <div class="modal mailbox-modal">
+    <div class="modal-head"><b id="mailboxTitle">Mailbox</b><button class="x" data-close="mailboxModal">×</button></div>
+    <div class="modal-body">
+      <div class="mailbox-grid">
+        <section class="mail-compose">
+          <div class="mail-panel-head"><b>WRITE A NOTE</b><span>짧은 편지</span></div>
+          <div class="mail-recipient" id="mailRecipient">공유 상대를 설정하면 편지를 보낼 수 있습니다.</div>
+          <form id="mailForm">
+            <textarea id="mailBody" maxlength="220" placeholder="오늘 전하고 싶은 말을 짧게 남겨보세요."></textarea>
+            <div class="mail-char-count"><span id="mailCharCount">0</span> / 220</div>
+            <button class="mail-send" id="mailSendBtn" type="submit">편지 보내기</button>
+          </form>
+        </section>
+        <section class="mail-list-panel">
+          <div class="mail-panel-head"><b>LETTERS</b><span id="mailboxCount">0</span></div>
+          <div class="mail-tabs"><button class="mail-tab active" type="button" data-mail-tab="received">받은 편지</button><button class="mail-tab" type="button" data-mail-tab="sent">보낸 편지</button></div>
+          <div class="mail-list" id="mailList"></div>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Letter popup -->
+<div class="overlay" id="letterViewModal" role="dialog" aria-modal="true" aria-labelledby="letterViewTitle">
+  <div class="modal letter-view-modal">
+    <section class="letter-paper">
+      <button class="letter-close" type="button" data-close="letterViewModal" aria-label="편지 닫기">×</button>
+      <div class="letter-to"><span>To.</span><div class="letter-name-line" id="letterTo"></div></div>
+      <div class="letter-body" id="letterViewBody"></div>
+      <div class="letter-from"><span>From.</span><div class="letter-name-line" id="letterFrom"></div></div>
+      <div class="letter-date" id="letterDate"></div>
+      <button class="letter-next" id="letterNextBtn" type="button" hidden>다음 편지 보기</button>
+    </section>
+  </div>
 </div>
 
 <!-- Search -->
@@ -867,7 +1019,7 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
   let driveRootId='';
   let driveMediaFolderId='';
   let driveDataFileId='';
-  let cloudData={version:CLOUD_VERSION,calendarId:'',albums:[{id:DEFAULT_ALBUM_ID,name:'기본 앨범',createdAt:Date.now()}],records:[],coupleMedia:null,ddays:[{id:'dday-us',title:'우리',date:'2025-11-01',mode:'since',createdAt:Date.now()}],activeDdayId:'dday-us'};
+  let cloudData={version:CLOUD_VERSION,calendarId:'',albums:[{id:DEFAULT_ALBUM_ID,name:'기본 앨범',createdAt:Date.now()}],records:[],coupleMedia:null,ddays:[{id:'dday-us',title:'우리',date:'2025-11-01',mode:'since',createdAt:Date.now()}],activeDdayId:'dday-us',letters:[]};
   let calendarSources=[];
   let selectedCalendarIds=new Set();
   let driveLooseMedia=[];
@@ -927,6 +1079,8 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
     if(!Array.isArray(cloudData.ddays)||!cloudData.ddays.length)cloudData.ddays=[{id:'dday-us',title:'우리',date:'2025-11-01',mode:'since',createdAt:Date.now()}];
     cloudData.ddays=cloudData.ddays.filter(x=>x&&x.id&&/^\d{4}-\d{2}-\d{2}$/.test(x.date||'')).map(x=>({...x,title:String(x.title||'D-day'),mode:x.mode==='since'?'since':'countdown'}));
     if(!cloudData.activeDdayId||!cloudData.ddays.some(x=>x.id===cloudData.activeDdayId))cloudData.activeDdayId=cloudData.ddays[0]?.id||'';
+    if(!Array.isArray(cloudData.letters))cloudData.letters=[];
+    cloudData.letters=cloudData.letters.filter(x=>x&&x.id&&x.fromEmail&&x.toEmail).map(x=>({...x,fromEmail:normalizeEmail(x.fromEmail),toEmail:normalizeEmail(x.toEmail),fromName:String(x.fromName||''),toName:String(x.toName||''),body:String(x.body||'').slice(0,220),createdAt:Number(x.createdAt)||Date.now(),readBy:Array.isArray(x.readBy)?[...new Set(x.readBy.map(normalizeEmail).filter(Boolean))]:[]}));
   }
   function calendarSelectionStorageKey(){return `${CALENDAR_SELECTION_KEY}:${normalizeEmail(googleProfile?.email||currentUser||'guest')}`}
   function loadCalendarSelection(){
@@ -1142,7 +1296,7 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
     setGoogleStatus('Google Drive와 Calendar를 연결하는 중입니다…');
     await ensureCloudDrive();normalizeCloudData();if(!isAdmin&&cloudData.familyUsers?.length&&!cloudData.familyUsers.some(x=>x.email===currentUserEmail))throw new Error('등록되지 않은 가족 계정입니다.');await ensureCalendar();await loadCalendarList();await loadCalendarEvents();await scanDriveMedia();await loadCoupleMedia();await loadPrivateData();await loadEmotionData();
     refreshRecordAlbumSelect(DEFAULT_ALBUM_ID);renderAlbumFolders();renderRecordFeed();setDday();renderDdayList();renderPrivate();renderEmotion();
-    lastSyncAt=new Date();applyLoginUI();setGoogleStatus(`${googleProfile?.email||''}\nDrive + Calendar 연결 완료 · ${lastSyncAt.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'})}`,'ok');
+    lastSyncAt=new Date();applyLoginUI();updateMailBadge();setGoogleStatus(`${googleProfile?.email||''}\nDrive + Calendar 연결 완료 · ${lastSyncAt.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'})}`,'ok');setTimeout(showUnreadLetterPopup,180);
   }
 
   function renderCalendar(){
@@ -1265,15 +1419,38 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
   function syncModalState(){document.body.classList.toggle('modal-open',!!document.querySelector('.overlay.open'))}
   function openModal(id){$('#'+id).classList.add('open');syncModalState();setTimeout(()=>$('#'+id).querySelector('input,button,select,textarea')?.focus(),0)}
   function closeModal(id){$('#'+id).classList.remove('open');syncModalState()}
-  $('#searchBtn').addEventListener('click',()=>openModal('searchModal'));$('#loginBtn').addEventListener('click',()=>openModal('loginModal'));
+  function openSearchFromQuick(){const q=$('#quickSearchInput')?.value||'';$('#searchInput').value=q;$('#searchInput').dispatchEvent(new Event('input'));openModal('searchModal')}
+  $('#searchBtn').addEventListener('click',openSearchFromQuick);$('#quickSearchInput').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();openSearchFromQuick()}});$('#loginBtn').addEventListener('click',()=>openModal('loginModal'));
   $$('[data-close]').forEach(b=>b.addEventListener('click',()=>closeModal(b.dataset.close)));
   $$('.overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o){o.classList.remove('open');syncModalState()}}));
   document.addEventListener('keydown',e=>{if(e.key==='Escape'){$$('.overlay.open').forEach(o=>o.classList.remove('open'));syncModalState()}});
   $('#searchInput').addEventListener('input',e=>{const q=e.target.value.trim().toLowerCase();if(!q){$('#searchHint').textContent='예: 데이트 · 기념일 · 제주도 · 병원';return}const ec=events.filter(x=>`${x.title} ${x.memo||''}`.toLowerCase().includes(q)).length;const rc=getRecords().filter(x=>`${x.title} ${x.body||''} ${x.mood||''}`.toLowerCase().includes(q)).length;const mc=Object.values(emotionData).flatMap(d=>d?.entries||[]).filter(x=>`${x.mood||''} ${(x.lines||[]).join(' ')}`.toLowerCase().includes(q)).length;$('#searchHint').textContent=`일정 ${ec}개 · 감정일기 ${mc}개 · 기록 ${rc}개`});
 
+
+  // Mailbox — short notes between the currently shared pair
+  let mailTab='received',letterQueue=[];
+  function allLetters(){normalizeCloudData();return cloudData.letters||[]}
+  function visibleLetters(){if(!currentUserEmail)return [];return allLetters().filter(x=>normalizeEmail(x.fromEmail)===currentUserEmail||normalizeEmail(x.toEmail)===currentUserEmail).sort((a,b)=>(b.createdAt||0)-(a.createdAt||0))}
+  function receivedLetters(){return visibleLetters().filter(x=>normalizeEmail(x.toEmail)===currentUserEmail)}
+  function sentLetters(){return visibleLetters().filter(x=>normalizeEmail(x.fromEmail)===currentUserEmail)}
+  function unreadLetters(){return receivedLetters().filter(x=>!(x.readBy||[]).map(normalizeEmail).includes(currentUserEmail))}
+  function letterPersonName(email,fallback=''){email=normalizeEmail(email);if(email===currentUserEmail)return currentUserName||fallback||'나';const p=emotionData[email]?.profile||privateData[email]?.profile||familyUser(email);return normalizeName(p?.name||fallback,email)}
+  function letterDateLabel(ts){try{return new Date(ts).toLocaleString('ko-KR',{year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'})}catch{return ''}}
+  function updateMailBadge(){const n=unreadLetters().length,b=$('#mailUnreadBadge');if(!b)return;b.textContent=String(n);b.hidden=!n}
+  function renderMailbox(){const partner=sharedPartner(),recipient=$('#mailRecipient'),send=$('#mailSendBtn'),list=$('#mailList');if(recipient)recipient.textContent=partner?`To. ${partner.name}`:'공유 상대를 설정하면 편지를 보낼 수 있습니다.';if(send)send.disabled=!partner;$$('.mail-tab').forEach(b=>b.classList.toggle('active',b.dataset.mailTab===mailTab));const rows=mailTab==='sent'?sentLetters():receivedLetters();$('#mailboxCount').textContent=`${rows.length} LETTERS`;if(!rows.length){list.innerHTML='<div class="mail-empty">아직 편지가 없습니다.</div>';return}list.innerHTML=rows.map(l=>{const incoming=normalizeEmail(l.toEmail)===currentUserEmail,unread=incoming&&!(l.readBy||[]).map(normalizeEmail).includes(currentUserEmail);const who=incoming?letterPersonName(l.fromEmail,l.fromName):letterPersonName(l.toEmail,l.toName);return `<button class="mail-row ${unread?'unread':''}" type="button" data-letter-id="${escapeHtml(l.id)}"><div><b>${incoming?'From.':'To.'} ${escapeHtml(who)}</b><p>${escapeHtml(l.body)}</p></div><time>${escapeHtml(letterDateLabel(l.createdAt))}</time></button>`}).join('')}
+  async function markLetterRead(letter){if(!letter||normalizeEmail(letter.toEmail)!==currentUserEmail)return;letter.readBy=Array.isArray(letter.readBy)?letter.readBy:[];if(!letter.readBy.map(normalizeEmail).includes(currentUserEmail)){letter.readBy.push(currentUserEmail);updateMailBadge();try{await saveCloudData()}catch(e){console.warn('Letter read sync failed',e)}}}
+  function openLetterView(letter,queue=[]){if(!letter)return;letterQueue=queue.filter(x=>x.id!==letter.id);$('#letterTo').textContent=letterPersonName(letter.toEmail,letter.toName);$('#letterFrom').textContent=letterPersonName(letter.fromEmail,letter.fromName);$('#letterViewBody').textContent=letter.body||'';$('#letterDate').textContent=letterDateLabel(letter.createdAt);$('#letterNextBtn').hidden=!letterQueue.length;openModal('letterViewModal');markLetterRead(letter);renderMailbox()}
+  function showUnreadLetterPopup(){const q=unreadLetters().sort((a,b)=>(a.createdAt||0)-(b.createdAt||0));if(!q.length){updateMailBadge();return}const first=q.shift();openLetterView(first,q)}
+  $('#mailboxBtn').addEventListener('click',()=>{if(!currentUser){requireLogin(()=>$('#mailboxBtn').click());return}renderMailbox();openModal('mailboxModal')});
+  $$('.mail-tab').forEach(b=>b.addEventListener('click',()=>{mailTab=b.dataset.mailTab||'received';renderMailbox()}));
+  $('#mailList').addEventListener('click',e=>{const b=e.target.closest('[data-letter-id]');if(!b)return;const l=allLetters().find(x=>x.id===b.dataset.letterId);if(l)openLetterView(l)});
+  $('#mailBody').addEventListener('input',e=>{$('#mailCharCount').textContent=String(e.target.value.length)});
+  $('#mailForm').addEventListener('submit',async e=>{e.preventDefault();if(!currentUserEmail||!googleToken)return;const partner=sharedPartner(),body=$('#mailBody').value.trim();if(!partner){toast('먼저 공유 상대를 설정해주세요.');return}if(!body)return;const letter={id:'letter-'+Date.now(),fromEmail:currentUserEmail,fromName:currentUserName||familyUser(currentUserEmail).name,toEmail:partner.email,toName:partner.name,body:body.slice(0,220),createdAt:Date.now(),readBy:[]};cloudData.letters.push(letter);try{await saveCloudData();$('#mailBody').value='';$('#mailCharCount').textContent='0';mailTab='sent';renderMailbox();toast(`${partner.name}에게 편지를 보냈습니다.`)}catch(err){toast(googleErrorMessage(err))}});
+  $('#letterNextBtn').addEventListener('click',()=>{const next=letterQueue.shift();if(next)openLetterView(next,letterQueue)});
+
   // Google login + family access control (up to 10 test users)
   function applyLoginUI(){
-    $('#loginBtn').innerHTML=`<span class="plusmark"></span>${currentUser?(currentUserName||'로그인'):'로그인'}`;
+    $('#loginBtn').textContent=currentUser?(currentUserName||'로그인'):'로그인';$('#syncBtn').hidden=!currentUser;
     $('#logoutBtn').hidden=!currentUser;$('#displayNameBtn').hidden=!currentUser;$('#syncNowBtn').hidden=!currentUser;$('#calendarSyncDetails').hidden=!currentUser;
     $('#googleLoginBtn').textContent=currentUser?'Google 다시 연결':'Google 계정으로 로그인';
     if(currentUser&&googleProfile?.email&&googleToken)setGoogleStatus(`${googleProfile.email}\nDrive + Calendar 연결 완료`,'ok');renderSchedulePeopleFilters();
@@ -1305,10 +1482,10 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
   $('#logoutBtn').addEventListener('click',()=>{
     const token=googleToken;googleToken='';googleProfile=null;currentUser='';currentUserEmail='';currentUserName='';isAdmin=false;events=[];driveRootId='';driveMediaFolderId='';driveDataFileId='';
     privateData={};privateRefs={};privateOwner='';privateFeature='memo';emotionData={};emotionRefs={};schedulePersonFilters=new Set();
-    cloudData={version:CLOUD_VERSION,calendarId:'',albums:[{id:DEFAULT_ALBUM_ID,name:'기본 앨범',createdAt:Date.now()}],records:[],coupleMedia:null,ddays:[{id:'dday-us',title:'우리',date:'2025-11-01',mode:'since',createdAt:Date.now()}],activeDdayId:'dday-us'};calendarSources=[];selectedCalendarIds=new Set();driveLooseMedia=[];
+    cloudData={version:CLOUD_VERSION,calendarId:'',albums:[{id:DEFAULT_ALBUM_ID,name:'기본 앨범',createdAt:Date.now()}],records:[],coupleMedia:null,ddays:[{id:'dday-us',title:'우리',date:'2025-11-01',mode:'since',createdAt:Date.now()}],activeDdayId:'dday-us',letters:[]};calendarSources=[];selectedCalendarIds=new Set();driveLooseMedia=[];
     for(const url of recordMediaUrlCache.values())URL.revokeObjectURL(url);recordMediaUrlCache.clear();
     clearActiveMediaUrl();const v=$('#coupleVideo2');v.pause();v.hidden=true;v.removeAttribute('src');const img=$('#couplePhoto2');img.hidden=true;img.removeAttribute('src');$('#mediaPlaceholder2').style.display='flex';
-    applyLoginUI();renderCalendar();renderAlbumFolders();renderRecordFeed();renderPrivate();renderEmotion();closeModal('loginModal');setGoogleStatus('로그아웃했습니다.');if(token&&window.google?.accounts?.oauth2)google.accounts.oauth2.revoke(token,()=>{});
+    applyLoginUI();updateMailBadge();renderCalendar();renderAlbumFolders();renderRecordFeed();renderPrivate();renderEmotion();closeModal('loginModal');setGoogleStatus('로그아웃했습니다.');if(token&&window.google?.accounts?.oauth2)google.accounts.oauth2.revoke(token,()=>{});
   });
   function requireLogin(afterLogin=null){if(currentUser&&googleToken)return true;if(afterLogin)pendingAfterLogin=afterLogin;openModal('loginModal');return false}
   function syncEventAllDayFields(readonly=false){const off=$('#eventAllDay').checked;$('#eventTime').disabled=readonly||off;$('#eventEndTime').disabled=readonly||off;if(off){$('#eventTime').value='';$('#eventEndTime').value='';}}
@@ -1622,7 +1799,7 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
     if(!currentUser||!googleToken||!driveDataFileId)return;
     if(!force&&document.querySelector('.overlay.open'))return;
     try{
-      const previousCouple=cloudData.coupleMedia?.fileId||'';await driveLoadJsonFile();await loadCalendarList();await loadCalendarEvents();await scanDriveMedia();await loadPrivateData();await loadEmotionData();refreshRecordAlbumSelect($('#recordAlbumFolder')?.value||DEFAULT_ALBUM_ID);renderRecordFeed();renderAlbumFolders();setDday();renderDdayList();renderPrivate();renderEmotion();
+      const previousCouple=cloudData.coupleMedia?.fileId||'';await driveLoadJsonFile();await loadCalendarList();await loadCalendarEvents();await scanDriveMedia();await loadPrivateData();await loadEmotionData();refreshRecordAlbumSelect($('#recordAlbumFolder')?.value||DEFAULT_ALBUM_ID);renderRecordFeed();renderAlbumFolders();setDday();renderDdayList();renderPrivate();renderEmotion();updateMailBadge();
       if((cloudData.coupleMedia?.fileId||'')!==previousCouple)await loadCoupleMedia();lastSyncAt=new Date();setGoogleStatus(`${googleProfile?.email||''}\n동기화 완료 · ${lastSyncAt.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'})}`,'ok');if(force)toast('Google 동기화를 완료했습니다.');
     }catch(err){setGoogleStatus(googleErrorMessage(err),'error');if(force)toast(googleErrorMessage(err))}
   }
@@ -1647,27 +1824,39 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
   $$('.record-dot').forEach(b=>b.addEventListener('click',()=>goRecordPage(Number(b.dataset.recordPage))));
 
   let emotionView='mood';
-  function normalizeMoodValue(mood=''){const map={'아주 좋음':'행복','좋음':'기쁨','보통':'편안함','가라앉음':'슬픔','힘듦':'불안'};const v=String(mood||'').trim();return map[v]||v}
+  let emotionPageIndex=0,emotionFlipLocked=false,emotionTouchY=null;
+  const EMOTION_MOODS=['기쁨','행복','설렘','편안함','감사','피곤함','불안','짜증','외로움','슬픔'];
+  const EMOTION_FACES={'기쁨':'⌣','행복':'◡','설렘':'˶ᵔ ᵕ ᵔ˶','편안함':'˘‿˘','감사':'•ᴗ•','피곤함':'－_－','불안':'•︵•','짜증':'＞︿＜','외로움':'｡•́︿•̀｡','슬픔':'╥﹏╥'};
+  function normalizeMoodValue(mood=''){const legacy={'아주 좋음':'기쁨','좋음':'행복','보통':'편안함','가라앉음':'슬픔','힘듦':'피곤함'};const m=legacy[mood]||mood;return EMOTION_MOODS.includes(m)?m:''}
+  function emotionMoodMeta(mood=''){const map={'기쁨':['😄','기쁨'],'행복':['😊','행복'],'설렘':['🥰','설렘'],'편안함':['😌','편안함'],'감사':['🙏','감사'],'피곤함':['😴','피곤함'],'불안':['😰','불안'],'짜증':['😠','짜증'],'외로움':['🥺','외로움'],'슬픔':['😢','슬픔']};const p=map[normalizeMoodValue(mood)]||['○','기록 없음'];return {emoji:p[0],label:p[1]}}
   function emotionEntries(email){return (emotionData[email]?.entries||[]).slice().sort((a,b)=>(b.date||'').localeCompare(a.date||'')||(b.updatedAt||b.createdAt||0)-(a.updatedAt||a.createdAt||0))}
-  function latestEmotion(email,predicate=()=>true){return emotionEntries(email).find(predicate)||null}
+  function latestEmotion(email,predicate=null){const rows=emotionEntries(email);return predicate?rows.find(predicate)||null:rows[0]||null}
   function emotionDatePretty(date){if(!date)return '';const [y,m,d]=date.split('-');return `${y}. ${m}. ${d}`}
   function emotionLinesText(entry){return (entry?.lines||[]).filter(Boolean).join('\n')}
-  function emotionMoodMeta(mood=''){const map={'기쁨':['😄','기쁨'],'행복':['😊','행복'],'설렘':['🥰','설렘'],'편안함':['😌','편안함'],'감사':['🙏','감사'],'피곤함':['😴','피곤함'],'불안':['😰','불안'],'짜증':['😠','짜증'],'외로움':['🥺','외로움'],'슬픔':['😢','슬픔']};const p=map[normalizeMoodValue(mood)]||['○','기록 없음'];return {emoji:p[0],label:p[1]}}
   function emotionFlagsHtml(entry){const f=[];if(entry?.period)f.push('<span class="emotion-flag">생리</span>');if(entry?.intimacy)f.push('<span class="emotion-flag">성관계</span>');return f.join('')}
   function setEmotionMood(mood=''){const v=normalizeMoodValue(mood);$('#emotionMood').value=v;$$('.emotion-mood-chip').forEach(btn=>btn.classList.toggle('active',btn.dataset.emotionMood===v))}
   $$('.emotion-mood-chip').forEach(btn=>btn.addEventListener('click',()=>setEmotionMood(btn.dataset.emotionMood||'')));
-  function emotionVisibleOwners(){const keys=Object.keys(emotionData).filter(e=>emotionRefs[e]?.fileId);const partner=normalizeEmail(googleConfig.partnerEmail);let visible=keys.filter(e=>e===currentUserEmail||(partner&&e===partner));if(isAdmin&&!partner)visible=keys.filter(e=>e===currentUserEmail);visible.sort((a,b)=>a===currentUserEmail?-1:b===currentUserEmail?1:0);return visible.slice(0,FAMILY_LIMIT)}
-  function emotionEntryMatchesView(e,view=emotionView){if(view==='mood')return !!normalizeMoodValue(e?.mood);if(view==='diary')return (e?.lines||[]).some(Boolean);return !!(e?.period||e?.intimacy)}
-  function emotionViewLabel(view=emotionView){return view==='mood'?'감정기록':view==='diary'?'3줄일기':'생리기록'}
-  function updateEmotionToolbar(){const labels={mood:'+ 감정 기록',diary:'+ 3줄 일기',cycle:'+ 생리 기록'};$('#newEmotionBtn').textContent=labels[emotionView];$$('.emotion-feature').forEach(b=>b.classList.toggle('active',b.dataset.emotionView===emotionView))}
-  function renderEmotionInsights(rows=[]){const all=(rows||[]).slice();const last30=all.filter(r=>(r.date||'')>=dateKeyOffset(-29));const moods=['기쁨','행복','설렘','편안함','감사','피곤함','불안','짜증','외로움','슬픔'];const moodRows=last30.filter(r=>normalizeMoodValue(r.mood));const bars=moods.map(m=>{const meta=emotionMoodMeta(m),count=moodRows.filter(r=>normalizeMoodValue(r.mood)===m).length,pct=moodRows.length?Math.round(count/moodRows.length*100):0;return `<div class="emotion-mood-row"><label><i>${meta.emoji}</i>${meta.label}</label><div class="emotion-mood-bar"><i style="width:${pct}%"></i></div><span>${count}</span></div>`}).join('');const chartDates=[];for(let i=9;i>=0;i--)chartDates.push(dateKeyOffset(-i));const columns=chartDates.map(key=>{const dayRows=last30.filter(r=>r.date===key),m=dayRows.find(r=>normalizeMoodValue(r.mood)),meta=emotionMoodMeta(m?.mood||''),cls=`emotion-day-pill ${dayRows.some(r=>r.period)?'has-period':''} ${dayRows.some(r=>r.intimacy)?'has-intimacy':''}`;return `<div class="emotion-day-col"><div class="${cls}">${m?meta.emoji:'·'}</div><div class="emotion-day-label">${key.slice(5).replace('-','/')}</div></div>`}).join('');const periodCount=last30.filter(r=>r.period).length,intimacyCount=last30.filter(r=>r.intimacy).length,diaryCount=last30.filter(r=>(r.lines||[]).some(Boolean)).length;return `<section class="emotion-insights emotion-insights-always ${last30.length?'':'emotion-zero-chart'}"><article class="emotion-insight-card"><div class="emotion-insight-head"><b>MOOD BALANCE</b><span>최근 30일 감정 분포</span></div><div class="emotion-mood-bars">${bars}</div></article><article class="emotion-insight-card"><div class="emotion-insight-head"><b>10 DAYS LOG</b><span>기록이 없어도 날짜 축은 계속 표시됩니다.</span></div><div class="emotion-graph-grid">${columns}</div><div class="emotion-insight-mini"><div class="emotion-mini-stat"><strong>${moodRows.length}</strong><span>MOODS</span></div><div class="emotion-mini-stat"><strong>${diaryCount}</strong><span>3-LINE DIARY</span></div><div class="emotion-mini-stat"><strong>${periodCount}</strong><span>PERIOD</span></div></div></article></section>`}
-  function emotionPersonCard(email,showName=true){const d=emotionData[email],label=d?.profile?.name||familyUser(email).name||email,displayLabel=showName?label:'',cls=email===currentUserEmail?'mine-card':'partner-card';let e;if(emotionView==='mood')e=latestEmotion(email,x=>!!normalizeMoodValue(x.mood));else if(emotionView==='diary')e=latestEmotion(email,x=>(x.lines||[]).some(Boolean));else e=latestEmotion(email,x=>x.period||x.intimacy);if(!e)return `<article class="emotion-person-card ${cls}"><div class="emotion-card-head"><b>${escapeHtml(displayLabel)}</b></div><div class="emotion-empty-card">아직 ${emotionViewLabel()}이 없습니다.</div></article>`;if(emotionView==='mood'){const meta=emotionMoodMeta(e.mood);return `<article class="emotion-person-card ${cls}"><div class="emotion-card-head"><b>${escapeHtml(displayLabel)}</b><span>${emotionDatePretty(e.date)}</span></div><span class="emotion-mood"><i>${meta.emoji}</i>${escapeHtml(meta.label)}</span></article>`}if(emotionView==='diary'){return `<article class="emotion-person-card ${cls}"><div class="emotion-card-head"><b>${escapeHtml(displayLabel)}</b><span>${emotionDatePretty(e.date)}</span></div><div class="emotion-card-focus"><strong>3 LINES</strong><p>${escapeHtml(emotionLinesText(e))}</p></div></article>`}return `<article class="emotion-person-card ${cls}"><div class="emotion-card-head"><b>${escapeHtml(displayLabel)}</b><span>${emotionDatePretty(e.date)}</span></div><div class="cycle-summary">${e.period?'<span class="cycle-pill period">생리</span>':''}${e.intimacy?'<span class="cycle-pill intimacy">성관계</span>':''}</div></article>`}
-  function renderEmotion(){const people=$('#emotionPeopleGrid'),box=$('#emotionTimeline');if(!people||!box)return;updateEmotionToolbar();if(!currentUser){people.innerHTML='';box.innerHTML='<div class="emotion-view-empty">Google 로그인 후 기록을 사용할 수 있습니다.</div>'+renderEmotionInsights([]);return}const owners=emotionVisibleOwners();const showNames=owners.length>1;people.innerHTML=owners.map(email=>emotionPersonCard(email,showNames)).join('');const allRows=owners.flatMap(emotionEntries).sort((a,b)=>(b.date||'').localeCompare(a.date||'')||(b.updatedAt||b.createdAt||0)-(a.updatedAt||a.createdAt||0));const rows=allRows.filter(e=>emotionEntryMatchesView(e));let html='<div class="emotion-scroll-hint">'+emotionViewLabel()+' · 아래로 스크롤하면 그래프가 이어집니다.</div>';if(!rows.length)html+=`<div class="emotion-view-empty">아직 ${emotionViewLabel()}이 없습니다.<br>아래 그래프는 기록 전에도 확인할 수 있습니다.</div>`;else html+=rows.map(e=>{const editable=currentUserEmail===normalizeEmail(e.owner),ownerEmail=normalizeEmail(e.owner),label=emotionData[ownerEmail]?.profile?.name||familyUser(ownerEmail).name||ownerEmail,ownerClass=editable?'mine':'partner';let content='';if(emotionView==='mood'){const meta=emotionMoodMeta(e.mood);content=`<div class="emotion-entry-head"><span class="emotion-owner-badge ${ownerClass}">${escapeHtml(label)}</span><span class="emotion-entry-mood"><i>${meta.emoji}</i>${escapeHtml(meta.label)}</span></div>`}else if(emotionView==='diary'){content=`<div class="emotion-entry-head"><span class="emotion-owner-badge ${ownerClass}">${escapeHtml(label)}</span></div><div class="emotion-entry-lines">${escapeHtml(emotionLinesText(e))}</div>`}else{content=`<div class="emotion-entry-head"><span class="emotion-owner-badge ${ownerClass}">${escapeHtml(label)}</span></div><div class="emotion-entry-flags">${emotionFlagsHtml(e)}</div>`}return `<article class="emotion-entry"><div class="emotion-entry-date">${escapeHtml((e.date||'').slice(5).replace('-','.'))}<span>${escapeHtml((e.date||'').slice(0,4))}</span></div><div class="emotion-entry-main">${content}</div>${editable?`<button class="emotion-edit" type="button" data-emotion-edit="${escapeHtml(e.id)}">수정</button>`:'<span></span>'}</article>`}).join('');box.innerHTML=html+renderEmotionInsights(allRows)}
-  function configureEmotionModal(view=emotionView){emotionView=view;updateEmotionToolbar();$('#emotionMoodSection').hidden=view!=='mood';$('#emotionDiarySection').hidden=view!=='diary';$('#emotionCycleSection').hidden=view!=='cycle';$('#emotionModalTitle').textContent=view==='mood'?'감정 기록':view==='diary'?'3줄 일기':'생리 기록'}
-  function openEmotionEditor(entry=null,view=emotionView){if(!currentUser){requireLogin(()=>openEmotionEditor(entry,view));return}if(entry&&normalizeEmail(entry.owner)!==currentUserEmail){toast('본인의 기록만 수정할 수 있습니다.');return}configureEmotionModal(view);const date=entry?.date||iso(today.getFullYear(),today.getMonth(),today.getDate());$('#emotionEntryId').value=entry?.id||'';$('#emotionDate').value=date;setEmotionMood(entry?.mood||'');const lines=entry?.lines||[];$('#emotionLine1').value=lines[0]||'';$('#emotionLine2').value=lines[1]||'';$('#emotionLine3').value=lines[2]||'';$('#emotionPeriod').checked=!!entry?.period;$('#emotionIntimacy').checked=!!entry?.intimacy;$('#deleteEmotion').hidden=!entry;openModal('emotionModal')}
-  $$('.emotion-feature').forEach(b=>b.addEventListener('click',()=>{emotionView=b.dataset.emotionView||'mood';renderEmotion()}));
-  $('#newEmotionBtn').addEventListener('click',()=>openEmotionEditor(null,emotionView));
-  $('#emotionTimeline').addEventListener('click',e=>{const b=e.target.closest('[data-emotion-edit]');if(!b)return;const entry=emotionData[currentUserEmail]?.entries?.find(x=>x.id===b.dataset.emotionEdit);if(entry)openEmotionEditor(entry,emotionView)});
+  function emotionVisibleOwners(){const keys=Object.keys(emotionData).filter(e=>emotionRefs[e]?.fileId);keys.sort((a,b)=>a===currentUserEmail?-1:b===currentUserEmail?1:0);return keys.slice(0,FAMILY_LIMIT)}
+  function emotionViewLabel(view=emotionView){return view==='mood'?'감정 기록':view==='diary'?'3줄 일기':'생리 기록'}
+  function configureEmotionModal(view=emotionView){emotionView=view;$('#emotionMoodSection').hidden=view!=='mood';$('#emotionDiarySection').hidden=view!=='diary';$('#emotionCycleSection').hidden=view!=='cycle';$('#emotionModalTitle').textContent=emotionViewLabel(view)}
+  function openEmotionEditor(entry=null,view=emotionView,presetMood=''){if(!currentUser){requireLogin(()=>openEmotionEditor(entry,view,presetMood));return}if(entry&&normalizeEmail(entry.owner)!==currentUserEmail){toast('본인의 기록만 수정할 수 있습니다.');return}configureEmotionModal(view);const date=entry?.date||iso(today.getFullYear(),today.getMonth(),today.getDate());$('#emotionEntryId').value=entry?.id||'';$('#emotionDate').value=date;setEmotionMood(presetMood||entry?.mood||'');const lines=entry?.lines||[];$('#emotionLine1').value=lines[0]||'';$('#emotionLine2').value=lines[1]||'';$('#emotionLine3').value=lines[2]||'';$('#emotionPeriod').checked=!!entry?.period;$('#emotionIntimacy').checked=!!entry?.intimacy;$('#deleteEmotion').hidden=!entry;openModal('emotionModal')}
+  function renderEmotionCharacterPicker(){const box=$('#emotionCharacterGrid');if(!box)return;box.innerHTML=EMOTION_MOODS.map((m,i)=>`<button class="emotion-character" type="button" data-mood-character="${escapeHtml(m)}"><span class="emotion-character-blob">${escapeHtml(EMOTION_FACES[m]||'•ᴗ•')}</span><span>${escapeHtml(m)}</span></button>`).join('')}
+  function emotionMiniColorIndex(mood){return Math.max(0,EMOTION_MOODS.indexOf(normalizeMoodValue(mood)))}
+  function miniMoodStyle(mood){const colors=['#f2dc68','#f2c5c8','#e7b36c','#b8d6c2','#c8b5df','#c9d6d6','#a9c4e9','#e67878','#b9acd4','#7f95bd'];return `background:${colors[emotionMiniColorIndex(mood)]||'#eee'}`}
+  function renderEmotionMoodCalendar(rows,owners){const box=$('#emotionMoodCalendar');if(!box)return;const y=shown.getFullYear(),m=shown.getMonth(),first=new Date(y,m,1).getDay(),days=new Date(y,m+1,0).getDate(),prevDays=new Date(y,m,0).getDate();$('#emotionMonthTitle').textContent=`${y}. ${String(m+1).padStart(2,'0')} MOOD`;let html='';for(let i=0;i<42;i++){let cy=y,cm=m,day,out=false;if(i<first){day=prevDays-first+i+1;cm=m-1;out=true;if(cm<0){cm=11;cy--}}else if(i>=first+days){day=i-first-days+1;cm=m+1;out=true;if(cm>11){cm=0;cy++}}else day=i-first+1;const date=iso(cy,cm,day),dayRows=rows.filter(r=>r.date===date&&normalizeMoodValue(r.mood)).slice(0,3);const moods=dayRows.map(r=>{const ownerEmail=normalizeEmail(r.owner),label=emotionData[ownerEmail]?.profile?.name||familyUser(ownerEmail).name||'';return `<button class="emotion-mini-blob" type="button" data-emotion-date="${date}" data-emotion-owner="${escapeHtml(ownerEmail)}" title="${escapeHtml(label)} · ${escapeHtml(normalizeMoodValue(r.mood))}" style="${miniMoodStyle(r.mood)}">${escapeHtml(EMOTION_FACES[normalizeMoodValue(r.mood)]||'•ᴗ•')}</button>`}).join('');html+=`<div class="emotion-month-day ${out?'out':''} ${date===iso(today.getFullYear(),today.getMonth(),today.getDate())?'today':''}"><span class="emotion-month-num">${String(day).padStart(2,'0')}</span><div class="emotion-day-moods">${moods||'<span class="emotion-mini-name">·</span>'}</div></div>`}box.innerHTML=html}
+  function renderEmotionRecordList(rows,showNames){const box=$('#emotionTimeline');if(!box)return;if(!rows.length){box.innerHTML='<div class="emotion-view-empty">아직 기록이 없습니다.</div>';return}box.innerHTML=rows.slice(0,18).map(e=>{const editable=currentUserEmail===normalizeEmail(e.owner),ownerEmail=normalizeEmail(e.owner),label=emotionData[ownerEmail]?.profile?.name||familyUser(ownerEmail).name||ownerEmail,meta=emotionMoodMeta(e.mood);let content='<div class="emotion-entry-head">';if(showNames)content+=`<span class="emotion-owner-badge ${editable?'mine':'partner'}">${escapeHtml(label)}</span>`;if(normalizeMoodValue(e.mood))content+=`<span class="emotion-entry-mood"><i>${meta.emoji}</i>${escapeHtml(meta.label)}</span>`;content+='</div>';if((e.lines||[]).some(Boolean))content+=`<div class="emotion-entry-lines">${escapeHtml(emotionLinesText(e))}</div>`;if(e.period||e.intimacy)content+=`<div class="emotion-entry-flags">${emotionFlagsHtml(e)}</div>`;return `<article class="emotion-entry"><div class="emotion-entry-date">${escapeHtml((e.date||'').slice(5).replace('-','.'))}<span>${escapeHtml((e.date||'').slice(0,4))}</span></div><div class="emotion-entry-main">${content}</div>${editable?`<button class="emotion-edit" type="button" data-emotion-edit="${escapeHtml(e.id)}">수정</button>`:'<span></span>'}</article>`}).join('')}
+  function renderEmotionInsights(rows=[]){const all=(rows||[]).slice();const last30=all.filter(r=>(r.date||'')>=dateKeyOffset(-29));const moodRows=last30.filter(r=>normalizeMoodValue(r.mood));const bars=EMOTION_MOODS.map(m=>{const meta=emotionMoodMeta(m),count=moodRows.filter(r=>normalizeMoodValue(r.mood)===m).length,pct=moodRows.length?Math.round(count/moodRows.length*100):0;return `<div class="emotion-mood-row"><label><i>${meta.emoji}</i>${meta.label}</label><div class="emotion-mood-bar"><i style="width:${pct}%"></i></div><span>${count}</span></div>`}).join('');const chartDates=[];for(let i=9;i>=0;i--)chartDates.push(dateKeyOffset(-i));const columns=chartDates.map(key=>{const dayRows=last30.filter(r=>r.date===key),m=dayRows.find(r=>normalizeMoodValue(r.mood)),meta=emotionMoodMeta(m?.mood||''),cls=`emotion-day-pill ${dayRows.some(r=>r.period)?'has-period':''} ${dayRows.some(r=>r.intimacy)?'has-intimacy':''}`;return `<div class="emotion-day-col"><div class="${cls}">${m?meta.emoji:'·'}</div><div class="emotion-day-label">${key.slice(5).replace('-','/')}</div></div>`}).join('');const periodCount=last30.filter(r=>r.period).length,diaryCount=last30.filter(r=>(r.lines||[]).some(Boolean)).length;return `<section class="emotion-insights ${last30.length?'':'emotion-zero-chart'}"><article class="emotion-insight-card"><div class="emotion-insight-head"><b>MOOD BALANCE</b><span>최근 30일 감정 분포</span></div><div class="emotion-mood-bars">${bars}</div></article><article class="emotion-insight-card"><div class="emotion-insight-head"><b>10 DAYS LOG</b><span>기록이 없어도 날짜 축은 표시됩니다.</span></div><div class="emotion-graph-grid">${columns}</div><div class="emotion-insight-mini"><div class="emotion-mini-stat"><strong>${moodRows.length}</strong><span>MOODS</span></div><div class="emotion-mini-stat"><strong>${diaryCount}</strong><span>3-LINE DIARY</span></div><div class="emotion-mini-stat"><strong>${periodCount}</strong><span>PERIOD</span></div></div></article></section>`}
+  function renderEmotion(){renderEmotionCharacterPicker();const owners=currentUser?emotionVisibleOwners():[],showNames=owners.length>1;const allRows=currentUser?owners.flatMap(emotionEntries).sort((a,b)=>(b.date||'').localeCompare(a.date||'')||(b.updatedAt||b.createdAt||0)-(a.updatedAt||a.createdAt||0)):[];renderEmotionMoodCalendar(allRows,owners);renderEmotionRecordList(allRows,showNames);const insights=$('#emotionInsightsPage');if(insights)insights.innerHTML=renderEmotionInsights(allRows)}
+  function goEmotionPage(next,force=false){next=Math.max(0,Math.min(1,next));if((next===emotionPageIndex&&!force)||emotionFlipLocked)return;emotionFlipLocked=true;[$('#emotionRecordPage'),$('#emotionInsightPage')].forEach((page,i)=>{page.classList.remove('current','next','prev');page.classList.add(i===next?'current':(i<next?'prev':'next'));page.setAttribute('aria-hidden',i===next?'false':'true')});$$('.emotion-dot').forEach((d,i)=>d.classList.toggle('active',i===next));emotionPageIndex=next;animateStandaloneFrame(next===0?'#emotionFrame':'#emotionInsightFrame');setTimeout(()=>emotionFlipLocked=false,760)}
+  $('#emotionStage').addEventListener('wheel',e=>{if(Math.abs(e.deltaY)<16)return;e.preventDefault();goEmotionPage(emotionPageIndex+(e.deltaY>0?1:-1))},{passive:false});
+  $('#emotionStage').addEventListener('touchstart',e=>{emotionTouchY=e.touches[0]?.clientY??null},{passive:true});
+  $('#emotionStage').addEventListener('touchend',e=>{if(emotionTouchY==null)return;const y=e.changedTouches[0]?.clientY??emotionTouchY,d=emotionTouchY-y;if(Math.abs(d)>45)goEmotionPage(emotionPageIndex+(d>0?1:-1));emotionTouchY=null},{passive:true});
+  $$('.emotion-dot').forEach(b=>b.addEventListener('click',()=>goEmotionPage(Number(b.dataset.emotionPage))));
+  $('#emotionCharacterGrid').addEventListener('click',e=>{const b=e.target.closest('[data-mood-character]');if(!b)return;openEmotionEditor(null,'mood',b.dataset.moodCharacter||'')});
+  $('#emotionMoodCalendar').addEventListener('click',e=>{const b=e.target.closest('[data-emotion-date]');if(!b)return;const owner=normalizeEmail(b.dataset.emotionOwner||'');if(owner!==currentUserEmail)return;const entry=emotionData[currentUserEmail]?.entries?.find(x=>x.date===b.dataset.emotionDate);if(entry)openEmotionEditor(entry,'mood');});
+  $('#newEmotionDiaryBtn').addEventListener('click',()=>openEmotionEditor(null,'diary'));
+  $('#newEmotionCycleBtn').addEventListener('click',()=>openEmotionEditor(null,'cycle'));
+  $('#emotionTimeline').addEventListener('click',e=>{const b=e.target.closest('[data-emotion-edit]');if(!b)return;const entry=emotionData[currentUserEmail]?.entries?.find(x=>x.id===b.dataset.emotionEdit);if(!entry)return;const view=normalizeMoodValue(entry.mood)?'mood':(entry.lines||[]).some(Boolean)?'diary':'cycle';openEmotionEditor(entry,view)});
   $('#emotionForm').addEventListener('submit',async e=>{e.preventDefault();if(!currentUserEmail||!emotionRefs[currentUserEmail]?.writable)return;const id=$('#emotionEntryId').value,d=emotionData[currentUserEmail],date=$('#emotionDate').value;if(!date)return;let existing=id?d.entries.find(x=>x.id===id):d.entries.find(x=>x.date===date);if(!existing){existing={id:'em-'+Date.now(),owner:currentUserEmail,date,mood:'',lines:['','',''],period:false,intimacy:false,createdAt:Date.now(),updatedAt:Date.now()};d.entries.push(existing)}existing.date=date;existing.owner=currentUserEmail;if(emotionView==='mood'){const mood=$('#emotionMood').value;if(!mood){toast('감정을 하나 선택해주세요.');return}existing.mood=mood}else if(emotionView==='diary'){existing.lines=[$('#emotionLine1').value.trim(),$('#emotionLine2').value.trim(),$('#emotionLine3').value.trim()]}else{existing.period=$('#emotionPeriod').checked;existing.intimacy=$('#emotionIntimacy').checked}existing.updatedAt=Date.now();try{await saveEmotionData(currentUserEmail);closeModal('emotionModal');renderEmotion();toast(`${emotionViewLabel()}을 저장했습니다.`)}catch(err){toast(googleErrorMessage(err))}});
   $('#deleteEmotion').addEventListener('click',async()=>{const id=$('#emotionEntryId').value;if(!id||!currentUserEmail)return;const d=emotionData[currentUserEmail],entry=d?.entries?.find(x=>x.id===id);if(!entry)return;if(emotionView==='mood')entry.mood='';else if(emotionView==='diary')entry.lines=['','',''];else{entry.period=false;entry.intimacy=false}if(!entry.mood&&!(entry.lines||[]).some(Boolean)&&!entry.period&&!entry.intimacy)d.entries=d.entries.filter(x=>x.id!==id);try{await saveEmotionData(currentUserEmail);closeModal('emotionModal');renderEmotion();toast(`${emotionViewLabel()}을 삭제했습니다.`)}catch(err){toast(googleErrorMessage(err))}});
   function privateCanWrite(){return !!currentUserEmail&&currentUserEmail===privateOwner&&privateRefs[privateOwner]?.writable}
@@ -1703,10 +1892,10 @@ body.emotion-mode .hint,body.event-mode .hint,body.private-mode .hint{display:no
     if((tab==='emotion'||tab==='record'||tab==='event'||tab==='private')&&!currentUser){requireLogin(()=>showMainTab(tab));return}
     $$('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===tab));
     document.body.classList.toggle('emotion-mode',tab==='emotion');document.body.classList.toggle('record-mode',tab==='record');document.body.classList.toggle('event-mode',tab==='event');document.body.classList.toggle('private-mode',tab==='private');
-    $('#stage').hidden=tab!=='schedule';$('#emotionShell').hidden=tab!=='emotion';$('#recordStage').hidden=tab!=='record';$('#eventShell').hidden=tab!=='event';$('#privateShell').hidden=tab!=='private';$('#stage').setAttribute('aria-hidden',tab==='schedule'?'false':'true');
+    $('#stage').hidden=tab!=='schedule';$('#emotionStage').hidden=tab!=='emotion';$('#recordStage').hidden=tab!=='record';$('#eventShell').hidden=tab!=='event';$('#privateShell').hidden=tab!=='private';$('#stage').setAttribute('aria-hidden',tab==='schedule'?'false':'true');
     if(tab==='schedule')return;
     const v=$('#coupleVideo2');if(v&&!v.hidden)v.pause();
-    if(tab==='emotion'){renderEmotion();animateStandaloneFrame('#emotionFrame');return}
+    if(tab==='emotion'){emotionPageIndex=0;renderEmotion();goEmotionPage(0,true);return}
     if(tab==='record'){goRecordPage(0,true);return}
     if(tab==='event'){animateStandaloneFrame('#eventFrame');return}
     if(tab==='private'){privateOwner=currentUserEmail||privateOwner;renderPrivate();animateStandaloneFrame('#privateFrame');return}
