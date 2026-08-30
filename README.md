@@ -1,4 +1,12 @@
-# AiderDear v61
+# AiderDear v62
+
+## v62 EVENT·PERSONAL·PAPER 수정
+
+- Album의 폴더 카드는 원래 둥근 디자인으로 복원하고 Album 페이지 프레임만 각진 형태로 변경
+- Travel 폴더 오른쪽 위에 삭제 버튼을 추가하고 폴더 삭제 시 여행 기록은 다른 폴더로 안전하게 이동
+- 금융에 수익 유형을 추가하고 적금·예금·유동 지출·수익·고정 지출별 전용 입력 필드 제공
+- PERSONAL 두 화면의 전환을 ROUTINE과 동일한 세로 페이지 넘김 효과로 통일
+- PAPER의 탐색, 표, 카드, Insight, Compare, Notes, Connections 전반의 글자 크기 확대
 
 ## v61 화면 밀도·PERSONAL 대시보드 개선
 
