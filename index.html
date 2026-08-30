@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light">
-<meta name="theme-color" content="#FFF8E7">
+<meta name="theme-color" content="#46444D">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="AiderDear">
@@ -2541,6 +2541,53 @@ body:before,body:after{background:#FFF8E7!important;background-image:none!import
   .routine-round-stamp small{font-size:5px!important}.routine-round-stamp b{font-size:7px!important}
 }
 
+/* ===== AiderDear v55 · Eggplant outside, Cosmic Latte frames, travel folders ===== */
+:root{--bg:#46444D!important;--palette-bg:#46444D!important;--cosmic-latte:#FFF8E7}
+html,body,.app{background:#46444D!important;background-image:none!important;color:#17151b!important}
+body:before,body:after{background:#46444D!important;background-image:none!important;filter:none!important;opacity:1!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+.masthead,.nav-row{background:#46444D!important;color:#fff!important}
+.masthead{border-bottom-color:rgba(255,255,255,.18)!important}.nav-row{border-top-color:rgba(255,255,255,.18)!important}
+.masthead .logo,.masthead .logo span,.masthead .logo em,.masthead .logo small,
+.account-name,.sync-mini,.quick-notes-top,.mailbox-top,.mailbox-top span,.mailbox-top .mailbox-icon,.top-action,
+.account-stack.account-inline .account-name,.account-stack.account-inline .sync-mini{color:#fff!important;text-shadow:none!important}
+.logo small,.sync-mini{color:rgba(255,255,255,.72)!important}
+
+/* Only the page frame uses Cosmic Latte. */
+.stage>.page,.private-shell,.personal-shell,#recordHubShell,#eventStage{background:var(--cosmic-latte)!important}
+#recordHubShell,#eventStage{border:1px solid rgba(0,0,0,.12)!important;border-radius:24px!important;overflow:hidden!important}
+#recordHubShell .record-hub-panel,#eventStage .event-hub-panel{background:transparent!important}
+#recordHubShell .record-main,#recordHubShell .album-frame,#eventStage .event-frame{background:transparent!important}
+
+/* Travel creation belongs in the toolbar; the folder rail is plain paper. */
+#travelArchiveShell .event-toolbar{align-items:flex-start!important}
+#eventStage .travel-toolbar-actions{display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:6px!important;flex:1 1 360px!important;min-width:0!important}
+#eventStage .travel-toolbar-actions .travel-kind-actions{display:flex!important;gap:5px!important;margin:0!important;min-width:0!important;overflow-x:auto!important;scrollbar-width:none!important}
+#eventStage .travel-toolbar-actions .travel-kind-actions::-webkit-scrollbar{display:none!important}
+#eventStage .travel-toolbar-actions .travel-kind-actions button{height:29px!important;flex:0 0 auto!important;border:1px solid #53675f!important;border-radius:4px!important;background:var(--palette-event)!important;color:#fff!important;padding:0 8px!important;font-size:7px!important;font-weight:900!important}
+.travel-folder-dock{min-height:82px!important;padding:9px 2px 2px!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;overflow:visible!important}
+.travel-folder-head{margin-bottom:12px!important;padding:0 2px!important}
+.travel-folder-head b{color:#17151b!important;font-size:8px!important}.travel-folder-head button{height:27px!important;border-color:#17151b!important;background:transparent!important;color:#17151b!important}
+.travel-folder-tabs{display:flex!important;gap:12px!important;overflow-x:auto!important;overflow-y:visible!important;padding:8px 2px 4px!important;scrollbar-width:thin!important}
+.travel-folder-tabs button{--folder-color:#F4F1E9;position:relative!important;height:61px!important;min-width:142px!important;display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;grid-template-rows:auto auto!important;align-content:center!important;column-gap:8px!important;border:1px solid color-mix(in srgb,var(--folder-color) 62%,#111 38%)!important;border-radius:5px 10px 10px 10px!important;background:var(--folder-color)!important;padding:9px 11px 7px!important;color:#252225!important;text-align:left!important;overflow:visible!important}
+.travel-folder-tabs button:before{content:"";position:absolute;left:-1px;top:-8px;width:55px;height:10px;border:1px solid color-mix(in srgb,var(--folder-color) 62%,#111 38%);border-bottom:0;border-radius:6px 8px 0 0;background:var(--folder-color)}
+.travel-folder-tabs button span{grid-column:1;max-width:104px!important;font-size:9px!important;font-weight:900!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+.travel-folder-tabs button small{grid-column:1;font-size:6.5px!important;color:rgba(37,34,37,.66)!important;white-space:nowrap!important;margin-top:3px!important}
+.travel-folder-tabs button b{grid-column:2;grid-row:1/3;align-self:center;font-size:15px!important;font-family:Georgia,serif!important;font-weight:400!important}
+.travel-folder-tabs button.active{box-shadow:inset 0 0 0 2px #17151b!important;color:#17151b!important}
+.travel-folder-tabs button.active:after{content:"SELECTED";position:absolute;right:8px;bottom:4px;font-size:5px;font-weight:900;letter-spacing:.08em}
+
+.travel-folder-modal{width:min(540px,calc(100% - 28px))!important}.travel-folder-modal form{display:grid;gap:15px}.travel-folder-color-picker{display:flex;gap:9px;flex-wrap:wrap;padding-top:3px}.travel-folder-color-picker button{width:38px;height:38px;border:1px solid rgba(0,0,0,.28);border-radius:50%;background:var(--swatch);padding:0}.travel-folder-color-picker button.active{outline:3px solid #17151b;outline-offset:2px}.travel-folder-date-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.travel-folder-date-grid .field{min-width:0}.travel-folder-date-grid input{width:100%}.travel-folder-modal .primary{background:var(--palette-event)!important;color:#fff!important;border-color:#4d665d!important}
+
+@media(max-width:760px){
+  #recordHubShell,#eventStage{border-radius:16px!important}
+  #eventStage .travel-toolbar-actions{width:100%!important;display:grid!important;grid-template-columns:92px minmax(0,1fr)!important;align-items:center!important}
+  #eventStage .travel-toolbar-actions .travel-kind-actions{width:100%!important}
+  #eventStage .travel-toolbar-actions .travel-kind-actions button{height:36px!important;font-size:8px!important;padding-inline:10px!important}
+  .travel-folder-dock{position:relative!important;bottom:auto!important;padding-top:10px!important}
+  .travel-folder-tabs button{min-width:138px!important;height:64px!important}
+}
+@media(max-width:430px){.travel-folder-date-grid{grid-template-columns:1fr}.travel-folder-color-picker button{width:34px;height:34px}}
+
 </style>
 </head>
 <body>
@@ -2744,13 +2791,15 @@ body:before,body:after{background:#FFF8E7!important;background-image:none!import
       <section class="event-frame" id="travelFrame">
         <div class="event-toolbar">
           <div class="event-title-group"><h2 class="event-heading">Travel</h2></div>
-            <div class="event-actions"><select class="event-sort" id="travelSort" aria-label="여행 정렬"><option value="date">최신순</option><option value="rating">별점순</option></select><button class="event-add travel" id="travelAddBtn" type="button">+ 여행 기록</button></div>
+            <div class="event-actions travel-toolbar-actions">
+              <select class="event-sort" id="travelSort" aria-label="여행 정렬"><option value="date">최신순</option><option value="rating">별점순</option></select>
+              <div class="travel-kind-actions" id="travelKindActions" aria-label="여행 기록 종류"><button type="button" data-travel-create="plan">+ 여행 계획</button><button type="button" data-travel-create="place">+ 장소</button><button type="button" data-travel-create="food">+ 음식</button><button type="button" data-travel-create="activity">+ 놀거리</button></div>
+            </div>
         </div>
         <div class="event-content travel-content">
           <div class="travel-review-grid" id="travelReviewGrid"></div>
           <section class="travel-folder-dock" aria-label="여행지별 폴더">
             <div class="travel-folder-head"><b>TRIP FOLDERS</b><button type="button" id="travelFolderAdd">+ 새 여행지</button></div>
-            <div class="travel-kind-actions" id="travelKindActions" aria-label="여행 기록 종류"><button type="button" data-travel-create="plan">+ 여행 계획</button><button type="button" data-travel-create="place">+ 장소</button><button type="button" data-travel-create="food">+ 음식</button><button type="button" data-travel-create="activity">+ 놀거리</button></div>
             <div class="travel-folder-tabs" id="travelFolderTabs"></div>
           </section>
         </div>
@@ -3217,6 +3266,31 @@ body:before,body:after{background:#FFF8E7!important;background-image:none!import
   </div>
 </div>
 
+<!-- Travel folder editor -->
+<div class="overlay" id="travelFolderModal" role="dialog" aria-modal="true" aria-labelledby="travelFolderModalTitle">
+  <div class="modal travel-folder-modal">
+    <div class="modal-head"><b id="travelFolderModalTitle">새 여행지 폴더</b><button class="x" data-close="travelFolderModal">×</button></div>
+    <div class="modal-body">
+      <form id="travelFolderForm">
+        <div class="field full"><label for="travelFolderNameInput">여행지 이름</label><input id="travelFolderNameInput" maxlength="60" required placeholder="예: 교토의 가을"></div>
+        <div class="field full"><label>폴더 색상</label><div class="travel-folder-color-picker" id="travelFolderColorPicker">
+          <button type="button" class="active" data-travel-folder-color="#C7D8D0" style="--swatch:#C7D8D0" aria-label="세이지"></button>
+          <button type="button" data-travel-folder-color="#C9DAEB" style="--swatch:#C9DAEB" aria-label="스카이"></button>
+          <button type="button" data-travel-folder-color="#E8D4B5" style="--swatch:#E8D4B5" aria-label="샌드"></button>
+          <button type="button" data-travel-folder-color="#EFC9B5" style="--swatch:#EFC9B5" aria-label="피치"></button>
+          <button type="button" data-travel-folder-color="#D9CFEC" style="--swatch:#D9CFEC" aria-label="라벤더"></button>
+          <button type="button" data-travel-folder-color="#E9C9D1" style="--swatch:#E9C9D1" aria-label="로즈"></button>
+        </div><input id="travelFolderColorInput" type="hidden" value="#C7D8D0"></div>
+        <div class="travel-folder-date-grid">
+          <div class="field"><label for="travelFolderStartDate">출발일</label><input id="travelFolderStartDate" type="date"></div>
+          <div class="field"><label for="travelFolderEndDate">도착일</label><input id="travelFolderEndDate" type="date"></div>
+        </div>
+        <div class="modal-actions"><button class="primary" type="submit">폴더 만들기</button></div>
+      </form>
+    </div>
+  </div>
+</div>
+
 <!-- Event review viewer -->
 <div class="overlay" id="eventReviewViewModal" role="dialog" aria-modal="true" aria-labelledby="eventReviewViewTitle">
   <div class="modal event-view-modal">
@@ -3479,7 +3553,7 @@ body:before,body:after{background:#FFF8E7!important;background-image:none!import
     cloudData.userCalendars=Object.fromEntries(Object.entries(cloudData.userCalendars).map(([email,id])=>[normalizeEmail(email),String(id||'')]).filter(([email,id])=>email&&id));
     if(!cloudData.albumsBySpace||typeof cloudData.albumsBySpace!=='object'||Array.isArray(cloudData.albumsBySpace))cloudData.albumsBySpace={};
     if(!cloudData.travelFoldersBySpace||typeof cloudData.travelFoldersBySpace!=='object'||Array.isArray(cloudData.travelFoldersBySpace))cloudData.travelFoldersBySpace={};
-    cloudData.travelFoldersBySpace=Object.fromEntries(Object.entries(cloudData.travelFoldersBySpace).map(([key,folders])=>[key,(Array.isArray(folders)?folders:[]).filter(x=>x&&x.id&&String(x.name||'').trim()).map(x=>({id:String(x.id),name:String(x.name||'').trim().slice(0,60),createdAt:Number(x.createdAt)||Date.now()}))]));
+    cloudData.travelFoldersBySpace=Object.fromEntries(Object.entries(cloudData.travelFoldersBySpace).map(([key,folders])=>[key,(Array.isArray(folders)?folders:[]).filter(x=>x&&x.id&&String(x.name||'').trim()).map(x=>({id:String(x.id),name:String(x.name||'').trim().slice(0,60),color:normalizeTravelFolderColor(x.color),startDate:/^\d{4}-\d{2}-\d{2}$/.test(x.startDate||'')?x.startDate:'',endDate:/^\d{4}-\d{2}-\d{2}$/.test(x.endDate||'')?x.endDate:'',createdAt:Number(x.createdAt)||Date.now()}))]));
     if(!cloudData.coupleMediaBySpace||typeof cloudData.coupleMediaBySpace!=='object'||Array.isArray(cloudData.coupleMediaBySpace))cloudData.coupleMediaBySpace={};
     if(!cloudData.activeDdayBySpace||typeof cloudData.activeDdayBySpace!=='object'||Array.isArray(cloudData.activeDdayBySpace))cloudData.activeDdayBySpace={};
     if(!Array.isArray(cloudData.records))cloudData.records=[];
@@ -4372,14 +4446,18 @@ body:before,body:after{background:#FFF8E7!important;background-image:none!import
   function starText(n=0){n=Math.max(0,Math.min(5,Number(n)||0));return '★'.repeat(n)+'☆'.repeat(5-n)}
   function sortEventRows(rows,mode){return rows.slice().sort((a,b)=>mode==='rating'?((Number(b.rating)||0)-(Number(a.rating)||0)||String(b.date||'').localeCompare(String(a.date||''))):(String(b.date||'').localeCompare(String(a.date||''))||((Number(b.rating)||0)-(Number(a.rating)||0))))}
   function eventMediaSrc(r){return r?.media?recordMediaSrc({kind:'image',...r.media}):Promise.resolve('')}
+  const TRAVEL_FOLDER_COLORS=['#C7D8D0','#C9DAEB','#E8D4B5','#EFC9B5','#D9CFEC','#E9C9D1'];
+  function normalizeTravelFolderColor(color){color=String(color||'').toUpperCase();return TRAVEL_FOLDER_COLORS.includes(color)?color:TRAVEL_FOLDER_COLORS[0]}
   function getTravelFolders(){
     normalizeCloudData();const key=currentPairKey()||'guest';let folders=cloudData.travelFoldersBySpace[key];if(!Array.isArray(folders))folders=[];
-    if(!folders.length)folders=[{id:'trip-default',name:'여행 준비',createdAt:Date.now()}];cloudData.travelFoldersBySpace[key]=folders;return folders;
+    if(!folders.length)folders=[{id:'trip-default',name:'여행 준비',color:TRAVEL_FOLDER_COLORS[0],startDate:'',endDate:'',createdAt:Date.now()}];cloudData.travelFoldersBySpace[key]=folders;return folders;
   }
-  function createTravelFolder(name){name=String(name||'').trim().slice(0,60);if(!name)return null;const folders=getTravelFolders(),existing=folders.find(x=>x.name.toLowerCase()===name.toLowerCase());if(existing)return existing;const folder={id:'trip-'+Date.now()+'-'+Math.random().toString(36).slice(2,7),name,createdAt:Date.now()};folders.push(folder);cloudData.travelFoldersBySpace[currentPairKey()||'guest']=folders;scheduleCloudSave();return folder}
+  function createTravelFolder({name,color,startDate='',endDate=''}){name=String(name||'').trim().slice(0,60);if(!name)return null;const folders=getTravelFolders(),existing=folders.find(x=>x.name.toLowerCase()===name.toLowerCase());if(existing)return existing;const folder={id:'trip-'+Date.now()+'-'+Math.random().toString(36).slice(2,7),name,color:normalizeTravelFolderColor(color),startDate:/^\d{4}-\d{2}-\d{2}$/.test(startDate)?startDate:'',endDate:/^\d{4}-\d{2}-\d{2}$/.test(endDate)?endDate:'',createdAt:Date.now()};folders.push(folder);cloudData.travelFoldersBySpace[currentPairKey()||'guest']=folders;scheduleCloudSave();return folder}
   function travelFolderName(id){return getTravelFolders().find(x=>x.id===id)?.name||'여행 준비'}
+  function travelFolderPeriod(folder){const short=value=>String(value||'').replaceAll('-','.');if(folder.startDate&&folder.endDate)return `${short(folder.startDate)} — ${short(folder.endDate)}`;if(folder.startDate)return `${short(folder.startDate)} —`;if(folder.endDate)return `— ${short(folder.endDate)}`;return '기간 미정'}
   function refreshTravelFolderSelect(selected=''){const select=$('#eventReviewFolder');if(!select)return;const folders=getTravelFolders();select.innerHTML=folders.map(folder=>`<option value="${escapeHtml(folder.id)}">${escapeHtml(folder.name)}</option>`).join('');select.value=folders.some(x=>x.id===selected)?selected:folders[0].id}
-  function renderTravelFolders(){const host=$('#travelFolderTabs');if(!host)return;const folders=getTravelFolders(),rows=visibleEventRows().filter(r=>r.category==='travel');if(activeTravelFolder!=='all'&&!folders.some(folder=>folder.id===activeTravelFolder))activeTravelFolder='all';host.innerHTML=`<button type="button" data-travel-folder="all" class="${activeTravelFolder==='all'?'active':''}"><span>ALL</span><b>${rows.length}</b></button>`+folders.map(folder=>`<button type="button" data-travel-folder="${escapeHtml(folder.id)}" class="${activeTravelFolder===folder.id?'active':''}"><span>${escapeHtml(folder.name)}</span><b>${rows.filter(r=>(r.folderId||'trip-default')===folder.id).length}</b></button>`).join('')}
+  function renderTravelFolders(){const host=$('#travelFolderTabs');if(!host)return;const folders=getTravelFolders(),rows=visibleEventRows().filter(r=>r.category==='travel');if(activeTravelFolder!=='all'&&!folders.some(folder=>folder.id===activeTravelFolder))activeTravelFolder='all';host.innerHTML=`<button type="button" data-travel-folder="all" class="${activeTravelFolder==='all'?'active':''}" style="--folder-color:#F4F1E9"><span>ALL TRIPS</span><small>전체 여행 기록</small><b>${rows.length}</b></button>`+folders.map(folder=>`<button type="button" data-travel-folder="${escapeHtml(folder.id)}" class="${activeTravelFolder===folder.id?'active':''}" style="--folder-color:${normalizeTravelFolderColor(folder.color)}"><span>${escapeHtml(folder.name)}</span><small>${escapeHtml(travelFolderPeriod(folder))}</small><b>${rows.filter(r=>(r.folderId||'trip-default')===folder.id).length}</b></button>`).join('')}
+  function openTravelFolderCreator(){if(!currentUser){requireLogin(openTravelFolderCreator);return}$('#travelFolderForm').reset();$('#travelFolderColorInput').value=TRAVEL_FOLDER_COLORS[0];$$('#travelFolderColorPicker [data-travel-folder-color]').forEach((button,index)=>button.classList.toggle('active',index===0));openModal('travelFolderModal')}
   function eventPlaceholderMarkup(category,label=''){const text=(label||eventCategoryLabel(category)||'').toUpperCase();if(category==='music')return `<div class="event-art-placeholder art-record"><div class="art-card"><span class="art-badge">${escapeHtml(text||'MUSIC')}</span></div></div>`;if(category==='book')return `<div class="event-art-placeholder art-book"><div class="art-card"><span class="art-badge">${escapeHtml(text||'BOOK')}</span></div></div>`;if(category==='performance')return `<div class="event-art-placeholder art-ticket"><div class="art-card"><span class="art-badge">${escapeHtml(text||'SHOW')}</span></div></div>`;return `<div class="event-art-placeholder art-movie"><div class="art-card"><span class="art-badge">${escapeHtml(text||'MOVIE')}</span></div></div>`}
   function fillEventImage(host,r,placeholder='✦'){host.innerHTML='';const category=r?.category||'movie';if(!r?.media?.fileId){host.innerHTML=eventPlaceholderMarkup(category,String(r?.title||placeholder||''));return}eventMediaSrc(r).then(src=>{if(!src){host.innerHTML=eventPlaceholderMarkup(category,String(r?.title||placeholder||''));return}const img=document.createElement('img');img.src=src;img.alt=r.title||'이벤트 이미지';host.appendChild(img)})}
   function clearEventPendingPreview(){if(eventPendingPreviewUrl){try{URL.revokeObjectURL(eventPendingPreviewUrl)}catch{}eventPendingPreviewUrl=''}eventPendingFile=null;eventOriginalMedia=null;const box=$('#eventPhotoPreview');if(box)box.innerHTML=''}
@@ -4460,8 +4538,8 @@ body:before,body:after{background:#FFF8E7!important;background-image:none!import
     $('#travelSort').value=travelSortMode;grid.innerHTML='';renderTravelFolders();
     if(!rows.length){
       const empty=document.createElement('div');empty.className='event-gallery-empty travel-empty';
-      empty.innerHTML=`<span class="event-gallery-empty-icon" aria-hidden="true">⌖</span><b>아직 여행 기록이 없습니다.</b><p>계획, 장소, 음식, 놀거리를 이 여행지 폴더에 정리해보세요.</p><button type="button">+ 첫 여행 기록</button>`;
-      empty.querySelector('button').addEventListener('click',()=>openEventReviewEditor(null,'travel'));
+      empty.innerHTML=`<span class="event-gallery-empty-icon" aria-hidden="true">⌖</span><b>아직 여행 기록이 없습니다.</b><p>계획, 장소, 음식, 놀거리를 이 여행지 폴더에 정리해보세요.</p><button type="button">+ 여행 계획</button>`;
+      empty.querySelector('button').addEventListener('click',()=>openEventReviewEditor(null,'travel','plan'));
       grid.appendChild(empty);return;
     }
     rows.forEach((r,i)=>{
@@ -4486,8 +4564,10 @@ body:before,body:after{background:#FFF8E7!important;background-image:none!import
   $('#eventSort').addEventListener('change',e=>{eventSortMode=e.target.value||'date';renderEventArchive()});$('#travelSort').addEventListener('change',e=>{travelSortMode=e.target.value||'date';renderTravelArchive()});
   $('#travelFolderTabs').addEventListener('click',e=>{const button=e.target.closest('[data-travel-folder]');if(!button)return;activeTravelFolder=button.dataset.travelFolder||'all';renderTravelArchive()});
   $('#travelKindActions').addEventListener('click',e=>{const button=e.target.closest('[data-travel-create]');if(!button)return;openEventReviewEditor(null,'travel',button.dataset.travelCreate||'plan')});
-  $('#travelFolderAdd').addEventListener('click',()=>{if(!currentUser){requireLogin(()=>$('#travelFolderAdd').click());return}const name=prompt('새 여행지 폴더 이름을 입력해주세요.');const folder=createTravelFolder(name);if(!folder)return;activeTravelFolder=folder.id;renderTravelArchive();toast(`${folder.name} 폴더를 만들었습니다.`)});
-  $('#eventAddBtn').addEventListener('click',()=>openEventReviewEditor(null,eventCategory==='all'?'movie':eventCategory));$('#travelAddBtn').addEventListener('click',()=>openEventReviewEditor(null,'travel'));
+  $('#travelFolderAdd').addEventListener('click',openTravelFolderCreator);
+  $('#travelFolderColorPicker').addEventListener('click',e=>{const button=e.target.closest('[data-travel-folder-color]');if(!button)return;const color=normalizeTravelFolderColor(button.dataset.travelFolderColor);$('#travelFolderColorInput').value=color;$$('#travelFolderColorPicker [data-travel-folder-color]').forEach(item=>item.classList.toggle('active',item===button))});
+  $('#travelFolderForm').addEventListener('submit',e=>{e.preventDefault();const name=$('#travelFolderNameInput').value.trim(),startDate=$('#travelFolderStartDate').value,endDate=$('#travelFolderEndDate').value;if(startDate&&endDate&&endDate<startDate){toast('도착일은 출발일 이후로 설정해주세요.');$('#travelFolderEndDate').focus();return}const existing=getTravelFolders().find(folder=>folder.name.toLowerCase()===name.toLowerCase());if(existing){toast('같은 이름의 여행지 폴더가 이미 있습니다.');return}const folder=createTravelFolder({name,color:$('#travelFolderColorInput').value,startDate,endDate});if(!folder)return;activeTravelFolder=folder.id;closeModal('travelFolderModal');renderTravelArchive();toast(`${folder.name} 폴더를 만들었습니다.`)});
+  $('#eventAddBtn').addEventListener('click',()=>openEventReviewEditor(null,eventCategory==='all'?'movie':eventCategory));
   $('#eventReviewCategory').addEventListener('change',e=>{if(e.target.value==='travel')refreshTravelFolderSelect(activeTravelFolder);configureEventReviewCategory(e.target.value)});$('#eventReviewTravelType').addEventListener('change',()=>configureEventReviewCategory('travel'));$('#eventStarInput').addEventListener('click',e=>{const b=e.target.closest('[data-star]');if(b)setEventReviewRating(Number(b.dataset.star))});
   $('#eventPhotoPick').addEventListener('click',()=>$('#eventPhotoInput').click());$('#eventPhotoInput').addEventListener('change',e=>{const f=e.target.files?.[0];if(!f)return;if(!f.type.startsWith('image/')){toast('사진 파일을 선택해주세요.');return}eventPendingFile=f;renderEventPhotoPreview(null,f);e.target.value='' });
   $('#eventReviewForm').addEventListener('submit',async e=>{e.preventDefault();if(!currentUserEmail)return;const id=$('#eventReviewId').value,rows=eventRows(),existing=id?rows.find(x=>x.id===id):null;if(existing&&!canEditEventReview(existing))return;let media=existing?.media||null;try{if(eventPendingFile){toast('사진을 공유 공간에 저장하는 중…');const up=await driveUploadMedia(eventPendingFile,'event-review');media={fileId:up.id,name:eventPendingFile.name,type:eventPendingFile.type};if(existing?.media?.fileId&&existing.media.fileId!==media.fileId)driveDeleteFile(existing.media.fileId)}const category=$('#eventReviewCategory').value,travelType=category==='travel'?$('#eventReviewTravelType').value:'',item={id:id||('er-'+Date.now()),category,travelType,folderId:category==='travel'?$('#eventReviewFolder').value:'',title:$('#eventReviewTitle').value.trim(),creator:category==='travel'?'':$('#eventReviewCreator').value.trim(),place:$('#eventReviewPlaceField').hidden?'':$('#eventReviewPlace').value.trim(),detailA:$('#eventReviewDetailA').value.trim(),detailB:$('#eventReviewDetailB').value.trim(),date:$('#eventReviewDate').value,endDate:category==='travel'&&travelType==='plan'?$('#eventReviewEndDate').value:'',rating:Number($('#eventReviewRating').value)||0,oneLine:$('#eventReviewOneLine').value.trim(),review:$('#eventReviewText').value.trim(),media,authorEmail:existing?.authorEmail||currentUserEmail,createdAt:existing?.createdAt||Date.now(),updatedAt:Date.now(),pairKey:existing?.pairKey||currentPairKey()};if(existing)rows[rows.findIndex(x=>x.id===id)]=item;else rows.push(item);cloudData.eventReviews=rows;await saveCloudData();clearEventPendingPreview();closeModal('eventReviewModal');renderEventArchive();renderTravelArchive();toast(category==='travel'?'여행지 폴더에 정리했습니다.':'아카이브 기록을 저장했습니다.')}catch(err){toast(googleErrorMessage(err))}});
