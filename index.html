@@ -2087,6 +2087,56 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   .app{padding-top:env(safe-area-inset-top)}
 }
 
+/* ===== AiderDear v45 · schedule + emotion, private relocation ===== */
+.tab[data-tab="private"]{--tab:#c6a5a1!important;color:#111!important;z-index:4}
+.tab[data-tab="future"]{--tab:#2c4b6e;color:#fff;z-index:1}
+.emotion-legacy-stage{display:none!important}
+.emotion-quick{height:30px;border:1px solid #111;background:#c6a5a1;color:#111;padding:0 10px;font-size:10px;font-weight:900;white-space:nowrap;border-radius:6px;cursor:pointer}
+.emotion-quick:hover{filter:brightness(.97);transform:translateY(-1px)}
+.schedule-insight-page{padding:0!important;background:#fff!important;overflow:hidden!important}
+.schedule-insight-shell{height:100%;width:100%;padding:24px 34px 30px!important;border-color:#9aafb7!important}
+.schedule-insight-shell .emotion-toolbar{align-items:center}
+.schedule-insight-shell .emotion-frame{height:100%}
+.schedule-insight-shell .emotion-content{overflow:auto!important;padding-right:3px!important}
+.calendar-mood-strip{display:flex;align-items:center;gap:2px;min-height:18px;width:100%;padding:1px 2px;border:0;background:transparent;overflow:hidden;cursor:pointer;text-align:left}
+.calendar-mood-chip{position:relative;display:inline-flex;align-items:center;justify-content:center;flex:0 0 17px;width:17px;height:17px;border:1px solid rgba(0,0,0,.28);border-radius:50%;font-size:8px;line-height:1;color:#111;box-shadow:0 1px 0 rgba(255,255,255,.7) inset}
+.calendar-mood-chip:after{content:"";position:absolute;right:-2px;bottom:-1px;width:5px;height:5px;border:1px solid #fff;border-radius:50%;background:#9aafb7}
+.calendar-mood-chip.mood-owner-partner:after{background:#c6a5a1}.calendar-mood-chip.mood-owner-shared:after{background:#ddd0ad}
+.calendar-mood-period{display:inline-grid;place-items:center;flex:0 0 15px;height:15px;border-radius:50%;background:#222;color:#fff;font-size:7px;font-weight:900}
+.calendar-mood-more{font-size:8px;font-weight:900;color:#555;white-space:nowrap}
+.future-stage{position:relative;min-height:0;height:100%;background:#fff;border:1px solid rgba(0,0,0,.12);padding:24px 34px 30px;overflow:hidden}
+.future-stage[hidden]{display:none!important}.future-blank{height:100%;border-left:2px solid #111;border-right:2px solid #111;position:relative;background:#fff}.future-blank:before,.future-blank:after{content:"";position:absolute;left:16px;right:16px;height:2px;background:#111}.future-blank:before{top:0}.future-blank:after{bottom:0}
+.private-v18-dashboard{grid-template-columns:minmax(0,1.2fr) minmax(250px,.8fr)!important;gap:14px!important}
+.private-v18-dashboard .private-column.memo-column{display:flex!important}
+
+@media(max-width:980px){
+  .schedule-insight-shell{padding:18px 20px 24px!important}
+  .private-v18-dashboard{grid-template-columns:minmax(0,1.12fr) minmax(220px,.88fr)!important}
+}
+
+@media(max-width:599px){
+  .stage,.record-stage,.event-stage,.private-stage,.future-stage{grid-row:2!important}
+  .tab[data-tab="future"]{color:#fff!important}
+  .emotion-quick{height:38px;min-height:38px;padding:0 10px;font-size:10px;flex:0 0 auto}
+  .schedule-insight-page{padding:10px!important;background:#f5f3ee!important;overflow-y:auto!important}
+  .schedule-insight-shell{height:auto!important;min-height:calc(100dvh - var(--phone-nav) - 86px);padding:12px!important;border:0!important;border-radius:22px;box-shadow:0 9px 26px rgba(0,0,0,.07)}
+  .schedule-insight-shell .emotion-frame{min-height:690px;padding:15px 10px 18px!important;gap:10px}
+  .schedule-insight-shell .emotion-toolbar{align-items:flex-start;gap:9px;flex-wrap:wrap}
+  .schedule-insight-shell .insight-add{margin-left:auto}
+  .calendar-mood-strip{min-height:15px;padding:0;gap:1px}
+  .calendar-mood-chip{flex-basis:14px;width:14px;height:14px;font-size:7px}.calendar-mood-chip:after{width:4px;height:4px}
+  .calendar-mood-period{flex-basis:12px;width:12px;height:12px;font-size:6px}.calendar-mood-more{font-size:7px}
+  .private-v18-dashboard{grid-template-columns:1fr!important;height:auto!important;overflow:visible!important}
+  .private-v18-dashboard .private-column{height:auto!important;min-height:0!important}
+  .private-v18-dashboard .private-column.memo-column{display:flex!important;min-height:410px!important}
+  .future-stage{height:100%!important;padding:10px!important;background:#f5f3ee;border:0}.future-blank{border:0;border-radius:22px;box-shadow:0 9px 26px rgba(0,0,0,.07)}.future-blank:before,.future-blank:after{display:none}
+}
+
+@media(max-width:370px){
+  .schedule-insight-page{padding:7px!important}.schedule-insight-shell{padding:8px!important}.schedule-insight-shell .emotion-frame{padding-inline:7px!important}
+  .emotion-quick{padding-inline:8px!important;font-size:9px!important}
+}
+
 </style>
 </head>
 <body>
@@ -2099,10 +2149,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   <div class="nav-row">
     <nav class="tabs" role="tablist" aria-label="AiderDear 주요 메뉴">
       <button class="tab active" type="button" role="tab" data-tab="schedule" aria-controls="stage" aria-selected="true" tabindex="0">SCHEDULE</button>
-      <button class="tab" type="button" role="tab" data-tab="emotion" aria-controls="emotionStage" aria-selected="false" tabindex="-1">EMOTION</button>
+      <button class="tab" type="button" role="tab" data-tab="private" aria-controls="privateStage" aria-selected="false" tabindex="-1">PRIVATE</button>
       <button class="tab" type="button" role="tab" data-tab="record" aria-controls="recordStage" aria-selected="false" tabindex="-1">RECORD</button>
       <button class="tab" type="button" role="tab" data-tab="event" aria-controls="eventStage" aria-selected="false" tabindex="-1">EVENT</button>
-      <button class="tab" type="button" role="tab" data-tab="private" aria-controls="privateStage" aria-selected="false" tabindex="-1">PRIVATE</button>
+      <button class="tab" type="button" role="tab" data-tab="future" aria-controls="futureStage" aria-selected="false" tabindex="-1" aria-label="향후 기능을 위한 빈 탭">＋</button>
     </nav>
       <div class="nav-tools" aria-label="빠른 도구">
         <div class="top-actions">
@@ -2131,6 +2181,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
             <button class="mini-btn" id="nextMonth" aria-label="다음 달">→</button>
             <div class="filters" id="schedulePeopleFilters" aria-label="함께 보는 사용자"></div>
             <button class="primary" id="addScheduleTop">+ 일정 등록</button>
+            <button class="emotion-quick" id="addEmotionTop" type="button">+ 감정 기록</button>
           </div>
         </div>
         <div class="calendar" id="calendar"></div>
@@ -2163,36 +2214,15 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
       </aside>
     </article>
 
-    <article class="page next compose-page" id="page1" aria-hidden="true">
-      <section class="left-compose">
-        <div class="manifesto">
-          <h2>Dear us, always</h2>
-          <p>지금의 우리를, 미래의 우리에게 <strong>AiderDear</strong></p>
-        </div>
-        <div class="action-grid">
-          <button class="action-card schedule-card" id="addScheduleBottom" type="button">
-            <svg class="compose-icon" viewBox="0 0 100 100" aria-hidden="true">
-              <rect x="16" y="22" width="68" height="62" rx="3"></rect>
-              <path d="M16 39h68M32 15v15M68 15v15M31 53h9M46 53h9M61 53h9M31 66h9M46 66h9M61 66h9"></path>
-            </svg>
-            <div class="compose-label">01 — <b>PLAN</b></div>
-          </button>
-          <button class="action-card record-card" id="recordBtn" type="button">
-            <svg class="compose-icon" viewBox="0 0 100 100" aria-hidden="true">
-              <rect x="14" y="20" width="72" height="62" rx="3"></rect>
-              <circle cx="66" cy="40" r="8"></circle>
-              <path d="M21 74l22-22 14 14 9-9 13 13M29 14h42"></path>
-            </svg>
-            <div class="compose-label">02 — <b>RECORD</b></div>
-          </button>
-        </div>
-      </section>
-      <section class="media-panel schedule-memo-frame" aria-label="개인 메모">
-        <div class="schedule-memo-head">
-          <div><span>PRIVATE NOTES</span><h3>메모</h3></div>
-          <p>나만 볼 수 있는 생각을 일정 옆에 남겨보세요.</p>
-        </div>
-        <div class="schedule-memo-panel" id="scheduleMemoPanel"></div>
+    <article class="page next schedule-insight-page" id="page1" aria-hidden="true">
+      <section class="emotion-shell schedule-insight-shell" id="emotionInsightPage" aria-label="감정 인사이트">
+        <section class="emotion-frame" id="emotionInsightFrame">
+          <div class="emotion-toolbar">
+            <div class="emotion-title-group"><h2 class="emotion-heading">Insights</h2><span class="emotion-insight-kicker">LAST 30 DAYS</span></div>
+            <button class="emotion-quick insight-add" id="addEmotionInsight" type="button">+ 오늘 감정 기록</button>
+          </div>
+          <div class="emotion-content emotion-insight-content" id="emotionInsightsPage"></div>
+        </section>
       </section>
     </article>
 
@@ -2204,7 +2234,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 
 
 
-  <section class="emotion-stage" id="emotionStage" aria-label="감정 기록과 인사이트" hidden>
+  <section class="emotion-stage emotion-legacy-stage" id="emotionStage" aria-label="감정 기록 지원 영역" hidden aria-hidden="true">
     <section class="emotion-shell emotion-page current" id="emotionRecordPage" aria-label="이달의 감정" aria-hidden="false">
       <section class="emotion-frame" id="emotionFrame">
         <div class="emotion-toolbar">
@@ -2237,19 +2267,6 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
       </section>
     </section>
 
-    <section class="emotion-shell emotion-page next" id="emotionInsightPage" aria-label="감정 인사이트" aria-hidden="true">
-      <section class="emotion-frame" id="emotionInsightFrame">
-        <div class="emotion-toolbar">
-          <div class="emotion-title-group"><h2 class="emotion-heading">Insights</h2><span class="emotion-insight-kicker">LAST 30 DAYS</span></div>
-        </div>
-        <div class="emotion-content emotion-insight-content" id="emotionInsightsPage"></div>
-      </section>
-    </section>
-
-    <div class="emotion-page-dots" aria-label="감정 페이지 위치">
-      <button class="emotion-dot active" type="button" data-emotion-page="0" aria-label="이달의 감정 화면"></button>
-      <button class="emotion-dot" type="button" data-emotion-page="1" aria-label="인사이트 화면"></button>
-    </div>
   </section>
 
   <section class="record-stage" id="recordStage" aria-label="기록과 앨범 화면" hidden>
@@ -2337,7 +2354,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   <section class="private-stage" id="privateStage" aria-label="개인 기록" hidden>
     <section class="private-shell private-page current" id="privateShell" aria-label="개인 체크리스트와 메모" aria-hidden="false">
       <section class="private-frame" id="privateFrame">
-        <div class="private-toolbar"><div><h2 class="private-heading">Private</h2><span class="private-page-kicker">MY CHECKLIST</span></div></div>
+        <div class="private-toolbar"><div><h2 class="private-heading">Private</h2><span class="private-page-kicker">MY CHECKLIST &amp; NOTES</span></div></div>
         <div class="private-content private-dashboard-content"><div class="private-panel" id="privatePanel"></div></div>
       </section>
     </section>
@@ -2348,6 +2365,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
       </section>
     </section>
     <div class="private-page-dots" aria-label="PRIVATE 페이지 위치"><button class="private-dot active" type="button" data-private-page="0" aria-label="체크리스트와 메모"></button><button class="private-dot" type="button" data-private-page="1" aria-label="루틴"></button></div>
+  </section>
+
+  <section class="future-stage" id="futureStage" aria-label="향후 기능을 위한 빈 공간" hidden aria-hidden="true">
+    <div class="future-blank" aria-hidden="true"></div>
   </section>
 
   <div class="side-word">MADE BY BOMIN</div>
@@ -3240,8 +3261,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
       const date=iso(cy,cm,day); const cell=document.createElement('div'); cell.className='day'+(out?' out':'');
       if(date===iso(today.getFullYear(),today.getMonth(),today.getDate())) cell.classList.add('today-cell');
       const dayEvents=events.filter(e=>eventOccursOnDate(e,date) && eventPassesPersonFilter(e)).sort((a,b)=>Number(!!b.isHoliday)-Number(!!a.isHoliday)||(a.date||'').localeCompare(b.date||'')||(a.time||'').localeCompare(b.time||''));const holidayEvents=dayEvents.filter(e=>e.isHoliday);if(holidayEvents.length)cell.classList.add('holiday-day');
+      const moodRows=currentUser?emotionVisibleOwners().map(email=>entryForDate(email,date)).filter(Boolean):[];
       const numRow=document.createElement('div');numRow.className='daynum-row';const n=document.createElement('div');n.className='daynum';n.textContent=String(day).padStart(2,'0');numRow.appendChild(n);if(holidayEvents.length){const h=document.createElement('span');h.className='holiday-name';h.textContent=holidayEvents.map(e=>e.title).join(' · ');h.title=h.textContent;numRow.appendChild(h)}cell.appendChild(numRow);
-      dayEvents.filter(e=>!e.isHoliday).slice(0,5).forEach(e=>{
+      if(moodRows.length){const strip=document.createElement('button');strip.type='button';strip.className='calendar-mood-strip';strip.setAttribute('aria-label',`${date} 감정 기록 보기`);const moodItems=[];moodRows.forEach(row=>{const owner=normalizeEmail(row.owner),name=emotionData[owner]?.profile?.name||familyUser(owner).name||owner.split('@')[0];entryMoods(row).slice(0,2).forEach(mood=>moodItems.push({mood,owner,name}))});moodItems.slice(0,3).forEach(item=>{const chip=document.createElement('span'),ownerKind=item.owner===currentUserEmail?'mine':(mutualPartner()?.email===item.owner?'partner':'shared');chip.className=`calendar-mood-chip mood-owner-${ownerKind}`;chip.style.cssText=miniMoodStyle(item.mood);chip.textContent=EMOTION_FACES[item.mood]||'•ᴗ•';chip.title=`${item.name} · ${item.mood}`;strip.appendChild(chip)});if(moodRows.some(row=>row.period)){const period=document.createElement('span');period.className='calendar-mood-period';period.textContent='P';period.title='생리일';strip.appendChild(period)}if(moodItems.length>3){const more=document.createElement('span');more.className='calendar-mood-more';more.textContent=`+${moodItems.length-3}`;strip.appendChild(more)}strip.addEventListener('click',ev=>{ev.stopPropagation();renderEmotionDayDetail(date)});cell.appendChild(strip)}
+      dayEvents.filter(e=>!e.isHoliday).slice(0,moodRows.length?3:5).forEach(e=>{
         const b=document.createElement('button');b.className=`ev ${e.owner}`;b.type='button';const range=(e.endDate&&e.endDate!==e.date)?` (${e.date.slice(5).replace('-','/')}~${e.endDate.slice(5).replace('-','/')})`:'';const author=normalizeEmail(e.authorEmail);const who=author?(author===currentUserEmail?(currentUserName||'나'):(emotionData[author]?.profile?.name||familyUser(author).name||author)):ownerLabel(e.owner);b.title=`${who} · ${e.sourceTitle||'AiderDear'} · ${e.title}${range}`;b.textContent=`${e.time?e.time+' ':''}${e.title}`;b.addEventListener('click',ev=>{ev.stopPropagation();openEvent(e)});cell.appendChild(b)
       });
       cal.appendChild(cell);
@@ -3387,9 +3410,9 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   $('#searchInput').addEventListener('input',e=>renderSearchResults(e.target.value));
   $('#searchResults').addEventListener('click',e=>{
     const item=e.target.closest('[data-search-tab]');if(!item)return;const tab=item.dataset.searchTab,id=item.dataset.searchId,date=item.dataset.searchDate;
-    closeModal('searchModal',false);showMainTab(tab);
+    closeModal('searchModal',false);showMainTab(tab==='emotion'?'schedule':tab);
     if(tab==='schedule'){const row=events.find(x=>String(x.id)===id);if(row)setTimeout(()=>openEvent(row),0)}
-    if(tab==='emotion'&&date)setTimeout(()=>renderEmotionDayDetail(date),0);
+    if(tab==='emotion'&&date){goPage(0,true);setTimeout(()=>renderEmotionDayDetail(date),0)}
     if(tab==='record'&&date){recordDateSearch=date;$('#recordDateSearch').value=date;$('#recordDateClear').hidden=false;setTimeout(renderRecordFeed,0)}
     if(tab==='event'){const row=eventRows().find(x=>String(x.id)===id);if(row)setTimeout(()=>openEventReviewView(row.id),0)}
   });
@@ -3500,7 +3523,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 
   $('#eventAllDay').addEventListener('change',()=>syncEventAllDayFields(false));
   $('#addScheduleTop').addEventListener('click',()=>newEvent(currentUser==='partner'?'partner':'mine'));
-  $('#addScheduleBottom').addEventListener('click',()=>newEvent('shared'));
+  $('#addScheduleBottom')?.addEventListener('click',()=>newEvent('shared'));
   $('#scheduleForm').addEventListener('submit',async e=>{
     e.preventDefault();if(!currentUser||!googleToken)return;
     const id=$('#eventId').value;const title=$('#eventTitle').value.trim();if(!title)return;
@@ -3742,7 +3765,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
     }
     e.target.value='';renderRecordPreviews();
   });
-  $('#recordBtn').addEventListener('click',openNewRecord);$('#newRecordTop').addEventListener('click',openNewRecord);
+  $('#recordBtn')?.addEventListener('click',openNewRecord);$('#newRecordTop').addEventListener('click',openNewRecord);
   $('#recordForm').addEventListener('submit',async e=>{
     e.preventDefault();if(!currentUser||!googleToken)return;
     const rows=getRecords();const id=$('#recordId').value;const existing=id?rows.find(x=>x.id===id):null;if(existing&&!canEditRecord(existing))return;
@@ -4065,7 +4088,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
       </aside>
     </section>`
   }
-  function renderEmotion(){const owners=currentUser?emotionVisibleOwners():[],allRows=currentUser?owners.flatMap(emotionEntries).sort((a,b)=>(b.date||'').localeCompare(a.date||'')||(b.updatedAt||b.createdAt||0)-(a.updatedAt||a.createdAt||0)):[];renderEmotionMoodCalendar(allRows,owners);renderBucketList();const insights=$('#emotionInsightsPage'),ownRows=currentUserEmail?emotionEntries(currentUserEmail):[];if(insights)insights.innerHTML=renderEmotionInsights(ownRows)}
+  function renderEmotion(){const owners=currentUser?emotionVisibleOwners():[],allRows=currentUser?owners.flatMap(emotionEntries).sort((a,b)=>(b.date||'').localeCompare(a.date||'')||(b.updatedAt||b.createdAt||0)-(a.updatedAt||a.createdAt||0)):[];renderEmotionMoodCalendar(allRows,owners);renderBucketList();const insights=$('#emotionInsightsPage'),ownRows=currentUserEmail?emotionEntries(currentUserEmail):[];if(insights)insights.innerHTML=renderEmotionInsights(ownRows);renderCalendar()}
   function goEmotionPage(next,force=false){next=Math.max(0,Math.min(1,next));if((next===emotionPageIndex&&!force)||emotionFlipLocked)return;emotionFlipLocked=true;[$('#emotionRecordPage'),$('#emotionInsightPage')].forEach((page,i)=>{page.classList.remove('current','next','prev');page.classList.add(i===next?'current':(i<next?'prev':'next'));page.setAttribute('aria-hidden',i===next?'false':'true')});$$('.emotion-dot').forEach((d,i)=>d.classList.toggle('active',i===next));emotionPageIndex=next;animateStandaloneFrame(next===0?'#emotionFrame':'#emotionInsightFrame');setTimeout(()=>emotionFlipLocked=false,760)}
   $('#emotionStage').addEventListener('wheel',e=>{if(Math.abs(e.deltaY)<16)return;e.preventDefault();goEmotionPage(emotionPageIndex+(e.deltaY>0?1:-1))},{passive:false});
   $('#emotionStage').addEventListener('touchstart',e=>{emotionTouchY=e.touches[0]?.clientY??null},{passive:true});
@@ -4080,7 +4103,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   }
   $('#emotionMoodCalendar').addEventListener('click',e=>{const b=e.target.closest('[data-emotion-day-open]');if(!b)return;renderEmotionDayDetail(b.dataset.emotionDayOpen)});
   $('#emotionDayDetailList').addEventListener('click',e=>{const edit=e.target.closest('[data-emotion-day-edit]');if(edit){const r=emotionData[currentUserEmail]?.entries?.find(x=>x.id===edit.dataset.emotionDayEdit);closeModal('emotionDayModal');if(r)openEmotionEditor(r,'journal');return}const add=e.target.closest('[data-emotion-day-add]');if(add){const date=add.dataset.emotionDayAdd;closeModal('emotionDayModal');openEmotionEditor(entryForDate(currentUserEmail,date),'journal',date)}});
-  $('#newEmotionDiaryBtn').addEventListener('click',()=>openEmotionEditor(entryForDate(currentUserEmail,iso(today.getFullYear(),today.getMonth(),today.getDate())),'journal'));
+  function openTodayEmotionRecord(){if(!currentUser){requireLogin(openTodayEmotionRecord);return}const date=iso(today.getFullYear(),today.getMonth(),today.getDate());openEmotionEditor(entryForDate(currentUserEmail,date),'journal',date)}
+  $('#newEmotionDiaryBtn')?.addEventListener('click',openTodayEmotionRecord);
+  $('#addEmotionTop')?.addEventListener('click',openTodayEmotionRecord);
+  $('#addEmotionInsight')?.addEventListener('click',openTodayEmotionRecord);
   $('#emotionForm').addEventListener('submit',async e=>{
     e.preventDefault();if(!currentUserEmail||!emotionRefs[currentUserEmail]?.writable)return;
     const id=$('#emotionEntryId').value,d=emotionData[currentUserEmail],date=$('#emotionDate').value;if(!date)return;let existing=id?d.entries.find(x=>x.id===id):d.entries.find(x=>x.date===date);
@@ -4167,12 +4193,12 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   function checklistTaskCard(c,writable){const due=c.date?c.date.slice(5).replace('-','.'):'—',important=checklistImportant(c),urgent=checklistUrgent(c);return `<article class="matrix-task ${c.done?'done':''}"><input type="checkbox" data-check-toggle="${escapeHtml(c.id)}" ${c.done?'checked':''} ${writable?'':'disabled'}><div><b>${escapeHtml(c.text||'')}</b><span>마감 ${escapeHtml(due)} · ${urgent?'긴급':'긴급하지 않음'} · ${important?'중요':'중요하지 않음'}</span></div>${writable?`<button type="button" data-private-delete="checklist" data-id="${escapeHtml(c.id)}">×</button>`:''}</article>`}
   function renderChecklistPanel(data,writable,note){const todayKey=dateKeyOffset(0),list=(data.checklists||[]).slice().sort((a,b)=>(Number(a.done)-Number(b.done))||(a.date||'9999').localeCompare(b.date||'9999'));const form=writable?`<form class="matrix-add-form" id="privateChecklistForm"><input type="text" id="privateChecklistText" maxlength="120" placeholder="할 일" required><input type="date" id="privateChecklistDate" value="${todayKey}"><select id="privateChecklistUrgency"><option value="urgent">긴급</option><option value="not-urgent" selected>긴급하지 않음</option></select><select id="privateChecklistImportance"><option value="important">중요</option><option value="not-important" selected>중요하지 않음</option></select><button class="private-add" type="submit">+ ADD</button></form>`:'';const q={do:[],schedule:[],delegate:[],delete:[]};list.forEach(c=>q[checklistQuadrant(c)].push(c));const cell=(key,title)=>`<section class="matrix-quadrant matrix-${key}"><div class="matrix-quadrant-head"><strong>${title}</strong></div><div class="matrix-quadrant-body">${q[key].map(c=>checklistTaskCard(c,writable)).join('')||'<i>—</i>'}</div></section>`;return note+`<div class="eisenhower-wrap">${form}<div class="matrix-axis-top"><span>긴급</span><span>긴급하지 않음</span></div><div class="matrix-body-wrap"><div class="matrix-axis-left"><span>중요</span><span>중요하지 않음</span></div><div class="eisenhower-matrix">${cell('do','DO')}${cell('schedule','DECIDE')}${cell('delegate','DELEGATE')}${cell('delete','DELETE')}</div></div></div>`}
   function renderMemoPostits(data,writable){const memos=(data.memos||[]).slice(0,2);return `<div class="postit-two-wall">${[0,1].map(i=>{const m=memos[i]||null;if(editingMemoSlot===i&&writable)return `<form id="privateMemoSlotForm" class="postit-note postit-edit note-${i+1}"><input type="hidden" id="privateMemoSlot" value="${i}"><textarea id="privateMemoSlotText" maxlength="1200" autofocus placeholder="메모를 적어주세요.">${escapeHtml(m?.text||'')}</textarea><div><button type="button" data-memo-cancel>취소</button><button type="submit">저장</button></div></form>`;return `<article class="postit-note note-${i+1} ${m?'filled':'empty'}" data-memo-slot="${i}"><span class="postit-tape"></span><button type="button" class="postit-click" data-memo-slot="${i}"><small>MEMO 0${i+1}</small><p>${m?escapeHtml(m.text||''):'CLICK TO WRITE'}</p></button>${m&&writable?`<button type="button" class="postit-remove" data-private-delete="memo" data-id="${escapeHtml(m.id)}">×</button>`:''}</article>`}).join('')}</div>`}
-  function renderPrivateDashboard(data,writable){const checklistHtml=renderChecklistPanel(data,writable,'');return `<div class="private-dashboard private-v18-dashboard"><section class="private-column checklist-column"><div class="private-column-head"><b>CHECKLIST</b></div>${checklistHtml}</section></div>`}
+  function renderPrivateDashboard(data,writable){const checklistHtml=renderChecklistPanel(data,writable,''),memoHtml=renderMemoPostits(data,writable);return `<div class="private-dashboard private-v18-dashboard"><section class="private-column checklist-column"><div class="private-column-head"><b>CHECKLIST</b></div>${checklistHtml}</section><section class="private-column memo-column"><div class="private-column-head"><b>PRIVATE NOTES</b><span>나만 볼 수 있어요</span></div>${memoHtml}</section></div>`}
   function renderPrivate(){
-    const panel=$('#privatePanel'),routine=$('#privateRoutinePanel'),memoPanel=$('#scheduleMemoPanel'),toolbarTabs=$('#routineToolbarTabs');if(!panel||!routine)return;
-    if(!currentUserEmail){panel.innerHTML='<div class="private-empty">Google 로그인 후 PRIVATE를 사용할 수 있습니다.</div>';routine.innerHTML='';if(memoPanel)memoPanel.innerHTML='<div class="private-empty">로그인 후 나만의 메모를 남길 수 있습니다.</div>';return}
+    const panel=$('#privatePanel'),routine=$('#privateRoutinePanel'),toolbarTabs=$('#routineToolbarTabs');if(!panel||!routine)return;
+    if(!currentUserEmail){panel.innerHTML='<div class="private-empty">Google 로그인 후 PRIVATE를 사용할 수 있습니다.</div>';routine.innerHTML='';return}
     privateOwner=currentUserEmail;const data=privateData[currentUserEmail]||blankPrivateData(currentUserEmail),writable=privateCanWrite();
-    panel.innerHTML=renderPrivateDashboard(data,writable);routine.innerHTML=renderRoutinePanel(data,writable,'');if(memoPanel)memoPanel.innerHTML=renderMemoPostits(data,writable);
+    panel.innerHTML=renderPrivateDashboard(data,writable);routine.innerHTML=renderRoutinePanel(data,writable,'');
     toolbarTabs?.querySelectorAll('[data-routine-tab]').forEach(button=>button.classList.toggle('active',button.dataset.routineTab===routinePanelMode));requestAnimationFrame(()=>{const scroller=routine.querySelector('.routine-round-grid'),today=scroller?.querySelector('.today');if(scroller&&today)scroller.scrollLeft=Math.max(0,today.offsetLeft-(scroller.clientWidth-today.clientWidth)/2)})
   }
   $('#privateStage').addEventListener('submit',async e=>{const form=e.target.closest('form');if(!form)return;e.preventDefault();if(!privateCanWrite()){toast('내 PRIVATE에서만 기록할 수 있습니다.');return}privateOwner=currentUserEmail;if(!privateData[privateOwner])privateData[privateOwner]=blankPrivateData(privateOwner);const d=privateData[privateOwner];d.memos=Array.isArray(d.memos)?d.memos:[];d.routines=Array.isArray(d.routines)?d.routines:[];d.checklists=Array.isArray(d.checklists)?d.checklists:[];d.routineGoals=Array.isArray(d.routineGoals)?d.routineGoals:['','',''];let saved=false,message='PRIVATE에 저장했습니다.';if(form.id==='privateMemoSlotForm'){const slot=Math.max(0,Math.min(1,Number($('#privateMemoSlot')?.value)||0)),v=$('#privateMemoSlotText')?.value.trim()||'',existing=d.memos[slot];if(v){if(existing){existing.text=v;existing.updatedAt=Date.now()}else d.memos.push({id:'pm-'+Date.now(),text:v,createdAt:Date.now(),updatedAt:Date.now()})}else if(existing)d.memos=d.memos.filter(x=>x.id!==existing.id);editingMemoSlot=-1;saved=true;message='메모를 저장했습니다.'}else if(form.id==='privateRoutineForm'){const v=$('#privateRoutineText')?.value.trim();if(!v){toast('루틴 이름을 입력해주세요.');return}const editId=$('#privateRoutineEditId')?.value||'';const payload={text:v.slice(0,80),goalDays:Number($('#privateRoutineGoal')?.value)||20,color:$('#privateRoutineColor')?.value||'orange',icon:$('#privateRoutineIcon')?.value||routineCreateIcon||'✨',miniText:$('#privateRoutineMini')?.value.trim()||'5분만 시작하기',moreText:$('#privateRoutineMore')?.value.trim()||'20분 집중하기',maxText:$('#privateRoutineMax')?.value.trim()||'충분히 끝내기'};if(editId){const r=d.routines.find(x=>x.id===editId);if(!r){toast('수정할 루틴을 찾지 못했습니다.');return}Object.assign(r,payload,{cycleDays:payload.goalDays,updatedAt:Date.now()});selectedRoutineId=r.id;message='루틴을 수정했습니다.'}else{const id='pr-'+Date.now();d.routines.push({id,...payload,cycleDays:payload.goalDays,doneDates:[],dailyLevels:{},bigGoals:['','',''],goalTracking:{'0':{},'1':{},'2':{}},goalDerivedDates:{},braggedAt:0,createdAt:Date.now()});selectedRoutineId=id;message='루틴을 만들었습니다.'}editingRoutineId='';routinePanelMode='routines';saved=true}else if(form.id==='privateRoutineGoalsForm'){const r=d.routines.find(x=>x.id===selectedRoutineId)||d.routines[0];if(!r){toast('루틴을 먼저 만들어주세요.');return}r.bigGoals=[0,1,2].map(i=>($(`#routineBigGoal${i}`)?.value||'').trim().slice(0,120));r.goalTracking=r.goalTracking&&typeof r.goalTracking==='object'?r.goalTracking:{'0':{},'1':{},'2':{}};saved=true;message='큰 목표를 저장했습니다.'}else if(form.id==='privateChecklistForm'){const v=$('#privateChecklistText')?.value.trim();if(v){const urgent=$('#privateChecklistUrgency')?.value==='urgent',important=$('#privateChecklistImportance')?.value==='important';d.checklists.push({id:'pc-'+Date.now(),text:v,date:$('#privateChecklistDate')?.value||'',time:'',urgent,important,priority:important?'높음':'보통',category:'',done:false,createdAt:Date.now()});saved=true;message='체크리스트에 추가했습니다.'}}if(!saved)return;try{await savePrivateData(privateOwner);renderPrivate();toast(message)}catch(err){toast(googleErrorMessage(err))}});
@@ -4190,15 +4216,14 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 
   function animateStandaloneFrame(id){const el=$(id);if(!el)return;el.classList.remove('line-active');void el.offsetWidth;el.classList.add('line-active')}
   function showMainTab(tab){
-    if((tab==='emotion'||tab==='record'||tab==='event'||tab==='private')&&!currentUser){requireLogin(()=>showMainTab(tab));return}
-    const tabLabels={schedule:'Schedule',emotion:'Emotion',record:'Record',event:'Event',private:'Private'};
+    if((tab==='record'||tab==='event'||tab==='private')&&!currentUser){requireLogin(()=>showMainTab(tab));return}
+    const tabLabels={schedule:'Schedule',private:'Private',record:'Record',event:'Event',future:'AiderDear'};
     $$('.tab').forEach(t=>{const active=t.dataset.tab===tab;t.classList.toggle('active',active);t.setAttribute('aria-selected',String(active));t.tabIndex=active?0:-1});
-    document.body.classList.toggle('emotion-mode',tab==='emotion');document.body.classList.toggle('record-mode',tab==='record');document.body.classList.toggle('event-mode',tab==='event');document.body.classList.toggle('private-mode',tab==='private');
-    const sections={schedule:$('#stage'),emotion:$('#emotionStage'),record:$('#recordStage'),event:$('#eventStage'),private:$('#privateStage')};Object.entries(sections).forEach(([key,section])=>{if(!section)return;const active=key===tab;section.hidden=!active;section.setAttribute('aria-hidden',String(!active))});
+    document.body.classList.remove('emotion-mode');document.body.classList.toggle('record-mode',tab==='record');document.body.classList.toggle('event-mode',tab==='event');document.body.classList.toggle('private-mode',tab==='private');
+    $('#emotionStage').hidden=true;$('#emotionStage').setAttribute('aria-hidden','true');const sections={schedule:$('#stage'),private:$('#privateStage'),record:$('#recordStage'),event:$('#eventStage'),future:$('#futureStage')};Object.entries(sections).forEach(([key,section])=>{if(!section)return;const active=key===tab;section.hidden=!active;section.setAttribute('aria-hidden',String(!active))});
     document.title=`${tabLabels[tab]||'AiderDear'} · AiderDear`;
     if(tab==='schedule'){renderCalendar();renderPrivate();const mediaVideo=$('#coupleVideo2');if(pageIndex===0&&mediaVideo&&!mediaVideo.hidden)mediaVideo.play().catch(()=>{});return}
     const v=$('#coupleVideo2');if(v&&!v.hidden)v.pause();
-    if(tab==='emotion'){emotionPageIndex=0;renderEmotion();goEmotionPage(0,true);return}
     if(tab==='record'){goRecordPage(0,true);return}
     if(tab==='event'){goEventPage(0,true);return}
     if(tab==='private'){privateOwner=currentUserEmail||privateOwner;renderPrivate();goPrivatePage(0,true);return}
