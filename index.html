@@ -2588,6 +2588,88 @@ body:before,body:after{background:#46444D!important;background-image:none!import
 }
 @media(max-width:430px){.travel-folder-date-grid{grid-template-columns:1fr}.travel-folder-color-picker button{width:34px;height:34px}}
 
+/* ===== AiderDear v56 · complete routine stamps and tighter controls ===== */
+.routine-progress-card{
+  grid-template-rows:34px minmax(160px,.62fr) minmax(var(--stamp-min-height,300px),1.38fr)!important;
+  align-content:stretch!important
+}
+.routine-progress-top{
+  display:flex!important;grid-template-columns:none!important;align-items:center!important;justify-content:flex-end!important;
+  gap:7px!important;padding:0 5px!important
+}
+.routine-progress-top .routine-hero-selector{
+  order:1!important;flex:0 1 auto!important;width:auto!important;max-width:min(62%,360px)!important;
+  margin-left:auto!important;justify-content:flex-end!important;justify-self:auto!important;overflow-x:auto!important
+}
+.routine-progress-top .routine-progress-tools{order:2!important;flex:0 0 auto!important;display:flex!important;align-items:center!important;gap:5px!important}
+.routine-progress-top .routine-progress-tools>button{flex:0 0 auto!important}
+
+.routine-progress-intro{padding:14px 19px 13px!important}
+.routine-progress-metrics{display:flex;align-items:center;gap:8px 18px;flex-wrap:wrap;margin:0 0 9px;color:rgba(255,255,255,.76)}
+.routine-progress-metrics span{font-size:7px;font-weight:700;white-space:nowrap}
+.routine-progress-metrics b{margin-left:4px;font-size:10px;color:#fff}
+.routine-progress-intro h3{margin:0 0 12px!important}
+
+.routine-round-grid{
+  min-height:var(--stamp-min-height,300px)!important;height:100%!important;
+  grid-template-columns:repeat(var(--routine-columns),minmax(0,1fr))!important;
+  grid-template-rows:repeat(var(--routine-rows),minmax(0,1fr))!important;
+  align-content:stretch!important;place-items:center!important;
+  overflow-x:auto!important;overflow-y:hidden!important
+}
+.routine-round-grid[data-grid-mode="compact"]{--stamp-size:82px!important}
+.routine-round-grid[data-grid-mode="standard"]{--stamp-size:64px!important}
+.routine-round-grid[data-grid-mode="scroll"]{--stamp-size:52px!important;grid-template-columns:repeat(var(--routine-columns),52px)!important;grid-template-rows:repeat(var(--routine-rows),52px)!important;align-content:center!important}
+.routine-round-stamp{width:min(var(--stamp-size),calc(100% - 4px))!important;max-width:var(--stamp-size)!important;height:auto!important;max-height:var(--stamp-size)!important;aspect-ratio:1!important}
+
+@media(max-width:760px){
+  .routine-progress-card{grid-template-rows:36px auto minmax(var(--stamp-min-height,260px),auto)!important;min-height:0!important}
+  .routine-progress-top .routine-hero-selector{max-width:68%!important}
+  .routine-progress-intro{padding:14px 14px 12px!important}
+  .routine-progress-metrics{gap:7px 12px;margin-bottom:8px}.routine-progress-metrics span{font-size:7px}.routine-progress-metrics b{font-size:9px}
+  .routine-round-grid[data-grid-mode="compact"]{--stamp-size:58px!important}.routine-round-grid[data-grid-mode="standard"]{--stamp-size:54px!important}.routine-round-grid[data-grid-mode="scroll"]{--stamp-size:48px!important;grid-template-columns:repeat(var(--routine-columns),50px)!important;grid-template-rows:repeat(var(--routine-rows),50px)!important}
+}
+@media(max-width:430px){
+  .routine-progress-top{gap:5px!important}.routine-progress-top .routine-hero-selector{max-width:72%!important;gap:3px!important}.routine-progress-top .routine-hero-selector button{width:25px!important;height:25px!important;min-width:25px!important}
+  .routine-progress-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px!important}.routine-progress-metrics span{display:grid;gap:2px;text-align:left;white-space:normal}.routine-progress-metrics b{margin:0}
+  .routine-round-grid{padding-inline:8px!important}
+}
+
+/* ===== AiderDear v57 · cream content frames, richer emotion choices, language lab ===== */
+:root{--cream-ivory:#FFF8E7}
+.stage>.page,.emotion-shell,.private-shell,.personal-shell,#recordHubShell,#eventStage{background:var(--cream-ivory)!important}
+.emotion-frame,.private-frame,.personal-frame,#recordHubShell .record-main,#recordHubShell .album-frame,#eventStage .event-frame{background:transparent!important}
+
+.emotion-editor-modal .emotion-data-chips{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:7px!important}
+.emotion-editor-modal .emotion-data-chip{height:auto!important;min-height:42px!important;padding:8px 10px!important;font-size:9px!important;line-height:1.35!important;white-space:normal!important;word-break:keep-all!important;text-wrap:balance!important}
+.emotion-editor-modal .emotion-data-chip.active{box-shadow:inset 0 0 0 1px #111!important}
+
+.language-learning-frame{display:block!important;height:100%!important;padding:12px 18px 15px!important;background:transparent!important}
+.language-learning-blank{width:100%;height:100%;min-height:0;padding:0 3px;overflow-y:auto;overscroll-behavior:contain;background:transparent!important;scrollbar-width:thin}
+.language-study-page{min-height:100%;display:grid;grid-template-rows:auto 8px minmax(0,1fr);gap:10px;color:#17151b}
+.language-study-head{min-height:64px;display:flex;align-items:end;justify-content:space-between;gap:18px;padding:7px 4px 9px;border-bottom:2px solid #17151b}
+.language-study-head>div:first-child{display:grid;grid-template-columns:auto auto;align-items:end;gap:2px 12px}.language-study-head span{grid-column:1/-1;font-size:7px;font-weight:900;letter-spacing:.14em;color:#746b79}.language-study-head h2{margin:0;font:400 34px/1 Georgia,serif}.language-study-head p{margin:0 0 3px;font-size:8px;font-weight:700;color:#777}
+.language-streak{min-width:76px;display:grid!important;grid-template-columns:auto!important;justify-items:end;gap:0!important}.language-streak b{font:400 28px/1 Georgia,serif}.language-streak span{font-size:6px!important;letter-spacing:.12em!important}
+.language-progress{height:8px;position:relative;border-radius:99px;background:rgba(70,68,77,.12);overflow:hidden}.language-progress span{position:absolute;inset:0 auto 0 0;width:var(--language-progress);border-radius:inherit;background:#a69ab8;transition:width .24s ease}.language-progress b{position:absolute;right:6px;top:50%;transform:translateY(-50%);font-size:5px;color:#17151b}
+.language-study-grid{min-height:0;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(230px,.7fr);grid-template-rows:minmax(0,1fr) auto;gap:10px}
+.language-card{min-width:0;border:1px solid rgba(35,30,38,.22);border-radius:18px;background:rgba(255,255,255,.56);padding:15px;box-shadow:0 8px 24px rgba(66,57,70,.06)}
+.language-card-kicker{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}.language-card-kicker span{font-size:7px;font-weight:900;letter-spacing:.12em}.language-card-kicker em{font-size:7px;font-style:normal;color:#777}
+.language-phrase-card{grid-row:1/3;display:flex;flex-direction:column;background:linear-gradient(150deg,rgba(223,216,232,.76),rgba(255,255,255,.5) 58%)}
+.language-phrase-card>h3{margin:9px 0 5px;font:500 28px/1.35 system-ui,sans-serif;letter-spacing:.02em}.language-reading{margin:0 0 8px;font-size:9px;color:#756d78}.language-phrase-card>strong{font-size:12px}.language-speak-actions{display:flex;gap:7px;margin:17px 0}.language-speak-actions button,.language-answer button{min-height:32px;border:1px solid #17151b;border-radius:99px;background:#17151b;color:#fff;padding:0 12px;font-size:7px;font-weight:900}.language-speak-actions button+button{background:transparent;color:#17151b}
+.language-answer{margin-top:auto;padding:13px 14px;border-radius:14px;background:rgba(255,255,255,.72)}.language-answer span{display:block;margin-bottom:8px;font-size:6px;font-weight:900;letter-spacing:.08em;color:#756d78}.language-answer b{display:block;font-size:13px;line-height:1.5}.language-answer p{margin:4px 0 9px;font-size:8px;color:#666}.language-answer button{min-height:28px;background:transparent;color:#17151b}
+.language-practice-card{display:flex;flex-direction:column}.language-practice-card h3{margin:5px 0 7px;font-size:13px;line-height:1.4}.language-practice-card>p{margin:0 0 13px;font-size:8px;line-height:1.55;color:#6b656d}.language-confidence{display:grid;grid-template-columns:repeat(5,1fr);gap:5px}.language-confidence button{aspect-ratio:1;border:1px solid rgba(23,21,27,.3);border-radius:50%;background:transparent;font-size:9px;font-weight:900}.language-confidence button.active{background:#17151b;color:#fff}.language-practice-card>small{margin:7px 0 12px;font-size:5.8px;color:#777}.language-complete{margin-top:auto;min-height:34px;border:1px solid #17151b;border-radius:9px;background:transparent;font-size:8px;font-weight:900}.language-complete.done{background:#17151b;color:#fff}
+.language-word-card{padding-bottom:10px}.language-word-list{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px}.language-word-list button{position:relative;min-width:0;min-height:58px;display:grid;align-content:center;justify-items:start;gap:2px;border:1px solid rgba(23,21,27,.18);border-radius:10px;background:rgba(255,255,255,.62);padding:7px;text-align:left}.language-word-list button.known{background:#e2dae9;border-color:#8f829d}.language-word-list span{font-size:11px;font-weight:800}.language-word-list small{font-size:6px;color:#777}.language-word-list b{font-size:7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}.language-word-list i{position:absolute;right:6px;top:5px;font:normal 900 7px/1 system-ui}
+.language-note-card{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto minmax(64px,1fr);gap:8px}.language-note-card .language-card-kicker{grid-column:1/-1;margin-bottom:1px}.language-note-card textarea{grid-column:1;grid-row:2;width:100%;min-height:64px;resize:none;border:0;border-bottom:1px solid #17151b;background:repeating-linear-gradient(to bottom,transparent 0,transparent 22px,rgba(77,69,80,.15) 23px);padding:4px 3px;font:500 9px/23px system-ui}.language-note-card>button{grid-column:2;grid-row:2;align-self:end;height:32px;border:1px solid #17151b;border-radius:8px;background:#17151b;color:#fff;padding:0 11px;font-size:7px;font-weight:900}
+
+@media(max-width:760px){
+  .emotion-editor-modal .emotion-data-chips{grid-template-columns:repeat(2,minmax(0,1fr))!important}.emotion-editor-modal .emotion-data-chip{min-height:44px!important;font-size:9.5px!important}
+  .language-learning-frame{height:auto!important;min-height:100%!important;padding:9px!important}.language-learning-blank{height:auto;min-height:100%;overflow:visible}.language-study-page{display:block}.language-study-head{min-height:74px;margin-bottom:10px}.language-study-head h2{font-size:28px}.language-progress{margin-bottom:10px}.language-study-grid{display:grid;grid-template-columns:1fr;grid-template-rows:auto;gap:10px}.language-phrase-card{grid-row:auto;min-height:390px}.language-card{padding:14px}.language-word-list{grid-template-columns:repeat(5,minmax(72px,1fr));overflow-x:auto;padding-bottom:5px}.language-note-card{min-height:150px}
+}
+@media(max-width:430px){
+  .emotion-editor-modal .emotion-data-chips{grid-template-columns:1fr!important}.emotion-editor-modal .emotion-data-chip{min-height:43px!important;text-align:left!important;padding-inline:12px!important}
+  .language-study-head>div:first-child{display:block}.language-study-head h2{font-size:25px;margin-top:3px}.language-study-head p{font-size:7px;margin-top:4px}.language-streak{min-width:58px}.language-streak b{font-size:24px}.language-phrase-card>h3{font-size:22px}.language-phrase-card{min-height:360px}.language-word-list{grid-template-columns:repeat(5,68px)}.language-note-card{grid-template-columns:1fr}.language-note-card textarea,.language-note-card>button{grid-column:1;grid-row:auto}.language-note-card>button{width:100%}
+}
+
 </style>
 </head>
 <body>
@@ -2818,10 +2900,10 @@ body:before,body:after{background:#46444D!important;background-image:none!import
     </section>
     <section class="private-shell private-page next" id="privateLanguageShell" aria-label="언어 학습" aria-hidden="true">
       <section class="private-frame language-learning-frame" id="privateLanguageFrame">
-        <div class="language-learning-blank" id="languageLearningBlank" aria-hidden="true"></div>
+        <div class="language-learning-blank" id="languageLearningBlank" aria-label="일본어 학습 페이지"></div>
       </section>
     </section>
-    <div class="private-page-dots" aria-label="ROUTINE 페이지 위치"><button class="private-dot active" type="button" data-private-page="0" aria-label="루틴"></button><button class="private-dot" type="button" data-private-page="1" aria-label="언어 학습 빈 페이지"></button></div>
+    <div class="private-page-dots" aria-label="ROUTINE 페이지 위치"><button class="private-dot active" type="button" data-private-page="0" aria-label="루틴"></button><button class="private-dot" type="button" data-private-page="1" aria-label="일본어 학습"></button></div>
   </section>
 
   <section class="personal-stage" id="personalStage" aria-label="개인 생활 관리" hidden aria-hidden="true">
@@ -3156,19 +3238,19 @@ body:before,body:after{background:#46444D!important;background-image:none!import
               </div>
             </div>
             <div class="emotion-data-block">
-              <label>그때 어떤 상황이었나요?</label>
+              <label>무슨 일이 있었나요?</label>
               <input id="emotionContexts" type="hidden" value="">
               <div class="emotion-data-chips" data-emotion-group="context">
-                <button class="emotion-data-chip" type="button" data-emotion-context="업무/작업">업무/작업</button>
-                <button class="emotion-data-chip" type="button" data-emotion-context="공부">공부</button>
-                <button class="emotion-data-chip" type="button" data-emotion-context="대기">대기</button>
-                <button class="emotion-data-chip" type="button" data-emotion-context="이동">이동</button>
-                <button class="emotion-data-chip" type="button" data-emotion-context="관계/대화">관계/대화</button>
-                <button class="emotion-data-chip" type="button" data-emotion-context="혼자">혼자</button>
-                <button class="emotion-data-chip" type="button" data-emotion-context="식사">식사</button>
-                <button class="emotion-data-chip" type="button" data-emotion-context="휴식">휴식</button>
-                <button class="emotion-data-chip" type="button" data-emotion-context="건강/몸상태">건강/몸상태</button>
-                <button class="emotion-data-chip" type="button" data-emotion-context="집안일">집안일</button>
+                <button class="emotion-data-chip" type="button" data-emotion-context="일이 몰리거나 시간에 쫓김">일이 몰리거나 시간에 쫓김</button>
+                <button class="emotion-data-chip" type="button" data-emotion-context="실수하거나 문제가 생김">실수하거나 문제가 생김</button>
+                <button class="emotion-data-chip" type="button" data-emotion-context="갈등하거나 서운한 말을 들음">갈등하거나 서운한 말을 들음</button>
+                <button class="emotion-data-chip" type="button" data-emotion-context="계획이 틀어지거나 갑자기 바뀜">계획이 틀어지거나 갑자기 바뀜</button>
+                <button class="emotion-data-chip" type="button" data-emotion-context="중요한 선택·결정을 앞둠">중요한 선택·결정을 앞둠</button>
+                <button class="emotion-data-chip" type="button" data-emotion-context="바라던 결과를 얻음">바라던 결과를 얻음</button>
+                <button class="emotion-data-chip" type="button" data-emotion-context="칭찬·인정을 받음">칭찬·인정을 받음</button>
+                <button class="emotion-data-chip" type="button" data-emotion-context="반가운 연락·만남이 있었음">반가운 연락·만남이 있었음</button>
+                <button class="emotion-data-chip" type="button" data-emotion-context="도움·배려를 받음">도움·배려를 받음</button>
+                <button class="emotion-data-chip" type="button" data-emotion-context="새로운 기회·계획이 생김">새로운 기회·계획이 생김</button>
                 <button class="emotion-data-chip" type="button" data-emotion-context="기타">기타</button>
               </div>
             </div>
@@ -3176,33 +3258,32 @@ body:before,body:after{background:#46444D!important;background-image:none!import
               <label>그때 무엇을 하고 있었나요?</label>
               <input id="emotionCurrentActivities" type="hidden" value="">
               <div class="emotion-data-chips" data-emotion-group="current">
-                <button class="emotion-data-chip" type="button" data-emotion-current="업무/작업">업무/작업</button>
-                <button class="emotion-data-chip" type="button" data-emotion-current="공부">공부</button>
-                <button class="emotion-data-chip" type="button" data-emotion-current="혼자 있기">혼자 있기</button>
-                <button class="emotion-data-chip" type="button" data-emotion-current="대화">대화</button>
-                <button class="emotion-data-chip" type="button" data-emotion-current="이동 중">이동</button>
-                <button class="emotion-data-chip" type="button" data-emotion-current="식사">식사</button>
-                <button class="emotion-data-chip" type="button" data-emotion-current="휴식">휴식</button>
-                <button class="emotion-data-chip" type="button" data-emotion-current="운동">운동</button>
-                <button class="emotion-data-chip" type="button" data-emotion-current="집안일">집안일</button>
-                <button class="emotion-data-chip" type="button" data-emotion-current="취미">취미</button>
+                <button class="emotion-data-chip" type="button" data-emotion-current="업무·작업">업무·작업</button>
+                <button class="emotion-data-chip" type="button" data-emotion-current="회의·발표">회의·발표</button>
+                <button class="emotion-data-chip" type="button" data-emotion-current="공부·자기계발">공부·자기계발</button>
+                <button class="emotion-data-chip" type="button" data-emotion-current="대화·통화·메신저">대화·통화·메신저</button>
+                <button class="emotion-data-chip" type="button" data-emotion-current="이동·운전">이동·운전</button>
+                <button class="emotion-data-chip" type="button" data-emotion-current="약속·모임">약속·모임</button>
+                <button class="emotion-data-chip" type="button" data-emotion-current="개인 용무 처리">개인 용무 처리</button>
+                <button class="emotion-data-chip" type="button" data-emotion-current="취미·창작">취미·창작</button>
+                <button class="emotion-data-chip" type="button" data-emotion-current="SNS·커뮤니티 보기">SNS·커뮤니티 보기</button>
                 <button class="emotion-data-chip" type="button" data-emotion-current="기타">기타</button>
               </div>
             </div>
             <div class="emotion-data-block">
-              <label>그 후 무엇을 했나요?</label>
+              <label>그 감정이 든 뒤 어떻게 했나요?</label>
               <input id="emotionAfterActivities" type="hidden" value="">
               <div class="emotion-data-chips" data-emotion-group="after">
-                <button class="emotion-data-chip" type="button" data-emotion-after="산책">산책</button>
-                <button class="emotion-data-chip" type="button" data-emotion-after="음악 듣기">음악 듣기</button>
-                <button class="emotion-data-chip" type="button" data-emotion-after="대화하기">대화하기</button>
-                <button class="emotion-data-chip" type="button" data-emotion-after="잠자기">잠자기</button>
-                <button class="emotion-data-chip" type="button" data-emotion-after="운동">운동</button>
-                <button class="emotion-data-chip" type="button" data-emotion-after="호흡">호흡</button>
-                <button class="emotion-data-chip" type="button" data-emotion-after="기록하기">기록하기</button>
-                <button class="emotion-data-chip" type="button" data-emotion-after="식사">식사</button>
-                <button class="emotion-data-chip" type="button" data-emotion-after="샤워">샤워</button>
-                <button class="emotion-data-chip" type="button" data-emotion-after="영상 보기">영상 보기</button>
+                <button class="emotion-data-chip" type="button" data-emotion-after="하던 일을 계속함">하던 일을 계속함</button>
+                <button class="emotion-data-chip" type="button" data-emotion-after="해야 할 일을 미룸">해야 할 일을 미룸</button>
+                <button class="emotion-data-chip" type="button" data-emotion-after="문제를 바로 해결하려 함">문제를 바로 해결하려 함</button>
+                <button class="emotion-data-chip" type="button" data-emotion-after="누군가에게 말·연락함">누군가에게 말·연락함</button>
+                <button class="emotion-data-chip" type="button" data-emotion-after="대화를 멈추고 거리를 둠">대화를 멈추고 거리를 둠</button>
+                <button class="emotion-data-chip" type="button" data-emotion-after="혼자 있는 곳으로 이동함">혼자 있는 곳으로 이동함</button>
+                <button class="emotion-data-chip" type="button" data-emotion-after="밖으로 나가 걷거나 장소를 바꿈">밖으로 나가 걷거나 장소를 바꿈</button>
+                <button class="emotion-data-chip" type="button" data-emotion-after="음악·영상·SNS로 주의를 돌림">음악·영상·SNS로 주의를 돌림</button>
+                <button class="emotion-data-chip" type="button" data-emotion-after="메모·일기로 감정을 적음">메모·일기로 감정을 적음</button>
+                <button class="emotion-data-chip" type="button" data-emotion-after="호흡하며 감정을 가라앉힘">호흡하며 감정을 가라앉힘</button>
                 <button class="emotion-data-chip" type="button" data-emotion-after="기타">기타</button>
               </div>
             </div>
@@ -3675,7 +3756,7 @@ body:before,body:after{background:#46444D!important;background-image:none!import
     if(!driveDataFileId)return;
     await googleApi(`https://www.googleapis.com/upload/drive/v3/files/${encodeURIComponent(driveDataFileId)}?uploadType=media`,{method:'PATCH',headers:{'Content-Type':'application/json; charset=UTF-8'},body:JSON.stringify(data)});
   }
-  function blankPrivateData(email='',name=''){return {version:PRIVATE_VERSION,profile:{email:normalizeEmail(email),name:normalizeName(name,email)},memos:[],routines:[],checklists:[],routineGoals:['','',''],personalItems:[],personalSettings:{mealCalorieGoal:1800},pomodoroSessions:[]}}
+  function blankPrivateData(email='',name=''){return {version:PRIVATE_VERSION,profile:{email:normalizeEmail(email),name:normalizeName(name,email)},memos:[],routines:[],checklists:[],routineGoals:['','',''],personalItems:[],personalSettings:{mealCalorieGoal:1800},pomodoroSessions:[],languageStudy:{completedDates:[],knownWords:{},notes:{},confidence:{}}}}
   function normalizePrivateData(data,email='',name=''){
     const d={...blankPrivateData(email,name),...(data||{})};d.profile={email:normalizeEmail(d.profile?.email||email),name:normalizeName(d.profile?.name||name,d.profile?.email||email)};
     d.memos=Array.isArray(d.memos)?d.memos.filter(Boolean):[];
@@ -3696,6 +3777,8 @@ body:before,body:after{background:#46444D!important;background-image:none!import
     d.personalItems=Array.isArray(d.personalItems)?d.personalItems.filter(x=>x&&x.id&&personalCategories.has(x.category)&&/^\d{4}-\d{2}-\d{2}$/.test(x.date||'')).map(x=>{const raw=x.details&&typeof x.details==='object'?x.details:{},exercises=Array.isArray(raw.exercises)?raw.exercises.slice(0,30).map(ex=>({name:String(ex?.name||'').slice(0,100),sets:(Array.isArray(ex?.sets)?ex.sets:[]).slice(0,30).map(set=>({weight:cleanPersonalNumber(set?.weight,9999),reps:cleanPersonalNumber(set?.reps,9999)})).filter(set=>set.weight||set.reps)})).filter(ex=>ex.name):[],steps=(Array.isArray(raw.steps)?raw.steps:String(raw.steps||'').split('\n')).map(step=>String(step||'').trim().slice(0,160)).filter(Boolean).slice(0,30);return {id:String(x.id),category:x.category,date:x.date,title:String(x.title||'').slice(0,100),note:String(x.note||'').slice(0,1200),status:['planned','ongoing','done'].includes(x.status)?x.status:'',minutes:cleanPersonalNumber(x.minutes,1440),amount:cleanPersonalNumber(x.amount),details:{mealType:['breakfast','lunch','dinner','snack'].includes(raw.mealType)?raw.mealType:'',calories:cleanPersonalNumber(raw.calories,9999),carbs:cleanPersonalNumber(raw.carbs,999),protein:cleanPersonalNumber(raw.protein,999),fat:cleanPersonalNumber(raw.fat,999),exercises,author:String(raw.author||'').slice(0,80),currentPage:cleanPersonalNumber(raw.currentPage,99999),totalPages:cleanPersonalNumber(raw.totalPages,99999),quote:String(raw.quote||'').slice(0,500),steps,cycle:['weekly','monthly','yearly'].includes(raw.cycle)?raw.cycle:'monthly',dueDay:Math.max(1,Math.min(31,Number(raw.dueDay)||1))},media:x.media&&x.media.fileId?{fileId:String(x.media.fileId),name:String(x.media.name||''),type:String(x.media.type||x.media.mimeType||'image/jpeg')}:(x.media||null),createdAt:Number(x.createdAt)||Date.now()}}).slice(-1000):[];
     d.personalSettings={mealCalorieGoal:Math.max(500,Math.min(9999,Number(d.personalSettings?.mealCalorieGoal)||1800))};
     d.pomodoroSessions=Array.isArray(d.pomodoroSessions)?d.pomodoroSessions.filter(x=>x&&x.id&&/^\d{4}-\d{2}-\d{2}$/.test(x.date||'')).map(x=>({id:String(x.id),date:x.date,minutes:Math.max(1,Math.min(180,Number(x.minutes)||25)),completedAt:Number(x.completedAt)||Date.now()})).slice(-500):[];
+    const language=d.languageStudy&&typeof d.languageStudy==='object'?d.languageStudy:{};
+    d.languageStudy={completedDates:Array.isArray(language.completedDates)?[...new Set(language.completedDates.filter(x=>/^\d{4}-\d{2}-\d{2}$/.test(x)))].slice(-730):[],knownWords:language.knownWords&&typeof language.knownWords==='object'?Object.fromEntries(Object.entries(language.knownWords).slice(-1000).map(([key,value])=>[String(key).slice(0,120),!!value])):{},notes:language.notes&&typeof language.notes==='object'?Object.fromEntries(Object.entries(language.notes).filter(([key])=>/^\d{4}-\d{2}-\d{2}$/.test(key)).slice(-730).map(([key,value])=>[key,String(value||'').slice(0,600)])):{},confidence:language.confidence&&typeof language.confidence==='object'?Object.fromEntries(Object.entries(language.confidence).filter(([key])=>/^\d{4}-\d{2}-\d{2}$/.test(key)).slice(-730).map(([key,value])=>[key,Math.max(1,Math.min(5,Number(value)||3))])):{}};
     d.routineGoals=legacyGoals;d.version=PRIVATE_VERSION;return d;
   }
   function privateFolderName(email){return `${PRIVATE_FOLDER_PREFIX}${normalizeEmail(email)}`}
@@ -4587,9 +4670,9 @@ body:before,body:after{background:#46444D!important;background-image:none!import
   function toggleEmotionWant(want){want=cleanEmotionWant(want);const all=selectedEmotionWants(),set=new Set(all);if(set.has(want))set.delete(want);else if(set.size<6)set.add(want);setEmotionWants([...set])}
   $$('[data-emotion-want]').forEach(btn=>btn.addEventListener('click',()=>toggleEmotionWant(btn.dataset.emotionWant||'')));
   function emotionTokenClean(v){return String(v||'').trim().replace(/\s+/g,' ').slice(0,40)}
-  function emotionTokenSet(hiddenId,attr,values=[]){const clean=[...new Set((values||[]).map(emotionTokenClean).filter(Boolean))].slice(0,6);const input=$(hiddenId);if(input)input.value=clean.join('|');$$(`[${attr}]`).forEach(btn=>btn.classList.toggle('active',clean.includes(btn.getAttribute(attr))))}
+  function emotionTokenSet(hiddenId,attr,values=[]){const clean=[...new Set((values||[]).map(emotionTokenClean).filter(Boolean))].slice(0,11);const input=$(hiddenId);if(input)input.value=clean.join('|');$$(`[${attr}]`).forEach(btn=>{const active=clean.includes(btn.getAttribute(attr));btn.classList.toggle('active',active);btn.setAttribute('aria-pressed',String(active))})}
   function emotionTokenGet(hiddenId){return String($(hiddenId)?.value||'').split('|').map(emotionTokenClean).filter(Boolean)}
-  function emotionTokenToggle(hiddenId,attr,value){value=emotionTokenClean(value);const set=new Set(emotionTokenGet(hiddenId));if(set.has(value))set.delete(value);else if(set.size<6)set.add(value);emotionTokenSet(hiddenId,attr,[...set])}
+  function emotionTokenToggle(hiddenId,attr,value){value=emotionTokenClean(value);const set=new Set(emotionTokenGet(hiddenId));if(set.has(value))set.delete(value);else if(set.size<11)set.add(value);emotionTokenSet(hiddenId,attr,[...set])}
   $$('[data-emotion-context]').forEach(btn=>btn.addEventListener('click',()=>emotionTokenToggle('#emotionContexts','data-emotion-context',btn.dataset.emotionContext||'')));
   $$('[data-emotion-current]').forEach(btn=>btn.addEventListener('click',()=>emotionTokenToggle('#emotionCurrentActivities','data-emotion-current',btn.dataset.emotionCurrent||'')));
   $$('[data-emotion-after]').forEach(btn=>btn.addEventListener('click',()=>emotionTokenToggle('#emotionAfterActivities','data-emotion-after',btn.dataset.emotionAfter||'')));
@@ -4816,10 +4899,11 @@ body:before,body:after{background:#46444D!important;background-image:none!import
     if(!r)return '<section class="routine-progress-card routine-empty-card">+ CREATE에서 첫 루틴을 만들어주세요.</section>';
     const st=routineStats(r),color=routineColor(r,routines.indexOf(r)),today=dateKeyOffset(0),goal=Number(r.goalDays)||20,allPractice=(r.doneDates||[]).length,complete=allPractice>=goal,partner=sharedPartner();
     const brag=complete?(r.braggedAt?'<span class="routine-brag-done">✓ 보냄</span>':`<button class="routine-brag-mini" type="button" data-routine-brag="${escapeHtml(r.id)}" ${partner?'':'disabled'}>✉ ${partner?escapeHtml(partner.name)+'에게 자랑':'공유 상대 필요'}</button>`):'';
-    const stamps=st.cycle.dates.map((key,index)=>{const level=String(r.dailyLevels?.[key]||'').toUpperCase(),future=key>today,isToday=key===today,label=level||(isToday?'TODAY':future?String(index+1).padStart(2,'0'):'—'),state=level||((isToday?'오늘':'미기록'));return `<button type="button" class="routine-round-stamp ${routineStatusClass(level)} ${isToday?'today':''} ${future?'future':''}" data-routine-date-status="${escapeHtml(r.id)}" data-date="${escapeHtml(key)}" ${(!writable||future)?'disabled':''} aria-label="${escapeHtml(`${routineDateLabel(key)} · ${state}`)}"><small>${escapeHtml(routineDateLabel(key,true))}</small><b>${escapeHtml(label)}</b></button>`}).join('');
+    const stampDates=st.cycle.dates.slice(0,st.cycle.cycleDays);
+    const stamps=stampDates.map((key,index)=>{const level=String(r.dailyLevels?.[key]||'').toUpperCase(),future=key>today,isToday=key===today,label=level||(isToday?'TODAY':future?String(index+1).padStart(2,'0'):'—'),state=level||((isToday?'오늘':'미기록'));return `<button type="button" class="routine-round-stamp ${routineStatusClass(level)} ${isToday?'today':''} ${future?'future':''}" data-routine-date-status="${escapeHtml(r.id)}" data-date="${escapeHtml(key)}" ${(!writable||future)?'disabled':''} aria-label="${escapeHtml(`${routineDateLabel(key)} · ${state}`)}"><small>${escapeHtml(routineDateLabel(key,true))}</small><b>${escapeHtml(label)}</b></button>`}).join('');
     const completedRounds=Math.floor(allPractice/goal),startLabel=st.cycle.start.replaceAll('-','.');
-    const stampRows=st.cycle.cycleDays<=8?1:st.cycle.cycleDays<=16?2:4,stampColumns=Math.ceil(st.cycle.cycleDays/stampRows),gridMode=st.cycle.cycleDays<=16?'compact':(st.cycle.cycleDays<=30?'standard':'scroll');
-    return `<section class="routine-progress-card" style="--routine:${color}"><div class="routine-progress-top">${renderRoutineSelector(routines,r)}<div class="routine-progress-tools">${writable?`<button type="button" data-routine-edit="${escapeHtml(r.id)}">EDIT</button>`:''}${brag}</div></div><div class="routine-progress-intro"><div><span class="routine-progress-kicker">${escapeHtml(r.icon||'✨')} · THIS ROUND</span><h3>${escapeHtml(r.text||'Routine')}</h3><div class="routine-progress-ruleline"><span><b>MINI</b>${escapeHtml(r.miniText||'작게라도 실천하기')}</span><span><b>MORE</b>${escapeHtml(r.moreText||'조금 더 실천하기')}</span><span><b>MAX</b>${escapeHtml(r.maxText||'충분히 실천하기')}</span></div></div><div class="routine-progress-round"><span>DAY</span><strong>${st.cycle.dayNumber}</strong><em>${st.cycle.cycleDays} DAYS</em></div></div><div class="routine-round-grid" data-grid-mode="${gridMode}" style="--routine-columns:${stampColumns};--routine-rows:${stampRows}" aria-label="${st.cycle.cycleDays}일 루틴 기록 · 좌우로 스크롤">${stamps}</div><div class="routine-progress-footer"><span>최근 시작 <b>${escapeHtml(startLabel)}</b></span><span>완성 회차 <b>${completedRounds}</b></span><span>총 실천 <b>${allPractice}</b></span></div></section>`;
+    const stampRows=st.cycle.cycleDays<=8?1:st.cycle.cycleDays<=16?2:4,stampColumns=Math.ceil(st.cycle.cycleDays/stampRows),gridMode=st.cycle.cycleDays<=16?'compact':(st.cycle.cycleDays<=30?'standard':'scroll'),stampSize=gridMode==='compact'?82:gridMode==='standard'?64:52,stampMinHeight=stampRows*stampSize+Math.max(0,stampRows-1)*10+30;
+    return `<section class="routine-progress-card" style="--routine:${color};--stamp-min-height:${stampMinHeight}px"><div class="routine-progress-top">${renderRoutineSelector(routines,r)}<div class="routine-progress-tools">${writable?`<button type="button" data-routine-edit="${escapeHtml(r.id)}">EDIT</button>`:''}${brag}</div></div><div class="routine-progress-intro"><div><div class="routine-progress-metrics"><span>최근 시작 <b>${escapeHtml(startLabel)}</b></span><span>완성 회차 <b>${completedRounds}</b></span><span>총 실천 <b>${allPractice}</b></span></div><h3>${escapeHtml(r.text||'Routine')}</h3><div class="routine-progress-ruleline"><span><b>MINI</b>${escapeHtml(r.miniText||'작게라도 실천하기')}</span><span><b>MORE</b>${escapeHtml(r.moreText||'조금 더 실천하기')}</span><span><b>MAX</b>${escapeHtml(r.maxText||'충분히 실천하기')}</span></div></div><div class="routine-progress-round"><span>DAY</span><strong>${st.cycle.dayNumber}</strong><em>${st.cycle.cycleDays} DAYS</em></div></div><div class="routine-round-grid" data-grid-mode="${gridMode}" data-stamp-count="${stampDates.length}" style="--routine-columns:${stampColumns};--routine-rows:${stampRows}" aria-label="${st.cycle.cycleDays}일 루틴 기록 · 총 ${stampDates.length}개">${stamps}</div></section>`;
   }
   function renderRoutineCalendar(r,writable){if(!r)return '';const st=routineStats(r),today=dateKeyOffset(0),items=st.cycle.dates.map(key=>{const level=String(r.dailyLevels?.[key]||'').toUpperCase(),future=key>today;return `<button type="button" class="routine-day-badge ${routineStatusClass(level)} ${key===today?'today':''}" data-routine-date-status="${escapeHtml(r.id)}" data-date="${escapeHtml(key)}" ${(!writable||future)?'disabled':''}><small>${routineDateLabel(key,true)}</small><b>${level||'—'}</b></button>`}).join('');return `<section class="routine-cycle-card"><div class="routine-card-head"><b>이번 회차 습관 현황</b><span>${st.cycle.range}</span></div><div class="routine-day-grid">${items}</div></section>`}
   function renderRoutineOverviewRow(r,index,dates,writable){const done=dates.filter(k=>{const v=String(r.dailyLevels?.[k]||'').toUpperCase();return v&&v!=='SKIP'}).length;return `<div class="routine-goal-row"><div class="routine-goal-name"><span>${escapeHtml(r.icon||String(index+1).padStart(2,'0'))}</span><b>${escapeHtml(r.text||'Routine')}</b></div>${dates.map(k=>{const v=String(r.dailyLevels?.[k]||'').toUpperCase();return `<button type="button" class="routine-goal-dot ${routineStatusClass(v)}" data-routine-date-status="${escapeHtml(r.id)}" data-date="${escapeHtml(k)}" ${writable?'':'disabled'} aria-label="${escapeHtml(r.text||'Routine')} ${escapeHtml(k)} ${escapeHtml(v||'미기록')}"></button>`}).join('')}<div class="routine-goal-rate"><b>${done}</b><span>/ ${dates.length}</span></div></div>`}
@@ -4841,11 +4925,25 @@ body:before,body:after{background:#46444D!important;background-image:none!import
   function renderPrivateDashboard(data,writable){const checklistHtml=renderChecklistPanel(data,writable,''),memoHtml=renderMemoPostits(data,writable);return `<div class="private-dashboard private-v18-dashboard"><section class="private-column checklist-column"><div class="private-column-head"><b>CHECKLIST</b></div>${checklistHtml}</section><section class="private-column memo-column"><div class="private-column-head"><b>PRIVATE NOTES</b><span>나만 볼 수 있어요</span></div>${memoHtml}</section></div>`}
   function renderPrivate(){
     const routine=$('#privateRoutinePanel'),toolbarTabs=$('#routineToolbarTabs');if(!routine)return;
-    if(!currentUserEmail){routine.innerHTML='';return}
+    if(!currentUserEmail){routine.innerHTML='';renderLanguageStudy();return}
     privateOwner=currentUserEmail;const data=privateData[currentUserEmail]||blankPrivateData(currentUserEmail),writable=privateCanWrite();
     routine.innerHTML=renderRoutinePanel(data,writable,'');
-    renderQuickTodo();toolbarTabs?.querySelectorAll('[data-routine-tab]').forEach(button=>button.classList.toggle('active',button.dataset.routineTab===routinePanelMode));requestAnimationFrame(()=>{const scroller=routine.querySelector('.routine-round-grid'),today=scroller?.querySelector('.today');if(scroller&&today)scroller.scrollLeft=Math.max(0,today.offsetLeft-(scroller.clientWidth-today.clientWidth)/2)})
+    renderQuickTodo();renderLanguageStudy();toolbarTabs?.querySelectorAll('[data-routine-tab]').forEach(button=>button.classList.toggle('active',button.dataset.routineTab===routinePanelMode));requestAnimationFrame(()=>{const scroller=routine.querySelector('.routine-round-grid'),today=scroller?.querySelector('.today');if(scroller&&today)scroller.scrollLeft=Math.max(0,today.offsetLeft-(scroller.clientWidth-today.clientWidth)/2)})
   }
+  const JAPANESE_LESSONS=[
+    {id:'day',jp:'今日はどんな一日でしたか。',reading:'きょうは どんな いちにち でしたか。',ko:'오늘은 어떤 하루였나요?',answer:'今日は忙しかったですが、充実していました。',answerKo:'오늘은 바빴지만 알찬 하루였어요.',mission:'오늘 하루를 한 문장으로 말해보세요.',words:[['今日','きょう','오늘'],['一日','いちにち','하루'],['忙しい','いそがしい','바쁘다'],['充実','じゅうじつ','충실함'],['どんな','どんな','어떤']]},
+    {id:'recent',jp:'最近、何に夢中ですか。',reading:'さいきん、なにに むちゅう ですか。',ko:'요즘 무엇에 푹 빠져 있나요?',answer:'最近は日本語の勉強に夢中です。',answerKo:'요즘은 일본어 공부에 푹 빠져 있어요.',mission:'요즘 관심사를 넣어 답해보세요.',words:[['最近','さいきん','최근'],['何','なに','무엇'],['夢中','むちゅう','몰두함'],['勉強','べんきょう','공부'],['趣味','しゅみ','취미']]},
+    {id:'weekend',jp:'週末は何をする予定ですか。',reading:'しゅうまつは なにを する よてい ですか。',ko:'주말에는 무엇을 할 예정인가요?',answer:'友達と映画を見に行く予定です。',answerKo:'친구와 영화를 보러 갈 예정이에요.',mission:'이번 주말 계획을 일본어로 말해보세요.',words:[['週末','しゅうまつ','주말'],['予定','よてい','예정'],['友達','ともだち','친구'],['映画','えいが','영화'],['行く','いく','가다']]},
+    {id:'again',jp:'もう一度ゆっくり話してください。',reading:'もういちど ゆっくり はなして ください。',ko:'한 번 더 천천히 말해 주세요.',answer:'はい、わかりました。ゆっくり話します。',answerKo:'네, 알겠습니다. 천천히 말할게요.',mission:'막혔을 때 바로 꺼낼 수 있도록 세 번 말해보세요.',words:[['もう一度','もういちど','한 번 더'],['ゆっくり','ゆっくり','천천히'],['話す','はなす','말하다'],['分かる','わかる','알다'],['お願い','おねがい','부탁']]},
+    {id:'detail',jp:'それについてもう少し教えてください。',reading:'それについて もうすこし おしえて ください。',ko:'그것에 대해 조금 더 알려 주세요.',answer:'もちろんです。詳しく説明します。',answerKo:'물론이에요. 자세히 설명할게요.',mission:'관심 있는 주제를 넣어 질문해보세요.',words:[['少し','すこし','조금'],['教える','おしえる','알려주다'],['詳しく','くわしく','자세히'],['説明','せつめい','설명'],['もちろん','もちろん','물론']]},
+    {id:'invite',jp:'一緒に行ってみませんか。',reading:'いっしょに いって みませんか。',ko:'함께 가보지 않을래요?',answer:'いいですね。ぜひ行きたいです。',answerKo:'좋네요. 꼭 가고 싶어요.',mission:'가고 싶은 장소를 앞에 붙여 초대해보세요.',words:[['一緒に','いっしょに','함께'],['行く','いく','가다'],['ぜひ','ぜひ','꼭'],['場所','ばしょ','장소'],['楽しみ','たのしみ','기대']]},
+    {id:'rest',jp:'今日は早めに休みたいです。',reading:'きょうは はやめに やすみたい です。',ko:'오늘은 일찍 쉬고 싶어요.',answer:'無理をしないで、ゆっくり休んでください。',answerKo:'무리하지 말고 푹 쉬세요.',mission:'오늘 하고 싶은 일을 ～たいです로 말해보세요.',words:[['早めに','はやめに','일찍'],['休む','やすむ','쉬다'],['無理','むり','무리'],['今日','きょう','오늘'],['気持ち','きもち','기분']]}
+  ];
+  function languageStudyStore(){if(!currentUserEmail)return null;const data=privateData[currentUserEmail]||(privateData[currentUserEmail]=blankPrivateData(currentUserEmail,currentUserName));if(!data.languageStudy||typeof data.languageStudy!=='object')data.languageStudy={completedDates:[],knownWords:{},notes:{},confidence:{}};return data.languageStudy}
+  function languageLesson(date){const seed=Math.floor(new Date(`${date}T12:00:00`).getTime()/86400000);return JAPANESE_LESSONS[Math.abs(seed)%JAPANESE_LESSONS.length]}
+  function languageStudyStreak(dates=[]){const done=new Set(dates),cursor=new Date(`${dateKeyOffset(0)}T12:00:00`);if(!done.has(dateKeyOffset(0)))cursor.setDate(cursor.getDate()-1);let count=0;while(count<730){const key=iso(cursor.getFullYear(),cursor.getMonth(),cursor.getDate());if(!done.has(key))break;count++;cursor.setDate(cursor.getDate()-1)}return count}
+  function renderLanguageStudy(){const host=$('#languageLearningBlank');if(!host)return;if(!currentUserEmail){host.innerHTML='';return}const date=dateKeyOffset(0),lesson=languageLesson(date),study=languageStudyStore(),known=lesson.words.filter(word=>study.knownWords?.[`${lesson.id}:${word[0]}`]).length,completed=(study.completedDates||[]).includes(date),note=study.notes?.[date]||'',confidence=Math.max(1,Math.min(5,Number(study.confidence?.[date])||3)),progress=Math.min(100,Math.round(known/lesson.words.length*60+(note?20:0)+(completed?20:0))),streak=languageStudyStreak(study.completedDates||[]);host.innerHTML=`<section class="language-study-page"><header class="language-study-head"><div><span>LANGUAGE LAB · JAPANESE</span><h2>오늘의 일본어</h2><p>${new Intl.DateTimeFormat('ko-KR',{month:'long',day:'numeric',weekday:'long'}).format(new Date(`${date}T12:00:00`))}</p></div><div class="language-streak"><b>${streak}</b><span>DAY STREAK</span></div></header><div class="language-progress"><span style="--language-progress:${progress}%"></span><b>${progress}%</b></div><div class="language-study-grid"><article class="language-card language-phrase-card"><div class="language-card-kicker"><span>01 · SPEAK</span><em>오늘의 한 문장</em></div><h3 lang="ja">${escapeHtml(lesson.jp)}</h3><p class="language-reading">${escapeHtml(lesson.reading)}</p><strong>${escapeHtml(lesson.ko)}</strong><div class="language-speak-actions"><button type="button" data-language-speak="normal" data-language-text="${escapeHtml(lesson.jp)}">▶ 문장 듣기</button><button type="button" data-language-speak="slow" data-language-text="${escapeHtml(lesson.jp)}">느리게</button></div><div class="language-answer"><span>이렇게 답해보세요</span><b lang="ja">${escapeHtml(lesson.answer)}</b><p>${escapeHtml(lesson.answerKo)}</p><button type="button" data-language-speak="normal" data-language-text="${escapeHtml(lesson.answer)}">▶ 답변 듣기</button></div></article><article class="language-card language-practice-card"><div class="language-card-kicker"><span>02 · PRACTICE</span><em>말하기 미션</em></div><h3>${escapeHtml(lesson.mission)}</h3><p>문장을 소리 내어 세 번 말한 뒤, 오늘의 자신감을 남겨보세요.</p><div class="language-confidence" aria-label="오늘의 말하기 자신감">${[1,2,3,4,5].map(level=>`<button type="button" data-language-confidence="${level}" class="${level===confidence?'active':''}" aria-pressed="${level===confidence}">${level}</button>`).join('')}</div><small>1 아직 어려워요 · 5 자연스럽게 말했어요</small><button class="language-complete ${completed?'done':''}" type="button" data-language-complete aria-pressed="${completed}">${completed?'✓ 오늘 학습 완료':'오늘 학습 완료하기'}</button></article><article class="language-card language-word-card"><div class="language-card-kicker"><span>03 · WORDS</span><em>${known} / ${lesson.words.length} 기억함</em></div><div class="language-word-list">${lesson.words.map(word=>{const key=`${lesson.id}:${word[0]}`,checked=!!study.knownWords?.[key];return `<button type="button" data-language-word="${escapeHtml(key)}" class="${checked?'known':''}" aria-pressed="${checked}"><span lang="ja">${escapeHtml(word[0])}</span><small>${escapeHtml(word[1])}</small><b>${escapeHtml(word[2])}</b><i>${checked?'✓':'+'}</i></button>`}).join('')}</div></article><form class="language-card language-note-card" id="languageNoteForm"><div class="language-card-kicker"><span>04 · NOTE</span><em>나만 보는 오늘의 표현</em></div><textarea id="languageNote" maxlength="600" placeholder="오늘 입에 붙이고 싶은 문장이나 헷갈린 표현을 적어보세요.">${escapeHtml(note)}</textarea><button type="submit">노트 저장</button></form></div></section>`}
+  function speakJapanese(text,slow=false){if(!('speechSynthesis' in window)){toast('이 기기에서는 음성 재생을 지원하지 않습니다.');return}window.speechSynthesis.cancel();const utterance=new SpeechSynthesisUtterance(String(text||''));utterance.lang='ja-JP';utterance.rate=slow ? 0.72 : 0.92;window.speechSynthesis.speak(utterance)}
   $('#privateStage').addEventListener('submit',async e=>{const form=e.target.closest('form');if(!form)return;e.preventDefault();if(!privateCanWrite()){toast('내 ROUTINE에서만 기록할 수 있습니다.');return}privateOwner=currentUserEmail;if(!privateData[privateOwner])privateData[privateOwner]=blankPrivateData(privateOwner);const d=privateData[privateOwner];d.memos=Array.isArray(d.memos)?d.memos:[];d.routines=Array.isArray(d.routines)?d.routines:[];d.checklists=Array.isArray(d.checklists)?d.checklists:[];d.routineGoals=Array.isArray(d.routineGoals)?d.routineGoals:['','',''];let saved=false,message='ROUTINE에 저장했습니다.';if(form.id==='privateMemoSlotForm'){const slot=Math.max(0,Math.min(1,Number($('#privateMemoSlot')?.value)||0)),v=$('#privateMemoSlotText')?.value.trim()||'',existing=d.memos[slot];if(v){if(existing){existing.text=v;existing.updatedAt=Date.now()}else d.memos.push({id:'pm-'+Date.now(),text:v,createdAt:Date.now(),updatedAt:Date.now()})}else if(existing)d.memos=d.memos.filter(x=>x.id!==existing.id);editingMemoSlot=-1;saved=true;message='메모를 저장했습니다.'}else if(form.id==='privateRoutineForm'){const v=$('#privateRoutineText')?.value.trim();if(!v){toast('루틴 이름을 입력해주세요.');return}const editId=$('#privateRoutineEditId')?.value||'';const payload={text:v.slice(0,80),goalDays:Number($('#privateRoutineGoal')?.value)||20,color:$('#privateRoutineColor')?.value||'orange',icon:$('#privateRoutineIcon')?.value||routineCreateIcon||'✨',miniText:$('#privateRoutineMini')?.value.trim()||'5분만 시작하기',moreText:$('#privateRoutineMore')?.value.trim()||'20분 집중하기',maxText:$('#privateRoutineMax')?.value.trim()||'충분히 끝내기'};if(editId){const r=d.routines.find(x=>x.id===editId);if(!r){toast('수정할 루틴을 찾지 못했습니다.');return}Object.assign(r,payload,{cycleDays:payload.goalDays,updatedAt:Date.now()});selectedRoutineId=r.id;message='루틴을 수정했습니다.'}else{const id='pr-'+Date.now();d.routines.push({id,...payload,cycleDays:payload.goalDays,doneDates:[],dailyLevels:{},bigGoals:['','',''],goalTracking:{'0':{},'1':{},'2':{}},goalDerivedDates:{},braggedAt:0,createdAt:Date.now()});selectedRoutineId=id;message='루틴을 만들었습니다.'}editingRoutineId='';routinePanelMode='routines';saved=true}else if(form.id==='privateRoutineGoalsForm'){const r=d.routines.find(x=>x.id===selectedRoutineId)||d.routines[0];if(!r){toast('루틴을 먼저 만들어주세요.');return}r.bigGoals=[0,1,2].map(i=>($(`#routineBigGoal${i}`)?.value||'').trim().slice(0,120));r.goalTracking=r.goalTracking&&typeof r.goalTracking==='object'?r.goalTracking:{'0':{},'1':{},'2':{}};saved=true;message='큰 목표를 저장했습니다.'}else if(form.id==='privateChecklistForm'){const v=$('#privateChecklistText')?.value.trim();if(v){const urgent=$('#privateChecklistUrgency')?.value==='urgent',important=$('#privateChecklistImportance')?.value==='important';d.checklists.push({id:'pc-'+Date.now(),text:v,date:$('#privateChecklistDate')?.value||'',time:'',urgent,important,priority:important?'높음':'보통',category:'',done:false,createdAt:Date.now()});saved=true;message='체크리스트에 추가했습니다.'}}if(!saved)return;try{await savePrivateData(privateOwner);renderPrivate();toast(message)}catch(err){toast(googleErrorMessage(err))}});
   const scheduleMemoHost=$('#scheduleMemoPanel');
   scheduleMemoHost?.addEventListener('submit',async e=>{const form=e.target.closest('#privateMemoSlotForm');if(!form)return;e.preventDefault();if(!privateCanWrite()){toast('로그인 후 내 메모를 작성할 수 있습니다.');return}const d=privateData[privateOwner]||(privateData[privateOwner]=blankPrivateData(privateOwner,currentUserName));d.memos=Array.isArray(d.memos)?d.memos:[];const slot=Math.max(0,Math.min(1,Number(form.querySelector('#privateMemoSlot')?.value)||0)),v=form.querySelector('#privateMemoSlotText')?.value.trim()||'',existing=d.memos[slot];if(v){if(existing){existing.text=v;existing.updatedAt=Date.now()}else d.memos.push({id:'pm-'+Date.now(),text:v,createdAt:Date.now(),updatedAt:Date.now()})}else if(existing)d.memos=d.memos.filter(x=>x.id!==existing.id);editingMemoSlot=-1;try{await savePrivateData(privateOwner);renderPrivate();toast('메모를 저장했습니다.')}catch(err){toast(googleErrorMessage(err))}});
@@ -4858,6 +4956,9 @@ body:before,body:after{background:#46444D!important;background-image:none!import
   function privateScrollable(){return privatePageIndex===0?$('#privateRoutinePanel'):$('#languageLearningBlank')}
   $('#privateStage').addEventListener('wheel',e=>{if(Math.abs(e.deltaY)<16)return;const inner=e.target.closest('.matrix-quadrant-body');if(inner){const innerBottom=inner.scrollTop+inner.clientHeight>=inner.scrollHeight-4,innerTop=inner.scrollTop<=3;if(e.deltaY>0&&!innerBottom)return;if(e.deltaY<0&&!innerTop)return}const sc=privateScrollable();if(!sc)return;const atBottom=sc.scrollTop+sc.clientHeight>=sc.scrollHeight-4,atTop=sc.scrollTop<=3;if(privatePageIndex===0&&e.deltaY>0&&atBottom){e.preventDefault();goPrivatePage(1)}else if(privatePageIndex===1&&e.deltaY<0&&atTop){e.preventDefault();goPrivatePage(0)}},{passive:false});
   $('#privateStage').addEventListener('touchstart',e=>{privateTouchY=e.touches[0]?.clientY??null;privateTouchScroll=privateScrollable()},{passive:true});$('#privateStage').addEventListener('touchend',e=>{if(privateTouchY==null)return;const y=e.changedTouches[0]?.clientY??privateTouchY,d=privateTouchY-y,sc=privateTouchScroll,atBottom=sc&&sc.scrollTop+sc.clientHeight>=sc.scrollHeight-4,atTop=sc&&sc.scrollTop<=3;if(Math.abs(d)>45){if(privatePageIndex===0&&d>0&&atBottom)goPrivatePage(1);else if(privatePageIndex===1&&d<0&&atTop)goPrivatePage(0)}privateTouchY=null;privateTouchScroll=null},{passive:true});$$('.private-dot').forEach(b=>b.addEventListener('click',()=>goPrivatePage(Number(b.dataset.privatePage))));
+
+  $('#languageLearningBlank').addEventListener('click',async e=>{const speak=e.target.closest('[data-language-speak]'),word=e.target.closest('[data-language-word]'),level=e.target.closest('[data-language-confidence]'),complete=e.target.closest('[data-language-complete]');if(!speak&&!word&&!level&&!complete)return;e.stopPropagation();if(speak){speakJapanese(speak.dataset.languageText,speak.dataset.languageSpeak==='slow');return}if(!privateCanWrite()){toast('내 학습 기록만 수정할 수 있습니다.');return}const study=languageStudyStore(),date=dateKeyOffset(0);if(word){study.knownWords=study.knownWords||{};study.knownWords[word.dataset.languageWord]=!study.knownWords[word.dataset.languageWord]}if(level){study.confidence=study.confidence||{};study.confidence[date]=Math.max(1,Math.min(5,Number(level.dataset.languageConfidence)||3))}if(complete){study.completedDates=Array.isArray(study.completedDates)?study.completedDates:[];study.completedDates=study.completedDates.includes(date)?study.completedDates.filter(key=>key!==date):[...study.completedDates,date]}try{await savePrivateData(currentUserEmail);renderLanguageStudy();if(complete)toast(study.completedDates.includes(date)?'오늘의 일본어 학습을 완료했습니다.':'완료 표시를 해제했습니다.')}catch(err){toast(googleErrorMessage(err))}});
+  $('#languageLearningBlank').addEventListener('submit',async e=>{const form=e.target.closest('#languageNoteForm');if(!form)return;e.preventDefault();e.stopPropagation();if(!privateCanWrite())return;const study=languageStudyStore(),date=dateKeyOffset(0);study.notes=study.notes||{};const note=$('#languageNote')?.value.trim()||'';if(note)study.notes[date]=note;else delete study.notes[date];try{await savePrivateData(currentUserEmail);renderLanguageStudy();toast('오늘의 표현 노트를 저장했습니다.')}catch(err){toast(googleErrorMessage(err))}});
 
   // PERSONAL — nutrition, workout sets, bookshelf, workflow, fixed expenses and focus sessions.
   function personalStore(){if(!currentUserEmail)return blankPrivateData();if(!privateData[currentUserEmail])privateData[currentUserEmail]=blankPrivateData(currentUserEmail,currentUserName);return privateData[currentUserEmail]}
