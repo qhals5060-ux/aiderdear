@@ -1,4 +1,12 @@
-AiderDear v59
+AiderDear v60
+
+[v60 변경]
+
+- PAPER를 Dashboard, Library, Insights, Compare, Research Notes, Connections 중심의 개인 연구 워크스페이스로 개편
+- ChatGPT 분석 결과 붙여넣기, heading 자동 파싱, Preview 수정, 논문 저장 구현
+- Paper → Insight → Compare → Research Notes → Connections 연결 흐름 구현
+- 논문·저자·개념·이론·방법·Insight·Research Note 지식 그래프와 전체 검색·태그 제공
+- 가상 샘플 논문 6편과 연결된 Insight·Comparison·Research Note 제공
 
 [v59 변경]
 - 모든 메인 콘텐츠 프레임을 PERSONAL과 같은 완전한 사각형으로 통일

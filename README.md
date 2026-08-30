@@ -1,4 +1,18 @@
-# AiderDear v59
+# AiderDear v60
+
+## v60 PAPER 연구 워크스페이스
+
+- PAPER를 개인 대학원생용 연구 워크스페이스로 전면 개편
+- Dashboard, Library, Insights, Compare, Research Notes, Connections, Tags, Settings 제공
+- ChatGPT 논문 분석 결과를 `[heading]` 기준으로 파싱하고 수정 가능한 Preview 후 저장
+- 논문 상세에서 Overview, Insights, Source Notes, Connections를 하나의 흐름으로 연결
+- 논문별 AI Candidate Insight를 검토해 정식 My Insight로 전환
+- 여러 논문의 연구 질문·이론·대상·방법·결과·한계를 가로 비교하고 Comparison 저장
+- Notion형 Research Note 편집기와 연결 Papers·Insights 우측 패널 제공
+- Paper, Author, Concept, Theory, Method, Insight, Research Note 지식 그래프 제공
+- 제목·저자·연도·방법·상태·중요도·태그 필터와 전체 통합 검색 지원
+- Generative AI·Higher Education·Self-Regulated Learning 중심의 가상 샘플 6편 제공
+- 외부 AI API를 호출하지 않으며 PAPER 데이터는 로그인한 본인의 개인 Firebase 공간에 저장
 
 ## v59 PERSONAL·PAPER 변경
 
