@@ -204,12 +204,12 @@
 
   function drawSubregionMarker(ctx, hit, active) {
     ctx.save();
-    ctx.globalAlpha = active ? 0.9 : 0.58;
-    ctx.fillStyle = hit.color;
+    ctx.globalAlpha = active ? 1 : 0.78;
+    ctx.fillStyle = '#fff';
     ctx.strokeStyle = active ? '#00264B' : 'rgba(255,255,255,.95)';
-    ctx.lineWidth = active ? 3 : 1.5;
+    ctx.lineWidth = active ? 2.4 : 1.4;
     ctx.beginPath();
-    ctx.arc(hit.anchorX, hit.anchorY, active ? 14 : 10, 0, Math.PI * 2);
+    ctx.arc(hit.anchorX, hit.anchorY, active ? 5 : 3.5, 0, Math.PI * 2);
     ctx.fill();
     ctx.stroke();
     ctx.beginPath();
@@ -308,11 +308,22 @@
             z: (sourceA.z + sourceB.z + sourceC.z) / 3
           };
           var region = mesh.classify(centroid);
+          var subregion = null;
+          if (focused && region === state.region && centroid.z > 0 && Array.isArray(state.subregions) && state.subregions.length) {
+            subregion = state.subregions.filter(function (item) { return item.anchor; }).map(function (item, index) {
+              var dx = centroid.x - item.anchor.x;
+              var dy = centroid.y - item.anchor.y;
+              var dz = centroid.z - item.anchor.z;
+              return { item: item, index: index, distance: dx * dx + dy * dy + dz * dz * .36 };
+            }).sort(function (a, b) { return a.distance - b.distance; })[0] || null;
+          }
           var normal = faceNormal(rotated[face[0]], rotated[face[1]], rotated[face[2]]);
           triangles.push({
             points: [projected[face[0]], projected[face[1]], projected[face[2]]],
             depth: (rotated[face[0]].z + rotated[face[1]].z + rotated[face[2]].z) / 3,
             region: region,
+            subregionId: subregion && subregion.item.id,
+            subregionColor: subregion && (subregion.item.color || subregionPalette[subregion.index % subregionPalette.length]),
             alpha: alpha,
             light: 0.64 + Math.max(-0.25, normal.x * -0.18 + normal.y * 0.2 + normal.z * 0.38)
           });
@@ -323,15 +334,17 @@
         var color = regions[triangle.region] ? regions[triangle.region].color : '#9fb4c2';
         var selected = triangle.region === state.region;
         if (focused && !selected) color = '#b9c4c9';
+        if (focused && selected && triangle.subregionColor) color = triangle.subregionColor;
+        var selectedSubregion = triangle.subregionId && triangle.subregionId === state.subregion;
         context.beginPath();
         context.moveTo(triangle.points[0].x, triangle.points[0].y);
         context.lineTo(triangle.points[1].x, triangle.points[1].y);
         context.lineTo(triangle.points[2].x, triangle.points[2].y);
         context.closePath();
-        context.fillStyle = shaded(color, triangle.light + (selected ? 0.12 : 0), triangle.alpha * (focused && !selected ? 0.19 : 1));
+        context.fillStyle = shaded(color, triangle.light + (selected ? 0.12 : 0) + (selectedSubregion ? 0.18 : 0), triangle.alpha * (focused && !selected ? 0.19 : 1));
         context.fill();
-        context.strokeStyle = selected ? 'rgba(255,255,255,.54)' : 'rgba(0,38,75,.055)';
-        context.lineWidth = selected ? 0.68 : 0.2;
+        context.strokeStyle = selectedSubregion ? 'rgba(0,38,75,.58)' : selected ? 'rgba(255,255,255,.62)' : 'rgba(0,38,75,.055)';
+        context.lineWidth = selectedSubregion ? 1.25 : selected ? 0.74 : 0.2;
         context.stroke();
       });
       drawCorticalGrooves(context, project, yaw, focused);
@@ -379,7 +392,9 @@
         var x = event.clientX - rect.left;
         var y = event.clientY - rect.top;
         var nearest = hits.map(function (hit) {
-          return { hit: hit, distance: Math.hypot(hit.x - x, hit.y - y) };
+          var labelDistance = Math.hypot(hit.x - x, hit.y - y);
+          var surfaceDistance = hit.kind === 'subregion' ? Math.hypot(hit.anchorX - x, hit.anchorY - y) : labelDistance;
+          return { hit: hit, distance: Math.min(labelDistance, surfaceDistance) };
         }).sort(function (a, b) { return a.distance - b.distance; })[0];
         if (nearest && nearest.distance < 42) {
           if (nearest.hit.kind === 'subregion') state.subregion = nearest.hit.id;

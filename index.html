@@ -11,12 +11,12 @@
 <meta name="description" content="둘만의 일정과 감정, 기록, 앨범, 여행, 루틴을 한곳에 간직하는 프라이빗 라이프 아카이브">
 <meta name="format-detection" content="telephone=no">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="aiderlog-build" content="v74">
+<meta name="aiderlog-build" content="v75">
 <link rel="canonical" href="https://aiderdear1.vercel.app/">
 <script>
 (() => {
   const url = new URL(location.href);
-  if (['v67','v68','v69','v70','v71','v72','v73','v74'].includes(url.searchParams.get('aiderlog-main'))) {
+  if (['v67','v68','v69','v70','v71','v72','v73','v74','v75'].includes(url.searchParams.get('aiderlog-main'))) {
     url.searchParams.delete('aiderlog-main');
     history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`);
   }
@@ -3118,27 +3118,49 @@ body:before,body:after{background:#46444D!important;background-image:none!import
   .brain-workspace{height:auto!important;grid-template-rows:auto auto!important;overflow:visible!important}.brain-main-grid{grid-template-columns:1fr!important;grid-template-rows:390px auto!important}.brain-viewer{min-height:390px!important}.brain-detail{overflow:visible!important}.brain-study-grid{display:flex!important;overflow-x:auto!important}.brain-study-card{flex:0 0 285px!important;height:132px!important}.brain-function,.brain-subregion-detail p{font-size:9.5px!important}.brain-fact-grid article p,.brain-subregion-detail dl{font-size:8.5px!important}
   .task-toolbar{align-items:center!important}.task-toolbar h2{font-size:21px!important}.task-toolbar-actions{flex:1}.task-toolbar-actions input{width:100%;min-width:90px;height:32px}.task-toolbar-actions button{white-space:nowrap;padding-inline:8px}
 }
+
+/* ===== AiderLog v75 · compact masthead, readable Brain atlas, Windows setup ===== */
+.app{padding-bottom:clamp(8px,1.9vh,20px)!important;grid-template-rows:72px 30px minmax(0,1fr)!important}
+.masthead{position:relative!important;justify-content:center!important;min-height:0!important}
+.masthead .logo{font-size:clamp(39px,3.6vw,50px)!important;line-height:.88!important}
+.masthead .logo small{top:calc(100% + 5px)!important;color:rgba(255,255,255,.68)!important;font:800 6px/1 Arial,sans-serif!important;letter-spacing:.17em!important;text-transform:lowercase!important}
+.masthead>.nav-tools{position:absolute!important;right:8px!important;top:7px!important;width:min(330px,31vw)!important;height:58px!important;display:grid!important;grid-template-rows:26px 28px!important;gap:3px!important;align-items:center!important;z-index:35!important}
+.masthead .top-actions{grid-row:1!important;width:100%!important;height:26px!important;justify-content:flex-end!important;padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;backdrop-filter:none!important}
+.masthead .frame-search{grid-row:2!important;justify-self:end!important;width:min(244px,100%)!important;height:28px!important;border-radius:5px!important;box-shadow:none!important}
+.masthead .frame-search input{width:calc(100% - 34px)!important;height:26px!important;font-size:10px!important}.masthead .frame-search button{width:34px!important;height:26px!important}
+.nav-row{height:30px!important;align-items:end!important;padding-inline:8px!important}.nav-row .tabs{height:30px!important;align-items:end!important}
+.tab{height:29px!important;min-width:82px!important;padding:0 13px 5px!important;font-size:10px!important}.tab:before{border-radius:9px 9px 0 0!important}.tab.active:after{bottom:3px!important}
+.creator-signature{display:none!important}
+
+.brain-workspace{grid-template-rows:minmax(0,1fr) 132px!important}
+.brain-detail-header>div>span:first-child{font-size:8.5px!important}.brain-detail-header h3{font-size:25px!important}.brain-detail-header>div>span:last-child{font-size:9.5px!important}.brain-detail-header>b{font-size:8px!important}
+.brain-function{font-size:11px!important;line-height:1.6!important}
+.brain-fact-grid article>span{font-size:8px!important}.brain-fact-grid article p{font-size:9.5px!important;line-height:1.58!important}
+.brain-subregion-panel>header b{font-size:9px!important}.brain-subregion-panel>header span{font-size:8px!important}.brain-subregion-tabs button{min-height:29px!important;font-size:8.5px!important;padding-inline:9px!important}
+.brain-subregion-detail{padding:10px!important}.brain-subregion-detail header b{font-size:11px!important}.brain-subregion-detail header span{font-size:8px!important}.brain-subregion-detail p{font-size:10px!important;line-height:1.58!important}.brain-subregion-detail dl{grid-template-columns:72px 1fr!important;font-size:8.5px!important;line-height:1.55!important}
+.brain-related>b{font-size:9px!important}.brain-disorder{min-height:47px!important}.brain-disorder b{font-size:9px!important}.brain-disorder b small{font-size:7.5px!important}
+.brain-drag-hint{font-size:7.5px!important}.brain-legend button{font-size:8px!important}.brain-axis{font-size:7.5px!important}
+.brain-study-grid{display:grid!important;grid-template-columns:none!important;grid-auto-flow:column!important;grid-auto-columns:minmax(255px,1fr)!important;gap:8px!important;overflow-x:auto!important;overflow-y:hidden!important;scrollbar-width:thin!important;padding-bottom:3px!important}
+.brain-study-card{height:126px!important;min-width:255px!important;padding:11px 12px!important}.brain-study-card header b{font-size:11px!important}.brain-study-card header span{font-size:7.5px!important}.brain-study-card p{font-size:9px!important;line-height:1.5!important;-webkit-line-clamp:3!important}.brain-study-card footer button{height:22px!important;font-size:7.5px!important}
+.brain-disorder-copy>div span{font-size:9px!important}.brain-disorder-copy>div b{font-size:12px!important}.brain-disorder-copy>p{font-size:14px!important}.brain-disorder-copy section span{font-size:9px!important}.brain-disorder-copy section p{font-size:11px!important}
+
+.desktop-setup-open{width:100%;height:38px;margin:9px 0;border:1px solid #111;background:#fff;font-size:9px;font-weight:900;letter-spacing:.04em}.desktop-setup-modal{width:min(620px,calc(100% - 28px))!important}.desktop-setup-modal .modal-head small{display:block;margin-top:4px;font-size:8px;color:#777}.desktop-setup-copy{margin:0 0 12px;font-size:11px;line-height:1.55;color:#555}.desktop-choice-group{display:grid;gap:9px;padding:13px 0;border-top:1px solid #ddd}.desktop-choice-group>b{font-size:11px}.desktop-choice-group label{display:flex;align-items:center;gap:8px;font-size:11px}.desktop-choice-group input{width:17px;height:17px}.desktop-choice-group small{font-size:9px;line-height:1.55;color:#666}.desktop-choice-group kbd{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 4px;border:1px solid #bbb;border-radius:4px;background:#f6f6f6;box-shadow:0 1px 0 #aaa;font:700 8px Arial}.desktop-setup-actions{display:flex;justify-content:flex-end;gap:8px;padding-top:13px;border-top:1px solid #ddd}.desktop-install-status{min-height:18px;margin:9px 0 0;font-size:9px;color:#555}
+
+@media(max-width:760px){
+  .app{grid-template-rows:68px 30px minmax(0,1fr)!important;padding-bottom:7px!important}.masthead{justify-content:flex-start!important}.masthead .logo{font-size:34px!important;margin-left:7px}.masthead>.nav-tools{right:2px!important;top:5px!important;width:min(230px,64vw)!important;height:59px!important}.masthead .top-actions{gap:5px!important}.masthead .account-name,.masthead .mailbox-top,.masthead .quick-notes-top{font-size:9px!important}.masthead .frame-search{width:min(200px,100%)!important}.nav-row{overflow:visible!important}.tab{min-width:74px!important;height:29px!important;padding-inline:9px!important;font-size:9px!important}
+  .brain-workspace{grid-template-rows:auto auto!important}.brain-study-grid{display:flex!important}.brain-study-card{flex:0 0 280px!important}.brain-detail-header h3{font-size:23px!important}.brain-function{font-size:12px!important}.brain-fact-grid article p,.brain-subregion-detail p{font-size:11px!important}.brain-subregion-detail dl{font-size:10px!important}.brain-disorder b{font-size:10px!important}
+}
+@media(max-width:430px){.masthead .logo{font-size:29px!important}.masthead>.nav-tools{width:min(220px,67vw)!important}.masthead .account-name,.masthead .mailbox-top,.masthead .quick-notes-top{font-size:8px!important}.masthead .frame-search input{font-size:9px!important}.desktop-setup-modal{width:100%!important}}
 </style>
 </head>
 <body>
 <a class="skip-link" href="#app">본문으로 건너뛰기</a>
 <main class="app" id="app" tabindex="-1">
   <header class="masthead">
-    <div class="logo" aria-label="AiderLog"><span>Aider</span><em>Log</em></div>
-  </header>
-
-  <div class="nav-row">
-    <nav class="tabs" role="tablist" aria-label="AiderLog 주요 메뉴">
-      <button class="tab active" type="button" role="tab" data-tab="schedule" aria-controls="stage" aria-selected="true" tabindex="0">SCHEDULE</button>
-      <button class="tab" type="button" role="tab" data-tab="private" aria-controls="privateStage" aria-selected="false" tabindex="-1">ROUTINE</button>
-      <button class="tab" type="button" role="tab" data-tab="record" aria-controls="recordStage" aria-selected="false" tabindex="-1">EVENT</button>
-      <button class="tab" type="button" role="tab" data-tab="personal" aria-controls="personalStage" aria-selected="false" tabindex="-1">PERSONAL</button>
-      <button class="tab" type="button" role="tab" data-tab="paper" aria-controls="paperStage" aria-selected="false" tabindex="-1" hidden>PAPER</button>
-      <button class="tab" type="button" role="tab" data-tab="task" aria-controls="taskStage" aria-selected="false" tabindex="-1">TASK</button>
-    </nav>
-      <div class="nav-tools" aria-label="빠른 도구">
-        <div class="top-actions">
-          <div class="account-stack account-inline">
+    <div class="logo" aria-label="AiderLog"><span>Aider</span><em>Log</em><small>made by bomin</small></div>
+    <div class="nav-tools" aria-label="빠른 도구">
+      <div class="top-actions">
+        <div class="account-stack account-inline">
           <button class="top-action account-name" id="loginBtn">로그인</button>
           <button class="sync-mini" id="syncBtn" type="button" hidden>(동기화)</button>
         </div>
@@ -3150,6 +3172,17 @@ body:before,body:after{background:#46444D!important;background-image:none!import
         <button id="searchBtn" type="button" aria-label="검색 열기">⌕</button>
       </div>
     </div>
+  </header>
+
+  <div class="nav-row">
+    <nav class="tabs" role="tablist" aria-label="AiderLog 주요 메뉴">
+      <button class="tab active" type="button" role="tab" data-tab="schedule" aria-controls="stage" aria-selected="true" tabindex="0">SCHEDULE</button>
+      <button class="tab" type="button" role="tab" data-tab="private" aria-controls="privateStage" aria-selected="false" tabindex="-1">ROUTINE</button>
+      <button class="tab" type="button" role="tab" data-tab="record" aria-controls="recordStage" aria-selected="false" tabindex="-1">EVENT</button>
+      <button class="tab" type="button" role="tab" data-tab="personal" aria-controls="personalStage" aria-selected="false" tabindex="-1">PERSONAL</button>
+      <button class="tab" type="button" role="tab" data-tab="paper" aria-controls="paperStage" aria-selected="false" tabindex="-1" hidden>PAPER</button>
+      <button class="tab" type="button" role="tab" data-tab="task" aria-controls="taskStage" aria-selected="false" tabindex="-1">TASK</button>
+    </nav>
   </div>
 
   <section class="stage" id="stage" aria-label="일정 화면">
@@ -3501,8 +3534,6 @@ body:before,body:after{background:#46444D!important;background-image:none!import
 
   <div class="hint"><span class="wheel"></span>SCROLL TO FLIP</div>
 </main>
-<div class="creator-signature" aria-label="제작자">MADE BY BOMIN</div>
-
 <!-- Mailbox -->
 <div class="overlay" id="mailboxModal" role="dialog" aria-modal="true" aria-labelledby="mailboxTitle">
   <div class="modal mailbox-modal">
@@ -3606,6 +3637,7 @@ body:before,body:after{background:#46444D!important;background-image:none!import
             <section><p>보낸 요청 <span id="firebaseOutgoingCount">0</span></p><div class="firebase-request-list" id="firebaseOutgoingInvites"></div></section>
           </div>
           <p class="firebase-storage-note">Spark 무료 요금제에서 동작합니다. 사진은 자동 압축되며 영상은 최대 5분·120MB까지 저장됩니다. 큰 영상은 무료 1GiB 저장공간을 빠르게 사용할 수 있습니다.</p>
+          <button type="button" class="desktop-setup-open" id="desktopSetupBtn">Windows 앱 · 위젯 설정</button>
           <div class="login-data-summary"><b>기록 저장 안내</b><span>일정·이벤트는 커플 연결 시 두 사람의 공유 공간에 저장됩니다.</span><span>루틴·어학·PERSONAL·PAPER·TASK·메모는 본인의 개인 공간에만 저장됩니다.</span><span>사진·영상은 압축 저장되며, 오래된 일반 기록은 삭제 전에 반드시 확인을 요청합니다.</span></div>
         </div>
         <div class="firebase-legacy-hidden" aria-hidden="true">
@@ -4012,10 +4044,33 @@ body:before,body:after{background:#46444D!important;background-image:none!import
         <div><span id="brainDisorderRegion"></span><b id="brainDisorderEnglish"></b></div>
         <p id="brainDisorderSummary"></p>
         <section><span>NEURAL INTERPRETATION</span><p id="brainDisorderDetail"></p></section>
-        <small>교육용 신경과학 자료이며 개인의 진단이나 치료 지시를 대신하지 않습니다.</small>
       </article>
     </div>
   </section>
+</div>
+
+<!-- Windows desktop app & widget preferences -->
+<div class="overlay" id="desktopSetupModal" role="dialog" aria-modal="true" aria-labelledby="desktopSetupTitle">
+  <div class="modal desktop-setup-modal">
+    <div class="modal-head"><div><b id="desktopSetupTitle">Windows 11 앱 설정</b><small>PC 앱과 선택형 위젯</small></div><button class="x" data-close="desktopSetupModal">×</button></div>
+    <div class="modal-body">
+      <p class="desktop-setup-copy">AiderLog를 설치한 뒤 원하는 시작 방식과 위젯을 선택할 수 있습니다. Windows와 Edge가 마지막 확인 창을 표시합니다.</p>
+      <section class="desktop-choice-group">
+        <b>앱 실행</b>
+        <label><input type="checkbox" id="desktopAutoStart"> 노트북 로그인 시 자동 실행 요청</label>
+        <label><input type="checkbox" id="desktopTaskbar"> 작업표시줄에 고정 요청</label>
+      </section>
+      <section class="desktop-choice-group">
+        <b>Windows 위젯 보드에 표시할 항목</b>
+        <label><input type="checkbox" value="schedule" data-desktop-widget checked> SCHEDULE · 캘린더</label>
+        <label><input type="checkbox" value="insights" data-desktop-widget> PAPER · 인사이트</label>
+        <label><input type="checkbox" value="clients" data-desktop-widget> TASK · 클라이언트</label>
+        <small>설치 후 <kbd>Win</kbd> + <kbd>W</kbd>에서 선택한 AiderLog 위젯만 추가하세요.</small>
+      </section>
+      <div class="desktop-setup-actions"><button type="button" class="secondary" data-close="desktopSetupModal">나중에</button><button type="button" class="primary" id="desktopInstallConfirm">설정 저장 · 앱 설치</button></div>
+      <p class="desktop-install-status" id="desktopInstallStatus" aria-live="polite"></p>
+    </div>
+  </div>
 </div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -4782,7 +4837,7 @@ body:before,body:after{background:#46444D!important;background-image:none!import
       });
       cal.appendChild(cell);
     }
-    renderShared();
+    renderShared();queueWindowsWidgetSync();
   }
   function renderShared(){
     const y=shown.getFullYear(),m=shown.getMonth(),top=$('#sharedListTop'),compact=$('#sharedList');
@@ -6207,17 +6262,39 @@ body:before,body:after{background:#46444D!important;background-image:none!import
     {title:'신경혈관·대사 결합과 BOLD 해석',tag:'NEUROIMAGING',text:'국소 신경활동, astrocyte, 혈류·산소대사의 결합을 통해 fMRI BOLD가 직접 발화량이 아니라 지연된 혈역학 신호임을 구분합니다.',regions:['frontal','parietal','occipital']},
     {title:'발달·가소성·임계기',tag:'DEVELOPMENTAL PLASTICITY',text:'시냅스 과잉생성·가지치기, myelination, 억제회로 성숙과 경험 의존 가소성이 기능적 전문화를 만드는 시간축을 봅니다.',regions:['frontal','occipital','cerebellum']}
   ];
-  function brainDisorderIllustration(regionId){
-    const color=BRAIN_REGIONS[regionId]?.color||'#00264B',active=id=>id===regionId?'active':'',label=BRAIN_REGIONS[regionId]?.ko||'뇌 영역';
-    return `<svg viewBox="0 0 620 390" role="img" aria-label="${escapeHtml(label)} 강조 뇌 지도" style="--disorder-color:${color}"><defs><linearGradient id="brainMapDepth" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#f9fcfd"/><stop offset="1" stop-color="#aebfc9"/></linearGradient><marker id="brainMapArrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="${color}"/></marker></defs><path fill="url(#brainMapDepth)" stroke="#16344c" stroke-width="4" d="M60 198C42 126 90 58 172 38c59-14 101 2 130 31 57-29 143-8 190 45 48 55 43 134-8 179-34 30-77 37-118 31-44 38-118 49-185 22-71-29-111-87-121-148Z"/><path class="brain-map-region ${active('frontal')}" d="M67 194C54 133 98 77 174 58c38-10 77 0 99 26l-5 115c-68 19-139 21-201-5Z"/><path class="brain-map-region ${active('parietal')}" d="M273 84c58-27 145-5 181 43l-39 103-147-31 5-115Z"/><path class="brain-map-region ${active('temporal')}" d="M72 214c65-18 130-20 196-15l147 31c-13 66-70 105-145 119-88 16-174-35-198-135Z"/><path class="brain-map-region ${active('occipital')}" d="M454 127c58 18 91 72 75 123-13 41-55 70-107 73l-7-93 39-103Z"/><path class="brain-map-region ${active('cerebellum')}" d="M391 281c62-28 126-10 129 35 3 43-55 68-108 51-30-10-42-35-21-86Z"/><path class="brain-map-region ${active('brainstem')}" d="M337 290c26-4 45 13 46 36l-8 56h-45l-7-57 14-35Z"/><path class="brain-map-region ${active('hippocampus')}" d="M222 230c43-25 103-18 129 14-22 34-68 48-105 32-19-9-27-25-24-46Z"/><circle class="brain-map-region ${active('amygdala')}" cx="365" cy="244" r="23"/><path class="brain-map-circuit" marker-end="url(#brainMapArrow)" d="M190 104C270 39 395 54 462 130M150 272C238 335 370 329 438 278"/><rect x="435" y="28" width="158" height="54" rx="7" fill="rgba(255,255,255,.9)" stroke="${color}"/><text x="514" y="50" text-anchor="middle" class="brain-map-label">SELECTED REGION</text><text x="514" y="69" text-anchor="middle" class="brain-map-label" style="fill:${color};font-size:16px">${escapeHtml(label)}</text></svg>`
+  function brainDisorderNetworkRegions(item,primary){
+    const name=`${item?.ko||''} ${item?.en||''}`.toLowerCase(),rules=[
+      [/alzheimer|알츠하이머|dementia|치매/,['hippocampus','temporal','parietal','frontal']],
+      [/schizophrenia|조현병|psychosis|정신병/,['frontal','temporal','hippocampus','amygdala']],
+      [/attention-deficit|adhd|주의력/,['frontal','parietal','cerebellum']],
+      [/obsessive|ocd|강박/,['frontal','amygdala']],
+      [/depress|우울|bipolar|양극성/,['frontal','amygdala','hippocampus','brainstem']],
+      [/post-traumatic|ptsd|외상후|anxiety|불안|panic|공황/,['amygdala','hippocampus','frontal','brainstem']],
+      [/epilep|간질|뇌전증|encephalitis|뇌염/,['temporal','hippocampus','amygdala']],
+      [/aphasia|실어증|language|언어/,['frontal','temporal','parietal']],
+      [/autism|자폐/,['frontal','temporal','amygdala','cerebellum']],
+      [/parkinson|파킨슨|ataxia|실조/,['brainstem','frontal','cerebellum']],
+      [/migraine|편두통/,['brainstem','occipital','temporal']],
+      [/multiple sclerosis|다발성경화|leukodystrophy/,['frontal','parietal','brainstem','cerebellum']],
+      [/prosopagnosia|안면실인|visual|시각/,['occipital','temporal','parietal']],
+      [/memory|기억|amnesia|기억상실/,['hippocampus','temporal','frontal']],
+      [/sleep|수면|narcolepsy|기면/,['brainstem','frontal','hippocampus']],
+      [/frontotemporal|전두측두|personality|인격/,['frontal','temporal','amygdala']],
+      [/stroke|뇌졸중|infarct|경색/,[primary,'frontal','parietal','temporal']]
+    ];
+    const linked=[primary];rules.forEach(([pattern,ids])=>{if(pattern.test(name))linked.push(...ids)});return [...new Set(linked.filter(id=>BRAIN_REGIONS[id]))]
+  }
+  function brainDisorderIllustration(regionIds){
+    const ids=Array.isArray(regionIds)?regionIds:[regionIds],primary=ids[0]||'frontal',color=BRAIN_REGIONS[primary]?.color||'#00264B',active=id=>ids.includes(id)?'active':'',labels=ids.map(id=>BRAIN_REGIONS[id]?.ko).filter(Boolean);
+    return `<svg viewBox="0 0 620 390" role="img" aria-label="${escapeHtml(labels.join('·'))} 연결 뇌 지도" style="--disorder-color:${color}"><defs><linearGradient id="brainMapDepth" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#f9fcfd"/><stop offset="1" stop-color="#aebfc9"/></linearGradient><marker id="brainMapArrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="${color}"/></marker></defs><path fill="url(#brainMapDepth)" stroke="#16344c" stroke-width="4" d="M60 198C42 126 90 58 172 38c59-14 101 2 130 31 57-29 143-8 190 45 48 55 43 134-8 179-34 30-77 37-118 31-44 38-118 49-185 22-71-29-111-87-121-148Z"/><path class="brain-map-region ${active('frontal')}" d="M67 194C54 133 98 77 174 58c38-10 77 0 99 26l-5 115c-68 19-139 21-201-5Z"/><path class="brain-map-region ${active('parietal')}" d="M273 84c58-27 145-5 181 43l-39 103-147-31 5-115Z"/><path class="brain-map-region ${active('temporal')}" d="M72 214c65-18 130-20 196-15l147 31c-13 66-70 105-145 119-88 16-174-35-198-135Z"/><path class="brain-map-region ${active('occipital')}" d="M454 127c58 18 91 72 75 123-13 41-55 70-107 73l-7-93 39-103Z"/><path class="brain-map-region ${active('cerebellum')}" d="M391 281c62-28 126-10 129 35 3 43-55 68-108 51-30-10-42-35-21-86Z"/><path class="brain-map-region ${active('brainstem')}" d="M337 290c26-4 45 13 46 36l-8 56h-45l-7-57 14-35Z"/><path class="brain-map-region ${active('hippocampus')}" d="M222 230c43-25 103-18 129 14-22 34-68 48-105 32-19-9-27-25-24-46Z"/><circle class="brain-map-region ${active('amygdala')}" cx="365" cy="244" r="23"/><path class="brain-map-circuit" marker-end="url(#brainMapArrow)" d="M190 104C270 39 395 54 462 130M150 272C238 335 370 329 438 278"/><rect x="423" y="27" width="170" height="54" rx="7" fill="rgba(255,255,255,.92)" stroke="${color}"/><text x="508" y="49" text-anchor="middle" class="brain-map-label">CONNECTED NETWORK</text><text x="508" y="69" text-anchor="middle" class="brain-map-label" style="fill:${color};font-size:16px">${ids.length} AREAS</text></svg>`
   }
   function openBrainDisorder(index){
     const region=BRAIN_REGIONS[researchBrainRegion]||BRAIN_REGIONS.frontal,disorders=BRAIN_DISORDERS[researchBrainRegion]||[],item=disorders[index];if(!item)return;
-    researchBrainDisorderIndex=index;const overlay=$('#brainDisorderOverlay');overlay.style.setProperty('--disorder-color',region.color);$('#brainDisorderTitle').textContent=item.ko;$('#brainDisorderEnglish').textContent=item.en;$('#brainDisorderRegion').textContent=`${region.ko} · ${region.en}`;$('#brainDisorderSummary').textContent=item.summary;$('#brainDisorderDetail').textContent=item.detail;$('#brainDisorderVisual').innerHTML=brainDisorderIllustration(researchBrainRegion);overlay.hidden=false;
+    const network=brainDisorderNetworkRegions(item,researchBrainRegion);researchBrainDisorderIndex=index;const overlay=$('#brainDisorderOverlay');overlay.style.setProperty('--disorder-color',region.color);$('#brainDisorderTitle').textContent=item.ko;$('#brainDisorderEnglish').textContent=item.en;$('#brainDisorderRegion').textContent=network.map(id=>`${BRAIN_REGIONS[id].ko} · ${BRAIN_REGIONS[id].en}`).join('  /  ');$('#brainDisorderSummary').textContent=item.summary;$('#brainDisorderDetail').textContent=item.detail;$('#brainDisorderVisual').innerHTML=brainDisorderIllustration(network);overlay.hidden=false;
   }
   function renderResearchBrainV70(data){
     const region=BRAIN_REGIONS[researchBrainRegion]||BRAIN_REGIONS.frontal,disorders=BRAIN_DISORDERS[researchBrainRegion]||[],subregions=(BRAIN_SUBREGIONS[researchBrainRegion]||[]).map((item,index)=>({...item,color:BRAIN_SUBREGION_COLORS[index%BRAIN_SUBREGION_COLORS.length]})),active=id=>id===researchBrainRegion?'active':'',surface=researchBrainLayer==='surface',regionButton=id=>`<button type="button" class="${active(id)}" data-brain-region="${id}">${BRAIN_REGIONS[id].ko}</button>`;
-    if(researchBrainSubregion&&!subregions.some(item=>item.id===researchBrainSubregion))researchBrainSubregion='';const subregion=subregions.find(item=>item.id===researchBrainSubregion)||null,studyCards=BRAIN_STUDY_MODULES.slice(0,3);
+    if(researchBrainSubregion&&!subregions.some(item=>item.id===researchBrainSubregion))researchBrainSubregion='';const subregion=subregions.find(item=>item.id===researchBrainSubregion)||null,studyCards=BRAIN_STUDY_MODULES.slice().sort((a,b)=>Number(b.regions.includes(researchBrainRegion))-Number(a.regions.includes(researchBrainRegion)));
     const subregionPanel=subregions.length?`<section class="brain-subregion-panel"><header><b>DETAILED ATLAS</b><span>영역을 선택하면 뇌 지도가 확대됩니다.</span></header><div class="brain-subregion-tabs">${subregions.map(item=>`<button type="button" style="--sub-color:${item.color}" class="${item.id===researchBrainSubregion?'active':''}" data-brain-subregion="${item.id}">${escapeHtml(item.ko)}</button>`).join('')}</div>${subregion?`<article class="brain-subregion-detail" style="--sub-color:${subregion.color}"><header><b>${escapeHtml(subregion.ko)}</b><span>${escapeHtml(subregion.en)}</span></header><p>${escapeHtml(subregion.summary)}</p><dl><dt>CIRCUIT</dt><dd>${escapeHtml(subregion.circuit)}</dd><dt>CLINICAL</dt><dd>${escapeHtml(subregion.clinical)}</dd></dl></article>`:`<div class="brain-empty">${researchBrainFocused?'색으로 표시된 세부 영역을 선택해 회로와 임상 해석을 확인하세요.':'왼쪽 뇌 지도에서 대영역을 선택하면 확대된 세부 지도가 열립니다.'}</div>`}</section>`:'';
     return `<div class="research-view brain-workspace"><section class="brain-main-grid"><article class="research-card brain-viewer"><header class="brain-viewer-head"><div class="brain-layer-tabs"><button type="button" class="${surface?'active':''}" data-brain-layer="surface">SURFACE</button><button type="button" class="${surface?'':'active'}" data-brain-layer="deep">DEEP</button></div><div><button type="button" data-brain-rotate="-12" aria-label="뇌를 왼쪽으로 회전">↶</button><button type="button" data-brain-reset aria-label="전체 뇌 보기">RESET</button><button type="button" data-brain-rotate="12" aria-label="뇌를 오른쪽으로 회전">↷</button></div></header><div class="brain-scene ${researchBrainFocused?'is-focused':''}"><canvas class="brain-canvas" id="brain3dCanvas" role="img" aria-label="드래그해 회전하고 대영역과 색으로 표시된 세부 영역을 선택할 수 있는 3차원 뇌 모델"></canvas><div class="brain-drag-hint">${researchBrainFocused?'SELECT COLORED SUBREGION · RESET FOR FULL BRAIN':'DRAG TO ROTATE · SELECT REGION'}</div><div class="brain-axis"><span>LEFT</span><i></i><b id="brainRotationValue">${Math.round(researchBrainRotation)}°</b><i></i><span>RIGHT</span></div><div class="brain-legend">${Object.keys(BRAIN_REGIONS).map(regionButton).join('')}</div></div></article><aside class="research-card brain-detail" style="--brain-color:${region.color}"><header class="brain-detail-header"><div><span>${region.group}</span><h3>${region.ko}</h3><span>${region.en}</span></div><b>SELECTED</b></header><p class="brain-function">${escapeHtml(region.summary)}</p><div class="brain-fact-grid"><article><span>CIRCUIT · COMPUTATION MAP</span><p>${escapeHtml(region.study)}</p></article><article><span>CLINICAL INTERPRETATION</span><p>${escapeHtml(region.clinical)}</p></article></div>${subregionPanel}<div class="brain-related"><b>RELATED DISORDERS</b><div class="brain-disorder-list">${disorders.map((item,index)=>`<button type="button" class="brain-disorder" data-brain-disorder="${index}"><b>${escapeHtml(item.ko)} <small>${escapeHtml(item.en)}</small></b></button>`).join('')}</div></div></aside></section><section class="brain-study-grid">${studyCards.map(card=>`<article class="research-card brain-study-card"><header><b>${escapeHtml(card.title)}</b><span>${escapeHtml(card.tag)}</span></header><p>${escapeHtml(card.text)}</p><footer>${card.regions.map(regionButton).join('')}</footer></article>`).join('')}</section></div>`
   }
@@ -6228,7 +6305,7 @@ body:before,body:after{background:#46444D!important;background-image:none!import
   function decorateResearchDeletes(data){const make=(type,id,label='삭제')=>{const button=document.createElement('button');button.type='button';button.className='research-delete-button';button.dataset.researchDelete=type;button.dataset.id=id;button.textContent=label;button.setAttribute('aria-label',label);return button};if(researchView==='paper-detail'){const paper=researchPaperById(data,researchActivePaperId),actions=$('.paper-detail-actions');if(paper&&actions)actions.appendChild(make('paper',paper.id,'Delete Paper'))}if(researchView==='insights'||(researchView==='paper-detail'&&researchPaperDetailTab==='insights')){let rows=researchView==='insights'?(researchInsightFilter==='all'?(data.researchInsights||[]):(data.researchInsights||[]).filter(row=>row.status===researchInsightFilter)).slice().sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0)):(data.researchInsights||[]).filter(row=>row.paperId===researchActivePaperId);$$('.insight-card').forEach((card,index)=>{if(rows[index])card.appendChild(make('insight',rows[index].id,'×'))})}if(researchView==='compare'){const rows=(data.researchComparisons||[]).slice().sort((a,b)=>(b.createdAt||0)-(a.createdAt||0)).slice(0,6);$$('.saved-comparison').forEach((card,index)=>{if(rows[index])card.appendChild(make('comparison',rows[index].id,'×'))})}if(researchView==='notes'){const note=researchNoteById(data,researchActiveNoteId),save=$('.note-save-button');if(note&&save){const wrap=document.createElement('div');wrap.className='note-editor-actions';save.before(wrap);wrap.append(save,make('note',note.id,'Delete Note'))}}}
   async function deleteResearchEntity(type,id){const data=researchStore();if(type==='paper'){const paper=researchPaperById(data,id);if(!paper||!confirm(`“${paper.title}” 논문을 삭제할까요?\n연결된 Insight와 비교 연결도 함께 정리됩니다.`))return;const insightIds=new Set((data.researchInsights||[]).filter(row=>row.paperId===id).map(row=>row.id));data.paperItems=(data.paperItems||[]).filter(row=>row.id!==id);data.researchInsights=(data.researchInsights||[]).filter(row=>row.paperId!==id);data.researchNotes=(data.researchNotes||[]).map(note=>({...note,linkedPaperIds:(note.linkedPaperIds||[]).filter(value=>value!==id),linkedInsightIds:(note.linkedInsightIds||[]).filter(value=>!insightIds.has(value)),updatedAt:Date.now()}));data.researchComparisons=(data.researchComparisons||[]).map(row=>({...row,paperIds:(row.paperIds||[]).filter(value=>value!==id)})).filter(row=>row.paperIds.length>=2);data.researchConnections=(data.researchConnections||[]).filter(row=>row.sourceId!==id&&row.targetId!==id);researchCompareSelection.delete(id);researchActivePaperId='';researchView='library';await persistResearch('논문과 연결 기록을 삭제했습니다.');return}if(type==='insight'){const row=researchInsightById(data,id);if(!row||!confirm(`“${row.title}” Insight를 삭제할까요?`))return;data.researchInsights=(data.researchInsights||[]).filter(item=>item.id!==id);data.researchNotes=(data.researchNotes||[]).map(note=>({...note,linkedInsightIds:(note.linkedInsightIds||[]).filter(value=>value!==id)}));data.researchConnections=(data.researchConnections||[]).filter(item=>item.sourceId!==id&&item.targetId!==id);await persistResearch('Insight를 삭제했습니다.');return}if(type==='note'){const note=researchNoteById(data,id);if(!note||!confirm(`“${note.title}” Research Note를 삭제할까요?`))return;data.researchNotes=(data.researchNotes||[]).filter(row=>row.id!==id);data.researchConnections=(data.researchConnections||[]).filter(row=>row.sourceId!==id&&row.targetId!==id);researchActiveNoteId=data.researchNotes[0]?.id||'';await persistResearch('Research Note를 삭제했습니다.');return}if(type==='comparison'){const row=(data.researchComparisons||[]).find(item=>item.id===id);if(!row||!confirm(`“${row.title}” Comparison을 삭제할까요?`))return;data.researchComparisons=data.researchComparisons.filter(item=>item.id!==id);await persistResearch('Comparison을 삭제했습니다.')}}
   function goResearchView(view){researchView=view;if(view==='compare'&&researchCompareSelection.size<2)(researchStore().paperItems||[]).slice(0,2).forEach(row=>researchCompareSelection.add(row.id));renderPaper()}
-  async function persistResearch(message='저장했습니다.'){try{await savePrivateData(currentUserEmail);renderPaper();toast(message)}catch(err){toast(googleErrorMessage(err))}}
+  async function persistResearch(message='저장했습니다.'){try{await savePrivateData(currentUserEmail);renderPaper();queueWindowsWidgetSync();toast(message)}catch(err){toast(googleErrorMessage(err))}}
   function newResearchNote(data,{paperId='',insightId=''}={}){const paper=researchPaperById(data,paperId),insight=researchInsightById(data,insightId),id='research-note-'+Date.now(),note={id,title:paper?`${paper.title} — Research Note`:insight?`${insight.title} — Synthesis`:'Untitled Research Note',summary:'',content:'<h2>핵심 종합</h2><p>여러 논문과 Insight를 연결해 내 연구의 의미를 작성하세요.</p>',linkedPaperIds:paperId?[paperId]:insight?.paperId?[insight.paperId]:[],linkedInsightIds:insightId?[insightId]:[],researchGap:'',researchQuestions:'',useInThesis:[],tags:paper?.tags?.slice(0,3)||insight?.tags?.slice(0,3)||[],createdAt:Date.now(),updatedAt:Date.now()};data.researchNotes.push(note);researchActiveNoteId=id;return note}
   $('#researchNav').addEventListener('click',e=>{const button=e.target.closest('[data-research-view]');if(button)goResearchView(button.dataset.researchView)});
   $('#paperAddButton').addEventListener('click',()=>openPaperImport());
@@ -6289,7 +6366,7 @@ body:before,body:after{background:#46444D!important;background-image:none!import
   }
   function openConsultingClient(id=''){const data=consultingStore(),row=(data.consultingClients||[]).find(client=>client.id===id);$('#consultingClientForm').reset();$('#consultingClientId').value=row?.id||'';$('#consultingClientName').value=row?.name||'';$('#consultingClientContact').value=row?.contact||'';$('#consultingClientUniversity').value=row?.university||'';$('#consultingClientProgram').value=row?.program||'';$('#consultingClientYear').value=row?.applicationYear||'';$('#consultingClientSemester').value=row?.applicationSemester||'';$('#consultingClientTopic').value=row?.topic||'';$('#consultingClientStage').value=row?.stage||'inquiry';$('#consultingClientNext').value=row?.nextSession||'';$('#consultingClientNote').value=row?.note||'';$('#consultingDialogTitle').textContent=row?'고객 수정':'고객 추가';$('#consultingClientOverlay').hidden=false;setTimeout(()=>$('#consultingClientName').focus(),0)}
   function closeConsultingClient(){$('#consultingClientOverlay').hidden=true}
-  async function persistConsulting(message){try{await savePrivateData(currentUserEmail);renderConsultingWorkspace();toast(message)}catch(err){toast(googleErrorMessage(err))}}
+  async function persistConsulting(message){try{await savePrivateData(currentUserEmail);renderConsultingWorkspace();queueWindowsWidgetSync();toast(message)}catch(err){toast(googleErrorMessage(err))}}
   $('#taskAddClient').addEventListener('click',()=>openConsultingClient());$('#consultingClientSearch').addEventListener('input',e=>{consultingClientQuery=e.target.value;renderConsultingWorkspace()});$('#consultingClientClose').addEventListener('click',closeConsultingClient);$('#consultingClientOverlay').addEventListener('click',e=>{if(e.target===$('#consultingClientOverlay'))closeConsultingClient()});
   $('#consultingClientForm').addEventListener('submit',async e=>{e.preventDefault();const data=consultingStore(),id=$('#consultingClientId').value||`client-${Date.now()}`,existing=(data.consultingClients||[]).find(row=>row.id===id),row={id,name:$('#consultingClientName').value.trim(),contact:$('#consultingClientContact').value.trim(),university:$('#consultingClientUniversity').value.trim(),program:$('#consultingClientProgram').value.trim(),applicationYear:Math.max(0,Math.min(2200,Number($('#consultingClientYear').value)||0)),applicationSemester:$('#consultingClientSemester').value,topic:$('#consultingClientTopic').value.trim(),stage:$('#consultingClientStage').value,nextSession:$('#consultingClientNext').value,note:$('#consultingClientNote').value.trim(),createdAt:existing?.createdAt||Date.now(),updatedAt:Date.now()};if(!row.name)return;data.consultingClients=Array.isArray(data.consultingClients)?data.consultingClients:[];if(existing)data.consultingClients[data.consultingClients.findIndex(item=>item.id===id)]=row;else data.consultingClients.push(row);consultingClientQuery='';$('#consultingClientSearch').value='';selectedConsultingClientId=id;closeConsultingClient();await persistConsulting(existing?'고객 정보를 수정했습니다.':'상담 고객을 추가했습니다.')});
   $('#consultingClientList').addEventListener('click',e=>{const button=e.target.closest('[data-consulting-client]');if(!button)return;selectedConsultingClientId=button.dataset.consultingClient;renderConsultingWorkspace()});
@@ -6297,6 +6374,20 @@ body:before,body:after{background:#46444D!important;background-image:none!import
   $('#consultingMain').addEventListener('click',async e=>{const edit=e.target.closest('[data-consulting-edit]');if(edit){openConsultingClient(edit.dataset.consultingEdit);return}const data=consultingStore(),taskAdd=e.target.closest('[data-consulting-task-add]'),sessionAdd=e.target.closest('[data-consulting-session-add]'),clientDelete=e.target.closest('[data-consulting-delete]'),taskDelete=e.target.closest('[data-consulting-task-delete]'),sessionDelete=e.target.closest('[data-consulting-session-delete]');if(taskAdd){const title=prompt('고객에게 전달하거나 확인할 과업을 입력하세요.');if(!title?.trim())return;const dueDate=prompt('마감일을 YYYY-MM-DD 형식으로 입력하세요. (선택)','')||'';data.consultingTasks.push({id:`consult-task-${Date.now()}`,clientId:taskAdd.dataset.consultingTaskAdd,title:title.trim().slice(0,180),dueDate:/^\d{4}-\d{2}-\d{2}$/.test(dueDate)?dueDate:'',done:false,createdAt:Date.now()});await persistConsulting('상담 과업을 추가했습니다.');return}if(sessionAdd){const summary=prompt('상담 내용과 다음 행동을 기록하세요.');if(!summary?.trim())return;const now=new Date(),date=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}T${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;data.consultingSessions.push({id:`consult-session-${Date.now()}`,clientId:sessionAdd.dataset.consultingSessionAdd,date,summary:summary.trim().slice(0,1000),createdAt:Date.now()});await persistConsulting('상담 기록을 추가했습니다.');return}if(taskDelete){data.consultingTasks=data.consultingTasks.filter(row=>row.id!==taskDelete.dataset.consultingTaskDelete);await persistConsulting('과업을 삭제했습니다.');return}if(sessionDelete){data.consultingSessions=data.consultingSessions.filter(row=>row.id!==sessionDelete.dataset.consultingSessionDelete);await persistConsulting('상담 기록을 삭제했습니다.');return}if(clientDelete){const client=data.consultingClients.find(row=>row.id===clientDelete.dataset.consultingDelete);if(!client||!confirm(`“${client.name}” 고객과 연결된 상담·과업을 모두 삭제할까요?`))return;data.consultingClients=data.consultingClients.filter(row=>row.id!==client.id);data.consultingTasks=data.consultingTasks.filter(row=>row.clientId!==client.id);data.consultingSessions=data.consultingSessions.filter(row=>row.clientId!==client.id);selectedConsultingClientId=data.consultingClients[0]?.id||'';await persistConsulting('상담 고객을 삭제했습니다.')}});
   document.addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'&&!$('#paperStage').hidden){e.preventDefault();$('#researchSearchInput')?.focus()}if(e.key!=='Escape')return;if(!$('#personalEntryOverlay').hidden)closePersonalEntry();$$('.research-modal').forEach(modal=>modal.hidden=true)});
 
+  const DESKTOP_PREF_KEY='aiderlog-windows-preferences-v1';
+  let deferredInstallPrompt=null,windowsWidgetTimer=0;
+  function desktopPreferences(){try{return {...{autoStart:false,taskbar:false,widgets:['schedule']},...JSON.parse(localStorage.getItem(DESKTOP_PREF_KEY)||'{}')}}catch(_){return {autoStart:false,taskbar:false,widgets:['schedule']}}}
+  function populateDesktopPreferences(){const prefs=desktopPreferences();$('#desktopAutoStart').checked=!!prefs.autoStart;$('#desktopTaskbar').checked=!!prefs.taskbar;$$('[data-desktop-widget]').forEach(input=>input.checked=(prefs.widgets||[]).includes(input.value));const installed=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;$('#desktopInstallConfirm').textContent=installed?'설정 저장':'설정 저장 · 앱 설치';$('#desktopInstallStatus').textContent=installed?'앱이 설치되어 있습니다. 위젯 선택은 Win + W에서 언제든 변경할 수 있습니다.':''}
+  function openDesktopSetup(){populateDesktopPreferences();openModal('desktopSetupModal')}
+  function windowsWidgetPayload(){
+    const prefs=desktopPreferences(),now=Date.now(),privateStore=privateData[currentUserEmail]||{},todayIso=new Date().toISOString().slice(0,10),scheduleRows=(events||[]).filter(row=>!row.isHoliday&&String(row.endDate||row.date||'')>=todayIso).sort((a,b)=>`${a.date||''} ${a.time||''}`.localeCompare(`${b.date||''} ${b.time||''}`)).slice(0,5),insightRows=(privateStore.researchInsights||[]).slice().sort((a,b)=>(b.updatedAt||b.createdAt||0)-(a.updatedAt||a.createdAt||0)).slice(0,3),clientRows=(privateStore.consultingClients||[]).slice().sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0)).slice(0,4);
+    return {selectedWidgets:prefs.widgets||[],updatedAt:now,schedule:{eyebrow:'SCHEDULE',title:new Intl.DateTimeFormat('ko-KR',{month:'long',day:'numeric',weekday:'short'}).format(new Date()),empty:'예정된 일정이 없습니다.',events:scheduleRows.map(row=>({time:row.time||'ALL DAY',title:row.title||'일정',date:String(row.date||'').slice(5).replace('-','.')}))},insights:{eyebrow:'PAPER · INSIGHTS',title:'Research Signals',empty:'저장된 Insight가 없습니다.',items:insightRows.map(row=>({title:row.title||'Untitled insight',source:(privateStore.paperItems||[]).find(p=>p.id===row.paperId)?.title||row.useFor||'Research Insight'}))},clients:{eyebrow:'TASK · CLIENTS',title:'Consulting Desk',empty:'등록된 클라이언트가 없습니다.',items:clientRows.map(row=>({name:row.name||'이름 없음',stage:row.stage||'상태 미지정',next:row.nextSession?`NEXT ${row.nextSession}`:(row.applicationYear?`${row.applicationYear} ${row.applicationSemester||''}`.trim():'일정 미정')}))}}
+  }
+  async function syncWindowsWidgets(){if(!('serviceWorker'in navigator))return;try{const registration=await navigator.serviceWorker.ready,target=navigator.serviceWorker.controller||registration.active;target?.postMessage({type:'AIDERLOG_WIDGET_DATA',payload:windowsWidgetPayload()})}catch(_){}}
+  function queueWindowsWidgetSync(){clearTimeout(windowsWidgetTimer);windowsWidgetTimer=setTimeout(syncWindowsWidgets,260)}
+  window.addEventListener('beforeinstallprompt',event=>{event.preventDefault();deferredInstallPrompt=event;const button=$('#desktopSetupBtn');if(button)button.hidden=false});
+  $('#desktopSetupBtn').addEventListener('click',openDesktopSetup);
+  $('#desktopInstallConfirm').addEventListener('click',async()=>{const widgets=$$('[data-desktop-widget]:checked').map(input=>input.value);if(!widgets.length){$('#desktopInstallStatus').textContent='표시할 위젯을 하나 이상 선택해주세요.';return}const prefs={autoStart:$('#desktopAutoStart').checked,taskbar:$('#desktopTaskbar').checked,widgets};localStorage.setItem(DESKTOP_PREF_KEY,JSON.stringify(prefs));await syncWindowsWidgets();if(deferredInstallPrompt){deferredInstallPrompt.prompt();const choice=await deferredInstallPrompt.userChoice;deferredInstallPrompt=null;if(choice.outcome==='accepted'){$('#desktopInstallStatus').textContent='설치를 마친 뒤 Edge의 확인 화면에서 자동 시작과 작업표시줄 고정을 허용하세요.'}else $('#desktopInstallStatus').textContent='앱 설치는 취소되었지만 위젯 선택은 저장했습니다.'}else if(matchMedia('(display-mode: standalone)').matches){$('#desktopInstallStatus').textContent='설정을 저장했습니다. Win + W에서 선택한 위젯을 추가하세요.'}else $('#desktopInstallStatus').textContent='Edge 메뉴의 “앱 → AiderLog 설치”를 선택한 뒤 다시 설정해주세요.'});
   function animateStandaloneFrame(id){const el=$(id);if(!el)return;el.classList.remove('line-active');void el.offsetWidth;el.classList.add('line-active')}
   function showMainTab(tab){
     if((tab==='record'||tab==='private'||tab==='personal'||tab==='paper'||tab==='task')&&!currentUser){requireLogin(()=>showMainTab(tab));return}
@@ -6317,9 +6408,9 @@ body:before,body:after{background:#46444D!important;background-image:none!import
   $$('.tab').forEach(t=>t.addEventListener('click',()=>showMainTab(t.dataset.tab)));
   $('.tabs').addEventListener('keydown',e=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;e.preventDefault();const tabs=$$('.tab').filter(tab=>!tab.hidden);let i=tabs.indexOf(document.activeElement);if(e.key==='Home')i=0;else if(e.key==='End')i=tabs.length-1;else i=(i+(e.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length;tabs[i].focus();showMainTab(tabs[i].dataset.tab)});
   function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._timer);t._timer=setTimeout(()=>t.classList.remove('show'),1800)}
-  window.addEventListener('appinstalled',()=>toast('AiderLog 앱 설치가 완료되었습니다.'));
+  window.addEventListener('appinstalled',()=>{toast('AiderLog 앱 설치가 완료되었습니다.');const prefs=desktopPreferences();if(prefs.autoStart||prefs.taskbar){openDesktopSetup();$('#desktopInstallStatus').textContent='Edge의 설치 완료 화면에서 선택한 자동 시작·작업표시줄 고정을 최종 허용해주세요.'}});
   $('#stage').addEventListener('pointerdown',e=>{if(e.target.closest('button,input,select,textarea,label,a'))e.stopPropagation()});
-    normalizeCloudData();selectAlbumFolderColor(ALBUM_PASTELS[0]);getAlbumFolders();refreshRecordAlbumSelect(DEFAULT_ALBUM_ID);renderAlbumFolders();renderEventArchive();renderTravelArchive();renderPrivate();renderPersonal();renderPaper();renderConsultingWorkspace();renderEmotion();applyLoginUI();setDday();renderDdayList();renderCalendar();if(location.hash==='#search')setTimeout(openSearchFromQuick,0);if('serviceWorker' in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'}).then(registration=>registration.update()).catch(()=>{}));
+    normalizeCloudData();selectAlbumFolderColor(ALBUM_PASTELS[0]);getAlbumFolders();refreshRecordAlbumSelect(DEFAULT_ALBUM_ID);renderAlbumFolders();renderEventArchive();renderTravelArchive();renderPrivate();renderPersonal();renderPaper();renderConsultingWorkspace();renderEmotion();applyLoginUI();setDday();renderDdayList();renderCalendar();if(location.hash==='#search')setTimeout(openSearchFromQuick,0);const widgetTarget=new URLSearchParams(location.search).get('widget');if(widgetTarget)setTimeout(()=>{if(widgetTarget==='schedule')showMainTab('schedule');if(widgetTarget==='insights'){researchView='insights';showMainTab('paper')}if(widgetTarget==='clients')showMainTab('task')},180);if('serviceWorker' in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'}).then(registration=>{registration.update();setTimeout(syncWindowsWidgets,450)}).catch(()=>{}));
 })();
 </script>
 </body>

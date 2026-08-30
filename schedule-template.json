@@ -1,0 +1,18 @@
+{
+  "type": "AdaptiveCard",
+  "version": "1.5",
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "body": [
+    {"type":"TextBlock","text":"${eyebrow}","size":"Small","weight":"Bolder","color":"Accent","spacing":"None"},
+    {"type":"TextBlock","text":"${title}","size":"ExtraLarge","weight":"Bolder","wrap":true,"spacing":"Small"},
+    {"type":"Container","$data":"${events}","separator":true,"spacing":"Small","items":[
+      {"type":"ColumnSet","columns":[
+        {"type":"Column","width":"auto","items":[{"type":"TextBlock","text":"${date}","size":"Small","weight":"Bolder","color":"Accent"}]},
+        {"type":"Column","width":"auto","items":[{"type":"TextBlock","text":"${time}","size":"Small","isSubtle":true}]},
+        {"type":"Column","width":"stretch","items":[{"type":"TextBlock","text":"${title}","weight":"Bolder","wrap":true,"maxLines":1}]}
+      ]}
+    ]},
+    {"type":"TextBlock","text":"${empty}","isVisible":"${$count(events) == 0}","isSubtle":true,"wrap":true}
+  ],
+  "actions":[{"type":"Action.OpenUrl","title":"캘린더 열기","url":"https://aiderdear1.vercel.app/?widget=schedule"}]
+}

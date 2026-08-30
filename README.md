@@ -1,4 +1,18 @@
-# AiderLog v74
+# AiderLog v75
+
+## v75 상단 레이아웃 · Brain 네트워크 · Windows 11 앱
+
+- `made by bomin`을 AiderLog 타이틀 바로 아래로 옮기고, 이름·메모장·우편함과 검색을 오른쪽 2줄로 정리했습니다.
+- 탭 높이와 상단 여백을 줄여 탭을 타이틀에 가깝게 올리고, 메인 프레임이 사용할 수 있는 높이를 늘렸습니다.
+- Brain의 본문·세부 영역·질환·연구 카드 폰트를 확대했습니다.
+- Brain 연구 모듈 10개를 관련도 순으로 하단 가로 탐색에 모두 노출합니다.
+- 뇌 대영역을 확대하면 도트가 아니라 세부 영역별 색상 표면으로 구분됩니다.
+- 질환 팝업의 진단 안내 문구를 삭제하고, 질환과 연관된 여러 뇌 영역을 하나의 네트워크로 표시합니다.
+- Windows 앱 설치 설정에서 자동 시작·작업표시줄 고정 요청과 캘린더·Insight·클라이언트 위젯 선택을 저장합니다.
+- Windows 11 Widgets Board용 Adaptive Card 3종과 서비스워커 동기화를 추가했습니다.
+
+배포 후 `https://aiderdear1.vercel.app/sw.js`의 첫 줄이
+`const CACHE='aiderlog-v75-windows-widgets-brain-atlas-header';`인지 확인하세요.
 
 ## v74 Language Lab · Brain Atlas · TASK 고객 검색
 

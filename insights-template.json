@@ -1,0 +1,15 @@
+{
+  "type": "AdaptiveCard",
+  "version": "1.5",
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "body": [
+    {"type":"TextBlock","text":"${eyebrow}","size":"Small","weight":"Bolder","color":"Accent","spacing":"None"},
+    {"type":"TextBlock","text":"${title}","size":"ExtraLarge","weight":"Bolder","wrap":true,"spacing":"Small"},
+    {"type":"Container","$data":"${items}","separator":true,"spacing":"Small","items":[
+      {"type":"TextBlock","text":"${title}","weight":"Bolder","wrap":true,"maxLines":2},
+      {"type":"TextBlock","text":"${source}","size":"Small","isSubtle":true,"wrap":true,"maxLines":1,"spacing":"None"}
+    ]},
+    {"type":"TextBlock","text":"${empty}","isVisible":"${$count(items) == 0}","isSubtle":true,"wrap":true}
+  ],
+  "actions":[{"type":"Action.OpenUrl","title":"Insights 열기","url":"https://aiderdear1.vercel.app/?widget=insights"}]
+}
