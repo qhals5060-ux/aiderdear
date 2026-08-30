@@ -30,24 +30,52 @@
     return 'parietal';
   }
 
+  var regionAnchors = {
+    frontal: { x: -1.04, y: 0.31, z: 0.67 },
+    parietal: { x: 0.17, y: 0.73, z: 0.66 },
+    temporal: { x: 0.08, y: -0.36, z: 0.69 },
+    occipital: { x: 1.24, y: 0.18, z: 0.47 },
+    cerebellum: { x: 0.94, y: -0.79, z: 0.51 },
+    brainstem: { x: 0.22, y: -1.18, z: 0.2 },
+    hippocampus: { x: 0.04, y: -0.25, z: 0.43 },
+    amygdala: { x: -0.49, y: -0.18, z: 0.44 }
+  };
+
+  var subregionPalette = ['#D96D5F', '#D9A46D', '#D9C56D', '#64C59E', '#5FC5D9', '#6D9AD9', '#6D6DD9', '#9A6FD9', '#D96DA4'];
+
+  function shapeCortex(point, options, longitude, latitude) {
+    if (!options.brainShape) return point;
+    var nx = Math.cos(latitude) * Math.cos(longitude);
+    var ny = Math.sin(latitude);
+    var frontalBulge = Math.max(0, -nx - 0.28);
+    var occipitalTaper = Math.max(0, nx - 0.52);
+    point.x -= frontalBulge * 0.055;
+    point.x -= occipitalTaper * 0.045;
+    point.y += frontalBulge * 0.035;
+    if (ny < -0.38) point.y += Math.abs(ny + 0.38) * 0.16;
+    if (ny > 0.66) point.y -= (ny - 0.66) * 0.07;
+    point.z *= 1 - occipitalTaper * 0.045;
+    return point;
+  }
+
   function ellipsoid(options) {
     var vertices = [];
     var faces = [];
-    var uSegments = options.uSegments || 34;
-    var vSegments = options.vSegments || 22;
+    var uSegments = options.uSegments || 48;
+    var vSegments = options.vSegments || 30;
     for (var v = 0; v <= vSegments; v += 1) {
       var latitude = -Math.PI / 2 + Math.PI * v / vSegments;
       for (var u = 0; u <= uSegments; u += 1) {
         var longitude = Math.PI * 2 * u / uSegments;
         var wave = options.gyri
-          ? 1 + 0.035 * Math.sin(longitude * 7 + latitude * 3) + 0.022 * Math.cos(longitude * 11 - latitude * 5)
+          ? 1 + 0.027 * Math.sin(longitude * 7 + latitude * 3) + 0.018 * Math.cos(longitude * 11 - latitude * 5) + 0.011 * Math.sin(longitude * 17 + latitude * 9)
           : 1;
         var cosLat = Math.cos(latitude);
-        vertices.push({
+        vertices.push(shapeCortex({
           x: options.cx + options.rx * cosLat * Math.cos(longitude) * wave,
           y: options.cy + options.ry * Math.sin(latitude) * wave,
           z: options.cz + options.rz * cosLat * Math.sin(longitude) * wave
-        });
+        }, options, longitude, latitude));
       }
     }
     for (var row = 0; row < vSegments; row += 1) {
@@ -77,16 +105,17 @@
         id: 'cortex',
         cx: -0.03,
         cy: 0.12,
-        cz: side * 0.43,
-        rx: 1.52,
-        ry: 1.07,
-        rz: 0.78,
+        cz: side * 0.39,
+        rx: 1.49,
+        ry: 1.03,
+        rz: 0.46,
         gyri: true,
+        brainShape: true,
         classify: function (point) { return corticalRegion(point.x, point.y); }
       }));
     });
-    meshes.push(ellipsoid({ id: 'cerebellum', cx: 0.88, cy: -0.78, cz: 0, rx: 0.67, ry: 0.46, rz: 0.64, gyri: true, uSegments: 28, vSegments: 18 }));
-    meshes.push(ellipsoid({ id: 'brainstem', cx: 0.22, cy: -1.12, cz: 0, rx: 0.24, ry: 0.58, rz: 0.24, uSegments: 22, vSegments: 16 }));
+    meshes.push(ellipsoid({ id: 'cerebellum', cx: 0.86, cy: -0.72, cz: 0, rx: 0.64, ry: 0.43, rz: 0.56, gyri: true, uSegments: 40, vSegments: 24 }));
+    meshes.push(ellipsoid({ id: 'brainstem', cx: 0.2, cy: -1.04, cz: 0, rx: 0.22, ry: 0.54, rz: 0.21, uSegments: 28, vSegments: 20 }));
     [-1, 1].forEach(function (side) {
       meshes.push(ellipsoid({ id: 'hippocampus', cx: 0.08, cy: -0.25, cz: side * 0.38, rx: 0.62, ry: 0.19, rz: 0.14, uSegments: 24, vSegments: 14 }));
       meshes.push(ellipsoid({ id: 'amygdala', cx: -0.48, cy: -0.2, cz: side * 0.39, rx: 0.2, ry: 0.22, rz: 0.18, uSegments: 20, vSegments: 14 }));
@@ -109,15 +138,16 @@
     };
   }
 
-  function projector(width, height, yaw, pitch) {
-    var scale = Math.min(width / 4.0, height / 3.12);
+  function projector(width, height, yaw, pitch, focus, zoom) {
+    var scale = Math.min(width / 4.05, height / 3.18) * (zoom || 1);
     var camera = 4.55;
+    var center = focus ? rotate(focus, yaw, pitch) : { x: 0, y: 0, z: 0 };
     return function (point) {
       var rotated = rotate(point, yaw, pitch);
       var perspective = camera / (camera - rotated.z);
       return {
-        x: width / 2 + rotated.x * scale * perspective,
-        y: height / 2 - rotated.y * scale * perspective,
+        x: width / 2 + (rotated.x - center.x) * scale * perspective,
+        y: height / 2 - (rotated.y - center.y) * scale * perspective,
         z: rotated.z,
         scale: perspective
       };
@@ -159,17 +189,68 @@
     var text = hit.label;
     ctx.font = (active ? '800 ' : '700 ') + '9px Arial';
     var width = Math.min(122, ctx.measureText(text).width + 13);
-    ctx.fillStyle = active ? hit.color : 'rgba(255,255,255,.9)';
-    ctx.strokeStyle = active ? hit.color : 'rgba(0,38,75,.28)';
-    ctx.lineWidth = active ? 1.6 : 1;
+    ctx.fillStyle = hit.color;
+    ctx.strokeStyle = active ? '#00264B' : 'rgba(255,255,255,.86)';
+    ctx.lineWidth = active ? 2.5 : 1.3;
     ctx.beginPath();
     ctx.roundRect(hit.x - width / 2, hit.y - 10, width, 20, 6);
     ctx.fill();
     ctx.stroke();
-    ctx.fillStyle = active ? '#fff' : '#18384d';
+    ctx.fillStyle = '#fff';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText(text, hit.x, hit.y, width - 8);
+  }
+
+  function drawSubregionMarker(ctx, hit, active) {
+    ctx.save();
+    ctx.globalAlpha = active ? 0.9 : 0.58;
+    ctx.fillStyle = hit.color;
+    ctx.strokeStyle = active ? '#00264B' : 'rgba(255,255,255,.95)';
+    ctx.lineWidth = active ? 3 : 1.5;
+    ctx.beginPath();
+    ctx.arc(hit.anchorX, hit.anchorY, active ? 14 : 10, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(hit.anchorX, hit.anchorY);
+    ctx.lineTo(hit.x, hit.y);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  function drawCorticalGrooves(ctx, project, yaw, focused) {
+    if (focused) return;
+    var visibleSide = Math.cos(yaw) >= 0 ? 1 : -1;
+    var bands = [-0.55, -0.28, 0.02, 0.3, 0.57];
+    ctx.save();
+    ctx.strokeStyle = 'rgba(22,50,68,.17)';
+    ctx.lineWidth = 1.15;
+    bands.forEach(function (baseY, bandIndex) {
+      ctx.beginPath();
+      for (var i = 0; i <= 52; i += 1) {
+        var t = -1.34 + 2.62 * i / 52;
+        var envelope = Math.max(0, 1 - Math.pow(t / 1.52, 2));
+        var y = 0.12 + baseY * Math.sqrt(envelope) + Math.sin(i * 0.7 + bandIndex) * 0.035;
+        var z = visibleSide * (0.42 + 0.39 * Math.sqrt(envelope) * Math.max(0.2, 1 - Math.abs(baseY) * 0.45));
+        var point = project({ x: t, y: y, z: z });
+        if (i === 0) ctx.moveTo(point.x, point.y); else ctx.lineTo(point.x, point.y);
+      }
+      ctx.stroke();
+    });
+    [-0.95, -0.48, 0.05, 0.55, 0.97].forEach(function (baseX, lineIndex) {
+      ctx.beginPath();
+      for (var j = 0; j <= 30; j += 1) {
+        var y = -0.62 + 1.45 * j / 30;
+        var x = baseX + Math.sin(j * 0.78 + lineIndex) * 0.04;
+        var envelope = Math.max(0, 1 - Math.pow(x / 1.53, 2) - Math.pow((y - 0.1) / 1.12, 2) * 0.45);
+        var z = visibleSide * (0.43 + 0.36 * Math.sqrt(envelope));
+        var point = project({ x: x, y: y, z: z });
+        if (j === 0) ctx.moveTo(point.x, point.y); else ctx.lineTo(point.x, point.y);
+      }
+      ctx.stroke();
+    });
+    ctx.restore();
   }
 
   function init(state) {
@@ -206,7 +287,8 @@
       context.fill();
       var yaw = Number(state.rotation || 0) * Math.PI / 180;
       var pitch = Number(state.pitch || 0) * Math.PI / 180;
-      var project = projector(width, height, yaw, pitch);
+      var focused = Boolean(state.focused && regionAnchors[state.region]);
+      var project = projector(width, height, yaw, pitch, focused ? regionAnchors[state.region] : null, focused ? 1.42 : 0.9);
       var triangles = [];
       buildMeshes().forEach(function (mesh) {
         var isCortex = mesh.id === 'cortex';
@@ -240,40 +322,35 @@
       triangles.forEach(function (triangle) {
         var color = regions[triangle.region] ? regions[triangle.region].color : '#9fb4c2';
         var selected = triangle.region === state.region;
+        if (focused && !selected) color = '#b9c4c9';
         context.beginPath();
         context.moveTo(triangle.points[0].x, triangle.points[0].y);
         context.lineTo(triangle.points[1].x, triangle.points[1].y);
         context.lineTo(triangle.points[2].x, triangle.points[2].y);
         context.closePath();
-        context.fillStyle = shaded(color, triangle.light + (selected ? 0.12 : 0), triangle.alpha);
+        context.fillStyle = shaded(color, triangle.light + (selected ? 0.12 : 0), triangle.alpha * (focused && !selected ? 0.19 : 1));
         context.fill();
-        context.strokeStyle = selected ? 'rgba(255,255,255,.45)' : 'rgba(0,38,75,.06)';
-        context.lineWidth = selected ? 0.75 : 0.26;
+        context.strokeStyle = selected ? 'rgba(255,255,255,.54)' : 'rgba(0,38,75,.055)';
+        context.lineWidth = selected ? 0.68 : 0.2;
         context.stroke();
       });
-
-      var anchors = {
-        frontal: { x: -1.05, y: 0.32, z: 0.72 },
-        parietal: { x: 0.18, y: 0.77, z: 0.71 },
-        temporal: { x: 0.08, y: -0.38, z: 0.76 },
-        occipital: { x: 1.31, y: 0.2, z: 0.48 },
-        cerebellum: { x: 0.98, y: -0.82, z: 0.58 },
-        brainstem: { x: 0.23, y: -1.22, z: 0.23 },
-        hippocampus: { x: 0.05, y: -0.25, z: 0.47 },
-        amygdala: { x: -0.5, y: -0.18, z: 0.48 }
-      };
+      drawCorticalGrooves(context, project, yaw, focused);
       var allowed = state.layer === 'deep'
         ? ['hippocampus', 'amygdala', 'brainstem', 'cerebellum']
         : ['frontal', 'parietal', 'temporal', 'occipital', 'cerebellum', 'brainstem'];
+      if (focused) allowed = [state.region];
       hits = allowed.map(function (id) {
-        var point = project(anchors[id]);
+        var point = project(regionAnchors[id]);
         return { kind: 'region', id: id, x: point.x, y: point.y };
       });
       hits.forEach(function (hit) { drawLabel(context, hit, hit.id === state.region, regions); });
-      var subregionHits = (state.subregions || []).filter(function (item) { return item.anchor; }).map(function (item) {
+      var subregionHits = (focused ? state.subregions || [] : []).filter(function (item) { return item.anchor; }).map(function (item, index) {
         var point = project(item.anchor);
-        return { kind: 'subregion', id: item.id, label: item.ko, color: regions[state.region] ? regions[state.region].color : '#00264B', x: point.x, y: point.y };
+        var direction = index % 2 ? 1 : -1;
+        var row = Math.floor(index / 2);
+        return { kind: 'subregion', id: item.id, label: item.ko, color: item.color || subregionPalette[index % subregionPalette.length], anchorX: point.x, anchorY: point.y, x: Math.max(66, Math.min(width - 66, point.x + direction * (48 + row * 7))), y: Math.max(22, Math.min(height - 22, point.y + (index % 3 - 1) * 21)) };
       });
+      subregionHits.forEach(function (hit) { drawSubregionMarker(context, hit, hit.id === state.subregion); });
       subregionHits.forEach(function (hit) { drawSubregionLabel(context, hit, hit.id === state.subregion); });
       hits = hits.concat(subregionHits);
       var axis = document.getElementById('brainRotationValue');
@@ -308,6 +385,7 @@
           if (nearest.hit.kind === 'subregion') state.subregion = nearest.hit.id;
           else {
             state.region = nearest.hit.id;
+            state.focused = true;
             state.subregion = '';
             state.layer = regions[state.region].group.indexOf('DEEP') >= 0 ? 'deep' : state.layer;
           }

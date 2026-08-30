@@ -1,3 +1,14 @@
+AiderLog v74
+
+[v74 변경]
+- Language Lab 최근 14일 기록에서 제목 문구를 삭제하고 날짜·언어 셀이 잘리지 않도록 높이 정리
+- Brain 전체 지도 크기를 줄이고 설명 패널 너비 확대
+- 뇌 대영역 선택 시 해당 영역 중심 확대 및 색상별 세부 영역 표시
+- 대뇌 반구 형태, 이랑·고랑 음영과 윤곽 디테일 개선
+- CORTICAL COMPUTATION, HIPPOCAMPAL DYNAMICS, ADAPTIVE CONTROL 연구 모듈을 하단에 복원
+- TASK 상단 고객 검색과 지원 학년도·학기 입력·표시 추가
+- PWA 캐시 v74로 갱신
+
 AiderLog v73
 
 [v73 변경]

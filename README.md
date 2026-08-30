@@ -1,6 +1,11 @@
-# AiderLog v73
+# AiderLog v74
 
-## v73 최초 1회 안내 · Language Lab 학습 타임라인
+## v74 Language Lab · Brain Atlas · TASK 고객 검색
+
+- Language Lab의 최근 14일 기록은 날짜·언어 셀만 남겨 잘림을 줄였습니다.
+- Brain Atlas는 전체 뇌를 작게 보여준 뒤 영역 선택 시 확대하고, 색으로 구분된 세부 영역을 선택할 수 있습니다.
+- Brain의 연구 모듈은 하단에 다시 배치했으며 `ADAPTIVE CONTROL`을 함께 확인할 수 있습니다.
+- TASK 고객 검색과 지원 학년도·학기 기록을 추가했습니다.
 
 - 로그인 후 기록 저장·관리 안내는 계정별 최초 1회만 표시되며, 브라우저를 다시 열거나 재로그인해도 반복되지 않습니다.
 - 커플 연결 안내는 계정과 연결 상대 조합별 최초 1회만 표시됩니다.
@@ -10,7 +15,7 @@
 - TASK 탭의 계정 제한을 임시 해제해 모든 사용자에게 표시합니다. PAPER 탭의 기존 계정 제한은 유지합니다.
 
 배포 후 `https://aiderdear1.vercel.app/sw.js`의 첫 줄이
-`const CACHE='aiderlog-v73-once-guides-study-history';`인지 확인하세요.
+`const CACHE='aiderlog-v74-brain-focus-language-task-search';`인지 확인하세요.
 
 ## v72 PERSONAL 패턴 대시보드
 
