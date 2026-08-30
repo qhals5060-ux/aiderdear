@@ -1998,6 +1998,95 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   .routine-goal-tracker{min-height:380px!important;grid-template-rows:auto 294px auto!important}.routine-goal-scroll{height:294px}
 }
 
+/* ===== AiderDear v44 · schedule agenda, private notes, mobile app shell ===== */
+.side .side-half:last-child{display:grid;grid-template-rows:auto minmax(0,1fr);overflow:hidden}
+.month-agenda{min-height:0;display:grid;grid-template-rows:auto minmax(0,1fr);overflow:hidden}
+.shared-list{max-height:none}
+.agenda-wide{border-top:1px solid #111;overflow:visible}
+.agenda-lower{min-height:0;display:grid;grid-template-columns:minmax(0,1.08fr) minmax(136px,.92fr);gap:12px;padding-top:10px;overflow:hidden}
+.agenda-compact{min-height:0;overflow:auto;border-top:1px solid #111;padding-right:3px;scrollbar-width:thin;overscroll-behavior:contain}
+.shared-row{width:100%;background:none;border:0;border-bottom:1px solid #111;text-align:left;grid-template-columns:40px 10px minmax(0,1fr);gap:7px;align-items:start}
+.shared-date{line-height:1.1}.agenda-owner-dot{width:9px;height:9px;margin-top:4px;border-radius:50%;border:1px solid rgba(0,0,0,.28)}
+.agenda-copy{min-width:0}.agenda-owner{display:block;margin-bottom:2px;font-size:8px;font-weight:900;letter-spacing:.05em;color:#676767}
+.shared-line{display:block;min-width:0;white-space:normal;line-height:1.35;overflow-wrap:anywhere}
+.shared-line b{display:inline}.agenda-wide .shared-line{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.agenda-compact .shared-row{grid-template-columns:32px 9px minmax(0,1fr);padding:7px 0}
+.agenda-compact .shared-line{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;max-height:2.7em;overflow:hidden}
+.agenda-empty{min-height:46px;display:grid;align-content:center;border-bottom:1px solid #bbb;color:#777;font-size:10px;line-height:1.45}
+.month-media-card{align-self:end;width:100%;height:min(100%,230px);min-height:150px;aspect-ratio:4/3;border:1px solid #111;background:#e9e9e9;border-radius:18px;box-shadow:0 9px 24px rgba(0,0,0,.10)}
+.month-media-card img,.month-media-card video{width:100%;height:100%;object-fit:cover;display:block}
+.month-media-card .photo-placeholder{display:flex;flex-direction:column;gap:5px;text-align:center;padding:14px;background:linear-gradient(145deg,#e9edf0,#dce4e8)}
+.month-media-card .photo-placeholder span{font-family:"Iowan Old Style",Georgia,serif;font-size:18px;font-weight:500;letter-spacing:.03em;color:#333}.month-media-card .photo-placeholder b{font-size:9px;letter-spacing:.04em}
+.month-media-card .media-badge{left:9px;bottom:9px;padding:4px 7px;font-size:7px}
+
+.schedule-memo-frame{display:grid;grid-template-rows:auto minmax(0,1fr);gap:0;background:linear-gradient(180deg,#fbfaf6,#f3f1ea)}
+.schedule-memo-head{display:flex;align-items:end;justify-content:space-between;gap:18px;padding:10px 10px 14px;border-bottom:1px solid #111}
+.schedule-memo-head span{font-size:8px;font-weight:900;letter-spacing:.15em;color:#777}.schedule-memo-head h3{margin:3px 0 0;font-family:"Iowan Old Style",Georgia,serif;font-size:30px;font-weight:500;line-height:1}.schedule-memo-head p{max-width:190px;margin:0;font-size:9px;line-height:1.5;color:#666;text-align:right}
+.schedule-memo-panel{min-height:0;overflow:auto;padding:12px 6px 8px;overscroll-behavior:contain}
+.schedule-memo-panel>.private-empty{height:100%;min-height:180px}
+.schedule-memo-panel .postit-two-wall{height:100%!important;padding:8px 8px 12px!important;gap:14px!important}
+.schedule-memo-panel .postit-note{min-height:0!important}
+.private-v18-dashboard{grid-template-columns:minmax(0,1fr)!important}.private-column.checklist-column{width:100%}.private-column.memo-column{display:none!important}
+
+.install-app{height:28px;border:1px solid #111;border-radius:999px;background:#edf2e9;padding:0 10px;font-size:8px;font-weight:900;white-space:nowrap}.install-app[hidden]{display:none!important}
+
+/* Galaxy Fold and small tablets keep the desktop book silhouette. */
+@media(min-width:720px) and (max-width:980px){
+  .calendar-page{grid-template-columns:minmax(0,1.14fr) minmax(285px,.86fr)!important;grid-template-rows:minmax(0,1fr)!important;gap:9px!important;height:100%!important;min-height:0!important;align-content:stretch!important}
+  .calendar-page .frame,.calendar-page .side{min-height:0!important;height:100%!important}
+  .calendar{height:100%!important}
+  .side{grid-template-rows:minmax(82px,.28fr) minmax(0,1.72fr)}
+  .agenda-lower{grid-template-columns:minmax(0,1fr) minmax(110px,.82fr);gap:7px}
+  .month-media-card{min-height:118px;max-height:190px;border-radius:12px}
+  .compose-page{grid-template-columns:minmax(0,1.08fr) minmax(300px,.92fr)!important;grid-template-rows:minmax(0,1fr)!important;height:100%!important;min-height:0!important}
+  .compose-page .left-compose,.compose-page .media-panel{min-height:0!important;height:100%!important}
+}
+
+/* Galaxy Flip and phone portrait: a thumb-friendly standalone app layout. */
+@media(max-width:599px){
+  :root{--phone-nav:64px}
+  html,body{background:#eef1f2!important;overscroll-behavior:none}
+  .app{height:100dvh!important;grid-template-rows:56px minmax(0,1fr)!important;padding:max(0px,env(safe-area-inset-top)) 0 calc(var(--phone-nav) + env(safe-area-inset-bottom))!important;background:#eef1f2!important}
+  .masthead{grid-row:1;justify-content:flex-start!important;padding:0 12px!important;background:rgba(255,255,255,.94);border-bottom:1px solid rgba(0,0,0,.12);z-index:70}
+  .logo{font-size:28px!important}.logo small{display:none}
+  .nav-row{position:fixed!important;left:0;right:0;bottom:0;height:calc(var(--phone-nav) + env(safe-area-inset-bottom));padding:4px 6px env(safe-area-inset-bottom)!important;background:rgba(255,255,255,.96);border-top:1px solid rgba(0,0,0,.14);box-shadow:0 -10px 28px rgba(0,0,0,.08);z-index:90;display:block!important}
+  .tabs{width:100%;height:100%;display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr));align-items:center;overflow:visible!important}
+  .tab{width:auto!important;height:50px!important;margin:0!important;padding:21px 2px 5px!important;font-size:9px!important;letter-spacing:.015em;border-radius:16px}
+  .tab:before{inset:3px!important;clip-path:none!important;border:0!important;border-radius:15px;background:transparent!important}
+  .tab:after{content:"";position:absolute;left:50%!important;right:auto!important;top:11px;bottom:auto!important;width:7px;height:7px!important;border-radius:50%;transform:translateX(-50%);background:var(--tab)!important;opacity:.48}
+  .tab.active:before{background:color-mix(in srgb,var(--tab) 55%,#fff 45%)!important}.tab.active:after{opacity:1;box-shadow:0 0 0 4px color-mix(in srgb,var(--tab) 25%,transparent)}
+  .nav-tools{position:fixed!important;top:calc(8px + env(safe-area-inset-top));right:8px;width:auto!important;height:40px!important;z-index:95;gap:5px!important}
+  .top-actions{height:40px!important;padding:0!important;gap:5px!important}.install-app{height:34px;font-size:9px;padding:0 10px}.account-stack{min-width:48px!important}.account-name{font-size:10px!important}.sync-mini{font-size:7px!important}.mailbox-top{height:34px!important;font-size:10px!important}.mailbox-icon{font-size:16px!important}
+  .frame-search{width:36px!important;max-width:36px!important;height:34px!important;border-radius:50%;overflow:hidden;flex:0 0 36px!important}.frame-search input{display:none}.frame-search button{width:34px!important;height:32px!important;border:0!important;font-size:16px!important}
+  .stage,.emotion-stage,.record-stage,.event-stage,.private-stage{grid-row:2!important;height:100%!important;min-height:0!important;border-radius:0;overflow:hidden}
+  .page{border:0!important;border-radius:0!important}
+  .page.current{overflow-y:auto!important;padding-bottom:20px!important}
+  .calendar-page,.compose-page{display:flex!important;flex-direction:column!important;height:auto!important;min-height:100%!important;padding:10px!important;gap:10px!important;background:#f5f3ee!important}
+  .calendar-page .frame{flex:0 0 auto;min-height:510px!important;height:auto!important;background:#fff;border-radius:22px;padding:13px 11px 12px!important;box-shadow:0 9px 26px rgba(0,0,0,.07)}
+  .cal-top{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:9px!important}.month{font-size:31px!important;padding-left:3px}.month-controls{display:flex!important;width:100%!important;max-width:none!important;gap:5px!important;justify-content:flex-start!important;overflow-x:auto!important;padding:0 0 4px!important;scrollbar-width:none}.month-controls::-webkit-scrollbar{display:none}
+  .mini-btn,.today,.primary,.filter{min-width:38px!important;width:auto!important;height:38px!important;min-height:38px!important;padding:0 9px!important;font-size:10px!important;flex:0 0 auto}.primary{font-size:10px!important}.primary:after{content:none!important}.filters{display:flex!important;gap:5px!important}.filter{max-width:94px!important}.swatch{width:9px!important;height:9px!important;flex-basis:9px!important}
+  .calendar{height:408px!important;min-height:408px!important;grid-template-rows:28px repeat(6,1fr)!important;border-radius:14px;overflow:hidden;border:1px solid #111!important}.week{font-size:9px!important}.day{padding:3px!important;gap:2px!important}.daynum{font-size:10px!important}.ev{font-size:8px!important;min-height:17px!important;padding:3px!important;border-radius:5px!important}
+  .calendar-page .side{flex:0 0 auto;min-height:445px!important;height:auto!important;display:grid!important;grid-template-columns:1fr!important;grid-template-rows:84px minmax(0,1fr)!important;padding:13px 11px 12px!important;background:#fff;border-radius:22px;box-shadow:0 9px 26px rgba(0,0,0,.07)}
+  .side-half{padding:5px 4px!important}.side-half+ .side-half{padding-top:13px!important;border-top:0!important}.side-half+ .side-half:before{left:0!important;right:0!important;top:0!important;bottom:auto!important;width:auto!important;height:2px!important;transform:scaleX(1)!important}
+  .dday-panel{display:grid!important;grid-template-columns:auto 1fr!important;grid-template-rows:auto auto!important;align-content:center!important;gap:2px 10px!important;padding:3px 6px!important}.dday-panel strong{grid-row:1/3;font-size:39px!important}.dday-panel .days-label{font-size:8px!important}.dday-panel .since-date{font-size:8px!important}
+  .month-list-kicker{font-size:14px!important;margin:0 0 8px!important}.agenda-lower{grid-template-columns:minmax(0,1.08fr) minmax(120px,.92fr);gap:8px;padding-top:8px}.shared-row{grid-template-columns:32px 9px minmax(0,1fr)!important;padding:7px 0!important}.shared-date{font-size:17px!important}.agenda-owner{font-size:8px!important}.shared-line,.shared-line b{font-size:11px!important}.shared-line span{font-size:10px!important}.month-media-card{min-height:132px;max-height:178px;border-radius:15px}.month-media-card .photo-placeholder span{font-size:16px}
+  .compose-page .left-compose{display:contents!important}.manifesto{order:1;min-height:105px!important;border:0!important;border-radius:22px!important;padding:20px 18px!important;background:#fff!important;box-shadow:0 9px 26px rgba(0,0,0,.07)}.manifesto:before,.manifesto:after{display:none!important}.manifesto h2{font-size:35px!important}.manifesto p{font-size:12px!important}
+  .schedule-memo-frame{order:2;min-height:480px!important;height:480px!important;border:0!important;border-radius:22px!important;padding:14px 12px!important;background:#fff!important;box-shadow:0 9px 26px rgba(0,0,0,.07)}.schedule-memo-frame:before,.schedule-memo-frame:after{display:none!important}.schedule-memo-head{padding:4px 4px 12px}.schedule-memo-head h3{font-size:29px}.schedule-memo-head p{font-size:10px;max-width:150px}.schedule-memo-panel{padding:12px 2px 2px}.schedule-memo-panel .postit-two-wall{gap:12px!important;padding:8px 8px 14px!important}.schedule-memo-panel .postit-note{min-height:172px!important;height:100%!important;padding:16px!important}.schedule-memo-panel .postit-click p,.schedule-memo-panel .postit-edit textarea{font-size:13px!important}
+  .action-grid{order:3;display:grid!important;grid-template-columns:1fr 1fr!important;min-height:112px!important;border:0!important;border-radius:22px!important;padding:0!important;overflow:hidden;background:#fff!important;box-shadow:0 9px 26px rgba(0,0,0,.07)}.action-card{min-height:112px!important;padding:12px 8px!important;gap:8px!important}.compose-icon{width:38px!important;height:38px!important}.compose-label{font-size:15px!important}.action-card::after{font-size:6px!important;right:8px!important;bottom:7px!important}
+  .page-dots{position:fixed!important;bottom:calc(var(--phone-nav) + env(safe-area-inset-bottom) + 7px)!important;z-index:96}.dotnav{width:7px!important;height:7px!important}
+  .private-v18-dashboard{grid-template-columns:1fr!important}.private-column.checklist-column{min-height:620px!important}
+}
+
+@media(max-width:370px){
+  .logo{font-size:25px!important}.nav-tools{right:5px}.install-app{padding:0 7px}.mailbox-top{padding-inline:2px!important}.account-stack{min-width:40px!important}
+  .calendar-page,.compose-page{padding:7px!important}.calendar-page .frame{min-height:475px!important;padding:11px 8px!important}.calendar{height:370px!important;min-height:370px!important}.mini-btn,.today,.primary,.filter{height:35px!important;min-height:35px!important;padding-inline:7px!important}.calendar-page .side{min-height:420px!important}.agenda-lower{grid-template-columns:minmax(0,1fr) 112px;gap:6px}.month-media-card{min-height:124px}
+}
+
+@media(display-mode:standalone){
+  .install-app{display:none!important}
+  .app{padding-top:env(safe-area-inset-top)}
+}
+
 </style>
 </head>
 <body>
@@ -2015,9 +2104,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
       <button class="tab" type="button" role="tab" data-tab="event" aria-controls="eventStage" aria-selected="false" tabindex="-1">EVENT</button>
       <button class="tab" type="button" role="tab" data-tab="private" aria-controls="privateStage" aria-selected="false" tabindex="-1">PRIVATE</button>
     </nav>
-    <div class="nav-tools" aria-label="빠른 도구">
-      <div class="top-actions">
-        <div class="account-stack account-inline">
+      <div class="nav-tools" aria-label="빠른 도구">
+        <div class="top-actions">
+          <button class="install-app" id="installAppBtn" type="button" hidden>APP 설치</button>
+          <div class="account-stack account-inline">
           <button class="top-action account-name" id="loginBtn">로그인</button>
           <button class="sync-mini" id="syncBtn" type="button" hidden>(동기화)</button>
         </div>
@@ -2056,7 +2146,19 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
         </section>
         <section class="side-half">
           <div class="month-list-kicker">Together This Month</div>
-          <div class="shared-list" id="sharedList"></div>
+          <div class="month-agenda" aria-label="이번 달 함께 보는 일정">
+            <div class="shared-list agenda-wide" id="sharedListTop"></div>
+            <div class="agenda-lower">
+              <div class="shared-list agenda-compact" id="sharedList"></div>
+              <button class="story-media month-media-card" id="storyMediaCard" type="button" aria-label="커플 사진 또는 동영상 변경">
+                <img id="couplePhoto2" alt="이번 달 커플 사진" hidden>
+                <video id="coupleVideo2" muted loop playsinline preload="metadata" hidden></video>
+                <div class="photo-placeholder" id="mediaPlaceholder2"><span>OUR MONTH</span><b>사진·동영상 추가</b></div>
+                <span class="media-badge">PHOTO / VIDEO</span>
+              </button>
+            </div>
+          </div>
+          <input class="hidden-file" id="coupleMediaInput" type="file" accept="image/*,video/*">
         </section>
       </aside>
     </article>
@@ -2085,14 +2187,12 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
           </button>
         </div>
       </section>
-      <section class="media-panel">
-        <button class="story-media" id="storyMediaCard" type="button" aria-label="커플 사진 또는 동영상 변경">
-          <img id="couplePhoto2" alt="커플 사진" hidden>
-          <video id="coupleVideo2" muted loop playsinline preload="metadata" hidden></video>
-          <div class="photo-placeholder" id="mediaPlaceholder2">커플 사진·동영상을 눌러 추가</div>
-          <span class="media-badge">PHOTO / VIDEO</span>
-        </button>
-        <input class="hidden-file" id="coupleMediaInput" type="file" accept="image/*,video/*">
+      <section class="media-panel schedule-memo-frame" aria-label="개인 메모">
+        <div class="schedule-memo-head">
+          <div><span>PRIVATE NOTES</span><h3>메모</h3></div>
+          <p>나만 볼 수 있는 생각을 일정 옆에 남겨보세요.</p>
+        </div>
+        <div class="schedule-memo-panel" id="scheduleMemoPanel"></div>
       </section>
     </article>
 
@@ -2237,7 +2337,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   <section class="private-stage" id="privateStage" aria-label="개인 기록" hidden>
     <section class="private-shell private-page current" id="privateShell" aria-label="개인 체크리스트와 메모" aria-hidden="false">
       <section class="private-frame" id="privateFrame">
-        <div class="private-toolbar"><div><h2 class="private-heading">Private</h2><span class="private-page-kicker">CHECKLIST & NOTES</span></div></div>
+        <div class="private-toolbar"><div><h2 class="private-heading">Private</h2><span class="private-page-kicker">MY CHECKLIST</span></div></div>
         <div class="private-content private-dashboard-content"><div class="private-panel" id="privatePanel"></div></div>
       </section>
     </section>
@@ -3149,17 +3249,21 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
     renderShared();
   }
   function renderShared(){
-    const y=shown.getFullYear(),m=shown.getMonth(); const list=$('#sharedList');list.innerHTML='';
-    if(schedulePersonFilters.size && !schedulePersonFilters.has('shared'))return;
-    const rows=events.filter(e=>{const start=new Date(e.date+'T00:00:00');const end=new Date((e.endDate||e.date)+'T00:00:00');const first=new Date(y,m,1);const last=new Date(y,m+1,0);return e.owner==='shared'&&start<=last&&end>=first}).sort((a,b)=>a.date.localeCompare(b.date)||(a.time||'').localeCompare(b.time||''));
-    if(!rows.length){return}
-    rows.forEach(e=>{
-      const d=Number(e.date.slice(8,10));
-      const row=document.createElement('button');
-      row.type='button'; row.className='shared-row'; row.style.cssText='width:100%;background:none;border-left:0;border-right:0;border-top:0;text-align:left';
-      row.innerHTML=`<div class="shared-date">${String(d).padStart(2,'0')}</div><div class="shared-line"><span>${e.endDate&&e.endDate!==e.date?`${e.date.slice(5).replace('-','/')}~${e.endDate.slice(5).replace('-','/')}`:(e.time||'--:--')}</span><b>${escapeHtml(e.title)}</b>${e.memo?`<span> · ${escapeHtml(e.memo)}</span>`:''}</div>`;
-      row.addEventListener('click',ev=>{ev.stopPropagation();openEvent(e)}); list.appendChild(row);
-    })
+    const y=shown.getFullYear(),m=shown.getMonth(),top=$('#sharedListTop'),compact=$('#sharedList');
+    if(!top||!compact)return;top.innerHTML='';compact.innerHTML='';
+    const first=new Date(y,m,1),last=new Date(y,m+1,0);
+    const rows=events.filter(e=>{const start=new Date(e.date+'T00:00:00'),end=new Date((e.endDate||e.date)+'T00:00:00');return !e.isHoliday&&eventPassesPersonFilter(e)&&start<=last&&end>=first}).sort((a,b)=>a.date.localeCompare(b.date)||(a.time||'').localeCompare(b.time||''));
+    if(!rows.length){top.innerHTML='<div class="agenda-empty">이번 달 일정이 아직 없습니다.<br>첫 일정을 등록해보세요.</div>';return}
+    const partner=mutualPartner();
+    rows.forEach((e,index)=>{
+      const d=Number(e.date.slice(8,10)),author=normalizeEmail(e.authorEmail),owner=e.owner==='shared'?'shared':(author===currentUserEmail?'mine':(partner&&author===partner.email?'partner':(['mine','partner'].includes(e.owner)?e.owner:'shared')));
+      const who=owner==='shared'?'함께':(owner==='mine'?(currentUserName||'나'):(partner?.name||'상대'));
+      const row=document.createElement('button');row.type='button';row.className=`shared-row agenda-row ${index<3?'wide':'compact'}`;
+      const when=e.endDate&&e.endDate!==e.date?`${e.date.slice(5).replace('-','/')}~${e.endDate.slice(5).replace('-','/')}`:(e.time||'종일');
+      row.innerHTML=`<div class="shared-date">${String(d).padStart(2,'0')}</div><i class="agenda-owner-dot ${owner}" aria-hidden="true"></i><div class="agenda-copy"><span class="agenda-owner">${escapeHtml(who)}</span><span class="shared-line"><span>${escapeHtml(when)}</span><b>${escapeHtml(e.title)}</b>${e.memo?`<span> · ${escapeHtml(e.memo)}</span>`:''}</span></div>`;
+      row.addEventListener('click',ev=>{ev.stopPropagation();openEvent(e)});(index<3?top:compact).appendChild(row);
+    });
+    if(rows.length<=3)compact.innerHTML='<div class="agenda-empty">사진 옆에는 이후 일정이<br>두 줄로 이어집니다.</div>';
   }
   function getDdays(){normalizeCloudData();return (cloudData.ddays||[]).filter(x=>pairVisible(x,'createdBy'))}
   function activeDdayId(){return String(cloudData.activeDdayBySpace?.[currentPairKey()]||'')}
@@ -3192,7 +3296,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   function applyMediaSource(src,type){
     const img=$('#couplePhoto2'), video=$('#coupleVideo2'), ph=$('#mediaPlaceholder2');
     const isVideo=String(type).startsWith('video/');video.pause();
-    if(isVideo){img.hidden=true;img.removeAttribute('src');video.src=src;video.hidden=false;ph.style.display='none';if(pageIndex===1)video.play().catch(()=>{});}
+    if(isVideo){img.hidden=true;img.removeAttribute('src');video.src=src;video.hidden=false;ph.style.display='none';if(pageIndex===0)video.play().catch(()=>{});}
     else{video.hidden=true;video.removeAttribute('src');img.src=src;img.hidden=false;ph.style.display='none';}
   }
   function currentCoupleMedia(){normalizeCloudData();return cloudData.coupleMediaBySpace?.[currentPairKey()]||null}
@@ -3216,7 +3320,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   });
 
   // fixed viewport page flip
-  let pageIndex=0, locked=false, touchY=null;
+  let pageIndex=0, locked=false, touchY=null,touchScroll=null;
   function animateLines(page){
     if(!page)return;
     page.classList.remove('line-active');
@@ -3225,20 +3329,20 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   }
   function goPage(next){next=Math.max(0,Math.min(1,next));if(next===pageIndex||locked)return;locked=true;
     [0,1].forEach(i=>{const p=$(`#page${i}`);p.className=p.className.replace(/\b(current|next|prev)\b/g,'').replace(/\s+/g,' ').trim();p.classList.add(i===next?'current':(i<next?'prev':'next'));p.setAttribute('aria-hidden',i===next?'false':'true')});
-    $$('.dotnav').forEach((d,i)=>d.classList.toggle('active',i===next));pageIndex=next;animateLines($(`#page${next}`));const mediaVideo=$('#coupleVideo2');if(mediaVideo&&!mediaVideo.hidden){if(next===1)mediaVideo.play().catch(()=>{});else mediaVideo.pause()}setTimeout(()=>locked=false,760)
+    $$('.dotnav').forEach((d,i)=>d.classList.toggle('active',i===next));pageIndex=next;animateLines($(`#page${next}`));const mediaVideo=$('#coupleVideo2');if(mediaVideo&&!mediaVideo.hidden){if(next===0)mediaVideo.play().catch(()=>{});else mediaVideo.pause()}setTimeout(()=>locked=false,760)
   }
-  $('#stage').addEventListener('wheel',e=>{if(Math.abs(e.deltaY)<16)return;e.preventDefault();goPage(pageIndex+(e.deltaY>0?1:-1))},{passive:false});
+  $('#stage').addEventListener('wheel',e=>{if(Math.abs(e.deltaY)<16)return;const sc=$(`#page${pageIndex}`),phone=window.matchMedia('(max-width: 599px)').matches;if(phone&&sc&&sc.scrollHeight>sc.clientHeight+4){const atBottom=sc.scrollTop+sc.clientHeight>=sc.scrollHeight-4,atTop=sc.scrollTop<=3;if(e.deltaY>0&&!atBottom)return;if(e.deltaY<0&&!atTop)return}e.preventDefault();goPage(pageIndex+(e.deltaY>0?1:-1))},{passive:false});
   let touchInteractive=false;
   $('#stage').addEventListener('touchstart',e=>{
     touchInteractive=!!e.target.closest('button,input,select,textarea,label,a');
-    touchY=touchInteractive?null:(e.touches[0]?.clientY??null);
+    touchY=touchInteractive?null:(e.touches[0]?.clientY??null);touchScroll=window.matchMedia('(max-width: 599px)').matches?$(`#page${pageIndex}`):null;
   },{passive:true});
   $('#stage').addEventListener('touchend',e=>{
     if(touchInteractive){touchInteractive=false;touchY=null;return}
     if(touchY==null)return;
-    const y=e.changedTouches[0]?.clientY??touchY;const d=touchY-y;
-    if(Math.abs(d)>40)goPage(pageIndex+(d>0?1:-1));
-    touchY=null;
+    const y=e.changedTouches[0]?.clientY??touchY,d=touchY-y,sc=touchScroll,atBottom=!sc||sc.scrollTop+sc.clientHeight>=sc.scrollHeight-4,atTop=!sc||sc.scrollTop<=3;
+    if(Math.abs(d)>40&&((d>0&&atBottom)||(d<0&&atTop)))goPage(pageIndex+(d>0?1:-1));
+    touchY=null;touchScroll=null;
   },{passive:true});
   $$('.dotnav').forEach(b=>b.addEventListener('click',()=>goPage(Number(b.dataset.page))));
 
@@ -4063,9 +4167,18 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   function checklistTaskCard(c,writable){const due=c.date?c.date.slice(5).replace('-','.'):'—',important=checklistImportant(c),urgent=checklistUrgent(c);return `<article class="matrix-task ${c.done?'done':''}"><input type="checkbox" data-check-toggle="${escapeHtml(c.id)}" ${c.done?'checked':''} ${writable?'':'disabled'}><div><b>${escapeHtml(c.text||'')}</b><span>마감 ${escapeHtml(due)} · ${urgent?'긴급':'긴급하지 않음'} · ${important?'중요':'중요하지 않음'}</span></div>${writable?`<button type="button" data-private-delete="checklist" data-id="${escapeHtml(c.id)}">×</button>`:''}</article>`}
   function renderChecklistPanel(data,writable,note){const todayKey=dateKeyOffset(0),list=(data.checklists||[]).slice().sort((a,b)=>(Number(a.done)-Number(b.done))||(a.date||'9999').localeCompare(b.date||'9999'));const form=writable?`<form class="matrix-add-form" id="privateChecklistForm"><input type="text" id="privateChecklistText" maxlength="120" placeholder="할 일" required><input type="date" id="privateChecklistDate" value="${todayKey}"><select id="privateChecklistUrgency"><option value="urgent">긴급</option><option value="not-urgent" selected>긴급하지 않음</option></select><select id="privateChecklistImportance"><option value="important">중요</option><option value="not-important" selected>중요하지 않음</option></select><button class="private-add" type="submit">+ ADD</button></form>`:'';const q={do:[],schedule:[],delegate:[],delete:[]};list.forEach(c=>q[checklistQuadrant(c)].push(c));const cell=(key,title)=>`<section class="matrix-quadrant matrix-${key}"><div class="matrix-quadrant-head"><strong>${title}</strong></div><div class="matrix-quadrant-body">${q[key].map(c=>checklistTaskCard(c,writable)).join('')||'<i>—</i>'}</div></section>`;return note+`<div class="eisenhower-wrap">${form}<div class="matrix-axis-top"><span>긴급</span><span>긴급하지 않음</span></div><div class="matrix-body-wrap"><div class="matrix-axis-left"><span>중요</span><span>중요하지 않음</span></div><div class="eisenhower-matrix">${cell('do','DO')}${cell('schedule','DECIDE')}${cell('delegate','DELEGATE')}${cell('delete','DELETE')}</div></div></div>`}
   function renderMemoPostits(data,writable){const memos=(data.memos||[]).slice(0,2);return `<div class="postit-two-wall">${[0,1].map(i=>{const m=memos[i]||null;if(editingMemoSlot===i&&writable)return `<form id="privateMemoSlotForm" class="postit-note postit-edit note-${i+1}"><input type="hidden" id="privateMemoSlot" value="${i}"><textarea id="privateMemoSlotText" maxlength="1200" autofocus placeholder="메모를 적어주세요.">${escapeHtml(m?.text||'')}</textarea><div><button type="button" data-memo-cancel>취소</button><button type="submit">저장</button></div></form>`;return `<article class="postit-note note-${i+1} ${m?'filled':'empty'}" data-memo-slot="${i}"><span class="postit-tape"></span><button type="button" class="postit-click" data-memo-slot="${i}"><small>MEMO 0${i+1}</small><p>${m?escapeHtml(m.text||''):'CLICK TO WRITE'}</p></button>${m&&writable?`<button type="button" class="postit-remove" data-private-delete="memo" data-id="${escapeHtml(m.id)}">×</button>`:''}</article>`}).join('')}</div>`}
-  function renderPrivateDashboard(data,writable){const checklistHtml=renderChecklistPanel(data,writable,'');return `<div class="private-dashboard private-v18-dashboard"><section class="private-column checklist-column"><div class="private-column-head"><b>CHECKLIST</b></div>${checklistHtml}</section><section class="private-column memo-column"><div class="private-column-head"><b>MEMO</b></div>${renderMemoPostits(data,writable)}</section></div>`}
-  function renderPrivate(){const panel=$('#privatePanel'),routine=$('#privateRoutinePanel'),toolbarTabs=$('#routineToolbarTabs');if(!panel||!routine)return;if(!currentUserEmail){panel.innerHTML='<div class="private-empty">Google 로그인 후 PRIVATE를 사용할 수 있습니다.</div>';routine.innerHTML='';return}privateOwner=currentUserEmail;const data=privateData[currentUserEmail]||blankPrivateData(currentUserEmail),writable=privateCanWrite();panel.innerHTML=renderPrivateDashboard(data,writable);routine.innerHTML=renderRoutinePanel(data,writable,'');toolbarTabs?.querySelectorAll('[data-routine-tab]').forEach(button=>button.classList.toggle('active',button.dataset.routineTab===routinePanelMode));requestAnimationFrame(()=>{const scroller=routine.querySelector('.routine-round-grid'),today=scroller?.querySelector('.today');if(scroller&&today)scroller.scrollLeft=Math.max(0,today.offsetLeft-(scroller.clientWidth-today.clientWidth)/2)})}
+  function renderPrivateDashboard(data,writable){const checklistHtml=renderChecklistPanel(data,writable,'');return `<div class="private-dashboard private-v18-dashboard"><section class="private-column checklist-column"><div class="private-column-head"><b>CHECKLIST</b></div>${checklistHtml}</section></div>`}
+  function renderPrivate(){
+    const panel=$('#privatePanel'),routine=$('#privateRoutinePanel'),memoPanel=$('#scheduleMemoPanel'),toolbarTabs=$('#routineToolbarTabs');if(!panel||!routine)return;
+    if(!currentUserEmail){panel.innerHTML='<div class="private-empty">Google 로그인 후 PRIVATE를 사용할 수 있습니다.</div>';routine.innerHTML='';if(memoPanel)memoPanel.innerHTML='<div class="private-empty">로그인 후 나만의 메모를 남길 수 있습니다.</div>';return}
+    privateOwner=currentUserEmail;const data=privateData[currentUserEmail]||blankPrivateData(currentUserEmail),writable=privateCanWrite();
+    panel.innerHTML=renderPrivateDashboard(data,writable);routine.innerHTML=renderRoutinePanel(data,writable,'');if(memoPanel)memoPanel.innerHTML=renderMemoPostits(data,writable);
+    toolbarTabs?.querySelectorAll('[data-routine-tab]').forEach(button=>button.classList.toggle('active',button.dataset.routineTab===routinePanelMode));requestAnimationFrame(()=>{const scroller=routine.querySelector('.routine-round-grid'),today=scroller?.querySelector('.today');if(scroller&&today)scroller.scrollLeft=Math.max(0,today.offsetLeft-(scroller.clientWidth-today.clientWidth)/2)})
+  }
   $('#privateStage').addEventListener('submit',async e=>{const form=e.target.closest('form');if(!form)return;e.preventDefault();if(!privateCanWrite()){toast('내 PRIVATE에서만 기록할 수 있습니다.');return}privateOwner=currentUserEmail;if(!privateData[privateOwner])privateData[privateOwner]=blankPrivateData(privateOwner);const d=privateData[privateOwner];d.memos=Array.isArray(d.memos)?d.memos:[];d.routines=Array.isArray(d.routines)?d.routines:[];d.checklists=Array.isArray(d.checklists)?d.checklists:[];d.routineGoals=Array.isArray(d.routineGoals)?d.routineGoals:['','',''];let saved=false,message='PRIVATE에 저장했습니다.';if(form.id==='privateMemoSlotForm'){const slot=Math.max(0,Math.min(1,Number($('#privateMemoSlot')?.value)||0)),v=$('#privateMemoSlotText')?.value.trim()||'',existing=d.memos[slot];if(v){if(existing){existing.text=v;existing.updatedAt=Date.now()}else d.memos.push({id:'pm-'+Date.now(),text:v,createdAt:Date.now(),updatedAt:Date.now()})}else if(existing)d.memos=d.memos.filter(x=>x.id!==existing.id);editingMemoSlot=-1;saved=true;message='메모를 저장했습니다.'}else if(form.id==='privateRoutineForm'){const v=$('#privateRoutineText')?.value.trim();if(!v){toast('루틴 이름을 입력해주세요.');return}const editId=$('#privateRoutineEditId')?.value||'';const payload={text:v.slice(0,80),goalDays:Number($('#privateRoutineGoal')?.value)||20,color:$('#privateRoutineColor')?.value||'orange',icon:$('#privateRoutineIcon')?.value||routineCreateIcon||'✨',miniText:$('#privateRoutineMini')?.value.trim()||'5분만 시작하기',moreText:$('#privateRoutineMore')?.value.trim()||'20분 집중하기',maxText:$('#privateRoutineMax')?.value.trim()||'충분히 끝내기'};if(editId){const r=d.routines.find(x=>x.id===editId);if(!r){toast('수정할 루틴을 찾지 못했습니다.');return}Object.assign(r,payload,{cycleDays:payload.goalDays,updatedAt:Date.now()});selectedRoutineId=r.id;message='루틴을 수정했습니다.'}else{const id='pr-'+Date.now();d.routines.push({id,...payload,cycleDays:payload.goalDays,doneDates:[],dailyLevels:{},bigGoals:['','',''],goalTracking:{'0':{},'1':{},'2':{}},goalDerivedDates:{},braggedAt:0,createdAt:Date.now()});selectedRoutineId=id;message='루틴을 만들었습니다.'}editingRoutineId='';routinePanelMode='routines';saved=true}else if(form.id==='privateRoutineGoalsForm'){const r=d.routines.find(x=>x.id===selectedRoutineId)||d.routines[0];if(!r){toast('루틴을 먼저 만들어주세요.');return}r.bigGoals=[0,1,2].map(i=>($(`#routineBigGoal${i}`)?.value||'').trim().slice(0,120));r.goalTracking=r.goalTracking&&typeof r.goalTracking==='object'?r.goalTracking:{'0':{},'1':{},'2':{}};saved=true;message='큰 목표를 저장했습니다.'}else if(form.id==='privateChecklistForm'){const v=$('#privateChecklistText')?.value.trim();if(v){const urgent=$('#privateChecklistUrgency')?.value==='urgent',important=$('#privateChecklistImportance')?.value==='important';d.checklists.push({id:'pc-'+Date.now(),text:v,date:$('#privateChecklistDate')?.value||'',time:'',urgent,important,priority:important?'높음':'보통',category:'',done:false,createdAt:Date.now()});saved=true;message='체크리스트에 추가했습니다.'}}if(!saved)return;try{await savePrivateData(privateOwner);renderPrivate();toast(message)}catch(err){toast(googleErrorMessage(err))}});
+  const scheduleMemoHost=$('#scheduleMemoPanel');
+  scheduleMemoHost?.addEventListener('submit',async e=>{const form=e.target.closest('#privateMemoSlotForm');if(!form)return;e.preventDefault();if(!privateCanWrite()){toast('로그인 후 내 메모를 작성할 수 있습니다.');return}const d=privateData[privateOwner]||(privateData[privateOwner]=blankPrivateData(privateOwner,currentUserName));d.memos=Array.isArray(d.memos)?d.memos:[];const slot=Math.max(0,Math.min(1,Number(form.querySelector('#privateMemoSlot')?.value)||0)),v=form.querySelector('#privateMemoSlotText')?.value.trim()||'',existing=d.memos[slot];if(v){if(existing){existing.text=v;existing.updatedAt=Date.now()}else d.memos.push({id:'pm-'+Date.now(),text:v,createdAt:Date.now(),updatedAt:Date.now()})}else if(existing)d.memos=d.memos.filter(x=>x.id!==existing.id);editingMemoSlot=-1;try{await savePrivateData(privateOwner);renderPrivate();toast('메모를 저장했습니다.')}catch(err){toast(googleErrorMessage(err))}});
+  scheduleMemoHost?.addEventListener('click',async e=>{if(!currentUserEmail)return;const memo=e.target.closest('[data-memo-slot]');if(memo&&!e.target.closest('.postit-remove')){if(privateCanWrite()){editingMemoSlot=Number(memo.dataset.memoSlot);renderPrivate();setTimeout(()=>scheduleMemoHost.querySelector('#privateMemoSlotText')?.focus(),20)}return}if(e.target.closest('[data-memo-cancel]')){editingMemoSlot=-1;renderPrivate();return}const remove=e.target.closest('[data-private-delete="memo"]');if(!remove||!privateCanWrite())return;const d=privateData[privateOwner];d.memos=(d.memos||[]).filter(x=>x.id!==remove.dataset.id);editingMemoSlot=-1;try{await savePrivateData(privateOwner);renderPrivate();toast('메모를 삭제했습니다.')}catch(err){toast(googleErrorMessage(err))}});
   $('#privateStage').addEventListener('change',async e=>{if(!privateCanWrite())return;const d=privateData[privateOwner];if(e.target.matches('[data-check-toggle]')){const c=d.checklists.find(x=>x.id===e.target.dataset.checkToggle);if(c)c.done=e.target.checked;try{await savePrivateData(privateOwner);renderPrivate()}catch(err){toast(googleErrorMessage(err))}}});
   async function sendRoutineBrag(r){const partner=sharedPartner();if(!partner){toast('서로 연결을 승인한 상대에게만 편지를 보낼 수 있습니다.');return}const counts=routineLevelCounts(r),goal=Number(r.goalDays)||30,stamps=(r.doneDates||[]).length,body=`${r.icon||'🎉'} “${r.text}” 루틴 ${goal}일 목표를 완주했어! MINI ${counts.MINI} · MORE ${counts.MORE} · MAX ${counts.MAX}, 총 ${stamps}일 실천했어.`;const letter={id:'letter-'+Date.now(),fromEmail:currentUserEmail,fromName:currentUserName||familyUser(currentUserEmail).name,toEmail:partner.email,toName:partner.name,body:body.slice(0,220),pairKey:currentPairKey(),createdAt:Date.now(),readBy:[]};cloudData.letters.push(letter);await saveCloudData();r.braggedAt=Date.now();await savePrivateData(privateOwner);renderPrivate();updateMailBadge();toast(`${partner.name}에게 완주 자랑 편지를 보냈습니다.`)}
   $('#privateStage').addEventListener('click',async e=>{if(!currentUserEmail)return;const d=privateData[privateOwner];const memo=e.target.closest('[data-memo-slot]');if(memo&&!e.target.closest('.postit-remove')){if(privateCanWrite()){editingMemoSlot=Number(memo.dataset.memoSlot);renderPrivate();setTimeout(()=>$('#privateMemoSlotText')?.focus(),20)}return}if(e.target.closest('[data-memo-cancel]')){editingMemoSlot=-1;renderPrivate();return}const tab=e.target.closest('[data-routine-tab]');if(tab){routinePanelMode=tab.dataset.routineTab==='create'?'create':'routines';if(routinePanelMode==='create'){editingRoutineId='';routineCreateIcon='✨'}renderPrivate();return}const iconBtn=e.target.closest('[data-routine-icon]');if(iconBtn){routineCreateIcon=iconBtn.dataset.routineIcon||'✨';const hidden=$('#privateRoutineIcon');if(hidden)hidden.value=routineCreateIcon;$$('[data-routine-icon]').forEach(b=>b.classList.toggle('active',b===iconBtn));return}const editRoutine=e.target.closest('[data-routine-edit]');if(editRoutine){const r=d.routines.find(x=>x.id===editRoutine.dataset.routineEdit);if(r){editingRoutineId=r.id;routineCreateIcon=r.icon||'✨';routinePanelMode='create';renderPrivate()}return}const select=e.target.closest('[data-routine-select]');if(select){selectedRoutineId=select.dataset.routineSelect||'';routinePanelMode='routines';editingRoutineId='';renderPrivate();return}if(!privateCanWrite())return;const dayStatus=e.target.closest('[data-routine-date-status]');if(dayStatus){openRoutineStatusSelector(dayStatus.dataset.routineDateStatus,dayStatus.dataset.date,null);return}const goalStatus=e.target.closest('[data-goal-status]');if(goalStatus){openRoutineStatusSelector(goalStatus.dataset.goalStatus,goalStatus.dataset.date,Number(goalStatus.dataset.goalIndex));return}const levelBtn=e.target.closest('[data-routine-level]');if(levelBtn){openRoutineStatusSelector(levelBtn.dataset.id,dateKeyOffset(0),null);return}const brag=e.target.closest('[data-routine-brag]');if(brag){const r=d.routines.find(x=>x.id===brag.dataset.routineBrag);if(r)try{await sendRoutineBrag(r)}catch(err){toast(googleErrorMessage(err))}return}const b=e.target.closest('[data-private-delete]');if(!b)return;const id=b.dataset.id;if(b.dataset.privateDelete==='memo'){d.memos=d.memos.filter(x=>x.id!==id);editingMemoSlot=-1}if(b.dataset.privateDelete==='routine'){d.routines=d.routines.filter(x=>x.id!==id);if(selectedRoutineId===id)selectedRoutineId=d.routines[0]?.id||''}if(b.dataset.privateDelete==='checklist')d.checklists=d.checklists.filter(x=>x.id!==id);try{await savePrivateData(privateOwner);renderPrivate()}catch(err){toast(googleErrorMessage(err))}});
@@ -4083,7 +4196,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
     document.body.classList.toggle('emotion-mode',tab==='emotion');document.body.classList.toggle('record-mode',tab==='record');document.body.classList.toggle('event-mode',tab==='event');document.body.classList.toggle('private-mode',tab==='private');
     const sections={schedule:$('#stage'),emotion:$('#emotionStage'),record:$('#recordStage'),event:$('#eventStage'),private:$('#privateStage')};Object.entries(sections).forEach(([key,section])=>{if(!section)return;const active=key===tab;section.hidden=!active;section.setAttribute('aria-hidden',String(!active))});
     document.title=`${tabLabels[tab]||'AiderDear'} · AiderDear`;
-    if(tab==='schedule')return;
+    if(tab==='schedule'){renderCalendar();renderPrivate();const mediaVideo=$('#coupleVideo2');if(pageIndex===0&&mediaVideo&&!mediaVideo.hidden)mediaVideo.play().catch(()=>{});return}
     const v=$('#coupleVideo2');if(v&&!v.hidden)v.pause();
     if(tab==='emotion'){emotionPageIndex=0;renderEmotion();goEmotionPage(0,true);return}
     if(tab==='record'){goRecordPage(0,true);return}
@@ -4093,6 +4206,11 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   $$('.tab').forEach(t=>t.addEventListener('click',()=>showMainTab(t.dataset.tab)));
   $('.tabs').addEventListener('keydown',e=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;e.preventDefault();const tabs=$$('.tab');let i=tabs.indexOf(document.activeElement);if(e.key==='Home')i=0;else if(e.key==='End')i=tabs.length-1;else i=(i+(e.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length;tabs[i].focus();showMainTab(tabs[i].dataset.tab)});
   function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._timer);t._timer=setTimeout(()=>t.classList.remove('show'),1800)}
+  let deferredInstallPrompt=null;const installAppBtn=$('#installAppBtn'),isStandalone=()=>window.matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+  function syncInstallButton(){if(!installAppBtn)return;installAppBtn.hidden=isStandalone()||(!deferredInstallPrompt&&!window.matchMedia('(max-width: 599px)').matches)}
+  window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstallPrompt=e;syncInstallButton()});
+  window.addEventListener('appinstalled',()=>{deferredInstallPrompt=null;syncInstallButton();toast('AiderDear 앱 설치가 완료되었습니다.')});
+  installAppBtn?.addEventListener('click',async()=>{if(isStandalone()){syncInstallButton();return}if(deferredInstallPrompt){deferredInstallPrompt.prompt();await deferredInstallPrompt.userChoice;deferredInstallPrompt=null;syncInstallButton();return}toast('브라우저 메뉴에서 “홈 화면에 추가”를 선택해주세요.')});syncInstallButton();
   $('#stage').addEventListener('pointerdown',e=>{if(e.target.closest('button,input,select,textarea,label,a'))e.stopPropagation()});
     normalizeCloudData();selectAlbumFolderColor(ALBUM_PASTELS[0]);getAlbumFolders();refreshRecordAlbumSelect(DEFAULT_ALBUM_ID);renderAlbumFolders();renderEventArchive();renderTravelArchive();renderPrivate();renderEmotion();applyLoginUI();setDday();renderDdayList();renderCalendar();if(location.hash==='#search')setTimeout(openSearchFromQuick,0);if('serviceWorker' in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
 })();
