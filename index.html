@@ -2278,6 +2278,77 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   .routine-progress-brand{display:none}.routine-progress-top .routine-hero-selector{justify-content:flex-start!important}.routine-progress-intro:before{width:92px}.routine-progress-intro h3{font-size:25px!important}.routine-progress-ruleline span{grid-template-columns:38px minmax(0,1fr)!important;font-size:7px!important}.routine-progress-footer>span{font-size:6px!important}.routine-progress-footer b{font-size:10px!important}
 }
 
+/* ===== AiderDear v49 · stable routine grid, equal albums, Personal system ===== */
+.tab[data-tab="personal"]{--tab:#2c4b6e!important;color:#fff!important;z-index:1!important}
+
+/* Fill the routine statistics card deliberately instead of leaving a dead lower band. */
+.routine-stat-card{display:grid!important;grid-template-rows:auto minmax(0,1fr) auto!important;align-content:stretch!important}
+.routine-stat-main{height:100%!important;min-height:0!important;align-self:stretch!important;align-items:center!important;padding-top:10px!important;padding-bottom:10px!important;gap:18px!important}
+.routine-stat-summary{align-self:end!important;padding-top:9px!important;padding-bottom:12px!important;gap:7px!important}
+.routine-stat-summary>div{min-height:52px!important;display:flex!important;flex-direction:column!important;justify-content:center!important;padding:8px 5px!important}
+
+/* Header controls stay centered; stamps always fill rows from left to right. */
+.routine-progress-top{display:grid!important;grid-template-columns:1fr auto 1fr!important;align-items:center!important}
+.routine-progress-top .routine-hero-selector{grid-column:2!important;order:unset!important;justify-self:center!important}
+.routine-progress-tools{grid-column:3!important;order:unset!important;justify-self:end!important}
+.routine-round-grid{
+  --stamp-size:44px;
+  grid-template-columns:repeat(var(--routine-columns),var(--stamp-size))!important;
+  grid-template-rows:repeat(4,var(--stamp-size))!important;
+  grid-auto-flow:row!important;grid-auto-columns:unset!important;
+  align-content:center!important;justify-content:start!important
+}
+.routine-round-stamp{grid-column:auto!important;grid-row:auto!important;place-self:center!important;width:var(--stamp-size)!important;height:var(--stamp-size)!important;min-width:var(--stamp-size)!important;max-width:var(--stamp-size)!important;margin:0!important;transform:none!important}
+
+/* Every album cell has the same area. 1–4 / 5–9 / 10–20 folders reserve 4 / 9 / 20 slots. */
+.record-hub-grid .album-content{min-height:0!important;height:100%!important;padding:12px 8px!important;overflow:auto!important}
+.record-hub-grid .album-folder-grid{width:100%!important;height:100%!important;min-height:0!important;display:grid!important;grid-template-columns:repeat(var(--album-columns),minmax(0,1fr))!important;grid-template-rows:repeat(var(--album-rows),minmax(0,1fr))!important;grid-auto-rows:minmax(0,1fr)!important;align-content:stretch!important;gap:10px!important}
+.record-hub-grid .album-folder{height:100%!important;min-width:0!important;min-height:0!important;overflow:hidden!important}
+.record-hub-grid .album-folder-body{height:100%!important;min-height:0!important;display:grid!important;grid-template-rows:minmax(0,1fr) auto!important;padding:8px!important}
+.record-hub-grid .album-folder .album-cover{height:100%!important;min-height:0!important;aspect-ratio:auto!important}
+.record-hub-grid .album-folder-copy{min-width:0!important;padding:6px 2px 2px!important}.record-hub-grid .album-folder-copy b{white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+.record-hub-grid .album-folder-grid[data-density="9"] .album-folder-copy span,.record-hub-grid .album-folder-grid[data-density="20"] .album-folder-copy span{display:none!important}
+.record-hub-grid .album-folder-grid[data-density="20"]{gap:6px!important}.record-hub-grid .album-folder-grid[data-density="20"] .album-folder-body{padding:5px!important}.record-hub-grid .album-folder-grid[data-density="20"] .album-folder-copy{padding:3px 1px 0!important}.record-hub-grid .album-folder-grid[data-density="20"] .album-folder-copy b{font-size:7px!important}.record-hub-grid .album-folder-grid[data-density="20"] .album-folder-color-chip{width:7px!important;height:7px!important}
+
+/* The four Event panels now share one editorial frame, toolbar baseline and spacing. */
+.record-hub-grid,#eventStage.event-hub-grid{padding:24px 34px 30px!important;gap:16px!important;background:#fff!important}
+.record-hub-grid .record-main,.record-hub-grid .album-frame,#eventStage .event-frame{padding:18px 18px 16px!important;border-left:2px solid #111!important;border-right:2px solid #111!important;background:#fff!important;display:grid!important;grid-template-rows:auto minmax(0,1fr)!important;gap:12px!important}
+.record-hub-grid .record-main:before,.record-hub-grid .record-main:after,.record-hub-grid .album-frame:before,.record-hub-grid .album-frame:after,#eventStage .event-frame:before,#eventStage .event-frame:after{left:16px!important;right:16px!important;height:2px!important;background:#111!important}
+.record-hub-grid .record-toolbar,.record-hub-grid .album-toolbar,#eventStage .event-toolbar{box-sizing:border-box!important;min-height:48px!important;display:flex!important;grid-template-columns:none!important;align-items:center!important;justify-content:space-between!important;gap:10px!important;padding:0 3px 11px!important;border-bottom:1px solid #111!important;flex-wrap:wrap!important}
+.record-hub-grid .record-heading h2,.record-hub-grid .album-heading,#eventStage .event-heading{margin:0!important;font-family:Georgia,serif!important;font-size:31px!important;font-weight:400!important;line-height:1!important;letter-spacing:-.045em!important}
+#eventStage .event-title-group{display:flex!important;align-items:flex-end!important;gap:9px!important}#eventStage .event-title-group>span{padding-bottom:2px!important}
+#eventStage .event-actions{width:auto!important;justify-content:flex-end!important;margin-left:auto!important}
+#eventStage .event-content,.record-hub-grid .record-feed,.record-hub-grid .album-content{min-height:0!important}
+
+/* PERSONAL follows the same outer-page grammar as Schedule, Routine and Event. */
+.personal-stage{position:relative;min-height:0;height:100%;background:#fff;overflow:hidden}.personal-stage[hidden]{display:none!important}
+.personal-shell{height:100%;min-height:0;box-sizing:border-box;padding:24px 34px 30px;background:#fff}
+.personal-frame{height:100%;min-height:0;box-sizing:border-box;position:relative;display:grid;grid-template-rows:auto minmax(0,1fr);gap:14px;padding:18px 18px 16px;border-left:2px solid #111;border-right:2px solid #111;background:#fff}
+.personal-frame:before,.personal-frame:after{content:"";position:absolute;left:16px;right:16px;height:2px;background:#111}.personal-frame:before{top:0}.personal-frame:after{bottom:0}.personal-frame.line-active:before{animation:drawFrameLine .62s cubic-bezier(.2,.75,.2,1) both;transform-origin:left center}.personal-frame.line-active:after{animation:drawFrameLine .62s .12s cubic-bezier(.2,.75,.2,1) both;transform-origin:right center}
+.personal-toolbar{min-height:48px;display:flex;align-items:flex-end;justify-content:space-between;gap:16px;padding:0 3px 11px;border-bottom:1px solid #111}.personal-toolbar>div{display:flex;align-items:flex-end;gap:10px}.personal-toolbar h2{margin:0;font-family:Georgia,serif;font-size:38px;font-weight:400;line-height:.92;letter-spacing:-.045em}.personal-toolbar span{padding-bottom:2px;font-size:7px;font-weight:900;letter-spacing:.16em;color:#777}.personal-toolbar time{font-size:10px;font-weight:800;letter-spacing:.04em}
+.personal-content{min-height:0;display:grid;grid-template-columns:minmax(0,1.65fr) minmax(280px,.72fr);gap:16px;overflow:hidden}
+.personal-ledger,.pomodoro-card{min-width:0;min-height:0;border:1px solid #d9d9d7;border-radius:18px;background:#fff;overflow:hidden}
+.personal-ledger{display:grid;grid-template-rows:auto auto auto minmax(0,1fr);gap:11px;padding:14px}
+.personal-category-tabs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}.personal-category-tabs button{height:44px;border:1px solid #d8d8d5;border-radius:11px;background:#f7f7f5;font-size:10px;font-weight:800}.personal-category-tabs button span{display:block;margin-bottom:2px;font-size:14px}.personal-category-tabs button.active{border-color:#111;background:#111;color:#fff}
+.personal-summary{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}.personal-summary button{min-width:0;display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-areas:"icon label" "icon value";gap:1px 7px;align-items:center;padding:8px;border:1px solid #e1e1de;border-radius:10px;background:#fff;text-align:left}.personal-summary button.active{border-color:#8ba4ae;background:#eef3f4}.personal-summary span{grid-area:icon;font-size:15px}.personal-summary b{grid-area:label;font-size:8px}.personal-summary strong{grid-area:value;font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.personal-entry-form{display:grid;grid-template-columns:116px minmax(0,1fr) 100px 54px;gap:7px}.personal-entry-form>input,.personal-number-field{height:36px;box-sizing:border-box;border:1px solid #d8d8d5;border-radius:8px;background:#fff}.personal-entry-form>input{min-width:0;padding:0 9px;font-size:10px}.personal-number-field{display:flex;align-items:center;gap:4px;padding:0 8px}.personal-number-field[hidden]{display:none!important}.personal-number-field span{font-size:9px;font-weight:900}.personal-number-field input{width:100%;min-width:0;border:0;outline:0;font-size:10px}.personal-entry-form>button{height:36px;border:0;border-radius:8px;background:#111;color:#fff;font-size:8px;font-weight:900;letter-spacing:.08em}
+.personal-entry-list{min-height:0;overflow:auto;border-top:1px solid #e3e3e0;scrollbar-width:thin}.personal-entry-row{min-height:48px;display:grid;grid-template-columns:42px 22px minmax(0,1fr) 26px;gap:6px;align-items:center;border-bottom:1px solid #ecece9}.personal-entry-row time{font-size:9px;color:#777}.personal-entry-row>span{font-size:15px}.personal-entry-row div{min-width:0}.personal-entry-row b{display:block;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.personal-entry-row small{font-size:8px;color:#777}.personal-entry-row button{width:24px;height:24px;border:0;background:transparent;font-size:15px;color:#888}.personal-empty{height:100%;min-height:100px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:#8c8c88}.personal-empty span{font-size:28px}.personal-empty b{font-size:10px}
+.pomodoro-card{display:grid;grid-template-rows:auto minmax(0,1fr) auto auto auto;gap:13px;padding:18px;background:#111;color:#fff}.pomodoro-head{display:flex;justify-content:space-between;align-items:start}.pomodoro-head span{font-size:7px;font-weight:900;letter-spacing:.16em;color:#91abb5}.pomodoro-head h3{margin:4px 0 0;font-family:Georgia,serif;font-size:27px;font-weight:400}.pomodoro-head>b{padding-top:4px;font-size:7px;letter-spacing:.08em;color:#aaa}.pomodoro-clock{min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:50%;aspect-ratio:1;max-height:260px;max-width:260px;width:min(100%,260px);margin:auto;background:#f2f1ed;color:#111;box-shadow:inset 0 0 0 9px #262626}.pomodoro-clock span{font-size:8px;font-weight:900;letter-spacing:.18em}.pomodoro-clock strong{font-family:Arial,sans-serif;font-size:clamp(42px,4.5vw,68px);line-height:1;margin:7px 0}.pomodoro-clock i{width:28px;height:2px;background:#111}
+.pomodoro-presets{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}.pomodoro-presets button{height:34px;border:1px solid #4b4b4b;border-radius:9px;background:#222;color:#aaa;font-size:8px}.pomodoro-presets button.active{border-color:#fff;background:#fff;color:#111;font-weight:900}.pomodoro-actions{display:grid;grid-template-columns:1fr .7fr;gap:6px}.pomodoro-actions button{height:40px;border:1px solid #fff;border-radius:10px;background:#fff;color:#111;font-size:9px;font-weight:900;letter-spacing:.1em}.pomodoro-actions button+button{background:transparent;color:#fff}.pomodoro-card>p{margin:0;text-align:center;font-size:8px;color:#898989}
+
+@media(max-width:900px){
+  .personal-content{grid-template-columns:minmax(0,1.35fr) minmax(230px,.65fr)}.personal-summary{grid-template-columns:repeat(3,minmax(0,1fr))}.personal-entry-form{grid-template-columns:104px minmax(0,1fr) 84px 50px}.pomodoro-clock{max-width:210px;max-height:210px}
+}
+@media(max-width:760px){
+  .routine-round-grid{--stamp-size:48px;grid-template-rows:repeat(4,var(--stamp-size))!important;grid-auto-columns:unset!important}
+  .record-hub-grid .album-folder-grid{height:max(520px,100%)!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;grid-template-rows:none!important;grid-auto-rows:220px!important}
+  .record-hub-grid,#eventStage.event-hub-grid{padding:7px!important;gap:12px!important}.record-hub-grid .record-toolbar,.record-hub-grid .album-toolbar,#eventStage .event-toolbar{align-items:flex-start!important}
+  .personal-stage{overflow:auto}.personal-shell{height:auto;min-height:100%;padding:7px}.personal-frame{height:auto;min-height:calc(100vh - 190px);padding:14px 12px 16px}.personal-content{grid-template-columns:1fr;overflow:visible}.personal-ledger{min-height:540px}.pomodoro-card{min-height:500px}.personal-summary{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:599px){
+  .tab[data-tab="personal"]{font-size:9px!important}.personal-toolbar h2{font-size:29px}.personal-toolbar time{font-size:8px}.personal-category-tabs{grid-template-columns:repeat(5,70px);overflow-x:auto;padding-bottom:3px}.personal-category-tabs button{height:48px}.personal-entry-form{grid-template-columns:1fr 1fr}.personal-entry-form>input[type="text"]{grid-column:1/-1;grid-row:1}.personal-entry-form>input[type="date"]{grid-column:1}.personal-entry-form>button{grid-column:2}.personal-number-field{grid-column:2;grid-row:2}.personal-summary{grid-template-columns:repeat(2,minmax(0,1fr))}.personal-ledger{padding:10px}.pomodoro-clock{width:210px;height:210px}
+}
+
 </style>
 </head>
 <body>
@@ -2292,7 +2363,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
       <button class="tab active" type="button" role="tab" data-tab="schedule" aria-controls="stage" aria-selected="true" tabindex="0">SCHEDULE</button>
       <button class="tab" type="button" role="tab" data-tab="private" aria-controls="privateStage" aria-selected="false" tabindex="-1">ROUTINE</button>
       <button class="tab" type="button" role="tab" data-tab="record" aria-controls="recordStage" aria-selected="false" tabindex="-1">EVENT</button>
-      <button class="tab" type="button" role="tab" data-tab="future" aria-controls="futureStage" aria-selected="false" tabindex="-1" aria-label="향후 기능을 위한 빈 탭">＋</button>
+      <button class="tab" type="button" role="tab" data-tab="personal" aria-controls="personalStage" aria-selected="false" tabindex="-1">PERSONAL</button>
     </nav>
       <div class="nav-tools" aria-label="빠른 도구">
         <div class="top-actions">
@@ -2506,8 +2577,46 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
     <div class="private-page-dots" aria-label="ROUTINE 페이지 위치"><button class="private-dot active" type="button" data-private-page="0" aria-label="루틴"></button><button class="private-dot" type="button" data-private-page="1" aria-label="언어 학습 빈 페이지"></button></div>
   </section>
 
-  <section class="future-stage" id="futureStage" aria-label="향후 기능을 위한 빈 공간" hidden aria-hidden="true">
-    <div class="future-blank" aria-hidden="true"></div>
+  <section class="personal-stage" id="personalStage" aria-label="개인 생활 관리" hidden aria-hidden="true">
+    <section class="personal-shell">
+      <section class="personal-frame">
+        <div class="personal-toolbar">
+          <div><h2>Personal</h2><span>DAILY SYSTEM</span></div>
+          <time id="personalToday"></time>
+        </div>
+        <div class="personal-content">
+          <section class="personal-ledger" aria-label="개인 생활 기록">
+            <div class="personal-category-tabs" id="personalCategoryTabs">
+              <button type="button" data-personal-category="meal" class="active"><span>🍽</span>식사</button>
+              <button type="button" data-personal-category="exercise"><span>🏃</span>운동</button>
+              <button type="button" data-personal-category="reading"><span>📚</span>독서</button>
+              <button type="button" data-personal-category="workflow"><span>✓</span>워크플로우</button>
+              <button type="button" data-personal-category="expense"><span>₩</span>고정지출</button>
+            </div>
+            <div class="personal-summary" id="personalSummaryCards"></div>
+            <form class="personal-entry-form" id="personalEntryForm">
+              <input type="date" id="personalEntryDate" required>
+              <input type="text" id="personalEntryTitle" maxlength="100" placeholder="오늘의 식사를 기록하세요" required>
+              <label class="personal-number-field" id="personalMinutesField"><span>분</span><input type="number" id="personalEntryMinutes" min="0" max="1440" inputmode="numeric" placeholder="시간"></label>
+              <label class="personal-number-field" id="personalAmountField" hidden><span>₩</span><input type="number" id="personalEntryAmount" min="0" max="999999999" inputmode="numeric" placeholder="금액"></label>
+              <button type="submit">+ ADD</button>
+            </form>
+            <div class="personal-entry-list" id="personalEntryList"></div>
+          </section>
+          <aside class="pomodoro-card" aria-label="포모도로 집중 타이머">
+            <div class="pomodoro-head"><div><span>FOCUS TIMER</span><h3>Pomodoro</h3></div><b id="pomodoroTodayCount">0 SESSION</b></div>
+            <div class="pomodoro-clock"><span id="pomodoroModeLabel">FOCUS</span><strong id="pomodoroClock">25:00</strong><i></i></div>
+            <div class="pomodoro-presets" aria-label="타이머 종류">
+              <button type="button" class="active" data-pomodoro-minutes="25" data-pomodoro-mode="focus">25 집중</button>
+              <button type="button" data-pomodoro-minutes="5" data-pomodoro-mode="short">5 휴식</button>
+              <button type="button" data-pomodoro-minutes="15" data-pomodoro-mode="long">15 긴 휴식</button>
+            </div>
+            <div class="pomodoro-actions"><button type="button" id="pomodoroStart">START</button><button type="button" id="pomodoroReset">RESET</button></div>
+            <p>한 번에 한 가지에만 집중해요.</p>
+          </aside>
+        </div>
+      </section>
+    </section>
   </section>
 
   <div class="side-word">MADE BY BOMIN</div>
@@ -2998,7 +3107,9 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   const CALENDAR_SELECTION_KEY='aiderdear-calendar-selection-v1';
   const PRIVATE_DATA_FILE_NAME='private-data.json';
   const PRIVATE_FOLDER_PREFIX='AiderDear Private - ';
-  const PRIVATE_VERSION=3;
+  const PRIVATE_VERSION=4;
+  const PERSONAL_CATEGORIES={meal:{label:'식사',icon:'🍽',placeholder:'오늘의 식사를 기록하세요'},exercise:{label:'운동',icon:'🏃',placeholder:'운동 내용이나 종목을 기록하세요'},reading:{label:'독서',icon:'📚',placeholder:'읽은 책이나 분량을 기록하세요'},workflow:{label:'워크플로우',icon:'✓',placeholder:'완료한 업무 흐름을 기록하세요'},expense:{label:'고정지출',icon:'₩',placeholder:'정기 지출 항목을 기록하세요'}};
+  let personalCategory='meal',pomodoroMode='focus',pomodoroSeconds=25*60,pomodoroInitialSeconds=25*60,pomodoroTimer=null;
   const EMOTION_DATA_FILE_NAME='emotion-data.json';
   const EMOTION_FOLDER_PREFIX='AiderDear Emotion - ';
   const EMOTION_VERSION=3;
@@ -3061,7 +3172,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   function scheduleVisiblePeople(){if(!currentUserEmail)return [];const p=mutualPartner(),meName=currentUserName||familyUser(currentUserEmail).name||'나',rows=[{id:'mine',email:currentUserEmail,name:meName,kind:'mine'}];if(p)rows.push({id:'partner',email:p.email,name:p.name,kind:'partner'},{id:'shared',email:'shared',name:'공유',kind:'shared'});return rows}
   function renderSchedulePeopleFilters(){const box=$('#schedulePeopleFilters');if(!box)return;const people=scheduleVisiblePeople();if(!people.length){box.innerHTML='';schedulePersonFilters=new Set();return}const valid=new Set(people.map(p=>p.id));if(!schedulePersonFilters.size||![...schedulePersonFilters].some(x=>valid.has(x)))schedulePersonFilters=new Set(valid);else schedulePersonFilters=new Set([...schedulePersonFilters].filter(x=>valid.has(x)));box.innerHTML=people.map(p=>`<button class="filter filter-person" type="button" data-person-filter="${escapeHtml(p.id)}" aria-pressed="${schedulePersonFilters.has(p.id)}"><span class="swatch ${p.kind}"></span><span class="filter-name">${escapeHtml(p.name)}</span></button>`).join('')}
   function eventPassesPersonFilter(e){if(!e?.isAiderDear)return true;const active=schedulePersonFilters.size?schedulePersonFilters:new Set(scheduleVisiblePeople().map(p=>p.id));const partner=mutualPartner();const author=normalizeEmail(e.authorEmail);if(e.owner==='shared'||(!author&&e.owner==='shared'))return active.has('shared');if(author&&author===currentUserEmail)return active.has('mine');if(partner&&author===partner.email)return active.has('partner');if(e.owner==='mine')return active.has('mine');if(e.owner==='partner')return !!partner&&active.has('partner');return false}
-  async function syncCurrentDisplayName(){if(!currentUserEmail||!currentUserName)return;localStorage.setItem(displayNameStorageKey(currentUserEmail),currentUserName);let changed=false;const roster=normalizeFamilyUsers(cloudData.familyUsers||googleConfig.familyUsers||[]);const row=roster.find(x=>x.email===currentUserEmail);if(row&&row.name!==currentUserName){row.name=currentUserName;cloudData.familyUsers=roster;changed=true}if(privateData[currentUserEmail]){privateData[currentUserEmail].profile.name=currentUserName;try{await savePrivateData(currentUserEmail)}catch{}}if(emotionData[currentUserEmail]){emotionData[currentUserEmail].profile.name=currentUserName;try{await saveEmotionData(currentUserEmail)}catch{}}if(changed)try{await saveCloudData()}catch{}renderSchedulePeopleFilters();renderCalendar();renderEmotion();renderPrivate()}
+  async function syncCurrentDisplayName(){if(!currentUserEmail||!currentUserName)return;localStorage.setItem(displayNameStorageKey(currentUserEmail),currentUserName);let changed=false;const roster=normalizeFamilyUsers(cloudData.familyUsers||googleConfig.familyUsers||[]);const row=roster.find(x=>x.email===currentUserEmail);if(row&&row.name!==currentUserName){row.name=currentUserName;cloudData.familyUsers=roster;changed=true}if(privateData[currentUserEmail]){privateData[currentUserEmail].profile.name=currentUserName;try{await savePrivateData(currentUserEmail)}catch{}}if(emotionData[currentUserEmail]){emotionData[currentUserEmail].profile.name=currentUserName;try{await saveEmotionData(currentUserEmail)}catch{}}if(changed)try{await saveCloudData()}catch{}renderSchedulePeopleFilters();renderCalendar();renderEmotion();renderPrivate();renderPersonal()}
   async function changeDisplayName(force=false){if(!currentUserEmail)return;const suggested=storedDisplayName(currentUserEmail)||currentUserName||String(googleProfile?.given_name||googleProfile?.name||'').trim()||currentUserEmail.split('@')[0];const value=window.prompt(force?'AiderDear에서 사용할 이름을 입력해주세요.':'표시 이름을 입력해주세요.',suggested);const name=String(value==null?suggested:value).trim()||suggested;currentUserName=name;localStorage.setItem(displayNameStorageKey(currentUserEmail),name);applyLoginUI();if(driveDataFileId)await syncCurrentDisplayName();}
   function loadGoogleConfig(){
     let saved={};try{saved=JSON.parse(localStorage.getItem(GOOGLE_CONFIG_KEY)||'{}')}catch{}
@@ -3244,7 +3355,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
     if(!driveDataFileId)return;
     await googleApi(`https://www.googleapis.com/upload/drive/v3/files/${encodeURIComponent(driveDataFileId)}?uploadType=media`,{method:'PATCH',headers:{'Content-Type':'application/json; charset=UTF-8'},body:JSON.stringify(data)});
   }
-  function blankPrivateData(email='',name=''){return {version:PRIVATE_VERSION,profile:{email:normalizeEmail(email),name:normalizeName(name,email)},memos:[],routines:[],checklists:[],routineGoals:['','','']}}
+  function blankPrivateData(email='',name=''){return {version:PRIVATE_VERSION,profile:{email:normalizeEmail(email),name:normalizeName(name,email)},memos:[],routines:[],checklists:[],routineGoals:['','',''],personalItems:[],pomodoroSessions:[]}}
   function normalizePrivateData(data,email='',name=''){
     const d={...blankPrivateData(email,name),...(data||{})};d.profile={email:normalizeEmail(d.profile?.email||email),name:normalizeName(d.profile?.name||name,d.profile?.email||email)};
     d.memos=Array.isArray(d.memos)?d.memos.filter(Boolean):[];
@@ -3260,6 +3371,9 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
       return {...r,goalDays,cycleDays:goalDays,doneDates,dailyLevels,bigGoals,goalTracking,goalDerivedDates,miniText:String(r.miniText||'작게라도 실천하기').slice(0,100),moreText:String(r.moreText||'조금 더 실천하기').slice(0,100),maxText:String(r.maxText||'충분히 실천하기').slice(0,100),color:String(r.color||'orange'),icon:String(r.icon||'✨').slice(0,8),braggedAt:Number(r.braggedAt)||0}
     }):[];
     d.checklists=Array.isArray(d.checklists)?d.checklists.filter(Boolean).map(c=>({...c,date:c.date||'',time:'',priority:c.priority||'보통',category:'',done:!!c.done})):[];
+    const personalCategories=new Set(['meal','exercise','reading','workflow','expense']);
+    d.personalItems=Array.isArray(d.personalItems)?d.personalItems.filter(x=>x&&x.id&&personalCategories.has(x.category)&&/^\d{4}-\d{2}-\d{2}$/.test(x.date||'')).map(x=>({id:String(x.id),category:x.category,date:x.date,title:String(x.title||'').slice(0,100),minutes:Math.max(0,Math.min(1440,Number(x.minutes)||0)),amount:Math.max(0,Math.min(999999999,Number(x.amount)||0)),createdAt:Number(x.createdAt)||Date.now()})).slice(-1000):[];
+    d.pomodoroSessions=Array.isArray(d.pomodoroSessions)?d.pomodoroSessions.filter(x=>x&&x.id&&/^\d{4}-\d{2}-\d{2}$/.test(x.date||'')).map(x=>({id:String(x.id),date:x.date,minutes:Math.max(1,Math.min(180,Number(x.minutes)||25)),completedAt:Number(x.completedAt)||Date.now()})).slice(-500):[];
     d.routineGoals=legacyGoals;d.version=PRIVATE_VERSION;return d;
   }
   function privateFolderName(email){return `${PRIVATE_FOLDER_PREFIX}${normalizeEmail(email)}`}
@@ -3284,7 +3398,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
     if(partnerEmail)await shareDriveReadOnly(fileId,partnerEmail);
   }
   async function loadPrivateData(){
-    privateData={};privateRefs={};if(!currentUserEmail||!window.AiderDearFirebase)return;const saved=await window.AiderDearFirebase.readPrivateData();privateData[currentUserEmail]=normalizePrivateData(saved||blankPrivateData(currentUserEmail,currentUserName),currentUserEmail,currentUserName);privateRefs[currentUserEmail]={folderId:'firebase-private',fileId:'firebase-private',writable:true};privateOwner=currentUserEmail;renderPrivate();
+    privateData={};privateRefs={};if(!currentUserEmail||!window.AiderDearFirebase)return;const saved=await window.AiderDearFirebase.readPrivateData();privateData[currentUserEmail]=normalizePrivateData(saved||blankPrivateData(currentUserEmail,currentUserName),currentUserEmail,currentUserName);privateRefs[currentUserEmail]={folderId:'firebase-private',fileId:'firebase-private',writable:true};privateOwner=currentUserEmail;renderPrivate();renderPersonal();
   }
   async function savePrivateData(email){email=normalizeEmail(email);if(!currentUser||currentUserEmail!==email||!privateRefs[email]?.fileId)throw new Error('이 개인 기록을 수정할 권한이 없습니다.');privateData[email]=normalizePrivateData(privateData[email],email,currentUserName);await window.AiderDearFirebase.writePrivateData(privateData[email])}
   function blankEmotionData(email='',name=''){return {version:EMOTION_VERSION,profile:{email:normalizeEmail(email),name:normalizeName(name,email)},entries:[]}}
@@ -3409,7 +3523,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   async function bootstrapGoogleData(){
     setGoogleStatus('AiderDear 데이터를 불러오는 중입니다…');
     cloudData={version:CLOUD_VERSION,calendarId:'',userCalendars:{},albumsBySpace:{},records:[],coupleMediaBySpace:{},ddays:[],activeDdayBySpace:{},letters:[],bucketItems:[],eventReviews:[],partnerChoices:{},scheduleEvents:[]};await ensureCloudDrive();normalizeCloudData();await ensureCalendar();await loadCalendarList();await loadCalendarEvents();await scanDriveMedia();await loadCoupleMedia();await loadPrivateData();await loadEmotionData();
-    refreshRecordAlbumSelect(DEFAULT_ALBUM_ID);renderAlbumFolders();renderRecordFeed();renderEventArchive();renderTravelArchive();setDday();renderDdayList();renderPrivate();renderEmotion();
+    refreshRecordAlbumSelect(DEFAULT_ALBUM_ID);renderAlbumFolders();renderRecordFeed();renderEventArchive();renderTravelArchive();setDday();renderDdayList();renderPrivate();renderPersonal();renderEmotion();
     lastSyncAt=new Date();applyLoginUI();updateMailBadge();setGoogleStatus(`${googleProfile?.email||''}\nAiderDear 연결 완료 · ${lastSyncAt.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'})}`,'ok');setTimeout(showUnreadLetterPopup,180);
   }
 
@@ -3632,11 +3746,11 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   }
   function resetFirebaseLocalSession(){
     googleToken='';googleProfile=null;currentUser='';currentUserEmail='';currentUserName='';isAdmin=false;events=[];driveRootId='';driveMediaFolderId='';driveDataFileId='';firebaseScopeKey='';
-    privateData={};privateRefs={};privateOwner='';privateFeature='memo';emotionData={};emotionRefs={};schedulePersonFilters=new Set();showCoupleAgenda=false;
+    privateData={};privateRefs={};privateOwner='';privateFeature='memo';emotionData={};emotionRefs={};schedulePersonFilters=new Set();showCoupleAgenda=false;if(pomodoroTimer){clearInterval(pomodoroTimer);pomodoroTimer=null}pomodoroMode='focus';pomodoroSeconds=25*60;pomodoroInitialSeconds=25*60;
     cloudData={version:CLOUD_VERSION,calendarId:'',userCalendars:{},albumsBySpace:{},records:[],coupleMediaBySpace:{},ddays:[],activeDdayBySpace:{},letters:[],bucketItems:[],eventReviews:[],partnerChoices:{},scheduleEvents:[]};activeCalendarId='';calendarSources=[];selectedCalendarIds=new Set();driveLooseMedia=[];
     for(const url of recordMediaUrlCache.values())URL.revokeObjectURL(url);recordMediaUrlCache.clear();
     clearActiveMediaUrl();const v=$('#coupleVideo2');v.pause();v.hidden=true;v.removeAttribute('src');const img=$('#couplePhoto2');img.hidden=true;img.removeAttribute('src');$('#mediaPlaceholder2').style.display='flex';
-    applyLoginUI();updateMailBadge();renderCalendar();renderAlbumFolders();renderRecordFeed();renderPrivate();renderEmotion();setGoogleStatus('Google 계정으로 로그인해주세요.');
+    applyLoginUI();updateMailBadge();renderCalendar();renderAlbumFolders();renderRecordFeed();renderPrivate();renderPersonal();renderEmotion();setGoogleStatus('Google 계정으로 로그인해주세요.');
   }
   async function handleFirebaseState(next){
     firebaseState=next||firebaseState;renderFirebasePairUI();if(!firebaseState.ready)return;if(!firebaseState.user){if(currentUser)resetFirebaseLocalSession();applyLoginUI();return}const user=firebaseState.user,scope=`${user.uid}:${firebaseState.pair?.id||'solo'}`;googleProfile={email:user.email,name:user.name,picture:user.photoURL};currentUserEmail=normalizeEmail(user.email);currentUserName=storedDisplayName(currentUserEmail)||user.name||normalizeName('',currentUserEmail);currentUser='mine';isAdmin=false;googleToken='firebase-session';googleConfig.adminEmail='';googleConfig.partnerEmail=firebaseState.partner?.email||'';googleConfig.familyUsers=normalizeFamilyUsers([{email:currentUserEmail,name:currentUserName},...(firebaseState.partner?[{email:firebaseState.partner.email,name:firebaseState.partner.name}]:[])]);applyLoginUI();if(firebaseState.error)setGoogleStatus(firebaseState.error,'error');if(scope===firebaseScopeKey)return;firebaseScopeKey=scope;firebaseBootstrapPromise=(firebaseBootstrapPromise||Promise.resolve()).catch(()=>{}).then(async()=>{try{await bootstrapGoogleData();closeModal('loginModal');toast(`${currentUserName}님, 환영합니다.`);const pending=pendingAfterLogin;pendingAfterLogin=null;if(pending)setTimeout(pending,80)}catch(err){setGoogleStatus(googleErrorMessage(err),'error')}});await firebaseBootstrapPromise;
@@ -3809,6 +3923,9 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
     $('#albumFolderGrid').hidden=false; $('#albumPhotoGrid').hidden=true;
     const grid=$('#albumFolderGrid');grid.innerHTML='';
     const items=getAlbumMediaItems(); const folders=getAlbumFolders();
+    const count=folders.length,capacity=count<=4?4:count<=9?9:count<=20?20:Math.ceil(Math.sqrt(count))**2;
+    const columns=capacity===4?2:capacity===9?3:capacity===20?5:Math.ceil(Math.sqrt(capacity));
+    const rows=Math.ceil(capacity/columns);grid.style.setProperty('--album-columns',String(columns));grid.style.setProperty('--album-rows',String(rows));grid.dataset.density=String(capacity);
     folders.forEach(folder=>{
       const media=items.filter(x=>x.folderId===folder.id);
       const card=document.createElement('button');card.type='button';card.className='album-folder';card.style.setProperty('--folder-color',folder.color||ALBUM_PASTELS[0]);
@@ -3961,7 +4078,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
     if(!currentUser||!googleToken||!driveDataFileId)return;
     if(!force&&document.querySelector('.overlay.open'))return;
     try{
-      const previousCouple=currentCoupleMedia()?.fileId||'';await driveLoadJsonFile();renderPartnerMatchStatus();await ensureCalendar();await loadCalendarList();await loadCalendarEvents();await scanDriveMedia();await loadPrivateData();await loadEmotionData();refreshRecordAlbumSelect($('#recordAlbumFolder')?.value||DEFAULT_ALBUM_ID);renderRecordFeed();renderAlbumFolders();renderEventArchive();renderTravelArchive();renderBucketList();setDday();renderDdayList();renderPrivate();renderEmotion();renderMailbox();updateMailBadge();
+      const previousCouple=currentCoupleMedia()?.fileId||'';await driveLoadJsonFile();renderPartnerMatchStatus();await ensureCalendar();await loadCalendarList();await loadCalendarEvents();await scanDriveMedia();await loadPrivateData();await loadEmotionData();refreshRecordAlbumSelect($('#recordAlbumFolder')?.value||DEFAULT_ALBUM_ID);renderRecordFeed();renderAlbumFolders();renderEventArchive();renderTravelArchive();renderBucketList();setDday();renderDdayList();renderPrivate();renderPersonal();renderEmotion();renderMailbox();updateMailBadge();
       if((currentCoupleMedia()?.fileId||'')!==previousCouple)await loadCoupleMedia();lastSyncAt=new Date();setGoogleStatus(`${googleProfile?.email||''}\n동기화 완료 · ${lastSyncAt.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'})}`,'ok');if(force)toast('데이터를 새로고침했습니다.');
     }catch(err){setGoogleStatus(googleErrorMessage(err),'error');if(force)toast(googleErrorMessage(err))}
   }
@@ -4346,7 +4463,8 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
     const brag=complete?(r.braggedAt?'<span class="routine-brag-done">✓ 보냄</span>':`<button class="routine-brag-mini" type="button" data-routine-brag="${escapeHtml(r.id)}" ${partner?'':'disabled'}>✉ ${partner?escapeHtml(partner.name)+'에게 자랑':'공유 상대 필요'}</button>`):'';
     const stamps=st.cycle.dates.map((key,index)=>{const level=String(r.dailyLevels?.[key]||'').toUpperCase(),future=key>today,isToday=key===today,label=level||(isToday?'TODAY':future?String(index+1).padStart(2,'0'):'—'),state=level||((isToday?'오늘':'미기록'));return `<button type="button" class="routine-round-stamp ${routineStatusClass(level)} ${isToday?'today':''} ${future?'future':''}" data-routine-date-status="${escapeHtml(r.id)}" data-date="${escapeHtml(key)}" ${(!writable||future)?'disabled':''} aria-label="${escapeHtml(`${routineDateLabel(key)} · ${state}`)}"><small>${escapeHtml(routineDateLabel(key,true))}</small><b>${escapeHtml(label)}</b></button>`}).join('');
     const completedRounds=Math.floor(allPractice/goal),startLabel=st.cycle.start.replaceAll('-','.');
-    return `<section class="routine-progress-card" style="--routine:${color}"><div class="routine-progress-top"><span class="routine-progress-brand">MINI·MORE·MAX</span>${renderRoutineSelector(routines,r)}<div class="routine-progress-tools">${writable?`<button type="button" data-routine-edit="${escapeHtml(r.id)}">EDIT</button>`:''}${brag}</div></div><div class="routine-progress-intro"><div><span class="routine-progress-kicker">${escapeHtml(r.icon||'✨')} · THIS ROUND</span><h3>${escapeHtml(r.text||'Routine')}</h3><div class="routine-progress-ruleline"><span><b>MINI</b>${escapeHtml(r.miniText||'작게라도 실천하기')}</span><span><b>MORE</b>${escapeHtml(r.moreText||'조금 더 실천하기')}</span><span><b>MAX</b>${escapeHtml(r.maxText||'충분히 실천하기')}</span></div></div><div class="routine-progress-round"><span>DAY</span><strong>${st.cycle.dayNumber}</strong><em>${st.cycle.cycleDays} DAYS</em></div></div><div class="routine-round-grid" aria-label="${st.cycle.cycleDays}일 루틴 기록 · 좌우로 스크롤">${stamps}</div><div class="routine-progress-footer"><span>최근 시작 <b>${escapeHtml(startLabel)}</b></span><span>완성 회차 <b>${completedRounds}</b></span><span>총 실천 <b>${allPractice}</b></span></div></section>`;
+    const stampColumns=Math.ceil(st.cycle.cycleDays/4);
+    return `<section class="routine-progress-card" style="--routine:${color}"><div class="routine-progress-top">${renderRoutineSelector(routines,r)}<div class="routine-progress-tools">${writable?`<button type="button" data-routine-edit="${escapeHtml(r.id)}">EDIT</button>`:''}${brag}</div></div><div class="routine-progress-intro"><div><span class="routine-progress-kicker">${escapeHtml(r.icon||'✨')} · THIS ROUND</span><h3>${escapeHtml(r.text||'Routine')}</h3><div class="routine-progress-ruleline"><span><b>MINI</b>${escapeHtml(r.miniText||'작게라도 실천하기')}</span><span><b>MORE</b>${escapeHtml(r.moreText||'조금 더 실천하기')}</span><span><b>MAX</b>${escapeHtml(r.maxText||'충분히 실천하기')}</span></div></div><div class="routine-progress-round"><span>DAY</span><strong>${st.cycle.dayNumber}</strong><em>${st.cycle.cycleDays} DAYS</em></div></div><div class="routine-round-grid" style="--routine-columns:${stampColumns}" aria-label="${st.cycle.cycleDays}일 루틴 기록 · 좌우로 스크롤">${stamps}</div><div class="routine-progress-footer"><span>최근 시작 <b>${escapeHtml(startLabel)}</b></span><span>완성 회차 <b>${completedRounds}</b></span><span>총 실천 <b>${allPractice}</b></span></div></section>`;
   }
   function renderRoutineCalendar(r,writable){if(!r)return '';const st=routineStats(r),today=dateKeyOffset(0),items=st.cycle.dates.map(key=>{const level=String(r.dailyLevels?.[key]||'').toUpperCase(),future=key>today;return `<button type="button" class="routine-day-badge ${routineStatusClass(level)} ${key===today?'today':''}" data-routine-date-status="${escapeHtml(r.id)}" data-date="${escapeHtml(key)}" ${(!writable||future)?'disabled':''}><small>${routineDateLabel(key,true)}</small><b>${level||'—'}</b></button>`}).join('');return `<section class="routine-cycle-card"><div class="routine-card-head"><b>이번 회차 습관 현황</b><span>${st.cycle.range}</span></div><div class="routine-day-grid">${items}</div></section>`}
   function renderRoutineOverviewRow(r,index,dates,writable){const done=dates.filter(k=>{const v=String(r.dailyLevels?.[k]||'').toUpperCase();return v&&v!=='SKIP'}).length;return `<div class="routine-goal-row"><div class="routine-goal-name"><span>${escapeHtml(r.icon||String(index+1).padStart(2,'0'))}</span><b>${escapeHtml(r.text||'Routine')}</b></div>${dates.map(k=>{const v=String(r.dailyLevels?.[k]||'').toUpperCase();return `<button type="button" class="routine-goal-dot ${routineStatusClass(v)}" data-routine-date-status="${escapeHtml(r.id)}" data-date="${escapeHtml(k)}" ${writable?'':'disabled'} aria-label="${escapeHtml(r.text||'Routine')} ${escapeHtml(k)} ${escapeHtml(v||'미기록')}"></button>`}).join('')}<div class="routine-goal-rate"><b>${done}</b><span>/ ${dates.length}</span></div></div>`}
@@ -4386,25 +4504,53 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   $('#privateStage').addEventListener('wheel',e=>{if(Math.abs(e.deltaY)<16)return;const inner=e.target.closest('.matrix-quadrant-body');if(inner){const innerBottom=inner.scrollTop+inner.clientHeight>=inner.scrollHeight-4,innerTop=inner.scrollTop<=3;if(e.deltaY>0&&!innerBottom)return;if(e.deltaY<0&&!innerTop)return}const sc=privateScrollable();if(!sc)return;const atBottom=sc.scrollTop+sc.clientHeight>=sc.scrollHeight-4,atTop=sc.scrollTop<=3;if(privatePageIndex===0&&e.deltaY>0&&atBottom){e.preventDefault();goPrivatePage(1)}else if(privatePageIndex===1&&e.deltaY<0&&atTop){e.preventDefault();goPrivatePage(0)}},{passive:false});
   $('#privateStage').addEventListener('touchstart',e=>{privateTouchY=e.touches[0]?.clientY??null;privateTouchScroll=privateScrollable()},{passive:true});$('#privateStage').addEventListener('touchend',e=>{if(privateTouchY==null)return;const y=e.changedTouches[0]?.clientY??privateTouchY,d=privateTouchY-y,sc=privateTouchScroll,atBottom=sc&&sc.scrollTop+sc.clientHeight>=sc.scrollHeight-4,atTop=sc&&sc.scrollTop<=3;if(Math.abs(d)>45){if(privatePageIndex===0&&d>0&&atBottom)goPrivatePage(1);else if(privatePageIndex===1&&d<0&&atTop)goPrivatePage(0)}privateTouchY=null;privateTouchScroll=null},{passive:true});$$('.private-dot').forEach(b=>b.addEventListener('click',()=>goPrivatePage(Number(b.dataset.privatePage))));
 
+  // PERSONAL — meals, exercise, reading, workflow, fixed expenses and focus sessions.
+  function personalStore(){if(!currentUserEmail)return blankPrivateData();if(!privateData[currentUserEmail])privateData[currentUserEmail]=blankPrivateData(currentUserEmail,currentUserName);return privateData[currentUserEmail]}
+  function personalAmount(value){return new Intl.NumberFormat('ko-KR').format(Math.max(0,Number(value)||0))}
+  function updatePomodoroClock(){const m=Math.floor(pomodoroSeconds/60),s=pomodoroSeconds%60;if($('#pomodoroClock'))$('#pomodoroClock').textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;if($('#pomodoroModeLabel'))$('#pomodoroModeLabel').textContent=pomodoroMode==='focus'?'FOCUS':pomodoroMode==='short'?'SHORT BREAK':'LONG BREAK';if($('#pomodoroStart'))$('#pomodoroStart').textContent=pomodoroTimer?'PAUSE':pomodoroSeconds===pomodoroInitialSeconds?'START':'RESUME'}
+  function renderPersonal(){
+    const stage=$('#personalStage');if(!stage)return;if(!currentUserEmail){$('#personalEntryList').innerHTML='';updatePomodoroClock();return}
+    const data=personalStore(),items=(data.personalItems||[]),today=dateKeyOffset(0),meta=PERSONAL_CATEGORIES[personalCategory];
+    $('#personalToday').textContent=new Intl.DateTimeFormat('ko-KR',{month:'long',day:'numeric',weekday:'short'}).format(new Date(`${today}T12:00:00`));
+    const dateInput=$('#personalEntryDate');if(dateInput&&!dateInput.value)dateInput.value=today;
+    $('#personalEntryTitle').placeholder=meta.placeholder;$('#personalMinutesField').hidden=!['exercise','reading','workflow'].includes(personalCategory);$('#personalAmountField').hidden=personalCategory!=='expense';
+    $$('#personalCategoryTabs [data-personal-category]').forEach(button=>button.classList.toggle('active',button.dataset.personalCategory===personalCategory));
+    const summaries=Object.entries(PERSONAL_CATEGORIES).map(([key,value])=>{const rows=items.filter(x=>x.category===key),monthRows=rows.filter(x=>x.date?.slice(0,7)===today.slice(0,7));const detail=key==='expense'?`₩ ${personalAmount(monthRows.reduce((sum,x)=>sum+(Number(x.amount)||0),0))}`:`${monthRows.length}회`;return `<button type="button" data-personal-category="${key}" class="${key===personalCategory?'active':''}"><span>${value.icon}</span><b>${value.label}</b><strong>${detail}</strong></button>`}).join('');
+    $('#personalSummaryCards').innerHTML=summaries;
+    const rows=items.filter(x=>x.category===personalCategory).slice().sort((a,b)=>(b.date||'').localeCompare(a.date||'')||(b.createdAt||0)-(a.createdAt||0));
+    $('#personalEntryList').innerHTML=rows.length?rows.map(row=>`<article class="personal-entry-row"><time>${escapeHtml(row.date.slice(5).replace('-','.'))}</time><span>${meta.icon}</span><div><b>${escapeHtml(row.title)}</b><small>${row.category==='expense'?`₩ ${personalAmount(row.amount)}`:row.minutes?`${row.minutes}분`:meta.label}</small></div><button type="button" data-personal-delete="${escapeHtml(row.id)}" aria-label="기록 삭제">×</button></article>`).join(''):`<div class="personal-empty"><span>${meta.icon}</span><b>${meta.label} 기록을 시작해보세요</b></div>`;
+    const todaySessions=(data.pomodoroSessions||[]).filter(x=>x.date===today).length;$('#pomodoroTodayCount').textContent=`${todaySessions} SESSION${todaySessions===1?'':'S'}`;updatePomodoroClock();
+  }
+  function setPomodoroPreset(minutes,mode){if(pomodoroTimer){clearInterval(pomodoroTimer);pomodoroTimer=null}pomodoroMode=mode||'focus';pomodoroInitialSeconds=Math.max(1,Number(minutes)||25)*60;pomodoroSeconds=pomodoroInitialSeconds;$$('[data-pomodoro-minutes]').forEach(button=>button.classList.toggle('active',Number(button.dataset.pomodoroMinutes)===Number(minutes)&&button.dataset.pomodoroMode===pomodoroMode));updatePomodoroClock()}
+  async function completePomodoro(){if(pomodoroMode==='focus'&&currentUserEmail){const data=personalStore();data.pomodoroSessions=Array.isArray(data.pomodoroSessions)?data.pomodoroSessions:[];data.pomodoroSessions.push({id:'pomo-'+Date.now(),date:dateKeyOffset(0),minutes:Math.round(pomodoroInitialSeconds/60),completedAt:Date.now()});try{await savePrivateData(currentUserEmail);renderPersonal()}catch(err){toast(googleErrorMessage(err))}}toast(pomodoroMode==='focus'?'집중 세션을 완료했습니다.':'휴식 시간이 끝났습니다.');pomodoroSeconds=pomodoroInitialSeconds;updatePomodoroClock()}
+  $('#personalCategoryTabs').addEventListener('click',e=>{const button=e.target.closest('[data-personal-category]');if(!button)return;personalCategory=button.dataset.personalCategory;renderPersonal()});
+  $('#personalSummaryCards').addEventListener('click',e=>{const button=e.target.closest('[data-personal-category]');if(!button)return;personalCategory=button.dataset.personalCategory;renderPersonal()});
+  $('#personalEntryForm').addEventListener('submit',async e=>{e.preventDefault();if(!currentUserEmail)return;const title=$('#personalEntryTitle').value.trim(),date=$('#personalEntryDate').value;if(!title||!date)return;const data=personalStore();data.personalItems=Array.isArray(data.personalItems)?data.personalItems:[];data.personalItems.push({id:'personal-'+Date.now(),category:personalCategory,date,title:title.slice(0,100),minutes:Number($('#personalEntryMinutes').value)||0,amount:Number($('#personalEntryAmount').value)||0,createdAt:Date.now()});try{await savePrivateData(currentUserEmail);e.target.reset();$('#personalEntryDate').value=dateKeyOffset(0);renderPersonal();toast(`${PERSONAL_CATEGORIES[personalCategory].label} 기록을 저장했습니다.`)}catch(err){toast(googleErrorMessage(err))}});
+  $('#personalEntryList').addEventListener('click',async e=>{const button=e.target.closest('[data-personal-delete]');if(!button||!currentUserEmail)return;const data=personalStore();data.personalItems=(data.personalItems||[]).filter(row=>row.id!==button.dataset.personalDelete);try{await savePrivateData(currentUserEmail);renderPersonal();toast('기록을 삭제했습니다.')}catch(err){toast(googleErrorMessage(err))}});
+  $$('.pomodoro-presets [data-pomodoro-minutes]').forEach(button=>button.addEventListener('click',()=>setPomodoroPreset(button.dataset.pomodoroMinutes,button.dataset.pomodoroMode)));
+  $('#pomodoroStart').addEventListener('click',()=>{if(pomodoroTimer){clearInterval(pomodoroTimer);pomodoroTimer=null;updatePomodoroClock();return}pomodoroTimer=setInterval(()=>{pomodoroSeconds=Math.max(0,pomodoroSeconds-1);updatePomodoroClock();if(pomodoroSeconds===0){clearInterval(pomodoroTimer);pomodoroTimer=null;completePomodoro()}},1000);updatePomodoroClock()});
+  $('#pomodoroReset').addEventListener('click',()=>setPomodoroPreset(Math.round(pomodoroInitialSeconds/60),pomodoroMode));
+
   function animateStandaloneFrame(id){const el=$(id);if(!el)return;el.classList.remove('line-active');void el.offsetWidth;el.classList.add('line-active')}
   function showMainTab(tab){
-    if((tab==='record'||tab==='private')&&!currentUser){requireLogin(()=>showMainTab(tab));return}
-    const tabLabels={schedule:'Schedule',private:'Routine',record:'Event',future:'AiderDear'};
+    if((tab==='record'||tab==='private'||tab==='personal')&&!currentUser){requireLogin(()=>showMainTab(tab));return}
+    const tabLabels={schedule:'Schedule',private:'Routine',record:'Event',personal:'Personal'};
     $$('.tab').forEach(t=>{const active=t.dataset.tab===tab;t.classList.toggle('active',active);t.setAttribute('aria-selected',String(active));t.tabIndex=active?0:-1});
     document.body.classList.remove('emotion-mode','event-mode');document.body.classList.toggle('record-mode',tab==='record');document.body.classList.toggle('private-mode',tab==='private');
-    $('#emotionStage').hidden=true;$('#emotionStage').setAttribute('aria-hidden','true');const sections={schedule:$('#stage'),private:$('#privateStage'),record:$('#recordStage'),future:$('#futureStage')};Object.entries(sections).forEach(([key,section])=>{if(!section)return;const active=key===tab;section.hidden=!active;section.setAttribute('aria-hidden',String(!active))});
+    $('#emotionStage').hidden=true;$('#emotionStage').setAttribute('aria-hidden','true');const sections={schedule:$('#stage'),private:$('#privateStage'),record:$('#recordStage'),personal:$('#personalStage')};Object.entries(sections).forEach(([key,section])=>{if(!section)return;const active=key===tab;section.hidden=!active;section.setAttribute('aria-hidden',String(!active))});
     document.title=`${tabLabels[tab]||'AiderDear'} · AiderDear`;
     if(tab==='schedule'){renderCalendar();renderPrivate();const mediaVideo=$('#coupleVideo2');if(pageIndex===0&&mediaVideo&&!mediaVideo.hidden)mediaVideo.play().catch(()=>{});return}
     const v=$('#coupleVideo2');if(v&&!v.hidden)v.pause();
     if(tab==='record'){goRecordPage(0,true);return}
     if(tab==='private'){privateOwner=currentUserEmail||privateOwner;renderPrivate();goPrivatePage(0,true);return}
+    if(tab==='personal'){renderPersonal();animateStandaloneFrame('#personalStage .personal-frame');return}
   }
   $$('.tab').forEach(t=>t.addEventListener('click',()=>showMainTab(t.dataset.tab)));
   $('.tabs').addEventListener('keydown',e=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;e.preventDefault();const tabs=$$('.tab');let i=tabs.indexOf(document.activeElement);if(e.key==='Home')i=0;else if(e.key==='End')i=tabs.length-1;else i=(i+(e.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length;tabs[i].focus();showMainTab(tabs[i].dataset.tab)});
   function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._timer);t._timer=setTimeout(()=>t.classList.remove('show'),1800)}
   window.addEventListener('appinstalled',()=>toast('AiderDear 앱 설치가 완료되었습니다.'));
   $('#stage').addEventListener('pointerdown',e=>{if(e.target.closest('button,input,select,textarea,label,a'))e.stopPropagation()});
-    normalizeCloudData();selectAlbumFolderColor(ALBUM_PASTELS[0]);getAlbumFolders();refreshRecordAlbumSelect(DEFAULT_ALBUM_ID);renderAlbumFolders();renderEventArchive();renderTravelArchive();renderPrivate();renderEmotion();applyLoginUI();setDday();renderDdayList();renderCalendar();if(location.hash==='#search')setTimeout(openSearchFromQuick,0);if('serviceWorker' in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+    normalizeCloudData();selectAlbumFolderColor(ALBUM_PASTELS[0]);getAlbumFolders();refreshRecordAlbumSelect(DEFAULT_ALBUM_ID);renderAlbumFolders();renderEventArchive();renderTravelArchive();renderPrivate();renderPersonal();renderEmotion();applyLoginUI();setDday();renderDdayList();renderCalendar();if(location.hash==='#search')setTimeout(openSearchFromQuick,0);if('serviceWorker' in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
 })();
 </script>
 </body>
