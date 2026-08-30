@@ -1,4 +1,4 @@
-const CACHE='aiderdear-v50-palette-archive-travel-personal';
+const CACHE='aiderdear-v51-personal-nutrition-workout-reading';
 const APP_SHELL=['./','./index.html','./firebase-app.js','./manifest.webmanifest','./aiderdear-icon.svg','./aiderdear-icon-180.png','./aiderdear-icon-192.png','./aiderdear-icon-512.png','./aiderdear-sky.jpg'];
 
 self.addEventListener('install',event=>{
