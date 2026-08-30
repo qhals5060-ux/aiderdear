@@ -2207,6 +2207,77 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   .routine-round-grid{padding-inline:12px!important}.routine-round-stamp{flex-basis:46px!important;width:46px!important;height:46px!important}
 }
 
+/* ===== AiderDear v48 · reference routine deck + unified Event hub ===== */
+.tab[data-tab="record"]{--tab:var(--tab3)!important;color:#fff!important;z-index:3!important}
+
+/* Give the divider and inner cards a deliberate breathing space without touching the outer frame. */
+.private-routine-content{box-sizing:border-box!important;padding-top:10px!important;padding-bottom:9px!important}
+.private-routine-content .private-panel{height:100%!important;box-sizing:border-box!important}
+
+/* Routine card: black app header, vivid info card, separate stamp board and compact statistics. */
+.routine-progress-card{
+  height:100%!important;min-height:0!important;display:grid!important;
+  grid-template-rows:34px minmax(116px,.72fr) minmax(150px,1.28fr) 34px!important;
+  gap:7px!important;padding:7px!important;border:0!important;border-radius:28px!important;
+  background:#111!important;color:#fff!important;box-shadow:0 12px 24px rgba(0,0,0,.14)!important;overflow:hidden!important
+}
+.routine-progress-card:before{display:none!important}
+.routine-progress-top{min-height:0!important;padding:0 5px!important;background:transparent!important;gap:8px!important}
+.routine-progress-brand{font-size:7px;font-weight:900;letter-spacing:.08em;color:#fff;white-space:nowrap}
+.routine-progress-top .routine-hero-selector{order:2;display:flex!important;gap:4px!important;justify-content:center!important;min-width:0!important;overflow-x:auto!important;scrollbar-width:none}
+.routine-progress-top .routine-hero-selector::-webkit-scrollbar{display:none}.routine-progress-top .routine-hero-selector button{width:27px!important;height:27px!important;min-width:27px!important;border-radius:9px!important;border:0!important;background:#2c2c2c!important;font-size:14px!important}.routine-progress-top .routine-hero-selector button.active{background:var(--routine)!important;box-shadow:inset 0 0 0 2px #fff!important}
+.routine-progress-tools{order:3;display:flex!important;gap:5px!important}.routine-progress-tools>span{display:none!important}.routine-progress-tools button,.routine-brag-done{height:25px!important;border:1px solid rgba(255,255,255,.55)!important;border-radius:999px!important;background:transparent!important;color:#fff!important;padding:0 8px!important;font-size:6px!important}
+.routine-progress-intro{position:relative!important;display:grid!important;grid-template-columns:minmax(0,1fr) 72px!important;gap:12px!important;align-items:start!important;padding:17px 18px 13px!important;border:0!important;border-radius:20px!important;background:var(--routine)!important;overflow:visible!important}
+.routine-progress-intro:before{content:"";position:absolute;left:50%;top:-1px;transform:translateX(-50%);width:120px;height:19px;border-radius:0 0 14px 14px;background:#111}
+.routine-progress-kicker{font-size:8px!important;letter-spacing:.1em!important}.routine-progress-intro h3{margin:4px 0 11px!important;font-size:clamp(27px,2.3vw,38px)!important;line-height:1!important;color:#fff!important}
+.routine-progress-ruleline{display:grid!important;gap:4px!important}.routine-progress-ruleline span{display:grid!important;grid-template-columns:42px minmax(0,1fr)!important;gap:6px!important;font-size:8px!important;line-height:1.3!important;white-space:normal!important}.routine-progress-ruleline b{font-size:8px!important;color:#fff!important}
+.routine-progress-round{min-width:0!important;text-align:right!important;color:#fff!important;align-self:start!important}.routine-progress-round span{font-size:7px!important;letter-spacing:.08em!important}.routine-progress-round strong{display:block!important;margin-top:2px!important;font-family:Arial,sans-serif!important;font-size:38px!important;line-height:.9!important}.routine-progress-round em{display:block!important;margin-top:6px!important;font-size:7px!important;font-style:normal!important;color:rgba(255,255,255,.78)!important}
+.routine-round-grid{
+  height:auto!important;min-height:0!important;display:grid!important;grid-template-rows:repeat(4,46px)!important;
+  grid-auto-flow:column!important;grid-auto-columns:46px!important;align-content:center!important;justify-content:start!important;
+  gap:7px!important;padding:12px 15px!important;border-radius:20px!important;background:color-mix(in srgb,var(--routine) 94%,#111 6%)!important;
+  overflow-x:auto!important;overflow-y:hidden!important;scrollbar-width:thin!important;scroll-snap-type:x proximity!important
+}
+.routine-round-grid::-webkit-scrollbar{height:5px!important}.routine-round-grid::-webkit-scrollbar-track{background:rgba(255,255,255,.14)!important}.routine-round-grid::-webkit-scrollbar-thumb{background:rgba(255,255,255,.72)!important;border-radius:99px!important}
+.routine-round-stamp{width:44px!important;height:44px!important;min-width:44px!important;max-height:none!important;flex:none!important;margin:0!important;border:1px solid rgba(255,255,255,.36)!important;background:transparent!important;color:rgba(255,255,255,.68)!important;scroll-snap-align:center!important}
+.routine-round-stamp small{font-size:6px!important;margin-bottom:3px!important}.routine-round-stamp b{font-size:8px!important}.routine-round-stamp.status-mini{background:rgba(255,255,255,.34)!important}.routine-round-stamp.status-more{background:rgba(255,255,255,.78)!important;color:var(--routine)!important}.routine-round-stamp.status-max{background:#fff!important;color:var(--routine)!important}.routine-round-stamp.today{outline:2px solid #fff!important;outline-offset:2px!important}
+.routine-progress-footer{min-height:0!important;display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:5px!important;align-items:center!important;padding:0 10px!important;border:0!important;border-radius:13px!important;background:var(--routine)!important;color:rgba(255,255,255,.75)!important}
+.routine-progress-footer>span{font-size:7px!important;white-space:nowrap!important;text-align:center!important}.routine-progress-footer b{margin-left:3px!important;font-size:11px!important;color:#fff!important}
+
+/* One Event tab: first spread is Record + Album, second spread is Archive + Travel. */
+.record-hub-grid,#eventStage.event-hub-grid{box-sizing:border-box!important;display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:16px!important;padding:24px 34px 30px!important;background:#fff!important;overflow:hidden!important}
+.record-hub-grid .record-hub-panel,#eventStage .event-hub-panel{min-width:0!important;height:100%!important;padding:0!important;border:0!important;background:#fff!important;overflow:hidden!important}
+.record-hub-grid .record-shell{grid-template-columns:minmax(0,1fr)!important;gap:0!important}.record-hub-grid .record-aside{display:none!important}
+.record-hub-grid .record-main,.record-hub-grid .album-frame,#eventStage .event-frame{height:100%!important;min-height:0!important;box-sizing:border-box!important}
+.record-hub-grid .record-toolbar{align-items:flex-start!important;gap:8px!important;flex-wrap:wrap!important}.record-hub-grid .record-controls{max-width:100%!important;flex-wrap:wrap!important;justify-content:flex-end!important}.record-hub-grid .record-heading h2,.record-hub-grid .album-heading{font-size:31px!important}
+.record-hub-grid .album-content{padding:14px 8px 12px!important}.record-hub-grid .album-folder-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important}.record-hub-grid .album-folder-body{min-height:240px!important}.record-hub-grid .album-folder .album-cover{min-height:180px!important}
+#eventStage .event-toolbar{display:grid!important;grid-template-columns:1fr!important;align-items:start!important;gap:7px!important;padding-bottom:3px!important}
+#eventStage .event-actions{width:100%!important;justify-content:flex-start!important;flex-wrap:wrap!important;gap:5px!important}
+#eventStage .event-category-tabs{max-width:100%!important;overflow-x:auto!important;scrollbar-width:none!important}#eventStage .event-category-tabs::-webkit-scrollbar{display:none!important}
+#eventStage .event-category,#eventStage .event-sort,#eventStage .event-add{height:29px!important;padding-inline:8px!important;font-size:7px!important}
+#eventStage .event-heading{font-size:31px!important}#eventStage .event-title-group>span{font-size:6px!important}
+#eventStage .event-content{overflow:auto!important;padding-top:10px!important}
+#eventStage .event-index-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;grid-template-rows:none!important;height:auto!important;gap:10px!important;overflow:visible!important}
+#eventStage .event-gallery-card{min-height:260px!important;height:auto!important;padding:9px!important}
+#eventStage .travel-review-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;grid-template-rows:none!important;height:auto!important;gap:10px!important;overflow:visible!important}
+#eventStage .travel-gallery-card{min-height:240px!important;height:auto!important;padding:8px!important}
+
+@media(max-width:760px){
+  .private-routine-content{padding-top:8px!important;padding-bottom:12px!important}
+  .routine-progress-card{height:560px!important;min-height:560px!important;grid-template-rows:36px 154px minmax(250px,1fr) 38px!important;padding:7px!important}
+  .routine-progress-intro{grid-template-columns:minmax(0,1fr) 62px!important;padding:17px 14px 12px!important}.routine-progress-intro h3{font-size:28px!important}.routine-progress-round strong{font-size:34px!important}
+  .routine-round-grid{grid-template-rows:repeat(4,50px)!important;grid-auto-columns:50px!important;gap:8px!important;padding:13px!important}.routine-round-stamp{width:48px!important;height:48px!important;min-width:48px!important}
+  .record-hub-grid,#eventStage.event-hub-grid{grid-template-columns:1fr!important;grid-template-rows:minmax(520px,auto) minmax(520px,auto)!important;gap:12px!important;padding:7px!important;overflow-y:auto!important;overscroll-behavior:contain!important}
+  .record-hub-grid .record-hub-panel,#eventStage .event-hub-panel{height:auto!important;min-height:520px!important;overflow:visible!important}
+  .record-hub-grid .record-main,.record-hub-grid .album-frame,#eventStage .event-frame{min-height:520px!important;height:auto!important}
+  .record-hub-grid .record-feed,.record-hub-grid .album-content,#eventStage .event-content{overflow:visible!important}
+  #eventStage .event-index-grid,#eventStage .travel-review-grid{grid-template-columns:1fr!important}
+  #eventStage .event-gallery-card,#eventStage .travel-gallery-card{min-height:0!important}
+}
+@media(max-width:430px){
+  .routine-progress-brand{display:none}.routine-progress-top .routine-hero-selector{justify-content:flex-start!important}.routine-progress-intro:before{width:92px}.routine-progress-intro h3{font-size:25px!important}.routine-progress-ruleline span{grid-template-columns:38px minmax(0,1fr)!important;font-size:7px!important}.routine-progress-footer>span{font-size:6px!important}.routine-progress-footer b{font-size:10px!important}
+}
+
 </style>
 </head>
 <body>
@@ -2220,8 +2291,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
     <nav class="tabs" role="tablist" aria-label="AiderDear 주요 메뉴">
       <button class="tab active" type="button" role="tab" data-tab="schedule" aria-controls="stage" aria-selected="true" tabindex="0">SCHEDULE</button>
       <button class="tab" type="button" role="tab" data-tab="private" aria-controls="privateStage" aria-selected="false" tabindex="-1">ROUTINE</button>
-      <button class="tab" type="button" role="tab" data-tab="record" aria-controls="recordStage" aria-selected="false" tabindex="-1">RECORD</button>
-      <button class="tab" type="button" role="tab" data-tab="event" aria-controls="eventStage" aria-selected="false" tabindex="-1">EVENT</button>
+      <button class="tab" type="button" role="tab" data-tab="record" aria-controls="recordStage" aria-selected="false" tabindex="-1">EVENT</button>
       <button class="tab" type="button" role="tab" data-tab="future" aria-controls="futureStage" aria-selected="false" tabindex="-1" aria-label="향후 기능을 위한 빈 탭">＋</button>
     </nav>
       <div class="nav-tools" aria-label="빠른 도구">
@@ -2337,11 +2407,12 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 
   </section>
 
-  <section class="record-stage" id="recordStage" aria-label="기록과 앨범 화면" hidden>
-  <section class="record-shell record-page current" id="recordShell" aria-label="기록 피드" aria-hidden="false">
+  <section class="record-stage" id="recordStage" aria-label="기록·앨범·아카이브·여행" hidden>
+  <section class="record-hub-grid record-page current" id="recordHubShell" aria-label="Record와 Album" aria-hidden="false">
+  <section class="record-shell record-hub-panel" id="recordShell" aria-label="기록 피드">
     <section class="record-main">
       <div class="record-toolbar">
-        <div class="record-heading"><h2>Our Records</h2></div>
+        <div class="record-heading"><h2>Record</h2></div>
         <div class="record-controls" aria-label="기록 필터">
           <button class="record-filter active" type="button" data-record-filter="all">전체</button>
           <span id="recordPeopleFilters" class="record-people-filters"></span>
@@ -2363,7 +2434,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   </section>
 
 
-  <section class="album-shell record-page next" id="albumShell" aria-label="앨범 모음" aria-hidden="true">
+  <section class="album-shell record-hub-panel" id="albumShell" aria-label="앨범 모음">
     <section class="album-frame">
       <div class="album-toolbar">
         <h2 class="album-heading" id="albumHeading">Album</h2>
@@ -2379,14 +2450,15 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
     </section>
   </section>
 
-    <div class="record-page-dots" aria-label="기록 페이지 위치">
-      <button class="record-dot active" data-record-page="0" aria-label="기록 화면"></button>
-      <button class="record-dot" data-record-page="1" aria-label="앨범 화면"></button>
-    </div>
   </section>
 
-  <section class="event-stage" id="eventStage" aria-label="이벤트 아카이브" hidden>
-    <section class="event-shell event-page current" id="eventArchiveShell" aria-label="문화 기록" aria-hidden="false">
+    <div class="record-page-dots" aria-label="기록 페이지 위치">
+      <button class="record-dot active" data-record-page="0" aria-label="Record와 Album"></button>
+      <button class="record-dot" data-record-page="1" aria-label="Archive와 Travel"></button>
+    </div>
+
+  <section class="event-stage event-hub-grid record-page next" id="eventStage" aria-label="Archive와 Travel" aria-hidden="true">
+    <section class="event-shell event-hub-panel" id="eventArchiveShell" aria-label="문화 기록">
       <section class="event-frame" id="eventFrame">
         <div class="event-toolbar">
           <div class="event-title-group"><h2 class="event-heading">Archive</h2><span>OUR CULTURE LOG</span></div>
@@ -2406,7 +2478,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
       </section>
     </section>
 
-    <section class="event-shell event-page next" id="travelArchiveShell" aria-label="여행 리뷰" aria-hidden="true">
+    <section class="event-shell event-hub-panel" id="travelArchiveShell" aria-label="여행 리뷰">
       <section class="event-frame" id="travelFrame">
         <div class="event-toolbar">
           <div class="event-title-group"><h2 class="event-heading">Travel</h2><span>PLACES WE REMEMBER</span></div>
@@ -2416,7 +2488,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
       </section>
     </section>
 
-    <div class="event-page-dots" aria-label="이벤트 페이지 위치"><button class="event-dot active" type="button" data-event-page="0" aria-label="문화 기록"></button><button class="event-dot" type="button" data-event-page="1" aria-label="여행 리뷰"></button></div>
+  </section>
   </section>
 
   <section class="private-stage" id="privateStage" aria-label="루틴" hidden>
@@ -3497,19 +3569,19 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
     const schedule=events.filter(x=>`${x.title||''} ${x.memo||''}`.toLowerCase().includes(q)).map(x=>({tab:'schedule',kind:'일정',id:x.id,title:x.title||'제목 없는 일정',detail:x.memo||x.sourceTitle||'',date:x.date||''}));
     const emotions=Object.values(emotionData).flatMap(d=>d?.entries||[]).filter(x=>searchEmotionText(x).toLowerCase().includes(q)).map(x=>({tab:'emotion',kind:'감정',id:x.id||'',title:(x.moods||[x.mood||'감정 기록']).filter(Boolean).join(' · '),detail:(x.lines||[]).filter(Boolean).join(' '),date:x.date||''}));
     const records=visibleRecords().filter(x=>`${x.title||''} ${x.body||''} ${x.mood||''}`.toLowerCase().includes(q)).map(x=>({tab:'record',kind:'기록',id:x.id,title:x.title||'오늘의 기록',detail:x.body||x.mood||'',date:x.date||''}));
-    const reviews=visibleEventRows().filter(x=>`${x.title||''} ${x.place||''} ${x.oneLine||''} ${x.review||''}`.toLowerCase().includes(q)).map(x=>({tab:'event',kind:x.category==='travel'?'여행':'이벤트',id:x.id,title:x.title||'이벤트 기록',detail:x.place||x.oneLine||'',date:x.date||''}));
+    const reviews=visibleEventRows().filter(x=>`${x.title||''} ${x.place||''} ${x.oneLine||''} ${x.review||''}`.toLowerCase().includes(q)).map(x=>({tab:'record',kind:x.category==='travel'?'여행':'이벤트',id:x.id,title:x.title||'이벤트 기록',detail:x.place||x.oneLine||'',date:x.date||''}));
     const rows=[...schedule,...emotions,...records,...reviews].sort((a,b)=>String(b.date).localeCompare(String(a.date))).slice(0,30);
     hint.textContent=`일정 ${schedule.length} · 감정 ${emotions.length} · 기록 ${records.length} · 이벤트 ${reviews.length}`;
     box.innerHTML=rows.length?rows.map(r=>`<button class="search-result" type="button" data-search-tab="${r.tab}" data-search-kind="${r.kind}" data-search-id="${escapeHtml(r.id||'')}" data-search-date="${escapeHtml(r.date||'')}"><span class="search-result-kind">${escapeHtml(r.kind)}</span><span class="search-result-copy"><b>${escapeHtml(r.title)}</b><span>${escapeHtml(r.detail||'상세 보기')}</span></span><time>${escapeHtml(String(r.date||'').replaceAll('-','.'))}</time></button>`).join(''):'<div class="search-empty">일치하는 기록이 없습니다.<br>다른 단어로 검색해보세요.</div>';
   }
   $('#searchInput').addEventListener('input',e=>renderSearchResults(e.target.value));
   $('#searchResults').addEventListener('click',e=>{
-    const item=e.target.closest('[data-search-tab]');if(!item)return;const tab=item.dataset.searchTab,id=item.dataset.searchId,date=item.dataset.searchDate;
+    const item=e.target.closest('[data-search-tab]');if(!item)return;const tab=item.dataset.searchTab,kind=item.dataset.searchKind,id=item.dataset.searchId,date=item.dataset.searchDate;
     closeModal('searchModal',false);showMainTab(tab==='emotion'?'schedule':tab);
     if(tab==='schedule'){const row=events.find(x=>String(x.id)===id);if(row)setTimeout(()=>openEvent(row),0)}
     if(tab==='emotion'&&date){goPage(0,true);setTimeout(()=>renderEmotionDayDetail(date),0)}
-    if(tab==='record'&&date){recordDateSearch=date;$('#recordDateSearch').value=date;$('#recordDateClear').hidden=false;setTimeout(renderRecordFeed,0)}
-    if(tab==='event'){const row=eventRows().find(x=>String(x.id)===id);if(row)setTimeout(()=>openEventReviewView(row.id),0)}
+    if(tab==='record'&&(kind==='이벤트'||kind==='여행')){goRecordPage(1,true);const row=eventRows().find(x=>String(x.id)===id);if(row)setTimeout(()=>openEventReviewView(row.id),0)}
+    else if(tab==='record'&&date){goRecordPage(0,true);recordDateSearch=date;$('#recordDateSearch').value=date;$('#recordDateClear').hidden=false;setTimeout(renderRecordFeed,0)}
   });
 
 
@@ -3901,15 +3973,15 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   let recordPageIndex=0,recordFlipLocked=false,recordTouchY=null,recordTouchScroll=null;
   function goRecordPage(next,force=false){
     next=Math.max(0,Math.min(1,next));if((next===recordPageIndex&&!force)||recordFlipLocked)return;recordFlipLocked=true;
-    [$('#recordShell'),$('#albumShell')].forEach((p,i)=>{p.classList.remove('current','next','prev');p.classList.add(i===next?'current':(i<next?'prev':'next'));p.setAttribute('aria-hidden',i===next?'false':'true')});
-    $$('.record-dot').forEach((d,i)=>d.classList.toggle('active',i===next));recordPageIndex=next;if(next===0){renderRecordFeed();$('#recordShell').classList.remove('line-active');void $('#recordShell').offsetWidth;$('#recordShell').classList.add('line-active')}else{renderAlbumFolders();$('#albumShell').classList.remove('line-active');void $('#albumShell').offsetWidth;$('#albumShell').classList.add('line-active')}setTimeout(()=>recordFlipLocked=false,760);
+    [$('#recordHubShell'),$('#eventStage')].forEach((p,i)=>{p.classList.remove('current','next','prev');p.classList.add(i===next?'current':(i<next?'prev':'next'));p.setAttribute('aria-hidden',i===next?'false':'true')});
+    $$('.record-dot').forEach((d,i)=>d.classList.toggle('active',i===next));recordPageIndex=next;if(next===0){renderRecordFeed();renderAlbumFolders();$('#recordShell').classList.remove('line-active');$('#albumShell').classList.remove('line-active');void $('#recordShell').offsetWidth;$('#recordShell').classList.add('line-active');$('#albumShell').classList.add('line-active')}else{renderEventArchive();renderTravelArchive();animateStandaloneFrame('#eventFrame');animateStandaloneFrame('#travelFrame')}setTimeout(()=>recordFlipLocked=false,760);
   }
-  function recordScrollable(){return recordPageIndex===0?$('#recordFeed'):$('#albumContent')}
+  function recordScrollable(target){if(window.matchMedia('(max-width:760px)').matches)return recordPageIndex===0?$('#recordHubShell'):$('#eventStage');const inside=target?.closest?.('.record-feed,.album-content,.event-content');if(inside)return inside;return recordPageIndex===0?$('#recordFeed'):$('#eventArchiveShell .event-content')}
   $('#recordStage').addEventListener('wheel',e=>{
-    if(Math.abs(e.deltaY)<16)return;const sc=recordScrollable();if(!sc)return;const atBottom=sc.scrollTop+sc.clientHeight>=sc.scrollHeight-4,atTop=sc.scrollTop<=3;
+    if(Math.abs(e.deltaY)<16)return;const sc=recordScrollable(e.target);if(!sc)return;const atBottom=sc.scrollTop+sc.clientHeight>=sc.scrollHeight-4,atTop=sc.scrollTop<=3;
     if(recordPageIndex===0&&e.deltaY>0&&atBottom){e.preventDefault();goRecordPage(1)}else if(recordPageIndex===1&&e.deltaY<0&&atTop){e.preventDefault();goRecordPage(0)}
   },{passive:false});
-  $('#recordStage').addEventListener('touchstart',e=>{recordTouchY=e.touches[0]?.clientY??null;recordTouchScroll=recordScrollable()},{passive:true});
+  $('#recordStage').addEventListener('touchstart',e=>{recordTouchY=e.touches[0]?.clientY??null;recordTouchScroll=recordScrollable(e.target)},{passive:true});
   $('#recordStage').addEventListener('touchend',e=>{if(recordTouchY==null)return;const y=e.changedTouches[0]?.clientY??recordTouchY,d=recordTouchY-y,sc=recordTouchScroll;const atBottom=sc&&sc.scrollTop+sc.clientHeight>=sc.scrollHeight-4,atTop=sc&&sc.scrollTop<=3;if(Math.abs(d)>45){if(recordPageIndex===0&&d>0&&atBottom)goRecordPage(1);else if(recordPageIndex===1&&d<0&&atTop)goRecordPage(0)}recordTouchY=null;recordTouchScroll=null},{passive:true});
   $$('.record-dot').forEach(b=>b.addEventListener('click',()=>goRecordPage(Number(b.dataset.recordPage))));
 
@@ -4032,12 +4104,6 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   $('#eventReviewForm').addEventListener('submit',async e=>{e.preventDefault();if(!currentUserEmail)return;const id=$('#eventReviewId').value,rows=eventRows(),existing=id?rows.find(x=>x.id===id):null;if(existing&&!canEditEventReview(existing))return;let media=existing?.media||null;try{if(eventPendingFile){toast('사진을 공유 공간에 저장하는 중…');const up=await driveUploadMedia(eventPendingFile,'event-review');media={fileId:up.id,name:eventPendingFile.name,type:eventPendingFile.type};if(existing?.media?.fileId&&existing.media.fileId!==media.fileId)driveDeleteFile(existing.media.fileId)}const item={id:id||('er-'+Date.now()),category:$('#eventReviewCategory').value,title:$('#eventReviewTitle').value.trim(),place:$('#eventReviewPlace').value.trim(),date:$('#eventReviewDate').value,rating:Number($('#eventReviewRating').value)||0,oneLine:$('#eventReviewOneLine').value.trim(),review:$('#eventReviewText').value.trim(),media,authorEmail:existing?.authorEmail||currentUserEmail,createdAt:existing?.createdAt||Date.now(),updatedAt:Date.now(),pairKey:existing?.pairKey||currentPairKey()};if(existing)rows[rows.findIndex(x=>x.id===id)]=item;else rows.push(item);cloudData.eventReviews=rows;await saveCloudData();clearEventPendingPreview();closeModal('eventReviewModal');renderEventArchive();renderTravelArchive();toast('리뷰를 저장했습니다.')}catch(err){toast(googleErrorMessage(err))}});
   $('#eventReviewDelete').addEventListener('click',async()=>{const id=$('#eventReviewId').value,r=eventRows().find(x=>x.id===id);if(!r||!canEditEventReview(r))return;if(!confirm(`“${r.title}” 기록을 삭제할까요?`))return;cloudData.eventReviews=eventRows().filter(x=>x.id!==id);if(r.media?.fileId)driveDeleteFile(r.media.fileId);await saveCloudData();clearEventPendingPreview();closeModal('eventReviewModal');renderEventArchive();renderTravelArchive()});
   $('#eventReviewEditBtn').addEventListener('click',()=>{const r=eventRows().find(x=>x.id===eventViewId);if(!r)return;closeModal('eventReviewViewModal');openEventReviewEditor(r,r.category)});
-  let eventWheelTarget=null;
-  function goEventPage(next,force=false){next=Math.max(0,Math.min(1,next));if((next===eventPageIndex&&!force)||eventFlipLocked)return;eventFlipLocked=true;[$('#eventArchiveShell'),$('#travelArchiveShell')].forEach((page,i)=>{page.classList.remove('current','next','prev');page.classList.add(i===next?'current':(i<next?'prev':'next'));page.setAttribute('aria-hidden',i===next?'false':'true')});$$('.event-dot').forEach((d,i)=>d.classList.toggle('active',i===next));eventPageIndex=next;if(next===0){renderEventArchive();animateStandaloneFrame('#eventFrame')}else{renderTravelArchive();animateStandaloneFrame('#travelFrame')}setTimeout(()=>eventFlipLocked=false,760)}
-  function eventScrollable(){return eventPageIndex===0?$('#eventArchiveShell .event-content'):$('#travelArchiveShell .event-content')}
-  $('#eventStage').addEventListener('wheel',e=>{if(Math.abs(e.deltaY)<16)return;const sc=eventScrollable();if(!sc)return;const atBottom=sc.scrollTop+sc.clientHeight>=sc.scrollHeight-4,atTop=sc.scrollTop<=3;if(eventPageIndex===0&&e.deltaY>0&&atBottom){e.preventDefault();goEventPage(1)}else if(eventPageIndex===1&&e.deltaY<0&&atTop){e.preventDefault();goEventPage(0)}},{passive:false});
-  $('#eventStage').addEventListener('touchstart',e=>{eventTouchY=e.touches[0]?.clientY??null;eventTouchScroll=eventScrollable()},{passive:true});$('#eventStage').addEventListener('touchend',e=>{if(eventTouchY==null)return;const y=e.changedTouches[0]?.clientY??eventTouchY,d=eventTouchY-y,sc=eventTouchScroll,atBottom=sc&&sc.scrollTop+sc.clientHeight>=sc.scrollHeight-4,atTop=sc&&sc.scrollTop<=3;if(Math.abs(d)>45){if(eventPageIndex===0&&d>0&&atBottom)goEventPage(1);else if(eventPageIndex===1&&d<0&&atTop)goEventPage(0)}eventTouchY=null;eventTouchScroll=null},{passive:true});$$('.event-dot').forEach(b=>b.addEventListener('click',()=>goEventPage(Number(b.dataset.eventPage))));
-
   function emotionEntries(email){return (emotionData[email]?.entries||[]).slice().sort((a,b)=>(b.date||'').localeCompare(a.date||'')||(b.updatedAt||b.createdAt||0)-(a.updatedAt||a.createdAt||0))}
   function emotionLinesText(entry){return (entry?.lines||[]).filter(Boolean).join('\n')}
   function emotionVisibleOwners(){const keys=Object.keys(emotionData).filter(e=>emotionRefs[e]?.fileId);keys.sort((a,b)=>a===currentUserEmail?-1:b===currentUserEmail?1:0);return keys.slice(0,FAMILY_LIMIT)}
@@ -4279,7 +4345,8 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
     const st=routineStats(r),color=routineColor(r,routines.indexOf(r)),today=dateKeyOffset(0),goal=Number(r.goalDays)||20,allPractice=(r.doneDates||[]).length,complete=allPractice>=goal,partner=sharedPartner();
     const brag=complete?(r.braggedAt?'<span class="routine-brag-done">✓ 보냄</span>':`<button class="routine-brag-mini" type="button" data-routine-brag="${escapeHtml(r.id)}" ${partner?'':'disabled'}>✉ ${partner?escapeHtml(partner.name)+'에게 자랑':'공유 상대 필요'}</button>`):'';
     const stamps=st.cycle.dates.map((key,index)=>{const level=String(r.dailyLevels?.[key]||'').toUpperCase(),future=key>today,isToday=key===today,label=level||(isToday?'TODAY':future?String(index+1).padStart(2,'0'):'—'),state=level||((isToday?'오늘':'미기록'));return `<button type="button" class="routine-round-stamp ${routineStatusClass(level)} ${isToday?'today':''} ${future?'future':''}" data-routine-date-status="${escapeHtml(r.id)}" data-date="${escapeHtml(key)}" ${(!writable||future)?'disabled':''} aria-label="${escapeHtml(`${routineDateLabel(key)} · ${state}`)}"><small>${escapeHtml(routineDateLabel(key,true))}</small><b>${escapeHtml(label)}</b></button>`}).join('');
-    return `<section class="routine-progress-card" style="--routine:${color}"><div class="routine-progress-top">${renderRoutineSelector(routines,r)}<div class="routine-progress-tools"><span>MINI · MORE · MAX</span>${writable?`<button type="button" data-routine-edit="${escapeHtml(r.id)}">EDIT</button>`:''}${brag}</div></div><div class="routine-progress-intro"><div><span class="routine-progress-kicker">THIS ROUND</span><h3>${escapeHtml(r.text||'Routine')}</h3><div class="routine-progress-ruleline"><span><b>MINI</b>${escapeHtml(r.miniText||'작게라도 실천하기')}</span><span><b>MORE</b>${escapeHtml(r.moreText||'조금 더 실천하기')}</span><span><b>MAX</b>${escapeHtml(r.maxText||'충분히 실천하기')}</span></div></div><div class="routine-progress-round"><span>${st.cycle.cycleDays} DAYS</span><strong>${st.cycle.cycleIndex+1}회차</strong><em>${st.cycle.range}</em></div></div><div class="routine-round-grid" aria-label="${st.cycle.cycleDays}일 루틴 기록 · 좌우로 스크롤">${stamps}</div><div class="routine-progress-footer"><div class="routine-progress-meter" style="--progress:${st.completion}%"><span>DAY ${st.cycle.dayNumber} / ${st.cycle.cycleDays}</span><i></i><b>${st.completion}%</b></div><div class="routine-progress-legend"><span><i class="mini"></i>MINI</span><span><i class="more"></i>MORE</span><span><i class="max"></i>MAX</span></div></div></section>`;
+    const completedRounds=Math.floor(allPractice/goal),startLabel=st.cycle.start.replaceAll('-','.');
+    return `<section class="routine-progress-card" style="--routine:${color}"><div class="routine-progress-top"><span class="routine-progress-brand">MINI·MORE·MAX</span>${renderRoutineSelector(routines,r)}<div class="routine-progress-tools">${writable?`<button type="button" data-routine-edit="${escapeHtml(r.id)}">EDIT</button>`:''}${brag}</div></div><div class="routine-progress-intro"><div><span class="routine-progress-kicker">${escapeHtml(r.icon||'✨')} · THIS ROUND</span><h3>${escapeHtml(r.text||'Routine')}</h3><div class="routine-progress-ruleline"><span><b>MINI</b>${escapeHtml(r.miniText||'작게라도 실천하기')}</span><span><b>MORE</b>${escapeHtml(r.moreText||'조금 더 실천하기')}</span><span><b>MAX</b>${escapeHtml(r.maxText||'충분히 실천하기')}</span></div></div><div class="routine-progress-round"><span>DAY</span><strong>${st.cycle.dayNumber}</strong><em>${st.cycle.cycleDays} DAYS</em></div></div><div class="routine-round-grid" aria-label="${st.cycle.cycleDays}일 루틴 기록 · 좌우로 스크롤">${stamps}</div><div class="routine-progress-footer"><span>최근 시작 <b>${escapeHtml(startLabel)}</b></span><span>완성 회차 <b>${completedRounds}</b></span><span>총 실천 <b>${allPractice}</b></span></div></section>`;
   }
   function renderRoutineCalendar(r,writable){if(!r)return '';const st=routineStats(r),today=dateKeyOffset(0),items=st.cycle.dates.map(key=>{const level=String(r.dailyLevels?.[key]||'').toUpperCase(),future=key>today;return `<button type="button" class="routine-day-badge ${routineStatusClass(level)} ${key===today?'today':''}" data-routine-date-status="${escapeHtml(r.id)}" data-date="${escapeHtml(key)}" ${(!writable||future)?'disabled':''}><small>${routineDateLabel(key,true)}</small><b>${level||'—'}</b></button>`}).join('');return `<section class="routine-cycle-card"><div class="routine-card-head"><b>이번 회차 습관 현황</b><span>${st.cycle.range}</span></div><div class="routine-day-grid">${items}</div></section>`}
   function renderRoutineOverviewRow(r,index,dates,writable){const done=dates.filter(k=>{const v=String(r.dailyLevels?.[k]||'').toUpperCase();return v&&v!=='SKIP'}).length;return `<div class="routine-goal-row"><div class="routine-goal-name"><span>${escapeHtml(r.icon||String(index+1).padStart(2,'0'))}</span><b>${escapeHtml(r.text||'Routine')}</b></div>${dates.map(k=>{const v=String(r.dailyLevels?.[k]||'').toUpperCase();return `<button type="button" class="routine-goal-dot ${routineStatusClass(v)}" data-routine-date-status="${escapeHtml(r.id)}" data-date="${escapeHtml(k)}" ${writable?'':'disabled'} aria-label="${escapeHtml(r.text||'Routine')} ${escapeHtml(k)} ${escapeHtml(v||'미기록')}"></button>`}).join('')}<div class="routine-goal-rate"><b>${done}</b><span>/ ${dates.length}</span></div></div>`}
@@ -4321,16 +4388,15 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 
   function animateStandaloneFrame(id){const el=$(id);if(!el)return;el.classList.remove('line-active');void el.offsetWidth;el.classList.add('line-active')}
   function showMainTab(tab){
-    if((tab==='record'||tab==='event'||tab==='private')&&!currentUser){requireLogin(()=>showMainTab(tab));return}
-    const tabLabels={schedule:'Schedule',private:'Routine',record:'Record',event:'Event',future:'AiderDear'};
+    if((tab==='record'||tab==='private')&&!currentUser){requireLogin(()=>showMainTab(tab));return}
+    const tabLabels={schedule:'Schedule',private:'Routine',record:'Event',future:'AiderDear'};
     $$('.tab').forEach(t=>{const active=t.dataset.tab===tab;t.classList.toggle('active',active);t.setAttribute('aria-selected',String(active));t.tabIndex=active?0:-1});
-    document.body.classList.remove('emotion-mode');document.body.classList.toggle('record-mode',tab==='record');document.body.classList.toggle('event-mode',tab==='event');document.body.classList.toggle('private-mode',tab==='private');
-    $('#emotionStage').hidden=true;$('#emotionStage').setAttribute('aria-hidden','true');const sections={schedule:$('#stage'),private:$('#privateStage'),record:$('#recordStage'),event:$('#eventStage'),future:$('#futureStage')};Object.entries(sections).forEach(([key,section])=>{if(!section)return;const active=key===tab;section.hidden=!active;section.setAttribute('aria-hidden',String(!active))});
+    document.body.classList.remove('emotion-mode','event-mode');document.body.classList.toggle('record-mode',tab==='record');document.body.classList.toggle('private-mode',tab==='private');
+    $('#emotionStage').hidden=true;$('#emotionStage').setAttribute('aria-hidden','true');const sections={schedule:$('#stage'),private:$('#privateStage'),record:$('#recordStage'),future:$('#futureStage')};Object.entries(sections).forEach(([key,section])=>{if(!section)return;const active=key===tab;section.hidden=!active;section.setAttribute('aria-hidden',String(!active))});
     document.title=`${tabLabels[tab]||'AiderDear'} · AiderDear`;
     if(tab==='schedule'){renderCalendar();renderPrivate();const mediaVideo=$('#coupleVideo2');if(pageIndex===0&&mediaVideo&&!mediaVideo.hidden)mediaVideo.play().catch(()=>{});return}
     const v=$('#coupleVideo2');if(v&&!v.hidden)v.pause();
     if(tab==='record'){goRecordPage(0,true);return}
-    if(tab==='event'){goEventPage(0,true);return}
     if(tab==='private'){privateOwner=currentUserEmail||privateOwner;renderPrivate();goPrivatePage(0,true);return}
   }
   $$('.tab').forEach(t=>t.addEventListener('click',()=>showMainTab(t.dataset.tab)));
