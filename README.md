@@ -1,4 +1,43 @@
-# AiderLog v64
+# AiderLog v67
+
+## v67 첫 화면 강제 복구
+
+- 사이트 첫 실행 문서는 항상 루트 `index.html`의 AiderLog로 고정
+- 어학 학습 문서는 ROUTINE 탭의 두 번째 화면 iframe 안에서만 실행
+- 과거 캐시가 어학 문서를 루트에서 열어도 AiderLog로 자동 복귀
+- v64에서 남은 어학 전용 서비스워커와 캐시를 자동 정리
+- 루트 서비스워커를 `aiderlog-v67-main-recovery`로 갱신하고 즉시 업데이트 확인
+- Vercel Preview 주소를 구버전 Production 주소로 강제 이동시키던 스크립트 삭제
+- `sw.js`, `index.html`, 어학 자산을 재검증하도록 Vercel 캐시 헤더 추가
+
+배포 후 `https://aiderdear1.vercel.app/sw.js`의 첫 줄이
+`const CACHE='aiderlog-v67-main-recovery';`인지 확인하세요. v64가 보이면 새 배포를 Production으로 승격하지 않은 상태입니다.
+
+## v66 메인 복구·공유 안내·Brain·모바일 수정
+
+- 루트 서비스워커가 다국어 학습 화면을 메인 `index.html` 캐시에 덮어쓰던 문제 수정
+- 사이트 기본 진입은 항상 AiderLog, 다국어 학습은 ROUTINE 두 번째 화면에서만 표시
+- 로그인 뒤 개인/커플 기록의 저장·공유 범위를 짧은 안내 창으로 표시
+- 커플 연결 완료 시 SCHEDULE·EVENT만 공유되고 나머지 탭은 개인용임을 별도 안내
+- 오늘의 루틴 수행과 어학 공부 완료 소식을 커플 상대에게 한 번 보낼 수 있는 버튼 추가
+- PAPER Brain 3D 렌더러가 메인 상태를 전달받지 못해 빈 화면이 되던 문제 수정
+- 8개 뇌 영역마다 대표 질환 10개, 한글·영문명, 클릭형 전문 설명 추가
+- Brain 학습 주제를 네트워크 역학, 신경조절, 신경진동, 강화학습, 수면 공고화, BOLD, 발달 가소성까지 확장
+- 모바일 강제 다크모드에서도 밝은 콘텐츠와 입력창 대비를 유지
+- 가로 움직임·버튼 조작을 세로 페이지 전환으로 오인하지 않도록 터치 판정 개선
+
+배포 시 Vercel의 Root Directory는 비워 두고 이 폴더 전체를 배포하세요. `language-study` 폴더를 Root Directory로 선택하면 어학 페이지만 열립니다.
+
+## v65 보존 정책·백업·어학 학습·PERSONAL 가독성
+
+- PERSONAL의 건강·독서·워크플로우·금융·포모도로 및 입력 창 글자를 확대하고 크기 체계를 통일
+- EVENT의 Archive·Travel 헤더 구분선을 Record·Album과 같은 한 줄 구성으로 정리
+- 커플 공유 범위를 SCHEDULE(일정·감정)과 EVENT(Record·Album·Archive·Travel)로 한정
+- 로그인 후 6개월이 지난 정리 대상 기록이 있으면 안내하고 동의한 경우에만 삭제
+- EVENT의 Record·Travel, PERSONAL의 Workflow·Finance, PAPER는 6개월 정리 대상에서 영구 제외
+- 영상 업로드를 최대 5분·120MB로 확장하고 큰 영상의 무료 저장공간 영향을 로그인 창에 표시
+- 30일마다 EVENT Record·Travel의 JSON과 원본 미디어를 Google Drive에 백업할지 확인
+- 첨부된 `study with me v18`의 영어·일본어·중국어 학습 앱을 ROUTINE 두 번째 페이지에 통합
 
 ## v64 기록 삭제·PAPER 3D Brain 수정
 
@@ -102,7 +141,7 @@
 - 새 여행지 폴더에 색상, 출발일, 도착일을 지정하고 기록과 함께 저장
 - 기존 여행지 폴더와 연결된 여행 기록은 그대로 유지
 
-Google 계정으로 로그인하고, 상대에게 커플 요청을 보내 수락된 두 사람만 일정·감정·기록·앨범·이벤트를 공유하는 설치형 웹앱(PWA)입니다. 개인 메모·체크리스트·루틴·PERSONAL 기록은 커플 연결 여부와 관계없이 본인만 볼 수 있습니다.
+Google 계정으로 로그인하고, 상대에게 커플 요청을 보내 수락된 두 사람만 SCHEDULE과 EVENT를 공유하는 설치형 웹앱(PWA)입니다. 루틴·PERSONAL·PAPER와 개인 메모·체크리스트는 커플 연결 여부와 관계없이 본인만 볼 수 있습니다.
 
 ## 적용된 방식
 
@@ -114,7 +153,9 @@ Google 계정으로 로그인하고, 상대에게 커플 요청을 보내 수락
 - 미디어: 유료 Storage 없이 Firestore 조각 문서 사용
 - 요금제: Firebase Spark 무료 요금제로 실행 가능
 
-사진은 업로드 전에 자동 압축됩니다. 모든 미디어는 파일당 25MB로 제한됩니다. Firestore 무료 할당량을 넘으면 사용량 제한이 생길 수 있으므로 긴 동영상 보관 용도로는 적합하지 않습니다.
+사진은 업로드 전에 자동 압축됩니다. 사진은 25MB 이하, 영상은 최대 5분이면서 120MB 이하까지 저장할 수 있습니다. Firestore Spark의 1GiB 무료 저장 한도는 그대로이므로 큰 영상을 여러 개 저장하면 한도가 빠르게 소진될 수 있습니다.
+
+6개월이 지난 일정·감정·Archive·건강·독서·루틴 수행 기록은 로그인 시 정리 안내가 뜨며, 사용자가 동의한 경우에만 삭제됩니다. Record·Travel·Workflow·Finance·PAPER는 정리 대상에서 제외됩니다. 30일마다 Record와 Travel은 Google Drive 백업 동의를 다시 확인합니다.
 
 ## Firebase 설정
 
@@ -122,6 +163,7 @@ Google 계정으로 로그인하고, 상대에게 커플 요청을 보내 수락
 2. Authentication → 설정 → 승인된 도메인에 `aiderdear1.vercel.app`을 추가합니다.
 3. Firestore `(default)` 데이터베이스를 생성합니다.
 4. `firestore.rules` 전체 내용을 Firestore → 규칙에 붙여넣고 게시합니다.
+5. 30일 EVENT 백업을 사용하려면 같은 Google Cloud 프로젝트에서 `Google Drive API`를 사용 설정합니다. 백업 시에만 `drive.file` 권한을 별도로 요청합니다.
 
 이미 위 항목을 완료했다면 다시 만들 필요는 없습니다. 이 폴더의 `firebase-app.js`에는 `aiderdear-1bbca` 프로젝트 공개 웹 설정이 들어 있습니다. Firebase 웹 API 키는 브라우저 앱에 포함되는 공개 식별자이며, 실제 데이터 보호는 `firestore.rules`가 담당합니다.
 
@@ -134,6 +176,7 @@ Google 계정으로 로그인하고, 상대에게 커플 요청을 보내 수락
 - `firestore.rules`
 - `manifest.webmanifest`
 - `sw.js`
+- `language-study/` 폴더 전체
 - 이미지와 아이콘 파일
 
 배포 후 `https://aiderdear1.vercel.app/`을 강력 새로고침하세요. 설치형 앱을 이미 추가했다면 앱을 완전히 종료한 뒤 다시 열어 새 서비스 워커를 적용합니다.
@@ -152,8 +195,8 @@ Google 계정으로 로그인하고, 상대에게 커플 요청을 보내 수락
 ## 데이터 범위
 
 - 커플 수락 전: 각자의 개인 공간
-- 커플 수락 후: 일정, 기록, 감정 공유 사본, 이벤트, 앨범, D-day, 편지 등은 커플 공간
-- 항상 개인: 메모장, 체크리스트, 루틴, 건강·독서·워크플로우·금융·포모도로 기록
+- 커플 수락 후 공유: SCHEDULE의 일정·감정·D-day·월간 미디어, EVENT의 Record·Album·Archive·Travel
+- 항상 개인: 메모장, 체크리스트, 루틴·어학 학습, 건강·독서·워크플로우·금융·포모도로, PAPER 연구 기록
 - 연결 해제 후: 두 계정 모두 개인 공간으로 복귀하며 해제된 커플 공간에는 다시 접근할 수 없음
 
 v40까지 사용한 Google Drive·Calendar 데이터는 원래 Google 계정에 그대로 남아 있지만 v41로 자동 이전되지는 않습니다.

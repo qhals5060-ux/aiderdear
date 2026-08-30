@@ -1,4 +1,4 @@
-const CACHE='aiderlog-v66-root-language-split';
+const CACHE='aiderlog-v67-main-recovery';
 const APP_SHELL=['./','./index.html','./firebase-app.js','./brain-3d.js','./manifest.webmanifest','./aiderdear-icon.svg','./aiderdear-icon-180.png','./aiderdear-icon-192.png','./aiderdear-icon-512.png','./aiderdear-sky.jpg','./language-study/index.html','./language-study/styles.css','./language-study/app.js','./language-study/manifest.webmanifest','./language-study/icon.svg'];
 
 self.addEventListener('install',event=>{

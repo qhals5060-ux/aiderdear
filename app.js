@@ -2746,7 +2746,11 @@ $("#reset-button").addEventListener("click", () => {
 });
 
 if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js", { updateViaCache: "none" }).then((registration) => registration.update()).catch(() => {}));
+  window.addEventListener("load", () => navigator.serviceWorker.getRegistrations().then((registrations) => Promise.all(
+    registrations
+      .filter((registration) => new URL(registration.scope).pathname.includes("/language-study/"))
+      .map((registration) => registration.unregister())
+  )).catch(() => {}));
 }
 
 renderPage();

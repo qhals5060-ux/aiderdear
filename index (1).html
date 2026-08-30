@@ -11,13 +11,28 @@
 <meta name="description" content="둘만의 일정과 감정, 기록, 앨범, 여행, 루틴을 한곳에 간직하는 프라이빗 라이프 아카이브">
 <meta name="format-detection" content="telephone=no">
 <meta name="mobile-web-app-capable" content="yes">
+<meta name="aiderlog-build" content="v67">
 <link rel="canonical" href="https://aiderdear1.vercel.app/">
 <script>
 (() => {
-  const canonicalHost = 'aiderdear1.vercel.app';
-  const host = location.hostname.toLowerCase();
-  if (host.endsWith('.vercel.app') && host !== canonicalHost) {
-    location.replace(`https://${canonicalHost}${location.pathname}${location.search}${location.hash}`);
+  const url = new URL(location.href);
+  if (url.searchParams.get('aiderlog-main') === 'v67') {
+    url.searchParams.delete('aiderlog-main');
+    history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`);
+  }
+
+  // v64에서 어학 앱이 루트 문서로 캐시되던 문제를 한 번에 정리합니다.
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then(registrations => Promise.all(
+      registrations
+        .filter(registration => new URL(registration.scope).pathname.includes('/language-study/'))
+        .map(registration => registration.unregister())
+    )).catch(() => {});
+  }
+  if ('caches' in window) {
+    caches.keys().then(keys => Promise.all(
+      keys.filter(key => key.startsWith('study-with-me-')).map(key => caches.delete(key))
+    )).catch(() => {});
   }
 })();
 </script>
@@ -5919,7 +5934,7 @@ body:before,body:after{background:#46444D!important;background-image:none!import
   function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._timer);t._timer=setTimeout(()=>t.classList.remove('show'),1800)}
   window.addEventListener('appinstalled',()=>toast('AiderLog 앱 설치가 완료되었습니다.'));
   $('#stage').addEventListener('pointerdown',e=>{if(e.target.closest('button,input,select,textarea,label,a'))e.stopPropagation()});
-    normalizeCloudData();selectAlbumFolderColor(ALBUM_PASTELS[0]);getAlbumFolders();refreshRecordAlbumSelect(DEFAULT_ALBUM_ID);renderAlbumFolders();renderEventArchive();renderTravelArchive();renderPrivate();renderPersonal();renderPaper();renderEmotion();applyLoginUI();setDday();renderDdayList();renderCalendar();if(location.hash==='#search')setTimeout(openSearchFromQuick,0);if('serviceWorker' in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+    normalizeCloudData();selectAlbumFolderColor(ALBUM_PASTELS[0]);getAlbumFolders();refreshRecordAlbumSelect(DEFAULT_ALBUM_ID);renderAlbumFolders();renderEventArchive();renderTravelArchive();renderPrivate();renderPersonal();renderPaper();renderEmotion();applyLoginUI();setDday();renderDdayList();renderCalendar();if(location.hash==='#search')setTimeout(openSearchFromQuick,0);if('serviceWorker' in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'}).then(registration=>registration.update()).catch(()=>{}));
 })();
 </script>
 </body>

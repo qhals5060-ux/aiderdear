@@ -1,3 +1,37 @@
+AiderLog v67
+
+[v67 변경]
+- 첫 실행 문서를 AiderLog 루트 index.html로 강제 고정
+- 어학 학습을 ROUTINE 화면 전환 이후 iframe에서만 실행
+- 과거 서비스워커가 어학 문서를 첫 화면에 반환해도 AiderLog로 자동 복귀
+- v64에서 남은 어학 전용 서비스워커와 캐시 자동 정리
+- Vercel Preview 주소의 운영 주소 강제 이동을 제거해 최신 배포 직접 확인 가능
+- Vercel 캐시 재검증 설정과 배포 버전 확인용 v67 표식 추가
+
+AiderLog v66
+
+[v66 변경]
+- 사이트 기본 진입이 어학 페이지로 바뀌는 서비스워커 캐시 충돌 수정
+- AiderLog는 루트, 다국어 학습은 ROUTINE 화면 전환 이후로 경로 완전 분리
+- 로그인 시 기록 저장/공유 안내, 커플 연결 시 공유 탭 범위 안내 추가
+- 루틴과 어학 공부 완료 기록을 연결 상대에게 보내는 버튼 추가
+- PAPER Brain 3D 빈 화면 수정
+- 각 뇌 영역에 대표 질환 10개, 영문명과 클릭형 상세 설명 추가
+- Brain 학습 주제를 10개로 확장
+- 모바일 다크모드 명암과 세로 페이지 넘김 오작동 개선
+
+AiderLog v65
+
+[v65 변경]
+- PERSONAL 전체 폰트 확대 및 크기 체계 통일
+- EVENT Archive/Travel의 중복 가로선을 한 줄로 정리
+- 커플 공유 범위를 SCHEDULE과 EVENT로 한정
+- 6개월 초과 정리 대상 기록 안내와 사용자 동의 후 삭제 추가
+- Record/Travel, Workflow/Finance, PAPER는 6개월 삭제 대상에서 제외
+- 영상 업로드를 최대 5분·120MB로 확장
+- 30일마다 EVENT Record/Travel의 Google Drive 백업 동의 안내 추가
+- 첨부된 study with me v18 다국어 학습 앱을 ROUTINE 두 번째 화면에 통합
+
 AiderLog v64
 
 [v64 변경]
