@@ -514,6 +514,68 @@ async function deleteMedia(mediaId) {
   await batch.commit();
 }
 
+function privateMediaRef(mediaId) {
+  const user = requireUser();
+  return doc(db, 'users', user.uid, 'privateMedia', mediaId);
+}
+
+async function uploadPrivateMedia(originalFile, label = 'personal') {
+  requireUser();
+  const file = await compressImage(originalFile);
+  const maxSize = 25 * 1024 * 1024;
+  if (file.size > maxSize) throw new Error('무료 저장공간 보호를 위해 파일은 25MB 이하만 올릴 수 있습니다.');
+  const mediaId = `pm-${Date.now()}-${crypto.randomUUID().slice(0, 8)}`;
+  const ref = privateMediaRef(mediaId);
+  const bytes = new Uint8Array(await file.arrayBuffer());
+  const chunkSize = 700 * 1024;
+  const chunkCount = Math.ceil(bytes.length / chunkSize);
+  const chunks = collection(ref, 'chunks');
+  let batch = writeBatch(db);
+  let operations = 0;
+  for (let index = 0; index < chunkCount; index += 1) {
+    const start = index * chunkSize;
+    const end = Math.min(bytes.length, start + chunkSize);
+    batch.set(doc(chunks, String(index).padStart(5, '0')), { data: Bytes.fromUint8Array(bytes.slice(start, end)) });
+    operations += 1;
+    if (operations === 400) {
+      await batch.commit();
+      batch = writeBatch(db);
+      operations = 0;
+    }
+  }
+  if (operations) await batch.commit();
+  await setDoc(ref, {
+    name: file.name,
+    type: file.type || 'application/octet-stream',
+    size: file.size,
+    chunkCount,
+    label,
+    createdAt: serverTimestamp(),
+    createdBy: state.user.uid,
+  });
+  return { id: mediaId, name: file.name, mimeType: file.type, size: file.size };
+}
+
+async function readPrivateMedia(mediaId) {
+  const ref = privateMediaRef(mediaId);
+  const metaSnapshot = await getDoc(ref);
+  if (!metaSnapshot.exists()) throw new Error('개인 사진을 찾을 수 없습니다.');
+  const meta = metaSnapshot.data();
+  const chunkSnapshot = await getDocs(collection(ref, 'chunks'));
+  const parts = chunkSnapshot.docs.sort((a, b) => a.id.localeCompare(b.id)).map(item => item.data().data.toUint8Array());
+  return new Blob(parts, { type: meta.type || 'application/octet-stream' });
+}
+
+async function deletePrivateMedia(mediaId) {
+  if (!mediaId) return;
+  const ref = privateMediaRef(mediaId);
+  const chunkSnapshot = await getDocs(query(collection(ref, 'chunks'), limit(500)));
+  const batch = writeBatch(db);
+  chunkSnapshot.docs.forEach(item => batch.delete(item.ref));
+  batch.delete(ref);
+  await batch.commit();
+}
+
 const api = {
   config: { projectId: firebaseConfig.projectId, authDomain: firebaseConfig.authDomain },
   getState: () => ({ ...state }),
@@ -539,6 +601,9 @@ const api = {
   uploadMedia,
   readMedia,
   deleteMedia,
+  uploadPrivateMedia,
+  readPrivateMedia,
+  deletePrivateMedia,
 };
 
 window.AiderDearFirebase = api;
