@@ -1,18 +1,26 @@
-# AiderLog v68
+# AiderLog v69
 
-## v68 ROUTINE 내부 어학 학습 재구성
+## v69 계정 · 어학 학습 · Daily Log · TASK
+
+- 계정 팝업에서 닉네임을 저장하고, 받은 요청과 보낸 요청을 한 카드에서 확인합니다.
+- 메모장과 우편함 아이콘의 크기와 시각 무게를 통일했습니다.
+- ROUTINE 두 번째 프레임에 v18 어학 학습 엔진을 Shadow DOM 컴포넌트로 직접 통합했습니다. 별도 사이트나 iframe으로 이동하지 않습니다.
+- Daily Log 포모도로는 1~180분 사용자 설정과 작업명을 지원하며, 완료 기록이 7일·30일 Overview에 표시됩니다.
+- PAPER 뒤에 대학원 컨설팅 고객, 상담 일지, 마감 과업을 개인 저장소에서 관리하는 TASK 탭을 추가했습니다.
+
+## v18 어학 학습 통합 방식
 
 - 별도의 어학 사이트와 `iframe` 실행을 완전히 제거
 - 사이트 첫 화면은 항상 AiderLog의 SCHEDULE로 시작
 - 어학 학습은 `ROUTINE` 탭을 연 뒤 화면을 넘겼을 때만 표시
 - AiderLog의 크림색 메인 프레임 안에 TODAY·COURSE·WORDBOOK·RECORDS를 직접 구성
-- 영어·일본어·중국어 각 7개 코스와 총 35개 단어 수록
-- 문장·답변 듣기, 느리게 듣기, 발음 확인, 자신감 기록, 단어장, 개인 메모, 학습 이력 지원
+- 영어·일본어·중국어, 언어별 5개 레벨과 6개 대분류·36개 상황 코스를 제공
+- 상황별 50일 과정과 하루 4단계(단어 선택·문장 완성·발음 연습·실전 회화), 스마트 복습·단어장·학습 이력 지원
 - 오늘 학습을 완료한 뒤에만 커플 상대에게 완료 기록 전송 가능
 - 과거 `/language-study` 주소는 AiderLog 루트로 자동 복귀
 
 배포 후 `https://aiderdear1.vercel.app/sw.js`의 첫 줄이
-`const CACHE='aiderlog-v68-native-language-lab';`인지 확인하세요.
+`const CACHE='aiderlog-v69-language-lab-task-desk';`인지 확인하세요.
 
 ## v67 첫 화면 강제 복구
 

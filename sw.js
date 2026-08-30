@@ -1,5 +1,5 @@
-const CACHE='aiderlog-v68-native-language-lab';
-const APP_SHELL=['./','./index.html','./firebase-app.js','./brain-3d.js','./manifest.webmanifest','./aiderdear-icon.svg','./aiderdear-icon-180.png','./aiderdear-icon-192.png','./aiderdear-icon-512.png','./aiderdear-sky.jpg'];
+const CACHE='aiderlog-v69-language-lab-task-desk';
+const APP_SHELL=['./','./index.html','./firebase-app.js','./brain-3d.js','./language-lab-v18-engine.js','./language-lab-v18.js','./language-lab-v18.css','./language-lab-v18-template.html','./manifest.webmanifest','./aiderdear-icon.svg','./aiderdear-icon-180.png','./aiderdear-icon-192.png','./aiderdear-icon-512.png','./aiderdear-sky.jpg'];
 
 self.addEventListener('install',event=>{
   self.skipWaiting();

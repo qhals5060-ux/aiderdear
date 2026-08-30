@@ -9,6 +9,7 @@ import {
   signInWithPopup,
   signInWithRedirect,
   signOut,
+  updateProfile,
 } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js';
 import {
   Bytes,
@@ -160,6 +161,17 @@ async function ensureUserProfile(user) {
     updatedAt: serverTimestamp(),
   }, { merge: true });
   return profile;
+}
+
+async function updateNickname(rawName) {
+  const user = auth.currentUser;
+  if (!user) throw new Error('로그인이 필요합니다.');
+  const name = String(rawName || '').trim().slice(0, 24);
+  if (!name) throw new Error('사용할 닉네임을 입력해주세요.');
+  await updateProfile(user, { displayName: name });
+  state.user = await ensureUserProfile(user);
+  emit();
+  return state.user;
 }
 
 function startListeners(user) {
@@ -766,6 +778,7 @@ const api = {
   deletePrivateMedia,
   requestGoogleDriveAccess,
   backupEventDataToGoogleDrive,
+  updateNickname,
 };
 
 window.AiderDearFirebase = api;
