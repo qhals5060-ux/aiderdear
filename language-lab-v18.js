@@ -20,7 +20,7 @@
         const styleElement=document.createElement('style');styleElement.textContent=style;
         app.querySelector('.brand-icon')?.remove();
         app.querySelector('.brand b').textContent='LANGUAGE LAB';
-        app.querySelector('.brand small').textContent='ROUTINE · PRACTICAL CONVERSATION';
+        app.querySelector('.brand small')?.remove();
         const share=document.createElement('button');
         share.type='button';share.className='language-partner-share';share.textContent='학습 완료 후 상대에게 보내기';share.disabled=true;
         share.hidden=this.getAttribute('data-paired')!=='true';

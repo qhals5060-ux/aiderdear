@@ -1891,15 +1891,11 @@ function closeRecordsModal() {
 }
 
 function syncLanguageUI() {
-  const meta = languageMeta[state.language];
   const profiles = levelProfiles[state.language];
   const levelIndex = state.levelByLanguage[state.language];
-  const profile = profiles[levelIndex];
   $("#language-select").value = state.language;
   $("#level-select").innerHTML = profiles.map((item, index) => `<option value="${index}">${escapeHtml(item.course)} · ${escapeHtml(item.standard)}</option>`).join("");
   $("#level-select").value = String(levelIndex);
-  $("#header-course-name").textContent = `${meta.label} · ${profile.name} · ${profile.standard}`;
-  $("#course-heading").textContent = `${meta.label} 학습 코스 선택`;
   $("#completed-days").nextElementSibling.textContent = `/ ${allDays().length}`;
 }
 
@@ -1938,9 +1934,8 @@ function renderCourse() {
   const pageStart = state.dayPage * 10;
   const pageEnd = pageStart + 10;
   $("#scenario-number").textContent = String(state.scenarioIndex + 1).padStart(2, "0");
-  $("#scenario-place").textContent = scenario.place;
+  $("#scenario-place").textContent = `[ ${category.title} ]`;
   $("#scenario-title").textContent = scenario.title;
-  $("#scenario-description").textContent = scenario.description;
   $("#scenario-progress-label").textContent = `${complete} / ${scenario.days.length} Day`;
   $("#scenario-progress").style.width = `${(complete / scenario.days.length) * 100}%`;
   $("#day-list-subtitle").textContent = `${scenario.tab} · ${dayStageLabels[state.dayPage]} · Day ${pageStart + 1}–${pageEnd}`;
@@ -1960,7 +1955,6 @@ function renderCourse() {
     return `<li class="day-row">
       <span class="day-index"><b>Day ${index + 1}</b></span>
       <div class="day-info"><b>${escapeHtml(day.title)}</b><p>${escapeHtml(day.focus)}</p></div>
-      <div class="day-parts"><span><i></i>선택</span><span><i></i>발음</span><span><i></i>AI 회화</span><span>약 10분</span></div>
       <button class="day-action ${buttonClass}" data-day="${index}" type="button" ${unlocked ? "" : "disabled"}>${status}</button>
     </li>`;
   }).join("");
@@ -2577,7 +2571,7 @@ function wordItems() {
 
 function renderWordbook() {
   const items = wordItems().filter((item) => state.wordFilter === "전체" || item.type === state.wordFilter);
-  const visibleItems = items.slice(0, 2);
+  const visibleItems = items.slice(0, 6);
   const meta = languageMeta[state.language];
   $("#word-count").textContent = String(wordItems().length);
   $$(".filter-button").forEach((button) => button.classList.toggle("active", button.textContent === state.wordFilter));
@@ -2585,7 +2579,7 @@ function renderWordbook() {
     <span class="word-kind">${item.type}<br><small>${escapeHtml(item.context)}</small></span>
     <div class="word-copy"><strong lang="${meta.htmlLang}">${escapeHtml(item.text)}</strong><span>${escapeHtml(item.ko)}</span></div>
     <button class="listen-button" data-speak="${escapeHtml(item.text)}" type="button">▶ 발음 듣기</button>
-  </article>`).join("") + (items.length > visibleItems.length ? `<div class="more-line">최근 표현 2개 표시 · 그 외 ${items.length - visibleItems.length}개 저장됨</div>` : "") : `<div class="empty-state"><b>아직 저장된 표현이 없어요</b><p>Day 하나를 완료하면 핵심 단어와 문장이 여기에 자동으로 모입니다.</p><button data-scroll="course-section" type="button">첫 Day 시작하기</button></div>`;
+  </article>`).join("") + (items.length > visibleItems.length ? `<div class="more-line">최근 표현 6개 표시 · 그 외 ${items.length - visibleItems.length}개 저장됨</div>` : "") : `<div class="empty-state"><b>아직 저장된 표현이 없어요</b><button data-scroll="course-section" type="button">첫 Day 시작하기</button></div>`;
 }
 
 function renderRecords() {

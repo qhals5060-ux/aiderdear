@@ -1161,3 +1161,92 @@ a { color: inherit; text-decoration: none; }
 .language-partner-share{height:30px;padding:0 10px;border:1px solid #0969da;background:#0969da;color:#fff;font-size:8px;font-weight:900}
 .language-partner-share:disabled{border-color:#d3d9df;background:#e4e8ec;color:#8b949e;cursor:not-allowed}
 @media(max-width:900px){:host{overflow:auto}.app-shell{height:auto!important;min-height:100%!important;overflow:visible!important}.single-page{height:auto!important;min-height:calc(100vh - 52px)!important;overflow:visible!important}.app-header{grid-template-columns:1fr auto!important}.header-course{display:none}.lesson-screen,.records-modal{position:fixed!important}.lesson-stage{height:calc(100% - 108px)!important}.language-partner-share{display:none}}
+
+/* AiderLog v71 · larger type and denser ten-Day Language Lab */
+:host{font-size:14px}
+.brand b{font-size:21px!important;line-height:1}
+.header-course{min-width:330px;text-align:left}
+.header-course .course-selectors{display:grid;grid-template-columns:minmax(92px,.72fr) minmax(190px,1.28fr);gap:8px;align-items:end}
+.header-course .language-select,.header-course .level-select{display:grid;gap:3px;color:var(--muted);font-size:9px!important;font-weight:900;line-height:1}
+.header-course .language-select select,.header-course .level-select select{width:100%;min-width:0;height:31px;margin:0;padding:0 27px 0 9px;font-size:10px!important}
+.streak-chip,.reset-button,.records-button{font-size:9.5px!important}
+.section-label{font-size:9px!important}
+.scenario-main{min-width:0}
+.scenario-line{min-width:0;display:flex;align-items:center;gap:9px}
+.scenario-line #scenario-place{flex:0 0 auto;font-size:11px;font-weight:900;white-space:nowrap;opacity:.82}
+.scenario-line h3{min-width:0;margin:0!important;overflow:hidden;font-size:15px!important;text-overflow:ellipsis;white-space:nowrap}
+.scenario-progress-box>div:first-child,.scenario-progress-box b{font-size:9px!important}
+.day-list-heading h3{font-size:12px!important}
+.day-list-heading span{font-size:8px!important}
+.day-page-button{font-size:7.5px!important}
+.day-index b{font-size:10px!important}
+.day-info b{font-size:10.5px!important}
+.day-info p{font-size:8.5px!important}
+.day-action{font-size:8.5px!important}
+.course-panel .category-tab{font-size:8.5px!important}
+.course-panel .scenario-tab b{font-size:8.5px!important}
+.course-panel .scenario-tab>span:first-child{font-size:9px!important}
+.content-heading .section-label{margin:0}
+.filter-button{font-size:9px!important}
+.word-kind,.word-kind small{font-size:8px!important}
+.word-copy strong{font-size:12px!important}
+.word-copy span{font-size:9px!important}
+.listen-button{font-size:8px!important}
+.empty-state b{font-size:13px!important}
+.empty-state button{font-size:9px!important}
+.more-line{font-size:8px!important}
+.records-dialog-header h2,.review-panel h3{font-size:15px!important}
+.review-panel p,.record-title span,.history-item small,.history-item span{font-size:9px!important}
+.record-title h3,.history-item b{font-size:11px!important}
+.lesson-heading small{font-size:10px!important}.lesson-heading b{font-size:14px!important}.lesson-count{font-size:10px!important}
+.task-tag{font-size:9px!important}.task-help{font-size:11px!important}.question-context,.reading{font-size:10px!important}
+.choice-button,.token-button{font-size:12px!important}.feedback-box{font-size:11px!important}.translation{font-size:11px!important}
+.listen-large,.listen-speed-row button,.record-caption,.retry-recognition{font-size:9px!important}
+.roleplay-scene small,.roleplay-scene em,.chat-message small,.roleplay-turn-guide small{font-size:9px!important}
+.chat-message .bubble{font-size:12px!important}.chat-form input{font-size:11px!important}.lesson-footer button{font-size:10px!important}
+
+@media(min-width:901px){
+  .app-header{height:58px!important;grid-template-columns:minmax(180px,1fr) 340px minmax(310px,1fr)!important;gap:13px!important}
+  .single-page{height:calc(100% - 58px)!important}
+  .learning-section .scenario-summary{min-height:56px!important;height:56px;padding:7px 14px!important;grid-template-columns:minmax(0,1fr) 165px!important;gap:16px!important}
+  .learning-section .scenario-number{width:34px;height:34px;font-size:11px!important}
+  .learning-section .scenario-progress-box{padding-left:15px}
+  .learning-section .scenario-progress{height:4px;margin-top:6px}
+  .learning-section .day-list-heading{min-height:32px;padding:5px 10px 4px!important}
+  .learning-section .day-list{margin:0 10px 7px!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:4px 6px!important}
+  .learning-section .day-row{min-height:46px!important;height:46px;grid-template-columns:46px minmax(0,1fr) 60px!important}
+  .learning-section .day-info{padding:5px 9px!important}
+  .learning-section .day-info p{margin-top:2px!important;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .learning-section .day-action{width:49px;height:27px}
+  .dashboard-section{grid-template-rows:158px minmax(0,1fr)!important;gap:8px!important}
+  .course-panel .section-heading-row{min-height:27px!important;height:27px;padding:7px 10px 3px!important;display:block!important}
+  .course-panel .category-selector{padding:0 10px 5px!important;gap:4px!important}
+  .course-panel .category-tab{min-height:24px!important;height:24px}
+  .course-panel .scenario-selector{padding:0 10px 7px!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:3px 4px!important}
+  .course-panel .scenario-tab{min-height:28px!important;height:28px;padding:3px 6px!important;gap:6px!important}
+  .course-panel .scenario-tab>span:first-child{width:18px!important;height:18px!important}
+  .dashboard-section .content-heading{min-height:43px!important;height:43px;padding:6px 10px!important}
+  .dashboard-section .count-box{min-width:43px;height:31px}
+  .dashboard-section .filter-row{min-height:30px}
+  .dashboard-section .word-list{max-height:none!important;overflow-y:auto!important}
+  .dashboard-section .word-row{min-height:54px!important;padding:7px 8px!important;grid-template-columns:48px 1fr auto!important}
+  .dashboard-section .listen-button{min-width:55px;height:25px}
+  .dashboard-section .empty-state{padding:64px 12px!important}
+}
+
+@media(max-width:900px){
+  :host{overflow:auto!important}
+  .app-shell{height:auto!important;min-height:100%!important}
+  .app-header{height:auto!important;min-height:108px;padding:10px!important;display:grid!important;grid-template-columns:1fr auto!important;grid-template-rows:auto auto!important;gap:8px 10px!important}
+  .brand{grid-column:1;grid-row:1}
+  .header-stats{grid-column:2;grid-row:1}
+  .header-course{display:block!important;grid-column:1/-1;grid-row:2;min-width:0;width:100%}
+  .header-course .course-selectors{grid-template-columns:minmax(88px,.75fr) minmax(165px,1.25fr)}
+  .single-page{min-height:calc(100vh - 108px)!important}
+  .scenario-summary{min-height:76px!important;padding:10px 12px!important;grid-template-columns:minmax(0,1fr) 125px!important;gap:10px!important}
+  .scenario-number{width:34px!important;height:34px!important}
+  .scenario-progress-box{padding-left:10px}
+  .day-row{min-height:53px!important;grid-template-columns:46px minmax(0,1fr) 62px!important}
+  .course-panel .section-heading-row{min-height:32px!important;padding:9px 12px 4px!important}
+  .content-heading{min-height:45px!important}
+}

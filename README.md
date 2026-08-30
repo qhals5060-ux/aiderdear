@@ -1,4 +1,32 @@
-# AiderLog v69
+# AiderLog v71
+
+## v71 ROUTINE Language Lab 재배치
+
+- Language Lab의 본문·버튼·선택기·학습 창 글자를 전반적으로 확대했습니다.
+- `ROUTINE · PRACTICAL CONVERSATION`과 중앙의 `현재 학습` 문구를 삭제했습니다.
+- COURSE SELECT에 있던 언어·난이도 선택기를 헤더 중앙으로 옮겼습니다.
+- 파란 과정 요약은 `01 [ 일상 ] 인사와 관계 시작` 한 줄 구조로 압축했습니다.
+- 1~4단계 소요 시간 안내와 Day 카드 내부의 반복 단계 안내를 삭제했습니다.
+- Day 카드 높이를 줄여 현재 구간의 Day 10개가 데스크톱 프레임에 모두 표시됩니다.
+- COURSE SELECT는 카테고리 선택 영역만 남기고 높이를 줄였으며 MY WORDS를 확장했습니다.
+- MY WORDS의 반복 제목과 자동 저장 안내를 삭제하고 최근 표현 노출을 2개에서 6개로 늘렸습니다.
+
+배포 후 `https://aiderdear1.vercel.app/sw.js`의 첫 줄이
+`const CACHE='aiderlog-v71-language-lab-density';`인지 확인하세요.
+
+## v70 계정 전용 워크스페이스 · 계층형 3D Brain
+
+- `qhals5060@gmail.com`으로 로그인한 경우에만 PAPER 탭이 표시됩니다.
+- `aidway55@gmail.com`으로 로그인한 경우에만 TASK 탭이 표시됩니다.
+- 로그아웃 상태와 다른 계정에서는 두 전용 탭을 처음부터 숨기며, 직접 탭 전환을 시도해도 SCHEDULE로 돌아갑니다.
+- Brain 피질의 두께·원근·조명을 강화해 평면적인 인상을 줄였습니다.
+- 전두엽·두정엽·측두엽·후두엽·소뇌·뇌간·해마·편도체를 선택한 뒤 세부 영역까지 탐색할 수 있습니다.
+- 배외측/복외측/안와/복내측 전전두피질, 전대상피질, 브로카 영역, 베르니케 영역 등 기능적으로 중요한 세부 영역을 추가했습니다.
+- `RELATED DISORDERS`의 개수 표기를 없애고 질환 선택 시 관련 뇌 영역 시각 자료와 전문 설명을 별도 팝업으로 표시합니다.
+- 학습 모듈은 선택한 뇌 영역과 관련된 내용만 한 항목씩 표시해 Brain 화면의 세로 스크롤을 줄였습니다.
+
+배포 후 `https://aiderdear1.vercel.app/sw.js`의 첫 줄이
+`const CACHE='aiderlog-v70-restricted-brain-atlas';`인지 확인하세요.
 
 ## v69 계정 · 어학 학습 · Daily Log · TASK
 
