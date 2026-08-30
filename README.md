@@ -1,9 +1,23 @@
-# AiderLog v67
+# AiderLog v68
+
+## v68 ROUTINE 내부 어학 학습 재구성
+
+- 별도의 어학 사이트와 `iframe` 실행을 완전히 제거
+- 사이트 첫 화면은 항상 AiderLog의 SCHEDULE로 시작
+- 어학 학습은 `ROUTINE` 탭을 연 뒤 화면을 넘겼을 때만 표시
+- AiderLog의 크림색 메인 프레임 안에 TODAY·COURSE·WORDBOOK·RECORDS를 직접 구성
+- 영어·일본어·중국어 각 7개 코스와 총 35개 단어 수록
+- 문장·답변 듣기, 느리게 듣기, 발음 확인, 자신감 기록, 단어장, 개인 메모, 학습 이력 지원
+- 오늘 학습을 완료한 뒤에만 커플 상대에게 완료 기록 전송 가능
+- 과거 `/language-study` 주소는 AiderLog 루트로 자동 복귀
+
+배포 후 `https://aiderdear1.vercel.app/sw.js`의 첫 줄이
+`const CACHE='aiderlog-v68-native-language-lab';`인지 확인하세요.
 
 ## v67 첫 화면 강제 복구
 
 - 사이트 첫 실행 문서는 항상 루트 `index.html`의 AiderLog로 고정
-- 어학 학습 문서는 ROUTINE 탭의 두 번째 화면 iframe 안에서만 실행
+- 어학 학습은 ROUTINE 탭의 두 번째 화면에서만 실행
 - 과거 캐시가 어학 문서를 루트에서 열어도 AiderLog로 자동 복귀
 - v64에서 남은 어학 전용 서비스워커와 캐시를 자동 정리
 - 루트 서비스워커를 `aiderlog-v67-main-recovery`로 갱신하고 즉시 업데이트 확인
@@ -26,7 +40,7 @@
 - 모바일 강제 다크모드에서도 밝은 콘텐츠와 입력창 대비를 유지
 - 가로 움직임·버튼 조작을 세로 페이지 전환으로 오인하지 않도록 터치 판정 개선
 
-배포 시 Vercel의 Root Directory는 비워 두고 이 폴더 전체를 배포하세요. `language-study` 폴더를 Root Directory로 선택하면 어학 페이지만 열립니다.
+배포 시 Vercel의 Root Directory는 비워 두고 이 폴더 전체를 배포하세요.
 
 ## v65 보존 정책·백업·어학 학습·PERSONAL 가독성
 
@@ -176,7 +190,6 @@ Google 계정으로 로그인하고, 상대에게 커플 요청을 보내 수락
 - `firestore.rules`
 - `manifest.webmanifest`
 - `sw.js`
-- `language-study/` 폴더 전체
 - 이미지와 아이콘 파일
 
 배포 후 `https://aiderdear1.vercel.app/`을 강력 새로고침하세요. 설치형 앱을 이미 추가했다면 앱을 완전히 종료한 뒤 다시 열어 새 서비스 워커를 적용합니다.

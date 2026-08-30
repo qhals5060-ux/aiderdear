@@ -1,8 +1,14 @@
-AiderLog v67
+AiderLog v68
+
+[v68 변경]
+- 별도 어학 사이트와 iframe을 제거했습니다.
+- 사이트 첫 실행 화면은 항상 AiderLog의 SCHEDULE입니다.
+- 영어·일본어·중국어 학습 기능을 ROUTINE 두 번째 메인 프레임 안에 직접 구성했습니다.
+- TODAY, COURSE, WORDBOOK, RECORDS와 듣기·발음·메모·완료 전송을 지원합니다.
 
 [v67 변경]
 - 첫 실행 문서를 AiderLog 루트 index.html로 강제 고정
-- 어학 학습을 ROUTINE 화면 전환 이후 iframe에서만 실행
+- 어학 학습을 ROUTINE 화면 전환 이후에만 실행
 - 과거 서비스워커가 어학 문서를 첫 화면에 반환해도 AiderLog로 자동 복귀
 - v64에서 남은 어학 전용 서비스워커와 캐시 자동 정리
 - Vercel Preview 주소의 운영 주소 강제 이동을 제거해 최신 배포 직접 확인 가능

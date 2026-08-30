@@ -1,4 +1,16 @@
 {
+  "redirects": [
+    {
+      "source": "/language-study",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/language-study/(.*)",
+      "destination": "/",
+      "permanent": false
+    }
+  ],
   "headers": [
     {
       "source": "/sw.js",
@@ -11,15 +23,6 @@
     },
     {
       "source": "/index.html",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=0, must-revalidate"
-        }
-      ]
-    },
-    {
-      "source": "/language-study/(.*)",
       "headers": [
         {
           "key": "Cache-Control",
