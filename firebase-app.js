@@ -748,6 +748,110 @@ async function deletePrivateMedia(mediaId) {
   await batch.commit();
 }
 
+const CLIENT_INTAKE_TOKEN = /^[A-Za-z0-9_-]{32,100}$/;
+const intakeText = (value, max) => String(value || '').trim().slice(0, max);
+
+function randomClientIntakeToken() {
+  const bytes = crypto.getRandomValues(new Uint8Array(24));
+  return btoa(String.fromCharCode(...bytes)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/g, '');
+}
+
+function clientIntakeRef(token) {
+  if (!CLIENT_INTAKE_TOKEN.test(String(token || ''))) throw new Error('고객 작성 링크 형식이 올바르지 않습니다.');
+  return doc(db, 'clientIntakeLinks', String(token));
+}
+
+async function createClientIntakeLink(preferredToken = '', previousToken = '') {
+  const user = requireUser();
+  let token = CLIENT_INTAKE_TOKEN.test(String(preferredToken || '')) ? String(preferredToken) : '';
+  const activePayload = {
+    ownerUid: user.uid,
+    ownerName: intakeText(user.name, 80),
+    active: true,
+    updatedAt: serverTimestamp(),
+  };
+  if (token) {
+    try {
+      await setDoc(clientIntakeRef(token), activePayload, { merge: true });
+      return token;
+    } catch {
+      try {
+        await setDoc(clientIntakeRef(token), { ...activePayload, createdAt: serverTimestamp() });
+        return token;
+      } catch {
+        token = '';
+      }
+    }
+  }
+  if (previousToken && previousToken !== token && CLIENT_INTAKE_TOKEN.test(String(previousToken))) {
+    await updateDoc(clientIntakeRef(previousToken), { active: false, updatedAt: serverTimestamp() }).catch(() => {});
+  }
+  token = randomClientIntakeToken();
+  await setDoc(clientIntakeRef(token), { ...activePayload, createdAt: serverTimestamp() });
+  return token;
+}
+
+async function getClientIntakeLink(token) {
+  const snapshot = await getDoc(clientIntakeRef(token));
+  if (!snapshot.exists()) throw new Error('존재하지 않는 고객 작성 링크입니다.');
+  const row = snapshot.data();
+  return { active: row.active === true, ownerName: intakeText(row.ownerName, 80) };
+}
+
+async function submitClientIntake(token, payload = {}) {
+  const applicationYear = Math.max(2000, Math.min(2200, Number(payload.applicationYear) || 0));
+  const applicationSemester = ['spring', 'fall', 'rolling', 'other'].includes(payload.applicationSemester)
+    ? payload.applicationSemester
+    : '';
+  const data = {
+    name: intakeText(payload.name, 60),
+    phone: intakeText(payload.phone, 30),
+    email: intakeText(payload.email, 120),
+    university: intakeText(payload.university, 120),
+    institution: intakeText(payload.institution, 120),
+    program: intakeText(payload.program, 120),
+    major: intakeText(payload.major, 120),
+    applicationYear,
+    applicationSemester,
+    topic: intakeText(payload.topic, 240),
+    note: intakeText(payload.note, 1600),
+    consent: true,
+    source: 'external-intake-v1',
+    status: 'new',
+    createdAt: serverTimestamp(),
+  };
+  if (!data.name || !data.phone || !applicationYear || !applicationSemester) {
+    throw new Error('이름, 핸드폰, 지원 학년도와 학기를 모두 입력해주세요.');
+  }
+  const link = await getDoc(clientIntakeRef(token));
+  if (!link.exists() || link.data().active !== true) throw new Error('만료되었거나 교체된 작성 링크입니다.');
+  const ref = await addDoc(collection(clientIntakeRef(token), 'submissions'), data);
+  return ref.id;
+}
+
+function watchClientIntakeSubmissions(token, callback) {
+  const user = requireUser();
+  const ref = clientIntakeRef(token);
+  return onSnapshot(
+    query(collection(ref, 'submissions'), where('status', '==', 'new'), limit(100)),
+    snapshot => callback(snapshot.docs.map(item => ({
+      id: item.id,
+      ...item.data(),
+      createdAt: timestampValue(item.data().createdAt),
+    }))),
+    error => console.warn('Client intake listener stopped', error),
+  );
+}
+
+async function markClientIntakeImported(token, submissionId) {
+  requireUser();
+  if (!/^[A-Za-z0-9_-]{8,100}$/.test(String(submissionId || ''))) return;
+  await updateDoc(doc(clientIntakeRef(token), 'submissions', String(submissionId)), {
+    status: 'imported',
+    importedAt: serverTimestamp(),
+  });
+}
+
 const api = {
   config: { projectId: firebaseConfig.projectId, authDomain: firebaseConfig.authDomain },
   getState: () => ({ ...state }),
@@ -779,6 +883,11 @@ const api = {
   requestGoogleDriveAccess,
   backupEventDataToGoogleDrive,
   updateNickname,
+  createClientIntakeLink,
+  getClientIntakeLink,
+  submitClientIntake,
+  watchClientIntakeSubmissions,
+  markClientIntakeImported,
 };
 
 window.AiderDearFirebase = api;

@@ -1,4 +1,4 @@
-const CACHE='aiderlog-v75-windows-widgets-brain-atlas-header';
+const CACHE='aiderlog-v76-task-cohort-external-intake';
 const WIDGET_STATE_CACHE='aiderlog-widget-state-v1';
 const WIDGET_STATE_URL=new URL('./__aiderlog_widget_state__',self.location.href).href;
 const WIDGET_DEFINITIONS={
