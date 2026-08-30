@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light">
-<meta name="theme-color" content="#46444D">
+<meta name="theme-color" content="#FFF8E7">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="AiderDear">
@@ -2438,6 +2438,40 @@ html,body{background:var(--palette-bg)!important}.masthead,.nav-row{color:#fff}.
 @media(max-width:760px){.emotion-core-grid-v52{grid-template-columns:repeat(2,minmax(0,1fr))!important}.emotion-editor-modal .emotion-data-chips,.emotion-editor-modal .emotion-want-picker{grid-template-columns:repeat(3,minmax(0,1fr))!important}.emotion-editor-modal #emotionForm .field>label,.emotion-editor-modal #emotionForm .emotion-data-block>label,.emotion-editor-modal #emotionForm .emotion-sub-label,.emotion-editor-modal #emotionForm input,.emotion-editor-modal #emotionForm select,.emotion-editor-modal #emotionForm textarea,.emotion-editor-modal #emotionForm button{font-size:12px!important}.emotion-editor-modal .emotion-analysis-note,.emotion-editor-modal .emotion-want-custom-wrap span{font-size:10px!important}}
 @media(max-width:430px){#addScheduleTop,#addEmotionTop{height:36px!important;min-height:36px!important;padding-inline:8px!important;font-size:9px!important}.emotion-core-grid-v52{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:7px!important}.emotion-editor-modal .emotion-data-chips,.emotion-editor-modal .emotion-want-picker{grid-template-columns:repeat(2,minmax(0,1fr))!important}.emotion-editor-modal .emotion-mood-picker{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
 
+/* ===== AiderDear v53 · Cosmic Latte frame, distinct moods and memo deadlines ===== */
+:root{--bg:#FFF8E7!important;--palette-bg:#FFF8E7!important}
+html,body,.app{background:#FFF8E7!important;background-image:none!important;color:#17151b!important}
+body:before,body:after{background:#FFF8E7!important;background-image:none!important;filter:none!important;opacity:1!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+.masthead,.nav-row{background:#FFF8E7!important;color:#17151b!important}
+.masthead{border-bottom-color:rgba(23,21,27,.13)!important}
+.nav-row{border-top-color:rgba(23,21,27,.13)!important}
+.masthead .logo,.masthead .logo span,.masthead .logo em,.masthead .logo small,
+.account-name,.sync-mini,.quick-notes-top,.mailbox-top,.mailbox-top span,.mailbox-top .mailbox-icon,.top-action,
+.account-stack.account-inline .account-name,.account-stack.account-inline .sync-mini{color:#17151b!important;text-shadow:none!important}
+.logo small,.sync-mini{color:rgba(23,21,27,.62)!important}
+.mail-unread-badge{background:#17151b!important;color:#fff!important;border-color:#17151b!important}
+
+.quick-todo-form{grid-template-columns:minmax(0,1fr) 142px 74px!important}
+.quick-todo-form input[type="date"]{min-width:0;color:#343039;background:#fff}
+.quick-todo-row{grid-template-columns:22px minmax(0,1fr) 128px 28px!important}
+.quick-todo-row>input[type="checkbox"]{width:18px!important;height:18px!important}
+.quick-todo-due{width:128px!important;height:34px!important;min-width:0;border:1px solid #cbc7bc!important;border-radius:7px!important;background:#fff!important;padding:0 7px!important;font-size:10px!important;color:#58534b!important}
+.quick-todo-row.overdue .quick-todo-due{border-color:#D96D5F!important;color:#a83e34!important;background:#fff4f1!important}
+.quick-todo-row.done .quick-todo-due{opacity:.55}
+
+@media(max-width:599px){
+  html,body,.app,.masthead,.nav-row{background:#FFF8E7!important;color:#17151b!important}
+  .quick-todo-form{grid-template-columns:minmax(0,1fr) 118px!important}
+  .quick-todo-form #quickTodoInput{grid-column:1/-1}
+  .quick-todo-form button{min-height:42px}
+  .quick-todo-row{grid-template-columns:22px minmax(0,1fr) 112px 28px!important}
+  .quick-todo-due{width:112px!important;font-size:9px!important}
+}
+@media(max-width:370px){
+  .quick-todo-row{grid-template-columns:22px minmax(0,1fr) 94px 24px!important;gap:5px!important}
+  .quick-todo-due{width:94px!important;padding-inline:4px!important;font-size:8px!important}
+}
+
 </style>
 </head>
 <body>
@@ -2779,6 +2813,7 @@ html,body{background:var(--palette-bg)!important}.masthead,.nav-row{color:#fff}.
     <div class="quick-memo-body">
       <form class="quick-todo-form" id="quickTodoForm">
         <input id="quickTodoInput" type="text" maxlength="120" placeholder="할 일을 입력해주세요" required>
+        <input id="quickTodoDate" type="date" aria-label="마감일">
         <button type="submit">+ ADD</button>
       </form>
       <div class="quick-todo-list" id="quickTodoList"></div>
@@ -3868,10 +3903,10 @@ html,body{background:var(--palette-bg)!important}.masthead,.nav-row{color:#fff}.
   $('#letterNextBtn').addEventListener('click',()=>{const next=letterQueue.shift();if(next)openLetterView(next,letterQueue)});
 
   // Header notepad — private checklist shortcuts
-  function renderQuickTodo(){const list=$('#quickTodoList');if(!list)return;if(!currentUserEmail){list.innerHTML='';return}const data=privateData[currentUserEmail]||blankPrivateData(currentUserEmail,currentUserName),rows=(data.checklists||[]).slice().sort((a,b)=>Number(a.done)-Number(b.done)||(a.date||'9999').localeCompare(b.date||'9999')||(a.createdAt||0)-(b.createdAt||0));list.innerHTML=rows.length?rows.map(row=>`<label class="quick-todo-row ${row.done?'done':''}"><input type="checkbox" data-quick-todo-check="${escapeHtml(row.id)}" ${row.done?'checked':''}><span>${escapeHtml(row.text||'')}</span>${row.date?`<time>${escapeHtml(row.date.slice(5).replace('-','.'))}</time>`:''}<button type="button" data-quick-todo-delete="${escapeHtml(row.id)}" aria-label="할 일 삭제">×</button></label>`).join(''):'<div class="quick-todo-empty">—</div>'}
+  function renderQuickTodo(){const list=$('#quickTodoList');if(!list)return;if(!currentUserEmail){list.innerHTML='';return}const data=privateData[currentUserEmail]||blankPrivateData(currentUserEmail,currentUserName),todayKey=iso(today.getFullYear(),today.getMonth(),today.getDate()),rows=(data.checklists||[]).slice().sort((a,b)=>Number(a.done)-Number(b.done)||(a.date||'9999').localeCompare(b.date||'9999')||(a.createdAt||0)-(b.createdAt||0));list.innerHTML=rows.length?rows.map(row=>{const due=String(row.date||''),overdue=!row.done&&due&&due<todayKey;return `<div class="quick-todo-row ${row.done?'done':''} ${overdue?'overdue':''}"><input type="checkbox" data-quick-todo-check="${escapeHtml(row.id)}" aria-label="${escapeHtml(row.text||'할 일')} 완료" ${row.done?'checked':''}><span>${escapeHtml(row.text||'')}</span><input class="quick-todo-due" type="date" data-quick-todo-due="${escapeHtml(row.id)}" aria-label="${escapeHtml(row.text||'할 일')} 마감일" value="${escapeHtml(due)}"><button type="button" data-quick-todo-delete="${escapeHtml(row.id)}" aria-label="할 일 삭제">×</button></div>`}).join(''):'<div class="quick-todo-empty">—</div>'}
   $('#quickMemoBtn').addEventListener('click',()=>{if(!currentUser){requireLogin(()=>$('#quickMemoBtn').click());return}renderQuickTodo();openModal('quickMemoModal')});
-  $('#quickTodoForm').addEventListener('submit',async e=>{e.preventDefault();if(!currentUserEmail)return;const input=$('#quickTodoInput'),text=input.value.trim();if(!text)return;try{if(!privateRefs[currentUserEmail]?.fileId)await loadPrivateData();privateOwner=currentUserEmail;const data=privateData[currentUserEmail]||(privateData[currentUserEmail]=blankPrivateData(currentUserEmail,currentUserName));data.checklists=Array.isArray(data.checklists)?data.checklists:[];data.checklists.push({id:'pc-'+Date.now(),text:text.slice(0,120),date:'',time:'',urgent:false,important:false,priority:'보통',category:'',done:false,createdAt:Date.now()});await savePrivateData(currentUserEmail);input.value='';renderQuickTodo();renderPrivate();toast('메모장에 추가했습니다.')}catch(err){toast(googleErrorMessage(err))}});
-  $('#quickTodoList').addEventListener('change',async e=>{const id=e.target.dataset.quickTodoCheck;if(!id||!currentUserEmail)return;try{if(!privateRefs[currentUserEmail]?.fileId)await loadPrivateData();const data=privateData[currentUserEmail],row=data?.checklists?.find(item=>item.id===id);if(!row)return;row.done=e.target.checked;await savePrivateData(currentUserEmail);renderQuickTodo();renderPrivate()}catch(err){toast(googleErrorMessage(err))}});
+  $('#quickTodoForm').addEventListener('submit',async e=>{e.preventDefault();if(!currentUserEmail)return;const input=$('#quickTodoInput'),dueInput=$('#quickTodoDate'),text=input.value.trim();if(!text)return;try{if(!privateRefs[currentUserEmail]?.fileId)await loadPrivateData();privateOwner=currentUserEmail;const data=privateData[currentUserEmail]||(privateData[currentUserEmail]=blankPrivateData(currentUserEmail,currentUserName));data.checklists=Array.isArray(data.checklists)?data.checklists:[];data.checklists.push({id:'pc-'+Date.now(),text:text.slice(0,120),date:dueInput.value||'',time:'',urgent:false,important:false,priority:'보통',category:'',done:false,createdAt:Date.now()});await savePrivateData(currentUserEmail);input.value='';dueInput.value='';renderQuickTodo();renderPrivate();toast('메모장에 추가했습니다.')}catch(err){toast(googleErrorMessage(err))}});
+  $('#quickTodoList').addEventListener('change',async e=>{const checkId=e.target.dataset.quickTodoCheck,dueId=e.target.dataset.quickTodoDue,id=checkId||dueId;if(!id||!currentUserEmail)return;try{if(!privateRefs[currentUserEmail]?.fileId)await loadPrivateData();const data=privateData[currentUserEmail],row=data?.checklists?.find(item=>item.id===id);if(!row)return;if(checkId)row.done=e.target.checked;else row.date=e.target.value||'';await savePrivateData(currentUserEmail);renderQuickTodo();renderPrivate();if(dueId)toast(row.date?'마감일을 저장했습니다.':'마감일을 삭제했습니다.')}catch(err){toast(googleErrorMessage(err))}});
   $('#quickTodoList').addEventListener('click',async e=>{const button=e.target.closest('[data-quick-todo-delete]');if(!button||!currentUserEmail)return;try{if(!privateRefs[currentUserEmail]?.fileId)await loadPrivateData();const data=privateData[currentUserEmail];data.checklists=(data.checklists||[]).filter(item=>item.id!==button.dataset.quickTodoDelete);await savePrivateData(currentUserEmail);renderQuickTodo();renderPrivate();toast('할 일을 삭제했습니다.')}catch(err){toast(googleErrorMessage(err))}});
 
   // Firebase Google login + explicit couple invitations
@@ -4427,7 +4462,7 @@ html,body{background:var(--palette-bg)!important}.masthead,.nav-row{color:#fff}.
     const lines=entry?.lines||[];$('#emotionLine1').value=lines[0]||'';$('#emotionLine2').value=lines[1]||'';$('#emotionLine3').value=lines[2]||'';$('#emotionPeriod').checked=!!entry?.period;$('#deleteEmotion').hidden=!entry||emotionView==='cycle';openModal('emotionModal')
   }
   function emotionMiniColorIndex(mood){return Math.max(0,EMOTION_MOODS.indexOf(normalizeMoodValue(mood)))}
-  function miniMoodStyle(mood){const colors=['#f2dc68','#acd98d','#efb6c0','#b8d6c2','#c8b5df','#c9d6d6','#a9c4e9','#e67878','#b9acd4','#7f95bd'];return `background:${colors[emotionMiniColorIndex(mood)]||'#eee'}`}
+  function miniMoodStyle(mood){const colors=['#D9D96D','#72D49E','#D96DA4','#64C59E','#B06DD9','#6DB3D9','#6D8CD9','#D96D5F','#8B6DD9','#5398D9'];return `background:${colors[emotionMiniColorIndex(mood)]||'#eee'}`}
   function renderEmotionMoodCalendar(rows,owners){
     const box=$('#emotionMoodCalendar');if(!box)return;const y=emotionShown.getFullYear(),m=emotionShown.getMonth(),first=new Date(y,m,1).getDay(),days=new Date(y,m+1,0).getDate(),prevDays=new Date(y,m,0).getDate();$('#emotionMonthTitle').textContent=`${y}. ${String(m+1).padStart(2,'0')}`;let html='';
     for(let i=0;i<42;i++){let cy=y,cm=m,day,out=false;if(i<first){day=prevDays-first+i+1;cm=m-1;out=true;if(cm<0){cm=11;cy--}}else if(i>=first+days){day=i-first-days+1;cm=m+1;out=true;if(cm>11){cm=0;cy++}}else day=i-first+1;const date=iso(cy,cm,day),dayRows=rows.filter(r=>r.date===date);let moodItems=[];dayRows.forEach(r=>{const ownerEmail=normalizeEmail(r.owner),label=emotionData[ownerEmail]?.profile?.name||familyUser(ownerEmail).name||'';entryMoods(r).forEach(mood=>moodItems.push({mood,ownerEmail,label}))});moodItems=moodItems.slice(0,6);const moods=moodItems.map(x=>`<span class="emotion-mini-blob" title="${escapeHtml(x.label)} · ${escapeHtml(x.mood)}" style="${miniMoodStyle(x.mood)}">${escapeHtml(EMOTION_FACES[x.mood]||'•ᴗ•')}</span>`).join('');const period=dayRows.some(r=>r.period);const flags=period?'<div class="emotion-day-flags"><span class="period" title="생리일">P</span></div>':'';html+=`<button class="emotion-month-day ${out?'out':''} ${date===iso(today.getFullYear(),today.getMonth(),today.getDate())?'today':''}" type="button" data-emotion-day-open="${date}" ${out?'tabindex="-1"':''}><span class="emotion-month-num">${String(day).padStart(2,'0')}</span><div class="emotion-day-moods">${moods}</div>${flags}</button>`}
@@ -4466,7 +4501,7 @@ html,body{background:var(--palette-bg)!important}.masthead,.nav-row{color:#fff}.
   $('#bucketDrops').addEventListener('click',async e=>{if(!currentUser||!googleToken){requireLogin();return}const photo=e.target.closest('[data-bucket-photo]');if(photo){bucketPhotoTargetId=photo.dataset.bucketPhoto||'';$('#bucketPhotoInput').click();return}const edit=e.target.closest('[data-bucket-edit]');if(edit){const item=cloudData.bucketItems.find(x=>x.id===edit.dataset.bucketEdit);if(!item)return;const next=prompt('버킷리스트를 수정하세요.',item.text||'');if(next===null)return;const text=String(next).trim();if(!text)return;item.text=text.slice(0,80);item.updatedAt=Date.now();try{await saveCloudData();renderBucketList()}catch(err){toast(googleErrorMessage(err))}return}const del=e.target.closest('[data-bucket-delete]');if(del){const item=cloudData.bucketItems.find(x=>x.id===del.dataset.bucketDelete);if(!item||!confirm(`“${item.text}” 버킷리스트를 삭제할까요?`))return;cloudData.bucketItems=cloudData.bucketItems.filter(x=>x.id!==item.id);try{await saveCloudData();if(item.photo?.fileId)driveDeleteFile(item.photo.fileId);renderBucketList()}catch(err){toast(googleErrorMessage(err))}return}const b=e.target.closest('[data-bucket-pop]');if(!b)return;const wrap=b.closest('.bucket-drop');if(wrap?.classList.contains('popping'))return;const item=cloudData.bucketItems.find(x=>x.id===b.dataset.bucketPop);if(!item||item.completedAt)return;wrap?.classList.add('popping');setTimeout(async()=>{item.completedAt=Date.now();item.completedBy=currentUserEmail;try{await saveCloudData();renderBucketList()}catch(err){toast(googleErrorMessage(err));renderBucketList()}},260)});
   $('#bucketHistory').addEventListener('click',async e=>{if(!currentUser||!googleToken){requireLogin();return}const restore=e.target.closest('[data-bucket-restore]');if(restore){const item=cloudData.bucketItems.find(x=>x.id===restore.dataset.bucketRestore);if(!item)return;item.completedAt=0;item.completedBy='';try{await saveCloudData();renderBucketList()}catch(err){toast(googleErrorMessage(err))}return}const del=e.target.closest('[data-bucket-delete]');if(del){const item=cloudData.bucketItems.find(x=>x.id===del.dataset.bucketDelete);if(!item||!confirm(`“${item.text}” 기록을 삭제할까요?`))return;cloudData.bucketItems=cloudData.bucketItems.filter(x=>x.id!==item.id);try{await saveCloudData();if(item.photo?.fileId)driveDeleteFile(item.photo.fileId);renderBucketList()}catch(err){toast(googleErrorMessage(err))}}});
   function countWantByMood(rows,mood){const counts={};rows.filter(r=>entryMoods(r).includes(mood)).forEach(r=>(r.wants||[]).forEach(w=>{w=cleanEmotionWant(w);if(w)counts[w]=(counts[w]||0)+1}));return Object.entries(counts).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0]))}
-  function emotionMoodColor(mood){const colors={'기쁨':'#f2dc68','행복':'#acd98d','설렘':'#efb6c0','편안함':'#b8d6c2','감사':'#c8b5df','피곤함':'#c9d6d6','불안':'#a9c4e9','짜증':'#e67878','외로움':'#b9acd4','슬픔':'#7f95bd'};return colors[mood]||'#deded8'}
+  function emotionMoodColor(mood){const colors={'기쁨':'#D9D96D','행복':'#72D49E','설렘':'#D96DA4','편안함':'#64C59E','감사':'#B06DD9','피곤함':'#6DB3D9','불안':'#6D8CD9','짜증':'#D96D5F','외로움':'#8B6DD9','슬픔':'#5398D9'};return colors[mood]||'#deded8'}
   function emotionCareBase(mood){const map={
     '기쁨':['좋았던 순간을 구체적으로 기억해 두세요. 기쁨을 만든 사람·장소·행동을 다시 선택할 단서가 됩니다.','기쁜 에너지를 바로 다음 할 일로 소진하지 말고 잠깐 머물러 보세요. 몸에서 느껴지는 가벼움이나 활기를 알아차리는 것도 도움이 됩니다.','오늘의 기쁨이 우연이었는지, 내가 만든 선택에서 왔는지 한 가지 원인을 찾아보세요.'],
     '행복':['만족감을 충분히 느끼고, 오늘 유지하고 싶은 행동 하나를 남겨보세요.','행복했던 장면을 사진이나 한 문장으로 저장해 두면 힘든 날에 회복 단서로 활용하기 좋습니다.','지금의 좋은 상태를 만든 생활 리듬이 무엇인지 살펴보세요. 수면·사람·활동 중 하나만 골라도 충분합니다.'],
