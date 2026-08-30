@@ -1,4 +1,4 @@
-const CACHE = "study-with-me-v18";
+const CACHE = "study-with-me-v18-aiderlog-v66";
 const ASSETS = ["./", "./index.html", "./styles.css", "./app.js", "./manifest.webmanifest", "./icon.svg"];
 
 self.addEventListener("install", (event) => {
@@ -8,7 +8,7 @@ self.addEventListener("install", (event) => {
 
 self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches.keys().then((keys) => Promise.all(keys.filter((key) => key !== CACHE).map((key) => caches.delete(key))))
+    caches.keys().then((keys) => Promise.all(keys.filter((key) => key.startsWith("study-with-me-") && key !== CACHE).map((key) => caches.delete(key))))
   );
   self.clients.claim();
 });

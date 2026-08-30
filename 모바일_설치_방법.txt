@@ -1,6 +1,8 @@
 AiderLog 모바일 앱 설치 방법 (Android / Galaxy)
 
 1. 이 폴더의 파일을 Vercel에 다시 배포합니다.
+   - Vercel Root Directory는 비워 둡니다.
+   - language-study 폴더를 Root Directory로 지정하지 마세요.
 2. Galaxy 휴대폰의 Chrome에서 배포 주소를 엽니다.
 3. Chrome 오른쪽 위 ⋮ 메뉴를 엽니다.
 4. “앱 설치” 또는 “홈 화면에 추가”를 선택합니다.
@@ -10,6 +12,7 @@ AiderLog 모바일 앱 설치 방법 (Android / Galaxy)
 
 앱으로 실행하면 브라우저 주소창 없이 독립 화면으로 열립니다.
 업데이트가 보이지 않으면 앱을 완전히 종료한 뒤 다시 실행하세요.
+계속 어학 페이지만 보이면 Chrome의 사이트 설정에서 AiderLog 저장 데이터를 한 번 삭제한 뒤 다시 접속하세요.
 
 Galaxy Fold
 - 펼친 화면에서는 데스크톱과 비슷한 두 칸형 스케줄 화면을 사용합니다.
