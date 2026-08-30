@@ -1,4 +1,13 @@
-# AiderDear v62
+# AiderLog v63
+
+## v63 브랜드·PAPER Brain 수정
+
+- 화면·설치 정보의 브랜드를 AiderLog로 변경하고 `DEAR US, ALWAYS` 문구 제거
+- `MADE BY BOMIN`을 메인 프레임 바로 아래 바깥쪽에 작은 서명으로 배치
+- PAPER 좌측 탐색 영역의 폭을 축소
+- PAPER에 회전 가능한 입체형 Brain 학습 화면 추가
+- 전두엽·두정엽·측두엽·후두엽·소뇌·뇌간·해마·편도체의 기능, 임상 단서, 연구 키워드 제공
+- 뇌 영역 키워드와 PAPER Library 논문을 자동 연결
 
 ## v62 EVENT·PERSONAL·PAPER 수정
 
