@@ -10,8 +10,8 @@
   "background_color": "#46444D",
   "theme_color": "#46444D",
   "lang": "ko-KR",
-  "categories": ["lifestyle", "productivity"],
-  "description": "혼자 또는 커플로 일정·감정·루틴·개인 생활을 한눈에 기록하는 라이프 아카이브",
+  "categories": ["lifestyle", "productivity", "education"],
+  "description": "일정·감정·루틴·개인 생활과 논문을 한눈에 기록하는 라이프 아카이브",
   "icons": [
     {"src":"./aiderdear-icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any"},
     {"src":"./aiderdear-icon-192.png","sizes":"192x192","type":"image/png","purpose":"any maskable"},
