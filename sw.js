@@ -1,4 +1,4 @@
-const CACHE='aiderdear-v45-schedule-emotion-app';
+const CACHE='aiderdear-v46-canonical-pair-schedule';
 const APP_SHELL=['./','./index.html','./firebase-app.js','./manifest.webmanifest','./aiderdear-icon.svg','./aiderdear-icon-180.png','./aiderdear-icon-192.png','./aiderdear-icon-512.png','./aiderdear-sky.jpg'];
 
 self.addEventListener('install',event=>{

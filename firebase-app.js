@@ -61,6 +61,7 @@ let appDataScopeKey = '';
 let pairRows = [];
 let incomingRows = [];
 let outgoingRows = [];
+let repairPromise = null;
 
 const cleanEmail = value => String(value || '').trim().toLowerCase();
 const publicUser = user => user ? {
@@ -255,18 +256,13 @@ async function createInvite(rawEmail) {
   return ref.id;
 }
 
-async function acceptInvite(inviteId) {
-  const user = requireUser();
-  if (state.pair) throw new Error('이미 커플로 연결되어 있습니다.');
-  const inviteRef = doc(db, 'pairInvites', inviteId);
-  const inviteSnapshot = await getDoc(inviteRef);
-  const invite = plainDoc(inviteSnapshot);
-  if (!invite || invite.status !== 'pending') throw new Error('이미 처리되었거나 만료된 초대입니다.');
-  if (cleanEmail(invite.toEmail) !== user.email) throw new Error('이 계정으로 받은 초대가 아닙니다.');
+async function finalizeInvitePair(invite, user, updateInvite = true) {
+  const inviteId = String(invite?.id || '');
+  if (!inviteId || !invite?.fromUid) throw new Error('커플 요청 정보를 확인할 수 없습니다.');
   const pairRef = doc(db, 'pairs', inviteId);
   const memberUids = [invite.fromUid, user.uid];
   const batch = writeBatch(db);
-  batch.update(inviteRef, {
+  if (updateInvite) batch.update(doc(db, 'pairInvites', inviteId), {
     status: 'accepted',
     pairId: inviteId,
     updatedAt: serverTimestamp(),
@@ -303,6 +299,49 @@ async function acceptInvite(inviteId) {
     }
     throw error;
   }
+  return inviteId;
+}
+
+async function acceptInvite(inviteId) {
+  const user = requireUser();
+  if (state.pair) throw new Error('이미 커플로 연결되어 있습니다.');
+  const invite = plainDoc(await getDoc(doc(db, 'pairInvites', inviteId)));
+  if (!invite || invite.status !== 'pending') throw new Error('이미 처리되었거나 만료된 초대입니다.');
+  if (cleanEmail(invite.toEmail) !== user.email) throw new Error('이 계정으로 받은 초대가 아닙니다.');
+  return finalizeInvitePair(invite, user, true);
+}
+
+async function repairPairConnection() {
+  if (repairPromise) return repairPromise;
+  repairPromise = (async () => {
+    const user = requireUser();
+    const pairSnapshot = await getDocs(query(collection(db, 'pairs'), where('memberUids', 'array-contains', user.uid)));
+    const visiblePairs = pairSnapshot.docs.map(plainDoc);
+    const active = visiblePairs.find(row => row.status === 'active' && row.memberUids?.includes(user.uid));
+    if (active) {
+      pairRows = visiblePairs;
+      recomputeState();
+      return true;
+    }
+    const inviteSnapshot = await getDocs(query(collection(db, 'pairInvites'), where('toEmail', '==', user.email)));
+    const accepted = inviteSnapshot.docs.map(plainDoc)
+      .filter(row => row.status === 'accepted' && row.pairId === row.id)
+      .sort((a, b) => timestampValue(b.updatedAt || b.createdAt) - timestampValue(a.updatedAt || a.createdAt));
+    for (const invite of accepted) {
+      const pair = plainDoc(await getDoc(doc(db, 'pairs', invite.id)));
+      if (pair?.status === 'active' && pair.memberUids?.includes(user.uid)) {
+        pairRows = [pair, ...visiblePairs.filter(row => row.id !== pair.id)];
+        recomputeState();
+        return true;
+      }
+      if (!pair) {
+        await finalizeInvitePair(invite, user, false);
+        return true;
+      }
+    }
+    return false;
+  })();
+  try { return await repairPromise; } finally { repairPromise = null; }
 }
 
 async function rejectInvite(inviteId) {
@@ -487,6 +526,7 @@ const api = {
   logout,
   createInvite,
   acceptInvite,
+  repairPairConnection,
   rejectInvite,
   cancelInvite,
   disconnectPair,
@@ -517,6 +557,9 @@ onAuthStateChanged(auth, async user => {
     try {
       state.user = await ensureUserProfile(user);
       startListeners(user);
+      setTimeout(() => repairPairConnection().catch(error => {
+        console.warn('Pair connection repair skipped', error);
+      }), 700);
     } catch (error) {
       state.error = error.message;
     }
