@@ -1,5 +1,5 @@
-const CACHE='aiderlog-v63-brain-workspace';
-const APP_SHELL=['./','./index.html','./firebase-app.js','./manifest.webmanifest','./aiderdear-icon.svg','./aiderdear-icon-180.png','./aiderdear-icon-192.png','./aiderdear-icon-512.png','./aiderdear-sky.jpg'];
+const CACHE='aiderlog-v64-delete-3d-brain';
+const APP_SHELL=['./','./index.html','./firebase-app.js','./brain-3d.js','./manifest.webmanifest','./aiderdear-icon.svg','./aiderdear-icon-180.png','./aiderdear-icon-192.png','./aiderdear-icon-512.png','./aiderdear-sky.jpg'];
 
 self.addEventListener('install',event=>{
   self.skipWaiting();

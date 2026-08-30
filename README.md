@@ -1,4 +1,13 @@
-# AiderLog v63
+# AiderLog v64
+
+## v64 기록 삭제·PAPER 3D Brain 수정
+
+- 일정·감정·사진·앨범·루틴·PERSONAL·PAPER 등 사용자가 추가한 기록에 삭제 기능 제공
+- 앨범 폴더 삭제 시 내부 미디어 기록을 기본 앨범으로 안전하게 이동
+- 논문 삭제 시 연결된 Insight·Comparison·Research Note·Connection 참조 정리
+- PAPER Brain을 회전·영역 선택이 가능한 실시간 3D 모델로 교체
+- 뇌 영역별 회로, 계산 기능, 연결망, 임상적 해석을 뇌과학·인지신경과학 수준으로 확장
+- `RELATED PAPERS`를 영역별 `RELATED DISORDERS`로 교체
 
 ## v63 브랜드·PAPER Brain 수정
 
