@@ -138,8 +138,8 @@
     return { x: nx / length, y: ny / length, z: nz / length };
   }
 
-  function drawLabel(ctx, hit, active, regions) {
-    var text = regions[hit.id].ko;
+  function drawLabel(ctx, hit, active) {
+    var text = BRAIN_REGIONS[hit.id].ko;
     ctx.font = (active ? '800 ' : '700 ') + '11px Arial';
     var width = ctx.measureText(text).width + 15;
     ctx.fillStyle = active ? '#00264B' : 'rgba(250,250,248,.88)';
@@ -155,11 +155,10 @@
     ctx.fillText(text, hit.x, hit.y);
   }
 
-  function init(state) {
+  function init() {
     var canvas = document.getElementById('brain3dCanvas');
     var scene = canvas && canvas.closest('.brain-scene');
-    var regions = state && state.regions;
-    if (!canvas || !scene || !regions) return;
+    if (!canvas || !scene || typeof BRAIN_REGIONS === 'undefined') return;
     if (resizeObserver) resizeObserver.disconnect();
     var context = canvas.getContext('2d');
     var hits = [];
@@ -179,14 +178,14 @@
       }
       context.setTransform(ratio, 0, 0, ratio, 0, 0);
       context.clearRect(0, 0, width, height);
-      var yaw = Number(state.rotation || 0) * Math.PI / 180;
-      var pitch = Number(state.pitch || 0) * Math.PI / 180;
+      var yaw = Number(researchBrainRotation || 0) * Math.PI / 180;
+      var pitch = Number(researchBrainPitch || 0) * Math.PI / 180;
       var project = projector(width, height, yaw, pitch);
       var triangles = [];
       buildMeshes().forEach(function (mesh) {
         var isCortex = mesh.id === 'cortex';
         var isDeep = mesh.id === 'hippocampus' || mesh.id === 'amygdala';
-        var alpha = state.layer === 'deep'
+        var alpha = researchBrainLayer === 'deep'
           ? (isCortex ? 0.13 : isDeep ? 1 : 0.52)
           : (isDeep ? 0.12 : 1);
         var rotated = mesh.vertices.map(function (vertex) { return rotate(vertex, yaw, pitch); });
@@ -213,8 +212,8 @@
       });
       triangles.sort(function (a, b) { return a.depth - b.depth; });
       triangles.forEach(function (triangle) {
-        var color = regions[triangle.region] ? regions[triangle.region].color : '#9fb4c2';
-        var selected = triangle.region === state.region;
+        var color = BRAIN_REGIONS[triangle.region] ? BRAIN_REGIONS[triangle.region].color : '#9fb4c2';
+        var selected = triangle.region === researchBrainRegion;
         context.beginPath();
         context.moveTo(triangle.points[0].x, triangle.points[0].y);
         context.lineTo(triangle.points[1].x, triangle.points[1].y);
@@ -237,20 +236,20 @@
         hippocampus: { x: 0.05, y: -0.25, z: 0.47 },
         amygdala: { x: -0.5, y: -0.18, z: 0.48 }
       };
-      var allowed = state.layer === 'deep'
+      var allowed = researchBrainLayer === 'deep'
         ? ['hippocampus', 'amygdala', 'brainstem', 'cerebellum']
         : ['frontal', 'parietal', 'temporal', 'occipital', 'cerebellum', 'brainstem'];
       hits = allowed.map(function (id) {
         var point = project(anchors[id]);
         return { id: id, x: point.x, y: point.y };
       });
-      hits.forEach(function (hit) { drawLabel(context, hit, hit.id === state.region, regions); });
+      hits.forEach(function (hit) { drawLabel(context, hit, hit.id === researchBrainRegion); });
       var axis = document.getElementById('brainRotationValue');
-      if (axis) axis.textContent = Math.round(state.rotation) + '°';
+      if (axis) axis.textContent = Math.round(researchBrainRotation) + '°';
     }
 
     canvas.addEventListener('pointerdown', function (event) {
-      pointer = { x: event.clientX, y: event.clientY, yaw: state.rotation, pitch: state.pitch };
+      pointer = { x: event.clientX, y: event.clientY, yaw: researchBrainRotation, pitch: researchBrainPitch };
       moved = false;
       canvas.setPointerCapture(event.pointerId);
       scene.classList.add('dragging');
@@ -260,8 +259,8 @@
       var dx = event.clientX - pointer.x;
       var dy = event.clientY - pointer.y;
       if (Math.hypot(dx, dy) > 4) moved = true;
-      state.rotation = pointer.yaw + dx * 0.34;
-      state.pitch = Math.max(-35, Math.min(28, pointer.pitch - dy * 0.28));
+      researchBrainRotation = pointer.yaw + dx * 0.34;
+      researchBrainPitch = Math.max(-35, Math.min(28, pointer.pitch - dy * 0.28));
       render();
     });
     canvas.addEventListener('pointerup', function (event) {
@@ -274,9 +273,9 @@
           return { hit: hit, distance: Math.hypot(hit.x - x, hit.y - y) };
         }).sort(function (a, b) { return a.distance - b.distance; })[0];
         if (nearest && nearest.distance < 38) {
-          state.region = nearest.hit.id;
-          state.layer = regions[state.region].group.indexOf('DEEP') >= 0 ? 'deep' : state.layer;
-          if (typeof state.rerender === 'function') state.rerender();
+          researchBrainRegion = nearest.hit.id;
+          researchBrainLayer = BRAIN_REGIONS[researchBrainRegion].group.indexOf('DEEP') >= 0 ? 'deep' : researchBrainLayer;
+          if (typeof renderPaper === 'function') renderPaper();
         }
       }
       pointer = null;
@@ -286,12 +285,8 @@
       pointer = null;
       scene.classList.remove('dragging');
     });
-    if (typeof ResizeObserver === 'function') {
-      resizeObserver = new ResizeObserver(render);
-      resizeObserver.observe(scene);
-    } else {
-      window.addEventListener('resize', render, { passive: true });
-    }
+    resizeObserver = new ResizeObserver(render);
+    resizeObserver.observe(scene);
     render();
   }
 
