@@ -1,24 +1,19 @@
 {
-  "id": "./",
-  "name": "AiderLog",
-  "short_name": "AiderLog",
-  "start_url": "./",
-  "scope": "./",
-  "display": "standalone",
-  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
-  "orientation": "any",
-  "background_color": "#46444D",
-  "theme_color": "#46444D",
+  "name": "study with me — AI 실전 외국어 회화",
+  "short_name": "study with me",
+  "description": "36개 상황별 코스와 맞춤 복습을 제공하는 영어·일본어·중국어 AI 회화 앱",
   "lang": "ko-KR",
-  "categories": ["lifestyle", "productivity", "education"],
-  "description": "일정·루틴·개인 생활과 논문 Insight·비교·연구 노트를 연결하는 개인 연구 라이프 워크스페이스",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f2f4f7",
+  "theme_color": "#0969da",
+  "orientation": "portrait-primary",
   "icons": [
-    {"src":"./aiderdear-icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any"},
-    {"src":"./aiderdear-icon-192.png","sizes":"192x192","type":"image/png","purpose":"any maskable"},
-    {"src":"./aiderdear-icon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}
-  ],
-  "shortcuts": [
-    {"name":"일정 보기","short_name":"일정","url":"./"},
-    {"name":"기록 검색","short_name":"검색","url":"./#search"}
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
   ]
 }

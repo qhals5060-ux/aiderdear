@@ -4,6 +4,7 @@ import {
   getAuth,
   GoogleAuthProvider,
   onAuthStateChanged,
+  reauthenticateWithPopup,
   setPersistence,
   signInWithPopup,
   signInWithRedirect,
@@ -53,6 +54,7 @@ const state = {
 };
 
 const subscribers = new Set();
+let googleDriveAccessToken = '';
 let unsubscribePairs = null;
 let unsubscribeIncoming = null;
 let unsubscribeOutgoing = null;
@@ -231,7 +233,142 @@ async function login() {
 }
 
 async function logout() {
+  googleDriveAccessToken = '';
   await signOut(auth);
+}
+
+function googleDriveProvider() {
+  const provider = new GoogleAuthProvider();
+  provider.addScope('https://www.googleapis.com/auth/drive.file');
+  provider.setCustomParameters({ prompt: 'consent' });
+  return provider;
+}
+
+async function requestGoogleDriveAccess() {
+  requireUser();
+  const result = await reauthenticateWithPopup(auth.currentUser, googleDriveProvider());
+  const credential = GoogleAuthProvider.credentialFromResult(result);
+  googleDriveAccessToken = String(credential?.accessToken || '');
+  if (!googleDriveAccessToken) throw new Error('Google Drive 연결 권한을 확인하지 못했습니다.');
+  return true;
+}
+
+async function googleDriveFetch(url, options = {}, responseType = 'json') {
+  if (!googleDriveAccessToken) await requestGoogleDriveAccess();
+  const headers = new Headers(options.headers || {});
+  headers.set('Authorization', `Bearer ${googleDriveAccessToken}`);
+  const response = await fetch(url, { ...options, headers });
+  if (!response.ok) {
+    const body = await response.text().catch(() => '');
+    if (response.status === 401) googleDriveAccessToken = '';
+    if (response.status === 403 && /accessNotConfigured|SERVICE_DISABLED/i.test(body)) {
+      throw new Error('Google Cloud에서 Google Drive API를 먼저 사용 설정해주세요.');
+    }
+    throw new Error(`Google Drive 백업 오류 (${response.status})`);
+  }
+  if (response.status === 204) return null;
+  if (responseType === 'response') return response;
+  if (responseType === 'text') return response.text();
+  return response.json();
+}
+
+function driveQueryEscape(value) {
+  return String(value || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+}
+
+async function ensureGoogleDriveBackupFolder() {
+  const q = "mimeType='application/vnd.google-apps.folder' and trashed=false and appProperties has { key='aiderlogBackup' and value='root' }";
+  const result = await googleDriveFetch(`https://www.googleapis.com/drive/v3/files?spaces=drive&pageSize=10&fields=files(id,name)&q=${encodeURIComponent(q)}`);
+  if (result.files?.[0]) return result.files[0];
+  return googleDriveFetch('https://www.googleapis.com/drive/v3/files?fields=id,name', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      name: 'AiderLog Backups',
+      mimeType: 'application/vnd.google-apps.folder',
+      appProperties: { aiderlogBackup: 'root' },
+    }),
+  });
+}
+
+async function findGoogleDriveBackup(sourceId) {
+  const safe = driveQueryEscape(sourceId);
+  const q = `trashed=false and appProperties has { key='aiderlogSourceId' and value='${safe}' }`;
+  const result = await googleDriveFetch(`https://www.googleapis.com/drive/v3/files?spaces=drive&pageSize=1&fields=files(id,name,size,mimeType)&q=${encodeURIComponent(q)}`);
+  return result.files?.[0] || null;
+}
+
+async function uploadGoogleDriveBackupFile(folderId, sourceId, name, blob) {
+  const existing = await findGoogleDriveBackup(sourceId);
+  if (existing) return { ...existing, reused: true };
+  const metadata = {
+    name: String(name || 'AiderLog media').replace(/[\\/:*?"<>|]/g, '_').slice(0, 180),
+    parents: [folderId],
+    mimeType: blob.type || 'application/octet-stream',
+    appProperties: { aiderlogBackup: 'media', aiderlogSourceId: String(sourceId) },
+  };
+  const start = await googleDriveFetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=resumable&fields=id,name,size,mimeType', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'X-Upload-Content-Type': blob.type || 'application/octet-stream',
+      'X-Upload-Content-Length': String(blob.size),
+    },
+    body: JSON.stringify(metadata),
+  }, 'response');
+  const uploadUrl = start.headers.get('Location');
+  if (!uploadUrl) throw new Error('Google Drive 업로드 주소를 받지 못했습니다.');
+  return googleDriveFetch(uploadUrl, {
+    method: 'PUT',
+    headers: { 'Content-Type': blob.type || 'application/octet-stream' },
+    body: blob,
+  });
+}
+
+async function uploadGoogleDriveBackupManifest(folderId, fileName, payload) {
+  const boundary = `aiderlog_backup_${Date.now()}`;
+  const metadata = JSON.stringify({
+    name: fileName,
+    parents: [folderId],
+    mimeType: 'application/json',
+    appProperties: { aiderlogBackup: 'manifest' },
+  });
+  const body = new Blob([
+    `--${boundary}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n${metadata}\r\n`,
+    `--${boundary}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n${JSON.stringify(payload, null, 2)}\r\n`,
+    `--${boundary}--`,
+  ], { type: `multipart/related; boundary=${boundary}` });
+  return googleDriveFetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,name,size', {
+    method: 'POST',
+    headers: { 'Content-Type': `multipart/related; boundary=${boundary}` },
+    body,
+  });
+}
+
+async function backupEventDataToGoogleDrive({ records = [], travel = [], media = [], exportedAt = '' } = {}) {
+  requireUser();
+  await requestGoogleDriveAccess();
+  const folder = await ensureGoogleDriveBackupFolder();
+  const mediaBackups = {};
+  let uploaded = 0;
+  for (const item of media) {
+    const id = String(item?.id || '');
+    if (!id || mediaBackups[id]) continue;
+    const blob = await readMedia(id);
+    const result = await uploadGoogleDriveBackupFile(folder.id, id, item.name || id, blob);
+    mediaBackups[id] = { driveFileId: result.id, name: result.name, mimeType: result.mimeType || blob.type, size: Number(result.size || blob.size) };
+    if (!result.reused) uploaded += 1;
+  }
+  const date = String(exportedAt || new Date().toISOString()).slice(0, 10);
+  const manifest = await uploadGoogleDriveBackupManifest(folder.id, `AiderLog-Event-Backup-${date}.json`, {
+    app: 'AiderLog',
+    version: 1,
+    exportedAt: exportedAt || new Date().toISOString(),
+    records,
+    travel,
+    mediaBackups,
+  });
+  return { folderId: folder.id, manifestId: manifest.id, mediaCount: Object.keys(mediaBackups).length, uploaded };
 }
 
 async function createInvite(rawEmail) {
@@ -453,11 +590,34 @@ async function compressImage(file) {
   return new File([blob], file.name.replace(/\.[^.]+$/, '') + '.jpg', { type: 'image/jpeg' });
 }
 
+async function videoDurationSeconds(file) {
+  if (!String(file?.type || '').startsWith('video/')) return 0;
+  const url = URL.createObjectURL(file);
+  try {
+    return await new Promise((resolve, reject) => {
+      const video = document.createElement('video');
+      const timer = setTimeout(() => reject(new Error('영상 재생 시간을 확인하지 못했습니다.')), 15000);
+      video.preload = 'metadata';
+      video.onloadedmetadata = () => { clearTimeout(timer); resolve(Number(video.duration) || 0); };
+      video.onerror = () => { clearTimeout(timer); reject(new Error('영상 정보를 읽지 못했습니다.')); };
+      video.src = url;
+    });
+  } finally {
+    URL.revokeObjectURL(url);
+  }
+}
+
 async function uploadMedia(originalFile, label = 'media') {
   requireUser();
   const file = await compressImage(originalFile);
-  const maxSize = 25 * 1024 * 1024;
-  if (file.size > maxSize) throw new Error('무료 저장공간 보호를 위해 파일은 25MB 이하만 올릴 수 있습니다.');
+  const isVideo = String(file.type || '').startsWith('video/');
+  if (isVideo) {
+    const duration = await videoDurationSeconds(file);
+    if (duration > 310) throw new Error('영상은 5분 이내로 선택해주세요.');
+    if (file.size > 120 * 1024 * 1024) throw new Error('5분 영상은 120MB 이하로 선택해주세요. 화질을 낮추면 더 오래 보관할 수 있습니다.');
+  } else if (file.size > 25 * 1024 * 1024) {
+    throw new Error('무료 저장공간 보호를 위해 사진은 25MB 이하만 올릴 수 있습니다.');
+  }
   const mediaId = `m-${Date.now()}-${crypto.randomUUID().slice(0, 8)}`;
   const ref = mediaRef(mediaId);
   const bytes = new Uint8Array(await file.arrayBuffer());
@@ -604,6 +764,8 @@ const api = {
   uploadPrivateMedia,
   readPrivateMedia,
   deletePrivateMedia,
+  requestGoogleDriveAccess,
+  backupEventDataToGoogleDrive,
 };
 
 window.AiderDearFirebase = api;

@@ -1,3 +1,15 @@
+AiderLog v65
+
+[v65 변경]
+- PERSONAL 전체 폰트 확대 및 크기 체계 통일
+- EVENT Archive/Travel의 중복 가로선을 한 줄로 정리
+- 커플 공유 범위를 SCHEDULE과 EVENT로 한정
+- 6개월 초과 정리 대상 기록 안내와 사용자 동의 후 삭제 추가
+- Record/Travel, Workflow/Finance, PAPER는 6개월 삭제 대상에서 제외
+- 영상 업로드를 최대 5분·120MB로 확장
+- 30일마다 EVENT Record/Travel의 Google Drive 백업 동의 안내 추가
+- 첨부된 study with me v18 다국어 학습 앱을 ROUTINE 두 번째 화면에 통합
+
 AiderLog v64
 
 [v64 변경]
