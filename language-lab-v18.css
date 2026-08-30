@@ -1250,3 +1250,75 @@ a { color: inherit; text-decoration: none; }
   .course-panel .section-heading-row{min-height:32px!important;padding:9px 12px 4px!important}
   .content-heading{min-height:45px!important}
 }
+
+/* AiderLog v73 · one-line course picker and recent 14-day activity */
+.header-course .course-selectors{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center;
+  gap:12px!important;
+}
+.header-course .language-select,.header-course .level-select{
+  min-width:0;
+  display:flex!important;
+  flex-direction:row!important;
+  align-items:center!important;
+  gap:7px!important;
+  white-space:nowrap;
+}
+.header-course .language-select{flex:0 1 142px}
+.header-course .level-select{flex:1 1 240px}
+.header-course .language-select select,.header-course .level-select select{flex:1 1 auto!important}
+.recent-study{
+  flex:1 1 auto;
+  min-height:86px;
+  margin:2px 10px 9px;
+  padding:8px 9px 9px;
+  overflow:hidden;
+  border:1px solid var(--line);
+  background:#f8fafc;
+}
+.recent-study-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:7px}
+.recent-study-head h4{margin:0;font-size:10.5px;line-height:1.2}
+.recent-study-head span{color:var(--muted);font-size:8px;font-weight:800}
+.recent-study-days{display:grid;grid-template-columns:repeat(14,minmax(0,1fr));gap:4px}
+.recent-study-day{
+  min-width:0;
+  min-height:50px;
+  padding:5px 2px 4px;
+  display:grid;
+  align-content:start;
+  justify-items:center;
+  gap:4px;
+  border:1px solid #d9dfe8;
+  background:#fff;
+  color:#8a95a3;
+}
+.recent-study-day time{display:flex;align-items:baseline;gap:2px;line-height:1}
+.recent-study-day time b{font-size:8.5px}
+.recent-study-day time small{font-size:6.5px;font-weight:800}
+.recent-study-day>div{min-height:17px;display:flex;flex-wrap:wrap;align-content:start;justify-content:center;gap:2px}
+.recent-study-day>div span{padding:2px 3px;background:#dfe8ff;color:#3159ba;font-size:6.5px;font-weight:900;line-height:1.15}
+.recent-study-day>div i{font-size:8px;font-style:normal;opacity:.55}
+.recent-study-day.active{border-color:#9eb5ee;background:#eef3ff;color:#223c78}
+.recent-study-day.today{box-shadow:inset 0 -3px 0 var(--blue)}
+
+@media(min-width:901px){
+  .app-header{grid-template-columns:minmax(150px,.65fr) minmax(360px,1.2fr) minmax(420px,1.4fr)!important}
+  .learning-section{display:flex!important;flex-direction:column!important}
+  .learning-section .scenario-summary,.learning-section .day-list-heading,.learning-section .day-list{flex:0 0 auto}
+}
+
+@media(max-width:900px){
+  .header-course .course-selectors{width:100%;gap:8px!important}
+  .header-course .language-select{flex:0 1 42%}
+  .header-course .level-select{flex:1 1 58%}
+  .recent-study{min-height:142px}
+  .recent-study-days{grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+}
+
+@media(max-width:520px){
+  .header-course .course-selectors{align-items:stretch!important}
+  .header-course .language-select,.header-course .level-select{gap:4px!important;font-size:8px!important}
+  .header-course .language-select select,.header-course .level-select select{padding-left:6px!important;font-size:8px!important}
+}

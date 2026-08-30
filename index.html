@@ -11,12 +11,12 @@
 <meta name="description" content="둘만의 일정과 감정, 기록, 앨범, 여행, 루틴을 한곳에 간직하는 프라이빗 라이프 아카이브">
 <meta name="format-detection" content="telephone=no">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="aiderlog-build" content="v72">
+<meta name="aiderlog-build" content="v73">
 <link rel="canonical" href="https://aiderdear1.vercel.app/">
 <script>
 (() => {
   const url = new URL(location.href);
-  if (['v67','v68','v69','v70','v71','v72'].includes(url.searchParams.get('aiderlog-main'))) {
+  if (['v67','v68','v69','v70','v71','v72','v73'].includes(url.searchParams.get('aiderlog-main'))) {
     url.searchParams.delete('aiderlog-main');
     history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`);
   }
@@ -3105,7 +3105,7 @@ body:before,body:after{background:#46444D!important;background-image:none!import
       <button class="tab" type="button" role="tab" data-tab="record" aria-controls="recordStage" aria-selected="false" tabindex="-1">EVENT</button>
       <button class="tab" type="button" role="tab" data-tab="personal" aria-controls="personalStage" aria-selected="false" tabindex="-1">PERSONAL</button>
       <button class="tab" type="button" role="tab" data-tab="paper" aria-controls="paperStage" aria-selected="false" tabindex="-1" hidden>PAPER</button>
-      <button class="tab" type="button" role="tab" data-tab="task" aria-controls="taskStage" aria-selected="false" tabindex="-1" hidden>TASK</button>
+      <button class="tab" type="button" role="tab" data-tab="task" aria-controls="taskStage" aria-selected="false" tabindex="-1">TASK</button>
     </nav>
       <div class="nav-tools" aria-label="빠른 도구">
         <div class="top-actions">
@@ -4259,7 +4259,7 @@ body:before,body:after{background:#46444D!important;background-image:none!import
   const TASK_OWNER_EMAIL='aidway55@gmail.com';
 
   function normalizeEmail(v){return String(v||'').trim().toLowerCase()}
-  function canAccessRestrictedTab(tab,email=currentUserEmail){email=normalizeEmail(email);if(tab==='paper')return email===PAPER_OWNER_EMAIL;if(tab==='task')return email===TASK_OWNER_EMAIL;return true}
+  function canAccessRestrictedTab(tab,email=currentUserEmail){email=normalizeEmail(email);if(tab==='paper')return email===PAPER_OWNER_EMAIL;if(tab==='task')return true;return true}
   function updateRestrictedTabVisibility(){
     const paperTab=$('.tab[data-tab="paper"]'),taskTab=$('.tab[data-tab="task"]');
     if(paperTab)paperTab.hidden=!canAccessRestrictedTab('paper');
@@ -4972,8 +4972,23 @@ body:before,body:after{background:#46444D!important;background-image:none!import
     applyLoginUI();updateMailBadge();renderCalendar();renderAlbumFolders();renderRecordFeed();renderPrivate();renderPersonal();renderEmotion();setGoogleStatus('Google 계정으로 로그인해주세요.');
   }
   let queuedPairGuide=false;
-  function showPairGuideOnce(){const pairId=firebaseState.pair?.id;if(!pairId||!currentUserEmail)return;const key=`aiderlog-pair-guide-v66:${pairId}:${currentUserEmail}`;if(localStorage.getItem(key))return;localStorage.setItem(key,'1');if($('#storageGuideModal')?.classList.contains('open')){queuedPairGuide=true;return}openModal('pairGuideModal')}
-  function showAccountGuides(){if(!currentUserEmail)return;const key=`aiderlog-storage-guide-v66:${currentUserEmail}`;if(!sessionStorage.getItem(key)){sessionStorage.setItem(key,'1');queuedPairGuide=!!firebaseState.pair?.id;openModal('storageGuideModal');return}showPairGuideOnce()}
+  function showPairGuideOnce(){
+    const pairId=firebaseState.pair?.id,partnerEmail=normalizeEmail(firebaseState.partner?.email||'');
+    if(!pairId||!currentUserEmail)return;
+    const people=[normalizeEmail(currentUserEmail),partnerEmail].filter(Boolean).sort().join('|');
+    const stableKey=`aiderlog-pair-guide-v66:${people||pairId}`,legacyKey=`aiderlog-pair-guide-v66:${pairId}:${currentUserEmail}`;
+    if(localStorage.getItem(stableKey)||localStorage.getItem(legacyKey)){localStorage.setItem(stableKey,'1');return}
+    localStorage.setItem(stableKey,'1');localStorage.setItem(legacyKey,'1');
+    if($('#storageGuideModal')?.classList.contains('open')){queuedPairGuide=true;return}
+    openModal('pairGuideModal')
+  }
+  function showAccountGuides(){
+    if(!currentUserEmail)return;
+    const key=`aiderlog-storage-guide-v66:${currentUserEmail}`;
+    if(sessionStorage.getItem(key)&&!localStorage.getItem(key))localStorage.setItem(key,'1');
+    if(!localStorage.getItem(key)){localStorage.setItem(key,'1');queuedPairGuide=!!firebaseState.pair?.id;openModal('storageGuideModal');return}
+    showPairGuideOnce()
+  }
   $$('[data-close="storageGuideModal"]').forEach(button=>button.addEventListener('click',()=>{if(!queuedPairGuide)return;queuedPairGuide=false;setTimeout(showPairGuideOnce,160)}));
   async function handleFirebaseState(next){
     firebaseState=next||firebaseState;renderFirebasePairUI();if(!firebaseState.ready)return;if(!firebaseState.user){if(currentUser)resetFirebaseLocalSession();applyLoginUI();return}const user=firebaseState.user,scope=`${user.uid}:${firebaseState.pair?.id||'solo'}`;googleProfile={email:user.email,name:user.name,picture:user.photoURL};currentUserEmail=normalizeEmail(user.email);currentUserName=storedDisplayName(currentUserEmail)||user.name||normalizeName('',currentUserEmail);currentUser='mine';isAdmin=false;googleToken='firebase-session';googleConfig.adminEmail='';googleConfig.partnerEmail=firebaseState.partner?.email||'';googleConfig.familyUsers=normalizeFamilyUsers([{email:currentUserEmail,name:currentUserName},...(firebaseState.partner?[{email:firebaseState.partner.email,name:firebaseState.partner.name}]:[])]);applyLoginUI();if(firebaseState.error)setGoogleStatus(firebaseState.error,'error');if(scope===firebaseScopeKey)return;firebaseScopeKey=scope;firebaseBootstrapPromise=(firebaseBootstrapPromise||Promise.resolve()).catch(()=>{}).then(async()=>{try{await bootstrapGoogleData();closeModal('loginModal');toast(`${currentUserName}님, 환영합니다.`);setTimeout(showAccountGuides,120);const pending=pendingAfterLogin;pendingAfterLogin=null;if(pending)setTimeout(pending,80)}catch(err){setGoogleStatus(googleErrorMessage(err),'error')}});await firebaseBootstrapPromise;

@@ -1961,12 +1961,58 @@ function renderCourse() {
   renderGlobalStats();
 }
 
+function localDateKey(value) {
+  const date = value instanceof Date ? value : new Date(value);
+  if (Number.isNaN(date.getTime())) return "";
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+}
+
+function progressLanguage(dayId, record) {
+  if (languageMeta[record?.language]) return record.language;
+  const prefix = String(dayId || "").split("-")[0];
+  return languageMeta[prefix] ? prefix : "ja";
+}
+
+function renderRecentStudy() {
+  const target = $("#recent-study-days");
+  if (!target) return;
+  const activity = new Map();
+  Object.entries(state.progress || {}).forEach(([dayId, record]) => {
+    if (!record?.completedAt) return;
+    const language = progressLanguage(dayId, record);
+    [record.completedAt, record.lastReviewedAt, ...(record.reviewHistory || [])].filter(Boolean).forEach((timestamp) => {
+      const key = localDateKey(timestamp);
+      if (!key) return;
+      if (!activity.has(key)) activity.set(key, new Set());
+      activity.get(key).add(language);
+    });
+  });
+  const today = new Date();
+  today.setHours(12, 0, 0, 0);
+  const days = Array.from({ length: 14 }, (_, index) => {
+    const date = new Date(today);
+    date.setDate(today.getDate() - (13 - index));
+    return date;
+  });
+  target.innerHTML = days.map((date) => {
+    const key = localDateKey(date);
+    const languages = [...(activity.get(key) || [])];
+    const labels = languages.map((language) => `<span>${escapeHtml(languageMeta[language]?.label || language)}</span>`).join("");
+    const isToday = key === localDateKey(today);
+    return `<article class="recent-study-day ${languages.length ? "active" : ""} ${isToday ? "today" : ""}" title="${date.toLocaleDateString("ko-KR")}${languages.length ? ` · ${languages.map((language) => languageMeta[language]?.label || language).join(", ")}` : " · 학습 없음"}">
+      <time datetime="${key}"><b>${date.getMonth() + 1}.${date.getDate()}</b><small>${["일", "월", "화", "수", "목", "금", "토"][date.getDay()]}</small></time>
+      <div>${labels || "<i>—</i>"}</div>
+    </article>`;
+  }).join("");
+}
+
 function renderGlobalStats() {
   const complete = completedEntries();
   $("#streak-count").textContent = String(calculateStreak(complete));
   const queueCount = Math.min(5, reviewQueue().length);
   $("#review-badge").textContent = String(queueCount);
   $("#review-badge").hidden = queueCount === 0;
+  renderRecentStudy();
 }
 
 function calculateStreak(entries) {
@@ -2272,6 +2318,7 @@ function completeLesson() {
   const isReview = state.reviewMode || Boolean(existing?.completedAt);
   state.progress[state.activeDay.id] = {
     ...existing,
+    language: state.language,
     completedAt: existing?.completedAt || now,
     pronunciationScore: Number.isFinite(state.pronunciationScore) ? state.pronunciationScore : (existing?.pronunciationScore ?? null),
     attempts: (existing?.attempts || 0) + 1,
