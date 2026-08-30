@@ -1,12 +1,12 @@
-AiderLog v71 배포 확인
+AiderLog v72 배포 확인
 
 1. 이 폴더의 내용 전체를 Vercel 프로젝트 루트에 배포합니다.
 2. Vercel Root Directory는 비워 둡니다.
-3. Deployments에서 새 v71 배포를 Production으로 승격합니다.
+3. Deployments에서 새 v72 배포를 Production으로 승격합니다.
 4. 아래 주소를 엽니다.
    https://aiderdear1.vercel.app/sw.js
 5. 첫 줄이 아래와 같아야 합니다.
-   const CACHE='aiderlog-v71-language-lab-density';
+   const CACHE='aiderlog-v72-personal-pattern-dashboard';
 
 첫 줄에 이전 버전이 보이면 코드는 새로 올라갔더라도 운영 주소가 아직 이전 배포를 가리키는 상태입니다.
 이 경우 Vercel Deployments에서 최신 배포의 메뉴를 열어 Promote to Production을 선택하세요.
@@ -24,3 +24,7 @@ AiderLog v71 배포 확인
 - PAPER → Brain → 대영역 선택 → 세부 영역과 관련 학습·질환 팝업 표시
 - ROUTINE → 화면 전환 → 언어·난이도 선택기가 중앙 헤더에 표시
 - 첫 구간 선택 → Day 1~10 카드가 데스크톱 프레임에 모두 표시
+- 탭 이름 → SCHEDULE · ROUTINE · EVENT · PERSONAL · PAPER · TASK
+- PERSONAL → 화면 전환 → 식사·운동·독서·금융 패턴 Overview
+- 운동 기록 → 사진 추가 → Overview에서 두 날짜 사진 비교
+- 금융 기록 → 납부 주기·납부일 → Overview에서 납부 완료 체크

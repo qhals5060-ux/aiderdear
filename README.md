@@ -1,4 +1,18 @@
-# AiderLog v71
+# AiderLog v72
+
+## v72 PERSONAL 패턴 대시보드
+
+- 탭 이름을 `SCHEDULE · ROUTINE · EVENT · PERSONAL · PAPER · TASK`로 정리했습니다.
+- TASK 탭의 노란 배경이 상단 둥근 모서리 밖으로 번지지 않도록 클리핑을 수정했습니다.
+- PERSONAL Overview에서 포모도로 합계 보드를 삭제했습니다.
+- 식사는 아침·점심·저녁·간식 비중과 평균 기록 시간, 평점이 높은 음식을 보여줍니다.
+- 운동은 자주 한 종목의 비중과 종목별 최대 중량 변화를 보여줍니다.
+- 운동 기록에 신체 사진을 첨부하고, 서로 다른 두 날짜의 사진을 나란히 비교할 수 있습니다.
+- 독서는 기간 내 저장한 문장을 책 이름·페이지와 함께 나열합니다.
+- 적금·예금·고정 지출은 납부 예정일을 날짜별 체크리스트로 보여주며 확인 상태가 개인 데이터에 저장됩니다.
+
+배포 후 `https://aiderdear1.vercel.app/sw.js`의 첫 줄이
+`const CACHE='aiderlog-v72-personal-pattern-dashboard';`인지 확인하세요.
 
 ## v71 ROUTINE Language Lab 재배치
 
