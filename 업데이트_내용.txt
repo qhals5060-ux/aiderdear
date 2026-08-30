@@ -1,3 +1,13 @@
+AiderDear v61
+
+[v61 변경]
+- ROUTINE 설명 영역을 줄이고 MINI/MORE/MAX 글자와 스탬프 영역 확대
+- EVENT 프레임 #FAFAF8 통일 및 Album 각진 사각형 적용
+- PERSONAL 식사/운동 전용 입력 분리, 금융 유동 지출 추가
+- PERSONAL 화면 전환 후 건강/독서/워크플로우/금융 통합 대시보드 제공
+- PAPER의 검색/논문 추가를 좌측 메뉴로 이동하고 안내 문구와 페이지 타이틀 제거
+- PAPER 기능은 유지하면서 화면 밀도를 높여 스크롤 최소화
+
 AiderDear v60
 
 [v60 변경]

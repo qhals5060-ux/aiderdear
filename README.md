@@ -1,4 +1,14 @@
-# AiderDear v60
+# AiderDear v61
+
+## v61 화면 밀도·PERSONAL 대시보드 개선
+
+- ROUTINE의 MINI·MORE·MAX 글자를 키우고 설명 영역을 줄여 스탬프 보드를 확장
+- EVENT 전체 프레임을 `#FAFAF8`로 통일하고 Album 카드를 각진 사각형으로 변경
+- PERSONAL 식사·운동 입력을 각각 전용 팝업으로 고정
+- 금융을 적금·예금, 유동 지출·입금 예정, 고정 지출로 재구성
+- PERSONAL 두 번째 화면에 건강·독서·워크플로우·금융 통합 대시보드 추가
+- PAPER 검색과 논문 추가를 좌측 탐색 영역으로 이동하고 반복 타이틀·안내 문구 삭제
+- PAPER의 Dashboard, Library, Insight, Compare, Notes, Connections를 밀도 높게 재배치해 스크롤 축소
 
 ## v60 PAPER 연구 워크스페이스
 
