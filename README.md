@@ -1,4 +1,21 @@
-# AiderLog v84
+# AiderLog v85
+
+## v85 Taller frames · admissions comparison
+
+- 상단 탭을 AiderLog 타이틀 가까이 올리고 확보된 높이를 각 탭의 메인 프레임에 돌려주었습니다.
+- 모든 메인 프레임에 현재 탭 색상과 같은 4px 외곽선을 적용했습니다.
+- Graduate Admissions 공식 대학원·입학 안내를 24곳 추가해 총 80곳으로 확장하고 가나다순으로 자동 정렬합니다.
+- 대학 검색 오른쪽에 `지원 가능 대학원 분석`을 추가했습니다. 고객별 지원 증빙 완성도, 전공·연구주제 유사도, 실제 합격·불합격 사례를 분리해 비교합니다.
+- 비교 사례가 적으면 결과 신호 비중을 낮추며, 표시 지수는 합격 확률이 아닌 내부 상담 우선순위 지표임을 명확히 표시합니다.
+
+배포 후 `https://aiderdear1.vercel.app/sw.js`의 첫 줄이
+`const CACHE='aiderlog-v85-frame-admissions-fit';`인지 확인하세요.
+
+---
+
+## 이전 버전 기록
+
+### AiderLog v84
 
 ## v84 AidWay client intake
 

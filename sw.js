@@ -1,4 +1,4 @@
-const CACHE='aiderlog-v84-aidway-intake-preview';
+const CACHE='aiderlog-v85-frame-admissions-fit';
 const APP_SHELL=['./','./index.html','./client-intake.html','./firebase-app.js','./brain-3d.js','./language-lab-v18-engine.js','./language-lab-v18.js','./language-lab-v18.css','./language-lab-v18-template.html','./manifest.webmanifest','./aiderdear-icon.svg','./aiderdear-icon-180.png','./aiderdear-icon-192.png','./aiderdear-icon-512.png','./aiderdear-sky.jpg'];
 
 self.addEventListener('install',event=>{
