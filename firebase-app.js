@@ -77,6 +77,9 @@ let friendIncomingRows = [];
 let friendOutgoingRows = [];
 let directLetterRows = [];
 let repairPromise = null;
+let directLetterCleanupBusy = false;
+
+const DIRECT_LETTER_RETENTION_MS = 7 * 24 * 60 * 60 * 1000;
 
 const cleanEmail = value => String(value || '').trim().toLowerCase();
 const publicUser = user => user ? {
@@ -185,6 +188,20 @@ function recomputeState() {
   emit();
 }
 
+async function cleanupExpiredDirectLetters(snapshots) {
+  if (directLetterCleanupBusy || !snapshots.length) return;
+  directLetterCleanupBusy = true;
+  try {
+    for (let start = 0; start < snapshots.length; start += 400) {
+      const batch = writeBatch(db);
+      snapshots.slice(start, start + 400).forEach(snapshot => batch.delete(snapshot.ref));
+      await batch.commit();
+    }
+  } finally {
+    directLetterCleanupBusy = false;
+  }
+}
+
 async function ensureUserProfile(user) {
   const profile = publicUser(user);
   await setDoc(doc(db, 'users', user.uid), {
@@ -284,15 +301,21 @@ function startListeners(user) {
     error => { state.error = error.message; emit(); },
   );
   unsubscribeDirectLetters = onSnapshot(
-    query(collection(db, 'directLetters'), where('memberUids', 'array-contains', user.uid), limit(300)),
+    query(collection(db, 'directLetters'), where('memberUids', 'array-contains', user.uid)),
     snapshot => {
-      directLetterRows = snapshot.docs.map(item => {
+      const cutoff = Date.now() - DIRECT_LETTER_RETENTION_MS;
+      const expired = snapshot.docs.filter(item => {
+        const createdAt = timestampValue(item.data().createdAt);
+        return createdAt > 0 && createdAt < cutoff;
+      });
+      directLetterRows = snapshot.docs.filter(item => !expired.includes(item)).map(item => {
         const row = plainDoc(item) || {};
         let photoDataUrl = '';
         try { if (row.photoBytes?.toBase64) photoDataUrl = `data:${row.photoMimeType || 'image/jpeg'};base64,${row.photoBytes.toBase64()}`; } catch {}
         return { ...row, transport: 'direct', photoDataUrl, createdAt: timestampValue(row.createdAt) };
       });
       recomputeState();
+      if (expired.length) cleanupExpiredDirectLetters(expired).catch(error => console.warn('Expired letter cleanup failed', error));
     },
     error => { state.error = error.message; emit(); },
   );
@@ -464,6 +487,32 @@ async function backupEventDataToGoogleDrive({ records = [], travel = [], media =
     exportedAt: exportedAt || new Date().toISOString(),
     records,
     travel,
+    mediaBackups,
+  });
+  return { folderId: folder.id, manifestId: manifest.id, mediaCount: Object.keys(mediaBackups).length, uploaded };
+}
+
+async function backupPaperTaskDataToGoogleDrive({ paper = {}, task = {}, media = [], exportedAt = '' } = {}) {
+  requireUser();
+  await requestGoogleDriveAccess();
+  const folder = await ensureGoogleDriveBackupFolder();
+  const mediaBackups = {};
+  let uploaded = 0;
+  for (const item of media) {
+    const id = String(item?.id || '');
+    if (!id || mediaBackups[id]) continue;
+    const blob = await readPrivateMedia(id);
+    const result = await uploadGoogleDriveBackupFile(folder.id, `private:${id}`, item.name || id, blob);
+    mediaBackups[id] = { driveFileId: result.id, name: result.name, mimeType: result.mimeType || blob.type, size: Number(result.size || blob.size) };
+    if (!result.reused) uploaded += 1;
+  }
+  const date = String(exportedAt || new Date().toISOString()).slice(0, 10);
+  const manifest = await uploadGoogleDriveBackupManifest(folder.id, `AiderLog-Paper-Task-Backup-${date}.json`, {
+    app: 'AiderLog',
+    version: 1,
+    exportedAt: exportedAt || new Date().toISOString(),
+    paper,
+    task,
     mediaBackups,
   });
   return { folderId: folder.id, manifestId: manifest.id, mediaCount: Object.keys(mediaBackups).length, uploaded };
@@ -1085,6 +1134,7 @@ const api = {
   deletePrivateMedia,
   requestGoogleDriveAccess,
   backupEventDataToGoogleDrive,
+  backupPaperTaskDataToGoogleDrive,
   updateNickname,
   createClientIntakeLink,
   getClientIntakeLink,

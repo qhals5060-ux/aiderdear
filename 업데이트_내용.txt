@@ -1,3 +1,15 @@
+AiderLog v88
+
+[v88 변경]
+- Graduate Admissions 빈 상담 안내문구 삭제
+- 상담 캘린더와 대학원 리스트 1:1 배치
+- 우편 7일 보관 및 만료 우편 자동 삭제
+- PAPER·TASK 6개월 정리 제외 유지
+- PAPER·TASK 3개월 주기 백업 알림과 Google Drive 백업 추가
+- PWA 캐시 v88으로 갱신
+
+----------------------------------------
+
 AiderLog v87
 
 [v87 변경]

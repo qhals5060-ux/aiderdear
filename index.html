@@ -11,13 +11,13 @@
 <meta name="description" content="">
 <meta name="format-detection" content="telephone=no">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="aiderlog-build" content="v87">
+<meta name="aiderlog-build" content="v88">
 <link rel="canonical" href="https://aiderdear1.vercel.app/">
 <script>
 (() => {
   const url = new URL(location.href);
   if (url.searchParams.has('client-intake')) document.documentElement.classList.add('client-intake-only');
-  if (['v67','v68','v69','v70','v71','v72','v73','v74','v75','v76','v77','v78','v79','v80','v81','v82','v83','v84','v85','v86','v87'].includes(url.searchParams.get('aiderlog-main'))) {
+  if (['v67','v68','v69','v70','v71','v72','v73','v74','v75','v76','v77','v78','v79','v80','v81','v82','v83','v84','v85','v86','v87','v88'].includes(url.searchParams.get('aiderlog-main'))) {
     url.searchParams.delete('aiderlog-main');
     history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`);
   }
@@ -3494,6 +3494,10 @@ html.client-intake-only .client-intake-result b{font:800 38px/1.1 Arial,sans-ser
 @media(max-width:1050px){.task-admissions-body{grid-template-columns:minmax(280px,.9fr) minmax(0,1.1fr)}.task-admissions-list{grid-template-columns:repeat(4,minmax(0,1fr))!important}}
 @media(max-width:760px){.task-admissions-body{display:block;overflow:auto}.task-admissions-calendar-panel{height:440px;margin-bottom:10px}.task-admissions-university-panel{overflow:visible}.task-admissions-list{grid-template-columns:repeat(3,minmax(0,1fr))!important}.graduate-fit-dialog{height:calc(100dvh - 12px)!important;max-height:calc(100dvh - 12px)!important}}
 @media(max-width:430px){.task-admissions-list{grid-template-columns:repeat(2,minmax(0,1fr))!important}.task-admissions-day{min-height:42px;padding:4px}.task-admissions-day>span{font-size:6.5px}}
+
+/* ===== AiderLog v88 · balanced admissions + protected workspace backup ===== */
+.task-admissions-body{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+@media(max-width:760px){.task-admissions-body{display:block!important}}
 </style>
 </head>
 <body>
@@ -5167,7 +5171,7 @@ html.client-intake-only .client-intake-result b{font:800 38px/1.1 Arial,sans-ser
   async function updateCalendarEvent(id,data){cloudData.scheduleEvents=Array.isArray(cloudData.scheduleEvents)?cloudData.scheduleEvents:[];const index=cloudData.scheduleEvents.findIndex(item=>item.id===id||item.googleEventId===id);if(index<0)throw new Error('수정할 일정을 찾지 못했습니다.');cloudData.scheduleEvents[index]={...cloudData.scheduleEvents[index],...data,updatedAt:Date.now()};await saveCloudData();return cloudData.scheduleEvents[index]}
   async function deleteCalendarEvent(id){cloudData.scheduleEvents=(Array.isArray(cloudData.scheduleEvents)?cloudData.scheduleEvents:[]).filter(item=>item.id!==id&&item.googleEventId!==id);await saveCloudData()}
 
-  const RETENTION_DAYS=183,RETENTION_REMIND_MS=7*86400000,BACKUP_INTERVAL_MS=30*86400000,BACKUP_REMIND_MS=7*86400000;
+  const RETENTION_DAYS=183,RETENTION_REMIND_MS=7*86400000,BACKUP_INTERVAL_MS=30*86400000,PAPER_TASK_BACKUP_INTERVAL_MS=90*86400000,BACKUP_REMIND_MS=7*86400000,MAIL_RETENTION_MS=7*86400000;
   function maintenanceKey(kind){return `aiderlog-${kind}:${currentUserEmail||'guest'}`}
   function maintenanceCutoffDate(){const d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()-RETENTION_DAYS);return iso(d.getFullYear(),d.getMonth(),d.getDate())}
   function recordDateBefore(row,cutoff){const date=String(row?.date||'').slice(0,10);if(/^\d{4}-\d{2}-\d{2}$/.test(date))return date<cutoff;const stamp=Number(row?.createdAt||row?.updatedAt)||0;return !!stamp&&stamp<new Date(`${cutoff}T00:00:00`).getTime()}
@@ -5207,11 +5211,15 @@ html.client-intake-only .client-intake-result b{font:800 38px/1.1 Arial,sans-ser
     const media=[...records.flatMap(row=>row.media||[]),...travel.map(row=>row.media).filter(Boolean)],unique=[...new Map(media.map(item=>[item.id,item])).values()];
     return {records,travel,media:unique,exportedAt:new Date().toISOString()};
   }
+  function buildPaperTaskBackup(){
+    const data=privateData[currentUserEmail]||blankPrivateData(currentUserEmail,currentUserName),paper={paperItems:data.paperItems||[],researchInsights:data.researchInsights||[],researchNotes:data.researchNotes||[],researchComparisons:data.researchComparisons||[],researchConnections:data.researchConnections||[]},task={consultingClients:data.consultingClients||[],consultingTasks:data.consultingTasks||[],consultingSessions:data.consultingSessions||[],consultingFiles:data.consultingFiles||[]},media=[...new Map((task.consultingFiles||[]).map(file=>{const item=backupMediaDescriptor(file);return item?[item.id,item]:null}).filter(Boolean)).values()];
+    return {paper,task,media,paperCount:Object.values(paper).reduce((sum,rows)=>sum+(Array.isArray(rows)?rows.length:0),0),taskCount:Object.values(task).reduce((sum,rows)=>sum+(Array.isArray(rows)?rows.length:0),0),exportedAt:new Date().toISOString()};
+  }
   async function promptRetentionCleanup(){
     const last=Number(localStorage.getItem(maintenanceKey('retention-prompt'))||0);if(Date.now()-last<RETENTION_REMIND_MS)return false;
     const plan=collectRetentionPlan();if(!plan.total)return false;localStorage.setItem(maintenanceKey('retention-prompt'),String(Date.now()));
     const details=[plan.schedules.length&&`일정 ${plan.schedules.length}`,plan.archive.length&&`Archive ${plan.archive.length}`,plan.emotions.length&&`감정 ${plan.emotions.length}`,plan.personal.length&&`건강·독서 ${plan.personal.length}`,plan.checklists.length&&`완료 할 일 ${plan.checklists.length}`,plan.pomodoro.length&&`포모도로 ${plan.pomodoro.length}`,plan.routineLogs&&`루틴 수행 ${plan.routineLogs}`,plan.monthMedia&&'월간 미디어 1'].filter(Boolean).join(' · ');
-    if(!confirm(`6개월이 지난 정리 가능 기록이 ${plan.total}개 있습니다.\n${details}\n\nEVENT의 Record·Travel, PERSONAL의 Workflow·Finance, PAPER 기록은 삭제되지 않습니다. 지금 정리할까요?`))return true;
+    if(!confirm(`6개월이 지난 정리 가능 기록이 ${plan.total}개 있습니다.\n${details}\n\nEVENT의 Record·Travel, PERSONAL의 Workflow·Finance, PAPER·TASK 기록은 삭제되지 않습니다. 지금 정리할까요?`))return true;
     try{toast('6개월 초과 기록을 정리하는 중…');await deleteExpiredRecords(plan);toast(`${plan.total}개의 오래된 기록을 정리했습니다.`)}catch(err){toast(googleErrorMessage(err))}return true;
   }
   async function promptEventBackup(){
@@ -5220,7 +5228,14 @@ html.client-intake-only .client-intake-result b{font:800 38px/1.1 Arial,sans-ser
     if(!confirm(`EVENT의 Record ${payload.records.length}개와 Travel ${payload.travel.length}개를 Google Drive에 백업할 시점입니다.\n사진·영상 원본과 JSON 목록을 함께 백업할까요?`)){localStorage.setItem(maintenanceKey('event-backup-snooze'),String(Date.now()));return}
     try{toast('Google Drive 백업을 준비하는 중…');const result=await window.AiderDearFirebase.backupEventDataToGoogleDrive(payload);localStorage.setItem(maintenanceKey('event-backup-success'),String(Date.now()));localStorage.removeItem(maintenanceKey('event-backup-snooze'));toast(`Google Drive 백업 완료 · 미디어 ${result.mediaCount}개`)}catch(err){localStorage.setItem(maintenanceKey('event-backup-snooze'),String(Date.now()));toast(err.message||googleErrorMessage(err))}
   }
-  async function runMaintenancePrompts(){if(!currentUserEmail)return;await promptRetentionCleanup();setTimeout(promptEventBackup,700)}
+  async function promptPaperTaskBackup(){
+    const last=Number(localStorage.getItem(maintenanceKey('paper-task-backup-success'))||0),snooze=Number(localStorage.getItem(maintenanceKey('paper-task-backup-snooze'))||0);if(Date.now()-last<PAPER_TASK_BACKUP_INTERVAL_MS||Date.now()-snooze<BACKUP_REMIND_MS)return;
+    const payload=buildPaperTaskBackup();if(!payload.paperCount&&!payload.taskCount)return;
+    if(!confirm(`PAPER ${payload.paperCount}개와 TASK ${payload.taskCount}개 기록을 3개월 정기 백업할 시점입니다.\nGoogle Drive에 백업할까요?`)){localStorage.setItem(maintenanceKey('paper-task-backup-snooze'),String(Date.now()));return}
+    try{toast('PAPER·TASK 백업을 준비하는 중…');const result=await window.AiderDearFirebase.backupPaperTaskDataToGoogleDrive(payload);localStorage.setItem(maintenanceKey('paper-task-backup-success'),String(Date.now()));localStorage.removeItem(maintenanceKey('paper-task-backup-snooze'));toast(`PAPER·TASK 백업 완료 · 파일 ${result.mediaCount}개`)}catch(err){localStorage.setItem(maintenanceKey('paper-task-backup-snooze'),String(Date.now()));toast(err.message||googleErrorMessage(err))}
+  }
+  async function cleanupExpiredLegacyLetters(){const source=Array.isArray(cloudData.letters)?cloudData.letters:[],cutoff=Date.now()-MAIL_RETENTION_MS,expired=source.filter(row=>{const stamp=Number(row?.createdAt)||0;return stamp>0&&stamp<cutoff}).length;if(!expired)return;cloudData.letters=source.filter(row=>{const stamp=Number(row?.createdAt)||0;return !stamp||stamp>=cutoff});await saveCloudData()}
+  async function runMaintenancePrompts(){if(!currentUserEmail)return;try{await cleanupExpiredLegacyLetters()}catch(err){console.warn('Expired legacy letter cleanup failed',err)}await promptRetentionCleanup();setTimeout(async()=>{await promptEventBackup();setTimeout(promptPaperTaskBackup,700)},700)}
 
   async function bootstrapGoogleData(){
     setGoogleStatus('AiderLog 데이터를 불러오는 중입니다…');
@@ -5413,7 +5428,7 @@ html.client-intake-only .client-intake-result b{font:800 38px/1.1 Arial,sans-ser
   let mailTab='received',letterQueue=[],mailPhotoDataUrl='';
   function allLetters(){normalizeCloudData();return cloudData.letters||[]}
   function mailRecipients(){if(!currentUserEmail)return [];const rows=[],partner=sharedPartner();if(partner?.uid)rows.push({...partner,kind:'couple'});(firebaseState.friends||[]).forEach(friend=>rows.push({...friend,kind:'friend'}));const seen=new Set();return rows.filter(row=>{const key=normalizeEmail(row.email);if(!key||seen.has(key))return false;seen.add(key);return true})}
-  function visibleLetters(){if(!currentUserEmail)return [];const connected=new Set(mailRecipients().map(row=>normalizeEmail(row.email))),pair=currentPairKey();const legacy=allLetters().filter(x=>{const from=normalizeEmail(x.fromEmail),to=normalizeEmail(x.toEmail),other=from===currentUserEmail?to:(to===currentUserEmail?from:'');return other&&connected.has(other)&&(!x.pairKey||x.pairKey===pair)}).map(row=>({...row,transport:'legacy'}));const direct=(firebaseState.directLetters||[]).filter(row=>normalizeEmail(row.fromEmail)===currentUserEmail||normalizeEmail(row.toEmail)===currentUserEmail);return [...legacy,...direct].sort((a,b)=>(b.createdAt||0)-(a.createdAt||0))}
+  function visibleLetters(){if(!currentUserEmail)return [];const cutoff=Date.now()-MAIL_RETENTION_MS,fresh=row=>{const stamp=Number(row?.createdAt)||0;return !stamp||stamp>=cutoff},connected=new Set(mailRecipients().map(row=>normalizeEmail(row.email))),pair=currentPairKey();const legacy=allLetters().filter(fresh).filter(x=>{const from=normalizeEmail(x.fromEmail),to=normalizeEmail(x.toEmail),other=from===currentUserEmail?to:(to===currentUserEmail?from:'');return other&&connected.has(other)&&(!x.pairKey||x.pairKey===pair)}).map(row=>({...row,transport:'legacy'}));const direct=(firebaseState.directLetters||[]).filter(fresh).filter(row=>normalizeEmail(row.fromEmail)===currentUserEmail||normalizeEmail(row.toEmail)===currentUserEmail);return [...legacy,...direct].sort((a,b)=>(b.createdAt||0)-(a.createdAt||0))}
   function receivedLetters(){return visibleLetters().filter(x=>normalizeEmail(x.toEmail)===currentUserEmail)}
   function sentLetters(){return visibleLetters().filter(x=>normalizeEmail(x.fromEmail)===currentUserEmail)}
   function unreadLetters(){return receivedLetters().filter(x=>x.transport==='direct'?!(x.readBy||[]).includes(firebaseState.user?.uid):!(x.readBy||[]).map(normalizeEmail).includes(currentUserEmail))}
@@ -6884,7 +6899,7 @@ html.client-intake-only .client-intake-result b{font:800 38px/1.1 Arial,sans-ser
     sessions.forEach(row=>{const key=graduateCalendarDateKey(row.date);if(!byDate.has(key))byDate.set(key,[]);byDate.get(key).push(row)});
     const first=new Date(year,month,1),gridStart=new Date(year,month,1-first.getDay()),todayKey=graduateCalendarDateKey(new Date());
     host.innerHTML=Array.from({length:42},(_,index)=>{const date=new Date(gridStart);date.setDate(gridStart.getDate()+index);const key=graduateCalendarDateKey(date),rows=byDate.get(key)||[],outside=date.getMonth()!==month,firstRow=rows[0];return `<button type="button" class="task-admissions-day ${outside?'outside':''} ${key===todayKey?'today':''} ${rows.length?'has-session':''}" data-graduate-calendar-client="${escapeHtml(firstRow?.client.id||'')}" aria-label="${date.getMonth()+1}월 ${date.getDate()}일${rows.length?` 상담 ${rows.length}건`:''}"><time>${date.getDate()}</time>${firstRow?`<span>${escapeHtml(firstRow.client.name||'이름 없음')}</span><small>${firstRow.date.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'})}${rows.length>1?` · +${rows.length-1}`:''}</small>`:''}</button>`}).join('');
-    const monthSessions=sessions.filter(row=>row.date.getFullYear()===year&&row.date.getMonth()===month);agenda.innerHTML=monthSessions.length?monthSessions.slice(0,5).map(row=>`<button type="button" data-graduate-calendar-client="${escapeHtml(row.client.id)}">${row.date.getDate()}일 · ${escapeHtml(row.client.name||'이름 없음')} · ${row.date.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'})}</button>`).join(''):'<span>이 달에 등록된 다음 상담이 없습니다.</span>';
+    const monthSessions=sessions.filter(row=>row.date.getFullYear()===year&&row.date.getMonth()===month);agenda.hidden=!monthSessions.length;agenda.innerHTML=monthSessions.slice(0,5).map(row=>`<button type="button" data-graduate-calendar-client="${escapeHtml(row.client.id)}">${row.date.getDate()}일 · ${escapeHtml(row.client.name||'이름 없음')} · ${row.date.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'})}</button>`).join('');
   }
   function consultingMatchesSearch(row,rawQuery){const q=consultingSearchText(rawQuery);if(!q)return true;const digits=q.replace(/\D/g,''),phone=String(row.phone||row.contact||'').replace(/\D/g,'');if(digits.length===4&&phone.endsWith(digits))return true;if(digits.length>0&&phone.includes(digits))return true;return [row.name,row.phone,row.email,row.contact,row.currentSchool,row.currentMajor,row.targetUniversity,row.targetMajor,row.university,row.institution,row.program,row.major,row.topic,row.languageSpec,row.certifications,row.activities,row.researchExperience].some(value=>consultingSearchText(value).includes(q))}
   function consultingIntakeNote(row,at=Date.now()){const stamp=new Date(at).toLocaleString('ko-KR',{year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}),gender={female:'여성',male:'남성'}[row.gender]||'',lines=[`[상담접수] ${stamp}`,`개인 정보 · ${[row.name,row.phone,row.email,row.birthYear?`${row.birthYear}년생`:'',gender].filter(Boolean).join(' · ')}`,`현재 학력 · ${[row.currentSchool,row.currentMajor].filter(Boolean).join(' · ')||'미입력'}`,`목표 대학원 · ${[row.targetUniversity,row.targetMajor,row.applicationYear?`${row.applicationYear}학년도`:'',CONSULTING_SEMESTER_LABELS[row.applicationSemester]||''].filter(Boolean).join(' · ')||'미입력'}`,row.topic&&`관심 분야·연구 주제 · ${row.topic}`,row.languageSpec&&`어학 · ${row.languageSpec}`,row.certifications&&`관련 자격증 · ${row.certifications}`,row.activities&&`관련 활동 · ${row.activities}`,row.researchExperience&&`연구 경험 · ${row.researchExperience}`,row.inquiry&&`기타 문의 · ${row.inquiry}`];return lines.filter(Boolean).join('\n').slice(0,6000)}

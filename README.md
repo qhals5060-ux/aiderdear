@@ -1,4 +1,14 @@
-# AiderLog v87
+# AiderLog v88
+
+## v88 Mail retention · protected Paper/Task backup
+
+- Graduate Admissions의 빈 상담 안내 문구를 제거했습니다.
+- 상담 캘린더와 대학원 리스트를 1:1 비율로 재배치했습니다.
+- 우편은 생성 후 7일까지만 노출되며, 만료된 직접 우편과 기존 우편을 자동 정리합니다.
+- PAPER·TASK 데이터는 6개월 정리 대상에서 제외된 상태를 명시적으로 유지합니다.
+- PAPER·TASK 기록과 TASK 고객 파일을 90일마다 동의 후 Google Drive에 백업합니다.
+
+`const CACHE='aiderlog-v88-mail-retention-workspace-backup';`
 
 ## v87 Shared nickname · Graduate Admissions calendar
 
