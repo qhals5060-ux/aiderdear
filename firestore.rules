@@ -174,9 +174,10 @@ service cloud.firestore {
       match /submissions/{submissionId} {
         allow create: if get(/databases/$(database)/documents/clientIntakeLinks/$(token)).data.active == true
           && request.resource.data.keys().hasOnly([
-            'name', 'phone', 'email', 'university', 'institution', 'program',
-            'major', 'applicationYear', 'applicationSemester', 'topic', 'stage',
-            'admissionResult', 'nextSession', 'note',
+            'name', 'phone', 'email', 'birthYear', 'gender', 'currentSchool',
+            'currentMajor', 'targetUniversity', 'targetMajor', 'applicationYear',
+            'applicationSemester', 'topic', 'languageSpec', 'certifications',
+            'activities', 'researchExperience', 'inquiry', 'note',
             'consent', 'source', 'status', 'createdAt'
           ])
           && request.resource.data.name is string
@@ -187,28 +188,38 @@ service cloud.firestore {
           && request.resource.data.phone.size() <= 30
           && request.resource.data.email is string
           && request.resource.data.email.size() <= 120
-          && request.resource.data.university is string
-          && request.resource.data.university.size() <= 120
-          && request.resource.data.institution is string
-          && request.resource.data.institution.size() <= 120
-          && request.resource.data.program is string
-          && request.resource.data.program.size() <= 120
-          && request.resource.data.major is string
-          && request.resource.data.major.size() <= 120
+          && request.resource.data.birthYear is int
+          && request.resource.data.birthYear >= 0
+          && request.resource.data.birthYear <= 2200
+          && request.resource.data.gender in ['', 'female', 'male', 'other']
+          && request.resource.data.currentSchool is string
+          && request.resource.data.currentSchool.size() <= 120
+          && request.resource.data.currentMajor is string
+          && request.resource.data.currentMajor.size() <= 120
+          && request.resource.data.targetUniversity is string
+          && request.resource.data.targetUniversity.size() <= 120
+          && request.resource.data.targetMajor is string
+          && request.resource.data.targetMajor.size() <= 120
           && request.resource.data.applicationYear is int
           && request.resource.data.applicationYear >= 2000
           && request.resource.data.applicationYear <= 2200
           && request.resource.data.applicationSemester in ['spring', 'fall', 'rolling', 'other']
           && request.resource.data.topic is string
-          && request.resource.data.topic.size() <= 240
-          && request.resource.data.stage in ['inquiry', 'proposal', 'analysis', 'revision', 'complete']
-          && request.resource.data.admissionResult in ['pending', 'accepted', 'waitlisted', 'rejected']
-          && request.resource.data.nextSession is string
-          && request.resource.data.nextSession.size() <= 30
+          && request.resource.data.topic.size() <= 1200
+          && request.resource.data.languageSpec is string
+          && request.resource.data.languageSpec.size() <= 1200
+          && request.resource.data.certifications is string
+          && request.resource.data.certifications.size() <= 1200
+          && request.resource.data.activities is string
+          && request.resource.data.activities.size() <= 1600
+          && request.resource.data.researchExperience is string
+          && request.resource.data.researchExperience.size() <= 1600
+          && request.resource.data.inquiry is string
+          && request.resource.data.inquiry.size() <= 2000
           && request.resource.data.note is string
-          && request.resource.data.note.size() <= 1600
+          && request.resource.data.note.size() <= 6000
           && request.resource.data.consent == true
-          && request.resource.data.source == 'external-intake-v1'
+          && request.resource.data.source == 'external-intake-v2'
           && request.resource.data.status == 'new'
           && request.resource.data.createdAt == request.time;
 

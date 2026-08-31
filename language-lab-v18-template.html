@@ -13,6 +13,10 @@
         <a class="brand" href="#course-section" aria-label="study with me 학습 목록으로">
           <span><b>study with me</b></span>
         </a>
+        <div class="header-stats">
+          <span class="streak-chip"><i aria-hidden="true">●</i><b id="streak-count">0</b>일 연속</span>
+          <button class="records-button" id="records-button" type="button" aria-haspopup="dialog" aria-controls="records-modal">학습 기록 <b id="review-badge">0</b></button>
+        </div>
         <div class="header-course" aria-label="학습 언어와 난이도 선택">
           <div class="course-selectors">
             <label class="language-select">언어
@@ -26,11 +30,6 @@
               <select id="level-select" aria-label="학습 난이도 선택"></select>
             </label>
           </div>
-        </div>
-        <div class="header-stats">
-          <span class="streak-chip"><i aria-hidden="true">●</i><b id="streak-count">0</b>일 연속</span>
-          <button class="records-button" id="records-button" type="button" aria-haspopup="dialog" aria-controls="records-modal">학습 기록 <b id="review-badge">0</b></button>
-          <button class="reset-button" id="reset-button" type="button">학습 초기화</button>
         </div>
       </header>
 
@@ -57,6 +56,7 @@
           <ol class="day-list" id="day-list"></ol>
           <section class="recent-study" aria-label="최근 14일 학습 기록">
             <div class="recent-study-days" id="recent-study-days" aria-label="최근 14일 학습 기록"></div>
+            <div class="recent-study-actions"><button class="reset-button" id="reset-button" type="button">학습 초기화</button></div>
           </section>
         </section>
 

@@ -803,34 +803,32 @@ async function submitClientIntake(token, payload = {}) {
   const applicationSemester = ['spring', 'fall', 'rolling', 'other'].includes(payload.applicationSemester)
     ? payload.applicationSemester
     : '';
-  const stage = ['inquiry', 'proposal', 'analysis', 'revision', 'complete'].includes(payload.stage)
-    ? payload.stage
-    : 'inquiry';
-  const admissionResult = ['pending', 'accepted', 'waitlisted', 'rejected'].includes(payload.admissionResult)
-    ? payload.admissionResult
-    : 'pending';
   const data = {
     name: intakeText(payload.name, 60),
     phone: intakeText(payload.phone, 30),
     email: intakeText(payload.email, 120),
-    university: intakeText(payload.university, 120),
-    institution: intakeText(payload.institution, 120),
-    program: intakeText(payload.program, 120),
-    major: intakeText(payload.major, 120),
+    birthYear: Math.max(0, Math.min(2200, Number(payload.birthYear) || 0)),
+    gender: ['female', 'male', 'other'].includes(payload.gender) ? payload.gender : '',
+    currentSchool: intakeText(payload.currentSchool, 120),
+    currentMajor: intakeText(payload.currentMajor, 120),
+    targetUniversity: intakeText(payload.targetUniversity, 120),
+    targetMajor: intakeText(payload.targetMajor, 120),
     applicationYear,
     applicationSemester,
-    topic: intakeText(payload.topic, 240),
-    stage,
-    admissionResult,
-    nextSession: intakeText(payload.nextSession, 30),
-    note: intakeText(payload.note, 1600),
+    topic: intakeText(payload.topic, 1200),
+    languageSpec: intakeText(payload.languageSpec, 1200),
+    certifications: intakeText(payload.certifications, 1200),
+    activities: intakeText(payload.activities, 1600),
+    researchExperience: intakeText(payload.researchExperience, 1600),
+    inquiry: intakeText(payload.inquiry, 2000),
+    note: intakeText(payload.note, 6000),
     consent: true,
-    source: 'external-intake-v1',
+    source: 'external-intake-v2',
     status: 'new',
     createdAt: serverTimestamp(),
   };
   if (!data.name || !data.phone || !applicationYear || !applicationSemester) {
-    throw new Error('이름, 핸드폰, 지원 학년도와 학기를 모두 입력해주세요.');
+    throw new Error('이름, 연락처, 진학 희망 학년도와 학기를 모두 입력해주세요.');
   }
   const link = await getDoc(clientIntakeRef(token));
   if (!link.exists() || link.data().active !== true) throw new Error('만료되었거나 교체된 작성 링크입니다.');

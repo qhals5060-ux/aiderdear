@@ -24,7 +24,7 @@
         const share=document.createElement('button');
         share.type='button';share.className='language-partner-share';share.textContent='학습 완료 후 상대에게 보내기';share.disabled=true;
         share.hidden=this.getAttribute('data-paired')!=='true';
-        app.querySelector('.header-stats')?.appendChild(share);
+        app.querySelector('.recent-study-actions')?.appendChild(share);
         this.shadowRoot.append(styleElement,app,toast);
         this.addEventListener('language-lab-complete',event=>{
           this.completion=event.detail||null;

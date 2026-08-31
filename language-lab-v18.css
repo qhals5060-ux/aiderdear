@@ -1321,3 +1321,19 @@ a { color: inherit; text-decoration: none; }
   .header-course .language-select,.header-course .level-select{gap:4px!important;font-size:8px!important}
   .header-course .language-select select,.header-course .level-select select{padding-left:6px!important;font-size:8px!important}
 }
+
+/* AiderLog v79 · compact ordered controls and recent-study actions */
+@media(min-width:901px){
+  .app-header{grid-template-columns:minmax(150px,1fr) auto minmax(330px,430px)!important;gap:10px!important}
+  .brand{grid-column:1}.header-stats{grid-column:2}.header-course{grid-column:3}
+}
+.header-stats{display:flex!important;align-items:end!important;gap:6px!important}
+.streak-chip,.records-button{height:30px!important;min-height:30px!important}
+.header-course .course-selectors{justify-content:flex-end!important;gap:6px!important}
+.header-course .language-select,.header-course .level-select{gap:5px!important;font-size:8px!important}
+.header-course .language-select{flex:0 1 130px!important}.header-course .level-select{flex:0 1 220px!important}
+.header-course select{height:30px!important;min-height:30px!important;padding-top:0!important;padding-bottom:0!important;font-size:9px!important}
+.recent-study{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;align-items:end!important;gap:7px!important}
+.recent-study-days{min-width:0}.recent-study-actions{display:flex;align-items:end;justify-content:flex-end;gap:5px;white-space:nowrap}
+.recent-study-actions .reset-button,.recent-study-actions .language-partner-share{height:27px!important;min-height:27px!important;padding:0 8px!important;font-size:7px!important}
+@media(max-width:900px){.app-header{grid-template-columns:1fr auto!important;grid-template-rows:auto auto!important}.header-stats{grid-column:2;grid-row:1}.header-course{grid-column:1/-1;grid-row:2}.recent-study{grid-template-columns:1fr!important}.recent-study-actions{justify-content:flex-end}.recent-study-actions .language-partner-share{display:block!important}}

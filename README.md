@@ -1,4 +1,18 @@
-# AiderLog v78
+# AiderLog v79
+
+## v79 Today Journal · Language Lab · TASK intake
+
+- 상단 오른쪽을 `오늘 날짜 → 이름·메모장·우편함 → 검색` 3단으로 정리하고, 날짜를 누르면 오늘의 일정·감정·루틴·개인·이벤트·어학 기록을 불렛저널로 표시합니다.
+- Language Lab 오른쪽 상단을 연속 일수·학습 기록·언어·난이도 순서로 재배치하고 초기화·완료 전송을 최근 2주 기록 오른쪽 아래로 이동했습니다.
+- PERSONAL과 PAPER의 작은 본문·버튼·표·카드 글자를 확대했습니다.
+- TASK 외부 링크 버튼을 CLIENT 버튼과 같은 크기의 각진 상자로 맞추고, 고객 파일 추가를 EDIT/DELETE 옆으로 옮겼습니다.
+- 직접 고객 추가와 외부 고객 작성에 동일한 4개 섹션 양식을 적용하고 접수 내용을 `[상담접수] 날짜` 형식으로 CLIENT NOTE에 자동 정리합니다.
+- Graduate Admissions를 가나다순 대학 검색형 그리드로 바꾸고 공식 입시 안내 링크를 48개 대학으로 확장했습니다.
+
+배포할 때 앱 파일과 함께 `firestore.rules`도 Firebase에 다시 게시해야 새 외부 고객 접수 양식이 동작합니다.
+
+배포 후 `https://aiderdear1.vercel.app/sw.js`의 첫 줄이
+`const CACHE='aiderlog-v79-bullet-journal-intake-admissions';`인지 확인하세요.
 
 ## v78 TASK 고객 흐름 · 입시요강 화면
 
