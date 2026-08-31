@@ -1,4 +1,15 @@
-# AiderLog v80
+# AiderLog v81
+
+## v81 Language Lab · compact client intake
+
+- Language Lab의 연속 일수·학습 기록을 언어·난이도 선택 바로 옆에 하나의 제어 묶음으로 배치했습니다.
+- 최근 2주 달력 오른쪽 아래에 `학습 초기화`와 `상대에게 완료 기록 보내기`를 위아래 2줄로 배치했습니다.
+- 고객 직접 추가 팝업의 네 섹션을 데스크톱 2×2 구조로 압축하고 짧은 응답창의 높이를 줄여 스크롤을 최소화했습니다.
+- 외부 고객 작성 링크에서는 AiderLog 본문과 배경을 완전히 숨기고 작성 폼만 표시합니다.
+- 외부 폼에서 담당자 이름, 전달 대상, TASK 자동 반영 등의 안내 문구를 삭제했습니다.
+
+배포 후 `https://aiderdear1.vercel.app/sw.js`의 첫 줄이
+`const CACHE='aiderlog-v81-language-intake-only';`인지 확인하세요.
 
 ## v80 메인 프레임 상단 도구 · 전체 불렛저널
 

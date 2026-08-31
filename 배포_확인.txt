@@ -1,13 +1,13 @@
-AiderLog v80 배포 확인
+AiderLog v81 배포 확인
 
 1. 이 폴더의 내용 전체를 Vercel 프로젝트 루트에 배포합니다.
 2. Vercel Root Directory는 비워 둡니다.
 3. Firebase Firestore 규칙에 이 폴더의 firestore.rules를 게시합니다.
-4. Deployments에서 새 v80 배포를 Production으로 승격합니다.
+4. Deployments에서 새 v81 배포를 Production으로 승격합니다.
 5. 아래 주소를 엽니다.
    https://aiderdear1.vercel.app/sw.js
 6. 첫 줄이 아래와 같아야 합니다.
-   const CACHE='aiderlog-v80-frame-tools-complete-journal';
+   const CACHE='aiderlog-v81-language-intake-only';
 
 첫 줄에 이전 버전이 보이면 코드는 새로 올라갔더라도 운영 주소가 아직 이전 배포를 가리키는 상태입니다.
 이 경우 Vercel Deployments에서 최신 배포의 메뉴를 열어 Promote to Production을 선택하세요.
@@ -24,6 +24,10 @@ AiderLog v80 배포 확인
 - 다른 계정 또는 로그아웃 상태 → PAPER와 TASK 모두 숨김
 - 메인 프레임 바로 위 오른쪽 → 오늘 날짜·이름·메모장·우편함·검색 3단 표시
 - 오늘 날짜 클릭 → 기록이 없는 범주까지 포함한 12개 불렛저널 카드 표시
+- ROUTINE 화면 전환 → Language Lab 연속 일수·학습 기록이 언어·난이도 선택 바로 옆에 표시
+- Language Lab 최근 2주 달력 오른쪽 → 초기화·완료 전송 버튼이 위아래 2줄로 표시
+- TASK ＋ CLIENT → 데스크톱에서 네 질문 섹션이 2×2로 압축되어 표시
+- 외부 고객 작성 링크 → AiderLog 사이트 없이 작성 폼만 표시되고 담당자 관련 안내가 없음
 - TASK → ＋ CLIENT로 직접 추가, ＋ EXTERNAL LINK를 열 때마다 새 링크 발급
 - 직접 작성 폼과 외부 작성 폼의 고객 필드 일치
 - TASK → 다음 상담·진행 과업·DELIVERABLES · TASKS·CONSULTING SESSIONS 상자를 눌러 기록 추가
