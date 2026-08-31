@@ -808,7 +808,7 @@ async function submitClientIntake(token, payload = {}) {
     phone: intakeText(payload.phone, 30),
     email: intakeText(payload.email, 120),
     birthYear: Math.max(0, Math.min(2200, Number(payload.birthYear) || 0)),
-    gender: ['female', 'male', 'other'].includes(payload.gender) ? payload.gender : '',
+    gender: ['female', 'male'].includes(payload.gender) ? payload.gender : '',
     currentSchool: intakeText(payload.currentSchool, 120),
     currentMajor: intakeText(payload.currentMajor, 120),
     targetUniversity: intakeText(payload.targetUniversity, 120),

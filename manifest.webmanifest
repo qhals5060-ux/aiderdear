@@ -11,7 +11,7 @@
   "theme_color": "#46444D",
   "lang": "ko-KR",
   "categories": ["lifestyle", "productivity", "education"],
-  "description": "일정·루틴·개인 생활과 논문 Insight·비교·연구 노트를 연결하는 개인 연구 라이프 워크스페이스",
+  "description": "AiderLog",
   "icons": [
     {"src":"./aiderdear-icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any"},
     {"src":"./aiderdear-icon-192.png","sizes":"192x192","type":"image/png","purpose":"any maskable"},

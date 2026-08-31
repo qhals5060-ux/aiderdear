@@ -1,4 +1,15 @@
-# AiderLog v81
+# AiderLog v82
+
+## v82 Language Lab · external intake
+
+- 최근 2주 달력을 첫 번째 줄 전체에 배치하고, `학습 초기화`와 `상대에게 완료 기록 보내기`를 그 아래 한 줄에 나란히 배치했습니다.
+- 직접 고객 추가와 외부 고객 작성 양식의 성별 선택을 여성·남성 두 항목으로 제한했습니다.
+- 외부 링크 진입 시 보이던 링크 확인 대기 문구를 제거하고, 유효한 링크에서는 작성 폼을 바로 표시합니다.
+- 링크 공유 설명 메타데이터를 제거해 복사된 주소 외의 소개 문구가 함께 전달되지 않도록 정리했습니다.
+- 외부 고객 폼을 AIDWAY의 대학원 진학 컨설팅 맥락과 연결되는 블랙·아이보리·골드 디자인으로 바꾸고 모바일 입력 크기를 확대했습니다.
+
+배포 후 `https://aiderdear1.vercel.app/sw.js`의 첫 줄이
+`const CACHE='aiderlog-v82-language-intake-aidway';`인지 확인하세요.
 
 ## v81 Language Lab · compact client intake
 
