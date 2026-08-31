@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#070914">
+<title>AidWay 상담 접수</title>
+<meta name="description" content="&#8203;">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AidWay 상담 접수">
+<meta property="og:description" content="&#8203;">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AidWay 상담 접수">
+<meta name="twitter:description" content="&#8203;">
+<script>
+(() => {
+  const source = new URL(location.href);
+  const token = source.searchParams.get('client-intake') || '';
+  const target = new URL('./', source);
+  target.search = '';
+  if (token) target.searchParams.set('client-intake', token);
+  location.replace(target.href);
+})();
+</script>
+</head>
+<body></body>
+</html>

@@ -1,4 +1,15 @@
-# AiderLog v83
+# AiderLog v84
+
+## v84 AidWay client intake
+
+- 외부 고객 입력 링크를 `client-intake.html` 전용 진입 주소로 분리했습니다.
+- 카카오톡 링크 미리보기에는 `AidWay 상담 접수` 제목과 주소만 표시되도록 전용 Open Graph 메타데이터를 적용했습니다.
+- 고객 입력 화면을 에이더웨이 참고 화면의 딥 네이비, 블루·퍼플 그라데이션, 오렌지 포인트를 반영한 폼 중심 디자인으로 재구성했습니다.
+- 데스크톱 2열 섹션과 모바일 1열 입력 구조, 큰 터치 입력창과 명확한 포커스 표시를 적용했습니다.
+- 고객 작성 토큰, 제출 항목, TASK 자동 반영 방식은 그대로 유지합니다.
+
+배포 후 `https://aiderdear1.vercel.app/sw.js`의 첫 줄이
+`const CACHE='aiderlog-v84-aidway-intake-preview';`인지 확인하세요.
 
 ## v83 Language calendar · bullet journal · admissions
 
