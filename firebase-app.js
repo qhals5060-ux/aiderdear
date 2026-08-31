@@ -194,6 +194,32 @@ async function ensureUserProfile(user) {
   return profile;
 }
 
+async function propagateMemberProfile(profile) {
+  const sources = await Promise.all([
+    getDocs(query(collection(db, 'pairs'), where('memberUids', 'array-contains', profile.uid))),
+    getDocs(query(collection(db, 'friendships'), where('memberUids', 'array-contains', profile.uid))),
+  ]);
+  const rows = sources.flatMap(snapshot => snapshot.docs)
+    .filter(snapshot => snapshot.data().status === 'active');
+  for (let start = 0; start < rows.length; start += 400) {
+    const batch = writeBatch(db);
+    let changed = 0;
+    rows.slice(start, start + 400).forEach(snapshot => {
+      const data = snapshot.data();
+      const memberProfiles = Array.isArray(data.memberProfiles) && data.memberProfiles.length === 2
+        ? data.memberProfiles.map(member => member.uid === profile.uid ? {
+            ...member,
+            name: profile.name,
+          } : member)
+        : [];
+      if (!memberProfiles.some(member => member.uid === profile.uid)) return;
+      batch.update(snapshot.ref, { memberProfiles, updatedAt: serverTimestamp() });
+      changed += 1;
+    });
+    if (changed) await batch.commit();
+  }
+}
+
 async function updateNickname(rawName) {
   const user = auth.currentUser;
   if (!user) throw new Error('로그인이 필요합니다.');
@@ -201,6 +227,7 @@ async function updateNickname(rawName) {
   if (!name) throw new Error('사용할 닉네임을 입력해주세요.');
   await updateProfile(user, { displayName: name });
   state.user = await ensureUserProfile(user);
+  await propagateMemberProfile(state.user);
   emit();
   return state.user;
 }

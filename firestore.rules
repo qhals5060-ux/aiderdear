@@ -17,6 +17,36 @@ service cloud.firestore {
         && request.auth.uid in get(/databases/$(database)/documents/pairs/$(pairId)).data.memberUids;
     }
 
+    function validOwnMemberProfileUpdate() {
+      return request.resource.data.memberProfiles is list
+        && resource.data.memberProfiles is list
+        && request.resource.data.memberProfiles.size() == 2
+        && resource.data.memberProfiles.size() == 2
+        && (
+          (
+            resource.data.memberProfiles[0].uid == request.auth.uid
+            && request.resource.data.memberProfiles[1] == resource.data.memberProfiles[1]
+            && request.resource.data.memberProfiles[0].uid == resource.data.memberProfiles[0].uid
+            && request.resource.data.memberProfiles[0].email == resource.data.memberProfiles[0].email
+            && request.resource.data.memberProfiles[0].photoURL == resource.data.memberProfiles[0].photoURL
+            && request.resource.data.memberProfiles[0].name is string
+            && request.resource.data.memberProfiles[0].name.size() > 0
+            && request.resource.data.memberProfiles[0].name.size() <= 80
+          )
+          ||
+          (
+            resource.data.memberProfiles[1].uid == request.auth.uid
+            && request.resource.data.memberProfiles[0] == resource.data.memberProfiles[0]
+            && request.resource.data.memberProfiles[1].uid == resource.data.memberProfiles[1].uid
+            && request.resource.data.memberProfiles[1].email == resource.data.memberProfiles[1].email
+            && request.resource.data.memberProfiles[1].photoURL == resource.data.memberProfiles[1].photoURL
+            && request.resource.data.memberProfiles[1].name is string
+            && request.resource.data.memberProfiles[1].name.size() > 0
+            && request.resource.data.memberProfiles[1].name.size() <= 80
+          )
+        );
+    }
+
     match /users/{userId} {
       allow create: if signedIn()
         && request.auth.uid == userId
@@ -86,11 +116,25 @@ service cloud.firestore {
       allow update: if signedIn()
         && request.auth.uid in resource.data.memberUids
         && resource.data.status == 'active'
-        && request.resource.data.status == 'disconnected'
-        && request.resource.data.disconnectedBy == request.auth.uid
         && request.resource.data.updatedAt == request.time
-        && request.resource.data.memberUids == resource.data.memberUids
-        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'disconnectedBy', 'updatedAt']);
+        && (
+          (
+            request.resource.data.status == 'disconnected'
+            && request.resource.data.disconnectedBy == request.auth.uid
+            && request.resource.data.memberUids == resource.data.memberUids
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'disconnectedBy', 'updatedAt'])
+          )
+          ||
+          (
+            request.resource.data.status == resource.data.status
+            && request.resource.data.memberUids == resource.data.memberUids
+            && request.resource.data.memberEmails == resource.data.memberEmails
+            && request.resource.data.inviteId == resource.data.inviteId
+            && request.resource.data.createdAt == resource.data.createdAt
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['memberProfiles', 'updatedAt'])
+            && validOwnMemberProfileUpdate()
+          )
+        );
 
       allow delete: if false;
 
@@ -183,7 +227,17 @@ service cloud.firestore {
         ]);
       allow read: if signedIn() && request.auth.uid in resource.data.memberUids;
       allow delete: if signedIn() && request.auth.uid in resource.data.memberUids;
-      allow update: if false;
+      allow update: if signedIn()
+        && request.auth.uid in resource.data.memberUids
+        && resource.data.status == 'active'
+        && request.resource.data.status == resource.data.status
+        && request.resource.data.memberUids == resource.data.memberUids
+        && request.resource.data.memberEmails == resource.data.memberEmails
+        && request.resource.data.inviteId == resource.data.inviteId
+        && request.resource.data.createdAt == resource.data.createdAt
+        && request.resource.data.updatedAt == request.time
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['memberProfiles', 'updatedAt'])
+        && validOwnMemberProfileUpdate();
     }
 
     match /directLetters/{letterId} {

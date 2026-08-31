@@ -1,4 +1,14 @@
-# AiderLog v86
+# AiderLog v87
+
+## v87 Shared nickname · Graduate Admissions calendar
+
+- 닉네임 변경 시 내 화면뿐 아니라 활성 커플·친구 관계의 프로필 이름도 함께 갱신됩니다.
+- 우편함은 저장 당시 이름 대신 현재 연결 프로필의 닉네임을 우선 표시합니다.
+- Graduate Admissions를 좌측 고객 상담 일정 캘린더와 우측 대학원 목록으로 분할했습니다.
+- 대학원 상자는 5열의 낮고 간결한 형태로 정리하고 외부 링크 화살표를 제거했습니다.
+- 지원 가능 대학원 분석창의 안내 문구를 제거하고 내부 스크롤을 보강했습니다.
+
+`const CACHE='aiderlog-v87-shared-nickname-consulting-calendar';`
 
 ## v86 Event color records · friends · photo mail · DayLog
 
