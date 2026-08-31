@@ -11,13 +11,13 @@
 <meta name="description" content="">
 <meta name="format-detection" content="telephone=no">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="aiderlog-build" content="v82">
+<meta name="aiderlog-build" content="v83">
 <link rel="canonical" href="https://aiderdear1.vercel.app/">
 <script>
 (() => {
   const url = new URL(location.href);
   if (url.searchParams.has('client-intake')) document.documentElement.classList.add('client-intake-only');
-  if (['v67','v68','v69','v70','v71','v72','v73','v74','v75','v76','v77','v78','v79','v80','v81','v82'].includes(url.searchParams.get('aiderlog-main'))) {
+  if (['v67','v68','v69','v70','v71','v72','v73','v74','v75','v76','v77','v78','v79','v80','v81','v82','v83'].includes(url.searchParams.get('aiderlog-main'))) {
     url.searchParams.delete('aiderlog-main');
     history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`);
   }
@@ -3289,6 +3289,25 @@ html.client-intake-only #clientIntakePage{padding:24px 16px 36px!important;backg
   .client-intake-consent{font-size:12px!important}.client-intake-submit{height:52px!important;font-size:13px!important}
 }
 @media(max-width:390px){.client-intake-card{padding-inline:12px!important}.client-intake-card h1{font-size:27px!important}.client-intake-card header small{display:none}}
+
+/* ===== AiderLog v83 · journal paper + compact admissions ===== */
+.today-journal-modal{width:min(1040px,95vw)!important;max-height:min(760px,90vh)!important;border:1px solid #111!important;background:#f7f1df!important;box-shadow:12px 12px 0 rgba(28,25,20,.22)!important}
+.today-journal-modal .modal-head{min-height:48px!important;border-bottom:0!important;background:#111!important;color:#fff!important}
+.today-journal-modal .modal-head b{font-size:11px!important;letter-spacing:.18em!important}.today-journal-modal .modal-head button{color:#fff!important}
+.today-journal-body{position:relative!important;padding:20px 24px 26px 36px!important;background-color:#f7f1df!important;background-image:radial-gradient(#c9c0aa .75px,transparent .75px)!important;background-size:14px 14px!important}
+.today-journal-body:before{content:"";position:absolute;left:22px;top:0;bottom:0;width:1px;background:#d96d5f}
+.today-journal-date{margin:0 0 18px!important;padding:0 0 11px!important;border-bottom:3px double #111!important;font:500 34px/1.08 Georgia,serif!important;letter-spacing:-.035em!important}
+.today-journal-grid{counter-reset:journal-card;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:12px!important}
+.today-journal-section{--journal-accent:#d9c7ff;counter-increment:journal-card;position:relative;min-height:128px!important;padding:14px 14px 12px 44px!important;border:1px solid #111!important;background:rgba(255,255,255,.94)!important;box-shadow:4px 4px 0 var(--journal-accent)!important}
+.today-journal-section:before{content:counter(journal-card,decimal-leading-zero);position:absolute;left:11px;top:13px;font:900 10px/1 Arial,sans-serif;letter-spacing:.04em;color:#111}
+.today-journal-section:nth-child(2){--journal-accent:#d7e5cf}.today-journal-section:nth-child(3){--journal-accent:#f2d1cf}.today-journal-section:nth-child(4){--journal-accent:#d1e5f1}.today-journal-section:nth-child(5){--journal-accent:#e8d7b6}.today-journal-section:nth-child(6){--journal-accent:#d5c8e5}.today-journal-section:nth-child(7){--journal-accent:#f0c7d4}.today-journal-section:nth-child(8){--journal-accent:#cae2da}.today-journal-section:nth-child(9){--journal-accent:#e7dfaf}
+.today-journal-section h3{display:inline;margin:0 0 10px!important;padding:0 3px 2px!important;border:0!important;background:linear-gradient(transparent 56%,var(--journal-accent) 56%)!important;font-size:10.5px!important;letter-spacing:.1em!important}
+.today-journal-section ul{margin-top:12px!important}.today-journal-section li{font-size:10.5px!important}.today-journal-section time{font-family:Arial,sans-serif!important}.today-journal-section-empty{color:#7f776b!important;font-style:italic}
+.task-admissions-list{grid-template-columns:repeat(8,minmax(0,1fr))!important;gap:6px!important}.task-admissions-list a{min-height:42px!important;padding:6px 7px!important;font-size:10.5px!important}
+@media(max-width:1400px){.task-admissions-list{grid-template-columns:repeat(7,minmax(0,1fr))!important}}
+@media(max-width:1150px){.task-admissions-list{grid-template-columns:repeat(5,minmax(0,1fr))!important}}
+@media(max-width:760px){.today-journal-body{padding:16px 15px 22px 28px!important}.today-journal-body:before{left:16px}.today-journal-date{font-size:28px!important}.today-journal-grid{grid-template-columns:1fr!important}.today-journal-section{min-height:112px!important}.task-admissions-list{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
+@media(max-width:430px){.task-admissions-list{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
 </style>
 </head>
 <body>
@@ -3672,11 +3691,11 @@ html.client-intake-only #clientIntakePage{padding:24px 16px 36px!important;backg
         <div class="task-admissions-list" id="graduateAdmissionsList">
           <a href="https://www.gachon.ac.kr/grad/1387/subview.do" target="_blank" rel="noopener">가천대학교</a><a href="https://graduate.catholic.ac.kr/graduate/admission/admission.do" target="_blank" rel="noopener">가톨릭대학교</a><a href="https://graduate.kangwon.ac.kr/graduate/admission/admission.do" target="_blank" rel="noopener">강원대학교</a><a href="https://www.konkuk.ac.kr/grad/10318/subview.do" target="_blank" rel="noopener">건국대학교</a><a href="https://www.kyonggi.ac.kr/graduate/index.do" target="_blank" rel="noopener">경기대학교</a><a href="https://grad.knu.ac.kr/" target="_blank" rel="noopener">경북대학교</a>
           <a href="https://graduate.gnu.ac.kr/graduate/na/ntt/selectNttList.do?mi=4784&amp;bbsId=2139" target="_blank" rel="noopener">경상국립대학교</a><a href="https://grad.khu.ac.kr/grad/user/contents/view.do?menuNo=13200013" target="_blank" rel="noopener">경희대학교</a><a href="https://grad.kmu.ac.kr/" target="_blank" rel="noopener">계명대학교</a><a href="https://graduate.korea.ac.kr/matriculate/koreans_n.html" target="_blank" rel="noopener">고려대학교</a><a href="https://graduate.kongju.ac.kr/graduate/1355/subview.do" target="_blank" rel="noopener">공주대학교</a><a href="https://grad.kw.ac.kr/" target="_blank" rel="noopener">광운대학교</a>
-          <a href="https://gds.kookmin.ac.kr/" target="_blank" rel="noopener">국민대학교</a><a href="https://graduate.dankook.ac.kr/" target="_blank" rel="noopener">단국대학교</a><a href="https://graduate.dongguk.edu/" target="_blank" rel="noopener">동국대학교</a><a href="https://gra.donga.ac.kr/" target="_blank" rel="noopener">동아대학교</a><a href="https://grad.pknu.ac.kr/grad/681" target="_blank" rel="noopener">부경대학교</a><a href="https://go.pusan.ac.kr/graduate/main/grad_main.asp" target="_blank" rel="noopener">부산대학교</a>
-          <a href="https://grad.sogang.ac.kr/" target="_blank" rel="noopener">서강대학교</a><a href="https://admission.snu.ac.kr/graduate/general/notice" target="_blank" rel="noopener">서울대학교</a><a href="https://grad.seoultech.ac.kr/" target="_blank" rel="noopener">서울과학기술대학교</a><a href="https://graduate.uos.ac.kr/" target="_blank" rel="noopener">서울시립대학교</a><a href="https://gradschool.skku.edu/grad/mojip/regul.htm" target="_blank" rel="noopener">성균관대학교</a><a href="https://graduate.sejong.ac.kr/" target="_blank" rel="noopener">세종대학교</a>
+          <a href="https://gds.kookmin.ac.kr/" target="_blank" rel="noopener">국민대학교</a><a href="https://graduate.dankook.ac.kr/" target="_blank" rel="noopener">단국대학교</a><a href="https://graduate.duksung.ac.kr/" target="_blank" rel="noopener">덕성여자대학교</a><a href="https://graduate.dongguk.edu/" target="_blank" rel="noopener">동국대학교</a><a href="https://grad.dongduk.ac.kr/grad/contents/grad1.do" target="_blank" rel="noopener">동덕여자대학교</a><a href="https://gra.donga.ac.kr/" target="_blank" rel="noopener">동아대학교</a><a href="https://gs.mju.ac.kr/gs/1783/subview.do" target="_blank" rel="noopener">명지대학교</a><a href="https://grad.pknu.ac.kr/grad/681" target="_blank" rel="noopener">부경대학교</a><a href="https://go.pusan.ac.kr/graduate/main/grad_main.asp" target="_blank" rel="noopener">부산대학교</a>
+          <a href="https://grad.smu.ac.kr/grad/admission/notice.do" target="_blank" rel="noopener">상명대학교</a><a href="https://grad.sogang.ac.kr/" target="_blank" rel="noopener">서강대학교</a><a href="https://admission.snu.ac.kr/graduate/general/notice" target="_blank" rel="noopener">서울대학교</a><a href="https://grad.seoultech.ac.kr/" target="_blank" rel="noopener">서울과학기술대학교</a><a href="https://graduate.uos.ac.kr/" target="_blank" rel="noopener">서울시립대학교</a><a href="https://www.swu.ac.kr/sites/grd/index.do" target="_blank" rel="noopener">서울여자대학교</a><a href="https://gradschool.skku.edu/grad/mojip/regul.htm" target="_blank" rel="noopener">성균관대학교</a><a href="https://www.sungshin.ac.kr/gras" target="_blank" rel="noopener">성신여자대학교</a><a href="https://graduate.sejong.ac.kr/" target="_blank" rel="noopener">세종대학교</a>
           <a href="https://grad.sookmyung.ac.kr/" target="_blank" rel="noopener">숙명여자대학교</a><a href="https://grad.ssu.ac.kr/" target="_blank" rel="noopener">숭실대학교</a><a href="https://grad.ajou.ac.kr/gs/admission/notice.do" target="_blank" rel="noopener">아주대학교</a><a href="https://graduate.yonsei.ac.kr/graduate/admission/schedule.do" target="_blank" rel="noopener">연세대학교</a><a href="https://graduate.yu.ac.kr/" target="_blank" rel="noopener">영남대학교</a><a href="https://graduate.ulsan.ac.kr/" target="_blank" rel="noopener">울산대학교</a>
           <a href="https://www.ewha.ac.kr/ewha/admission/graduate.do" target="_blank" rel="noopener">이화여자대학교</a><a href="https://www.inu.ac.kr/grad/" target="_blank" rel="noopener">인천대학교</a><a href="https://grad.inha.ac.kr/grad/5887/subview.do" target="_blank" rel="noopener">인하대학교</a><a href="https://admgraduate.jnu.ac.kr/admgraduate/9929/subview.do" target="_blank" rel="noopener">전남대학교</a><a href="https://enter.jbnu.ac.kr/graduate/" target="_blank" rel="noopener">전북대학교</a><a href="https://ibsi2.jejunu.ac.kr/ipsi/mojipList.do?ci=gra" target="_blank" rel="noopener">제주대학교</a>
-          <a href="https://graduate.cau.ac.kr/graduate/admission/recruitment-guidelines.do?mode=list" target="_blank" rel="noopener">중앙대학교</a><a href="https://ipsi.chungnam.ac.kr/html/gadm/" target="_blank" rel="noopener">충남대학교</a><a href="https://ipsi.chungbuk.ac.kr/gra" target="_blank" rel="noopener">충북대학교</a><a href="https://grad.postech.ac.kr/" target="_blank" rel="noopener">포항공과대학교</a><a href="https://grad.hallym.ac.kr/grad/10563/subview.do" target="_blank" rel="noopener">한림대학교</a><a href="https://graduate.hanyang.ac.kr/admission" target="_blank" rel="noopener">한양대학교</a>
+          <a href="https://graduate.cau.ac.kr/graduate/admission/recruitment-guidelines.do?mode=list" target="_blank" rel="noopener">중앙대학교</a><a href="https://ipsi.chungnam.ac.kr/html/gadm/" target="_blank" rel="noopener">충남대학교</a><a href="https://ipsi.chungbuk.ac.kr/gra" target="_blank" rel="noopener">충북대학교</a><a href="https://grad.postech.ac.kr/" target="_blank" rel="noopener">포항공과대학교</a><a href="https://gra.hufs.ac.kr/gra/17636/subview.do" target="_blank" rel="noopener">한국외국어대학교</a><a href="https://grad.kau.ac.kr/admission/guide.php" target="_blank" rel="noopener">한국항공대학교</a><a href="https://grad.hallym.ac.kr/grad/10563/subview.do" target="_blank" rel="noopener">한림대학교</a><a href="https://graduate.hanyang.ac.kr/admission" target="_blank" rel="noopener">한양대학교</a>
           <a href="https://grad.hongik.ac.kr/" target="_blank" rel="noopener">홍익대학교</a><a href="https://admission.dgist.ac.kr/" target="_blank" rel="noopener">DGIST</a><a href="https://www.gist.ac.kr/gadm/" target="_blank" rel="noopener">GIST</a><a href="https://admission.kaist.ac.kr/graduate" target="_blank" rel="noopener">KAIST</a><a href="https://admission.unist.ac.kr/graduate/" target="_blank" rel="noopener">UNIST</a><a href="https://admission.ust.ac.kr/" target="_blank" rel="noopener">UST</a>
         </div>
       </section></section>
@@ -6535,7 +6554,6 @@ html.client-intake-only #clientIntakePage{padding:24px 16px 36px!important;backg
     const key=dateKeyOffset(0),date=new Date(`${key}T12:00:00`);
     const dateLabel=date.toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric',weekday:'long'});
     const privateStore=currentUserEmail?(privateData[currentUserEmail]||blankPrivateData(currentUserEmail,currentUserName)):blankPrivateData();
-    const localKey=value=>{const row=new Date(Number(value)||value);return Number.isNaN(row.getTime())?'':`${row.getFullYear()}-${String(row.getMonth()+1).padStart(2,'0')}-${String(row.getDate()).padStart(2,'0')}`};
     const schedule=(events||[])
       .filter(row=>row.date===key||(row.date<=key&&row.endDate>=key))
       .map(row=>({time:row.time||'종일',text:row.title||'일정'}));
@@ -6550,21 +6568,12 @@ html.client-intake-only #clientIntakePage{padding:24px 16px 36px!important;backg
     const personalRows=category=>personalToday
       .filter(row=>row.category===category)
       .map(row=>({time:{health:'건강',reading:'독서',workflow:'작업',finance:'금융'}[category],text:[row.title,row.note].filter(Boolean).join(' · ')||'기록'}));
-    const pomodoro=(privateStore.pomodoroSessions||[])
-      .filter(row=>row.date===key)
-      .map(row=>({time:`${row.minutes||25}분`,text:row.task||'집중 세션'}));
     const todos=(privateStore.checklists||[])
       .filter(row=>row.date===key)
       .map(row=>({time:row.done?'완료':'할 일',text:row.text||'메모'}));
     const records=(typeof visibleRecords==='function'?visibleRecords():[])
       .filter(row=>row.date===key)
       .map(row=>({time:'기록',text:row.title||row.body||'Record'}));
-    const eventRows=(typeof visibleEventRows==='function'?visibleEventRows():[]).filter(row=>row.date===key);
-    const archive=eventRows.filter(row=>row.category!=='travel').map(row=>({time:'아카이브',text:[row.title,row.place].filter(Boolean).join(' · ')}));
-    const travel=eventRows.filter(row=>row.category==='travel').map(row=>({time:'여행',text:[row.title,row.place].filter(Boolean).join(' · ')}));
-    const language=Object.entries(privateStore.languageStudy?.completions||{})
-      .filter(([id,stamp])=>id.endsWith(`:${key}`)||localKey(stamp)===key)
-      .map(([id])=>{const [lang,lesson]=id.split(':');return {time:'어학',text:[LANGUAGE_META?.[lang]?.label||lang,lesson].filter(Boolean).join(' · ')||'Language Lab'}});
     const sections=[
       journalSection('SCHEDULE',schedule),
       journalSection('EMOTION',emotion),
@@ -6573,10 +6582,7 @@ html.client-intake-only #clientIntakePage{padding:24px 16px 36px!important;backg
       journalSection('READING',personalRows('reading')),
       journalSection('WORKFLOW',personalRows('workflow')),
       journalSection('FINANCE',personalRows('finance')),
-      journalSection('POMODORO',pomodoro),
       journalSection('RECORD',records),
-      journalSection('ARCHIVE · TRAVEL',[...archive,...travel]),
-      journalSection('LANGUAGE LAB',language),
       journalSection('MEMO · TO DO',todos)
     ];
     $('#todayJournalDate').textContent=dateLabel;

@@ -22,14 +22,14 @@
         app.querySelector('.brand b').textContent='LANGUAGE LAB';
         app.querySelector('.brand small')?.remove();
         const share=document.createElement('button');
-        share.type='button';share.className='language-partner-share';share.textContent='학습 완료 후 상대에게 보내기';share.disabled=true;
+        share.type='button';share.className='language-partner-share';share.textContent='학습 완료 보내기';share.disabled=true;
         share.hidden=this.getAttribute('data-paired')!=='true';
         app.querySelector('.recent-study-actions')?.appendChild(share);
         this.shadowRoot.append(styleElement,app,toast);
         this.addEventListener('language-lab-complete',event=>{
           this.completion=event.detail||null;
           share.disabled=!this.completion;
-          share.textContent='상대에게 완료 기록 보내기';
+          share.textContent='학습 완료 보내기';
         });
         share.addEventListener('click',()=>{
           if(!this.completion)return;

@@ -1,4 +1,14 @@
-# AiderLog v82
+# AiderLog v83
+
+## v83 Language calendar · bullet journal · admissions
+
+- Language Lab의 최근 2주 달력 셀을 다시 키우고, `학습 초기화`와 `학습 완료 보내기`를 박스 없는 밑줄 동작으로 바꿨습니다.
+- 오늘 불렛저널에서 Archive/Travel, Language Lab, Pomodoro를 제거하고 일정·감정·루틴·건강·독서·워크플로우·금융·Record·메모/할 일 9개 범주만 표시합니다.
+- 불렛저널을 점선 종이, 좌측 제본선, 번호·색상 표시가 있는 3×3 기록 카드 디자인으로 재구성했습니다.
+- Graduate Admissions의 대학 카드 폭을 줄이고 8개 대학원 공식 입학 안내를 더해 총 56개로 확장했습니다.
+
+배포 후 `https://aiderdear1.vercel.app/sw.js`의 첫 줄이
+`const CACHE='aiderlog-v83-calendar-journal-admissions';`인지 확인하세요.
 
 ## v82 Language Lab · external intake
 
