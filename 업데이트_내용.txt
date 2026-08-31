@@ -1,3 +1,14 @@
+AiderLog v86
+
+[v86 변경]
+- Event Record 팔레트 색상 선택 추가
+- Record 6개 단위 페이지와 최근순·오래된순·색상별 정렬 추가
+- 요청·수락형 친구 연결과 친구 우편 추가 (탭 공유 없음)
+- 편지 사진 첨부 및 편지지 우측 하단 표시
+- PERSONAL 첫 화면 DayLog, 전환 화면 Overview 및 글자 크기 확대
+- Firebase 친구·개인 우편 보안 규칙 추가
+- PWA 캐시 v86으로 갱신
+
 AiderLog v85
 
 [v85 변경]

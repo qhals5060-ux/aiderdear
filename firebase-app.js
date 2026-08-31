@@ -51,6 +51,10 @@ const state = {
   partner: null,
   incoming: [],
   outgoing: [],
+  friends: [],
+  friendIncoming: [],
+  friendOutgoing: [],
+  directLetters: [],
   error: '',
 };
 
@@ -59,11 +63,19 @@ let googleDriveAccessToken = '';
 let unsubscribePairs = null;
 let unsubscribeIncoming = null;
 let unsubscribeOutgoing = null;
+let unsubscribeFriends = null;
+let unsubscribeFriendIncoming = null;
+let unsubscribeFriendOutgoing = null;
+let unsubscribeDirectLetters = null;
 let unsubscribeAppData = null;
 let appDataScopeKey = '';
 let pairRows = [];
 let incomingRows = [];
 let outgoingRows = [];
+let friendRows = [];
+let friendIncomingRows = [];
+let friendOutgoingRows = [];
+let directLetterRows = [];
 let repairPromise = null;
 
 const cleanEmail = value => String(value || '').trim().toLowerCase();
@@ -84,6 +96,10 @@ function emit() {
     partner: state.partner ? { ...state.partner } : null,
     incoming: state.incoming.map(row => ({ ...row })),
     outgoing: state.outgoing.map(row => ({ ...row })),
+    friends: state.friends.map(row => ({ ...row })),
+    friendIncoming: state.friendIncoming.map(row => ({ ...row })),
+    friendOutgoing: state.friendOutgoing.map(row => ({ ...row })),
+    directLetters: state.directLetters.map(row => ({ ...row })),
     error: state.error,
   };
   subscribers.forEach(callback => {
@@ -93,14 +109,18 @@ function emit() {
 }
 
 function stopListeners() {
-  [unsubscribePairs, unsubscribeIncoming, unsubscribeOutgoing, unsubscribeAppData].forEach(stop => {
+  [unsubscribePairs, unsubscribeIncoming, unsubscribeOutgoing, unsubscribeFriends, unsubscribeFriendIncoming, unsubscribeFriendOutgoing, unsubscribeDirectLetters, unsubscribeAppData].forEach(stop => {
     try { stop?.(); } catch {}
   });
-  unsubscribePairs = unsubscribeIncoming = unsubscribeOutgoing = unsubscribeAppData = null;
+  unsubscribePairs = unsubscribeIncoming = unsubscribeOutgoing = unsubscribeFriends = unsubscribeFriendIncoming = unsubscribeFriendOutgoing = unsubscribeDirectLetters = unsubscribeAppData = null;
   appDataScopeKey = '';
   pairRows = [];
   incomingRows = [];
   outgoingRows = [];
+  friendRows = [];
+  friendIncomingRows = [];
+  friendOutgoingRows = [];
+  directLetterRows = [];
 }
 
 function watchAppData() {
@@ -150,6 +170,17 @@ function recomputeState() {
   state.outgoing = outgoingRows
     .filter(row => row.status === 'pending')
     .sort((a, b) => timestampValue(b.createdAt) - timestampValue(a.createdAt));
+  state.friends = friendRows
+    .filter(row => row.status === 'active' && row.memberUids?.includes(state.user?.uid))
+    .map(row => {
+      const friend = (row.memberProfiles || []).find(profile => profile.uid !== state.user?.uid) || {};
+      return { friendshipId: row.id, uid: String(friend.uid || ''), email: cleanEmail(friend.email), name: String(friend.name || friend.email?.split('@')[0] || '친구'), photoURL: String(friend.photoURL || '') };
+    })
+    .filter(row => row.uid && row.email)
+    .sort((a, b) => a.name.localeCompare(b.name, 'ko'));
+  state.friendIncoming = friendIncomingRows.filter(row => row.status === 'pending').sort((a, b) => timestampValue(b.createdAt) - timestampValue(a.createdAt));
+  state.friendOutgoing = friendOutgoingRows.filter(row => row.status === 'pending').sort((a, b) => timestampValue(b.createdAt) - timestampValue(a.createdAt));
+  state.directLetters = directLetterRows.sort((a, b) => Number(b.createdAt || 0) - Number(a.createdAt || 0));
   watchAppData();
   emit();
 }
@@ -209,6 +240,34 @@ function startListeners(user) {
       state.error = error.message;
       emit();
     },
+  );
+  unsubscribeFriends = onSnapshot(
+    query(collection(db, 'friendships'), where('memberUids', 'array-contains', user.uid)),
+    snapshot => { friendRows = snapshot.docs.map(plainDoc); recomputeState(); },
+    error => { state.error = error.message; emit(); },
+  );
+  unsubscribeFriendIncoming = onSnapshot(
+    query(collection(db, 'friendInvites'), where('toEmail', '==', email)),
+    snapshot => { friendIncomingRows = snapshot.docs.map(plainDoc); recomputeState(); },
+    error => { state.error = error.message; emit(); },
+  );
+  unsubscribeFriendOutgoing = onSnapshot(
+    query(collection(db, 'friendInvites'), where('fromUid', '==', user.uid)),
+    snapshot => { friendOutgoingRows = snapshot.docs.map(plainDoc); recomputeState(); },
+    error => { state.error = error.message; emit(); },
+  );
+  unsubscribeDirectLetters = onSnapshot(
+    query(collection(db, 'directLetters'), where('memberUids', 'array-contains', user.uid), limit(300)),
+    snapshot => {
+      directLetterRows = snapshot.docs.map(item => {
+        const row = plainDoc(item) || {};
+        let photoDataUrl = '';
+        try { if (row.photoBytes?.toBase64) photoDataUrl = `data:${row.photoMimeType || 'image/jpeg'};base64,${row.photoBytes.toBase64()}`; } catch {}
+        return { ...row, transport: 'direct', photoDataUrl, createdAt: timestampValue(row.createdAt) };
+      });
+      recomputeState();
+    },
+    error => { state.error = error.message; emit(); },
   );
 }
 
@@ -520,6 +579,109 @@ async function disconnectPair() {
   });
   state.pair.memberUids.forEach(uid => batch.delete(doc(db, 'pairMemberships', uid)));
   await batch.commit();
+}
+
+async function createFriendInvite(rawEmail) {
+  const user = requireUser();
+  const toEmail = cleanEmail(rawEmail);
+  if (!toEmail || !toEmail.includes('@')) throw new Error('친구의 Google 이메일을 정확히 입력해주세요.');
+  if (toEmail === user.email) throw new Error('본인에게는 친구 요청을 보낼 수 없습니다.');
+  if (state.friends.some(row => row.email === toEmail)) throw new Error('이미 친구로 연결되어 있습니다.');
+  if (state.friendOutgoing.some(row => cleanEmail(row.toEmail) === toEmail && row.status === 'pending')) throw new Error('이미 보낸 친구 요청이 있습니다.');
+  const ref = await addDoc(collection(db, 'friendInvites'), {
+    fromUid: user.uid,
+    fromEmail: user.email,
+    fromName: user.name,
+    fromPhotoURL: user.photoURL,
+    toEmail,
+    status: 'pending',
+    createdAt: serverTimestamp(),
+    updatedAt: serverTimestamp(),
+  });
+  return ref.id;
+}
+
+async function acceptFriendInvite(inviteId) {
+  const user = requireUser();
+  const invite = plainDoc(await getDoc(doc(db, 'friendInvites', inviteId)));
+  if (!invite || invite.status !== 'pending') throw new Error('이미 처리되었거나 만료된 친구 요청입니다.');
+  if (cleanEmail(invite.toEmail) !== user.email) throw new Error('이 계정으로 받은 친구 요청이 아닙니다.');
+  const batch = writeBatch(db);
+  batch.update(doc(db, 'friendInvites', inviteId), { status: 'accepted', friendshipId: inviteId, updatedAt: serverTimestamp() });
+  batch.set(doc(db, 'friendships', inviteId), {
+    inviteId,
+    status: 'active',
+    memberUids: [invite.fromUid, user.uid],
+    memberEmails: [cleanEmail(invite.fromEmail), user.email],
+    memberProfiles: [
+      { uid: invite.fromUid, email: cleanEmail(invite.fromEmail), name: String(invite.fromName || invite.fromEmail?.split('@')[0] || '친구'), photoURL: String(invite.fromPhotoURL || '') },
+      { ...user },
+    ],
+    createdAt: serverTimestamp(),
+    updatedAt: serverTimestamp(),
+  });
+  await batch.commit();
+  return inviteId;
+}
+
+async function rejectFriendInvite(inviteId) {
+  requireUser();
+  await updateDoc(doc(db, 'friendInvites', inviteId), { status: 'rejected', updatedAt: serverTimestamp() });
+}
+
+async function cancelFriendInvite(inviteId) {
+  requireUser();
+  await updateDoc(doc(db, 'friendInvites', inviteId), { status: 'cancelled', updatedAt: serverTimestamp() });
+}
+
+async function removeFriend(friendshipId) {
+  const user = requireUser();
+  const row = plainDoc(await getDoc(doc(db, 'friendships', friendshipId)));
+  if (!row?.memberUids?.includes(user.uid)) throw new Error('친구 연결을 확인할 수 없습니다.');
+  await deleteDoc(doc(db, 'friendships', friendshipId));
+}
+
+function directPhotoPayload(dataUrl) {
+  const match = String(dataUrl || '').match(/^data:(image\/[a-zA-Z0-9.+-]+);base64,([A-Za-z0-9+/=]+)$/);
+  if (!match) return {};
+  if (match[2].length > 680000) throw new Error('사진 용량이 큽니다. 다른 사진을 선택해주세요.');
+  return { photoMimeType: match[1], photoBytes: Bytes.fromBase64String(match[2]) };
+}
+
+async function sendDirectLetter({ toUid, toEmail, toName, body, photoDataUrl = '' } = {}) {
+  const user = requireUser();
+  const friend = state.friends.find(row => row.uid === toUid && row.email === cleanEmail(toEmail));
+  const partner = state.partner?.uid === toUid && state.partner?.email === cleanEmail(toEmail);
+  if (!friend && !partner) throw new Error('연결된 커플 또는 친구에게만 편지를 보낼 수 있습니다.');
+  const text = String(body || '').trim().slice(0, 220);
+  if (!text) throw new Error('편지 내용을 입력해주세요.');
+  const payload = {
+    fromUid: user.uid,
+    fromEmail: user.email,
+    fromName: user.name,
+    toUid: String(toUid),
+    toEmail: cleanEmail(toEmail),
+    toName: String(toName || toEmail?.split('@')[0] || '받는 사람').slice(0, 80),
+    memberUids: [user.uid, String(toUid)],
+    connectionType: friend ? 'friend' : 'pair',
+    connectionId: friend ? friend.friendshipId : state.pair?.id,
+    body: text,
+    readBy: [user.uid],
+    createdAt: serverTimestamp(),
+    updatedAt: serverTimestamp(),
+    ...directPhotoPayload(photoDataUrl),
+  };
+  return (await addDoc(collection(db, 'directLetters'), payload)).id;
+}
+
+async function markDirectLetterRead(letterId) {
+  const user = requireUser();
+  const ref = doc(db, 'directLetters', letterId);
+  const row = plainDoc(await getDoc(ref));
+  if (!row || row.toUid !== user.uid) return;
+  const readBy = Array.isArray(row.readBy) ? row.readBy : [];
+  if (readBy.includes(user.uid)) return;
+  await updateDoc(ref, { readBy: [...readBy, user.uid], updatedAt: serverTimestamp() });
 }
 
 async function readAppData() {
@@ -875,6 +1037,13 @@ const api = {
   rejectInvite,
   cancelInvite,
   disconnectPair,
+  createFriendInvite,
+  acceptFriendInvite,
+  rejectFriendInvite,
+  cancelFriendInvite,
+  removeFriend,
+  sendDirectLetter,
+  markDirectLetterRead,
   readAppData,
   writeAppData,
   readPrivateData,
@@ -908,6 +1077,10 @@ onAuthStateChanged(auth, async user => {
   state.partner = null;
   state.incoming = [];
   state.outgoing = [];
+  state.friends = [];
+  state.friendIncoming = [];
+  state.friendOutgoing = [];
+  state.directLetters = [];
   state.error = '';
   if (user) {
     try {

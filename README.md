@@ -1,4 +1,17 @@
-# AiderLog v85
+# AiderLog v86
+
+## v86 Event color records · friends · photo mail · DayLog
+
+- Event의 Record 작성 창에서 `#43240F`, `#F8F6DF`, `#E1AD01`, `#B83700`, `#3D4C1C` 색상을 선택할 수 있습니다.
+- Record는 한 페이지에 6개씩 표시되며 최근순·오래된순·색상별 정렬과 `< 1 >` 페이지 이동을 지원합니다.
+- 커플 연결과 별개의 수락형 친구 요청을 추가했습니다. 친구에게는 어떤 탭도 공유되지 않고 우편만 주고받습니다.
+- 커플 또는 친구에게 보내는 편지에 압축 사진 한 장을 첨부할 수 있으며 편지지 우측 하단에 표시됩니다.
+- PERSONAL 첫 화면 타이틀을 `DayLog`, 전환 화면을 `Overview`로 정리하고 두 화면의 글자를 키웠습니다.
+- Firestore에 `friendInvites`, `friendships`, `directLetters` 규칙이 추가되었습니다. 배포 시 `firestore.rules`도 함께 반영해야 합니다.
+
+서비스워커 확인:
+
+`const CACHE='aiderlog-v86-record-friends-photo-mail';`
 
 ## v85 Taller frames · admissions comparison
 

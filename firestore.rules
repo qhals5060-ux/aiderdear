@@ -140,6 +140,84 @@ service cloud.firestore {
         );
     }
 
+    match /friendInvites/{inviteId} {
+      allow create: if signedIn()
+        && request.resource.data.fromUid == request.auth.uid
+        && request.resource.data.fromEmail == currentEmail()
+        && request.resource.data.toEmail is string
+        && request.resource.data.toEmail != currentEmail()
+        && request.resource.data.status == 'pending'
+        && request.resource.data.createdAt == request.time;
+
+      allow read: if signedIn()
+        && (resource.data.fromUid == request.auth.uid || resource.data.toEmail == currentEmail());
+
+      allow update: if signedIn()
+        && resource.data.status == 'pending'
+        && request.resource.data.fromUid == resource.data.fromUid
+        && request.resource.data.fromEmail == resource.data.fromEmail
+        && request.resource.data.toEmail == resource.data.toEmail
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'friendshipId', 'updatedAt'])
+        && (
+          (resource.data.fromUid == request.auth.uid && request.resource.data.status == 'cancelled')
+          ||
+          (resource.data.toEmail == currentEmail()
+            && request.resource.data.status in ['accepted', 'rejected']
+            && (request.resource.data.status == 'rejected' || request.resource.data.friendshipId == inviteId))
+        );
+
+      allow delete: if false;
+    }
+
+    match /friendships/{friendshipId} {
+      allow create: if signedIn()
+        && getAfter(/databases/$(database)/documents/friendInvites/$(friendshipId)).data.status == 'accepted'
+        && getAfter(/databases/$(database)/documents/friendInvites/$(friendshipId)).data.friendshipId == friendshipId
+        && getAfter(/databases/$(database)/documents/friendInvites/$(friendshipId)).data.toEmail == currentEmail()
+        && request.resource.data.status == 'active'
+        && request.resource.data.memberUids is list
+        && request.resource.data.memberUids.size() == 2
+        && request.resource.data.memberUids.hasAll([
+          request.auth.uid,
+          getAfter(/databases/$(database)/documents/friendInvites/$(friendshipId)).data.fromUid
+        ]);
+      allow read: if signedIn() && request.auth.uid in resource.data.memberUids;
+      allow delete: if signedIn() && request.auth.uid in resource.data.memberUids;
+      allow update: if false;
+    }
+
+    match /directLetters/{letterId} {
+      allow create: if signedIn()
+        && request.resource.data.fromUid == request.auth.uid
+        && request.resource.data.fromEmail == currentEmail()
+        && request.resource.data.toUid is string
+        && request.resource.data.toUid != request.auth.uid
+        && request.resource.data.memberUids is list
+        && request.resource.data.memberUids.size() == 2
+        && request.resource.data.memberUids.hasAll([request.auth.uid, request.resource.data.toUid])
+        && (
+          (request.resource.data.connectionType == 'pair'
+            && exists(/databases/$(database)/documents/pairs/$(request.resource.data.connectionId))
+            && get(/databases/$(database)/documents/pairs/$(request.resource.data.connectionId)).data.status == 'active'
+            && get(/databases/$(database)/documents/pairs/$(request.resource.data.connectionId)).data.memberUids.hasAll(request.resource.data.memberUids))
+          ||
+          (request.resource.data.connectionType == 'friend'
+            && exists(/databases/$(database)/documents/friendships/$(request.resource.data.connectionId))
+            && get(/databases/$(database)/documents/friendships/$(request.resource.data.connectionId)).data.status == 'active'
+            && get(/databases/$(database)/documents/friendships/$(request.resource.data.connectionId)).data.memberUids.hasAll(request.resource.data.memberUids))
+        )
+        && request.resource.data.body is string
+        && request.resource.data.body.size() > 0
+        && request.resource.data.body.size() <= 220
+        && request.resource.data.createdAt == request.time;
+      allow read: if signedIn() && request.auth.uid in resource.data.memberUids;
+      allow update: if signedIn()
+        && request.auth.uid == resource.data.toUid
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['readBy', 'updatedAt'])
+        && request.auth.uid in request.resource.data.readBy;
+      allow delete: if signedIn() && request.auth.uid == resource.data.fromUid;
+    }
+
     match /clientIntakeLinks/{token} {
       allow create: if signedIn()
         && token.size() >= 32

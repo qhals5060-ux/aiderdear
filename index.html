@@ -11,13 +11,13 @@
 <meta name="description" content="">
 <meta name="format-detection" content="telephone=no">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="aiderlog-build" content="v85">
+<meta name="aiderlog-build" content="v86">
 <link rel="canonical" href="https://aiderdear1.vercel.app/">
 <script>
 (() => {
   const url = new URL(location.href);
   if (url.searchParams.has('client-intake')) document.documentElement.classList.add('client-intake-only');
-  if (['v67','v68','v69','v70','v71','v72','v73','v74','v75','v76','v77','v78','v79','v80','v81','v82','v83','v84','v85'].includes(url.searchParams.get('aiderlog-main'))) {
+  if (['v67','v68','v69','v70','v71','v72','v73','v74','v75','v76','v77','v78','v79','v80','v81','v82','v83','v84','v85','v86'].includes(url.searchParams.get('aiderlog-main'))) {
     url.searchParams.delete('aiderlog-main');
     history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`);
   }
@@ -3463,6 +3463,19 @@ html.client-intake-only .client-intake-result b{font:800 38px/1.1 Arial,sans-ser
 .graduate-fit-peer-table{display:grid;grid-template-columns:minmax(90px,1fr) 78px repeat(4,minmax(70px,.7fr));overflow:auto}.graduate-fit-peer-table>*{min-height:35px;display:flex;align-items:center;border-right:1px solid #e4dfcf;border-bottom:1px solid #e4dfcf;padding:6px 7px;font-size:7.5px}.graduate-fit-peer-table .head{background:#f3f0e5;font-size:7px;font-weight:900}.graduate-fit-peer-table .selected{background:#fff7d4;font-weight:900}
 @media(max-width:900px){.graduate-fit-rank{grid-template-columns:30px minmax(130px,1fr) 66px 72px 78px 92px}.graduate-fit-controls{grid-template-columns:1fr}.graduate-fit-evidence{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:760px){.app{grid-template-rows:46px 88px minmax(0,1fr)!important}.nav-row{height:88px!important;min-height:88px!important}#stage,#recordStage,#privateStage,#personalStage,#paperStage,#taskStage{border-width:3px!important}.task-admissions-tools{width:100%;display:grid;grid-template-columns:minmax(0,1fr) auto}.task-admissions-search{width:100%!important}.task-admissions-fit-open{padding-inline:9px;font-size:9px}.graduate-fit-dialog{width:100%!important}.graduate-fit-summary{grid-template-columns:1fr}.graduate-fit-rank{grid-template-columns:28px minmax(120px,1fr) 70px 80px}.graduate-fit-rank>*:nth-child(4),.graduate-fit-rank>*:nth-child(5){display:none}.graduate-fit-evidence{grid-template-columns:1fr}.graduate-fit-peer-table{min-width:620px}}
+
+/* ===== AiderLog v86 · color records, friends, photo letters and Personal type ===== */
+.record-main{grid-template-rows:auto minmax(0,1fr) auto!important}
+.record-sort{height:30px;border:1px solid #111;background:#fff;padding:0 8px;font-size:9px;font-weight:800}
+.record-pagination{min-height:28px;display:flex;align-items:center;justify-content:center;gap:7px;padding-bottom:2px}
+.record-pagination[hidden]{display:none!important}.record-pagination button{width:27px;height:27px;border:1px solid #111;background:#fff;font:800 11px/1 Arial}.record-pagination button:disabled{opacity:.25}.record-pagination b{min-width:24px;text-align:center;font:700 12px/1 Georgia,serif}
+.record-color-picker{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px}.record-color-swatch{position:relative;height:46px;border:2px solid transparent;background:var(--swatch);color:var(--ink);font-size:7px;font-weight:900;text-shadow:0 1px 2px var(--shadow);cursor:pointer}.record-color-swatch.active{border-color:#111;box-shadow:inset 0 0 0 3px #fff}
+.record-post{border-top:8px solid var(--record-color,#F8F6DF)!important;background:color-mix(in srgb,var(--record-color,#F8F6DF) 11%,#fff 89%)!important}.record-post .post-head{background:color-mix(in srgb,var(--record-color,#F8F6DF) 18%,#fff 82%)}
+.friend-panel{display:grid;gap:9px;margin-top:12px;padding-top:12px;border-top:2px solid #111}.friend-panel>header{display:flex;align-items:center;justify-content:space-between;gap:8px}.friend-panel>header b{font-size:11px}.friend-panel>header span{font-size:8px;color:#66717a}.friend-invite-form{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:7px}.friend-invite-form input{height:36px;border:1px solid #111;padding:0 10px;font-size:10px}.friend-invite-form button{height:36px;border:1px solid #111;background:#111;color:#fff;padding:0 13px;font-size:9px;font-weight:900}.friend-list{display:flex;gap:6px;flex-wrap:wrap}.friend-chip{display:flex;align-items:center;gap:7px;border:1px solid #111;background:#fff;padding:6px 8px}.friend-chip b{font-size:9px}.friend-chip span{font-size:7px;color:#68737a}.friend-chip button{border:0;background:transparent;font-size:12px}.friend-empty{font-size:8px;color:#778188}
+.mail-recipient-select{width:100%;height:34px;border:1px solid #111;background:#fff;padding:0 9px;font-size:10px;font-weight:800;margin-bottom:8px}.mail-photo-tools{display:flex;align-items:center;gap:8px;margin-top:7px}.mail-photo-pick{height:30px;border:1px solid #111;background:#fff;padding:0 9px;font-size:8px;font-weight:900}.mail-photo-preview{width:46px;height:34px;border:1px solid #c9c9c9;background:#f6f6f6;overflow:hidden;position:relative}.mail-photo-preview:empty{display:none}.mail-photo-preview img{width:100%;height:100%;object-fit:cover}.mail-photo-preview button{position:absolute;right:1px;top:1px;width:16px;height:16px;border:0;background:rgba(17,17,17,.75);color:#fff;font-size:11px;line-height:1}.mail-row.has-photo:after{content:"▧";font-size:13px;color:#555}.letter-photo{position:absolute;right:26px;bottom:24px;z-index:2;width:min(150px,34%);height:112px;object-fit:cover;border:8px solid #fff;box-shadow:0 5px 18px rgba(0,0,0,.18);transform:rotate(-2deg)}.letter-photo[hidden]{display:none!important}.letter-paper.has-photo:after{display:none}.letter-paper.has-photo .letter-body{padding-right:8px;padding-bottom:112px}.letter-paper.has-photo .letter-from,.letter-paper.has-photo .letter-date{padding-right:165px}
+#personalMainShell .personal-toolbar h2,#personalOverviewShell .personal-overview-toolbar h2{font-size:32px!important;line-height:1!important}.personal-stage{font-size:13px!important}.personal-stage button,.personal-stage input,.personal-stage select,.personal-stage textarea{font-size:11px!important}.personal-dashboard .health-v59-head b,.personal-dashboard .personal-v59-head b{font-size:14px!important}.personal-dashboard .health-v59-head span,.personal-dashboard .personal-v59-head span{font-size:11px!important}.personal-dashboard .meal-slot-v59 footer b,.personal-dashboard .exercise-recent-card b,.personal-dashboard .workflow-card-v59 b,.personal-dashboard .finance-v59-card b{font-size:12px!important}.personal-dashboard .meal-slot-v59 footer span,.personal-dashboard .meal-slot-v59 footer small,.personal-dashboard .exercise-recent-card p,.personal-dashboard .exercise-recent-card time,.personal-dashboard .workflow-card-v59 small,.personal-dashboard .workflow-card-v59 footer,.personal-dashboard .finance-v59-card small{font-size:10px!important}.personal-dashboard .quote-v59 p{font-size:13px!important}.personal-overview-dashboard .personal-overview-card header b{font-size:13px!important}.personal-overview-dashboard .overview-section-title b{font-size:11px!important}.personal-overview-dashboard .overview-section-title span,.personal-overview-dashboard small{font-size:9px!important}.personal-overview-dashboard p,.personal-overview-dashboard label,.personal-overview-dashboard select{font-size:10px!important}
+#personalStage .personal-frame :is(p,small,time,label,em,footer){font-size:10px!important;line-height:1.45}#personalStage .personal-frame :is(b,strong){font-size:12px!important}#personalStage .personal-category-tabs button,#personalStage .personal-overview-period button{font-size:11px!important}#personalStage .personal-category-tabs button span{font-size:14px!important}#personalStage #pomodoroClock{font-size:16px!important}#personalStage .pomodoro-mini-display span,#personalStage .pomodoro-mini-display b{font-size:9px!important}
+@media(max-width:650px){.record-color-picker{grid-template-columns:repeat(5,1fr)}.record-color-swatch{height:38px;font-size:0}.friend-invite-form{grid-template-columns:1fr}.letter-photo{right:18px;bottom:18px;width:120px;height:92px}.letter-paper.has-photo .letter-from,.letter-paper.has-photo .letter-date{padding-right:125px}.personal-stage{font-size:12px!important}#personalMainShell .personal-toolbar h2,#personalOverviewShell .personal-overview-toolbar h2{font-size:25px!important}}
 </style>
 </head>
 <body>
@@ -3606,10 +3619,12 @@ html.client-intake-only .client-intake-result b{font:800 38px/1.1 Arial,sans-ser
           <span id="recordPeopleFilters" class="record-people-filters"></span>
           <input class="record-date-search" id="recordDateSearch" type="date" aria-label="날짜별 기록 검색">
           <button class="record-date-clear" id="recordDateClear" type="button" aria-label="날짜 검색 초기화" hidden>×</button>
+          <select class="record-sort" id="recordSort" aria-label="기록 정렬"><option value="recent">최근순</option><option value="oldest">오래된순</option><option value="color">색상별</option></select>
           <button class="new-record" type="button" id="newRecordTop">+ 새 기록</button>
         </div>
       </div>
       <div class="record-feed" id="recordFeed"><div class="record-feed-inner" id="recordFeedInner"></div></div>
+      <nav class="record-pagination" id="recordPagination" aria-label="기록 페이지" hidden><button type="button" id="recordPagePrev" aria-label="이전 페이지">&lt;</button><b id="recordPageNumber">1</b><button type="button" id="recordPageNext" aria-label="다음 페이지">&gt;</button></nav>
     </section>
     <aside class="record-aside">
       <h3 class="record-aside-title">기록 찾아보기</h3>
@@ -3706,7 +3721,7 @@ html.client-intake-only .client-intake-result b{font:800 38px/1.1 Arial,sans-ser
   <section class="personal-stage" id="personalStage" aria-label="개인 생활 관리" hidden aria-hidden="true">
     <section class="personal-shell personal-page current" id="personalMainShell" aria-hidden="false"><section class="personal-frame">
       <div class="personal-toolbar">
-        <div><h2>Personal</h2></div>
+        <div><h2>DayLog</h2></div>
         <div class="personal-toolbar-tools">
           <div class="personal-category-tabs" id="personalCategoryTabs">
             <button type="button" data-personal-category="health" class="active"><span>♡</span>건강</button>
@@ -3906,9 +3921,11 @@ html.client-intake-only .client-intake-result b{font:800 38px/1.1 Arial,sans-ser
       <div class="mailbox-grid">
         <section class="mail-compose">
           <div class="mail-panel-head"><b>WRITE A NOTE</b><span>짧은 편지</span></div>
-          <div class="mail-recipient" id="mailRecipient">공유 상대를 설정하면 편지를 보낼 수 있습니다.</div>
+          <div class="mail-recipient" id="mailRecipient">받는 사람을 선택해주세요.</div>
           <form id="mailForm">
+            <select class="mail-recipient-select" id="mailRecipientSelect" aria-label="받는 사람"></select>
             <textarea id="mailBody" maxlength="220" placeholder="오늘 전하고 싶은 말을 짧게 남겨보세요."></textarea>
+            <div class="mail-photo-tools"><button class="mail-photo-pick" id="mailPhotoPick" type="button">▧ 사진 첨부</button><input id="mailPhotoInput" type="file" accept="image/*" hidden><div class="mail-photo-preview" id="mailPhotoPreview"></div></div>
             <div class="mail-char-count"><span id="mailCharCount">0</span> / 220</div>
             <button class="mail-send" id="mailSendBtn" type="submit">편지 보내기</button>
           </form>
@@ -3947,6 +3964,7 @@ html.client-intake-only .client-intake-result b{font:800 38px/1.1 Arial,sans-ser
       <div class="letter-body" id="letterViewBody"></div>
       <div class="letter-from"><span>From.</span><div class="letter-name-line" id="letterFrom"></div></div>
       <div class="letter-date" id="letterDate"></div>
+      <img class="letter-photo" id="letterPhoto" alt="편지에 첨부한 사진" hidden>
       <button class="letter-next" id="letterNextBtn" type="button" hidden>다음 편지 보기</button>
     </section>
   </div>
@@ -4000,6 +4018,15 @@ html.client-intake-only .client-intake-result b{font:800 38px/1.1 Arial,sans-ser
             <section><p>받은 요청 <span id="firebaseIncomingCount">0</span></p><div class="firebase-request-list" id="firebaseIncomingInvites"></div></section>
             <section><p>보낸 요청 <span id="firebaseOutgoingCount">0</span></p><div class="firebase-request-list" id="firebaseOutgoingInvites"></div></section>
           </div>
+          <section class="friend-panel" aria-label="친구 연결">
+            <header><b>FRIENDS</b><span>친구와는 우편만 주고받습니다.</span></header>
+            <form class="friend-invite-form" id="friendInviteForm"><input id="friendInviteEmail" type="email" autocomplete="email" placeholder="friend@gmail.com" required><button type="submit">친구 요청</button></form>
+            <div class="friend-list" id="friendList"></div>
+            <div class="firebase-request-box firebase-request-combined">
+              <section><p>받은 친구 요청 <span id="friendIncomingCount">0</span></p><div class="firebase-request-list" id="friendIncomingInvites"></div></section>
+              <section><p>보낸 친구 요청 <span id="friendOutgoingCount">0</span></p><div class="firebase-request-list" id="friendOutgoingInvites"></div></section>
+            </div>
+          </section>
           <p class="firebase-storage-note">Spark 무료 요금제에서 동작합니다. 사진은 자동 압축되며 영상은 최대 5분·120MB까지 저장됩니다. 큰 영상은 무료 1GiB 저장공간을 빠르게 사용할 수 있습니다.</p>
           <button type="button" class="desktop-setup-open" id="desktopSetupBtn">Windows 앱 설정</button>
           <div class="login-data-summary"><b>기록 저장 안내</b><span>일정·이벤트는 커플 연결 시 두 사람의 공유 공간에 저장됩니다.</span><span>루틴·어학·PERSONAL·PAPER·TASK·메모는 본인의 개인 공간에만 저장됩니다.</span><span>사진·영상은 압축 저장되며, 오래된 일반 기록은 삭제 전에 반드시 확인을 요청합니다.</span></div>
@@ -4111,6 +4138,7 @@ html.client-intake-only .client-intake-result b{font:800 38px/1.1 Arial,sans-ser
           <div class="field full"><label for="recordTitle">제목</label><input id="recordTitle" required maxlength="80"></div>
           <div class="field"><label for="recordDate">날짜</label><input id="recordDate" type="date" required></div>
           <div class="field"><label for="recordMood">분류</label><select id="recordMood"><option>일상</option><option>데이트</option><option>기념일</option><option>여행</option></select></div>
+          <div class="field full"><label>기록 색상</label><input id="recordColor" type="hidden" value="#F8F6DF"><div class="record-color-picker" id="recordColorPicker" aria-label="기록 색상"><button class="record-color-swatch" type="button" data-record-color="#43240F" style="--swatch:#43240F;--ink:#fff;--shadow:#000">#43240F</button><button class="record-color-swatch active" type="button" data-record-color="#F8F6DF" style="--swatch:#F8F6DF;--ink:#111;--shadow:#fff">#F8F6DF</button><button class="record-color-swatch" type="button" data-record-color="#E1AD01" style="--swatch:#E1AD01;--ink:#111;--shadow:#fff">#E1AD01</button><button class="record-color-swatch" type="button" data-record-color="#B83700" style="--swatch:#B83700;--ink:#fff;--shadow:#000">#B83700</button><button class="record-color-swatch" type="button" data-record-color="#3D4C1C" style="--swatch:#3D4C1C;--ink:#fff;--shadow:#000">#3D4C1C</button></div></div>
 
           <div class="field full">
             <label for="recordAlbumFolder">앨범 폴더</label>
@@ -4693,7 +4721,7 @@ html.client-intake-only .client-intake-result b{font:800 38px/1.1 Arial,sans-ser
   let privateFeature='memo';
   let emotionData={};
   let emotionRefs={};
-  let firebaseState={ready:false,user:null,pair:null,partner:null,incoming:[],outgoing:[],error:''};
+  let firebaseState={ready:false,user:null,pair:null,partner:null,incoming:[],outgoing:[],friends:[],friendIncoming:[],friendOutgoing:[],directLetters:[],error:''};
   let firebaseScopeKey='';
   let firebaseBootstrapPromise=null;
 
@@ -5353,13 +5381,14 @@ html.client-intake-only .client-intake-result b{font:800 38px/1.1 Arial,sans-ser
   });
 
 
-  // Mailbox — short notes between the currently shared pair
-  let mailTab='received',letterQueue=[];
+  // Mailbox — private notes between a connected couple or accepted friends
+  let mailTab='received',letterQueue=[],mailPhotoDataUrl='';
   function allLetters(){normalizeCloudData();return cloudData.letters||[]}
-  function visibleLetters(){if(!currentUserEmail)return [];const partner=mutualPartner();if(!partner)return [];const pair=currentPairKey();return allLetters().filter(x=>{const from=normalizeEmail(x.fromEmail),to=normalizeEmail(x.toEmail),direct=(from===currentUserEmail&&to===partner.email)||(from===partner.email&&to===currentUserEmail);return direct&&(!x.pairKey||x.pairKey===pair)}).sort((a,b)=>(b.createdAt||0)-(a.createdAt||0))}
+  function mailRecipients(){if(!currentUserEmail)return [];const rows=[],partner=sharedPartner();if(partner?.uid)rows.push({...partner,kind:'couple'});(firebaseState.friends||[]).forEach(friend=>rows.push({...friend,kind:'friend'}));const seen=new Set();return rows.filter(row=>{const key=normalizeEmail(row.email);if(!key||seen.has(key))return false;seen.add(key);return true})}
+  function visibleLetters(){if(!currentUserEmail)return [];const connected=new Set(mailRecipients().map(row=>normalizeEmail(row.email))),pair=currentPairKey();const legacy=allLetters().filter(x=>{const from=normalizeEmail(x.fromEmail),to=normalizeEmail(x.toEmail),other=from===currentUserEmail?to:(to===currentUserEmail?from:'');return other&&connected.has(other)&&(!x.pairKey||x.pairKey===pair)}).map(row=>({...row,transport:'legacy'}));const direct=(firebaseState.directLetters||[]).filter(row=>normalizeEmail(row.fromEmail)===currentUserEmail||normalizeEmail(row.toEmail)===currentUserEmail);return [...legacy,...direct].sort((a,b)=>(b.createdAt||0)-(a.createdAt||0))}
   function receivedLetters(){return visibleLetters().filter(x=>normalizeEmail(x.toEmail)===currentUserEmail)}
   function sentLetters(){return visibleLetters().filter(x=>normalizeEmail(x.fromEmail)===currentUserEmail)}
-  function unreadLetters(){return receivedLetters().filter(x=>!(x.readBy||[]).map(normalizeEmail).includes(currentUserEmail))}
+  function unreadLetters(){return receivedLetters().filter(x=>x.transport==='direct'?!(x.readBy||[]).includes(firebaseState.user?.uid):!(x.readBy||[]).map(normalizeEmail).includes(currentUserEmail))}
   async function sendPartnerCompletion(kind,title,detail,completionKey){
     const partner=sharedPartner();if(!partner){toast('커플 연결 후 상대에게 완료 소식을 보낼 수 있습니다.');return false}
     normalizeCloudData();const key=`${kind}:${completionKey}:${currentUserEmail}`;
@@ -5370,16 +5399,20 @@ html.client-intake-only .client-intake-result b{font:800 38px/1.1 Arial,sans-ser
   }
   function letterPersonName(email,fallback=''){email=normalizeEmail(email);if(email===currentUserEmail)return currentUserName||fallback||'나';const p=emotionData[email]?.profile||privateData[email]?.profile||familyUser(email);return normalizeName(p?.name||fallback,email)}
   function letterDateLabel(ts){try{return new Date(ts).toLocaleString('ko-KR',{year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'})}catch{return ''}}
-  function updateMailBadge(){const n=unreadLetters().length,b=$('#mailUnreadBadge'),button=$('#mailboxBtn'),paired=!!sharedPartner();if(button)button.hidden=!paired;if(!b)return;b.textContent=String(n);b.hidden=!paired||!n}
-  function renderMailbox(){const partner=sharedPartner(),recipient=$('#mailRecipient'),send=$('#mailSendBtn'),list=$('#mailList');if(recipient)recipient.textContent=partner?`To. ${partner.name}`:'공유 상대를 설정하면 편지를 보낼 수 있습니다.';if(send)send.disabled=!partner;$$('.mail-tab').forEach(b=>b.classList.toggle('active',b.dataset.mailTab===mailTab));const rows=mailTab==='sent'?sentLetters():receivedLetters();$('#mailboxCount').textContent=`${rows.length} LETTERS`;if(!rows.length){list.innerHTML='<div class="mail-empty">아직 편지가 없습니다.</div>';return}list.innerHTML=rows.map(l=>{const incoming=normalizeEmail(l.toEmail)===currentUserEmail,unread=incoming&&!(l.readBy||[]).map(normalizeEmail).includes(currentUserEmail);const who=incoming?letterPersonName(l.fromEmail,l.fromName):letterPersonName(l.toEmail,l.toName);return `<button class="mail-row ${unread?'unread':''}" type="button" data-letter-id="${escapeHtml(l.id)}"><div><b>${incoming?'From.':'To.'} ${escapeHtml(who)}</b><p>${escapeHtml(l.body)}</p></div><time>${escapeHtml(letterDateLabel(l.createdAt))}</time></button>`}).join('')}
-  async function markLetterRead(letter){if(!letter||normalizeEmail(letter.toEmail)!==currentUserEmail)return;letter.readBy=Array.isArray(letter.readBy)?letter.readBy:[];if(!letter.readBy.map(normalizeEmail).includes(currentUserEmail)){letter.readBy.push(currentUserEmail);updateMailBadge();try{await saveCloudData()}catch(e){console.warn('Letter read sync failed',e)}}}
-  function openLetterView(letter,queue=[]){if(!letter)return;letterQueue=queue.filter(x=>x.id!==letter.id);$('#letterTo').textContent=letterPersonName(letter.toEmail,letter.toName);$('#letterFrom').textContent=letterPersonName(letter.fromEmail,letter.fromName);$('#letterViewBody').textContent=letter.body||'';$('#letterDate').textContent=letterDateLabel(letter.createdAt);$('#letterNextBtn').hidden=!letterQueue.length;openModal('letterViewModal');markLetterRead(letter);renderMailbox()}
+  function updateMailBadge(){const n=unreadLetters().length,b=$('#mailUnreadBadge'),button=$('#mailboxBtn'),available=mailRecipients().length>0;if(button)button.hidden=!currentUserEmail||!available;if(!b)return;b.textContent=String(n);b.hidden=!available||!n}
+  function renderMailbox(){const recipients=mailRecipients(),recipient=$('#mailRecipient'),select=$('#mailRecipientSelect'),send=$('#mailSendBtn'),list=$('#mailList'),selected=select?.value||'';if(recipient)recipient.textContent=recipients.length?'커플 또는 친구를 선택해 편지를 보낼 수 있습니다.':'연결된 커플이나 친구가 없습니다.';if(select){select.innerHTML=recipients.length?recipients.map(row=>`<option value="${escapeHtml(row.uid)}">${row.kind==='couple'?'COUPLE':'FRIEND'} · ${escapeHtml(row.name)} (${escapeHtml(row.email)})</option>`).join(''):'<option value="">받는 사람 없음</option>';if(recipients.some(row=>row.uid===selected))select.value=selected}if(send)send.disabled=!recipients.length;$$('.mail-tab').forEach(b=>b.classList.toggle('active',b.dataset.mailTab===mailTab));const rows=mailTab==='sent'?sentLetters():receivedLetters();$('#mailboxCount').textContent=`${rows.length} LETTERS`;if(!rows.length){list.innerHTML='<div class="mail-empty">아직 편지가 없습니다.</div>';return}list.innerHTML=rows.map(l=>{const incoming=normalizeEmail(l.toEmail)===currentUserEmail,unread=incoming&&(l.transport==='direct'?!(l.readBy||[]).includes(firebaseState.user?.uid):!(l.readBy||[]).map(normalizeEmail).includes(currentUserEmail)),who=incoming?letterPersonName(l.fromEmail,l.fromName):letterPersonName(l.toEmail,l.toName);return `<button class="mail-row ${unread?'unread':''} ${l.photoDataUrl||l.photoSrc?'has-photo':''}" type="button" data-letter-id="${escapeHtml(l.id)}" data-letter-transport="${escapeHtml(l.transport||'legacy')}"><div><b>${incoming?'From.':'To.'} ${escapeHtml(who)}</b><p>${escapeHtml(l.body)}</p></div><time>${escapeHtml(letterDateLabel(l.createdAt))}</time></button>`}).join('')}
+  async function markLetterRead(letter){if(!letter||normalizeEmail(letter.toEmail)!==currentUserEmail)return;if(letter.transport==='direct'){try{await window.AiderDearFirebase.markDirectLetterRead(letter.id)}catch(e){console.warn('Direct letter read sync failed',e)}return}letter.readBy=Array.isArray(letter.readBy)?letter.readBy:[];if(!letter.readBy.map(normalizeEmail).includes(currentUserEmail)){letter.readBy.push(currentUserEmail);updateMailBadge();try{await saveCloudData()}catch(e){console.warn('Letter read sync failed',e)}}}
+  function openLetterView(letter,queue=[]){if(!letter)return;letterQueue=queue.filter(x=>x.id!==letter.id);$('#letterTo').textContent=letterPersonName(letter.toEmail,letter.toName);$('#letterFrom').textContent=letterPersonName(letter.fromEmail,letter.fromName);$('#letterViewBody').textContent=letter.body||'';$('#letterDate').textContent=letterDateLabel(letter.createdAt);const photo=$('#letterPhoto'),paper=photo.closest('.letter-paper'),src=letter.photoDataUrl||letter.photoSrc||'';photo.hidden=!src;if(src)photo.src=src;else photo.removeAttribute('src');paper.classList.toggle('has-photo',!!src);$('#letterNextBtn').hidden=!letterQueue.length;openModal('letterViewModal');markLetterRead(letter);renderMailbox()}
   function showUnreadLetterPopup(){const q=unreadLetters().sort((a,b)=>(a.createdAt||0)-(b.createdAt||0));if(!q.length){updateMailBadge();return}const first=q.shift();openLetterView(first,q)}
   $('#mailboxBtn').addEventListener('click',()=>{if(!currentUser){requireLogin(()=>$('#mailboxBtn').click());return}renderMailbox();openModal('mailboxModal')});
   $$('.mail-tab').forEach(b=>b.addEventListener('click',()=>{mailTab=b.dataset.mailTab||'received';renderMailbox()}));
-  $('#mailList').addEventListener('click',e=>{const b=e.target.closest('[data-letter-id]');if(!b)return;const l=allLetters().find(x=>x.id===b.dataset.letterId);if(l)openLetterView(l)});
+  $('#mailList').addEventListener('click',e=>{const b=e.target.closest('[data-letter-id]');if(!b)return;const l=visibleLetters().find(x=>x.id===b.dataset.letterId&&String(x.transport||'legacy')===String(b.dataset.letterTransport||'legacy'));if(l)openLetterView(l)});
   $('#mailBody').addEventListener('input',e=>{$('#mailCharCount').textContent=String(e.target.value.length)});
-  $('#mailForm').addEventListener('submit',async e=>{e.preventDefault();if(!currentUserEmail||!googleToken)return;const partner=sharedPartner(),body=$('#mailBody').value.trim();if(!partner){toast('서로 연결을 승인한 상대에게만 편지를 보낼 수 있습니다.');return}if(!body)return;const letter={id:'letter-'+Date.now(),fromEmail:currentUserEmail,fromName:currentUserName||familyUser(currentUserEmail).name,toEmail:partner.email,toName:partner.name,body:body.slice(0,220),pairKey:currentPairKey(),createdAt:Date.now(),readBy:[]};cloudData.letters.push(letter);try{await saveCloudData();$('#mailBody').value='';$('#mailCharCount').textContent='0';mailTab='sent';renderMailbox();toast(`${partner.name}에게 편지를 보냈습니다.`)}catch(err){toast(googleErrorMessage(err))}});
+  function renderMailPhotoPreview(){const host=$('#mailPhotoPreview');host.innerHTML='';if(!mailPhotoDataUrl)return;host.innerHTML=`<img src="${mailPhotoDataUrl}" alt="첨부 사진 미리보기"><button type="button" aria-label="첨부 사진 삭제">×</button>`;host.querySelector('button').addEventListener('click',()=>{mailPhotoDataUrl='';renderMailPhotoPreview()})}
+  async function compressMailPhoto(file){if(!file?.type?.startsWith('image/'))throw new Error('사진 파일만 첨부할 수 있습니다.');const original=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(String(reader.result||''));reader.onerror=()=>reject(reader.error);reader.readAsDataURL(file)});const image=await new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>resolve(img);img.onerror=reject;img.src=original});const max=900,scale=Math.min(1,max/Math.max(image.width,image.height)),canvas=document.createElement('canvas');canvas.width=Math.max(1,Math.round(image.width*scale));canvas.height=Math.max(1,Math.round(image.height*scale));canvas.getContext('2d').drawImage(image,0,0,canvas.width,canvas.height);let quality=.76,result=canvas.toDataURL('image/jpeg',quality);while(result.length>650000&&quality>.38){quality-=.08;result=canvas.toDataURL('image/jpeg',quality)}if(result.length>680000)throw new Error('사진 용량이 큽니다. 다른 사진을 선택해주세요.');return result}
+  $('#mailPhotoPick').addEventListener('click',()=>$('#mailPhotoInput').click());
+  $('#mailPhotoInput').addEventListener('change',async e=>{const file=e.target.files?.[0];e.target.value='';if(!file)return;try{mailPhotoDataUrl=await compressMailPhoto(file);renderMailPhotoPreview()}catch(err){toast(err.message||String(err))}});
+  $('#mailForm').addEventListener('submit',async e=>{e.preventDefault();if(!currentUserEmail||!googleToken)return;const recipient=mailRecipients().find(row=>row.uid===$('#mailRecipientSelect').value),body=$('#mailBody').value.trim();if(!recipient){toast('받는 커플 또는 친구를 선택해주세요.');return}if(!body)return;const send=$('#mailSendBtn');send.disabled=true;try{await window.AiderDearFirebase.sendDirectLetter({toUid:recipient.uid,toEmail:recipient.email,toName:recipient.name,body,photoDataUrl:mailPhotoDataUrl});$('#mailBody').value='';$('#mailCharCount').textContent='0';mailPhotoDataUrl='';renderMailPhotoPreview();mailTab='sent';renderMailbox();toast(`${recipient.name}님에게 편지를 보냈습니다.`)}catch(err){toast(err.message||googleErrorMessage(err))}finally{send.disabled=!mailRecipients().length}});
   $('#letterNextBtn').addEventListener('click',()=>{const next=letterQueue.shift();if(next)openLetterView(next,letterQueue)});
 
   // Header notepad — private checklist shortcuts
@@ -5405,6 +5438,7 @@ html.client-intake-only .client-intake-result b{font:800 38px/1.1 Arial,sans-ser
   function renderFirebasePairUI(){
     const panel=$('#firebasePairPanel');if(!panel)return;panel.hidden=!firebaseState.user;if(!firebaseState.user)return;const partner=firebaseState.partner,active=$('#firebasePairActive'),inviteBox=$('#firebaseInviteBox');active.hidden=!partner;inviteBox.hidden=!!partner;if(partner){$('#firebasePartnerName').textContent=`${partner.name}님과 연결됨`;$('#firebasePartnerEmail').textContent=partner.email}
     const incomingRows=firebaseState.incoming||[],outgoingRows=firebaseState.outgoing||[],incoming=$('#firebaseIncomingInvites'),outgoing=$('#firebaseOutgoingInvites');$('#firebaseIncomingCount').textContent=String(incomingRows.length);$('#firebaseOutgoingCount').textContent=String(outgoingRows.length);incoming.innerHTML=incomingRows.map(row=>`<div class="firebase-request"><div class="firebase-request-info"><b>${escapeHtml(row.fromName||row.fromEmail||'상대')}</b><span>${escapeHtml(row.fromEmail||'')}</span></div><div class="firebase-request-actions"><button type="button" data-pair-reject="${escapeHtml(row.id)}">거절</button><button class="accept" type="button" data-pair-accept="${escapeHtml(row.id)}">수락</button></div></div>`).join('');outgoing.innerHTML=outgoingRows.map(row=>`<div class="firebase-request"><div class="firebase-request-info"><b>${escapeHtml(row.toEmail||'')}</b><span>수락 대기 중</span></div><div class="firebase-request-actions"><button type="button" data-pair-cancel="${escapeHtml(row.id)}">취소</button></div></div>`).join('');
+    const friends=firebaseState.friends||[],friendIncoming=firebaseState.friendIncoming||[],friendOutgoing=firebaseState.friendOutgoing||[];$('#friendIncomingCount').textContent=String(friendIncoming.length);$('#friendOutgoingCount').textContent=String(friendOutgoing.length);$('#friendList').innerHTML=friends.length?friends.map(row=>`<div class="friend-chip"><div><b>${escapeHtml(row.name)}</b><span>${escapeHtml(row.email)}</span></div><button type="button" data-friend-remove="${escapeHtml(row.friendshipId)}" aria-label="${escapeHtml(row.name)} 친구 삭제">×</button></div>`).join(''):'<span class="friend-empty">수락한 친구가 여기에 표시됩니다.</span>';$('#friendIncomingInvites').innerHTML=friendIncoming.map(row=>`<div class="firebase-request"><div class="firebase-request-info"><b>${escapeHtml(row.fromName||row.fromEmail||'친구')}</b><span>${escapeHtml(row.fromEmail||'')}</span></div><div class="firebase-request-actions"><button type="button" data-friend-reject="${escapeHtml(row.id)}">거절</button><button class="accept" type="button" data-friend-accept="${escapeHtml(row.id)}">수락</button></div></div>`).join('');$('#friendOutgoingInvites').innerHTML=friendOutgoing.map(row=>`<div class="firebase-request"><div class="firebase-request-info"><b>${escapeHtml(row.toEmail||'')}</b><span>수락 대기 중</span></div><div class="firebase-request-actions"><button type="button" data-friend-cancel="${escapeHtml(row.id)}">취소</button></div></div>`).join('');renderMailbox();updateMailBadge();
   }
   function resetFirebaseLocalSession(){
     googleToken='';googleProfile=null;currentUser='';currentUserEmail='';currentUserName='';isAdmin=false;events=[];driveRootId='';driveMediaFolderId='';driveDataFileId='';firebaseScopeKey='';
@@ -5445,6 +5479,10 @@ html.client-intake-only .client-intake-result b{font:800 38px/1.1 Arial,sans-ser
   $('#firebaseIncomingInvites').addEventListener('click',async e=>{const accept=e.target.closest('[data-pair-accept]'),reject=e.target.closest('[data-pair-reject]');try{if(accept){await window.AiderDearFirebase.acceptInvite(accept.dataset.pairAccept);await window.AiderDearFirebase.repairPairConnection();toast('커플 연결이 완료되었습니다.')}else if(reject){await window.AiderDearFirebase.rejectInvite(reject.dataset.pairReject);toast('요청을 거절했습니다.')}}catch(err){toast(err.message||String(err))}});
   $('#firebaseOutgoingInvites').addEventListener('click',async e=>{const cancel=e.target.closest('[data-pair-cancel]');if(!cancel)return;try{await window.AiderDearFirebase.cancelInvite(cancel.dataset.pairCancel);toast('요청을 취소했습니다.')}catch(err){toast(err.message||String(err))}});
   $('#firebaseDisconnectBtn').addEventListener('click',async()=>{const partner=mutualPartner();if(!partner||!confirm(`${partner.name}님과의 커플 연결을 해제할까요?`))return;try{await window.AiderDearFirebase.disconnectPair();toast('커플 연결을 해제했습니다.')}catch(err){toast(err.message||String(err))}});
+  $('#friendInviteForm').addEventListener('submit',async e=>{e.preventDefault();const input=$('#friendInviteEmail');try{await window.AiderDearFirebase.createFriendInvite(input.value);input.value='';toast('친구 요청을 보냈습니다.')}catch(err){toast(err.message||String(err))}});
+  $('#friendIncomingInvites').addEventListener('click',async e=>{const accept=e.target.closest('[data-friend-accept]'),reject=e.target.closest('[data-friend-reject]');try{if(accept){await window.AiderDearFirebase.acceptFriendInvite(accept.dataset.friendAccept);toast('친구 연결이 완료되었습니다. 이제 우편을 주고받을 수 있습니다.')}else if(reject){await window.AiderDearFirebase.rejectFriendInvite(reject.dataset.friendReject);toast('친구 요청을 거절했습니다.')}}catch(err){toast(err.message||String(err))}});
+  $('#friendOutgoingInvites').addEventListener('click',async e=>{const cancel=e.target.closest('[data-friend-cancel]');if(!cancel)return;try{await window.AiderDearFirebase.cancelFriendInvite(cancel.dataset.friendCancel);toast('친구 요청을 취소했습니다.')}catch(err){toast(err.message||String(err))}});
+  $('#friendList').addEventListener('click',async e=>{const remove=e.target.closest('[data-friend-remove]');if(!remove)return;if(!confirm('이 친구를 목록에서 삭제할까요?'))return;try{await window.AiderDearFirebase.removeFriend(remove.dataset.friendRemove);toast('친구 연결을 삭제했습니다.')}catch(err){toast(err.message||String(err))}});
   $('#logoutBtn').addEventListener('click',async()=>{try{await window.AiderDearFirebase.logout();closeModal('loginModal');toast('로그아웃했습니다.')}catch(err){toast(err.message||String(err))}});
   function requireLogin(afterLogin=null){if(currentUser)return true;if(afterLogin)pendingAfterLogin=afterLogin;openModal('loginModal');return false}
   function syncEventAllDayFields(readonly=false){const off=$('#eventAllDay').checked;$('#eventTime').disabled=readonly||off;$('#eventEndTime').disabled=readonly||off;if(off){$('#eventTime').value='';$('#eventEndTime').value='';}}
@@ -5575,7 +5613,7 @@ html.client-intake-only .client-intake-result b{font:800 38px/1.1 Arial,sans-ser
 
   function getRecords(){
     let rows=Array.isArray(cloudData.records)?cloudData.records:[];let changed=false;
-    rows=rows.map((r,i)=>{let next={...r};if(!next.id){changed=true;next.id='r-'+(Date.now()-i)}if(!next.folderId){changed=true;next.folderId=DEFAULT_ALBUM_ID}if(!next.kind){changed=true;next.kind='record'}if(!Array.isArray(next.media)){changed=true;next.media=(Array.isArray(next.photos)?next.photos:[]).map(src=>({kind:'image',src}))}if(!next.authorEmail){const legacy=next.author==='mine'?googleConfig.adminEmail:(next.author==='partner'?familyRoster().find(x=>x.email!==googleConfig.adminEmail)?.email:'');if(legacy){next.authorEmail=legacy;changed=true}}return next});
+    rows=rows.map((r,i)=>{let next={...r};if(!next.id){changed=true;next.id='r-'+(Date.now()-i)}if(!next.folderId){changed=true;next.folderId=DEFAULT_ALBUM_ID}if(!next.kind){changed=true;next.kind='record'}if(next.kind==='record'&&!['#43240F','#F8F6DF','#E1AD01','#B83700','#3D4C1C'].includes(next.color)){changed=true;next.color='#F8F6DF'}if(!Array.isArray(next.media)){changed=true;next.media=(Array.isArray(next.photos)?next.photos:[]).map(src=>({kind:'image',src}))}if(!next.authorEmail){const legacy=next.author==='mine'?googleConfig.adminEmail:(next.author==='partner'?familyRoster().find(x=>x.email!==googleConfig.adminEmail)?.email:'');if(legacy){next.authorEmail=legacy;changed=true}}return next});
     if(changed){cloudData.records=rows;scheduleCloudSave()}return rows;
   }
   function putRecords(rows){cloudData.records=rows;scheduleCloudSave()}
@@ -5668,6 +5706,15 @@ html.client-intake-only .client-intake-result b{font:800 38px/1.1 Arial,sans-ser
   let recordMonth='all';
   let recordDateSearch='';
   let recordView='feed';
+  const RECORD_COLORS=['#43240F','#F8F6DF','#E1AD01','#B83700','#3D4C1C'];
+  const RECORD_PAGE_SIZE=6;
+  let recordSort='recent',recordListPage=1;
+
+  function selectRecordColor(color){
+    color=RECORD_COLORS.includes(String(color||'').toUpperCase())?String(color).toUpperCase():'#F8F6DF';
+    $('#recordColor').value=color;
+    $$('#recordColorPicker [data-record-color]').forEach(button=>button.classList.toggle('active',button.dataset.recordColor===color));
+  }
 
   function renderRecordPreviews(){
     const wrap=$('#recordPreviews'); wrap.innerHTML='';
@@ -5690,22 +5737,27 @@ html.client-intake-only .client-intake-result b{font:800 38px/1.1 Arial,sans-ser
   function renderRecordPeopleFilters(){const box=$('#recordPeopleFilters');if(!box)return;const people=scheduleVisiblePeople(),allBtn=$('[data-record-filter="all"]');if(people.length<=1){box.innerHTML='';if(recordFilter!=='all')recordFilter='all';if(allBtn)allBtn.classList.add('active');return}if(allBtn)allBtn.classList.toggle('active',recordFilter==='all');box.innerHTML=people.map(p=>`<button class="record-filter ${recordFilter===p.email?'active':''}" type="button" data-record-filter="${escapeHtml(p.email)}">${escapeHtml(p.name)}</button>`).join('')}
 
   function renderRecordFeed(){
-    renderRecordPeopleFilters();const allRows=visibleRecords().filter(r=>(r.kind||'record')==='record').sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+    renderRecordPeopleFilters();const allRows=visibleRecords().filter(r=>(r.kind||'record')==='record');
     const rows=allRows;let filtered=rows;
     if(recordFilter!=='all') filtered=filtered.filter(r=>normalizeEmail(r.authorEmail)===normalizeEmail(recordFilter));
     if(recordDateSearch) filtered=filtered.filter(r=>(r.date||'')===recordDateSearch);
     else if(recordMonth!=='all') filtered=filtered.filter(r=>(r.date||'').slice(0,4)===recordMonth);
+    const byDate=(a,b)=>(b.date||'').localeCompare(a.date||'')||(Number(b.createdAt)||0)-(Number(a.createdAt)||0);
+    if(recordSort==='oldest')filtered.sort((a,b)=>-byDate(a,b));
+    else if(recordSort==='color')filtered.sort((a,b)=>RECORD_COLORS.indexOf(a.color||'#F8F6DF')-RECORD_COLORS.indexOf(b.color||'#F8F6DF')||byDate(a,b));
+    else filtered.sort(byDate);
     const wrap=$('#recordFeedInner');wrap.innerHTML='';wrap.classList.remove('diary-view');
     $('#recordCount').textContent=rows.length;
     $('#photoCount').textContent=rows.reduce((n,r)=>n+recordMediaItems(r).length,0);
     renderRecordMonths(rows);
+    const totalPages=Math.max(1,Math.ceil(filtered.length/RECORD_PAGE_SIZE));recordListPage=Math.min(Math.max(1,recordListPage),totalPages);const pagination=$('#recordPagination');pagination.hidden=filtered.length<=RECORD_PAGE_SIZE;$('#recordPageNumber').textContent=String(recordListPage);$('#recordPagePrev').disabled=recordListPage<=1;$('#recordPageNext').disabled=recordListPage>=totalPages;
     if(!filtered.length){
       const e=document.createElement('div');e.className='record-empty';e.innerHTML='<div class="record-empty-inner"><div class="record-empty-icon" aria-hidden="true"><span>▧</span><i>+</i></div><strong>Dear today,</strong><span>선택한 조건에 기록이 없습니다.<br>첫 사진과 동영상을 남겨보세요.</span><button type="button">+ 새 기록 시작</button></div>';e.addEventListener('click',openNewRecord);wrap.appendChild(e);return;
     }
-    filtered.forEach(r=>wrap.appendChild(buildPost(r)));
+    filtered.slice((recordListPage-1)*RECORD_PAGE_SIZE,recordListPage*RECORD_PAGE_SIZE).forEach(r=>wrap.appendChild(buildPost(r)));
   }
   function buildPost(r){
-    const post=document.createElement('article');post.className='record-post';post.dataset.id=r.id;
+    const post=document.createElement('article');post.className='record-post';post.dataset.id=r.id;post.style.setProperty('--record-color',RECORD_COLORS.includes(r.color)?r.color:'#F8F6DF');
     const head=document.createElement('div');head.className='post-head';const who=recordAuthorLabel(r);
     head.innerHTML=`<div class="post-avatar">${who.slice(0,1)}</div><div class="post-meta"><b>${escapeHtml(who)}</b><span>${recordDateLabel(r.date)}</span></div><div class="post-menu"></div>`;
     const menu=head.querySelector('.post-menu');
@@ -5731,17 +5783,17 @@ html.client-intake-only .client-intake-result b{font:800 38px/1.1 Arial,sans-ser
     const meta=document.createElement('div');meta.className='diary-meta';meta.innerHTML=`<span class="post-tag">${escapeHtml(r.mood||'일상')}</span>`;content.appendChild(meta);entry.append(date,content);return entry;
   }
   function renderRecordMonths(rows){
-    const counts={};rows.forEach(r=>{const y=(r.date||'').slice(0,4);if(y)counts[y]=(counts[y]||0)+1});const box=$('#recordMonths');box.innerHTML='';const all=document.createElement('button');all.type='button';all.className='record-month'+(recordMonth==='all'?' active':'');all.innerHTML=`<span>전체 연도</span><b>${rows.length}</b>`;all.addEventListener('click',()=>{recordMonth='all';recordDateSearch='';$('#recordDateSearch').value='';$('#recordDateClear').hidden=true;renderRecordFeed()});box.appendChild(all);Object.keys(counts).sort().reverse().forEach(y=>{const b=document.createElement('button');b.type='button';b.className='record-month'+(recordMonth===y?' active':'');b.innerHTML=`<span>${y}</span><b>${counts[y]}건</b>`;b.addEventListener('click',()=>{recordMonth=y;recordDateSearch='';$('#recordDateSearch').value='';$('#recordDateClear').hidden=true;renderRecordFeed()});box.appendChild(b)})
+    const counts={};rows.forEach(r=>{const y=(r.date||'').slice(0,4);if(y)counts[y]=(counts[y]||0)+1});const box=$('#recordMonths');box.innerHTML='';const all=document.createElement('button');all.type='button';all.className='record-month'+(recordMonth==='all'?' active':'');all.innerHTML=`<span>전체 연도</span><b>${rows.length}</b>`;all.addEventListener('click',()=>{recordMonth='all';recordDateSearch='';recordListPage=1;$('#recordDateSearch').value='';$('#recordDateClear').hidden=true;renderRecordFeed()});box.appendChild(all);Object.keys(counts).sort().reverse().forEach(y=>{const b=document.createElement('button');b.type='button';b.className='record-month'+(recordMonth===y?' active':'');b.innerHTML=`<span>${y}</span><b>${counts[y]}건</b>`;b.addEventListener('click',()=>{recordMonth=y;recordDateSearch='';recordListPage=1;$('#recordDateSearch').value='';$('#recordDateClear').hidden=true;renderRecordFeed()});box.appendChild(b)})
   }
   function configureRecordModal(){
     $('#recordKind').value='record';$('#recordModalTitle').textContent='기록 등록';$('#recordBodyLabel').textContent='사진과 함께 남길 글';$('#recordBody').placeholder='사진과 함께 기억하고 싶은 이야기를 남겨보세요.';
   }
   function openNewRecord(){
-    if(!currentUser){requireLogin(openNewRecord);return}configureRecordModal();$('#recordId').value='';$('#recordTitle').value='';$('#recordBody').value='';$('#recordDate').value=iso(today.getFullYear(),today.getMonth(),today.getDate());$('#recordMood').value='일상';$('#recordDeleteButton').hidden=true;recordMedia=[];recordOriginalVideoKeys=[];refreshRecordAlbumSelect(DEFAULT_ALBUM_ID);showRecordFolderInput(false);renderRecordPreviews();openModal('recordModal')
+    if(!currentUser){requireLogin(openNewRecord);return}configureRecordModal();$('#recordId').value='';$('#recordTitle').value='';$('#recordBody').value='';$('#recordDate').value=iso(today.getFullYear(),today.getMonth(),today.getDate());$('#recordMood').value='일상';selectRecordColor('#F8F6DF');$('#recordDeleteButton').hidden=true;recordMedia=[];recordOriginalVideoKeys=[];refreshRecordAlbumSelect(DEFAULT_ALBUM_ID);showRecordFolderInput(false);renderRecordPreviews();openModal('recordModal')
   }
   function openNewDiary(){openNewRecord()}
   function openRecordEdit(id){
-    const r=getRecords().find(x=>x.id===id);if(!r||!canEditRecord(r))return;configureRecordModal();$('#recordModalTitle').textContent='기록 수정';$('#recordId').value=r.id;$('#recordTitle').value=r.title||'';$('#recordBody').value=r.body||'';$('#recordDate').value=r.date||'';$('#recordMood').value=r.mood||'일상';$('#recordDeleteButton').hidden=false;recordMedia=recordMediaItems(r).map(x=>({...x}));recordOriginalVideoKeys=recordMedia.map(x=>x.fileId||x.key).filter(Boolean);refreshRecordAlbumSelect(r.folderId||DEFAULT_ALBUM_ID);showRecordFolderInput(false);renderRecordPreviews();openModal('recordModal')
+    const r=getRecords().find(x=>x.id===id);if(!r||!canEditRecord(r))return;configureRecordModal();$('#recordModalTitle').textContent='기록 수정';$('#recordId').value=r.id;$('#recordTitle').value=r.title||'';$('#recordBody').value=r.body||'';$('#recordDate').value=r.date||'';$('#recordMood').value=r.mood||'일상';selectRecordColor(r.color||'#F8F6DF');$('#recordDeleteButton').hidden=false;recordMedia=recordMediaItems(r).map(x=>({...x}));recordOriginalVideoKeys=recordMedia.map(x=>x.fileId||x.key).filter(Boolean);refreshRecordAlbumSelect(r.folderId||DEFAULT_ALBUM_ID);showRecordFolderInput(false);renderRecordPreviews();openModal('recordModal')
   }
   async function deleteRecord(id){
     const rows=getRecords();const r=rows.find(x=>x.id===id);if(!r||!canEditRecord(r))return;if(!confirm('이 기록을 삭제할까요?'))return;
@@ -5764,16 +5816,19 @@ html.client-intake-only .client-intake-result b{font:800 38px/1.1 Arial,sans-ser
   $('#recordForm').addEventListener('submit',async e=>{
     e.preventDefault();if(!currentUser||!googleToken)return;
     const rows=getRecords();const id=$('#recordId').value;const existing=id?rows.find(x=>x.id===id):null;if(existing&&!canEditRecord(existing))return;
-    const data={id:id||('r'+Date.now()),kind:'record',title:$('#recordTitle').value.trim(),date:$('#recordDate').value,mood:$('#recordMood').value,body:$('#recordBody').value.trim(),media:recordMedia.map(x=>({...x})),photos:[],folderId:$('#recordAlbumFolder').value||DEFAULT_ALBUM_ID,author:existing?.author||currentUser,authorEmail:existing?.authorEmail||currentUserEmail,pairKey:existing?.pairKey||currentPairKey()};
+    const data={id:id||('r'+Date.now()),kind:'record',title:$('#recordTitle').value.trim(),date:$('#recordDate').value,mood:$('#recordMood').value,color:RECORD_COLORS.includes($('#recordColor').value)?$('#recordColor').value:'#F8F6DF',body:$('#recordBody').value.trim(),media:recordMedia.map(x=>({...x})),photos:[],folderId:$('#recordAlbumFolder').value||DEFAULT_ALBUM_ID,author:existing?.author||currentUser,authorEmail:existing?.authorEmail||currentUserEmail,pairKey:existing?.pairKey||currentPairKey(),createdAt:existing?.createdAt||Date.now(),updatedAt:Date.now()};
     if(id){const idx=rows.findIndex(x=>x.id===id);if(idx>=0)rows[idx]=data}else rows.unshift(data);
     try{
       putRecords(rows);await saveCloudData();const newIds=new Set(recordMedia.map(x=>x.fileId||x.key).filter(Boolean));recordOriginalVideoKeys.filter(k=>!newIds.has(k)).forEach(deleteRecordMediaBlob);
-      recordView='feed';closeModal('recordModal');renderRecordFeed();renderAlbumFolders();toast('기록을 저장했습니다.');
+      recordView='feed';recordListPage=1;closeModal('recordModal');renderRecordFeed();renderAlbumFolders();toast('기록을 저장했습니다.');
     }catch(err){toast(googleErrorMessage(err))}
   });
-  $('.record-controls').addEventListener('click',e=>{const b=e.target.closest('[data-record-filter]');if(!b)return;recordFilter=b.dataset.recordFilter||'all';renderRecordFeed()});
-  $('#recordDateSearch').addEventListener('change',e=>{recordDateSearch=e.target.value||'';$('#recordDateClear').hidden=!recordDateSearch;if(recordDateSearch)recordMonth='all';renderRecordFeed()});
-  $('#recordDateClear').addEventListener('click',()=>{recordDateSearch='';$('#recordDateSearch').value='';$('#recordDateClear').hidden=true;renderRecordFeed()});
+  $('#recordColorPicker').addEventListener('click',e=>{const button=e.target.closest('[data-record-color]');if(button)selectRecordColor(button.dataset.recordColor)});
+  $('.record-controls').addEventListener('click',e=>{const b=e.target.closest('[data-record-filter]');if(!b)return;recordFilter=b.dataset.recordFilter||'all';recordListPage=1;renderRecordFeed()});
+  $('#recordSort').addEventListener('change',e=>{recordSort=e.target.value||'recent';recordListPage=1;renderRecordFeed()});
+  $('#recordDateSearch').addEventListener('change',e=>{recordDateSearch=e.target.value||'';$('#recordDateClear').hidden=!recordDateSearch;if(recordDateSearch)recordMonth='all';recordListPage=1;renderRecordFeed()});
+  $('#recordDateClear').addEventListener('click',()=>{recordDateSearch='';$('#recordDateSearch').value='';$('#recordDateClear').hidden=true;recordListPage=1;renderRecordFeed()});
+  $('#recordPagePrev').addEventListener('click',()=>{if(recordListPage>1){recordListPage--;renderRecordFeed();$('#recordFeed').scrollTop=0}});$('#recordPageNext').addEventListener('click',()=>{recordListPage++;renderRecordFeed();$('#recordFeed').scrollTop=0});
 
   $('#albumLightbox').addEventListener('click',e=>{if(e.target===$('#albumLightbox'))$('#albumLightboxVideo').pause()});
   $('[data-close="albumLightbox"]')?.addEventListener('click',()=>$('#albumLightboxVideo').pause());
