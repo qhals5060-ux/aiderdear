@@ -1,4 +1,15 @@
-# AiderLog v79
+# AiderLog v80
+
+## v80 메인 프레임 상단 도구 · 전체 불렛저널
+
+- 날짜·이름·메모장·우편함·검색을 AiderLog 타이틀 영역에서 분리해 메인 프레임 바로 위 오른쪽에 배치했습니다.
+- 상단 날짜 글자를 키우고, 날짜를 누르면 오늘의 기록을 12개 범주로 확인할 수 있습니다.
+- 일정·감정·루틴·건강·독서·워크플로우·금융·포모도로·Record·Archive/Travel·어학·메모/할 일을 기록 유무와 관계없이 항상 표시합니다.
+- 기록이 없는 범주는 사라지지 않고 `오늘 기록 없음` 상태로 남아 불렛저널의 전체 구성을 한눈에 확인할 수 있습니다.
+- v79의 Language Lab, PERSONAL/PAPER 글자 확대, TASK 고객 접수·파일·대학원 검색 기능을 그대로 유지했습니다.
+
+배포 후 `https://aiderdear1.vercel.app/sw.js`의 첫 줄이
+`const CACHE='aiderlog-v80-frame-tools-complete-journal';`인지 확인하세요.
 
 ## v79 Today Journal · Language Lab · TASK intake
 

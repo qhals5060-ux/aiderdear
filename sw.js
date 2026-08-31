@@ -1,4 +1,4 @@
-const CACHE='aiderlog-v79-bullet-journal-intake-admissions';
+const CACHE='aiderlog-v80-frame-tools-complete-journal';
 const APP_SHELL=['./','./index.html','./firebase-app.js','./brain-3d.js','./language-lab-v18-engine.js','./language-lab-v18.js','./language-lab-v18.css','./language-lab-v18-template.html','./manifest.webmanifest','./aiderdear-icon.svg','./aiderdear-icon-180.png','./aiderdear-icon-192.png','./aiderdear-icon-512.png','./aiderdear-sky.jpg'];
 
 self.addEventListener('install',event=>{

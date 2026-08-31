@@ -11,12 +11,12 @@
 <meta name="description" content="둘만의 일정과 감정, 기록, 앨범, 여행, 루틴을 한곳에 간직하는 프라이빗 라이프 아카이브">
 <meta name="format-detection" content="telephone=no">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="aiderlog-build" content="v79">
+<meta name="aiderlog-build" content="v80">
 <link rel="canonical" href="https://aiderdear1.vercel.app/">
 <script>
 (() => {
   const url = new URL(location.href);
-  if (['v67','v68','v69','v70','v71','v72','v73','v74','v75','v76','v77','v78','v79'].includes(url.searchParams.get('aiderlog-main'))) {
+  if (['v67','v68','v69','v70','v71','v72','v73','v74','v75','v76','v77','v78','v79','v80'].includes(url.searchParams.get('aiderlog-main'))) {
     url.searchParams.delete('aiderlog-main');
     history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`);
   }
@@ -3185,6 +3185,49 @@ button.consulting-stat{width:100%;border:0;text-align:left;cursor:pointer}.consu
 .task-admissions-list{display:grid!important;grid-template-columns:repeat(6,minmax(0,1fr));gap:7px!important;align-content:start!important}.task-admissions-list a{min-height:48px;border:1px solid #b6ae8c;background:#fff;display:flex;align-items:center;justify-content:space-between;gap:7px;padding:8px 10px;color:#111;text-decoration:none;font-size:11px;font-weight:900}.task-admissions-list a:after{content:"↗";font-size:13px}.task-admissions-list a:hover,.task-admissions-list a:focus-visible{border-color:#111;background:#fff5c8}.task-admissions-list a[hidden]{display:none!important}
 @media(max-width:1100px){.task-admissions-list{grid-template-columns:repeat(4,minmax(0,1fr))}}
 @media(max-width:760px){.masthead>.nav-tools{height:64px!important}.masthead-date{font-size:7px}.today-journal-grid{grid-template-columns:1fr}.consulting-overlay{padding:6px!important}.consulting-dialog{max-height:calc(100dvh - 12px)!important}.consulting-form-section,.client-intake-section{grid-template-columns:1fr}.consulting-form-section label.wide,.client-intake-section label.wide{grid-column:auto}.task-admissions-head{align-items:stretch!important;flex-direction:column}.task-admissions-search{width:100%}.task-admissions-list{grid-template-columns:repeat(2,minmax(0,1fr))}.task-admissions-list a{font-size:10px}.research-content{font-size:11px!important}}
+
+/* ===== AiderLog v80 · frame-adjacent tools + complete Today Journal ===== */
+.app{grid-template-rows:48px 54px minmax(0,1fr)!important}
+.masthead{height:48px!important;min-height:48px!important;justify-content:center!important;padding:0!important}
+.masthead .logo{font-size:38px!important;line-height:.86!important}
+.masthead .logo small{top:calc(100% + 3px)!important;font-size:5.5px!important}
+.nav-row{position:relative!important;height:54px!important;min-height:54px!important;align-items:end!important;padding:0 8px!important;overflow:visible!important}
+.nav-row>.tabs{width:calc(100% - 370px)!important;max-width:none!important;height:30px!important;align-self:end!important;overflow-x:auto!important;overflow-y:visible!important;scrollbar-width:none}
+.nav-row>.tabs::-webkit-scrollbar{display:none}
+.nav-row>.nav-tools{position:absolute!important;inset:auto 8px 0 auto!important;width:min(354px,37vw)!important;height:54px!important;display:grid!important;grid-template-rows:16px 18px 20px!important;align-content:end!important;align-items:center!important;gap:0!important;z-index:40!important}
+.nav-row .masthead-date{grid-row:1;width:100%;height:16px;padding:0 2px;border:0;background:transparent;color:#fff;text-align:right;font:900 12px/1 Arial,sans-serif!important;letter-spacing:.03em;cursor:pointer}
+.nav-row .masthead-date:hover,.nav-row .masthead-date:focus-visible{text-decoration:underline;text-underline-offset:3px}
+.nav-row .top-actions{grid-row:2!important;width:100%!important;height:18px!important;display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:8px!important;padding:0 2px!important;border:0!important;background:transparent!important;box-shadow:none!important}
+.nav-row .account-stack{height:18px!important;min-width:0!important}
+.nav-row .account-name,.nav-row .quick-notes-top,.nav-row .mailbox-top{height:18px!important;padding:0 1px!important;border:0!important;background:transparent!important;color:#fff!important;font-size:11px!important;line-height:18px!important}
+.nav-row .sync-mini{height:18px!important;color:rgba(255,255,255,.72)!important;font-size:7px!important}
+.nav-row .mailbox-icon{font-size:11px!important}
+.nav-row .frame-search{grid-row:3!important;justify-self:end!important;width:min(270px,100%)!important;height:20px!important;border-radius:4px!important;background:#fff!important;box-shadow:none!important}
+.nav-row .frame-search input{width:calc(100% - 30px)!important;height:18px!important;padding-inline:9px!important;font-size:10.5px!important}
+.nav-row .frame-search button{width:30px!important;height:18px!important;font-size:12px!important}
+.today-journal-modal{width:min(1040px,95vw)!important;max-height:min(760px,90vh)!important}
+.today-journal-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+.today-journal-section{min-height:108px!important}
+.today-journal-section-empty{color:#8a8377!important}
+.today-journal-section-empty time{color:#aaa398!important}
+
+@media(max-width:1100px){
+  .nav-row>.tabs{width:calc(100% - 330px)!important}
+  .nav-row>.nav-tools{width:min(315px,38vw)!important}
+  .today-journal-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+@media(max-width:760px){
+  .app{grid-template-rows:46px 88px minmax(0,1fr)!important}
+  .masthead{height:46px!important;min-height:46px!important;justify-content:center!important;padding:0!important}
+  .masthead .logo{margin:0!important;font-size:32px!important}
+  .nav-row{height:88px!important;min-height:88px!important;padding:0 4px!important}
+  .nav-row>.nav-tools{inset:0 4px auto 4px!important;width:auto!important;height:58px!important;grid-template-rows:18px 18px 22px!important}
+  .nav-row .masthead-date{height:18px!important;font-size:11px!important}
+  .nav-row .top-actions{height:18px!important}.nav-row .account-name,.nav-row .quick-notes-top,.nav-row .mailbox-top{font-size:10px!important}
+  .nav-row .frame-search{height:22px!important;width:min(270px,100%)!important}.nav-row .frame-search input,.nav-row .frame-search button{height:20px!important}
+  .nav-row>.tabs{position:absolute!important;left:4px!important;right:4px!important;bottom:0!important;width:auto!important;height:30px!important;padding:0!important}
+  .today-journal-grid{grid-template-columns:1fr!important}
+}
 </style>
 </head>
 <body>
@@ -3192,6 +3235,17 @@ button.consulting-stat{width:100%;border:0;text-align:left;cursor:pointer}.consu
 <main class="app" id="app" tabindex="-1">
   <header class="masthead">
     <div class="logo" aria-label="AiderLog"><span>Aider</span><em>Log</em><small>made by bomin</small></div>
+  </header>
+
+  <div class="nav-row">
+    <nav class="tabs" role="tablist" aria-label="AiderLog 주요 메뉴">
+      <button class="tab active" type="button" role="tab" data-tab="schedule" aria-controls="stage" aria-selected="true" tabindex="0">SCHEDULE</button>
+      <button class="tab" type="button" role="tab" data-tab="private" aria-controls="privateStage" aria-selected="false" tabindex="-1">ROUTINE</button>
+      <button class="tab" type="button" role="tab" data-tab="record" aria-controls="recordStage" aria-selected="false" tabindex="-1">EVENT</button>
+      <button class="tab" type="button" role="tab" data-tab="personal" aria-controls="personalStage" aria-selected="false" tabindex="-1">PERSONAL</button>
+      <button class="tab" type="button" role="tab" data-tab="paper" aria-controls="paperStage" aria-selected="false" tabindex="-1" hidden>PAPER</button>
+      <button class="tab" type="button" role="tab" data-tab="task" aria-controls="taskStage" aria-selected="false" tabindex="-1">TASK</button>
+    </nav>
     <div class="nav-tools" aria-label="빠른 도구">
       <button class="masthead-date" id="todayJournalBtn" type="button" aria-haspopup="dialog" aria-controls="todayJournalModal"></button>
       <div class="top-actions">
@@ -3207,17 +3261,6 @@ button.consulting-stat{width:100%;border:0;text-align:left;cursor:pointer}.consu
         <button id="searchBtn" type="button" aria-label="검색 열기">⌕</button>
       </div>
     </div>
-  </header>
-
-  <div class="nav-row">
-    <nav class="tabs" role="tablist" aria-label="AiderLog 주요 메뉴">
-      <button class="tab active" type="button" role="tab" data-tab="schedule" aria-controls="stage" aria-selected="true" tabindex="0">SCHEDULE</button>
-      <button class="tab" type="button" role="tab" data-tab="private" aria-controls="privateStage" aria-selected="false" tabindex="-1">ROUTINE</button>
-      <button class="tab" type="button" role="tab" data-tab="record" aria-controls="recordStage" aria-selected="false" tabindex="-1">EVENT</button>
-      <button class="tab" type="button" role="tab" data-tab="personal" aria-controls="personalStage" aria-selected="false" tabindex="-1">PERSONAL</button>
-      <button class="tab" type="button" role="tab" data-tab="paper" aria-controls="paperStage" aria-selected="false" tabindex="-1" hidden>PAPER</button>
-      <button class="tab" type="button" role="tab" data-tab="task" aria-controls="taskStage" aria-selected="false" tabindex="-1">TASK</button>
-    </nav>
   </div>
 
   <section class="stage" id="stage" aria-label="일정 화면">
@@ -6420,9 +6463,64 @@ button.consulting-stat{width:100%;border:0;text-align:left;cursor:pointer}.consu
   $('#researchContent').addEventListener('input',e=>{if(e.target.id!=='connectionSearch')return;const q=e.target.value.trim().toLowerCase();$$('.connections-svg [data-connection-node]').forEach(node=>{const type=buildResearchGraph(researchStore()).nodes.find(row=>row.id===node.dataset.connectionNode)?.type||'';node.classList.toggle('dim',!!q&&!node.dataset.nodeLabel.includes(q)||(researchConnectionFilter!=='all'&&researchConnectionFilter!==type))})});
   $('#researchContent').addEventListener('submit',async e=>{if(e.target.id==='libraryFilterForm'){e.preventDefault();researchLibraryFilters.query=$('#libraryQuery').value.trim();researchLibraryFilters.author=$('#libraryAuthor').value.trim();researchLibraryFilters.year=$('#libraryYear').value;researchLibraryFilters.status=$('#libraryStatus').value;researchLibraryFilters.method=$('#libraryMethod').value;researchLibraryFilters.importance=$('#libraryImportance').value;researchLibraryFilters.tag=$('#libraryTag').value;renderPaper();return}if(e.target.id==='comparisonForm'){e.preventDefault();const data=researchStore();data.researchComparisons.push({id:'comparison-'+Date.now(),title:$('#comparisonTitle').value.trim(),paperIds:[...researchCompareSelection],commonFindings:$('#comparisonCommon').value.trim(),differences:$('#comparisonDifferences').value.trim(),contradictions:$('#comparisonContradictions').value.trim(),researchGap:$('#comparisonGap').value.trim(),interpretation:$('#comparisonInterpretation').value.trim(),nextResearchQuestion:$('#comparisonNextQuestion').value.trim(),createdAt:Date.now()});await persistResearch('Comparison을 저장했습니다.')}});
 
-  // Today bullet journal — a compact cross-tab view of the current day.
-  function journalSection(title,rows){if(!rows.length)return '';return `<section class="today-journal-section"><h3>${escapeHtml(title)}</h3><ul>${rows.map(row=>`<li><time>${escapeHtml(row.time||'TODAY')}</time><span>${escapeHtml(row.text||'')}</span></li>`).join('')}</ul></section>`}
-  function renderTodayJournal(){const key=dateKeyOffset(0),date=new Date(`${key}T12:00:00`),dateLabel=date.toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric',weekday:'long'}),privateStore=currentUserEmail?(privateData[currentUserEmail]||blankPrivateData(currentUserEmail,currentUserName)):blankPrivateData(),localKey=value=>{const row=new Date(Number(value)||value);return Number.isNaN(row.getTime())?'':`${row.getFullYear()}-${String(row.getMonth()+1).padStart(2,'0')}-${String(row.getDate()).padStart(2,'0')}`},schedule=(events||[]).filter(row=>row.date===key||(row.date<=key&&row.endDate>=key)).map(row=>({time:row.time||'종일',text:row.title||'일정'})),emotion=(emotionData[currentUserEmail]?.entries||[]).filter(row=>row.date===key).map(row=>({time:row.time||'감정',text:[...(row.moods||[row.mood]).filter(Boolean),row.location,row.companion].filter(Boolean).join(' · ')})),routine=(privateStore.routines||[]).map(row=>({row,level:String(row.dailyLevels?.[key]||'').toUpperCase()})).filter(item=>item.level).map(item=>({time:item.level,text:item.row.text||'Routine'})),personal=(privateStore.personalItems||[]).filter(row=>row.date===key).map(row=>({time:{health:'건강',reading:'독서',workflow:'작업',finance:'금융'}[row.category]||'기록',text:[row.title,row.note].filter(Boolean).join(' · ')})),pomodoro=(privateStore.pomodoroSessions||[]).filter(row=>row.date===key).map(row=>({time:`${row.minutes||25}분`,text:row.task||'집중 세션'})),records=(typeof visibleRecords==='function'?visibleRecords():[]).filter(row=>row.date===key).map(row=>({time:'기록',text:row.title||row.body||'Record'})),reviews=(typeof visibleEventRows==='function'?visibleEventRows():[]).filter(row=>row.date===key).map(row=>({time:row.category==='travel'?'여행':'이벤트',text:[row.title,row.place].filter(Boolean).join(' · ')})),language=Object.entries(privateStore.languageStudy?.completions||{}).filter(([,stamp])=>localKey(stamp)===key).map(([id])=>({time:'어학',text:id.split(':').slice(0,2).join(' · ')||'Language Lab'})),sections=[journalSection('SCHEDULE',schedule),journalSection('EMOTION',emotion),journalSection('ROUTINE',routine),journalSection('PERSONAL',[...personal,...pomodoro]),journalSection('RECORD · EVENT',[...records,...reviews]),journalSection('LANGUAGE LAB',language)].filter(Boolean);$('#todayJournalDate').textContent=dateLabel;$('#todayJournalContent').innerHTML=sections.join('')||'<div class="today-journal-empty">오늘의 기록이 아직 없습니다.<br>각 탭에서 기록을 추가하면 이곳에 시간순으로 모입니다.</div>'}
+  // Today bullet journal — every category stays visible, including empty ones.
+  function journalSection(title,rows,emptyText='오늘 기록 없음'){
+    const items=rows.length
+      ?rows.map(row=>`<li><time>${escapeHtml(row.time||'TODAY')}</time><span>${escapeHtml(row.text||'')}</span></li>`).join('')
+      :`<li class="today-journal-section-empty"><time>—</time><span>${escapeHtml(emptyText)}</span></li>`;
+    return `<section class="today-journal-section"><h3>${escapeHtml(title)}</h3><ul>${items}</ul></section>`;
+  }
+  function renderTodayJournal(){
+    const key=dateKeyOffset(0),date=new Date(`${key}T12:00:00`);
+    const dateLabel=date.toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric',weekday:'long'});
+    const privateStore=currentUserEmail?(privateData[currentUserEmail]||blankPrivateData(currentUserEmail,currentUserName)):blankPrivateData();
+    const localKey=value=>{const row=new Date(Number(value)||value);return Number.isNaN(row.getTime())?'':`${row.getFullYear()}-${String(row.getMonth()+1).padStart(2,'0')}-${String(row.getDate()).padStart(2,'0')}`};
+    const schedule=(events||[])
+      .filter(row=>row.date===key||(row.date<=key&&row.endDate>=key))
+      .map(row=>({time:row.time||'종일',text:row.title||'일정'}));
+    const emotion=(emotionData[currentUserEmail]?.entries||[])
+      .filter(row=>row.date===key)
+      .map(row=>({time:row.time||'감정',text:[...(row.moods||[row.mood]).filter(Boolean),row.location,row.companion].filter(Boolean).join(' · ')}));
+    const routine=(privateStore.routines||[])
+      .map(row=>({row,level:String(row.dailyLevels?.[key]||'').toUpperCase()}))
+      .filter(item=>item.level)
+      .map(item=>({time:item.level,text:item.row.text||'Routine'}));
+    const personalToday=(privateStore.personalItems||[]).filter(row=>row.date===key);
+    const personalRows=category=>personalToday
+      .filter(row=>row.category===category)
+      .map(row=>({time:{health:'건강',reading:'독서',workflow:'작업',finance:'금융'}[category],text:[row.title,row.note].filter(Boolean).join(' · ')||'기록'}));
+    const pomodoro=(privateStore.pomodoroSessions||[])
+      .filter(row=>row.date===key)
+      .map(row=>({time:`${row.minutes||25}분`,text:row.task||'집중 세션'}));
+    const todos=(privateStore.checklists||[])
+      .filter(row=>row.date===key)
+      .map(row=>({time:row.done?'완료':'할 일',text:row.text||'메모'}));
+    const records=(typeof visibleRecords==='function'?visibleRecords():[])
+      .filter(row=>row.date===key)
+      .map(row=>({time:'기록',text:row.title||row.body||'Record'}));
+    const eventRows=(typeof visibleEventRows==='function'?visibleEventRows():[]).filter(row=>row.date===key);
+    const archive=eventRows.filter(row=>row.category!=='travel').map(row=>({time:'아카이브',text:[row.title,row.place].filter(Boolean).join(' · ')}));
+    const travel=eventRows.filter(row=>row.category==='travel').map(row=>({time:'여행',text:[row.title,row.place].filter(Boolean).join(' · ')}));
+    const language=Object.entries(privateStore.languageStudy?.completions||{})
+      .filter(([id,stamp])=>id.endsWith(`:${key}`)||localKey(stamp)===key)
+      .map(([id])=>{const [lang,lesson]=id.split(':');return {time:'어학',text:[LANGUAGE_META?.[lang]?.label||lang,lesson].filter(Boolean).join(' · ')||'Language Lab'}});
+    const sections=[
+      journalSection('SCHEDULE',schedule),
+      journalSection('EMOTION',emotion),
+      journalSection('ROUTINE',routine),
+      journalSection('HEALTH',personalRows('health')),
+      journalSection('READING',personalRows('reading')),
+      journalSection('WORKFLOW',personalRows('workflow')),
+      journalSection('FINANCE',personalRows('finance')),
+      journalSection('POMODORO',pomodoro),
+      journalSection('RECORD',records),
+      journalSection('ARCHIVE · TRAVEL',[...archive,...travel]),
+      journalSection('LANGUAGE LAB',language),
+      journalSection('MEMO · TO DO',todos)
+    ];
+    $('#todayJournalDate').textContent=dateLabel;
+    $('#todayJournalContent').innerHTML=sections.join('');
+  }
   function refreshMastheadDate(){const now=new Date(),button=$('#todayJournalBtn');if(button)button.textContent=now.toLocaleDateString('ko-KR',{year:'numeric',month:'2-digit',day:'2-digit',weekday:'short'})}
   refreshMastheadDate();setInterval(refreshMastheadDate,60000);$('#todayJournalBtn').addEventListener('click',()=>{renderTodayJournal();openModal('todayJournalModal')});
   $('#graduateAdmissionsSearch').addEventListener('input',event=>{const query=consultingSearchText(event.target.value);$$('#graduateAdmissionsList a').forEach(link=>{link.hidden=!!query&&!consultingSearchText(link.textContent).includes(query)})});
