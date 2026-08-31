@@ -175,7 +175,8 @@ service cloud.firestore {
         allow create: if get(/databases/$(database)/documents/clientIntakeLinks/$(token)).data.active == true
           && request.resource.data.keys().hasOnly([
             'name', 'phone', 'email', 'university', 'institution', 'program',
-            'major', 'applicationYear', 'applicationSemester', 'topic', 'note',
+            'major', 'applicationYear', 'applicationSemester', 'topic', 'stage',
+            'admissionResult', 'nextSession', 'note',
             'consent', 'source', 'status', 'createdAt'
           ])
           && request.resource.data.name is string
@@ -200,6 +201,10 @@ service cloud.firestore {
           && request.resource.data.applicationSemester in ['spring', 'fall', 'rolling', 'other']
           && request.resource.data.topic is string
           && request.resource.data.topic.size() <= 240
+          && request.resource.data.stage in ['inquiry', 'proposal', 'analysis', 'revision', 'complete']
+          && request.resource.data.admissionResult in ['pending', 'accepted', 'waitlisted', 'rejected']
+          && request.resource.data.nextSession is string
+          && request.resource.data.nextSession.size() <= 30
           && request.resource.data.note is string
           && request.resource.data.note.size() <= 1600
           && request.resource.data.consent == true

@@ -1,4 +1,14 @@
-# AiderLog v76
+# AiderLog v78
+
+## v78 TASK 고객 흐름 · 입시요강 화면
+
+- PAPER와 TASK는 지정된 두 운영 계정에서만 표시
+- 고객 직접 작성과 외부 링크 작성에 동일한 필드 적용
+- 외부 작성 링크는 열 때마다 새 주소로 발급
+- 다음 상담·진행 과업·상담/과업 패널을 눌러 기록 추가
+- 고객 합격 상태와 2줄 요약 헤더
+- TASK 화면을 넘기면 지역별 대학원 공식 입시요강 링크 표시
+- v77의 Windows 위젯 제거·설치형 앱 업데이트·고객 파일 기능을 그대로 유지
 
 ## v76 TASK 지원 회차 필터 · 외부 고객 작성 링크
 
@@ -14,7 +24,7 @@
 배포할 때 앱 파일과 함께 `firestore.rules`도 Firebase에 다시 게시해야 외부 고객 작성 링크가 동작합니다.
 
 배포 후 `https://aiderdear1.vercel.app/sw.js`의 첫 줄이
-`const CACHE='aiderlog-v76-task-cohort-external-intake';`인지 확인하세요.
+`const CACHE='aiderlog-v78-consulting-workspace';`인지 확인하세요.
 
 ## v75 상단 레이아웃 · Brain 네트워크 · Windows 11 앱
 

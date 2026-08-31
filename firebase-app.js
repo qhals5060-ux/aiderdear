@@ -803,6 +803,12 @@ async function submitClientIntake(token, payload = {}) {
   const applicationSemester = ['spring', 'fall', 'rolling', 'other'].includes(payload.applicationSemester)
     ? payload.applicationSemester
     : '';
+  const stage = ['inquiry', 'proposal', 'analysis', 'revision', 'complete'].includes(payload.stage)
+    ? payload.stage
+    : 'inquiry';
+  const admissionResult = ['pending', 'accepted', 'waitlisted', 'rejected'].includes(payload.admissionResult)
+    ? payload.admissionResult
+    : 'pending';
   const data = {
     name: intakeText(payload.name, 60),
     phone: intakeText(payload.phone, 30),
@@ -814,6 +820,9 @@ async function submitClientIntake(token, payload = {}) {
     applicationYear,
     applicationSemester,
     topic: intakeText(payload.topic, 240),
+    stage,
+    admissionResult,
+    nextSession: intakeText(payload.nextSession, 30),
     note: intakeText(payload.note, 1600),
     consent: true,
     source: 'external-intake-v1',

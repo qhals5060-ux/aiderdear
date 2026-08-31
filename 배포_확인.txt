@@ -1,13 +1,13 @@
-AiderLog v76 배포 확인
+AiderLog v78 배포 확인
 
 1. 이 폴더의 내용 전체를 Vercel 프로젝트 루트에 배포합니다.
 2. Vercel Root Directory는 비워 둡니다.
 3. Firebase Firestore 규칙에 이 폴더의 firestore.rules를 게시합니다.
-4. Deployments에서 새 v76 배포를 Production으로 승격합니다.
+4. Deployments에서 새 v78 배포를 Production으로 승격합니다.
 5. 아래 주소를 엽니다.
    https://aiderdear1.vercel.app/sw.js
 6. 첫 줄이 아래와 같아야 합니다.
-   const CACHE='aiderlog-v76-task-cohort-external-intake';
+   const CACHE='aiderlog-v78-consulting-workspace';
 
 첫 줄에 이전 버전이 보이면 코드는 새로 올라갔더라도 운영 주소가 아직 이전 배포를 가리키는 상태입니다.
 이 경우 Vercel Deployments에서 최신 배포의 메뉴를 열어 Promote to Production을 선택하세요.
@@ -20,7 +20,14 @@ AiderLog v76 배포 확인
 - /language-study/를 단독으로 열기 → AiderLog 첫 화면으로 자동 복귀
 - ROUTINE에서 화면 전환 → AiderLog 프레임 내부 다국어 학습 표시
 - qhals5060@gmail.com 로그인 → PAPER와 TASK 표시
-- 다른 계정 또는 로그아웃 상태 → TASK 표시, PAPER는 숨김
+- aidway55@gmail.com 로그인 → PAPER와 TASK 표시
+- 다른 계정 또는 로그아웃 상태 → PAPER와 TASK 모두 숨김
+- TASK → ＋ CLIENT로 직접 추가, ＋ EXTERNAL LINK를 열 때마다 새 링크 발급
+- 직접 작성 폼과 외부 작성 폼의 고객 필드 일치
+- TASK → 다음 상담·진행 과업·DELIVERABLES · TASKS·CONSULTING SESSIONS 상자를 눌러 기록 추가
+- 추가된 상담·과업 오른쪽 ×로 개별 삭제
+- TASK 고객 헤더 → 지원 정보 1줄, 이름과 합격 상태 1줄
+- TASK에서 아래로 전환 → 지역별 대학원 입시요강 링크 화면
 - PAPER → Brain → 대영역 선택 → 세부 영역과 관련 학습·질환 팝업 표시
 - ROUTINE → 화면 전환 → 언어·난이도 선택기가 중앙 헤더에 표시
 - 언어 라벨·선택창·난이도 라벨·선택창이 한 줄로 표시
