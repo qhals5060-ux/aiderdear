@@ -423,7 +423,7 @@ async function googleDriveFetch(url, options = {}, responseType = 'json') {
 function googleCalendarProvider() {
   const provider = new GoogleAuthProvider();
   provider.addScope('https://www.googleapis.com/auth/calendar.readonly');
-  provider.setCustomParameters({ prompt: 'consent' });
+  provider.setCustomParameters({ prompt: 'select_account consent', include_granted_scopes: 'true' });
   return provider;
 }
 
@@ -1324,6 +1324,23 @@ async function copyMediaToSharedAlbum(sourceId, memberUids) {
   return targetId;
 }
 
+async function deleteSharedAlbumMedia(ref) {
+  const chunks = await getDocs(query(collection(ref, 'chunks'), limit(500)));
+  for (let start = 0; start < chunks.docs.length; start += 400) {
+    const batch = writeBatch(db);
+    chunks.docs.slice(start, start + 400).forEach(item => batch.delete(item.ref));
+    await batch.commit();
+  }
+  await deleteDoc(ref);
+}
+
+async function pruneSharedAlbumMedia(ownerUid, keepIds) {
+  const snapshot = await getDocs(query(collection(db, 'sharedAlbumMedia'), where('ownerUid', '==', ownerUid), limit(300)));
+  const stale = snapshot.docs.filter(item => !keepIds.has(item.id));
+  await Promise.allSettled(stale.map(item => deleteSharedAlbumMedia(item.ref)));
+  return stale.length;
+}
+
 async function publishSharedAlbums(payload = {}) {
   const user = requireUser();
   const viewerUids = [...new Set(state.friends.map(friend => friend.uid).filter(Boolean))].slice(0, 30);
@@ -1345,6 +1362,7 @@ async function publishSharedAlbums(payload = {}) {
     }
     records.push({ id: String(row.id), folderId: String(row.folderId), title: String(row.title || '기록').slice(0, 100), date: String(row.date || ''), body: String(row.body || '').slice(0, 600), media });
   }
+  const liveSharedMediaIds = new Set(records.flatMap(record => record.media || []).map(item => item.sharedId).filter(Boolean));
   await setDoc(doc(db, 'sharedAlbums', user.uid), {
     ownerUid: user.uid,
     ownerEmail: user.email,
@@ -1355,6 +1373,7 @@ async function publishSharedAlbums(payload = {}) {
     records,
     updatedAt: serverTimestamp(),
   });
+  await pruneSharedAlbumMedia(user.uid, liveSharedMediaIds);
   return { albumCount: albums.length, recordCount: records.length, friendCount: viewerUids.length };
 }
 
@@ -1740,10 +1759,7 @@ function watchClientIntakeSubmissions(token, callback) {
 async function markClientIntakeImported(token, submissionId) {
   requireUser();
   if (!/^[A-Za-z0-9_-]{8,100}$/.test(String(submissionId || ''))) return;
-  await updateDoc(doc(clientIntakeRef(token), 'submissions', String(submissionId)), {
-    status: 'imported',
-    importedAt: serverTimestamp(),
-  });
+  await deleteDoc(doc(clientIntakeRef(token), 'submissions', String(submissionId)));
 }
 
 const api = {

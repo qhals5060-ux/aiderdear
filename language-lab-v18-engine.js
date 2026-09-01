@@ -1190,9 +1190,9 @@ function buildVerifiedConversationFormula(base, language, situation, mode, level
         chunk: wh
       };
     } else profile = {
-      formula: "주어 + 동사 + 대상·시간·조건",
-      examples: [base, "I need more information.", "We agreed on the next step."],
-      variants: ["Let me add one detail.", "Here's what I mean.", "Just to clarify, this is the main point."],
+      formula: "오늘 문장 뼈대 + 같은 의미의 말투 조절",
+      examples: [base, `To be clear, ${base.charAt(0).toLowerCase()}${base.slice(1)}`, `What I mean is this: ${base.charAt(0).toLowerCase()}${base.slice(1)}`],
+      variants: [base, `Actually, ${base.charAt(0).toLowerCase()}${base.slice(1)}`, `To put it simply, ${base.charAt(0).toLowerCase()}${base.slice(1)}`],
       chunk: targetTokens(base, language)[0] || base
     };
   } else if (language === "ja") {
@@ -1221,9 +1221,9 @@ function buildVerifiedConversationFormula(base, language, situation, mode, level
       chunk: base.match(/[^、。！？?]+か[。？]?$/)?.[0] || "〜ですか"
     };
     else profile = {
-      formula: "상황·대상 + 조사 + 핵심 서술",
-      examples: [base, "私はこの案に賛成です。", "次の対応を確認します。"],
-      variants: ["少し補足します。", "つまり、こういうことです。", "念のため確認します。"],
+      formula: "오늘 문장 뼈대 + 같은 의미의 말투 조절",
+      examples: [base, `実は、${base}`, `つまり、${base}`],
+      variants: [base, `少し補足すると、${base}`, `念のためお伝えすると、${base}`],
       chunk: targetTokens(base, language)[0] || base
     };
   } else {
@@ -1258,9 +1258,9 @@ function buildVerifiedConversationFormula(base, language, situation, mode, level
       chunk: "……吗"
     };
     else profile = {
-      formula: "주어 + 시간·대상 + 동사·상태",
-      examples: [base, "我们明天确认细节。", "我已经发了资料。"],
-      variants: ["我再补充一点。", "我的意思是这样的。", "我确认一下重点。"],
+      formula: "오늘 문장 뼈대 + 같은 의미의 말투 조절",
+      examples: [base, `其实，${base}`, `我的意思是，${base}`],
+      variants: [base, `我再补充一点：${base}`, `简单来说，${base}`],
       chunk: targetTokens(base, language)[0] || base
     };
   }
@@ -1531,7 +1531,21 @@ function buildPronunciationFlow(base, target, language, mode, translationRow, si
   return { turns: nextItems.slice(0, 3) };
 }
 
-function createDialogueSuggestionPicker(language) {
+function linkedDialogueFallbacks(language, target) {
+  const sentence = String(target || "").trim();
+  if (!sentence) return [];
+  const lower = sentence.charAt(0).toLowerCase() + sentence.slice(1);
+  const stem = sentence.replace(/[。！？!?]+$/u, "");
+  if (language === "en") return [
+    sentence,
+    `${/[?]$/.test(sentence) ? "Let me ask it this way: " : "To be clear, "}${lower}`,
+    `${sentence} ${/[?]$/.test(sentence) ? "I'd appreciate your answer." : "That's what I mean."}`
+  ];
+  if (language === "ja") return [sentence, `実は、${sentence}`, `${stem}ということです。`];
+  return [sentence, `其实，${sentence}`, `我的意思是，${sentence}`];
+}
+
+function createDialogueSuggestionPicker(language, target = "") {
   const fallbacks = {
     en: ["Could you tell me a little more?", "Let me make sure I understand.", "What would you recommend?", "That sounds good to me.", "Could we confirm the details?", "Thank you for explaining."],
     ja: ["もう少し詳しく教えていただけますか。", "念のため確認させてください。", "どの方法がおすすめですか。", "その方法でお願いします。", "内容を確認してもよろしいですか。", "説明していただきありがとうございます。"],
@@ -1540,7 +1554,7 @@ function createDialogueSuggestionPicker(language) {
   const used = new Set();
   return (candidates) => {
     const result = [];
-    for (const candidate of [...candidates, ...fallbacks]) {
+    for (const candidate of [...candidates, ...linkedDialogueFallbacks(language, target), ...fallbacks]) {
       const text = String(candidate || "").trim();
       const key = normalizeSpeech(text);
       if (!text || !key || used.has(key)) continue;
@@ -1691,7 +1705,7 @@ function buildGuidedDialogue(language, mode, target, situation, levelIndex, stag
     }
   };
   const script = scripts[language][mode];
-  const pickSuggestions = createDialogueSuggestionPicker(language);
+  const pickSuggestions = createDialogueSuggestionPicker(language, target);
   const normalizedMode = mode === "business" ? "professional" : mode;
   const stageLine = dayStageExtensions[language][normalizedMode][stageIndex];
   const levelLine = levelExtensions[language][normalizedMode][levelIndex];
@@ -2358,8 +2372,8 @@ function renderTask() {
     const feedback = state.answerChecked
       ? `<div class="feedback-box step-two-feedback ${answer === correct ? "" : "wrong"}">
           <span class="answer-mark ${answer === correct ? "correct" : "wrong"}" aria-label="${answer === correct ? "정답" : "오답"}">${answer === correct ? "O" : "X"}</span>
-          <section class="conversation-formula"><small>회화 공식 · ${escapeHtml(profile.name)}</small><strong lang="${meta.htmlLang}">${escapeHtml(formula.formula)}</strong><p>${escapeHtml(formula.levelTip)}</p><ul>${formula.examples.map((example) => `<li>${renderFormulaExample(example, meta.htmlLang)}</li>`).join("")}</ul></section>
-          <section class="native-variations"><small>실제 원어민 회화에서는</small><div>${formula.nativeVariants.map((sentence) => `<blockquote lang="${meta.htmlLang}">${escapeHtml(sentence)}</blockquote>`).join("")}</div></section>
+          <section class="conversation-formula"><small>오늘 문장과 직접 연결된 회화 공식 · ${escapeHtml(profile.name)}</small><strong lang="${meta.htmlLang}">${escapeHtml(formula.formula)}</strong><p>${escapeHtml(formula.levelTip)}</p><ul>${formula.examples.map((example) => `<li>${renderFormulaExample(example, meta.htmlLang)}</li>`).join("")}</ul></section>
+          <section class="native-variations"><small>배운 문장의 실제 회화 변형</small><div>${formula.nativeVariants.map((sentence) => `<blockquote lang="${meta.htmlLang}">${escapeHtml(sentence)}</blockquote>`).join("")}</div></section>
           <section class="conversation-chunks"><small>자주 쓰는 CHUNK</small><div>${formula.chunks.map((chunk) => `<article><b lang="${meta.htmlLang}">${escapeHtml(chunk.text)}</b><span>${escapeHtml(chunk.note)}</span></article>`).join("")}</div></section>
           <section class="coach-note-grid"><article><small>자주 하는 실수</small><p>${escapeHtml(day.coach.commonMistake)}</p></article><article><small>전이 과제</small><p>${escapeHtml(day.coach.transfer)}</p></article></section>
         </div>`

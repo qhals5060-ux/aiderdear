@@ -1,16 +1,25 @@
-AiderLog v104 배포 확인
+AiderLog v106 배포 확인
 
 1. 이 폴더의 내용 전체를 Vercel 프로젝트 루트에 배포합니다.
 2. Vercel Root Directory는 비워 둡니다.
 3. Firebase Firestore 규칙에 이 폴더의 firestore.rules를 게시합니다. (친구 앨범·외부 상담 v4 규칙 포함)
-4. Deployments에서 새 v104 배포를 Production으로 승격합니다.
+4. Deployments에서 새 v106 배포를 Production으로 승격합니다.
 5. 아래 주소를 엽니다.
    https://aiderdear1.vercel.app/sw.js
 6. 첫 줄이 아래와 같아야 합니다.
-   const CACHE='aiderlog-v104-calendar-events-albums-advisors-routine';
+   const CACHE='aiderlog-v106-calendar-archive-album-goals-routines';
 
 첫 줄에 이전 버전이 보이면 코드는 새로 올라갔더라도 운영 주소가 아직 이전 배포를 가리키는 상태입니다.
 이 경우 Vercel Deployments에서 최신 배포의 메뉴를 열어 Promote to Production을 선택하세요.
+
+v106 정상 동작
+- 연결 해제 또는 만료된 Google Calendar 권한을 다시 연결할 수 있고, 실패 시 브라우저 캘린더 선택 화면으로 전환됨
+- ARCHIVE와 Travel의 상단 선이 같은 높이에 있고 WISH LIST가 ARCHIVE 오른쪽 하단에 표시됨
+- 앨범 폴더를 열면 해당 폴더의 미디어만 보이고 폴더 이름·색상을 수정할 수 있음
+- 고객 추가 팝업의 4개 영역이 좌우 독립 열로 이어져 중간 공란이 없음
+- Overview 지출 목록에서 납부·완료 여부를 체크할 수 있음
+- BIG GOALS 01·02·03 번호에 따라 서로 다른 만다라트가 표시됨
+- 루틴은 카드 하나에서 아이콘으로 전환되고 스탬프에 색상과 기호가 함께 표시되며 펼침 화면이 오른쪽 전체를 사용함
 
 v104 정상 동작
 - 사이트 일정 등록 시 자동 동기화에서 선택한 쓰기 가능 Google 캘린더를 선택할 수 있음

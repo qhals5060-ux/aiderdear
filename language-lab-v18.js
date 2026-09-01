@@ -4,15 +4,14 @@
       super();
       this.attachShadow({mode:'open'});
       this.completion=null;
-      this.keepLessonScrollInside=(event)=>event.stopPropagation();
+      this.lessonScrollBoundary=null;
     }
     async connectedCallback(){
-      ['wheel','touchstart','touchmove','touchend'].forEach(type=>this.addEventListener(type,this.keepLessonScrollInside,{passive:true}));
       if(this.shadowRoot.childNodes.length)return;
       try{
         const [templateResponse,styleResponse]=await Promise.all([
-          fetch('./language-lab-v18-template.html',{cache:'no-store'}),
-          fetch('./language-lab-v18.css',{cache:'no-store'})
+          fetch('./language-lab-v18-template.html?v=106',{cache:'no-store'}),
+          fetch('./language-lab-v18.css?v=106',{cache:'no-store'})
         ]);
         if(!templateResponse.ok||!styleResponse.ok)throw new Error('어학 학습 자산을 불러오지 못했습니다.');
         const [source,style]=await Promise.all([templateResponse.text(),styleResponse.text()]);
@@ -28,6 +27,8 @@
         share.hidden=this.getAttribute('data-paired')!=='true';
         app.querySelector('.recent-study-actions')?.appendChild(share);
         this.shadowRoot.append(styleElement,app,toast);
+        this.lessonScrollBoundary=this.shadowRoot.querySelector('.lesson-stage');
+        ['wheel','touchstart','touchmove','touchend'].forEach(type=>this.lessonScrollBoundary?.addEventListener(type,event=>event.stopPropagation(),{passive:true}));
         this.addEventListener('language-lab-complete',event=>{
           this.completion=event.detail||null;
           share.disabled=!this.completion;
@@ -44,7 +45,7 @@
       }
     }
     disconnectedCallback(){
-      ['wheel','touchstart','touchmove','touchend'].forEach(type=>this.removeEventListener(type,this.keepLessonScrollInside));
+      this.lessonScrollBoundary=null;
     }
     static get observedAttributes(){return ['data-paired']}
     attributeChangedCallback(name,oldValue,newValue){

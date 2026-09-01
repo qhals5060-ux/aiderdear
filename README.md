@@ -1,3 +1,20 @@
+# AiderLog v106
+
+## v106 Calendar recovery · archive/album polish · BIG GOALS routine workspace
+
+- 만료되거나 해제된 Google Calendar 권한을 정리한 뒤 다시 동의받으며, 서버 OAuth를 사용할 수 없을 때는 캘린더 선택이 가능한 브라우저 갱신 방식으로 전환합니다.
+- ARCHIVE와 Travel의 기준선을 맞추고 WISH LIST를 ARCHIVE 오른쪽 하단에 고정했습니다.
+- 앨범 폴더를 누르면 해당 폴더의 사진·동영상만 표시하며 폴더 이름과 색상을 편집할 수 있습니다.
+- 고객 추가 폼을 좌우 독립 열로 재배치하고 Overview의 지출 완료 확인을 체크리스트로 제공합니다.
+- 3개의 BIG GOALS가 각각 독립 만다라트를 가지며, BIG GOALS와 루틴 카드의 높이를 맞췄습니다.
+- 루틴은 한 카드 안에서 아이콘으로 전환하고, 색상과 기호가 함께 있는 스탬프 및 오른쪽 전체 인라인 펼침 화면을 제공합니다.
+
+서버 캘린더 쓰기와 자동 동기화에는 `firestore.rules` 배포 및 Google Calendar OAuth 환경변수가 필요합니다.
+
+`const CACHE='aiderlog-v106-calendar-archive-album-goals-routines';`
+
+---
+
 # AiderLog v104
 
 ## v104 Calendar write-back · shared archives/albums · advisor matching · routine redesign

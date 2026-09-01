@@ -1253,7 +1253,7 @@ a { color: inherit; text-decoration: none; }
 
 /* AiderLog v73 · one-line course picker and recent 14-day activity */
 .header-course .course-selectors{
-  display:flex!important;
+  display:none!important;
   align-items:center!important;
   justify-content:center;
   gap:12px!important;
@@ -1481,25 +1481,38 @@ a { color: inherit; text-decoration: none; }
   .sound-coach{grid-template-columns:1fr;gap:3px}
 }
 
-/* AiderLog v103 · reliable nested lesson scrolling */
+/* AiderLog v105 · reliable nested lesson scrolling */
 .lesson-screen{
-  display:grid!important;
-  grid-template-rows:50px 4px minmax(0,1fr) 58px!important;
+  position:fixed!important;
+  inset:0!important;
+  z-index:80!important;
+  display:none!important;
+  flex-direction:column!important;
+  width:100%!important;
+  height:100dvh!important;
+  min-height:0!important;
   overflow:hidden!important;
 }
+.app-shell.lesson-active .lesson-screen{display:flex!important}
+.lesson-screen>.lesson-header{flex:0 0 66px!important}
+.lesson-screen>.lesson-progress{flex:0 0 5px!important}
 .lesson-stage{
+  flex:1 1 auto!important;
   position:relative!important;
-  height:auto!important;
+  width:100%!important;
+  height:0!important;
   min-height:0!important;
-  padding:20px 18px 26px!important;
+  padding:20px 18px 40px!important;
   overflow-x:hidden!important;
-  overflow-y:scroll!important;
+  overflow-y:auto!important;
   overscroll-behavior:contain!important;
   scrollbar-gutter:stable!important;
   touch-action:pan-y!important;
+  -webkit-overflow-scrolling:touch!important;
 }
-.lesson-body{padding-bottom:18px!important}
+.lesson-body{width:min(860px,100%)!important;min-height:max-content!important;padding-bottom:44px!important}
 .lesson-footer{
+  flex:0 0 58px!important;
   position:static!important;
   inset:auto!important;
   width:100%!important;
@@ -1507,6 +1520,5 @@ a { color: inherit; text-decoration: none; }
 }
 .chat-messages{overscroll-behavior:contain;scrollbar-gutter:stable}
 @media(max-width:900px){
-  .lesson-screen{position:fixed!important;grid-template-rows:50px 4px minmax(0,1fr) 58px!important}
-  .lesson-stage{height:auto!important;padding:16px 11px 22px!important}
+  .lesson-stage{height:0!important;padding:16px 11px 36px!important}
 }

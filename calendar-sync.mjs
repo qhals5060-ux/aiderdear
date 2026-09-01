@@ -195,7 +195,15 @@ async function googleAccess(uid) {
     body: new URLSearchParams({ client_id: env('GOOGLE_CALENDAR_CLIENT_ID'), client_secret: env('GOOGLE_CALENDAR_CLIENT_SECRET'), refresh_token: data.refreshToken, grant_type: 'refresh_token' }),
   });
   const token = await response.json();
-  if (!response.ok) throw new Error(token.error_description || 'Google Calendar 토큰 갱신에 실패했습니다.');
+  if (!response.ok) {
+    const message = token.error_description || 'Google Calendar 토큰 갱신에 실패했습니다.';
+    if (String(token.error || '').toLowerCase() === 'invalid_grant') {
+      await ref.set({ connected: false, accessToken: '', refreshToken: '', expiresAt: 0, lastError: 'Google 권한이 만료되었습니다. 캘린더를 다시 연결해주세요.', updatedAt: FieldValue.serverTimestamp() }, { merge: true });
+      throw new Error('Google 권한이 만료되었습니다. 캘린더를 다시 연결해주세요.');
+    }
+    await ref.set({ lastError: message, updatedAt: FieldValue.serverTimestamp() }, { merge: true });
+    throw new Error(message);
+  }
   const next = { ...data, accessToken: token.access_token, expiresAt: Date.now() + Number(token.expires_in || 3600) * 1000 };
   await ref.set({ accessToken: next.accessToken, expiresAt: next.expiresAt, updatedAt: FieldValue.serverTimestamp() }, { merge: true });
   return { ref, data: next, token: next.accessToken };
@@ -483,7 +491,9 @@ async function syncNotion(uid) {
 async function startConnection(uid, provider) {
   const state = signedState({ uid, provider, exp: Date.now() + 10 * 60_000 });
   if (provider === 'google') {
-    const query = new URLSearchParams({ client_id: env('GOOGLE_CALENDAR_CLIENT_ID'), redirect_uri: callbackUrl(), response_type: 'code', scope: GOOGLE_SCOPE, access_type: 'offline', prompt: 'consent', include_granted_scopes: 'true', state });
+    const user = await getAuth().getUser(uid);
+    const query = new URLSearchParams({ client_id: env('GOOGLE_CALENDAR_CLIENT_ID'), redirect_uri: callbackUrl(), response_type: 'code', scope: GOOGLE_SCOPE, access_type: 'offline', prompt: 'select_account consent', include_granted_scopes: 'true', state });
+    if (user.email) query.set('login_hint', user.email);
     return `${GOOGLE_AUTH}?${query}`;
   }
   if (provider === 'notion') {
