@@ -1,3 +1,24 @@
+# AiderLog v94
+
+## v94 Login separation · full couple EVENT workspace
+
+- AiderLog 계정 로그인과 Google Calendar 읽기 권한을 별도 상태로 표시합니다. 캘린더 OAuth 설정 오류가 로그인 실패처럼 보이지 않습니다.
+- 팝업 차단·웹 저장소 제한 환경에서는 Firebase 리디렉션 로그인으로 복구합니다.
+- 커플 연결 시 두 사용자의 기존 `Record · Album · Archive · Travel · Bucket` 자료를 커플 EVENT 공간에 한 번씩 병합합니다.
+- 커플 연결 이후 EVENT의 새 기록과 첨부 미디어는 커플 공간에 저장되어 양쪽에서 실시간으로 확인합니다.
+- 혼자 사용하던 시기의 EVENT 첨부 미디어도 커플 공간으로 이관할 수 있도록 개인 미디어 Firestore 규칙을 추가했습니다.
+
+배포 시 `firestore.rules`를 반드시 함께 게시하세요. Google Calendar 단방향 실시간 연동은 아래 OAuth 설정도 필요합니다.
+
+- OAuth 동의 화면이 테스트 상태라면 `qhals5060@gmail.com`, `aidway55@gmail.com`을 테스트 사용자로 등록
+- 승인된 JavaScript 원본: `https://aiderdear1.vercel.app`
+- 승인된 리디렉션 URI: `https://aiderdear1.vercel.app/api/calendar-sync?action=callback`
+- Vercel 환경변수: `PUBLIC_APP_URL`, `GOOGLE_CALENDAR_CLIENT_ID`, `GOOGLE_CALENDAR_CLIENT_SECRET`, `CALENDAR_STATE_SECRET`
+
+`const CACHE='aiderlog-v94-auth-event-couple-share';`
+
+---
+
 # AiderLog v93
 
 ## v93 Movement challenge · InBody trend

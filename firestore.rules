@@ -81,6 +81,10 @@ service cloud.firestore {
         allow read, write: if signedIn() && request.auth.uid == userId;
       }
 
+      match /media/{document=**} {
+        allow read, write: if signedIn() && request.auth.uid == userId;
+      }
+
       match /privateMedia/{documentId} {
         allow read, write: if signedIn() && request.auth.uid == userId;
       }

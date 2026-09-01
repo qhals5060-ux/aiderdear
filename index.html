@@ -11,13 +11,13 @@
 <meta name="description" content="">
 <meta name="format-detection" content="telephone=no">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="aiderlog-build" content="v93">
+<meta name="aiderlog-build" content="v94">
 <link rel="canonical" href="https://aiderdear1.vercel.app/">
 <script>
 (() => {
   const url = new URL(location.href);
   if (url.searchParams.has('client-intake')) document.documentElement.classList.add('client-intake-only');
-  if (['v67','v68','v69','v70','v71','v72','v73','v74','v75','v76','v77','v78','v79','v80','v81','v82','v83','v84','v85','v86','v87','v88','v89','v90','v91','v92','v93'].includes(url.searchParams.get('aiderlog-main'))) {
+  if (['v67','v68','v69','v70','v71','v72','v73','v74','v75','v76','v77','v78','v79','v80','v81','v82','v83','v84','v85','v86','v87','v88','v89','v90','v91','v92','v93','v94'].includes(url.searchParams.get('aiderlog-main'))) {
     url.searchParams.delete('aiderlog-main');
     history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`);
   }
@@ -4120,7 +4120,7 @@ html.client-intake-only .client-intake-result b{font:800 38px/1.1 Arial,sans-ser
               <section class="account-settings-panel" data-account-panel="calendar">
                 <header class="settings-panel-heading"><div><b>캘린더 동기화</b><span>외부 일정은 읽기 전용으로 내 캘린더에만 표시됩니다.</span></div><button type="button" class="text-action" id="calendarSyncRefresh">상태 새로고침</button></header>
                 <div class="calendar-sync-grid">
-                  <article class="calendar-sync-card" data-calendar-provider="google"><i class="provider-mark google">G</i><div><b>Google Calendar</b><span id="calendarGoogleStatus">연결되지 않음</span></div><button type="button" id="calendarGoogleConnect">연결</button></article>
+                  <article class="calendar-sync-card" data-calendar-provider="google"><i class="provider-mark google">G</i><div><b>Google Calendar</b><span id="calendarGoogleStatus">AiderLog 로그인과 별도 권한입니다.</span></div><button type="button" id="calendarGoogleConnect">캘린더 연결</button></article>
                   <article class="calendar-sync-card" data-calendar-provider="notion"><i class="provider-mark notion">N</i><div><b>Notion</b><span id="calendarNotionStatus">연결되지 않음</span></div><button type="button" id="calendarNotionConnect">연결</button><label class="notion-source-compact"><span>데이터베이스 링크 또는 ID</span><input id="calendarNotionSource" type="text" autocomplete="off" placeholder="Notion database ID"><button type="button" id="calendarNotionSave">적용</button></label></article>
                   <article class="calendar-sync-card samsung-card"><i class="provider-mark samsung">S</i><div><b>Samsung Calendar</b><span>Google 계정에 저장된 삼성 일정이 함께 동기화됩니다.</span></div><button type="button" id="calendarSamsungGuide">설정 방법</button></article>
                 </div>
@@ -4208,7 +4208,7 @@ html.client-intake-only .client-intake-result b{font:800 38px/1.1 Arial,sans-ser
   <div class="modal storage-guide-modal">
     <div class="modal-head"><b id="pairGuideTitle">커플 연결 완료</b><button class="x" data-close="pairGuideModal">×</button></div>
     <div class="modal-body storage-guide-body">
-      <p><b>함께 보는 공간</b><span>SCHEDULE은 공유로 지정한 일정만 함께 보고, EVENT의 기록·앨범·여행은 함께 봅니다.</span></p>
+      <p><b>함께 보는 공간</b><span>SCHEDULE은 공유로 지정한 일정만 함께 보고, EVENT의 Record·Album·Archive·Travel·Bucket 전체를 함께 봅니다.</span></p>
       <p><b>개인 공간</b><span>ROUTINE, 어학 공부, PERSONAL, PAPER, TASK와 메모는 서로에게 공개되지 않습니다.</span></p>
       <p><b>완료 소식</b><span>루틴 수행이나 어학 공부를 끝낸 뒤 완료 소식만 상대에게 보낼 수 있습니다.</span></p>
       <button type="button" data-close="pairGuideModal">확인</button>
@@ -5238,7 +5238,9 @@ html.client-intake-only .client-intake-result b{font:800 38px/1.1 Arial,sans-ser
   async function saveEmotionData(email){email=normalizeEmail(email);if(!currentUser||currentUserEmail!==email||!emotionRefs[email]?.fileId)throw new Error('본인의 감정일기만 수정할 수 있습니다.');emotionData[email]=normalizeEmotionData(emotionData[email],email,currentUserName);await window.AiderDearFirebase.writeEmotionData(emotionData[email])}
 
   async function driveLoadJsonFile(){
-    const parsed=await window.AiderDearFirebase.readAppData();
+    const parsed=firebaseState.pair?.id&&window.AiderDearFirebase.migrateEventWorkspace
+      ?await window.AiderDearFirebase.migrateEventWorkspace()
+      :await window.AiderDearFirebase.readAppData();
     cloudData={...cloudData,...(parsed||{})};
     normalizeCloudData();
   }
@@ -5650,9 +5652,9 @@ html.client-intake-only .client-intake-result b{font:800 38px/1.1 Arial,sans-ser
   function renderExternalCalendarStatus(){
     const google=externalCalendarStatus.google||{connected:false},notion=externalCalendarStatus.notion||{connected:false};
     const googleStatus=$('#calendarGoogleStatus'),notionStatus=$('#calendarNotionStatus'),googleButton=$('#calendarGoogleConnect'),notionButton=$('#calendarNotionConnect');
-    if(googleStatus)googleStatus.textContent=google.connected?`${google.clientMode?'앱 실행 중 자동 갱신 · ':''}${calendarSyncDate(google.lastSyncedAt)} · ${google.calendarCount||0}개 캘린더 · ${google.itemCount||0}개 일정`:'연결되지 않음';
+    if(googleStatus)googleStatus.textContent=google.connected?`${google.clientMode?'앱 실행 중 자동 갱신 · ':''}${calendarSyncDate(google.lastSyncedAt)} · ${google.calendarCount||0}개 캘린더 · ${google.itemCount||0}개 일정`:(currentUser?'AiderLog 로그인 완료 · Calendar 권한 미연결':'AiderLog 로그인 후 연결할 수 있습니다.');
     if(notionStatus)notionStatus.textContent=notion.connected?`${notion.workspaceName?notion.workspaceName+' · ':''}${calendarSyncDate(notion.lastSyncedAt)} · ${notion.itemCount||0}개 일정`:'연결되지 않음';
-    if(googleButton){googleButton.textContent=google.connected?'연결 해제':'연결';googleButton.dataset.connected=google.connected?'1':'0'}
+    if(googleButton){googleButton.textContent=google.connected?'연결 해제':'캘린더 연결';googleButton.dataset.connected=google.connected?'1':'0'}
     if(notionButton){notionButton.textContent=notion.connected?'연결 해제':'연결';notionButton.dataset.connected=notion.connected?'1':'0'}
     if($('#calendarNotionSource')&&notion.sourceId&&!$('#calendarNotionSource').matches(':focus'))$('#calendarNotionSource').value=notion.sourceId;
   }
@@ -5667,7 +5669,7 @@ html.client-intake-only .client-intake-result b{font:800 38px/1.1 Arial,sans-ser
     if(!currentUser)throw new Error('로그인이 필요합니다.');await window.AiderDearFirebase.requestGoogleCalendarAccess();clientGoogleSyncSources=await window.AiderDearFirebase.listGoogleCalendars();const result=await syncGoogleCalendarSources(clientGoogleSyncSources);externalCalendarStatus.google={connected:true,clientMode:true,lastSyncedAt:Date.now(),calendarCount:clientGoogleSyncSources.length,itemCount:result.added};renderExternalCalendarStatus();clearInterval(clientGoogleSyncTimer);clientGoogleSyncTimer=setInterval(()=>syncGoogleCalendarSources(clientGoogleSyncSources).then(result=>{externalCalendarStatus.google={connected:true,clientMode:true,lastSyncedAt:Date.now(),calendarCount:clientGoogleSyncSources.length,itemCount:result.added};renderExternalCalendarStatus()}).catch(error=>console.warn('Browser calendar refresh failed',error)),120000);if(showToast)toast(`Google Calendar ${result.added}개 일정을 연결했습니다.`);return result;
   }
   async function startExternalCalendar(provider){
-    try{const result=await calendarSyncRequest('start',{provider});if(!result.url)throw new Error('연결 주소를 만들지 못했습니다.');location.href=result.url}catch(err){if(provider==='google'){try{await syncGoogleCalendarInBrowser();return}catch(fallbackError){toast(fallbackError.message||String(fallbackError));return}}toast(`${err.message||String(err)} · Notion 서버 연동 환경변수를 확인해주세요.`)}
+    try{const result=await calendarSyncRequest('start',{provider});if(!result.url)throw new Error('연결 주소를 만들지 못했습니다.');location.href=result.url}catch(err){if(provider==='google'){const status=$('#calendarGoogleStatus');if(status)status.textContent='AiderLog 로그인 완료 · Google OAuth 배포 설정 필요';toast('AiderLog 로그인은 완료되었습니다. Google Calendar는 별도 OAuth 승인 설정 후 연결됩니다.');return}toast(`${err.message||String(err)} · Notion 서버 연동 환경변수를 확인해주세요.`)}
   }
   async function disconnectExternalCalendar(provider){
     if(!confirm(`${provider==='google'?'Google Calendar':'Notion'} 연결을 해제하고 가져온 일정을 캘린더에서 삭제할까요?`))return;

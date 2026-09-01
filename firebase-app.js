@@ -24,6 +24,7 @@ import {
   limit,
   onSnapshot,
   query,
+  runTransaction,
   serverTimestamp,
   setDoc,
   updateDoc,
@@ -364,9 +365,15 @@ async function login() {
   try {
     return await signInWithPopup(auth, provider);
   } catch (error) {
-    if (['auth/popup-blocked', 'auth/operation-not-supported-in-this-environment'].includes(error.code)) {
+    if (['auth/popup-blocked', 'auth/operation-not-supported-in-this-environment', 'auth/web-storage-unsupported'].includes(error.code)) {
       await signInWithRedirect(auth, provider);
       return null;
+    }
+    if (error?.code === 'auth/unauthorized-domain') {
+      throw new Error('현재 주소가 Firebase 승인 도메인에 등록되지 않았습니다. Firebase Authentication의 승인된 도메인에 이 사이트 주소를 추가해주세요.');
+    }
+    if (error?.code === 'auth/popup-closed-by-user') {
+      throw new Error('로그인 창이 닫혔습니다. 다시 로그인해주세요.');
     }
     throw error;
   }
@@ -422,11 +429,21 @@ function googleCalendarProvider() {
 
 async function requestGoogleCalendarAccess() {
   requireUser();
-  const result = await reauthenticateWithPopup(auth.currentUser, googleCalendarProvider());
-  const credential = GoogleAuthProvider.credentialFromResult(result);
-  googleCalendarAccessToken = String(credential?.accessToken || '');
-  if (!googleCalendarAccessToken) throw new Error('Google Calendar 연결 권한을 확인하지 못했습니다.');
-  return true;
+  try {
+    const result = await reauthenticateWithPopup(auth.currentUser, googleCalendarProvider());
+    const credential = GoogleAuthProvider.credentialFromResult(result);
+    googleCalendarAccessToken = String(credential?.accessToken || '');
+    if (!googleCalendarAccessToken) throw new Error('Google Calendar 연결 권한을 확인하지 못했습니다.');
+    return true;
+  } catch (error) {
+    if (error?.code === 'auth/popup-closed-by-user') {
+      throw new Error('AiderLog 로그인은 완료되어 있습니다. Google Calendar 권한 연결만 취소되었습니다.');
+    }
+    if (error?.code === 'auth/unauthorized-domain') {
+      throw new Error('AiderLog 로그인은 완료되어 있습니다. Google Calendar OAuth 승인 도메인 설정을 확인해주세요.');
+    }
+    throw error;
+  }
 }
 
 async function googleCalendarFetch(url, options = {}) {
@@ -841,6 +858,151 @@ async function markDirectLetterRead(letterId) {
 async function readAppData() {
   const snapshot = await getDoc(scopedDoc('app'));
   return snapshot.exists() ? snapshot.data().payload || null : null;
+}
+
+const copyJson = value => JSON.parse(JSON.stringify(value ?? null));
+
+function eventPairKey() {
+  const emails = (Array.isArray(state.pair?.memberEmails) ? state.pair.memberEmails : [])
+    .map(cleanEmail)
+    .filter(Boolean)
+    .sort();
+  return emails.join('::');
+}
+
+function mergeEventRows(currentRows, soloRows, ownerField, pairKey) {
+  const rows = new Map();
+  const add = (row, fromSolo = false) => {
+    if (!row?.id) return;
+    const next = copyJson(row);
+    if (fromSolo) {
+      next[ownerField] = cleanEmail(next[ownerField] || state.user?.email);
+      next.pairKey = pairKey;
+    }
+    const previous = rows.get(String(next.id));
+    const previousTime = Number(previous?.updatedAt || previous?.createdAt || 0);
+    const nextTime = Number(next.updatedAt || next.createdAt || 0);
+    if (!previous || nextTime >= previousTime) rows.set(String(next.id), next);
+  };
+  (Array.isArray(currentRows) ? currentRows : []).forEach(row => add(row));
+  (Array.isArray(soloRows) ? soloRows : []).forEach(row => add(row, true));
+  return [...rows.values()];
+}
+
+function mergeEventFolders(currentFolders, soloFolders) {
+  const folders = new Map();
+  [...(Array.isArray(currentFolders) ? currentFolders : []), ...(Array.isArray(soloFolders) ? soloFolders : [])]
+    .forEach(folder => {
+      if (!folder?.id) return;
+      const previous = folders.get(String(folder.id));
+      if (!previous || Number(folder.createdAt || 0) >= Number(previous.createdAt || 0)) {
+        folders.set(String(folder.id), copyJson(folder));
+      }
+    });
+  return [...folders.values()];
+}
+
+function mergeSoloEventPayload(sharedPayload, soloPayload) {
+  const shared = copyJson(sharedPayload || {}) || {};
+  const solo = copyJson(soloPayload || {}) || {};
+  const pairKey = eventPairKey();
+  const soloKey = `solo:${cleanEmail(state.user?.email)}`;
+  shared.records = mergeEventRows(shared.records, solo.records, 'authorEmail', pairKey);
+  shared.eventReviews = mergeEventRows(shared.eventReviews, solo.eventReviews, 'authorEmail', pairKey);
+  shared.bucketItems = mergeEventRows(shared.bucketItems, solo.bucketItems, 'createdBy', pairKey);
+  shared.albumsBySpace = shared.albumsBySpace && typeof shared.albumsBySpace === 'object' ? shared.albumsBySpace : {};
+  shared.travelFoldersBySpace = shared.travelFoldersBySpace && typeof shared.travelFoldersBySpace === 'object' ? shared.travelFoldersBySpace : {};
+  const soloAlbums = solo.albumsBySpace?.[soloKey] || (Array.isArray(solo.albums) ? solo.albums : []);
+  const soloTrips = solo.travelFoldersBySpace?.[soloKey] || [];
+  shared.albumsBySpace[pairKey] = mergeEventFolders(shared.albumsBySpace[pairKey], soloAlbums);
+  shared.travelFoldersBySpace[pairKey] = mergeEventFolders(shared.travelFoldersBySpace[pairKey], soloTrips);
+  shared.eventMigrationByUid = shared.eventMigrationByUid && typeof shared.eventMigrationByUid === 'object' ? shared.eventMigrationByUid : {};
+  shared.eventMigrationByUid[state.user.uid] = Date.now();
+  return shared;
+}
+
+function eventMediaIds(payload) {
+  const ids = new Set();
+  (Array.isArray(payload?.records) ? payload.records : []).forEach(row => {
+    (Array.isArray(row?.media) ? row.media : []).forEach(item => {
+      const id = String(item?.fileId || item?.key || '');
+      if (id) ids.add(id);
+    });
+  });
+  (Array.isArray(payload?.eventReviews) ? payload.eventReviews : []).forEach(row => {
+    const id = String(row?.media?.fileId || '');
+    if (id) ids.add(id);
+  });
+  (Array.isArray(payload?.bucketItems) ? payload.bucketItems : []).forEach(row => {
+    const id = String(row?.photo?.fileId || '');
+    if (id) ids.add(id);
+  });
+  return [...ids];
+}
+
+async function copyOwnEventMediaToPair(mediaId) {
+  const user = requireUser();
+  if (!state.pair || !mediaId) return;
+  const sourceRef = doc(db, 'users', user.uid, 'media', mediaId);
+  const targetRef = doc(db, 'pairs', state.pair.id, 'media', mediaId);
+  if ((await getDoc(targetRef)).exists()) return;
+  const sourceSnapshot = await getDoc(sourceRef);
+  if (!sourceSnapshot.exists()) return;
+  const chunks = await getDocs(collection(sourceRef, 'chunks'));
+  for (let start = 0; start < chunks.docs.length; start += 400) {
+    const batch = writeBatch(db);
+    chunks.docs.slice(start, start + 400).forEach(item => {
+      batch.set(doc(targetRef, 'chunks', item.id), item.data());
+    });
+    await batch.commit();
+  }
+  await setDoc(targetRef, {
+    ...sourceSnapshot.data(),
+    migratedFromUid: user.uid,
+    migratedAt: serverTimestamp(),
+  });
+}
+
+async function migrateEventWorkspace() {
+  const user = requireUser();
+  if (!state.pair) return readAppData();
+  const soloRef = doc(db, 'users', user.uid, 'app', 'main');
+  const pairRef = doc(db, 'pairs', state.pair.id, 'app', 'main');
+  const [soloSnapshot, pairSnapshot] = await Promise.all([getDoc(soloRef), getDoc(pairRef)]);
+  const soloPayload = soloSnapshot.exists() ? soloSnapshot.data().payload || {} : {};
+  let pairPayload = pairSnapshot.exists() ? pairSnapshot.data().payload || {} : {};
+  if (!pairPayload.eventMigrationByUid?.[user.uid]) {
+    pairPayload = await runTransaction(db, async transaction => {
+      const currentPairSnapshot = await transaction.get(pairRef);
+      const currentPairPayload = currentPairSnapshot.exists() ? currentPairSnapshot.data().payload || {} : {};
+      if (currentPairPayload.eventMigrationByUid?.[user.uid]) return currentPairPayload;
+      const merged = mergeSoloEventPayload(currentPairPayload, soloPayload);
+      transaction.set(pairRef, {
+        payload: merged,
+        updatedAt: serverTimestamp(),
+        updatedBy: user.uid,
+      });
+      return merged;
+    });
+  }
+  if (!pairPayload.eventMediaMigrationByUid?.[user.uid]) {
+    let complete = true;
+    for (const mediaId of eventMediaIds(soloPayload)) {
+      try { await copyOwnEventMediaToPair(mediaId); }
+      catch (error) { complete = false; console.warn('EVENT media migration skipped', mediaId, error); }
+    }
+    if (complete) {
+      pairPayload = await runTransaction(db, async transaction => {
+        const currentPairSnapshot = await transaction.get(pairRef);
+        const current = currentPairSnapshot.exists() ? currentPairSnapshot.data().payload || {} : {};
+        current.eventMediaMigrationByUid = current.eventMediaMigrationByUid && typeof current.eventMediaMigrationByUid === 'object' ? current.eventMediaMigrationByUid : {};
+        current.eventMediaMigrationByUid[user.uid] = Date.now();
+        transaction.set(pairRef, { payload: current, updatedAt: serverTimestamp(), updatedBy: user.uid });
+        return current;
+      });
+    }
+  }
+  return pairPayload;
 }
 
 async function writeAppData(payload) {
@@ -1515,6 +1677,7 @@ const api = {
   sendDirectLetter,
   markDirectLetterRead,
   readAppData,
+  migrateEventWorkspace,
   writeAppData,
   readScheduleData,
   writeScheduleData,

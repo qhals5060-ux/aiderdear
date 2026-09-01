@@ -1,3 +1,15 @@
+AiderLog v94
+
+[v94 변경]
+- AiderLog 로그인과 Google Calendar 별도 권한 연결 상태 분리
+- 팝업 차단 환경의 Firebase 리디렉션 로그인 복구
+- 커플 연결 시 기존 EVENT Record·Album·Archive·Travel·Bucket 병합
+- 커플 연결 이후 EVENT 전체와 첨부 미디어 실시간 공유
+- 개인 EVENT 미디어의 커플 공간 이관용 Firestore 규칙 추가
+- PWA 캐시 v94로 갱신
+
+----------------------------------------
+
 AiderLog v93
 
 [v93 변경]
