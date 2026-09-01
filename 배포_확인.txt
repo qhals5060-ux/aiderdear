@@ -1,16 +1,25 @@
-AiderLog v99 배포 확인
+AiderLog v100 배포 확인
 
 1. 이 폴더의 내용 전체를 Vercel 프로젝트 루트에 배포합니다.
 2. Vercel Root Directory는 비워 둡니다.
 3. Firebase Firestore 규칙에 이 폴더의 firestore.rules를 게시합니다. (개인 EVENT 미디어 이관 규칙 포함)
-4. Deployments에서 새 v99 배포를 Production으로 승격합니다.
+4. Deployments에서 새 v100 배포를 Production으로 승격합니다.
 5. 아래 주소를 엽니다.
    https://aiderdear1.vercel.app/sw.js
 6. 첫 줄이 아래와 같아야 합니다.
-   const CACHE='aiderlog-v99-burpee-calendar-api';
+   const CACHE='aiderlog-v100-selective-calendar-media-motion';
 
 첫 줄에 이전 버전이 보이면 코드는 새로 올라갔더라도 운영 주소가 아직 이전 배포를 가리키는 상태입니다.
 이 경우 Vercel Deployments에서 최신 배포의 메뉴를 열어 Promote to Production을 선택하세요.
+
+v100 정상 동작
+- SCHEDULE 일정 목록의 사진·동영상 영역에서 _로 최소화, +로 펼치기
+- 프로필에 COUPLE 구분선과 연결 영역 표시
+- Google Calendar 연결 시 가져올 캘린더만 체크하고 선택 변경 가능
+- 선택 해제한 캘린더의 기존 일정은 AiderLog에서 제거되고 Google 원본은 유지
+- 캘린더 연결 5단계 설명과 API 설정 링크 표시
+- 운동 동작 자산 10개 모두 400×640 규격으로 표시
+- 버피가 6단계 연속 동작 애니메이션으로 표시
 
 v99 정상 동작
 - 버피 시연을 서기·플랭크·점프 4프레임 반복 애니메이션으로 표시
