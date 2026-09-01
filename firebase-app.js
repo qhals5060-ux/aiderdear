@@ -1034,8 +1034,9 @@ function cleanScheduleRows(rows, ownerUid = '') {
       ...JSON.parse(JSON.stringify(row)),
       authorEmail: email,
       authorUid: String(ownerUid || user.uid),
-      owner: row.owner === 'shared' ? 'shared' : 'mine',
-      pairKey: row.owner === 'shared' && state.pair ? state.pair.id : '',
+      owner: row.owner === 'shared' || row.shareWithCouple ? 'shared' : 'mine',
+      shareWithCouple: !!row.shareWithCouple || row.owner === 'shared',
+      pairKey: (row.owner === 'shared' || row.shareWithCouple) && state.pair ? state.pair.id : '',
     }))
     .slice(-1200);
 }
@@ -1065,7 +1066,7 @@ async function writeScheduleData(rows) {
   })];
   const pairRef = pairScheduleRef(user.uid);
   if (pairRef) {
-    const shared = own.filter(row => row.owner === 'shared' && !row.externalSource);
+    const shared = own.filter(row => row.owner === 'shared' || row.shareWithCouple);
     writes.push(setDoc(pairRef, {
       payload: shared,
       ownerUid: user.uid,
@@ -1294,6 +1295,86 @@ async function deleteMedia(mediaId) {
   chunkSnapshot.docs.forEach(item => batch.delete(item.ref));
   batch.delete(ref);
   await batch.commit();
+}
+
+function sharedAlbumMediaId(ownerUid, sourceId) {
+  return `${ownerUid}-${String(sourceId || '').replace(/[^A-Za-z0-9_-]/g, '').slice(0, 90)}`;
+}
+
+async function copyMediaToSharedAlbum(sourceId, memberUids) {
+  const user = requireUser();
+  const sourceRef = mediaRef(sourceId);
+  const source = await getDoc(sourceRef);
+  if (!source.exists()) return '';
+  const targetId = sharedAlbumMediaId(user.uid, sourceId);
+  const targetRef = doc(db, 'sharedAlbumMedia', targetId);
+  const existing = await getDoc(targetRef);
+  if (!existing.exists()) {
+    await setDoc(targetRef, {
+      ...source.data(), ownerUid: user.uid, sourceId: String(sourceId), memberUids, ready: false, updatedAt: serverTimestamp(),
+    });
+    const chunks = await getDocs(collection(sourceRef, 'chunks'));
+    for (let start = 0; start < chunks.docs.length; start += 400) {
+      const batch = writeBatch(db);
+      chunks.docs.slice(start, start + 400).forEach(item => batch.set(doc(targetRef, 'chunks', item.id), item.data()));
+      await batch.commit();
+    }
+  }
+  await setDoc(targetRef, { memberUids, ready: true, updatedAt: serverTimestamp() }, { merge: true });
+  return targetId;
+}
+
+async function publishSharedAlbums(payload = {}) {
+  const user = requireUser();
+  const viewerUids = [...new Set(state.friends.map(friend => friend.uid).filter(Boolean))].slice(0, 30);
+  const memberUids = [user.uid, ...viewerUids];
+  const albums = (Array.isArray(payload.albums) ? payload.albums : []).filter(row => row?.id && row?.sharedWithFriends).slice(0, 40).map(row => ({ id: String(row.id), name: String(row.name || '앨범').slice(0, 60), color: String(row.color || '#DED6F4') }));
+  const albumIds = new Set(albums.map(row => row.id));
+  const records = [];
+  for (const row of (Array.isArray(payload.records) ? payload.records : []).filter(record => albumIds.has(String(record?.folderId))).slice(-250)) {
+    const media = [];
+    for (const item of (Array.isArray(row.media) ? row.media : []).slice(0, 8)) {
+      const sourceId = String(item?.fileId || item?.key || '');
+      if (!sourceId) continue;
+      try {
+        const sharedId = await copyMediaToSharedAlbum(sourceId, memberUids);
+        if (sharedId) media.push({ kind: item.kind === 'video' ? 'video' : 'image', sharedId, name: String(item.name || '').slice(0, 180), type: String(item.type || '') });
+      } catch (error) {
+        console.warn('Shared album media copy skipped', sourceId, error);
+      }
+    }
+    records.push({ id: String(row.id), folderId: String(row.folderId), title: String(row.title || '기록').slice(0, 100), date: String(row.date || ''), body: String(row.body || '').slice(0, 600), media });
+  }
+  await setDoc(doc(db, 'sharedAlbums', user.uid), {
+    ownerUid: user.uid,
+    ownerEmail: user.email,
+    ownerName: user.name,
+    viewerUids,
+    memberUids,
+    albums,
+    records,
+    updatedAt: serverTimestamp(),
+  });
+  return { albumCount: albums.length, recordCount: records.length, friendCount: viewerUids.length };
+}
+
+function watchSharedAlbums(callback) {
+  const user = requireUser();
+  return onSnapshot(
+    query(collection(db, 'sharedAlbums'), where('viewerUids', 'array-contains', user.uid)),
+    snapshot => callback(snapshot.docs.map(item => ({ ...item.data(), id: item.id, updatedAt: timestampValue(item.data().updatedAt) }))),
+    error => console.warn('Shared album listener stopped', error),
+  );
+}
+
+async function readSharedAlbumMedia(mediaId) {
+  const user = requireUser();
+  const ref = doc(db, 'sharedAlbumMedia', String(mediaId));
+  const metaSnapshot = await getDoc(ref);
+  if (!metaSnapshot.exists() || !metaSnapshot.data().memberUids?.includes(user.uid)) throw new Error('공유 앨범 미디어를 볼 권한이 없습니다.');
+  const chunks = await getDocs(collection(ref, 'chunks'));
+  const parts = chunks.docs.sort((a, b) => a.id.localeCompare(b.id)).map(item => item.data().data.toUint8Array());
+  return new Blob(parts, { type: metaSnapshot.data().type || 'application/octet-stream' });
 }
 
 const EPHEMERAL_MEDIA_TTL_MS = 24 * 60 * 60 * 1000;
@@ -1544,6 +1625,10 @@ async function deletePaperTaskMedia(mediaId) {
 
 const CLIENT_INTAKE_TOKEN = /^[A-Za-z0-9_-]{32,100}$/;
 const intakeText = (value, max) => String(value || '').trim().slice(0, max);
+const intakeList = (value, max = 20) => (Array.isArray(value) ? value : String(value || '').split(/[;,\n]/))
+  .map((item) => intakeText(item, 120))
+  .filter(Boolean)
+  .slice(0, max);
 
 function randomClientIntakeToken() {
   const bytes = crypto.getRandomValues(new Uint8Array(24));
@@ -1607,6 +1692,7 @@ async function submitClientIntake(token, payload = {}) {
     currentMajor: intakeText(payload.currentMajor, 120),
     targetUniversity: intakeText(payload.targetUniversity, 120),
     targetMajor: intakeText(payload.targetMajor, 120),
+    advisorNames: intakeList(payload.advisorNames, 20),
     degree: ['masters', 'doctoral', 'integrated', 'other'].includes(payload.degree) ? payload.degree : '',
     gpa: Math.max(0, Math.min(100, Number(payload.gpa) || 0)),
     gpaScale: [4, 4.3, 4.5, 100].includes(Number(payload.gpaScale)) ? Number(payload.gpaScale) : 0,
@@ -1621,7 +1707,7 @@ async function submitClientIntake(token, payload = {}) {
     inquiry: intakeText(payload.inquiry, 2000),
     note: intakeText(payload.note, 6000),
     consent: true,
-    source: 'external-intake-v3',
+    source: 'external-intake-v4',
     status: 'new',
     createdAt: serverTimestamp(),
   };
@@ -1700,6 +1786,9 @@ const api = {
   uploadMedia,
   readMedia,
   deleteMedia,
+  publishSharedAlbums,
+  watchSharedAlbums,
+  readSharedAlbumMedia,
   uploadEphemeralMedia,
   readEphemeralMedia,
   deleteEphemeralMedia,

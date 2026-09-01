@@ -3,7 +3,11 @@ import { applicationDefault, cert, getApps, initializeApp } from 'firebase-admin
 import { getAuth } from 'firebase-admin/auth';
 import { FieldValue, getFirestore } from 'firebase-admin/firestore';
 
-const GOOGLE_SCOPE = 'https://www.googleapis.com/auth/calendar.readonly';
+const GOOGLE_SCOPES = [
+  'https://www.googleapis.com/auth/calendar.calendarlist.readonly',
+  'https://www.googleapis.com/auth/calendar.events',
+];
+const GOOGLE_SCOPE = GOOGLE_SCOPES.join(' ');
 const GOOGLE_AUTH = 'https://accounts.google.com/o/oauth2/v2/auth';
 const GOOGLE_TOKEN = 'https://oauth2.googleapis.com/token';
 const NOTION_AUTH = 'https://api.notion.com/v1/oauth/authorize';
@@ -115,26 +119,67 @@ function endExclusiveToInclusive(value, fallback) {
   return dateOnly(date);
 }
 
+async function activePairId(uid) {
+  const membership = await db.doc(`pairMemberships/${uid}`).get();
+  if (!membership.exists || membership.data()?.status !== 'active') return '';
+  const pairId = String(membership.data()?.pairId || '');
+  if (!pairId) return '';
+  const pair = await db.doc(`pairs/${pairId}`).get();
+  return pair.exists && pair.data()?.status === 'active' && (pair.data()?.memberUids || []).includes(uid) ? pairId : '';
+}
+
+async function mirrorSharedSchedule(uid, email, rows) {
+  const pairId = await activePairId(uid);
+  if (!pairId) return;
+  const shared = rows.filter(row => row?.owner === 'shared' || row?.shareWithCouple).map(row => ({
+    ...row,
+    owner: 'shared',
+    pairKey: pairId,
+    authorEmail: email,
+    authorUid: uid,
+  }));
+  await db.doc(`pairs/${pairId}/schedules/${uid}`).set({
+    payload: shared,
+    ownerUid: uid,
+    ownerEmail: email,
+    updatedAt: FieldValue.serverTimestamp(),
+  }, { merge: true });
+}
+
 async function replaceProviderRows(uid, provider, rows) {
   const user = await getAuth().getUser(uid);
   const email = String(user.email || '').toLowerCase();
+  let savedRows = [];
   await db.runTransaction(async transaction => {
     const ref = scheduleRef(uid);
     const snapshot = await transaction.get(ref);
     const previous = Array.isArray(snapshot.data()?.payload) ? snapshot.data().payload : [];
     const own = previous.filter(row => row?.externalSource !== provider);
-    const merged = [...own, ...rows.slice(0, 600)].map(row => ({ ...row, authorEmail: email, owner: 'mine', pairKey: '' })).slice(-1200);
+    const merged = [...own, ...rows.slice(0, 600)].map(row => ({
+      ...row,
+      authorEmail: email,
+      authorUid: uid,
+      owner: row?.shareWithCouple ? 'shared' : (row?.owner === 'shared' ? 'shared' : 'mine'),
+      pairKey: '',
+    })).slice(-1200);
+    savedRows = merged;
     transaction.set(ref, { ownerUid: uid, payload: merged, updatedAt: FieldValue.serverTimestamp(), updatedBy: uid }, { merge: true });
   });
+  await mirrorSharedSchedule(uid, email, savedRows);
 }
 
 async function removeProviderRows(uid, provider) {
+  const user = await getAuth().getUser(uid);
+  const email = String(user.email || '').toLowerCase();
+  let savedRows = [];
   await db.runTransaction(async transaction => {
     const ref = scheduleRef(uid);
     const snapshot = await transaction.get(ref);
     const rows = (Array.isArray(snapshot.data()?.payload) ? snapshot.data().payload : []).filter(row => row?.externalSource !== provider);
+    savedRows = rows;
     transaction.set(ref, { ownerUid: uid, payload: rows, updatedAt: FieldValue.serverTimestamp(), updatedBy: uid }, { merge: true });
   });
+  await mirrorSharedSchedule(uid, email, savedRows);
 }
 
 async function googleAccess(uid) {
@@ -163,7 +208,11 @@ async function googleJson(token, url, options = {}) {
   return body;
 }
 
-async function listGoogleEvents(token, calendar, start, end) {
+function googleShareKey(calendarId, eventId) {
+  return `${String(calendarId)}::${String(eventId)}`;
+}
+
+async function listGoogleEvents(token, calendar, start, end, sharedEventKeys = new Set()) {
   const rows = [];
   let pageToken = '';
   do {
@@ -177,6 +226,7 @@ async function listGoogleEvents(token, calendar, start, end) {
       const endValue = item.end?.date || item.end?.dateTime || startValue;
       const startDate = String(startValue).slice(0, 10);
       const endDate = allDay ? endExclusiveToInclusive(String(endValue).slice(0, 10), startDate) : String(endValue).slice(0, 10);
+      const shareWithCouple = sharedEventKeys.has(googleShareKey(calendar.id, item.id));
       rows.push({
         id: `google-live:${calendar.id}:${item.id}`,
         googleEventId: item.id,
@@ -194,6 +244,8 @@ async function listGoogleEvents(token, calendar, start, end) {
         endTime: allDay ? '' : String(endValue).slice(11, 16),
         allDay,
         memo: cleanText(item.description || '', 1200),
+        owner: shareWithCouple ? 'shared' : 'mine',
+        shareWithCouple,
         readOnly: true,
         externalUrl: String(item.htmlLink || ''),
         updatedAt: Date.parse(item.updated || '') || Date.now(),
@@ -226,6 +278,7 @@ async function googleCalendarChoices(uid) {
       summary: cleanText(calendar.summary || 'Google Calendar', 100),
       primary: !!calendar.primary,
       accessRole: String(calendar.accessRole || 'reader'),
+      writable: ['owner', 'writer'].includes(String(calendar.accessRole || 'reader')),
       backgroundColor: String(calendar.backgroundColor || '#4285F4'),
       foregroundColor: String(calendar.foregroundColor || '#FFFFFF'),
     })),
@@ -238,12 +291,79 @@ async function syncGoogle(uid) {
   const selected = selectedGoogleCalendars(connection, calendars);
   const start = new Date(Date.now() - 366 * 86400000).toISOString();
   const end = new Date(Date.now() + 732 * 86400000).toISOString();
-  const batches = await Promise.all(selected.map(calendar => listGoogleEvents(connection.token, calendar, start, end)));
+  const sharedEventKeys = new Set((Array.isArray(connection.data.sharedEventKeys) ? connection.data.sharedEventKeys : []).map(String));
+  const batches = await Promise.all(selected.map(calendar => listGoogleEvents(connection.token, calendar, start, end, sharedEventKeys)));
   const rows = batches.flat().sort((a, b) => Math.abs(Date.parse(a.date) - Date.now()) - Math.abs(Date.parse(b.date) - Date.now())).slice(0, 600).sort((a, b) => String(a.date).localeCompare(String(b.date)));
   await replaceProviderRows(uid, 'google', rows);
   const selectedCalendarIds = selected.map(calendar => String(calendar.id));
   await connection.ref.set({ provider: 'google', connected: true, selectedCalendarIds, calendarCount: selected.length, itemCount: rows.length, lastSyncedAt: FieldValue.serverTimestamp(), lastError: '' }, { merge: true });
   return { itemCount: rows.length, calendarCount: selected.length, selectedCalendarIds };
+}
+
+function nextDate(value) {
+  const date = new Date(`${value}T12:00:00Z`);
+  if (Number.isNaN(date.getTime())) throw new Error('일정 날짜가 올바르지 않습니다.');
+  date.setUTCDate(date.getUTCDate() + 1);
+  return dateOnly(date);
+}
+
+function googleEventPayload(raw = {}) {
+  const title = cleanText(raw.title, 120);
+  const date = String(raw.date || '');
+  const endDate = String(raw.endDate || date);
+  if (!title || !/^\d{4}-\d{2}-\d{2}$/.test(date) || !/^\d{4}-\d{2}-\d{2}$/.test(endDate)) throw new Error('일정 제목과 날짜를 확인해주세요.');
+  if (raw.allDay) return {
+    summary: title,
+    description: cleanText(raw.memo, 1200),
+    start: { date },
+    end: { date: nextDate(endDate < date ? date : endDate) },
+    extendedProperties: { private: { aiderlogCreated: 'true' } },
+  };
+  const time = /^\d{2}:\d{2}$/.test(String(raw.time || '')) ? String(raw.time) : '09:00';
+  const endTime = /^\d{2}:\d{2}$/.test(String(raw.endTime || '')) ? String(raw.endTime) : time;
+  const safeEndDate = endDate < date ? date : endDate;
+  const startAt = new Date(`${date}T${time}:00+09:00`);
+  let endAt = new Date(`${safeEndDate}T${endTime}:00+09:00`);
+  if (!Number.isFinite(endAt.getTime()) || endAt <= startAt) endAt = new Date(startAt.getTime() + 60 * 60 * 1000);
+  const endParts = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Seoul', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).formatToParts(endAt);
+  const endValue = Object.fromEntries(endParts.map(part => [part.type, part.value]));
+  return {
+    summary: title,
+    description: cleanText(raw.memo, 1200),
+    start: { dateTime: `${date}T${time}:00`, timeZone: 'Asia/Seoul' },
+    end: { dateTime: `${endValue.year}-${endValue.month}-${endValue.day}T${endValue.hour}:${endValue.minute}:00`, timeZone: 'Asia/Seoul' },
+    extendedProperties: { private: { aiderlogCreated: 'true' } },
+  };
+}
+
+async function createGoogleEvent(uid, calendarId, event = {}, shareWithCouple = false) {
+  const connection = await googleAccess(uid);
+  const calendars = await availableGoogleCalendars(connection);
+  const selected = selectedGoogleCalendars(connection, calendars);
+  const calendar = selected.find(row => String(row.id) === String(calendarId));
+  if (!calendar) throw new Error('동기화 대상으로 선택한 Google 캘린더만 사용할 수 있습니다.');
+  if (!['owner', 'writer'].includes(String(calendar.accessRole || ''))) throw new Error('이 Google 캘린더에는 일정을 추가할 권한이 없습니다.');
+  const item = await googleJson(connection.token, `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendar.id)}/events?sendUpdates=none`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(googleEventPayload(event)),
+  });
+  if (shareWithCouple) {
+    const sharedEventKeys = [...new Set([...(Array.isArray(connection.data.sharedEventKeys) ? connection.data.sharedEventKeys : []), googleShareKey(calendar.id, item.id)])].slice(-600);
+    await connection.ref.set({ sharedEventKeys, updatedAt: FieldValue.serverTimestamp() }, { merge: true });
+  }
+  const result = await syncGoogle(uid);
+  return { ...result, eventId: item.id, calendarId: String(calendar.id) };
+}
+
+async function shareGoogleEvent(uid, calendarId, eventId, shared) {
+  const connection = await googleAccess(uid);
+  const key = googleShareKey(calendarId, eventId);
+  const values = new Set((Array.isArray(connection.data.sharedEventKeys) ? connection.data.sharedEventKeys : []).map(String));
+  if (shared) values.add(key); else values.delete(key);
+  await connection.ref.set({ sharedEventKeys: [...values].slice(-600), updatedAt: FieldValue.serverTimestamp() }, { merge: true });
+  const result = await syncGoogle(uid);
+  return { ...result, shared: !!shared };
 }
 
 async function stopGoogleChannels(token, channels = []) {
@@ -384,7 +504,7 @@ async function oauthCallback(req, res) {
       if (!response.ok) throw new Error(token.error_description || 'Google Calendar 연결에 실패했습니다.');
       const ref = integrationRef(state.uid, 'google');
       const previous = (await ref.get()).data() || {};
-      await ref.set({ provider: 'google', connected: true, accessToken: token.access_token, refreshToken: token.refresh_token || previous.refreshToken || '', expiresAt: Date.now() + Number(token.expires_in || 3600) * 1000, updatedAt: FieldValue.serverTimestamp() }, { merge: true });
+      await ref.set({ provider: 'google', connected: true, accessToken: token.access_token, refreshToken: token.refresh_token || previous.refreshToken || '', expiresAt: Date.now() + Number(token.expires_in || 3600) * 1000, scope: String(token.scope || GOOGLE_SCOPE), updatedAt: FieldValue.serverTimestamp() }, { merge: true });
       await syncGoogle(state.uid);
       // A webhook subscription is an optional live-refresh enhancement. Google can
       // reject it temporarily even though OAuth and the initial event import both
@@ -419,7 +539,7 @@ async function status(uid) {
   const expose = snapshot => {
     if (!snapshot.exists) return { connected: false };
     const row = snapshot.data();
-    return { connected: !!row.connected, lastSyncedAt: row.lastSyncedAt?.toMillis?.() || 0, itemCount: Number(row.itemCount || 0), calendarCount: Number(row.calendarCount || 0), sourceId: row.sourceId || '', workspaceName: row.workspaceName || '', lastError: row.lastError || '' };
+    return { connected: !!row.connected, lastSyncedAt: row.lastSyncedAt?.toMillis?.() || 0, itemCount: Number(row.itemCount || 0), calendarCount: Number(row.calendarCount || 0), selectedCalendarIds: Array.isArray(row.selectedCalendarIds) ? row.selectedCalendarIds : [], writeEnabled: String(row.scope || '').includes('calendar.events'), sourceId: row.sourceId || '', workspaceName: row.workspaceName || '', lastError: row.lastError || '' };
   };
   return { google: expose(google), notion: expose(notion), samsung: { connected: google.exists, mode: 'google-account' } };
 }
@@ -498,6 +618,14 @@ export default async function handler(req, res) {
       await ref.set({ sourceId, sourceTitle: cleanText(parsed.value.sourceTitle || 'Notion', 80), updatedAt: FieldValue.serverTimestamp() }, { merge: true });
       const result = await syncNotion(user.uid);
       return json(res, 200, { ...result, sourceId });
+    }
+    if (action === 'create') {
+      if (parsed.value.provider !== 'google') throw new Error('Google Calendar 일정만 직접 추가할 수 있습니다.');
+      return json(res, 200, await createGoogleEvent(user.uid, parsed.value.calendarId, parsed.value.event, parsed.value.shareWithCouple));
+    }
+    if (action === 'share') {
+      if (parsed.value.provider !== 'google') throw new Error('Google Calendar 일정만 공유 설정할 수 있습니다.');
+      return json(res, 200, await shareGoogleEvent(user.uid, parsed.value.calendarId, parsed.value.eventId, parsed.value.shared));
     }
     if (action === 'disconnect') {
       await disconnect(user.uid, parsed.value.provider);

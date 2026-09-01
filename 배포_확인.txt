@@ -1,16 +1,24 @@
-AiderLog v103 배포 확인
+AiderLog v104 배포 확인
 
 1. 이 폴더의 내용 전체를 Vercel 프로젝트 루트에 배포합니다.
 2. Vercel Root Directory는 비워 둡니다.
-3. Firebase Firestore 규칙에 이 폴더의 firestore.rules를 게시합니다. (개인 EVENT 미디어 이관 규칙 포함)
-4. Deployments에서 새 v103 배포를 Production으로 승격합니다.
+3. Firebase Firestore 규칙에 이 폴더의 firestore.rules를 게시합니다. (친구 앨범·외부 상담 v4 규칙 포함)
+4. Deployments에서 새 v104 배포를 Production으로 승격합니다.
 5. 아래 주소를 엽니다.
    https://aiderdear1.vercel.app/sw.js
 6. 첫 줄이 아래와 같아야 합니다.
-   const CACHE='aiderlog-v103-language-workflow-daily-brief';
+   const CACHE='aiderlog-v104-calendar-events-albums-advisors-routine';
 
 첫 줄에 이전 버전이 보이면 코드는 새로 올라갔더라도 운영 주소가 아직 이전 배포를 가리키는 상태입니다.
 이 경우 Vercel Deployments에서 최신 배포의 메뉴를 열어 Promote to Production을 선택하세요.
+
+v104 정상 동작
+- 사이트 일정 등록 시 자동 동기화에서 선택한 쓰기 가능 Google 캘린더를 선택할 수 있음
+- 가져온 Google 일정은 수정할 수 없고 일정별 커플 공유·해제가 가능함
+- EVENT에 장소·보고 싶은 것과 위시리스트 팝업이 표시됨
+- 선택한 앨범을 친구가 함께 보고 즐겨찾기 기록이 전용 앨범에 모임
+- 고객과 외부 작성자가 지도교수를 여러 명 입력하고 분석에서 동일 교수 일치도를 확인함
+- 루틴 왼쪽에 BIG GOALS·만다라트, 오른쪽에 요약 카드·전체 통계가 표시되고 펼치기에서 스탬프를 기록함
 
 v103 정상 동작
 - 어학 레슨 화면을 휠·터치로 끝까지 스크롤할 수 있음

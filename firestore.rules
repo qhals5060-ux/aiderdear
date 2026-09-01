@@ -299,6 +299,33 @@ service cloud.firestore {
         && validOwnMemberProfileUpdate();
     }
 
+    match /sharedAlbums/{ownerUid} {
+      allow read: if signedIn()
+        && (request.auth.uid == ownerUid || request.auth.uid in resource.data.viewerUids);
+      allow create, update: if signedIn()
+        && request.auth.uid == ownerUid
+        && request.resource.data.ownerUid == ownerUid
+        && request.resource.data.memberUids is list
+        && request.auth.uid in request.resource.data.memberUids
+        && request.resource.data.viewerUids is list
+        && request.resource.data.viewerUids.size() <= 30;
+      allow delete: if signedIn() && request.auth.uid == ownerUid;
+    }
+
+    match /sharedAlbumMedia/{mediaId} {
+      allow read: if signedIn() && request.auth.uid in resource.data.memberUids;
+      allow create, update: if signedIn()
+        && request.resource.data.ownerUid == request.auth.uid
+        && request.auth.uid in request.resource.data.memberUids;
+      allow delete: if signedIn() && resource.data.ownerUid == request.auth.uid;
+      match /chunks/{chunkId} {
+        allow read: if signedIn()
+          && request.auth.uid in get(/databases/$(database)/documents/sharedAlbumMedia/$(mediaId)).data.memberUids;
+        allow create, update, delete: if signedIn()
+          && get(/databases/$(database)/documents/sharedAlbumMedia/$(mediaId)).data.ownerUid == request.auth.uid;
+      }
+    }
+
     match /directLetters/{letterId} {
       allow create: if signedIn()
         && request.resource.data.fromUid == request.auth.uid
@@ -404,9 +431,10 @@ service cloud.firestore {
         allow create: if get(/databases/$(database)/documents/clientIntakeLinks/$(token)).data.active == true
           && request.resource.data.keys().hasOnly([
             'name', 'phone', 'email', 'birthYear', 'gender', 'currentSchool',
-            'currentMajor', 'targetUniversity', 'targetMajor', 'applicationYear',
+            'currentMajor', 'targetUniversity', 'targetMajor', 'advisorNames',
+            'degree', 'gpa', 'gpaScale', 'applicationYear',
             'applicationSemester', 'topic', 'languageSpec', 'certifications',
-            'activities', 'researchExperience', 'inquiry', 'note',
+            'activities', 'researchExperience', 'outputs', 'inquiry', 'note',
             'consent', 'source', 'status', 'createdAt'
           ])
           && request.resource.data.name is string
@@ -429,6 +457,13 @@ service cloud.firestore {
           && request.resource.data.targetUniversity.size() <= 120
           && request.resource.data.targetMajor is string
           && request.resource.data.targetMajor.size() <= 120
+          && request.resource.data.advisorNames is list
+          && request.resource.data.advisorNames.size() <= 20
+          && request.resource.data.degree in ['', 'masters', 'doctoral', 'integrated', 'other']
+          && request.resource.data.gpa is number
+          && request.resource.data.gpa >= 0
+          && request.resource.data.gpa <= 100
+          && request.resource.data.gpaScale in [0, 4, 4.3, 4.5, 100]
           && request.resource.data.applicationYear is int
           && request.resource.data.applicationYear >= 2000
           && request.resource.data.applicationYear <= 2200
@@ -443,12 +478,14 @@ service cloud.firestore {
           && request.resource.data.activities.size() <= 1600
           && request.resource.data.researchExperience is string
           && request.resource.data.researchExperience.size() <= 1600
+          && request.resource.data.outputs is string
+          && request.resource.data.outputs.size() <= 1600
           && request.resource.data.inquiry is string
           && request.resource.data.inquiry.size() <= 2000
           && request.resource.data.note is string
           && request.resource.data.note.size() <= 6000
           && request.resource.data.consent == true
-          && request.resource.data.source == 'external-intake-v2'
+          && request.resource.data.source == 'external-intake-v4'
           && request.resource.data.status == 'new'
           && request.resource.data.createdAt == request.time;
 

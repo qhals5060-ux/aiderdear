@@ -1,3 +1,20 @@
+# AiderLog v104
+
+## v104 Calendar write-back · shared archives/albums · advisor matching · routine redesign
+
+- 선택한 Google 캘린더만 자동 동기화하고, 사이트에서 만든 일정을 쓰기 가능한 선택 캘린더로 바로 추가할 수 있습니다.
+- 불러온 Google 일정은 읽기 전용으로 유지하면서 일정별로 커플에게 공유하거나 해제할 수 있습니다.
+- EVENT 아카이브에 다녀온 장소와 `보고 싶은 것` 상태를 추가하고, 위시리스트를 한 팝업에서 모아봅니다.
+- 친구와 공유할 앨범을 지정할 수 있고 즐겨찾기 기록은 자동으로 `즐겨찾기` 앨범에 모입니다.
+- 대학원 상담의 내부 고객 폼과 외부 작성 링크에 여러 지도교수를 입력하며, 동일 지도교수 사례를 분석 가중치와 근거 카드에 반영합니다.
+- ROUTINE은 좌우 1:1 구조로 바꾸고 BIG GOALS 아래에 만다라트를, 오른쪽에는 루틴 요약 카드와 최근 30일 전체 통계를 배치했습니다. 펼치기에서 전체 스탬프를 기록합니다.
+
+서버 캘린더 쓰기와 자동 동기화에는 `firestore.rules` 배포 및 Google Calendar OAuth 환경변수가 필요합니다.
+
+`const CACHE='aiderlog-v104-calendar-events-albums-advisors-routine';`
+
+---
+
 # AiderLog v103
 
 ## v103 Language practice · systematic workflow · Daily Brief
