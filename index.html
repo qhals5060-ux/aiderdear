@@ -11,13 +11,13 @@
 <meta name="description" content="">
 <meta name="format-detection" content="telephone=no">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="aiderlog-build" content="v96">
+<meta name="aiderlog-build" content="v97">
 <link rel="canonical" href="https://aiderdear1.vercel.app/">
 <script>
 (() => {
   const url = new URL(location.href);
   if (url.searchParams.has('client-intake')) document.documentElement.classList.add('client-intake-only');
-  if (['v67','v68','v69','v70','v71','v72','v73','v74','v75','v76','v77','v78','v79','v80','v81','v82','v83','v84','v85','v86','v87','v88','v89','v90','v91','v92','v93','v94','v95','v96'].includes(url.searchParams.get('aiderlog-main'))) {
+  if (['v67','v68','v69','v70','v71','v72','v73','v74','v75','v76','v77','v78','v79','v80','v81','v82','v83','v84','v85','v86','v87','v88','v89','v90','v91','v92','v93','v94','v95','v96','v97'].includes(url.searchParams.get('aiderlog-main'))) {
     url.searchParams.delete('aiderlog-main');
     history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`);
   }
@@ -5647,6 +5647,14 @@ html.client-intake-only .client-intake-result b{font:800 38px/1.1 Arial,sans-ser
     const time=Number(value||0);if(!time)return '아직 동기화되지 않음';
     try{return `최근 동기화 ${new Date(time).toLocaleString('ko-KR',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'})}`}catch{return '동기화됨'}
   }
+  function calendarClientModeKey(name){return `aiderlog-calendar-${name}:${currentUserEmail||'guest'}`}
+  function rememberGoogleClientSync(){localStorage.setItem(calendarClientModeKey('google-client'),'1');localStorage.setItem(calendarClientModeKey('google-synced-at'),String(Date.now()))}
+  function forgetGoogleClientSync(){localStorage.removeItem(calendarClientModeKey('google-client'));localStorage.removeItem(calendarClientModeKey('google-synced-at'))}
+  function restoreGoogleClientStatus(status={}){
+    const rows=(ownScheduleEvents||[]).filter(row=>row.externalSource==='google'),remembered=localStorage.getItem(calendarClientModeKey('google-client'))==='1';
+    if(!remembered&&!rows.length)return status;
+    return {...status,connected:true,clientMode:true,lastSyncedAt:Number(localStorage.getItem(calendarClientModeKey('google-synced-at'))||0),calendarCount:new Set(rows.map(row=>row.calendarId).filter(Boolean)).size,itemCount:rows.length};
+  }
   async function calendarSyncRequest(action,payload={}){
     if(!window.AiderDearFirebase?.getFirebaseIdToken)throw new Error('로그인이 필요합니다.');
     const token=await window.AiderDearFirebase.getFirebaseIdToken();
@@ -5666,19 +5674,24 @@ html.client-intake-only .client-intake-result b{font:800 38px/1.1 Arial,sans-ser
   async function refreshExternalCalendarStatus(showToast=false){
     if(!currentUser)return;
     if(externalCalendarStatus.google?.clientMode){renderExternalCalendarStatus();if(showToast)toast('앱 실행 중 Google Calendar 자동 갱신이 동작 중입니다.');return}
-    try{externalCalendarStatus=await calendarSyncRequest('status');renderExternalCalendarStatus();if(showToast)toast('캘린더 연결 상태를 새로고침했습니다.')}catch(err){
+    try{externalCalendarStatus=await calendarSyncRequest('status');externalCalendarStatus.google=restoreGoogleClientStatus(externalCalendarStatus.google);renderExternalCalendarStatus();if(showToast)toast('캘린더 연결 상태를 새로고침했습니다.')}catch(err){
       const message=String(err.message||err);if($('#calendarGoogleStatus'))$('#calendarGoogleStatus').textContent=message.includes('404')?'배포 후 연동 설정이 필요합니다.':message;if($('#calendarNotionStatus'))$('#calendarNotionStatus').textContent=message.includes('404')?'배포 후 연동 설정이 필요합니다.':message;if(showToast)toast(message)
     }
   }
   async function syncGoogleCalendarInBrowser(showToast=true){
-    if(!currentUser)throw new Error('로그인이 필요합니다.');await window.AiderDearFirebase.requestGoogleCalendarAccess();clientGoogleSyncSources=await window.AiderDearFirebase.listGoogleCalendars();const result=await syncGoogleCalendarSources(clientGoogleSyncSources);externalCalendarStatus.google={connected:true,clientMode:true,lastSyncedAt:Date.now(),calendarCount:clientGoogleSyncSources.length,itemCount:result.added};renderExternalCalendarStatus();clearInterval(clientGoogleSyncTimer);clientGoogleSyncTimer=setInterval(()=>syncGoogleCalendarSources(clientGoogleSyncSources).then(result=>{externalCalendarStatus.google={connected:true,clientMode:true,lastSyncedAt:Date.now(),calendarCount:clientGoogleSyncSources.length,itemCount:result.added};renderExternalCalendarStatus()}).catch(error=>console.warn('Browser calendar refresh failed',error)),120000);if(showToast)toast(`Google Calendar ${result.added}개 일정을 연결했습니다.`);return result;
+    if(!currentUser)throw new Error('로그인이 필요합니다.');await window.AiderDearFirebase.requestGoogleCalendarAccess();clientGoogleSyncSources=await window.AiderDearFirebase.listGoogleCalendars();const result=await syncGoogleCalendarSources(clientGoogleSyncSources);rememberGoogleClientSync();externalCalendarStatus.google={connected:true,clientMode:true,lastSyncedAt:Date.now(),calendarCount:clientGoogleSyncSources.length,itemCount:result.added};renderExternalCalendarStatus();clearInterval(clientGoogleSyncTimer);clientGoogleSyncTimer=setInterval(()=>syncGoogleCalendarSources(clientGoogleSyncSources).then(result=>{rememberGoogleClientSync();externalCalendarStatus.google={connected:true,clientMode:true,lastSyncedAt:Date.now(),calendarCount:clientGoogleSyncSources.length,itemCount:result.added};renderExternalCalendarStatus()}).catch(error=>console.warn('Browser calendar refresh failed',error)),120000);if(showToast)toast(`Google Calendar ${result.added}개 일정을 연결했습니다.`);return result;
   }
   async function startExternalCalendar(provider){
-    try{const result=await calendarSyncRequest('start',{provider});if(!result.url)throw new Error('연결 주소를 만들지 못했습니다.');location.href=result.url}catch(err){if(provider==='google'){const status=$('#calendarGoogleStatus');if(status)status.textContent='AiderLog 로그인 완료 · Google OAuth 배포 설정 필요';toast('AiderLog 로그인은 완료되었습니다. Google Calendar는 별도 OAuth 승인 설정 후 연결됩니다.');return}toast(`${err.message||String(err)} · Notion 서버 연동 환경변수를 확인해주세요.`)}
+    if(provider==='google'){
+      const button=$('#calendarGoogleConnect');button.disabled=true;button.textContent='일정 가져오는 중…';
+      try{await syncGoogleCalendarInBrowser(true)}catch(err){const message=err.message||String(err);if($('#calendarGoogleStatus'))$('#calendarGoogleStatus').textContent=message;toast(message)}finally{button.disabled=false;button.textContent=externalCalendarStatus.google?.connected?'연결 해제':'캘린더 연결'}
+      return
+    }
+    try{const result=await calendarSyncRequest('start',{provider});if(!result.url)throw new Error('연결 주소를 만들지 못했습니다.');location.href=result.url}catch(err){toast(`${err.message||String(err)} · Notion 서버 연동 환경변수를 확인해주세요.`)}
   }
   async function disconnectExternalCalendar(provider){
     if(!confirm(`${provider==='google'?'Google Calendar':'Notion'} 연결을 해제하고 가져온 일정을 캘린더에서 삭제할까요?`))return;
-    try{if(provider==='google'&&externalCalendarStatus.google?.clientMode){clearInterval(clientGoogleSyncTimer);clientGoogleSyncTimer=null;clientGoogleSyncSources=[];ownScheduleEvents=(ownScheduleEvents||[]).filter(row=>row.externalSource!=='google');await persistOwnScheduleEvents()}else await calendarSyncRequest('disconnect',{provider});externalCalendarStatus[provider]={connected:false};renderExternalCalendarStatus();toast('캘린더 연결을 해제했습니다.')}catch(err){toast(err.message||String(err))}
+    try{if(provider==='google'&&externalCalendarStatus.google?.clientMode){clearInterval(clientGoogleSyncTimer);clientGoogleSyncTimer=null;clientGoogleSyncSources=[];forgetGoogleClientSync();ownScheduleEvents=(ownScheduleEvents||[]).filter(row=>row.externalSource!=='google');await persistOwnScheduleEvents()}else await calendarSyncRequest('disconnect',{provider});externalCalendarStatus[provider]={connected:false};renderExternalCalendarStatus();toast('캘린더 연결을 해제했습니다.')}catch(err){toast(err.message||String(err))}
   }
   async function handleCalendarSyncReturn(){
     if(calendarSyncReturnHandled||!currentUser)return;const params=new URLSearchParams(location.search),provider=params.get('calendar_sync'),error=params.get('calendar_sync_error');if(!provider&&!error)return;calendarSyncReturnHandled=true;

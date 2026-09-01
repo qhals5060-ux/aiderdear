@@ -364,6 +364,7 @@ async function oauthCallback(req, res) {
     res.setHeader('Location', `${baseUrl()}/?calendar_sync=${encodeURIComponent(state.provider)}`);
     res.end();
   } catch (error) {
+    console.error('calendar-sync callback', error);
     res.statusCode = 302;
     res.setHeader('Location', `${baseUrl()}/?calendar_sync_error=${encodeURIComponent(error.message || String(error))}`);
     res.end();

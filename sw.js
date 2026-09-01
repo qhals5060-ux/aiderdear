@@ -1,4 +1,4 @@
-const CACHE='aiderlog-v96-calendar-oauth-refresh';
+const CACHE='aiderlog-v97-calendar-browser-sync';
 const APP_SHELL=['./','./index.html','./client-intake.html','./firebase-app.js','./brain-3d.js','./language-lab-v18-engine.js','./language-lab-v18.js','./language-lab-v18.css','./language-lab-v18-template.html','./manifest.webmanifest','./aiderdear-icon.svg','./aiderdear-icon-180.png','./aiderdear-icon-192.png','./aiderdear-icon-512.png','./aiderdear-sky.jpg','./assets/challenge-lunge-forward-animated-v95.webp','./assets/challenge-lunge-reverse-animated-v95.webp','./assets/challenge-lunge-side-animated-v95.webp','./assets/challenge-squat-basic-animated-v95.webp','./assets/challenge-squat-wide-animated-v95.webp','./assets/challenge-squat-side-animated-v95.webp','./assets/challenge-plank-forearm-animated-v95.webp','./assets/challenge-plank-high-animated-v95.webp','./assets/challenge-plank-side-animated-v95.webp'];
 
 self.addEventListener('install',event=>{
