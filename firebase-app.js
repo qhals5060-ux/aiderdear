@@ -13,6 +13,7 @@ import {
 } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js';
 import {
   Bytes,
+  Timestamp,
   addDoc,
   collection,
   deleteDoc,
@@ -1133,6 +1134,127 @@ async function deleteMedia(mediaId) {
   await batch.commit();
 }
 
+const EPHEMERAL_MEDIA_TTL_MS = 24 * 60 * 60 * 1000;
+
+function ephemeralMediaRef(mediaId) {
+  return doc(db, 'ephemeralMedia', mediaId);
+}
+
+function connectedRecipientUids() {
+  const rows = [];
+  if (state.partner?.uid) rows.push(state.partner.uid);
+  state.friends.forEach(friend => { if (friend?.uid) rows.push(friend.uid); });
+  return new Set(rows);
+}
+
+async function uploadEphemeralMedia(originalFile, recipientUids = []) {
+  const user = requireUser();
+  const allowed = connectedRecipientUids();
+  const recipients = [...new Set((recipientUids || []).map(String))].filter(uid => allowed.has(uid));
+  if (!recipients.length) throw new Error('공유할 커플 또는 친구를 선택해주세요.');
+  const file = await compressImage(originalFile);
+  const isVideo = String(file.type || '').startsWith('video/');
+  if (!(isVideo || String(file.type || '').startsWith('image/'))) throw new Error('사진 또는 동영상만 올릴 수 있습니다.');
+  if (isVideo) {
+    const duration = await videoDurationSeconds(file);
+    if (duration > 310) throw new Error('영상은 5분 이내로 선택해주세요.');
+    if (file.size > 120 * 1024 * 1024) throw new Error('영상은 120MB 이하로 선택해주세요.');
+  } else if (file.size > 25 * 1024 * 1024) {
+    throw new Error('사진은 25MB 이하로 선택해주세요.');
+  }
+  const mediaId = `em-${Date.now()}-${crypto.randomUUID().slice(0, 8)}`;
+  const ref = ephemeralMediaRef(mediaId);
+  const bytes = new Uint8Array(await file.arrayBuffer());
+  const chunkSize = 700 * 1024;
+  const chunkCount = Math.ceil(bytes.length / chunkSize);
+  const expiresAt = Timestamp.fromMillis(Date.now() + EPHEMERAL_MEDIA_TTL_MS);
+  await setDoc(ref, {
+    name: file.name,
+    type: file.type || 'application/octet-stream',
+    size: file.size,
+    chunkCount,
+    createdByUid: user.uid,
+    createdByEmail: user.email,
+    createdByName: user.name,
+    recipientUids: recipients,
+    memberUids: [user.uid, ...recipients],
+    createdAt: serverTimestamp(),
+    expiresAt,
+    ready: false,
+  });
+  try {
+    const chunks = collection(ref, 'chunks');
+    let batch = writeBatch(db);
+    let operations = 0;
+    for (let index = 0; index < chunkCount; index += 1) {
+      const start = index * chunkSize;
+      const end = Math.min(bytes.length, start + chunkSize);
+      batch.set(doc(chunks, String(index).padStart(5, '0')), { data: Bytes.fromUint8Array(bytes.slice(start, end)) });
+      operations += 1;
+      if (operations === 400) {
+        await batch.commit();
+        batch = writeBatch(db);
+        operations = 0;
+      }
+    }
+    if (operations) await batch.commit();
+    await updateDoc(ref, { ready: true });
+  } catch (error) {
+    await deleteEphemeralMedia(mediaId).catch(() => {});
+    throw error;
+  }
+  return { id: mediaId, name: file.name, mimeType: file.type, size: file.size, expiresAt: expiresAt.toMillis() };
+}
+
+async function readEphemeralMedia(mediaId) {
+  requireUser();
+  const ref = ephemeralMediaRef(mediaId);
+  const metaSnapshot = await getDoc(ref);
+  if (!metaSnapshot.exists()) throw new Error('공유 미디어를 찾을 수 없습니다.');
+  const meta = metaSnapshot.data();
+  if (!meta.memberUids?.includes(state.user.uid)) throw new Error('이 미디어를 볼 권한이 없습니다.');
+  if (timestampValue(meta.expiresAt) <= Date.now()) throw new Error('24시간이 지나 사라진 미디어입니다.');
+  const chunkSnapshot = await getDocs(collection(ref, 'chunks'));
+  const parts = chunkSnapshot.docs.sort((a, b) => a.id.localeCompare(b.id)).map(item => item.data().data.toUint8Array());
+  return new Blob(parts, { type: meta.type || 'application/octet-stream' });
+}
+
+async function deleteEphemeralMedia(mediaId) {
+  if (!mediaId) return;
+  const user = requireUser();
+  const ref = ephemeralMediaRef(mediaId);
+  const snapshot = await getDoc(ref);
+  if (!snapshot.exists()) return;
+  if (snapshot.data().createdByUid !== user.uid) throw new Error('올린 사람만 모두에게서 삭제할 수 있습니다.');
+  const chunks = await getDocs(query(collection(ref, 'chunks'), limit(500)));
+  const batch = writeBatch(db);
+  chunks.docs.forEach(item => batch.delete(item.ref));
+  batch.delete(ref);
+  await batch.commit();
+}
+
+function watchEphemeralMedia(callback) {
+  const user = requireUser();
+  return onSnapshot(
+    query(collection(db, 'ephemeralMedia'), where('memberUids', 'array-contains', user.uid)),
+    snapshot => {
+      const now = Date.now();
+      const expiredOwned = [];
+      const rows = snapshot.docs.map(item => {
+        const row = plainDoc(item) || {};
+        return { ...row, createdAt: timestampValue(row.createdAt), expiresAt: timestampValue(row.expiresAt) };
+      }).filter(row => {
+        const expired = row.expiresAt > 0 && row.expiresAt <= now;
+        if (expired && row.createdByUid === user.uid) expiredOwned.push(row.id);
+        return row.ready && !expired;
+      }).sort((a, b) => b.createdAt - a.createdAt);
+      callback(rows);
+      expiredOwned.forEach(id => deleteEphemeralMedia(id).catch(() => {}));
+    },
+    error => console.warn('24-hour media listener stopped', error),
+  );
+}
+
 function privateMediaRef(mediaId) {
   const user = requireUser();
   return doc(db, 'users', user.uid, 'privateMedia', mediaId);
@@ -1408,6 +1530,10 @@ const api = {
   uploadMedia,
   readMedia,
   deleteMedia,
+  uploadEphemeralMedia,
+  readEphemeralMedia,
+  deleteEphemeralMedia,
+  watchEphemeralMedia,
   uploadPrivateMedia,
   readPrivateMedia,
   deletePrivateMedia,

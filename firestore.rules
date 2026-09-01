@@ -334,6 +334,37 @@ service cloud.firestore {
         );
     }
 
+    // Schedule photo/video stories. The UI hides them after 24 hours and the
+    // uploader's client removes expired documents and chunks on the next visit.
+    match /ephemeralMedia/{mediaId} {
+      allow create: if signedIn()
+        && request.resource.data.createdByUid == request.auth.uid
+        && request.resource.data.createdByEmail == currentEmail()
+        && request.resource.data.memberUids is list
+        && request.resource.data.memberUids.size() >= 2
+        && request.resource.data.memberUids.size() <= 12
+        && request.auth.uid in request.resource.data.memberUids
+        && request.resource.data.recipientUids is list
+        && request.resource.data.recipientUids.size() >= 1
+        && request.resource.data.expiresAt > request.time
+        && request.resource.data.ready == false;
+      allow read: if signedIn() && request.auth.uid in resource.data.memberUids;
+      allow update: if signedIn()
+        && resource.data.createdByUid == request.auth.uid
+        && request.resource.data.createdByUid == resource.data.createdByUid
+        && request.resource.data.memberUids == resource.data.memberUids
+        && request.resource.data.expiresAt == resource.data.expiresAt
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['ready']);
+      allow delete: if signedIn() && resource.data.createdByUid == request.auth.uid;
+
+      match /chunks/{chunkId} {
+        allow read: if signedIn()
+          && request.auth.uid in get(/databases/$(database)/documents/ephemeralMedia/$(mediaId)).data.memberUids;
+        allow create, update, delete: if signedIn()
+          && get(/databases/$(database)/documents/ephemeralMedia/$(mediaId)).data.createdByUid == request.auth.uid;
+      }
+    }
+
     match /clientIntakeLinks/{token} {
       allow create: if signedIn()
         && token.size() >= 32

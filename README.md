@@ -1,4 +1,18 @@
-# AiderLog v91
+# AiderLog v92
+
+## v92 Routine recovery · 24-hour shared media · calendar fallback
+
+- 캘린더·미디어 연동이 실패해도 개인 기록 로드가 중단되지 않도록 루틴 데이터를 가장 먼저 불러옵니다.
+- PAPER·TASK 공유 작업공간 오류도 루틴 열람과 생성·저장을 막지 않습니다.
+- SCHEDULE 사진/동영상은 연결된 커플·친구 중 선택한 사람에게만 공유되고, 24시간 뒤 화면에서 사라집니다.
+- 여러 사람이 올린 미디어는 이전/다음으로 넘겨 보며, 다운로드와 내 화면에서 닫기, 작성자의 전체 삭제를 지원합니다.
+- Vercel OAuth 환경변수가 아직 없는 경우에도 Google Calendar는 브라우저 연결로 전환되어 앱 실행 중 2분마다 단방향 갱신됩니다.
+
+Firestore 배포 시 `firestore.rules`의 `ephemeralMedia` 규칙도 함께 반영해야 합니다.
+
+`const CACHE='aiderlog-v92-routine-ephemeral-calendar-recovery';`
+
+---
 
 ## v91 Private schedules · one-way live calendar sync
 
