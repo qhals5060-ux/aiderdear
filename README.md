@@ -1,3 +1,19 @@
+# AiderLog v93
+
+## v93 Movement challenge · InBody trend
+
+- 운동 기록 카드에 `EDIT` 동작을 추가해 일반 운동 기록을 다시 열어 수정할 수 있습니다.
+- 30일 챌린지는 날짜 칸을 직접 선택해 완료 여부를 확인하고, 이미 저장한 날짜의 기록·동작·날짜를 수정할 수 있습니다.
+- 스트레칭 챌린지를 제거하고 런지·스쿼트·플랭크마다 세 가지 세부 동작을 선택할 수 있게 했습니다.
+- 정지 이미지 대신 선택한 동작을 반복 시연하는 움직임 가이드와 저장 직후 파란 완료 애니메이션을 표시합니다.
+- DayLog의 `+ 운동`과 `30일 챌린지` 사이에 `InBody` 기록을 추가했습니다.
+- InBody는 체중, 골격근량, 체지방량·체지방률, BMI, 내장지방 레벨을 저장·수정·삭제할 수 있습니다.
+- Overview의 `InBody` 보기에서 최신 변화량, 최근 12회 추이 그래프와 측정 내역을 확인할 수 있습니다.
+
+`const CACHE='aiderlog-v93-movement-inbody';`
+
+---
+
 # AiderLog v92
 
 ## v92 Routine recovery · 24-hour shared media · calendar fallback
