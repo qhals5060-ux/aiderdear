@@ -1433,3 +1433,50 @@ a { color: inherit; text-decoration: none; }
   .recent-study-actions{justify-content:flex-end!important}
   .recent-study-actions .reset-button,.recent-study-actions .language-partner-share{flex:0 0 auto!important;font-size:8.5px!important}
 }
+
+/* AiderLog v101 · structured premium lesson coaching */
+.lesson-coach-card{
+  margin:12px 0 14px;
+  border:1px solid #aab8d2;
+  border-left:4px solid #3159ba;
+  background:linear-gradient(135deg,#f4f7ff 0,#fff 72%);
+  box-shadow:0 7px 18px rgba(35,57,98,.07);
+}
+.lesson-coach-card header{
+  min-height:47px;
+  padding:9px 12px;
+  display:grid;
+  grid-template-columns:auto minmax(0,1fr) auto;
+  align-items:center;
+  gap:9px;
+  border-bottom:1px solid #d5ddec;
+}
+.lesson-coach-card header span,.lesson-coach-card article small,.coach-note-grid small,.sound-coach span{
+  color:#3159ba;
+  font-size:8px;
+  font-weight:1000;
+  letter-spacing:.08em;
+}
+.lesson-coach-card header b{font-size:11px;line-height:1.35;color:#1b2942}
+.lesson-coach-card header em{font-size:8px;font-style:normal;font-weight:900;color:#64728b;white-space:nowrap}
+.lesson-coach-card>div{display:grid;grid-template-columns:1fr 1fr}
+.lesson-coach-card article{min-height:58px;padding:9px 12px}
+.lesson-coach-card article+article{border-left:1px solid #d5ddec}
+.lesson-coach-card article p,.coach-note-grid p,.sound-coach p{margin:4px 0 0;font-size:10px;line-height:1.55;color:#344054}
+.coach-note-grid{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.coach-note-grid article{padding:10px 11px;border:1px solid #d5ddec;background:#f8faff}
+.sound-coach{margin:10px 0;padding:9px 12px;display:grid;grid-template-columns:auto minmax(0,1fr);align-items:start;gap:10px;border:1px solid #d5ddec;background:#f8faff}
+.sound-coach p{margin:0}
+.roleplay-rubric,.mastery-checklist{display:flex;flex-wrap:wrap;gap:6px}
+.roleplay-rubric{padding:8px 10px;border:1px solid #d5ddec;border-top:0;background:#f8faff}
+.roleplay-rubric span,.mastery-checklist span{padding:4px 7px;background:#e9efff;color:#284b9a;font-size:8px;font-weight:900}
+.mastery-checklist{justify-content:center;margin:10px 0 2px}
+.history-item>span small{display:block;margin-top:2px;font-size:7px;color:#667085}
+
+@media(max-width:640px){
+  .lesson-coach-card header{grid-template-columns:auto minmax(0,1fr)}
+  .lesson-coach-card header em{grid-column:2}
+  .lesson-coach-card>div,.coach-note-grid{grid-template-columns:1fr}
+  .lesson-coach-card article+article{border-left:0;border-top:1px solid #d5ddec}
+  .sound-coach{grid-template-columns:1fr;gap:3px}
+}

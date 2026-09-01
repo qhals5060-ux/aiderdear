@@ -588,6 +588,97 @@ const dayStageExtensions = {
   }
 };
 
+const dayStageMeaningsKo = {
+  social: [
+    "",
+    "제 이야기를 조금 더 덧붙일게요.",
+    "이것에 대해 어떻게 생각하세요?",
+    "상황에 따라 다르게 반응할 수도 있어요.",
+    "이야기 나눠 즐거웠어요. 다음에 이어서 이야기해요."
+  ],
+  service: [
+    "",
+    "가능하다면 원하는 조건을 하나 더 말씀드릴게요.",
+    "세부 내용과 가능한 선택지도 설명해 주시겠어요?",
+    "그 방법이 어렵다면 어떤 대안을 추천하시나요?",
+    "최종 내용을 확인할게요. 도와주셔서 감사합니다."
+  ],
+  professional: [
+    "",
+    "배경과 목적을 간단히 설명드릴게요.",
+    "어떻게 생각하시며, 다음 단계는 무엇이 좋을까요?",
+    "우선순위가 바뀌면 다른 방법으로 진행할 수 있어요.",
+    "마치기 전에 담당자·일정·다음 행동을 확인하죠."
+  ],
+  resolution: [
+    "",
+    "문제가 생긴 배경과 영향을 설명드릴게요.",
+    "이 문제를 해결할 수 있는 방법에는 무엇이 있나요?",
+    "첫 번째 방법이 어렵다면 다른 대안을 시도할 수 있을까요?",
+    "문제가 해결됐는지 확인해 주세요. 함께 처리해 주셔서 감사합니다."
+  ]
+};
+
+const pronunciationCoaches = {
+  en: [
+    "문장 전체를 한 단어씩 읽지 말고, 핵심 내용어에만 힘을 주세요.",
+    "조동사와 전치사는 짧게, 명사와 동사는 또렷하게 연결하세요.",
+    "의미 덩어리마다 짧게 끊고 질문의 끝 억양을 의도적으로 조절하세요.",
+    "강세 사이의 약한 음절을 줄여 원어민의 리듬과 연결 발음을 만드세요.",
+    "강세·축약·억양을 사용해 태도와 뉘앙스까지 전달하세요."
+  ],
+  ja: [
+    "글자 수가 아니라 모라 박자에 맞춰 일정하게 읽으세요.",
+    "장음·촉음·ん을 한 박자로 구분하고 문장 끝을 또렷하게 마무리하세요.",
+    "조사에는 힘을 덜고 핵심 명사와 동사의 높낮이를 자연스럽게 연결하세요.",
+    "의미 덩어리의 피치 변화를 살리되 한국어식 강세를 넣지 마세요.",
+    "속도보다 피치 악센트와 완곡한 끝맺음이 만드는 인상을 우선하세요."
+  ],
+  zh: [
+    "각 음절의 성조를 먼저 분리해 확인한 뒤 한 문장으로 연결하세요.",
+    "3성이 이어질 때의 변화를 의식하고 문장 끝 의문 억양을 과하게 올리지 마세요.",
+    "성조는 유지하면서 기능어는 가볍게, 핵심 정보는 또렷하게 말하세요.",
+    "긴 문장은 의미 덩어리로 나누되 덩어리 안의 성조 윤곽을 유지하세요.",
+    "성조·속도·문장 억양을 함께 조절해 확신과 정중함의 정도를 표현하세요."
+  ]
+};
+
+const registerCoaches = {
+  social: "상대와의 거리감을 먼저 판단하고, 답한 뒤 같은 주제의 질문을 돌려주세요.",
+  service: "요청 → 조건 → 확인 → 감사 순서를 지키면 짧아도 정중하고 명확합니다.",
+  professional: "배경 → 핵심 의견 → 근거 → 다음 행동 순서로 말하면 업무 대화가 선명해집니다.",
+  resolution: "사실과 영향을 먼저 설명하고, 비난 대신 원하는 해결 방법을 구체적으로 말하세요."
+};
+
+function buildStageTarget(base, language, mode, stageIndex) {
+  const extension = dayStageExtensions[language][mode][stageIndex] || "";
+  const extensionMeaning = dayStageMeaningsKo[mode][stageIndex] || "";
+  return {
+    text: extension ? `${base} ${extension}` : base,
+    extension,
+    extensionMeaning
+  };
+}
+
+function buildDayCoach(language, mode, situation, profile, levelIndex, stageIndex, point) {
+  const mission = dayStageExtensionsKo[mode][stageIndex] || "핵심 표현을 정확한 장면에서 사용하기";
+  const languageMistakes = {
+    en: "한국어 어순대로 단어를 옮기지 말고, 주어와 동사를 먼저 세운 뒤 조건을 붙이세요.",
+    ja: "한국어식 강세와 어순을 그대로 넣지 말고 조사와 です·ます 끝맺음을 함께 확인하세요.",
+    zh: "한국어 어순으로 재배열하지 말고 시간·장소·동작의 위치와 성조를 함께 기억하세요."
+  };
+  return {
+    canDo: `${situation}에서 ${mission}`,
+    scene: `실제 ${situation} 상황에서 ${point.focus} 표현으로 대화를 시작합니다.`,
+    stage: `${dayStageLabels[stageIndex]} · ${profile.name}`,
+    register: registerCoaches[mode],
+    commonMistake: languageMistakes[language],
+    pronunciation: pronunciationCoaches[language][levelIndex],
+    transfer: `${situation}의 사람·시간·조건 중 하나를 바꾸어 내 문장으로 다시 말해보세요.`,
+    rubric: ["의미 정확도", stageIndex < 2 ? "핵심 표현" : "조건·질문 확장", mode === "resolution" ? "대안 제시" : "대화 연결"]
+  };
+}
+
 const dialogueModes = {
   en: {
     social: { opening: "Hi! It's good to see you. What would you like to talk about?", openingKo: "안녕하세요! 반가워요. 어떤 이야기를 나눠볼까요?", reply: "That sounds interesting. Tell me a little more.", replyKo: "흥미롭네요. 조금 더 이야기해 주세요." },
@@ -1653,7 +1744,8 @@ function buildCurriculum(language, levelIndex) {
         const stageIndex = Math.floor(dayIndex / 10);
         const situation = topic.situations[baseIndex];
         const base = translationRow[baseIndex];
-        const target = base;
+        const stageTarget = buildStageTarget(base, language, extensionMode, stageIndex);
+        const target = stageTarget.text;
         const tokens = targetTokens(target, language);
         const decoyCount = Math.max(0, tokens.length - 2);
         const decoys = sentenceDecoys[language].filter((item) => !target.includes(item)).slice((dayIndex + levelIndex) % 5, (dayIndex + levelIndex) % 5 + decoyCount);
@@ -1665,25 +1757,29 @@ function buildCurriculum(language, levelIndex) {
         const conversationFormula = buildConversationFormula(base, language, situation, topic.mode, levelIndex);
         const pronunciationFlow = buildPronunciationFlow(base, target, language, topic.mode, translationRow, topic.situations, baseIndex, levelIndex);
         const dialogue = makeDialogueTurns(language, topic.mode, base, target, translationRow, baseIndex, point, pronunciationFlow, conversationFormula, situation, levelIndex, stageIndex);
+        const coach = buildDayCoach(language, extensionMode, situation, profile, levelIndex, stageIndex, point);
         return {
           id: stableDayId(language, category, categoryIndex, topic, topicIndex, dayIndex, levelIndex),
           mode: topic.mode,
           title: situation,
-          focus: `${dayStageLabels[stageIndex]} · ${profile.name}`,
+          focus: coach.canDo,
+          stageIndex,
+          stageLabel: dayStageLabels[stageIndex],
+          coach,
           word: point.focus,
           reading: levelIndex < 2 ? `${profile.goal} · 듣고 따라 하기` : `${profile.goal} · 문맥으로 이해하기`,
           meaning: point.meaning,
           studySentence: base,
           sentenceMeaning: point.sentenceMeaning,
           phrase: target,
-          translation: point.sentenceMeaning,
+          translation: [point.sentenceMeaning, stageTarget.extensionMeaning].filter(Boolean).join(" "),
           tokens,
           decoys,
           pool,
           quiz,
           conversationFormula,
           pronunciationFlow,
-          sentenceExplanation: `${languageMeta[language].label}의 기본 어순을 유지하면서 ‘${point.focus}’를 의미 덩어리로 배치합니다.`,
+          sentenceExplanation: `${languageMeta[language].label}의 기본 어순을 유지하면서 ‘${point.focus}’를 의미 덩어리로 배치합니다. ${stageTarget.extension ? `이후 ${dayStageLabels[stageIndex]} 문장을 이어 실제 대화 길이로 확장합니다.` : "먼저 핵심 문장을 정확하게 자동화합니다."}`,
           expansionPhrase: expansion,
           opening: dialogue.opening,
           openingKo: dialogue.openingKo,
@@ -1722,6 +1818,7 @@ function buildCurriculum(language, levelIndex) {
       });
       const topicIndex = category.topics.indexOf(vocabularyTopic);
       const days = Array.from({ length: 50 }, (_, dayIndex) => {
+        const stageIndex = Math.floor(dayIndex / 10);
         const vocabulary = Array.from({ length: 20 }, (_, index) => vocabularyPool[(dayIndex * 20 + index) % vocabularyPool.length]);
         const lead = vocabulary[0];
         const tokens = targetTokens(lead.example, language);
@@ -1731,12 +1828,19 @@ function buildCurriculum(language, levelIndex) {
         const quiz = buildQuiz(point, vocabularyTopic.situations[dayIndex % 10], lead.example, vocabulary[1].example, dayIndex + 401);
         const conversationFormula = buildConversationFormula(lead.example, language, lead.situation, lead.mode, levelIndex);
         const pronunciationFlow = buildVerifiedPronunciationFlow(lead.example, language, lead.mode, levelIndex);
-        const sourceDialogue = buildGuidedDialogue(language, lead.mode, lead.example, lead.situation, levelIndex, Math.floor(dayIndex / 10));
+        const sourceDialogue = buildGuidedDialogue(language, lead.mode, lead.example, lead.situation, levelIndex, stageIndex);
+        const coachMode = lead.mode === "business" ? "professional" : lead.mode;
+        const coach = buildDayCoach(language, coachMode, lead.situation, profile, levelIndex, stageIndex, point);
+        coach.canDo = `${vocabularyTopic.situations[dayIndex % 10]}에서 핵심 단어·콜로케이션 20개를 문장으로 사용하기`;
+        coach.transfer = `20개 표현 중 세 개를 골라 ${lead.situation} 상황의 짧은 대화를 만들어보세요.`;
         return {
           id: stableDayId(language, category, categoryIndex, vocabularyTopic, topicIndex, dayIndex, levelIndex),
           mode: lead.mode,
           title: `${vocabularyTopic.situations[dayIndex % 10]} · 20개`,
-          focus: `핵심 단어·콜로케이션 20개 · ${profile.name}`,
+          focus: coach.canDo,
+          stageIndex,
+          stageLabel: dayStageLabels[stageIndex],
+          coach,
           word: lead.term,
           reading: lead.reading,
           meaning: lead.meaning,
@@ -1852,12 +1956,35 @@ function completedEntries() {
     .sort((a, b) => new Date(b.completedAt) - new Date(a.completedAt));
 }
 
+const REVIEW_INTERVAL_DAYS = [1, 3, 7, 14, 30];
+
+function addReviewDays(timestamp, days) {
+  const date = new Date(timestamp);
+  date.setDate(date.getDate() + days);
+  return date.toISOString();
+}
+
+function reviewDueAt(entry) {
+  return new Date(entry.nextReviewAt || entry.completedAt);
+}
+
 function reviewQueue() {
-  return completedEntries().slice().sort((a, b) => {
-    const aDate = new Date(a.lastReviewedAt || a.completedAt);
-    const bDate = new Date(b.lastReviewedAt || b.completedAt);
-    return aDate - bDate;
-  });
+  const now = Date.now();
+  return completedEntries()
+    .filter((entry) => reviewDueAt(entry).getTime() <= now)
+    .sort((a, b) => reviewDueAt(a) - reviewDueAt(b));
+}
+
+function upcomingReview() {
+  const now = Date.now();
+  return completedEntries()
+    .filter((entry) => reviewDueAt(entry).getTime() > now)
+    .sort((a, b) => reviewDueAt(a) - reviewDueAt(b))[0] || null;
+}
+
+function formatReviewDate(timestamp) {
+  if (!timestamp) return "학습 기록에서 확인";
+  return new Intl.DateTimeFormat("ko-KR", { month: "long", day: "numeric", weekday: "short" }).format(new Date(timestamp));
 }
 
 function isUnlocked(scenario, index) {
@@ -2091,6 +2218,15 @@ function taskHeader(label, title, help) {
   return `<span class="task-tag">${label}</span><h2 class="task-title">${title}</h2>${help ? `<p class="task-help">${help}</p>` : ""}`;
 }
 
+function renderLessonBrief(day) {
+  const coach = day.coach;
+  if (!coach) return "";
+  return `<section class="lesson-coach-card" aria-label="오늘의 학습 설계">
+    <header><span>CAN-DO</span><b>${escapeHtml(coach.canDo)}</b><em>${escapeHtml(coach.stage)}</em></header>
+    <div><article><small>실제 장면</small><p>${escapeHtml(coach.scene)}</p></article><article><small>말투 전략</small><p>${escapeHtml(coach.register)}</p></article></div>
+  </section>`;
+}
+
 function pronunciationButtons(text, language) {
   const variants = {
     en: [
@@ -2145,8 +2281,8 @@ function renderTask() {
         const selected = state.selectedChoices.includes(index);
         return `<button class="choice-button ${selected ? "selected" : ""}" data-choice="${index}" type="button"><span class="choice-check">${selected ? "✓" : ""}</span>${escapeHtml(option.text)}</button>`;
       }).join("")}</div>`;
-    body.innerHTML = `${taskHeader("STEP 1 · 단어 선택", "문장의 단어와 문법을 분석하세요", "5개 보기 중 맞는 설명을 복수 선택합니다.")}
-      ${vocabulary}<div class="question-panel"><div class="sentence-with-audio"><p class="japanese-question" lang="${meta.htmlLang}">${escapeHtml(day.studySentence || day.phrase)}</p>${pronunciationButtons(day.studySentence || day.phrase, state.language)}</div></div>
+    body.innerHTML = `${taskHeader("STEP 1 · 의미와 뉘앙스", "실제 장면에서 표현의 쓰임을 구분하세요", "정답만 외우지 않고 말투와 상황까지 함께 익힙니다.")}
+      ${renderLessonBrief(day)}${vocabulary}<div class="question-panel"><div class="sentence-with-audio"><p class="japanese-question" lang="${meta.htmlLang}">${escapeHtml(day.studySentence || day.phrase)}</p>${pronunciationButtons(day.studySentence || day.phrase, state.language)}</div></div>
       ${choices}${feedback}`;
     action.textContent = state.answerChecked ? (state.answerCorrect ? "다음" : "다시 선택") : "정답 확인";
     action.disabled = state.selectedChoices.length === 0;
@@ -2160,10 +2296,11 @@ function renderTask() {
           <section class="conversation-formula"><small>회화 공식 · ${escapeHtml(profile.name)}</small><strong lang="${meta.htmlLang}">${escapeHtml(formula.formula)}</strong><p>${escapeHtml(formula.levelTip)}</p><ul>${formula.examples.map((example) => `<li>${renderFormulaExample(example, meta.htmlLang)}</li>`).join("")}</ul></section>
           <section class="native-variations"><small>실제 원어민 회화에서는</small><div>${formula.nativeVariants.map((sentence) => `<blockquote lang="${meta.htmlLang}">${escapeHtml(sentence)}</blockquote>`).join("")}</div></section>
           <section class="conversation-chunks"><small>자주 쓰는 CHUNK</small><div>${formula.chunks.map((chunk) => `<article><b lang="${meta.htmlLang}">${escapeHtml(chunk.text)}</b><span>${escapeHtml(chunk.note)}</span></article>`).join("")}</div></section>
+          <section class="coach-note-grid"><article><small>자주 하는 실수</small><p>${escapeHtml(day.coach.commonMistake)}</p></article><article><small>전이 과제</small><p>${escapeHtml(day.coach.transfer)}</p></article></section>
         </div>`
       : "";
     const tokenPool = state.answerChecked ? "" : `<div class="token-pool">${day.pool.map((token, index) => `<button class="token-button" data-token="${index}" type="button" ${state.builtTokens.includes(index) || state.builtTokens.length >= day.tokens.length ? "disabled" : ""} lang="${meta.htmlLang}">${escapeHtml(token)}</button>`).join("")}</div>`;
-    body.innerHTML = `${taskHeader("STEP 2 · 문장 완성", "방해 선택지를 빼고 문장을 완성하세요", "")}
+    body.innerHTML = `${taskHeader("STEP 2 · 회상과 문장 확장", "보지 않고 의미 덩어리를 다시 조립하세요", "핵심 표현 뒤에 오늘 단계의 조건·질문·대안을 연결합니다.")}
       <div class="sentence-board">${state.builtTokens.map((index, position) => `<button class="token-button" data-built="${position}" type="button" lang="${meta.htmlLang}">${escapeHtml(day.pool[index])}</button>`).join("")}</div>
       ${tokenPool}${feedback}`;
     state.answerCorrect = state.answerChecked && answer === correct;
@@ -2179,7 +2316,8 @@ function renderTask() {
       <section class="pronunciation-flow"><div class="pronunciation-flow-heading"><div><small>다음에 이어 말하기</small><strong>한 문장이 아닌 대화 흐름으로 익혀보세요</strong></div><span>${escapeHtml(profile.name)} · 3문장</span></div>
       <ol><li class="current"><span>START</span><div><b lang="${meta.htmlLang}">${escapeHtml(day.phrase)}</b><small>오늘 연습한 문장</small></div><button data-speak="${escapeHtml(day.phrase)}" data-speak-rate="${profile.speechRate}" type="button" aria-label="오늘 문장 듣기">▶</button></li>${flow.map((turn, index) => `<li><span>${String(index + 1).padStart(2, "0")}</span><div><small>${escapeHtml(turn.label)}</small><b lang="${meta.htmlLang}">${escapeHtml(turn.text)}</b><em>${escapeHtml(turn.note)}</em></div><button data-speak="${escapeHtml(turn.text)}" data-speak-rate="${profile.speechRate}" type="button" aria-label="${escapeHtml(turn.label)} 듣기">▶</button></li>`).join("")}</ol></section>
     </div>` : "";
-    body.innerHTML = `${taskHeader("STEP 3 · 발음 따라 말하기", "듣고, 같은 문장을 말해보세요", `마이크를 누른 뒤 ${meta.label}로 또박또박 말해보세요. 약 2분 분량이에요.`)}
+    body.innerHTML = `${taskHeader("STEP 3 · 듣기·쉐도잉·발음", "세 속도로 듣고 같은 리듬으로 말해보세요", `마이크를 누른 뒤 ${meta.label}로 말하면 인식 결과와 발음 점수를 확인할 수 있어요.`)}
+      <div class="sound-coach"><span>발음 코치</span><p>${escapeHtml(day.coach.pronunciation)}</p></div>
       <div class="pronunciation-card"><span class="reading">오늘의 문장 · 목표 ${profile.passScore}점</span><strong class="target-sentence" lang="${meta.htmlLang}">${day.phrase}</strong><span class="translation ${profile.showTranslation || state.pronunciationResult ? "" : "translation-hidden"}">${profile.showTranslation || state.pronunciationResult ? escapeHtml(day.translation) : "번역 없이 의미와 뉘앙스를 파악해 보세요."}</span>
       <div class="listen-speed-row"><button data-speak="${escapeHtml(day.phrase)}" data-speak-rate="0.62" type="button">느리게 듣기</button><button class="listen-large" data-speak="${escapeHtml(day.phrase)}" data-speak-rate="${profile.speechRate}" type="button">▶ 먼저 듣기</button><button data-speak="${escapeHtml(day.phrase)}" data-speak-rate="1.05" type="button">원어민 속도</button></div>
       <button class="record-control ${state.pronunciationRecording ? "listening" : ""}" id="record-control" type="button" aria-label="${state.pronunciationRecording ? "발음 녹음 종료" : "발음 녹음 시작"}">${state.pronunciationRecording ? "■" : "●"}</button><p class="record-caption">${state.pronunciationRecording ? "녹음 중이에요 · 마이크를 다시 누르면 종료됩니다" : "마이크를 눌러 발음을 녹음하고 확인하세요"}</p>${result}</div>`;
@@ -2193,10 +2331,12 @@ function renderTask() {
     const completeLabel = state.reviewMode ? "REVIEW COMPLETE" : "DAY COMPLETE";
     const completeTitle = state.reviewMode ? "복습을 마쳤어요" : "오늘 학습을 마쳤어요";
     const completeMessage = state.reviewMode ? "복습 횟수와 발음 점수를 학습 기록에 저장했습니다." : "배운 표현은 단어장에, 점수는 학습 기록에 자동으로 저장했습니다.";
-    const savedMessage = state.reviewMode ? "다음 복습 표현은 학습 기록에서 이어갈 수 있어요." : "다음 Day가 열렸습니다. 목록에서 이어서 학습할 수 있어요.";
+    const record = state.progress[day.id] || {};
+    const savedMessage = `다음 간격 복습은 ${formatReviewDate(record.nextReviewAt)}에 준비됩니다.`;
     body.innerHTML = `${taskHeader(completeLabel, completeTitle, completeMessage)}
       <div class="lesson-complete"><span class="complete-mark">✓</span><h2>${state.reviewMode ? "복습 완료!" : "Day 완료!"}</h2><p>${escapeHtml(day.title)} · 약 10분 학습</p>
-      <div class="complete-summary"><div><small>학습 단계</small><b>4 / 4</b></div><div><small>발음 점수</small><b>${state.pronunciationScore ?? "—"}점</b></div><div><small>저장 표현</small><b>2개</b></div></div>
+      <div class="complete-summary"><div><small>학습 단계</small><b>4 / 4</b></div><div><small>발음 점수</small><b>${state.pronunciationScore ?? "—"}점</b></div><div><small>기억 단계</small><b>${escapeHtml(record.mastery || "형성 중")}</b></div></div>
+      <div class="mastery-checklist">${day.coach.rubric.map((item) => `<span>✓ ${escapeHtml(item)}</span>`).join("")}</div>
       <div class="saved-note">${savedMessage}</div></div>`;
     $("#lesson-count").textContent = "완료";
     $("#lesson-progress").style.width = "100%";
@@ -2222,9 +2362,10 @@ function renderRoleplay() {
     const normalized = normalizeSpeech(suggestion);
     return normalized && !usedReplies.has(normalized) && all.findIndex((item) => normalizeSpeech(item) === normalized) === index;
   }).slice(0, profile.suggestionCount);
-  body.innerHTML = `${taskHeader("STEP 4 · AI 상황 회화", "배운 문장을 실제로 사용해보세요", "")}
+  body.innerHTML = `${taskHeader("STEP 4 · 실전 시나리오", "도움말을 줄여가며 대화를 완성하세요", "세 번의 턴에서 핵심 표현, 세부 조건, 다음 행동을 모두 사용합니다.")}
     <div class="roleplay-shell">
       <div class="roleplay-scene"><div><b>${escapeHtml(state.activeScenario.title)}</b><small>AI 역할 · ${escapeHtml(state.activeDay.dialogueRole || "대화 상대")}</small><em>${escapeHtml(state.activeDay.dialogueGoal || state.activeScenario.place)}</em></div><span class="ai-label">AI ROLEPLAY · ${Math.min(state.dialogueTurn + 1, turns.length)} / ${turns.length}</span></div>
+      <div class="roleplay-rubric" aria-label="오늘의 성공 기준">${state.activeDay.coach.rubric.map((item) => `<span>✓ ${escapeHtml(item)}</span>`).join("")}</div>
       <div class="chat-messages" id="chat-messages">${state.dialogueMessages.map((message) => `<div class="chat-message ${message.role}"><div class="chat-message-row"><span class="bubble" lang="${meta.htmlLang}">${escapeHtml(message.ja)}</span><button class="chat-audio" data-speak="${escapeHtml(message.ja)}" type="button" aria-label="${message.role === "ai" ? "AI 문장" : "내 문장"} 발음 듣기">▶</button></div>${profile.showDialogueKo && message.ko ? `<small>${escapeHtml(message.ko)}</small>` : ""}</div>`).join("")}</div>
       ${state.dialogueDone ? '<div class="roleplay-complete">대화를 끝까지 마쳤습니다. 아래 ‘Day 완료’를 눌러 기록하세요.</div>' : `<div class="roleplay-turn-guide"><small>이번 턴 목표</small><b>${escapeHtml(current.intent)}</b></div>${state.dialoguePending ? '<div class="roleplay-thinking"><i></i> 대화 상대가 답변하고 있어요</div>' : visibleSuggestions.length ? `<div class="roleplay-suggestions">${visibleSuggestions.map((suggestion) => `<div class="roleplay-suggestion"><button class="suggestion-reply" data-reply="${escapeHtml(suggestion)}" type="button" lang="${meta.htmlLang}">${escapeHtml(suggestion)}</button><button class="suggestion-audio" data-speak="${escapeHtml(suggestion)}" type="button" aria-label="추천 답변 발음 듣기">▶</button></div>`).join("")}</div>` : '<div class="roleplay-challenge">이번 턴 목표에 맞춰 직접 문장을 만들어보세요.</div>'}
       <form class="chat-form" id="chat-form"><input id="chat-input" aria-label="${meta.label} 답변" autocomplete="off" placeholder="${meta.label}로 답해보세요" ${state.dialoguePending ? "disabled" : ""} /><button type="submit" ${state.dialoguePending ? "disabled" : ""}>${state.dialoguePending ? "응답 중" : "보내기"}</button></form>`}
@@ -2316,15 +2457,22 @@ function completeLesson() {
   const existing = state.progress[state.activeDay.id];
   const now = new Date().toISOString();
   const isReview = state.reviewMode || Boolean(existing?.completedAt);
+  const nextReviewCount = isReview ? (existing?.reviewCount || 0) + 1 : (existing?.reviewCount || 0);
+  const intervalIndex = Math.min(nextReviewCount, REVIEW_INTERVAL_DAYS.length - 1);
+  const passScore = levelProfiles[state.language][state.levelByLanguage[state.language]].passScore;
+  const score = Number.isFinite(state.pronunciationScore) ? state.pronunciationScore : (existing?.pronunciationScore ?? null);
+  const mastery = nextReviewCount >= 3 ? "장기 기억" : Number.isFinite(score) && score >= passScore ? "안정" : "형성 중";
   state.progress[state.activeDay.id] = {
     ...existing,
     language: state.language,
     completedAt: existing?.completedAt || now,
-    pronunciationScore: Number.isFinite(state.pronunciationScore) ? state.pronunciationScore : (existing?.pronunciationScore ?? null),
+    pronunciationScore: score,
     attempts: (existing?.attempts || 0) + 1,
+    mastery,
+    nextReviewAt: addReviewDays(now, REVIEW_INTERVAL_DAYS[intervalIndex]),
     ...(isReview ? {
       lastReviewedAt: now,
-      reviewCount: (existing?.reviewCount || 0) + 1,
+      reviewCount: nextReviewCount,
       reviewHistory: [...(existing?.reviewHistory || []), now].slice(-50)
     } : {})
   };
@@ -2634,6 +2782,7 @@ function renderRecords() {
   const scores = entries.map((entry) => entry.pronunciationScore).filter((score) => Number.isFinite(score));
   const reviewTotal = entries.reduce((sum, entry) => sum + (entry.reviewCount || 0), 0);
   const queue = reviewQueue().slice(0, 5);
+  const upcoming = upcomingReview();
   $("#completed-days").textContent = String(entries.length);
   $("#total-minutes").textContent = String((entries.length + reviewTotal) * 10);
   $("#review-count").textContent = String(reviewTotal);
@@ -2642,7 +2791,9 @@ function renderRecords() {
   $("#review-start-button").disabled = queue.length === 0;
   $("#review-preview").textContent = queue.length
     ? `${queue[0].scenario.tab} · ${queue[0].day.title} — ${queue[0].day.phrase}`
-    : "첫 Day를 완료하면 복습할 표현이 준비됩니다.";
+    : upcoming
+      ? `${formatReviewDate(upcoming.nextReviewAt)} 복습 예정 · ${upcoming.scenario.tab} · ${upcoming.day.title}`
+      : "첫 Day를 완료하면 1·3·7·14·30일 간격 복습이 시작됩니다.";
 
   const today = new Date();
   const day = today.getDay();
@@ -2660,7 +2811,7 @@ function renderRecords() {
   $("#week-record-label").textContent = `${learnedDays}일 학습`;
   $("#week-bars").innerHTML = ["월", "화", "수", "목", "금", "토", "일"].map((label, index) => `<span class="week-bar ${weekCounts[index] ? "active" : ""}"><i style="height:${Math.min(64, Math.max(3, weekCounts[index] * 18))}px"></i><small>${label}</small></span>`).join("");
   const recentEntries = entries.slice(0, 3);
-  $("#history-list").innerHTML = entries.length ? recentEntries.map((entry) => `<div class="history-item"><div><b>${escapeHtml(entry.day.title)}</b><small>${escapeHtml(entry.scenario.tab)} · ${new Date(entry.completedAt).toLocaleDateString("ko-KR")}${entry.reviewCount ? ` · 복습 ${entry.reviewCount}회` : ""}</small></div><span>발음 ${Number.isFinite(entry.pronunciationScore) ? `${entry.pronunciationScore}점` : "미측정"}</span><span>10분</span></div>`).join("") + (entries.length > recentEntries.length ? `<div class="more-line">그 외 ${entries.length - recentEntries.length}개 완료 기록</div>` : "") : '<div class="history-empty">완료한 Day가 아직 없습니다.</div>';
+  $("#history-list").innerHTML = entries.length ? recentEntries.map((entry) => `<div class="history-item"><div><b>${escapeHtml(entry.day.title)}</b><small>${escapeHtml(entry.scenario.tab)} · ${new Date(entry.completedAt).toLocaleDateString("ko-KR")}${entry.reviewCount ? ` · 복습 ${entry.reviewCount}회` : ""} · 다음 ${formatReviewDate(entry.nextReviewAt)}</small></div><span>발음 ${Number.isFinite(entry.pronunciationScore) ? `${entry.pronunciationScore}점` : "미측정"}<small>${escapeHtml(entry.mastery || "형성 중")}</small></span><span>10분</span></div>`).join("") + (entries.length > recentEntries.length ? `<div class="more-line">그 외 ${entries.length - recentEntries.length}개 완료 기록</div>` : "") : '<div class="history-empty">완료한 Day가 아직 없습니다.</div>';
 }
 
 root.addEventListener("click", (event) => {
