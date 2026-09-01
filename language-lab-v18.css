@@ -1480,3 +1480,33 @@ a { color: inherit; text-decoration: none; }
   .lesson-coach-card article+article{border-left:0;border-top:1px solid #d5ddec}
   .sound-coach{grid-template-columns:1fr;gap:3px}
 }
+
+/* AiderLog v103 · reliable nested lesson scrolling */
+.lesson-screen{
+  display:grid!important;
+  grid-template-rows:50px 4px minmax(0,1fr) 58px!important;
+  overflow:hidden!important;
+}
+.lesson-stage{
+  position:relative!important;
+  height:auto!important;
+  min-height:0!important;
+  padding:20px 18px 26px!important;
+  overflow-x:hidden!important;
+  overflow-y:scroll!important;
+  overscroll-behavior:contain!important;
+  scrollbar-gutter:stable!important;
+  touch-action:pan-y!important;
+}
+.lesson-body{padding-bottom:18px!important}
+.lesson-footer{
+  position:static!important;
+  inset:auto!important;
+  width:100%!important;
+  min-height:58px!important;
+}
+.chat-messages{overscroll-behavior:contain;scrollbar-gutter:stable}
+@media(max-width:900px){
+  .lesson-screen{position:fixed!important;grid-template-rows:50px 4px minmax(0,1fr) 58px!important}
+  .lesson-stage{height:auto!important;padding:16px 11px 22px!important}
+}

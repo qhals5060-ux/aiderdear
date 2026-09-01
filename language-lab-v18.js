@@ -4,8 +4,10 @@
       super();
       this.attachShadow({mode:'open'});
       this.completion=null;
+      this.keepLessonScrollInside=(event)=>event.stopPropagation();
     }
     async connectedCallback(){
+      ['wheel','touchstart','touchmove','touchend'].forEach(type=>this.addEventListener(type,this.keepLessonScrollInside,{passive:true}));
       if(this.shadowRoot.childNodes.length)return;
       try{
         const [templateResponse,styleResponse]=await Promise.all([
@@ -40,6 +42,9 @@
       }catch(error){
         this.shadowRoot.innerHTML=`<div style="padding:24px;font:700 13px/1.6 sans-serif;color:#8a2432">${String(error.message||error)}</div>`;
       }
+    }
+    disconnectedCallback(){
+      ['wheel','touchstart','touchmove','touchend'].forEach(type=>this.removeEventListener(type,this.keepLessonScrollInside));
     }
     static get observedAttributes(){return ['data-paired']}
     attributeChangedCallback(name,oldValue,newValue){

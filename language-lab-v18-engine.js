@@ -180,25 +180,25 @@ const languageMeta = {
 
 const levelProfiles = {
   ja: [
-    { name: "입문", standard: "처음 배우기", course: "1 · 입문", goal: "문자와 생존 표현", choiceCount: 2, showReading: true, showTranslation: true, showDialogueKo: true, suggestionCount: 2, passScore: 55, speechRate: .7 },
-    { name: "초급", standard: "JLPT N5–N4", course: "2 · 초급", goal: "짧은 일상 대화", choiceCount: 4, showReading: true, showTranslation: true, showDialogueKo: true, suggestionCount: 2, passScore: 65, speechRate: .78 },
-    { name: "중급", standard: "JLPT N3", course: "3 · 중급", goal: "상황을 설명하는 대화", choiceCount: 4, showReading: false, showTranslation: true, showDialogueKo: true, suggestionCount: 1, passScore: 75, speechRate: .86 },
-    { name: "고급", standard: "JLPT N2–N1", course: "4 · 고급", goal: "격식과 뉘앙스 조절", choiceCount: 4, showReading: false, showTranslation: false, showDialogueKo: false, suggestionCount: 0, passScore: 85, speechRate: .94 },
-    { name: "원어민", standard: "N1+", course: "5 · 원어민", goal: "자연스러운 관용 표현", choiceCount: 4, showReading: false, showTranslation: false, showDialogueKo: false, suggestionCount: 0, passScore: 92, speechRate: 1 }
+    { name: "입문", standard: "처음 배우기", course: "1 · 입문", goal: "문자와 생존 표현", choiceCount: 2, showReading: true, showTranslation: true, showDialogueKo: true, suggestionCount: 3, passScore: 55, speechRate: .7 },
+    { name: "초급", standard: "JLPT N5–N4", course: "2 · 초급", goal: "짧은 일상 대화", choiceCount: 4, showReading: true, showTranslation: true, showDialogueKo: true, suggestionCount: 3, passScore: 65, speechRate: .78 },
+    { name: "중급", standard: "JLPT N3", course: "3 · 중급", goal: "상황을 설명하는 대화", choiceCount: 4, showReading: false, showTranslation: true, showDialogueKo: true, suggestionCount: 3, passScore: 75, speechRate: .86 },
+    { name: "고급", standard: "JLPT N2–N1", course: "4 · 고급", goal: "격식과 뉘앙스 조절", choiceCount: 4, showReading: false, showTranslation: false, showDialogueKo: false, suggestionCount: 2, passScore: 85, speechRate: .94 },
+    { name: "원어민", standard: "N1+", course: "5 · 원어민", goal: "자연스러운 관용 표현", choiceCount: 4, showReading: false, showTranslation: false, showDialogueKo: false, suggestionCount: 2, passScore: 92, speechRate: 1 }
   ],
   en: [
-    { name: "입문", standard: "CEFR Pre-A1", course: "1 · 입문", goal: "단어와 생존 표현", choiceCount: 2, showReading: true, showTranslation: true, showDialogueKo: true, suggestionCount: 2, passScore: 55, speechRate: .72 },
-    { name: "초급", standard: "CEFR A1–A2", course: "2 · 초급", goal: "짧은 일상 대화", choiceCount: 4, showReading: true, showTranslation: true, showDialogueKo: true, suggestionCount: 2, passScore: 65, speechRate: .8 },
-    { name: "중급", standard: "CEFR B1–B2", course: "3 · 중급", goal: "의견과 경험 설명", choiceCount: 4, showReading: false, showTranslation: true, showDialogueKo: true, suggestionCount: 1, passScore: 75, speechRate: .88 },
-    { name: "고급", standard: "CEFR C1", course: "4 · 고급", goal: "정교한 표현과 격식", choiceCount: 4, showReading: false, showTranslation: false, showDialogueKo: false, suggestionCount: 0, passScore: 85, speechRate: .96 },
-    { name: "원어민", standard: "CEFR C2+", course: "5 · 원어민", goal: "관용어와 자연스러운 리듬", choiceCount: 4, showReading: false, showTranslation: false, showDialogueKo: false, suggestionCount: 0, passScore: 92, speechRate: 1 }
+    { name: "입문", standard: "CEFR Pre-A1", course: "1 · 입문", goal: "단어와 생존 표현", choiceCount: 2, showReading: true, showTranslation: true, showDialogueKo: true, suggestionCount: 3, passScore: 55, speechRate: .72 },
+    { name: "초급", standard: "CEFR A1–A2", course: "2 · 초급", goal: "짧은 일상 대화", choiceCount: 4, showReading: true, showTranslation: true, showDialogueKo: true, suggestionCount: 3, passScore: 65, speechRate: .8 },
+    { name: "중급", standard: "CEFR B1–B2", course: "3 · 중급", goal: "의견과 경험 설명", choiceCount: 4, showReading: false, showTranslation: true, showDialogueKo: true, suggestionCount: 3, passScore: 75, speechRate: .88 },
+    { name: "고급", standard: "CEFR C1", course: "4 · 고급", goal: "정교한 표현과 격식", choiceCount: 4, showReading: false, showTranslation: false, showDialogueKo: false, suggestionCount: 2, passScore: 85, speechRate: .96 },
+    { name: "원어민", standard: "CEFR C2+", course: "5 · 원어민", goal: "관용어와 자연스러운 리듬", choiceCount: 4, showReading: false, showTranslation: false, showDialogueKo: false, suggestionCount: 2, passScore: 92, speechRate: 1 }
   ],
   zh: [
-    { name: "입문", standard: "HSK 1", course: "1 · 입문", goal: "성조와 생존 표현", choiceCount: 2, showReading: true, showTranslation: true, showDialogueKo: true, suggestionCount: 2, passScore: 55, speechRate: .7 },
-    { name: "초급", standard: "HSK 2–3", course: "2 · 초급", goal: "짧은 일상 대화", choiceCount: 4, showReading: true, showTranslation: true, showDialogueKo: true, suggestionCount: 2, passScore: 65, speechRate: .78 },
-    { name: "중급", standard: "HSK 4", course: "3 · 중급", goal: "경험과 상황 설명", choiceCount: 4, showReading: false, showTranslation: true, showDialogueKo: true, suggestionCount: 1, passScore: 75, speechRate: .86 },
-    { name: "고급", standard: "HSK 5–6", course: "4 · 고급", goal: "격식과 뉘앙스 조절", choiceCount: 4, showReading: false, showTranslation: false, showDialogueKo: false, suggestionCount: 0, passScore: 85, speechRate: .94 },
-    { name: "원어민", standard: "HSK 6+", course: "5 · 원어민", goal: "관용 표현과 자연스러운 속도", choiceCount: 4, showReading: false, showTranslation: false, showDialogueKo: false, suggestionCount: 0, passScore: 92, speechRate: 1 }
+    { name: "입문", standard: "HSK 1", course: "1 · 입문", goal: "성조와 생존 표현", choiceCount: 2, showReading: true, showTranslation: true, showDialogueKo: true, suggestionCount: 3, passScore: 55, speechRate: .7 },
+    { name: "초급", standard: "HSK 2–3", course: "2 · 초급", goal: "짧은 일상 대화", choiceCount: 4, showReading: true, showTranslation: true, showDialogueKo: true, suggestionCount: 3, passScore: 65, speechRate: .78 },
+    { name: "중급", standard: "HSK 4", course: "3 · 중급", goal: "경험과 상황 설명", choiceCount: 4, showReading: false, showTranslation: true, showDialogueKo: true, suggestionCount: 3, passScore: 75, speechRate: .86 },
+    { name: "고급", standard: "HSK 5–6", course: "4 · 고급", goal: "격식과 뉘앙스 조절", choiceCount: 4, showReading: false, showTranslation: false, showDialogueKo: false, suggestionCount: 2, passScore: 85, speechRate: .94 },
+    { name: "원어민", standard: "HSK 6+", course: "5 · 원어민", goal: "관용 표현과 자연스러운 속도", choiceCount: 4, showReading: false, showTranslation: false, showDialogueKo: false, suggestionCount: 2, passScore: 92, speechRate: 1 }
   ]
 };
 
@@ -1035,6 +1035,32 @@ function buildQuiz(point, situation, target, expansion, seed) {
 
 const conversationFormulaOverrides = {
   en: {
+    "Nice to meet you.": {
+      formulas: [
+        "Nice to meet you. / Nice to meet you, too.",
+        "It's + great / lovely + to meet you.",
+        "Nice to meet you + 이름·소개 한마디",
+        "I don't think we've met. I'm + 이름.",
+        "It was great meeting you. (헤어질 때)"
+      ],
+      examples: [
+        [{ sentence: "Nice to meet you.", highlight: "Nice to meet you" }, { sentence: "Nice to meet you, too.", highlight: "too" }, { sentence: "Hi, I'm Min. Nice to meet you.", highlight: "I'm Min" }],
+        [{ sentence: "It's great to meet you.", highlight: "great" }, { sentence: "Lovely to meet you.", highlight: "Lovely" }, { sentence: "Nice to meet you. I'm Min.", highlight: "I'm Min" }],
+        [{ sentence: "Nice to meet you. I'm Min, and I work in design.", highlight: "I work in design" }, { sentence: "It's great to meet you. What brings you here?", highlight: "What brings you here" }, { sentence: "Nice to meet you, too. How do you know Alex?", highlight: "How do you know Alex" }],
+        [{ sentence: "I don't think we've met. I'm Min.", highlight: "I don't think we've met" }, { sentence: "I believe this is our first time meeting in person.", highlight: "first time meeting in person" }, { sentence: "We've emailed before, but it's nice to finally meet you.", highlight: "finally meet you" }],
+        [{ sentence: "It was great meeting you.", highlight: "meeting" }, { sentence: "It was lovely talking with you.", highlight: "talking with you" }, { sentence: "Great to finally put a face to the name.", highlight: "put a face to the name" }]
+      ],
+      nativeVariants: [
+        "It's great to meet you.",
+        "Nice to finally meet you in person.",
+        "It was great meeting you."
+      ],
+      chunks: [
+        { text: "Nice to meet you", note: "처음 인사할 때 쓰는 기본 표현. 이미 아는 사람에게는 Good to see you가 자연스럽습니다." },
+        { text: "I don't think we've met", note: "처음 보는 사람에게 부담 없이 말을 걸 때 자주 쓰는 도입" },
+        { text: "It was great meeting you", note: "대화를 마치고 헤어질 때 쓰는 표현" }
+      ]
+    },
     "Could I ask a question about today's lesson?": {
       formulas: [
         "Could I ask a question about + 주제?",
@@ -1520,13 +1546,52 @@ function createDialogueSuggestionPicker(language) {
       if (!text || !key || used.has(key)) continue;
       used.add(key);
       result.push(text);
-      if (result.length === 2) break;
+      if (result.length === 3) break;
     }
     return result;
   };
 }
 
 function buildGuidedDialogue(language, mode, target, situation, levelIndex, stageIndex) {
+  const firstMeeting = {
+    en: {
+      matches: () => normalizeSpeech(target) === normalizeSpeech("Nice to meet you.") || /처음 만나/.test(situation),
+      role: "처음 만난 현지인",
+      goal: "첫인사 뒤 이름·참석 이유·하는 일을 묻고 자연스럽게 마무리하기",
+      opening: "Hi, I'm Alex. I don't think we've met before.",
+      openingKo: "안녕하세요, 저는 Alex예요. 우리 처음 만나는 것 같네요.",
+      turns: [
+        { intent: "이름을 밝히며 첫인사하기", suggestions: ["Hi, I'm Min. Nice to meet you.", "Nice to meet you, too. I'm Min.", "I don't think we have. I'm Min—nice to meet you."], reply: "Nice to meet you too, Min. What brings you here?", replyKo: "저도 반가워요, 민. 여기는 무슨 일로 오셨어요?" },
+        { intent: "참석 이유를 말하고 되묻기", suggestions: ["I'm here for the workshop. How about you?", "A friend invited me. What brings you here?", "I just joined the program, so I'm meeting everyone."], reply: "I'm here for the workshop too. What kind of work do you do?", replyKo: "저도 워크숍 때문에 왔어요. 어떤 일을 하세요?" },
+        { intent: "하는 일을 말하며 대화 마무리하기", suggestions: ["I work in design. What about you?", "I'm a graduate student in psychology. How about you?", "I work in product design. It was great meeting you."], reply: "I work in research. It was great meeting you too.", replyKo: "저는 연구 일을 해요. 저도 만나서 반가웠어요." }
+      ]
+    },
+    ja: {
+      matches: () => normalizeSpeech(target) === normalizeSpeech("はじめまして。") || /처음 만나/.test(situation),
+      role: "처음 만난 일본인",
+      goal: "첫인사 뒤 이름·참석 이유·하는 일을 자연스럽게 주고받기",
+      opening: "こんにちは。私はあきです。お会いするのは初めてですよね。",
+      openingKo: "안녕하세요. 저는 아키예요. 우리 처음 만나는 거죠?",
+      turns: [
+        { intent: "이름을 밝히며 첫인사하기", suggestions: ["はじめまして。ミンです。", "はじめまして。ミンと申します。", "そうですね。ミンです。よろしくお願いします。"], reply: "はじめまして、ミンさん。今日はどうしてこちらへ？", replyKo: "반가워요, 민 씨. 오늘은 어떻게 오셨어요?" },
+        { intent: "참석 이유를 말하고 되묻기", suggestions: ["ワークショップに参加しに来ました。あきさんは？", "友人に誘われて来ました。", "このプログラムに入ったばかりなんです。"], reply: "私もワークショップです。お仕事は何をされていますか。", replyKo: "저도 워크숍 때문에 왔어요. 무슨 일을 하세요?" },
+        { intent: "하는 일을 말하며 마무리하기", suggestions: ["デザインの仕事をしています。", "心理学を専攻している大学院生です。", "プロダクトデザインの仕事をしています。お会いできてよかったです。"], reply: "私は研究の仕事をしています。お会いできてよかったです。", replyKo: "저는 연구 일을 해요. 만나서 반가웠어요." }
+      ]
+    },
+    zh: {
+      matches: () => normalizeSpeech(target) === normalizeSpeech("很高兴认识你。") || /처음 만나/.test(situation),
+      role: "처음 만난 중국인",
+      goal: "첫인사 뒤 이름·참석 이유·하는 일을 자연스럽게 주고받기",
+      opening: "你好，我叫李明。我们以前没见过吧？",
+      openingKo: "안녕하세요, 저는 리밍이에요. 우리 전에 만난 적 없죠?",
+      turns: [
+        { intent: "이름을 밝히며 첫인사하기", suggestions: ["你好，我叫敏。很高兴认识你。", "很高兴认识你，我叫敏。", "应该没有。我叫敏，请多关照。"], reply: "我也很高兴认识你。你今天为什么来这儿？", replyKo: "저도 만나서 반가워요. 오늘은 왜 여기 오셨어요?" },
+        { intent: "참석 이유를 말하고 되묻기", suggestions: ["我是来参加工作坊的。你呢？", "朋友邀请我来的。你为什么来这儿？", "我刚加入这个项目，想认识一下大家。"], reply: "我也是来参加工作坊的。你做什么工作？", replyKo: "저도 워크숍 때문에 왔어요. 무슨 일을 하세요?" },
+        { intent: "하는 일을 말하며 마무리하기", suggestions: ["我是做设计的。你呢？", "我是心理学研究生。", "我做产品设计。很高兴认识你。"], reply: "我是做研究的。认识你很高兴。", replyKo: "저는 연구 일을 해요. 만나서 반가웠어요." }
+      ]
+    }
+  }[language];
+  if (mode === "social" && firstMeeting?.matches()) return firstMeeting;
   const scripts = {
     en: {
       social: {

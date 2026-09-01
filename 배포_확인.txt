@@ -1,16 +1,23 @@
-AiderLog v100 배포 확인
+AiderLog v103 배포 확인
 
 1. 이 폴더의 내용 전체를 Vercel 프로젝트 루트에 배포합니다.
 2. Vercel Root Directory는 비워 둡니다.
 3. Firebase Firestore 규칙에 이 폴더의 firestore.rules를 게시합니다. (개인 EVENT 미디어 이관 규칙 포함)
-4. Deployments에서 새 v100 배포를 Production으로 승격합니다.
+4. Deployments에서 새 v103 배포를 Production으로 승격합니다.
 5. 아래 주소를 엽니다.
    https://aiderdear1.vercel.app/sw.js
 6. 첫 줄이 아래와 같아야 합니다.
-   const CACHE='aiderlog-v100-selective-calendar-media-motion';
+   const CACHE='aiderlog-v103-language-workflow-daily-brief';
 
 첫 줄에 이전 버전이 보이면 코드는 새로 올라갔더라도 운영 주소가 아직 이전 배포를 가리키는 상태입니다.
 이 경우 Vercel Deployments에서 최신 배포의 메뉴를 열어 Promote to Production을 선택하세요.
+
+v103 정상 동작
+- 어학 레슨 화면을 휠·터치로 끝까지 스크롤할 수 있음
+- 첫 만남 회화의 세 턴이 실제 상황과 이어지고 각 턴에 2~3개 선택지가 표시됨
+- 30일 챌린지 버피에 베이직·스텝 백·푸시업 3종 움직임 표시
+- 워크플로우에서 우선순위·마감·예상 시간·완료 기준·막힘·단계를 저장하고 단계 체크 가능
+- Daily Brief에서 오늘 기록 요약과 9개 영역을 현대적인 카드로 표시
 
 v100 정상 동작
 - SCHEDULE 일정 목록의 사진·동영상 영역에서 _로 최소화, +로 펼치기

@@ -1,3 +1,18 @@
+# AiderLog v103
+
+## v103 Language practice · systematic workflow · Daily Brief
+
+- 어학 레슨 내부 스크롤이 바깥 페이지 전환에 가로막히지 않도록 휠·터치 이벤트와 레슨 레이아웃을 분리했습니다.
+- 첫 만남 회화는 실제 대화 순서에 맞게 이름 소개, 참석 이유, 하는 일, 마무리까지 이어지고 매 턴 2~3개의 자연스러운 선택지를 제공합니다.
+- `Nice to meet you`, `Good to see you`, `It was great meeting you`의 사용 시점을 구분해 학습 내용과 실전 대화를 일치시켰습니다.
+- 버피 설명을 짧게 정리하고 움직이는 스텝 백 버피와 푸시업 버피를 추가했습니다.
+- 워크플로우에 우선순위, 업무 유형, 예상 시간, 완료 기준, 리스크, 태그, 단계 체크, 오늘의 집중 순서와 WIP 표시를 추가했습니다.
+- 불렛저널을 기록 개수·활성 영역·할 일 진행·다음 일정을 먼저 보여주는 현대적인 Daily Brief로 재설계했습니다.
+
+`const CACHE='aiderlog-v103-language-workflow-daily-brief';`
+
+---
+
 # AiderLog v102
 
 ## v102 Automatic calendar sync · TASK analysis clarity
