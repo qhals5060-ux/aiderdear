@@ -1,16 +1,22 @@
-AiderLog v95 배포 확인
+AiderLog v96 배포 확인
 
 1. 이 폴더의 내용 전체를 Vercel 프로젝트 루트에 배포합니다.
 2. Vercel Root Directory는 비워 둡니다.
 3. Firebase Firestore 규칙에 이 폴더의 firestore.rules를 게시합니다. (개인 EVENT 미디어 이관 규칙 포함)
-4. Deployments에서 새 v95 배포를 Production으로 승격합니다.
+4. Deployments에서 새 v96 배포를 Production으로 승격합니다.
 5. 아래 주소를 엽니다.
    https://aiderdear1.vercel.app/sw.js
 6. 첫 줄이 아래와 같아야 합니다.
-   const CACHE='aiderlog-v95-real-trainer-multi-session';
+   const CACHE='aiderlog-v96-calendar-oauth-refresh';
 
 첫 줄에 이전 버전이 보이면 코드는 새로 올라갔더라도 운영 주소가 아직 이전 배포를 가리키는 상태입니다.
 이 경우 Vercel Deployments에서 최신 배포의 메뉴를 열어 Promote to Production을 선택하세요.
+
+v96 정상 동작
+- Google Calendar 승인 후 사이트로 돌아오면 서버에 저장된 일정을 즉시 다시 읽어 캘린더에 표시
+- 승인 직후 실시간 알림 등록이 실패해도 최초 일정 가져오기는 정상 완료
+- 연결 완료 알림에 가져온 일정 개수 표시
+- 서비스 워커 캐시를 v96으로 갱신하여 이전 index.html 잔존 방지
 
 v95 정상 동작
 - PERSONAL → 건강 → 30일 챌린지에서 실사 트레이너 시연 표시

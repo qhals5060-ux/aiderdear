@@ -11,13 +11,13 @@
 <meta name="description" content="">
 <meta name="format-detection" content="telephone=no">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="aiderlog-build" content="v95">
+<meta name="aiderlog-build" content="v96">
 <link rel="canonical" href="https://aiderdear1.vercel.app/">
 <script>
 (() => {
   const url = new URL(location.href);
   if (url.searchParams.has('client-intake')) document.documentElement.classList.add('client-intake-only');
-  if (['v67','v68','v69','v70','v71','v72','v73','v74','v75','v76','v77','v78','v79','v80','v81','v82','v83','v84','v85','v86','v87','v88','v89','v90','v91','v92','v93','v94','v95'].includes(url.searchParams.get('aiderlog-main'))) {
+  if (['v67','v68','v69','v70','v71','v72','v73','v74','v75','v76','v77','v78','v79','v80','v81','v82','v83','v84','v85','v86','v87','v88','v89','v90','v91','v92','v93','v94','v95','v96'].includes(url.searchParams.get('aiderlog-main'))) {
     url.searchParams.delete('aiderlog-main');
     history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`);
   }
@@ -5682,7 +5682,20 @@ html.client-intake-only .client-intake-result b{font:800 38px/1.1 Arial,sans-ser
   }
   async function handleCalendarSyncReturn(){
     if(calendarSyncReturnHandled||!currentUser)return;const params=new URLSearchParams(location.search),provider=params.get('calendar_sync'),error=params.get('calendar_sync_error');if(!provider&&!error)return;calendarSyncReturnHandled=true;
-    history.replaceState({},'',location.pathname+location.hash);openPersonalSettings('calendar');await refreshExternalCalendarStatus();if(error)toast(error);else toast(`${provider==='google'?'Google Calendar':'Notion'} 연결이 완료되었습니다.`)
+    history.replaceState({},'',location.pathname+location.hash);openPersonalSettings('calendar');
+    if(error){await refreshExternalCalendarStatus();toast(error);return}
+    try{
+      // The OAuth callback writes the imported rows on the server. Explicitly read
+      // that document after returning instead of relying only on snapshot timing.
+      if(provider==='google')await calendarSyncRequest('sync',{provider:'google'});
+      const snapshot=await window.AiderDearFirebase.readScheduleData();
+      applyScheduleDataSnapshot(snapshot);
+      await refreshExternalCalendarStatus();
+      const count=Number(externalCalendarStatus[provider]?.itemCount||0);
+      toast(`${provider==='google'?'Google Calendar':'Notion'} 연결 완료 · 일정 ${count}개를 가져왔습니다.`)
+    }catch(syncError){
+      await refreshExternalCalendarStatus();toast(`연결은 완료됐지만 일정을 표시하지 못했습니다. ${syncError.message||String(syncError)}`)
+    }
   }
   $('#calendarGoogleConnect')?.addEventListener('click',()=>$('#calendarGoogleConnect').dataset.connected==='1'?disconnectExternalCalendar('google'):startExternalCalendar('google'));
   $('#calendarNotionConnect')?.addEventListener('click',()=>$('#calendarNotionConnect').dataset.connected==='1'?disconnectExternalCalendar('notion'):startExternalCalendar('notion'));
