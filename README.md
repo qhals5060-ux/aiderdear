@@ -1,3 +1,16 @@
+# AiderLog v108
+
+## v108 v100 Calendar connection recovery
+
+- 캘린더 연결 버튼을 v100에서 정상 동작했던 Firebase 브라우저 권한 방식으로 복원했습니다. 서버 OAuth 콜백과 배포된 API 버전이 맞지 않아도 로그인한 화면에서 바로 권한을 받고 캘린더 목록을 선택할 수 있습니다.
+- Google 로그인 팝업의 추가 매개변수를 v100과 동일하게 단순화하고, 브라우저 권한 성공·실패 단계를 토큰 없이 콘솔에 기록합니다.
+- 이전 버전에서 가져온 Google 일정이 남아 있으면 로컬 연결 표시가 사라졌더라도 브라우저 연결 상태를 복구합니다.
+- 연결 해제 시 브라우저 상태와 남아 있는 서버 연결을 함께 정리해 다음 연결이 오래된 상태에 막히지 않게 했습니다.
+
+`const CACHE='aiderlog-v108-calendar-browser-connection-recovery';`
+
+---
+
 # AiderLog v107
 
 ## v107 Calendar recovery · readable analytics · clipping fixes

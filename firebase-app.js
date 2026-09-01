@@ -423,19 +423,25 @@ async function googleDriveFetch(url, options = {}, responseType = 'json') {
 function googleCalendarProvider() {
   const provider = new GoogleAuthProvider();
   provider.addScope('https://www.googleapis.com/auth/calendar.readonly');
-  provider.setCustomParameters({ prompt: 'select_account consent', include_granted_scopes: 'true' });
+  // Keep the proven v100 browser-side Calendar authorization flow. This
+  // returns the Calendar access token directly to the signed-in app without
+  // making the server OAuth callback a prerequisite for connecting.
+  provider.setCustomParameters({ prompt: 'consent' });
   return provider;
 }
 
 async function requestGoogleCalendarAccess() {
   requireUser();
   try {
+    console.info('[calendar-connection] browser-consent-start');
     const result = await reauthenticateWithPopup(auth.currentUser, googleCalendarProvider());
     const credential = GoogleAuthProvider.credentialFromResult(result);
     googleCalendarAccessToken = String(credential?.accessToken || '');
     if (!googleCalendarAccessToken) throw new Error('Google Calendar 연결 권한을 확인하지 못했습니다.');
+    console.info('[calendar-connection] browser-consent-ready');
     return true;
   } catch (error) {
+    console.warn('[calendar-connection] browser-consent-failed', error?.code || error?.message || String(error));
     if (error?.code === 'auth/popup-closed-by-user') {
       throw new Error('AiderLog 로그인은 완료되어 있습니다. Google Calendar 권한 연결만 취소되었습니다.');
     }

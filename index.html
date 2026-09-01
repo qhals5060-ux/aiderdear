@@ -11,13 +11,13 @@
 <meta name="description" content="">
 <meta name="format-detection" content="telephone=no">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="aiderlog-build" content="v107">
+<meta name="aiderlog-build" content="v108">
 <link rel="canonical" href="https://aiderdear1.vercel.app/">
 <script>
 (() => {
   const url = new URL(location.href);
   if (url.searchParams.has('client-intake')) document.documentElement.classList.add('client-intake-only');
-  if (['v67','v68','v69','v70','v71','v72','v73','v74','v75','v76','v77','v78','v79','v80','v81','v82','v83','v84','v85','v86','v87','v88','v89','v90','v91','v92','v93','v94','v95','v96','v97','v98','v99','v100','v101','v102','v103','v104','v105','v106','v107'].includes(url.searchParams.get('aiderlog-main'))) {
+  if (['v67','v68','v69','v70','v71','v72','v73','v74','v75','v76','v77','v78','v79','v80','v81','v82','v83','v84','v85','v86','v87','v88','v89','v90','v91','v92','v93','v94','v95','v96','v97','v98','v99','v100','v101','v102','v103','v104','v105','v106','v107','v108'].includes(url.searchParams.get('aiderlog-main'))) {
     url.searchParams.delete('aiderlog-main');
     history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`);
   }
@@ -4836,8 +4836,8 @@ html.client-intake-only .client-intake-result b{font:800 38px/1.1 Arial,sans-ser
 
 <script type="module" src="./firebase-app.js"></script>
 <script src="./brain-3d.js"></script>
-<script src="./language-lab-v18-engine.js?v=107"></script>
-<script src="./language-lab-v18.js?v=107"></script>
+<script src="./language-lab-v18-engine.js?v=108"></script>
+<script src="./language-lab-v18.js?v=108"></script>
 <script>
 (()=>{
   const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
@@ -5559,7 +5559,7 @@ html.client-intake-only .client-intake-result b{font:800 38px/1.1 Arial,sans-ser
     if(!currentUser){requireLogin(connectGoogleCalendarImport);return}
     const button=$('#googleCalendarConnect');button.disabled=true;button.textContent='연결 중…';
     try{
-      if(externalCalendarStatus.google?.connected&&!externalCalendarStatus.google?.clientMode){const result=await calendarSyncRequest('calendars'),selectedIds=new Set((result.selectedCalendarIds||[]).map(String));calendarImportMode='server';calendarImportSources=Array.isArray(result.calendars)?result.calendars:[];googleCalendarWriteSources=calendarImportSources.filter(source=>selectedIds.has(String(source.id))&&(source.writable||['owner','writer'].includes(source.accessRole)));rememberGoogleCalendarSelection(result.selectedCalendarIds||[])}
+      if(calendarImportMode==='server'&&externalCalendarStatus.google?.connected&&!externalCalendarStatus.google?.clientMode){const result=await calendarSyncRequest('calendars'),selectedIds=new Set((result.selectedCalendarIds||[]).map(String));calendarImportSources=Array.isArray(result.calendars)?result.calendars:[];googleCalendarWriteSources=calendarImportSources.filter(source=>selectedIds.has(String(source.id))&&(source.writable||['owner','writer'].includes(source.accessRole)));rememberGoogleCalendarSelection(result.selectedCalendarIds||[])}
       else{calendarImportMode='client';await window.AiderDearFirebase.requestGoogleCalendarAccess();calendarImportSources=await window.AiderDearFirebase.listGoogleCalendars()}
       renderGoogleCalendarImportList();toast(`${calendarImportSources.length}개의 Google 캘린더를 불러왔습니다.`)
     }catch(err){toast(err.message||String(err))}finally{button.disabled=false;button.textContent=calendarImportMode==='server'?'목록 새로고침':'Google 연결'}
@@ -5880,7 +5880,9 @@ html.client-intake-only .client-intake-result b{font:800 38px/1.1 Arial,sans-ser
   function forgetGoogleClientSync(){localStorage.removeItem(calendarClientModeKey('google-client'));localStorage.removeItem(calendarClientModeKey('google-synced-at'));localStorage.removeItem(calendarClientModeKey('google-selected'))}
   function restoreGoogleClientStatus(status={}){
     const rows=(ownScheduleEvents||[]).filter(row=>row.externalSource==='google'),remembered=localStorage.getItem(calendarClientModeKey('google-client'))==='1',selection=googleCalendarSelectionIds();
-    if(!remembered)return status;
+    // v100 restored browser mode from imported Google rows as well as the
+    // local marker. Preserve that behavior across version/cache upgrades.
+    if(!remembered&&!rows.length)return status;
     return {...status,connected:true,clientMode:true,needsSelection:remembered&&!selection.size,lastSyncedAt:Number(localStorage.getItem(calendarClientModeKey('google-synced-at'))||0),calendarCount:selection.size||new Set(rows.map(row=>row.calendarId).filter(Boolean)).size,itemCount:rows.length};
   }
   async function calendarSyncRequest(action,payload={}){
@@ -5918,29 +5920,26 @@ html.client-intake-only .client-intake-result b{font:800 38px/1.1 Arial,sans-ser
     try{for(const provider of providers)await calendarSyncRequest('sync',{provider});const snapshot=await window.AiderDearFirebase.readScheduleData();applyScheduleDataSnapshot(snapshot);externalCalendarStatus=await calendarSyncRequest('status');externalCalendarStatus.google=restoreGoogleClientStatus(externalCalendarStatus.google);renderExternalCalendarStatus()}catch(error){console.warn('Automatic calendar sync failed',error);if(externalCalendarStatus.google?.connected)externalCalendarStatus.google={...externalCalendarStatus.google,lastError:`자동 동기화 실패 · ${error.message||String(error)}`};renderExternalCalendarStatus()}finally{externalCalendarAutoSyncBusy=false}
   }
   function startExternalCalendarAutoSync(){clearInterval(externalCalendarAutoSyncTimer);externalCalendarAutoSyncTimer=setInterval(()=>runExternalCalendarAutoSync(false),120000)}
-  async function openGoogleBrowserFallback(error){
-    calendarImportMode='client';calendarImportSources=[];$('#googleCalendarImportList').innerHTML='<p class="calendar-import-empty">브라우저 권한으로 Google Calendar 목록을 불러오는 중입니다.</p>';$('#googleCalendarImport').disabled=true;openModal('calendarImportModal');
-    try{await window.AiderDearFirebase.requestGoogleCalendarAccess();calendarImportSources=await window.AiderDearFirebase.listGoogleCalendars();renderGoogleCalendarImportList();toast(`서버 연결을 사용할 수 없어 브라우저 자동 갱신으로 연결합니다. ${calendarImportSources.length}개의 캘린더에서 표시할 항목을 선택해주세요.`)}catch(fallbackError){closeModal('calendarImportModal');externalCalendarStatus.google={connected:false,lastError:fallbackError.message||error?.message||String(fallbackError)};renderExternalCalendarStatus();toast(fallbackError.message||String(fallbackError))}
-  }
   async function startExternalCalendar(provider){
     if(provider==='google'){
-      if(externalCalendarStatus.google?.connected&&!externalCalendarStatus.google?.clientMode&&!externalCalendarStatus.google?.writeEnabled){
-        try{const result=await calendarSyncRequest('start',{provider:'google'});if(!result.url)throw new Error('연결 주소를 만들지 못했습니다.');location.href=result.url}catch(err){await openGoogleBrowserFallback(err)}return
-      }
-      if(externalCalendarStatus.google?.connected&&!externalCalendarStatus.google?.clientMode){calendarImportMode='server';calendarImportSources=[];$('#googleCalendarImportList').innerHTML='<p class="calendar-import-empty">Google Calendar 목록을 불러오는 중입니다.</p>';$('#googleCalendarImport').disabled=true;openModal('calendarImportModal');await connectGoogleCalendarImport();return}
-      try{const result=await calendarSyncRequest('start',{provider:'google'});if(!result.url)throw new Error('연결 주소를 만들지 못했습니다.');location.href=result.url}catch(err){await openGoogleBrowserFallback(err)}
+      // v100's direct browser authorization was the last known-good connect
+      // path. Use it first so a stale/mismatched server function cannot block
+      // Calendar permission or calendar selection.
+      calendarImportMode='client';calendarImportSources=[];googleCalendarWriteSources=[];
+      $('#googleCalendarImportList').innerHTML='<p class="calendar-import-empty">Google Calendar 권한을 확인하고 목록을 불러오는 중입니다.</p>';
+      $('#googleCalendarImport').disabled=true;openModal('calendarImportModal');await connectGoogleCalendarImport();
       return
     }
     try{const result=await calendarSyncRequest('start',{provider});if(!result.url)throw new Error('연결 주소를 만들지 못했습니다.');location.href=result.url}catch(err){toast(`${err.message||String(err)} · Notion 서버 연동 환경변수를 확인해주세요.`)}
   }
   async function disconnectExternalCalendar(provider){
     if(!confirm(`${provider==='google'?'Google Calendar':'Notion'} 연결을 해제하고 가져온 일정을 캘린더에서 삭제할까요?`))return;
-    try{if(provider==='google'){clearInterval(clientGoogleSyncTimer);clientGoogleSyncTimer=null;clientGoogleSyncSources=[];forgetGoogleClientSync();ownScheduleEvents=(ownScheduleEvents||[]).filter(row=>row.externalSource!=='google');await persistOwnScheduleEvents();if(!externalCalendarStatus.google?.clientMode)await calendarSyncRequest('disconnect',{provider})}else await calendarSyncRequest('disconnect',{provider});externalCalendarStatus[provider]={connected:false};renderExternalCalendarStatus();toast('캘린더 연결을 해제했습니다.')}catch(err){externalCalendarStatus[provider]={connected:false,lastError:err.message||String(err)};renderExternalCalendarStatus();toast(`화면의 연결 정보는 정리했습니다. 서버 연결 해제 확인: ${err.message||String(err)}`)}
+    try{if(provider==='google'){clearInterval(clientGoogleSyncTimer);clientGoogleSyncTimer=null;clientGoogleSyncSources=[];googleCalendarWriteSources=[];forgetGoogleClientSync();ownScheduleEvents=(ownScheduleEvents||[]).filter(row=>row.externalSource!=='google');await persistOwnScheduleEvents();try{await calendarSyncRequest('disconnect',{provider})}catch(error){console.warn('Server calendar disconnect skipped',error)}}else await calendarSyncRequest('disconnect',{provider});externalCalendarStatus[provider]={connected:false};renderExternalCalendarStatus();toast('캘린더 연결을 해제했습니다.')}catch(err){externalCalendarStatus[provider]={connected:false,lastError:err.message||String(err)};renderExternalCalendarStatus();toast(`화면의 연결 정보는 정리했습니다. 서버 연결 해제 확인: ${err.message||String(err)}`)}
   }
   async function handleCalendarSyncReturn(){
     if(calendarSyncReturnHandled||!currentUser)return;const params=new URLSearchParams(location.search),provider=params.get('calendar_sync')||params.get('calendar_sync_provider'),error=params.get('calendar_sync_error');if(!provider&&!error)return;calendarSyncReturnHandled=true;
     history.replaceState({},'',location.pathname+location.hash);openPersonalSettings('calendar');
-    if(error){await refreshExternalCalendarStatus();if(provider==='google'&&!externalCalendarStatus.google?.connected){await openGoogleBrowserFallback(new Error(error));return}toast(error);return}
+    if(error){await refreshExternalCalendarStatus();toast(provider==='google'?`${error} · 캘린더 연결 버튼을 다시 눌러주세요.`:error);return}
     try{
       if(provider==='google'){clearInterval(clientGoogleSyncTimer);clientGoogleSyncTimer=null;clientGoogleSyncSources=[];forgetGoogleClientSync()}
       // The OAuth callback writes the imported rows on the server. Explicitly read
@@ -5952,16 +5951,14 @@ html.client-intake-only .client-intake-result b{font:800 38px/1.1 Arial,sans-ser
       startExternalCalendarAutoSync();
       const count=Number(externalCalendarStatus[provider]?.itemCount||0);
       if(provider==='google'&&!externalCalendarStatus.google?.connected){
-        toast('서버 연결 상태를 복구하지 못해 브라우저 권한 연결로 전환합니다.');
-        await openGoogleBrowserFallback(new Error('OAuth 콜백 뒤 연결 상태가 저장되지 않았습니다.'));
+        toast('서버 연결 상태를 복구하지 못했습니다. 캘린더 연결 버튼을 누르면 v100 방식으로 바로 연결됩니다.');
         return
       }
       toast(`${provider==='google'?'Google Calendar':'Notion'} 연결 완료 · 일정 ${count}개를 가져왔습니다.`);
-      if(provider==='google')setTimeout(()=>startExternalCalendar('google'),250)
+      if(provider==='google'&&externalCalendarStatus.google?.connected){calendarImportMode='server';setTimeout(()=>{calendarImportSources=[];$('#googleCalendarImportList').innerHTML='<p class="calendar-import-empty">Google Calendar 목록을 불러오는 중입니다.</p>';$('#googleCalendarImport').disabled=true;openModal('calendarImportModal');connectGoogleCalendarImport()},250)}
     }catch(syncError){
       await refreshExternalCalendarStatus();
-      if(provider==='google'&&!externalCalendarStatus.google?.connected){await openGoogleBrowserFallback(syncError);return}
-      toast(`연결은 완료됐지만 일정을 표시하지 못했습니다. ${syncError.message||String(syncError)}`)
+      toast(`연결은 완료됐지만 일정을 표시하지 못했습니다. ${syncError.message||String(syncError)}${provider==='google'?' · 캘린더 연결 버튼을 다시 눌러주세요.':''}`)
     }
   }
   $('#calendarGoogleConnect')?.addEventListener('click',()=>startExternalCalendar('google'));
