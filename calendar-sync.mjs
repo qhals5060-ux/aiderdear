@@ -204,17 +204,46 @@ async function listGoogleEvents(token, calendar, start, end) {
   return rows;
 }
 
+async function availableGoogleCalendars(connection) {
+  const result = await googleJson(connection.token, 'https://www.googleapis.com/calendar/v3/users/me/calendarList?maxResults=250');
+  return (result.items || []).filter(item => item.accessRole !== 'freeBusyReader' && !item.deleted);
+}
+
+function selectedGoogleCalendars(connection, calendars) {
+  const configured = new Set((Array.isArray(connection.data.selectedCalendarIds) ? connection.data.selectedCalendarIds : []).map(String));
+  const selected = configured.size ? calendars.filter(calendar => configured.has(String(calendar.id))) : calendars.filter(calendar => calendar.primary);
+  return (selected.length ? selected : calendars.slice(0, 1)).slice(0, 20);
+}
+
+async function googleCalendarChoices(uid) {
+  const connection = await googleAccess(uid);
+  const calendars = await availableGoogleCalendars(connection);
+  const selectedIds = selectedGoogleCalendars(connection, calendars).map(calendar => String(calendar.id));
+  return {
+    selectedCalendarIds: selectedIds,
+    calendars: calendars.map(calendar => ({
+      id: String(calendar.id),
+      summary: cleanText(calendar.summary || 'Google Calendar', 100),
+      primary: !!calendar.primary,
+      accessRole: String(calendar.accessRole || 'reader'),
+      backgroundColor: String(calendar.backgroundColor || '#4285F4'),
+      foregroundColor: String(calendar.foregroundColor || '#FFFFFF'),
+    })),
+  };
+}
+
 async function syncGoogle(uid) {
   const connection = await googleAccess(uid);
-  const calendars = await googleJson(connection.token, 'https://www.googleapis.com/calendar/v3/users/me/calendarList?maxResults=250');
-  const selected = (calendars.items || []).filter(item => item.accessRole !== 'freeBusyReader' && !item.deleted).slice(0, 10);
+  const calendars = await availableGoogleCalendars(connection);
+  const selected = selectedGoogleCalendars(connection, calendars);
   const start = new Date(Date.now() - 366 * 86400000).toISOString();
   const end = new Date(Date.now() + 732 * 86400000).toISOString();
   const batches = await Promise.all(selected.map(calendar => listGoogleEvents(connection.token, calendar, start, end)));
   const rows = batches.flat().sort((a, b) => Math.abs(Date.parse(a.date) - Date.now()) - Math.abs(Date.parse(b.date) - Date.now())).slice(0, 600).sort((a, b) => String(a.date).localeCompare(String(b.date)));
   await replaceProviderRows(uid, 'google', rows);
-  await connection.ref.set({ provider: 'google', connected: true, calendarCount: selected.length, itemCount: rows.length, lastSyncedAt: FieldValue.serverTimestamp(), lastError: '' }, { merge: true });
-  return { itemCount: rows.length, calendarCount: selected.length };
+  const selectedCalendarIds = selected.map(calendar => String(calendar.id));
+  await connection.ref.set({ provider: 'google', connected: true, selectedCalendarIds, calendarCount: selected.length, itemCount: rows.length, lastSyncedAt: FieldValue.serverTimestamp(), lastError: '' }, { merge: true });
+  return { itemCount: rows.length, calendarCount: selected.length, selectedCalendarIds };
 }
 
 async function stopGoogleChannels(token, channels = []) {
@@ -228,8 +257,8 @@ async function watchGoogle(uid) {
   const connection = await googleAccess(uid);
   const oldChannels = Array.isArray(connection.data.channels) ? connection.data.channels : [];
   await stopGoogleChannels(connection.token, oldChannels);
-  const calendars = await googleJson(connection.token, 'https://www.googleapis.com/calendar/v3/users/me/calendarList?maxResults=250');
-  const selected = (calendars.items || []).filter(item => item.accessRole !== 'freeBusyReader' && !item.deleted).slice(0, 10);
+  const calendars = await availableGoogleCalendars(connection);
+  const selected = selectedGoogleCalendars(connection, calendars);
   const channels = await Promise.all(selected.map(async calendar => {
     const id = crypto.randomUUID();
     const body = { id, type: 'web_hook', address: `${baseUrl()}/api/calendar-sync?action=google-webhook`, token: signedState({ uid, provider: 'google', exp: Date.now() + 8 * 86400000 }), expiration: String(Date.now() + 6 * 86400000) };
@@ -240,6 +269,20 @@ async function watchGoogle(uid) {
   }));
   await connection.ref.set({ channels, watchUpdatedAt: FieldValue.serverTimestamp() }, { merge: true });
   return channels.length;
+}
+
+async function configureGoogle(uid, calendarIds = []) {
+  const connection = await googleAccess(uid);
+  const calendars = await availableGoogleCalendars(connection);
+  const allowed = new Set(calendars.map(calendar => String(calendar.id)));
+  const selectedCalendarIds = [...new Set((Array.isArray(calendarIds) ? calendarIds : []).map(String).filter(id => allowed.has(id)))].slice(0, 20);
+  if (!selectedCalendarIds.length) throw new Error('자동 동기화할 Google 캘린더를 하나 이상 선택해주세요.');
+  await connection.ref.set({ selectedCalendarIds, updatedAt: FieldValue.serverTimestamp() }, { merge: true });
+  const result = await syncGoogle(uid);
+  try { await watchGoogle(uid); } catch (error) {
+    await connection.ref.set({ watchError: error.message || String(error), watchUpdatedAt: FieldValue.serverTimestamp() }, { merge: true });
+  }
+  return result;
 }
 
 function notionValue(property) {
@@ -438,6 +481,7 @@ export default async function handler(req, res) {
     if (action === 'renew') return renewGoogleWatches(req, res);
     const user = await currentUser(req);
     if (action === 'status') return json(res, 200, await status(user.uid));
+    if (action === 'calendars') return json(res, 200, await googleCalendarChoices(user.uid));
     if (action === 'start') return json(res, 200, { url: await startConnection(user.uid, parsed.value.provider) });
     if (action === 'sync') {
       const provider = parsed.value.provider;
@@ -445,6 +489,7 @@ export default async function handler(req, res) {
       return json(res, 200, result);
     }
     if (action === 'configure') {
+      if (parsed.value.provider === 'google') return json(res, 200, await configureGoogle(user.uid, parsed.value.calendarIds));
       if (parsed.value.provider !== 'notion') throw new Error('지원하지 않는 설정입니다.');
       const sourceId = notionSourceId(parsed.value.source);
       const ref = integrationRef(user.uid, 'notion');

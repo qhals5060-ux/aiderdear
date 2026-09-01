@@ -44,6 +44,18 @@ v96 정상 동작
 - 연결 완료 알림에 가져온 일정 개수 표시
 - 서비스 워커 캐시를 v96으로 갱신하여 이전 index.html 잔존 방지
 
+v102 정상 동작
+- 개인 설정 → 캘린더 → 자동 동기화 연결 후 표시할 Google 캘린더만 선택 가능
+- Google Calendar 변경 사항이 웹훅과 앱 재진입 시 SCHEDULE에 자동 반영
+- 기존 임시 연결 상태에는 `자동 동기화 켜기`가 표시되고 한 번의 재승인 후 서버 방식으로 전환
+- TASK 대학원 상담 캘린더의 오늘 날짜 칸이 원형 날짜 강조와 금색 테두리로 정상 표시
+- 지원 가능 대학원 분석에 6개 축 진단, 대학원별 우선순위, 신뢰도, 유사 사례와 증빙 보완 항목 표시
+- 내부 고객 등록과 외부 작성 링크에서 학위 과정·학점·연구 성과 저장
+
+Vercel 자동 동기화 필수 환경변수
+- PUBLIC_APP_URL, GOOGLE_CALENDAR_CLIENT_ID, GOOGLE_CALENDAR_CLIENT_SECRET, CALENDAR_STATE_SECRET, CRON_SECRET
+- FIREBASE_SERVICE_ACCOUNT_JSON 또는 FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, FIREBASE_PRIVATE_KEY
+
 v95 정상 동작
 - PERSONAL → 건강 → 30일 챌린지에서 실사 트레이너 시연 표시
 - 동작 선택 변경 시 해당 동작의 시연·설명 동시 변경

@@ -1607,6 +1607,9 @@ async function submitClientIntake(token, payload = {}) {
     currentMajor: intakeText(payload.currentMajor, 120),
     targetUniversity: intakeText(payload.targetUniversity, 120),
     targetMajor: intakeText(payload.targetMajor, 120),
+    degree: ['masters', 'doctoral', 'integrated', 'other'].includes(payload.degree) ? payload.degree : '',
+    gpa: Math.max(0, Math.min(100, Number(payload.gpa) || 0)),
+    gpaScale: [4, 4.3, 4.5, 100].includes(Number(payload.gpaScale)) ? Number(payload.gpaScale) : 0,
     applicationYear,
     applicationSemester,
     topic: intakeText(payload.topic, 1200),
@@ -1614,15 +1617,19 @@ async function submitClientIntake(token, payload = {}) {
     certifications: intakeText(payload.certifications, 1200),
     activities: intakeText(payload.activities, 1600),
     researchExperience: intakeText(payload.researchExperience, 1600),
+    outputs: intakeText(payload.outputs, 1600),
     inquiry: intakeText(payload.inquiry, 2000),
     note: intakeText(payload.note, 6000),
     consent: true,
-    source: 'external-intake-v2',
+    source: 'external-intake-v3',
     status: 'new',
     createdAt: serverTimestamp(),
   };
   if (!data.name || !data.phone || !applicationYear || !applicationSemester) {
     throw new Error('이름, 연락처, 진학 희망 학년도와 학기를 모두 입력해주세요.');
+  }
+  if ((data.gpa && !data.gpaScale) || (!data.gpa && data.gpaScale)) {
+    throw new Error('학점과 학점 만점을 함께 입력해주세요.');
   }
   const link = await getDoc(clientIntakeRef(token));
   if (!link.exists() || link.data().active !== true) throw new Error('만료되었거나 교체된 작성 링크입니다.');

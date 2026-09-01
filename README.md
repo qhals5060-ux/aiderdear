@@ -1,3 +1,20 @@
+# AiderLog v102
+
+## v102 Automatic calendar sync · TASK analysis clarity
+
+- Google Calendar 연결을 브라우저 임시 토큰이 아닌 서버 refresh token 방식으로 전환해, 선택한 캘린더만 자동 동기화합니다.
+- Google 변경 알림(webhook), 앱 실행·복귀·온라인 복구 시 갱신, 매일 구독 갱신 cron을 함께 사용합니다.
+- 기존 임시 연결 사용자는 배포 후 개인 설정 → 캘린더의 `자동 동기화 켜기`를 한 번 눌러 전환합니다.
+- TASK 상담 캘린더의 오늘 칸을 전용 `is-today` 스타일로 분리해 전역 `today` 스타일 충돌을 제거했습니다.
+- 대학원 분석은 학업·연구·어학·전공 적합·활동·지원 설계의 6개 축, 증빙 8개 항목, 유사 사례, 결과 표본과 신뢰도를 함께 반영합니다.
+- 학위 과정·학점·학점 만점·논문/학회/발표/포트폴리오 입력을 내부 고객 폼과 외부 접수 폼에 추가했습니다.
+
+서버 자동 동기화에는 `.env.example`의 Firebase 서비스 계정, Google Calendar OAuth, `CALENDAR_STATE_SECRET`, `CRON_SECRET`, `PUBLIC_APP_URL` 설정이 필요합니다.
+
+`const CACHE='aiderlog-v102-calendar-auto-sync-task-analysis';`
+
+---
+
 # AiderLog v95
 
 ## v95 Real trainer motion · repeatable DAY sessions
