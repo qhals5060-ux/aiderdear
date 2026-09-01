@@ -11,13 +11,13 @@
 <meta name="description" content="">
 <meta name="format-detection" content="telephone=no">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="aiderlog-build" content="v98">
+<meta name="aiderlog-build" content="v99">
 <link rel="canonical" href="https://aiderdear1.vercel.app/">
 <script>
 (() => {
   const url = new URL(location.href);
   if (url.searchParams.has('client-intake')) document.documentElement.classList.add('client-intake-only');
-  if (['v67','v68','v69','v70','v71','v72','v73','v74','v75','v76','v77','v78','v79','v80','v81','v82','v83','v84','v85','v86','v87','v88','v89','v90','v91','v92','v93','v94','v95','v96','v97','v98'].includes(url.searchParams.get('aiderlog-main'))) {
+  if (['v67','v68','v69','v70','v71','v72','v73','v74','v75','v76','v77','v78','v79','v80','v81','v82','v83','v84','v85','v86','v87','v88','v89','v90','v91','v92','v93','v94','v95','v96','v97','v98','v99'].includes(url.searchParams.get('aiderlog-main'))) {
     url.searchParams.delete('aiderlog-main');
     history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`);
   }
@@ -3543,7 +3543,7 @@ html.client-intake-only .client-intake-result b{font:800 38px/1.1 Arial,sans-ser
 .profile-connections-block{grid-column:1/-1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-content:start;gap:10px;border-top:1px solid #111;padding-top:10px}
 .profile-connections-block .firebase-pair-card,.profile-connections-block .firebase-invite-box,.profile-connections-block>.firebase-request-box{grid-column:1}
 .profile-connections-block .friend-panel{grid-column:2;grid-row:1/span 3;min-height:0;overflow:auto}
-.oauth-testing-guide{grid-column:1/-1;margin:0;border-top:1px solid #eee;padding-top:7px;font-size:7.5px;line-height:1.5;color:#76500b}
+.oauth-testing-guide{grid-column:1/-1;margin:0;border-top:1px solid #eee;padding-top:7px;font-size:7.5px;line-height:1.5;color:#76500b}.oauth-console-link{grid-column:1/-1;justify-self:start;color:#111;font-size:8px;font-weight:900;text-underline-offset:3px}
 .account-settings-panel[data-account-panel="app"]{grid-template-columns:1fr!important}
 .app-install-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .app-install-card{min-height:150px;display:grid;grid-template-rows:auto auto 1fr auto;gap:6px;border:1px solid #bcb8c2;background:#fff;padding:14px}
@@ -4141,7 +4141,7 @@ html.client-intake-only .client-intake-result b{font:800 38px/1.1 Arial,sans-ser
               <section class="account-settings-panel" data-account-panel="calendar">
                 <header class="settings-panel-heading"><div><b>캘린더 동기화</b><span>외부 일정은 읽기 전용으로 내 캘린더에만 표시됩니다.</span></div><button type="button" class="text-action" id="calendarSyncRefresh">상태 새로고침</button></header>
                 <div class="calendar-sync-grid">
-                  <article class="calendar-sync-card" data-calendar-provider="google"><i class="provider-mark google">G</i><div><b>Google Calendar</b><span id="calendarGoogleStatus">AiderLog 로그인과 별도 권한입니다.</span></div><button type="button" id="calendarGoogleConnect">캘린더 연결</button><small class="oauth-testing-guide">현재 Google 검증 전 테스트 단계입니다. 경고 창이 뜨면 ‘고급’ → ‘AiderLog(으)로 이동’을 선택해야 연결을 계속할 수 있습니다.</small></article>
+                  <article class="calendar-sync-card" data-calendar-provider="google"><i class="provider-mark google">G</i><div><b>Google Calendar</b><span id="calendarGoogleStatus">AiderLog 로그인과 별도 권한입니다.</span></div><button type="button" id="calendarGoogleConnect">캘린더 연결</button><small class="oauth-testing-guide">먼저 Google Calendar API를 켜야 합니다. 검증 전 경고 창이 뜨면 ‘고급’ → ‘AiderLog(으)로 이동’을 선택하세요.</small><a class="oauth-console-link" href="https://console.cloud.google.com/apis/library/calendar-json.googleapis.com?project=aiderdear-1bbca" target="_blank" rel="noopener noreferrer">1. Google Calendar API 사용 설정 ↗</a></article>
                   <article class="calendar-sync-card" data-calendar-provider="notion"><i class="provider-mark notion">N</i><div><b>Notion</b><span id="calendarNotionStatus">연결되지 않음</span></div><button type="button" id="calendarNotionConnect">연결</button><label class="notion-source-compact"><span>데이터베이스 링크 또는 ID</span><input id="calendarNotionSource" type="text" autocomplete="off" placeholder="Notion database ID"><button type="button" id="calendarNotionSave">적용</button></label></article>
                   <article class="calendar-sync-card samsung-card"><i class="provider-mark samsung">S</i><div><b>Samsung Calendar</b><span>Google 계정에 저장된 삼성 일정이 함께 동기화됩니다.</span></div><button type="button" id="calendarSamsungGuide">설정 방법</button></article>
                 </div>
@@ -6835,7 +6835,7 @@ html.client-intake-only .client-intake-result b{font:800 38px/1.1 Arial,sans-ser
       {id:'side',name:'사이드 플랭크',asset:'./challenge-plank-side-animated-v95.webp',cue:'아래 팔꿈치를 어깨 밑에 두고 두 발을 포개거나 앞뒤로 배치합니다. 골반을 들어 어깨·골반·발목을 한 선으로 만들고 위쪽 몸통이 앞으로 말리지 않게 유지합니다.'}
     ]},
     burpee:{name:'버피',unit:'회',target:(day,gender)=>gender==='female'?5+(day-1):7+(day-1),variants:[
-      {id:'basic',name:'베이직 버피',asset:'./challenge-burpee-sequence-v98.png',cue:'선 자세에서 엉덩이를 낮춰 손을 바닥에 짚고 두 발을 뒤로 보내 하이 플랭크를 만듭니다. 허리가 꺾이지 않게 복부를 조인 뒤 두 발을 다시 손 가까이 당겨와 팔을 위로 뻗으며 가볍게 점프합니다. 무릎이나 허리가 불편하면 점프 없이 발을 한쪽씩 움직이세요.'}
+      {id:'basic',name:'베이직 버피',asset:'./challenge-burpee-animated-v99.webp',cue:'선 자세에서 엉덩이를 낮춰 손을 바닥에 짚고 두 발을 뒤로 보내 하이 플랭크를 만듭니다. 허리가 꺾이지 않게 복부를 조인 뒤 두 발을 다시 손 가까이 당겨와 팔을 위로 뻗으며 가볍게 점프합니다. 무릎이나 허리가 불편하면 점프 없이 발을 한쪽씩 움직이세요.'}
     ]}
   };
   function personalChallengeRows(id){return personalRows(personalStore().personalItems||[],'health').filter(row=>row.details?.healthType==='exercise'&&row.details?.challengeId===id)}

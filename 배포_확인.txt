@@ -1,16 +1,20 @@
-AiderLog v98 배포 확인
+AiderLog v99 배포 확인
 
 1. 이 폴더의 내용 전체를 Vercel 프로젝트 루트에 배포합니다.
 2. Vercel Root Directory는 비워 둡니다.
 3. Firebase Firestore 규칙에 이 폴더의 firestore.rules를 게시합니다. (개인 EVENT 미디어 이관 규칙 포함)
-4. Deployments에서 새 v98 배포를 Production으로 승격합니다.
+4. Deployments에서 새 v99 배포를 Production으로 승격합니다.
 5. 아래 주소를 엽니다.
    https://aiderdear1.vercel.app/sw.js
 6. 첫 줄이 아래와 같아야 합니다.
-   const CACHE='aiderlog-v98-account-challenge-apps';
+   const CACHE='aiderlog-v99-burpee-calendar-api';
 
 첫 줄에 이전 버전이 보이면 코드는 새로 올라갔더라도 운영 주소가 아직 이전 배포를 가리키는 상태입니다.
 이 경우 Vercel Deployments에서 최신 배포의 메뉴를 열어 Promote to Production을 선택하세요.
+
+v99 정상 동작
+- 버피 시연을 서기·플랭크·점프 4프레임 반복 애니메이션으로 표시
+- 캘린더 카드에서 aiderdear-1bbca 프로젝트의 Google Calendar API 사용 설정 화면으로 바로 이동
 
 v98 정상 동작
 - 계정 팝업을 프로필·캘린더·앱 3개 탭으로 정리하고 커플·친구 연결을 프로필 안으로 이동
