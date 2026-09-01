@@ -1522,3 +1522,34 @@ a { color: inherit; text-decoration: none; }
 @media(max-width:900px){
   .lesson-stage{height:0!important;padding:16px 11px 36px!important}
 }
+
+/* AiderLog v107 · keep the answer action inside the embedded lesson frame. */
+.lesson-screen{
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+  max-height:100%!important;
+}
+.lesson-stage{
+  flex:1 1 0!important;
+  height:auto!important;
+  padding-bottom:24px!important;
+  scroll-padding-bottom:24px!important;
+}
+.lesson-footer{
+  position:relative!important;
+  inset:auto!important;
+  z-index:120!important;
+  flex:0 0 64px!important;
+  min-height:64px!important;
+  padding:0 max(18px,calc((100% - 860px)/2))!important;
+  box-shadow:0 -10px 24px rgba(35,48,66,.08)!important;
+}
+.lesson-footer button{height:42px!important;font-size:11px!important}
+.lesson-footer .footer-primary{box-shadow:0 5px 14px rgba(50,91,190,.18)}
+@media(max-width:900px){
+  .lesson-screen{position:absolute!important;height:100%!important}
+  .lesson-stage{height:auto!important;padding-bottom:18px!important}
+  .lesson-footer{padding:0 12px!important}
+}

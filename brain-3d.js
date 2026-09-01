@@ -294,7 +294,9 @@
       var visibleSide = Math.cos(yaw) >= 0 ? 1 : -1;
       var focused = Boolean(state.focused && regionAnchors[state.region]);
       var focusAnchor = focused ? Object.assign({}, regionAnchors[state.region], { z: Math.abs(regionAnchors[state.region].z) * visibleSide }) : null;
-      var project = projector(width, height, yaw, pitch, focusAnchor, focused ? 1.42 : 0.9);
+      /* Leave a reliable safe area for labels, the brainstem and the drop shadow.
+         The previous 0.9 fit touched the scene edge at wide desktop aspect ratios. */
+      var project = projector(width, height, yaw, pitch, focusAnchor, focused ? 1.28 : 0.82);
       var triangles = [];
       buildMeshes().forEach(function (mesh) {
         var isCortex = mesh.id === 'cortex';

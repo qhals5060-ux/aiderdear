@@ -55,6 +55,10 @@ function json(res, status, body) {
   res.end(JSON.stringify(body));
 }
 
+function trace(stage, detail = {}) {
+  console.info('[calendar-sync]', JSON.stringify({ stage, ...detail }));
+}
+
 async function readBody(req) {
   if (req.body && typeof req.body === 'object') return { value: req.body, raw: JSON.stringify(req.body) };
   if (typeof req.body === 'string') {
@@ -504,10 +508,12 @@ async function startConnection(uid, provider) {
 }
 
 async function oauthCallback(req, res) {
+  let state = null;
   try {
-    const state = verifyState(req.query.state);
+    state = verifyState(req.query.state);
     const code = String(req.query.code || '');
     if (!code) throw new Error(String(req.query.error_description || req.query.error || '연결이 취소되었습니다.'));
+    trace('oauth-callback-start', { provider: state.provider, user: String(state.uid).slice(0, 8) });
     if (state.provider === 'google') {
       const response = await fetch(GOOGLE_TOKEN, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams({ code, client_id: env('GOOGLE_CALENDAR_CLIENT_ID'), client_secret: env('GOOGLE_CALENDAR_CLIENT_SECRET'), redirect_uri: callbackUrl(), grant_type: 'authorization_code' }) });
       const token = await response.json();
@@ -515,7 +521,8 @@ async function oauthCallback(req, res) {
       const ref = integrationRef(state.uid, 'google');
       const previous = (await ref.get()).data() || {};
       await ref.set({ provider: 'google', connected: true, accessToken: token.access_token, refreshToken: token.refresh_token || previous.refreshToken || '', expiresAt: Date.now() + Number(token.expires_in || 3600) * 1000, scope: String(token.scope || GOOGLE_SCOPE), updatedAt: FieldValue.serverTimestamp() }, { merge: true });
-      await syncGoogle(state.uid);
+      const synced = await syncGoogle(state.uid);
+      trace('oauth-google-saved', { user: String(state.uid).slice(0, 8), calendars: synced.calendarCount, items: synced.itemCount, hasRefreshToken: Boolean(token.refresh_token || previous.refreshToken) });
       // A webhook subscription is an optional live-refresh enhancement. Google can
       // reject it temporarily even though OAuth and the initial event import both
       // succeeded. Do not turn that into a failed connection after rows are saved.
@@ -539,7 +546,8 @@ async function oauthCallback(req, res) {
   } catch (error) {
     console.error('calendar-sync callback', error);
     res.statusCode = 302;
-    res.setHeader('Location', `${baseUrl()}/?calendar_sync_error=${encodeURIComponent(error.message || String(error))}`);
+    const provider = String(state?.provider || '');
+    res.setHeader('Location', `${baseUrl()}/?calendar_sync_error=${encodeURIComponent(error.message || String(error))}${provider ? `&calendar_sync_provider=${encodeURIComponent(provider)}` : ''}`);
     res.end();
   }
 }
@@ -610,12 +618,17 @@ export default async function handler(req, res) {
     if (action === 'notion-webhook') return notionWebhook(req, res, parsed.value, parsed.raw);
     if (action === 'renew') return renewGoogleWatches(req, res);
     const user = await currentUser(req);
-    if (action === 'status') return json(res, 200, await status(user.uid));
+    if (action === 'status') {
+      const snapshot = await status(user.uid);
+      trace('status', { user: String(user.uid).slice(0, 8), googleConnected: snapshot.google.connected, googleCalendars: snapshot.google.calendarCount, googleItems: snapshot.google.itemCount, notionConnected: snapshot.notion.connected });
+      return json(res, 200, snapshot);
+    }
     if (action === 'calendars') return json(res, 200, await googleCalendarChoices(user.uid));
     if (action === 'start') return json(res, 200, { url: await startConnection(user.uid, parsed.value.provider) });
     if (action === 'sync') {
       const provider = parsed.value.provider;
       const result = provider === 'google' ? await syncGoogle(user.uid) : await syncNotion(user.uid);
+      trace('manual-sync', { user: String(user.uid).slice(0, 8), provider, calendars: result.calendarCount || 0, items: result.itemCount || 0 });
       return json(res, 200, result);
     }
     if (action === 'configure') {

@@ -1,3 +1,17 @@
+# AiderLog v107
+
+## v107 Calendar recovery · readable analytics · clipping fixes
+
+- Google OAuth 콜백 뒤 서버 상태를 다시 확인하고, 상태 저장이 복구되지 않으면 브라우저 Calendar 권한 연결로 자동 전환합니다. 서버 로그에는 토큰을 제외한 연결 단계·캘린더 수·일정 수 진단 정보가 남습니다.
+- 루틴 전체 통계를 도넛 달성률, 최근 7일 증감, 실천 일관성, 가장 꾸준한 루틴, 주요 강도와 MINI·MORE·MAX 분포로 확장했습니다.
+- 사이트 내부 어학 레슨의 높이를 부모 프레임 기준으로 계산해 하단 `정답 확인` 버튼이 항상 보이게 했습니다.
+- 뇌 모델을 안전 영역 안에 맞추고 DETAILED ATLAS INDEX와 연구 카드가 세로 스크롤 안에서 전부 표시되게 했습니다.
+- 지원 가능 대학원 분석의 개요·요약 높이를 정상 흐름으로 고정해 카드와 문구가 겹치지 않게 했습니다.
+
+`const CACHE='aiderlog-v107-calendar-ui-layout-recovery';`
+
+---
+
 # AiderLog v106
 
 ## v106 Calendar recovery · archive/album polish · BIG GOALS routine workspace
