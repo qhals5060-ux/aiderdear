@@ -1,0 +1,12 @@
+{
+  "name": "aiderlog-v91",
+  "private": true,
+  "version": "91.0.0",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "firebase-admin": "^13.4.0"
+  }
+}

@@ -60,6 +60,7 @@ const state = {
 
 const subscribers = new Set();
 let googleDriveAccessToken = '';
+let googleCalendarAccessToken = '';
 let unsubscribePairs = null;
 let unsubscribeIncoming = null;
 let unsubscribeOutgoing = null;
@@ -68,6 +69,8 @@ let unsubscribeFriendIncoming = null;
 let unsubscribeFriendOutgoing = null;
 let unsubscribeDirectLetters = null;
 let unsubscribeAppData = null;
+let unsubscribeOwnSchedule = null;
+let unsubscribePartnerSchedule = null;
 let appDataScopeKey = '';
 let pairRows = [];
 let incomingRows = [];
@@ -80,6 +83,8 @@ let repairPromise = null;
 let directLetterCleanupBusy = false;
 
 const DIRECT_LETTER_RETENTION_MS = 7 * 24 * 60 * 60 * 1000;
+const PAPER_TASK_WORKSPACE_ID = 'aiderlog-paper-task-v1';
+const PAPER_TASK_WORKSPACE_EMAILS = new Set(['qhals5060@gmail.com', 'aidway55@gmail.com']);
 
 const cleanEmail = value => String(value || '').trim().toLowerCase();
 const publicUser = user => user ? {
@@ -112,10 +117,10 @@ function emit() {
 }
 
 function stopListeners() {
-  [unsubscribePairs, unsubscribeIncoming, unsubscribeOutgoing, unsubscribeFriends, unsubscribeFriendIncoming, unsubscribeFriendOutgoing, unsubscribeDirectLetters, unsubscribeAppData].forEach(stop => {
+  [unsubscribePairs, unsubscribeIncoming, unsubscribeOutgoing, unsubscribeFriends, unsubscribeFriendIncoming, unsubscribeFriendOutgoing, unsubscribeDirectLetters, unsubscribeAppData, unsubscribeOwnSchedule, unsubscribePartnerSchedule].forEach(stop => {
     try { stop?.(); } catch {}
   });
-  unsubscribePairs = unsubscribeIncoming = unsubscribeOutgoing = unsubscribeFriends = unsubscribeFriendIncoming = unsubscribeFriendOutgoing = unsubscribeDirectLetters = unsubscribeAppData = null;
+  unsubscribePairs = unsubscribeIncoming = unsubscribeOutgoing = unsubscribeFriends = unsubscribeFriendIncoming = unsubscribeFriendOutgoing = unsubscribeDirectLetters = unsubscribeAppData = unsubscribeOwnSchedule = unsubscribePartnerSchedule = null;
   appDataScopeKey = '';
   pairRows = [];
   incomingRows = [];
@@ -326,6 +331,19 @@ function requireUser() {
   return state.user;
 }
 
+function requirePaperTaskMember() {
+  const user = requireUser();
+  if (!PAPER_TASK_WORKSPACE_EMAILS.has(cleanEmail(user.email))) {
+    throw new Error('PAPER · TASK 공동 작업공간에 접근할 수 없는 계정입니다.');
+  }
+  return user;
+}
+
+function paperTaskWorkspaceRef() {
+  requirePaperTaskMember();
+  return doc(db, 'sharedWorkspaces', PAPER_TASK_WORKSPACE_ID);
+}
+
 function pairScope() {
   const user = requireUser();
   return state.pair
@@ -355,6 +373,7 @@ async function login() {
 
 async function logout() {
   googleDriveAccessToken = '';
+  googleCalendarAccessToken = '';
   await signOut(auth);
 }
 
@@ -391,6 +410,64 @@ async function googleDriveFetch(url, options = {}, responseType = 'json') {
   if (responseType === 'response') return response;
   if (responseType === 'text') return response.text();
   return response.json();
+}
+
+function googleCalendarProvider() {
+  const provider = new GoogleAuthProvider();
+  provider.addScope('https://www.googleapis.com/auth/calendar.readonly');
+  provider.setCustomParameters({ prompt: 'consent' });
+  return provider;
+}
+
+async function requestGoogleCalendarAccess() {
+  requireUser();
+  const result = await reauthenticateWithPopup(auth.currentUser, googleCalendarProvider());
+  const credential = GoogleAuthProvider.credentialFromResult(result);
+  googleCalendarAccessToken = String(credential?.accessToken || '');
+  if (!googleCalendarAccessToken) throw new Error('Google Calendar 연결 권한을 확인하지 못했습니다.');
+  return true;
+}
+
+async function googleCalendarFetch(url, options = {}) {
+  if (!googleCalendarAccessToken) await requestGoogleCalendarAccess();
+  const headers = new Headers(options.headers || {});
+  headers.set('Authorization', `Bearer ${googleCalendarAccessToken}`);
+  const response = await fetch(url, { ...options, headers });
+  if (!response.ok) {
+    const body = await response.text().catch(() => '');
+    if (response.status === 401) googleCalendarAccessToken = '';
+    if (response.status === 403 && /accessNotConfigured|SERVICE_DISABLED/i.test(body)) {
+      throw new Error('Google Cloud에서 Google Calendar API를 먼저 사용 설정해주세요.');
+    }
+    throw new Error(`Google Calendar 가져오기 오류 (${response.status})`);
+  }
+  return response.status === 204 ? null : response.json();
+}
+
+async function listGoogleCalendars() {
+  const fields = 'items(id,summary,primary,accessRole,backgroundColor,foregroundColor)';
+  const result = await googleCalendarFetch(`https://www.googleapis.com/calendar/v3/users/me/calendarList?maxResults=250&fields=${encodeURIComponent(fields)}`);
+  return Array.isArray(result?.items) ? result.items : [];
+}
+
+async function listGoogleCalendarEvents(calendarId, timeMin, timeMax) {
+  const rows = [];
+  let pageToken = '';
+  do {
+    const params = new URLSearchParams({
+      singleEvents: 'true',
+      orderBy: 'startTime',
+      maxResults: '2500',
+      timeMin,
+      timeMax,
+      fields: 'items(id,status,summary,description,start,end,updated,htmlLink),nextPageToken',
+    });
+    if (pageToken) params.set('pageToken', pageToken);
+    const result = await googleCalendarFetch(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendarId)}/events?${params}`);
+    rows.push(...(Array.isArray(result?.items) ? result.items.filter(item => item.status !== 'cancelled') : []));
+    pageToken = String(result?.nextPageToken || '');
+  } while (pageToken && rows.length < 750);
+  return rows.slice(0, 750);
 }
 
 function driveQueryEscape(value) {
@@ -501,7 +578,7 @@ async function backupPaperTaskDataToGoogleDrive({ paper = {}, task = {}, media =
   for (const item of media) {
     const id = String(item?.id || '');
     if (!id || mediaBackups[id]) continue;
-    const blob = await readPrivateMedia(id);
+    const blob = item?.storageScope === 'paper-task' ? await readPaperTaskMedia(id) : await readPrivateMedia(id);
     const result = await uploadGoogleDriveBackupFile(folder.id, `private:${id}`, item.name || id, blob);
     mediaBackups[id] = { driveFileId: result.id, name: result.name, mimeType: result.mimeType || blob.type, size: Number(result.size || blob.size) };
     if (!result.reused) uploaded += 1;
@@ -774,6 +851,114 @@ async function writeAppData(payload) {
   });
 }
 
+function ownScheduleRef() {
+  const user = requireUser();
+  return doc(db, 'users', user.uid, 'schedule', 'main');
+}
+
+function pairScheduleRef(uid) {
+  requireUser();
+  if (!state.pair) return null;
+  return doc(db, 'pairs', state.pair.id, 'schedules', String(uid));
+}
+
+function cleanScheduleRows(rows, ownerUid = '') {
+  const user = requireUser();
+  const email = cleanEmail(user.email);
+  return (Array.isArray(rows) ? rows : [])
+    .filter(row => row && row.id && row.authorEmail && cleanEmail(row.authorEmail) === email)
+    .map(row => ({
+      ...JSON.parse(JSON.stringify(row)),
+      authorEmail: email,
+      authorUid: String(ownerUid || user.uid),
+      owner: row.owner === 'shared' ? 'shared' : 'mine',
+      pairKey: row.owner === 'shared' && state.pair ? state.pair.id : '',
+    }))
+    .slice(-1200);
+}
+
+async function readScheduleData() {
+  const user = requireUser();
+  const ownSnapshot = await getDoc(ownScheduleRef());
+  const own = ownSnapshot.exists() ? ownSnapshot.data().payload || [] : [];
+  let shared = [];
+  if (state.pair && state.partner?.uid) {
+    const partnerSnapshot = await getDoc(pairScheduleRef(state.partner.uid));
+    shared = partnerSnapshot.exists() ? partnerSnapshot.data().payload || [] : [];
+  }
+  return {
+    own: Array.isArray(own) ? own : [],
+    shared: Array.isArray(shared) ? shared : [],
+  };
+}
+
+async function writeScheduleData(rows) {
+  const user = requireUser();
+  const own = cleanScheduleRows(rows, user.uid);
+  const writes = [setDoc(ownScheduleRef(), {
+    payload: own,
+    updatedAt: serverTimestamp(),
+    updatedBy: user.uid,
+  })];
+  const pairRef = pairScheduleRef(user.uid);
+  if (pairRef) {
+    const shared = own.filter(row => row.owner === 'shared' && !row.externalSource);
+    writes.push(setDoc(pairRef, {
+      payload: shared,
+      ownerUid: user.uid,
+      ownerEmail: user.email,
+      updatedAt: serverTimestamp(),
+    }));
+  }
+  await Promise.all(writes);
+}
+
+function watchScheduleData(callback) {
+  const user = requireUser();
+  try { unsubscribeOwnSchedule?.(); } catch {}
+  try { unsubscribePartnerSchedule?.(); } catch {}
+  let own = [];
+  let shared = [];
+  let ownReady = false;
+  let sharedReady = !state.pair || !state.partner?.uid;
+  const emitRows = () => {
+    if (ownReady && sharedReady) callback({ own: [...own], shared: [...shared] });
+  };
+  unsubscribeOwnSchedule = onSnapshot(
+    ownScheduleRef(),
+    snapshot => {
+      own = snapshot.exists() && Array.isArray(snapshot.data().payload) ? snapshot.data().payload : [];
+      ownReady = true;
+      emitRows();
+    },
+    error => console.warn('Private schedule listener stopped', error),
+  );
+  if (state.pair && state.partner?.uid) {
+    unsubscribePartnerSchedule = onSnapshot(
+      pairScheduleRef(state.partner.uid),
+      snapshot => {
+        shared = snapshot.exists() && Array.isArray(snapshot.data().payload) ? snapshot.data().payload : [];
+        sharedReady = true;
+        emitRows();
+      },
+      error => console.warn('Shared schedule listener stopped', error),
+    );
+  } else {
+    unsubscribePartnerSchedule = null;
+    emitRows();
+  }
+  return () => {
+    try { unsubscribeOwnSchedule?.(); } catch {}
+    try { unsubscribePartnerSchedule?.(); } catch {}
+    unsubscribeOwnSchedule = unsubscribePartnerSchedule = null;
+  };
+}
+
+async function getFirebaseIdToken(forceRefresh = false) {
+  requireUser();
+  return auth.currentUser.getIdToken(Boolean(forceRefresh));
+}
+
 async function readPrivateData() {
   const user = requireUser();
   const snapshot = await getDoc(doc(db, 'users', user.uid, 'private', 'main'));
@@ -786,6 +971,30 @@ async function writePrivateData(payload) {
     payload: JSON.parse(JSON.stringify(payload)),
     updatedAt: serverTimestamp(),
   });
+}
+
+async function readPaperTaskData() {
+  const snapshot = await getDoc(paperTaskWorkspaceRef());
+  return snapshot.exists() ? snapshot.data().payload || null : null;
+}
+
+async function writePaperTaskData(payload) {
+  const user = requirePaperTaskMember();
+  await setDoc(paperTaskWorkspaceRef(), {
+    payload: JSON.parse(JSON.stringify(payload || {})),
+    updatedAt: serverTimestamp(),
+    updatedBy: user.uid,
+    updatedByEmail: user.email,
+  });
+}
+
+function watchPaperTaskData(callback) {
+  paperTaskWorkspaceRef();
+  return onSnapshot(
+    doc(db, 'sharedWorkspaces', PAPER_TASK_WORKSPACE_ID),
+    snapshot => callback(snapshot.exists() ? snapshot.data().payload || null : null),
+    error => console.warn('PAPER · TASK workspace listener stopped', error),
+  );
 }
 
 function emotionRef(uid) {
@@ -986,6 +1195,69 @@ async function deletePrivateMedia(mediaId) {
   await batch.commit();
 }
 
+function paperTaskMediaRef(mediaId) {
+  requirePaperTaskMember();
+  return doc(db, 'sharedWorkspaces', PAPER_TASK_WORKSPACE_ID, 'media', mediaId);
+}
+
+async function uploadPaperTaskMedia(originalFile, label = 'consulting-client-file') {
+  const user = requirePaperTaskMember();
+  const file = await compressImage(originalFile);
+  const maxSize = 25 * 1024 * 1024;
+  if (file.size > maxSize) throw new Error('공동 작업공간 파일은 25MB 이하만 올릴 수 있습니다.');
+  const mediaId = `ptm-${Date.now()}-${crypto.randomUUID().slice(0, 8)}`;
+  const ref = paperTaskMediaRef(mediaId);
+  const bytes = new Uint8Array(await file.arrayBuffer());
+  const chunkSize = 700 * 1024;
+  const chunkCount = Math.ceil(bytes.length / chunkSize);
+  const chunks = collection(ref, 'chunks');
+  let batch = writeBatch(db);
+  let operations = 0;
+  for (let index = 0; index < chunkCount; index += 1) {
+    const start = index * chunkSize;
+    const end = Math.min(bytes.length, start + chunkSize);
+    batch.set(doc(chunks, String(index).padStart(5, '0')), { data: Bytes.fromUint8Array(bytes.slice(start, end)) });
+    operations += 1;
+    if (operations === 400) {
+      await batch.commit();
+      batch = writeBatch(db);
+      operations = 0;
+    }
+  }
+  if (operations) await batch.commit();
+  await setDoc(ref, {
+    name: file.name,
+    type: file.type || 'application/octet-stream',
+    size: file.size,
+    chunkCount,
+    label,
+    createdAt: serverTimestamp(),
+    createdBy: user.uid,
+    createdByEmail: user.email,
+  });
+  return { id: mediaId, name: file.name, mimeType: file.type, size: file.size };
+}
+
+async function readPaperTaskMedia(mediaId) {
+  const ref = paperTaskMediaRef(mediaId);
+  const metaSnapshot = await getDoc(ref);
+  if (!metaSnapshot.exists()) throw new Error('공동 작업공간 파일을 찾을 수 없습니다.');
+  const meta = metaSnapshot.data();
+  const chunkSnapshot = await getDocs(collection(ref, 'chunks'));
+  const parts = chunkSnapshot.docs.sort((a, b) => a.id.localeCompare(b.id)).map(item => item.data().data.toUint8Array());
+  return new Blob(parts, { type: meta.type || 'application/octet-stream' });
+}
+
+async function deletePaperTaskMedia(mediaId) {
+  if (!mediaId) return;
+  const ref = paperTaskMediaRef(mediaId);
+  const chunkSnapshot = await getDocs(query(collection(ref, 'chunks'), limit(500)));
+  const batch = writeBatch(db);
+  chunkSnapshot.docs.forEach(item => batch.delete(item.ref));
+  batch.delete(ref);
+  await batch.commit();
+}
+
 const CLIENT_INTAKE_TOKEN = /^[A-Za-z0-9_-]{32,100}$/;
 const intakeText = (value, max) => String(value || '').trim().slice(0, max);
 
@@ -1122,8 +1394,15 @@ const api = {
   markDirectLetterRead,
   readAppData,
   writeAppData,
+  readScheduleData,
+  writeScheduleData,
+  watchScheduleData,
+  getFirebaseIdToken,
   readPrivateData,
   writePrivateData,
+  readPaperTaskData,
+  writePaperTaskData,
+  watchPaperTaskData,
   readEmotionData,
   writeEmotionData,
   uploadMedia,
@@ -1132,7 +1411,13 @@ const api = {
   uploadPrivateMedia,
   readPrivateMedia,
   deletePrivateMedia,
+  uploadPaperTaskMedia,
+  readPaperTaskMedia,
+  deletePaperTaskMedia,
   requestGoogleDriveAccess,
+  requestGoogleCalendarAccess,
+  listGoogleCalendars,
+  listGoogleCalendarEvents,
   backupEventDataToGoogleDrive,
   backupPaperTaskDataToGoogleDrive,
   updateNickname,

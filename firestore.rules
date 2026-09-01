@@ -10,6 +10,11 @@ service cloud.firestore {
       return request.auth.token.email;
     }
 
+    function paperTaskWorkspaceMember() {
+      return signedIn()
+        && currentEmail() in ['qhals5060@gmail.com', 'aidway55@gmail.com'];
+    }
+
     function activePairMember(pairId) {
       return signedIn()
         && exists(/databases/$(database)/documents/pairs/$(pairId))
@@ -60,8 +65,37 @@ service cloud.firestore {
         && request.resource.data.uid == resource.data.uid
         && request.resource.data.email == resource.data.email;
 
-      match /{document=**} {
+      match /app/{documentId} {
         allow read, write: if signedIn() && request.auth.uid == userId;
+      }
+
+      match /schedule/{documentId} {
+        allow read, write: if signedIn() && request.auth.uid == userId;
+      }
+
+      match /private/{documentId} {
+        allow read, write: if signedIn() && request.auth.uid == userId;
+      }
+
+      match /emotion/{documentId} {
+        allow read, write: if signedIn() && request.auth.uid == userId;
+      }
+
+      match /privateMedia/{documentId} {
+        allow read, write: if signedIn() && request.auth.uid == userId;
+      }
+
+      // OAuth access/refresh tokens are server-only. Firebase Admin bypasses rules.
+      match /integrations/{provider} {
+        allow read, write: if false;
+      }
+    }
+
+    match /sharedWorkspaces/aiderlog-paper-task-v1 {
+      allow read, write: if paperTaskWorkspaceMember();
+
+      match /{document=**} {
+        allow read, write: if paperTaskWorkspaceMember();
       }
     }
 
@@ -138,7 +172,28 @@ service cloud.firestore {
 
       allow delete: if false;
 
-      match /{document=**} {
+      match /app/{documentId} {
+        allow read, write: if activePairMember(pairId);
+      }
+
+      match /emotions/{ownerUid} {
+        allow read: if activePairMember(pairId);
+        allow create, update: if activePairMember(pairId)
+          && ownerUid == request.auth.uid;
+        allow delete: if activePairMember(pairId)
+          && ownerUid == request.auth.uid;
+      }
+
+      match /schedules/{ownerUid} {
+        allow read: if activePairMember(pairId);
+        allow create, update: if activePairMember(pairId)
+          && ownerUid == request.auth.uid
+          && request.resource.data.ownerUid == request.auth.uid;
+        allow delete: if activePairMember(pairId)
+          && ownerUid == request.auth.uid;
+      }
+
+      match /media/{document=**} {
         allow read, write: if activePairMember(pairId);
       }
     }

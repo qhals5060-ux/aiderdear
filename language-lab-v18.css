@@ -1383,11 +1383,12 @@ a { color: inherit; text-decoration: none; }
 /* AiderLog v83 · larger two-week calendar with text-only actions */
 .recent-study{
   min-height:96px!important;
-  grid-template-rows:minmax(64px,1fr) 18px!important;
+  grid-template-rows:auto minmax(64px,1fr) 18px!important;
   gap:5px!important;
   padding:8px 10px 7px!important;
 }
-.recent-study-days{gap:6px!important}
+.recent-study-label{grid-column:1!important;grid-row:1!important;margin:0!important;font-size:9px!important;font-weight:900!important;line-height:1!important;color:#33425a!important;letter-spacing:.02em!important}
+.recent-study-days{grid-row:2!important;gap:6px!important}
 .recent-study-day{min-height:62px!important;padding:8px 3px 6px!important;gap:6px!important}
 .recent-study-day time b{font-size:10.5px!important}
 .recent-study-day time small{font-size:8px!important}
@@ -1395,6 +1396,7 @@ a { color: inherit; text-decoration: none; }
 .recent-study-day>div span{padding:3px 4px!important;font-size:8px!important}
 .recent-study-day>div i{font-size:10px!important}
 .recent-study-actions{
+  grid-row:3!important;
   height:18px!important;
   min-height:18px!important;
   gap:15px!important;
@@ -1424,7 +1426,7 @@ a { color: inherit; text-decoration: none; }
 .recent-study-actions .language-partner-share:hover,.recent-study-actions .language-partner-share:focus-visible{color:#3159ba!important}
 .recent-study-actions .language-partner-share:disabled{color:#9ba4b1!important;opacity:.72!important}
 @media(max-width:760px){
-  .recent-study{min-height:98px!important}
+  .recent-study{min-height:112px!important}
   .recent-study-days{grid-template-columns:repeat(14,minmax(58px,1fr))!important}
 }
 @media(max-width:430px){

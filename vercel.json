@@ -1,4 +1,10 @@
 {
+  "crons": [
+    {
+      "path": "/api/calendar-sync?action=renew",
+      "schedule": "17 3 * * *"
+    }
+  ],
   "redirects": [
     {
       "source": "/language-study",

@@ -1,5 +1,5 @@
-const CACHE='aiderlog-v88-mail-retention-workspace-backup';
-const APP_SHELL=['./','./index.html','./client-intake.html','./firebase-app.js','./brain-3d.js','./language-lab-v18-engine.js','./language-lab-v18.js','./language-lab-v18.css','./language-lab-v18-template.html','./manifest.webmanifest','./aiderdear-icon.svg','./aiderdear-icon-180.png','./aiderdear-icon-192.png','./aiderdear-icon-512.png','./aiderdear-sky.jpg'];
+const CACHE='aiderlog-v91-private-live-calendar-sync';
+const APP_SHELL=['./','./index.html','./client-intake.html','./firebase-app.js','./brain-3d.js','./language-lab-v18-engine.js','./language-lab-v18.js','./language-lab-v18.css','./language-lab-v18-template.html','./manifest.webmanifest','./aiderdear-icon.svg','./aiderdear-icon-180.png','./aiderdear-icon-192.png','./aiderdear-icon-512.png','./aiderdear-sky.jpg','./assets/challenge-lunge.webp','./assets/challenge-squat.webp','./assets/challenge-plank.webp','./assets/challenge-stretch.webp'];
 
 self.addEventListener('install',event=>{
   self.skipWaiting();

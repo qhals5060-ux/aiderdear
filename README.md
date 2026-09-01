@@ -1,4 +1,49 @@
-# AiderLog v88
+# AiderLog v91
+
+## v91 Private schedules · one-way live calendar sync
+
+- 상단에는 로그인 닉네임만 표시하고, 이름을 누르면 짧은 탭형 개인 설정이 열립니다.
+- 개인 설정의 `캘린더`에서 Google Calendar와 Notion 데이터베이스를 연결·해제·새로고침할 수 있습니다.
+- Google Calendar는 push webhook, Notion은 integration webhook을 받아 외부 일정을 Firestore의 내 일정에 읽기 전용으로 반영합니다.
+- Samsung Calendar는 공개 웹 API 제약 때문에 Google 계정에 저장된 삼성 일정이 Google 연결을 통해 함께 들어옵니다.
+- 사이트에서 만든 일정은 항상 작성자 개인 공간에 저장되고, `커플과 공유`를 선택한 일정만 상대의 공유 피드에 복제됩니다.
+- SCHEDULE의 보민·Aidway·공유 필터를 제거하고, 상대가 공유한 일정은 상대 고유 색상을 유지합니다.
+
+배포 전에 Vercel 환경 변수와 외부 OAuth 설정을 완료하세요. 자세한 값은 `.env.example`을 참고합니다.
+
+Google Cloud OAuth 리디렉션 URI:
+
+`https://YOUR_DOMAIN/api/calendar-sync?action=callback`
+
+Google Calendar webhook URL:
+
+`https://YOUR_DOMAIN/api/calendar-sync?action=google-webhook`
+
+Notion OAuth 리디렉션 URI 및 webhook URL:
+
+`https://YOUR_DOMAIN/api/calendar-sync?action=callback`
+
+`https://YOUR_DOMAIN/api/calendar-sync?action=notion-webhook`
+
+`const CACHE='aiderlog-v91-private-live-calendar-sync';`
+
+---
+
+## v90 Gender profile · shared PAPER/TASK workspace
+
+- 로그인 프로필에 여성/남성 선택을 추가하고 운동 챌린지의 목표량·동작 설명을 선택한 기준에 맞춥니다.
+- 여성 프로필에서만 감정 기록에 생리일 항목이 나타납니다.
+- D-DAY 아래 `This Month` 일정은 한 줄 말줄임으로 정리되어 노트 라인을 침범하지 않습니다.
+- `PAPER`와 `TASK`는 `qhals5060@gmail.com`, `aidway55@gmail.com`에만 노출되며 두 계정이 동일한 Firestore 작업공간과 TASK 파일을 실시간으로 공유합니다.
+
+- 커플 일정은 저장 당시 `mine` 값이 아니라 작성자 계정으로 다시 판별해 상대 고유 색상으로 표시합니다.
+- SCHEDULE에서 Google Calendar를 읽기 전용으로 연결하고 선택한 캘린더의 일정과 색상을 가져올 수 있습니다.
+- Notion에서 내보낸 CSV 또는 ICS 일정 파일을 SCHEDULE로 가져올 수 있습니다.
+- LANGUAGE LAB 최근 달력 왼쪽 위에 `최근 2주 기록` 제목을 추가했습니다.
+- PERSONAL 건강의 `+ 운동` 옆에 런지·스쿼트·플랭크·스트레칭 30일 챌린지를 추가했습니다.
+- 챌린지에는 동작 이미지, 매일 목표, 30일 진행률이 표시되며 완료 기록은 최근 운동과 삭제 흐름에 함께 반영됩니다.
+
+`const CACHE='aiderlog-v90-gender-shared-paper-task';`
 
 ## v88 Mail retention · protected Paper/Task backup
 

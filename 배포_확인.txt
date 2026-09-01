@@ -1,19 +1,30 @@
-AiderLog v88 배포 확인
+AiderLog v90 배포 확인
 
 1. 이 폴더의 내용 전체를 Vercel 프로젝트 루트에 배포합니다.
 2. Vercel Root Directory는 비워 둡니다.
 3. Firebase Firestore 규칙에 이 폴더의 firestore.rules를 게시합니다.
-4. Deployments에서 새 v88 배포를 Production으로 승격합니다.
+4. Deployments에서 새 v90 배포를 Production으로 승격합니다.
 5. 아래 주소를 엽니다.
    https://aiderdear1.vercel.app/sw.js
 6. 첫 줄이 아래와 같아야 합니다.
-   const CACHE='aiderlog-v88-mail-retention-workspace-backup';
+   const CACHE='aiderlog-v90-gender-shared-paper-task';
 
 첫 줄에 이전 버전이 보이면 코드는 새로 올라갔더라도 운영 주소가 아직 이전 배포를 가리키는 상태입니다.
 이 경우 Vercel Deployments에서 최신 배포의 메뉴를 열어 Promote to Production을 선택하세요.
 
 정상 동작
+- 첫 로그인 → 닉네임과 여성·남성 프로필 저장
+- 여성 프로필 → 감정 기록 하단에 생리일 표시 / 남성 프로필 → 해당 항목 숨김
+- PERSONAL → 건강 → 30일 챌린지 → 선택한 성별 기준 목표량과 자세 안내
+- This Month → 긴 일정 제목과 메모가 한 줄 말줄임으로 표시되고 노트 줄을 침범하지 않음
+- qhals5060@gmail.com 또는 aidway55@gmail.com 로그인 → PAPER·TASK와 고객 파일이 두 계정에서 실시간 동기화
+- 다른 계정 또는 로그아웃 → PAPER·TASK 모두 숨김
 - https://aiderdear1.vercel.app/ → AiderLog SCHEDULE 첫 화면
+- 상대 계정으로 만든 일정 → 상대 필터와 같은 색상으로 표시
+- SCHEDULE → ＋ 캘린더 가져오기 → Google 연결 또는 Notion CSV/ICS 선택
+- LANGUAGE LAB 최근 달력 왼쪽 위 → 최근 2주 기록 표시
+- PERSONAL → 건강 → 30일 챌린지 → 4개 운동과 Day 진행률 표시
+- 챌린지 Day 완료 → 최근 운동에 자동 표시되고 ×로 삭제 가능
 - ROUTINE → 아래로 전환 → 메인 프레임 안에 LANGUAGE LAB
 - PAPER 다음 → 노란색 TASK 탭
 - ROUTINE 탭에서 아래로 화면 전환 → 어학 학습
