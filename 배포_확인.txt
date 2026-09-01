@@ -1,28 +1,22 @@
-AiderLog v109 배포 확인
+AiderLog v108 배포 확인
 
 1. 이 폴더의 내용 전체를 Vercel 프로젝트 루트에 배포합니다. 루트 파일만 올리지 말고 api 폴더도 함께 교체합니다.
 2. Vercel Root Directory는 비워 둡니다.
 3. Firebase Firestore 규칙에 이 폴더의 firestore.rules를 게시합니다. (친구 앨범·외부 상담 v4 규칙 포함)
-4. Vercel 환경변수에 PUBLIC_APP_URL, Firebase Admin, CALENDAR_STATE_SECRET, CRON_SECRET, GOOGLE_CALENDAR_CLIENT_ID, GOOGLE_CALENDAR_CLIENT_SECRET가 모두 있는지 확인합니다.
-5. Google OAuth 웹 클라이언트의 승인된 리디렉션 URI를 아래 값과 정확히 일치시킵니다.
-   https://aiderdear1.vercel.app/api/calendar-sync?action=callback
-6. Deployments에서 새 v109 배포를 Production으로 승격합니다.
-7. 아래 주소를 엽니다.
+4. Deployments에서 새 v108 배포를 Production으로 승격합니다.
+5. 아래 주소를 엽니다.
    https://aiderdear1.vercel.app/sw.js
-8. 첫 줄이 아래와 같아야 합니다.
-   const CACHE='aiderlog-v109-server-calendar-sync-and-site-only-couple-share';
-9. 아래 주소의 응답에서 apiVersion이 109이고 serverAutomaticSync가 true인지 확인합니다.
-   https://aiderdear1.vercel.app/api/calendar-sync?action=health
+6. 첫 줄이 아래와 같아야 합니다.
+   const CACHE='aiderlog-v108-calendar-browser-connection-recovery';
 
 첫 줄에 이전 버전이 보이면 코드는 새로 올라갔더라도 운영 주소가 아직 이전 배포를 가리키는 상태입니다.
 이 경우 Vercel Deployments에서 최신 배포의 메뉴를 열어 Promote to Production을 선택하세요.
 
-v109 정상 동작
-- 개인 설정 → 캘린더 → 캘린더 연결에서 서버 OAuth 동의 후 선택한 캘린더 목록이 표시됨
-- Google에서 추가·변경한 일정은 사이트를 닫아도 웹훅 또는 예약 동기화로 AiderLog에 반영됨
-- 사이트 일정 등록에서 ‘저장할 내 캘린더’를 선택하면 그 Google Calendar에 이벤트가 생성됨
-- 가져온 Google 일정은 읽기 전용이며 ‘커플에게 공유’를 누르면 상대 AiderLog에만 표시됨
-- 커플 공유 후 상대의 실제 Google Calendar에는 이벤트가 생성되지 않음
+v108 정상 동작
+- 개인 설정 → 캘린더 → 캘린더 연결을 누르면 서버 페이지로 이동하지 않고 Google 권한 팝업이 바로 열림
+- 권한 승인 뒤 Google 캘린더 목록이 표시되고 선택한 캘린더만 SCHEDULE에 들어옴
+- 새로고침 뒤에도 가져온 일정 또는 저장된 선택을 기준으로 연결 상태가 복구됨
+- 연결 해제 뒤 다시 연결해도 오래된 서버 연결이 브라우저 연결을 막지 않음
 
 v107 정상 동작
 - Google OAuth 콜백 뒤 서버 상태가 복구되지 않으면 브라우저 캘린더 선택 화면으로 자동 전환됨

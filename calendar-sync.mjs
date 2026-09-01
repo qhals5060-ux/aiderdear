@@ -3,14 +3,6 @@ import { applicationDefault, cert, getApps, initializeApp } from 'firebase-admin
 import { getAuth } from 'firebase-admin/auth';
 import { FieldValue, getFirestore } from 'firebase-admin/firestore';
 
-const API_VERSION = 109;
-const CAPABILITIES = Object.freeze({
-  serverAutomaticSync: true,
-  selectedCalendarImport: true,
-  aiderLogToGoogle: true,
-  coupleShareTarget: 'aiderlog-site-only',
-  partnerGoogleWrite: false,
-});
 const GOOGLE_SCOPES = [
   'https://www.googleapis.com/auth/calendar.calendarlist.readonly',
   'https://www.googleapis.com/auth/calendar.events',
@@ -60,11 +52,7 @@ function json(res, status, body) {
   res.statusCode = status;
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
   res.setHeader('Cache-Control', 'no-store');
-  res.setHeader('X-AiderLog-Calendar-API', String(API_VERSION));
-  const payload = body && typeof body === 'object' && !Array.isArray(body)
-    ? { apiVersion: API_VERSION, capabilities: CAPABILITIES, ...body }
-    : body;
-  res.end(JSON.stringify(payload));
+  res.end(JSON.stringify(body));
 }
 
 function trace(stage, detail = {}) {
@@ -287,9 +275,8 @@ async function availableGoogleCalendars(connection) {
 
 function selectedGoogleCalendars(connection, calendars) {
   const configured = new Set((Array.isArray(connection.data.selectedCalendarIds) ? connection.data.selectedCalendarIds : []).map(String));
-  if (configured.size) return calendars.filter(calendar => configured.has(String(calendar.id))).slice(0, 20);
-  const primary = calendars.filter(calendar => calendar.primary);
-  return (primary.length ? primary : calendars.slice(0, 1)).slice(0, 20);
+  const selected = configured.size ? calendars.filter(calendar => configured.has(String(calendar.id))) : calendars.filter(calendar => calendar.primary);
+  return (selected.length ? selected : calendars.slice(0, 1)).slice(0, 20);
 }
 
 async function googleCalendarChoices(uid) {
@@ -378,38 +365,17 @@ async function createGoogleEvent(uid, calendarId, event = {}, shareWithCouple = 
     await connection.ref.set({ sharedEventKeys, updatedAt: FieldValue.serverTimestamp() }, { merge: true });
   }
   const result = await syncGoogle(uid);
-  return {
-    ...result,
-    eventId: item.id,
-    calendarId: String(calendar.id),
-    sharedWithCouple: !!shareWithCouple,
-    coupleShareTarget: 'aiderlog-site-only',
-    partnerGoogleWrite: false,
-  };
+  return { ...result, eventId: item.id, calendarId: String(calendar.id) };
 }
 
-async function shareGoogleEventToCoupleSiteOnly(uid, calendarId, eventId, shared) {
+async function shareGoogleEvent(uid, calendarId, eventId, shared) {
   const connection = await googleAccess(uid);
-  const calendars = await availableGoogleCalendars(connection);
-  const selected = selectedGoogleCalendars(connection, calendars);
-  const calendar = selected.find(row => String(row.id) === String(calendarId));
-  if (!calendar) throw new Error('동기화 대상으로 선택한 본인 Google 캘린더의 일정만 공유할 수 있습니다.');
-  // Verify that the event belongs to the signed-in user's selected calendar.
-  // This is a read request only. Couple sharing is represented solely by a
-  // Firestore flag and the pair schedule mirror below; it never creates or
-  // updates an event in the partner's Google Calendar.
-  await googleJson(connection.token, `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendar.id)}/events/${encodeURIComponent(eventId)}`);
   const key = googleShareKey(calendarId, eventId);
   const values = new Set((Array.isArray(connection.data.sharedEventKeys) ? connection.data.sharedEventKeys : []).map(String));
   if (shared) values.add(key); else values.delete(key);
   await connection.ref.set({ sharedEventKeys: [...values].slice(-600), updatedAt: FieldValue.serverTimestamp() }, { merge: true });
   const result = await syncGoogle(uid);
-  return {
-    ...result,
-    shared: !!shared,
-    coupleShareTarget: 'aiderlog-site-only',
-    partnerGoogleWrite: false,
-  };
+  return { ...result, shared: !!shared };
 }
 
 async function stopGoogleChannels(token, channels = []) {
@@ -433,7 +399,7 @@ async function watchGoogle(uid) {
     await db.doc(`calendarChannels/${id}`).set({ uid, provider: 'google', calendarId: calendar.id, expiration: channel.expiration });
     return channel;
   }));
-  await connection.ref.set({ channels, watchError: '', watchUpdatedAt: FieldValue.serverTimestamp() }, { merge: true });
+  await connection.ref.set({ channels, watchUpdatedAt: FieldValue.serverTimestamp() }, { merge: true });
   return channels.length;
 }
 
@@ -554,12 +520,7 @@ async function oauthCallback(req, res) {
       if (!response.ok) throw new Error(token.error_description || 'Google Calendar 연결에 실패했습니다.');
       const ref = integrationRef(state.uid, 'google');
       const previous = (await ref.get()).data() || {};
-      const refreshToken = token.refresh_token || previous.refreshToken || '';
-      if (!refreshToken) {
-        await ref.set({ connected: false, accessToken: '', expiresAt: 0, lastError: '서버 자동 동기화용 오프라인 권한이 필요합니다.', updatedAt: FieldValue.serverTimestamp() }, { merge: true });
-        throw new Error('서버 자동 동기화용 오프라인 권한을 받지 못했습니다. Google 계정의 AiderLog 액세스를 삭제한 뒤 다시 연결해주세요.');
-      }
-      await ref.set({ provider: 'google', connected: true, accessToken: token.access_token, refreshToken, expiresAt: Date.now() + Number(token.expires_in || 3600) * 1000, scope: String(token.scope || GOOGLE_SCOPE), updatedAt: FieldValue.serverTimestamp() }, { merge: true });
+      await ref.set({ provider: 'google', connected: true, accessToken: token.access_token, refreshToken: token.refresh_token || previous.refreshToken || '', expiresAt: Date.now() + Number(token.expires_in || 3600) * 1000, scope: String(token.scope || GOOGLE_SCOPE), updatedAt: FieldValue.serverTimestamp() }, { merge: true });
       const synced = await syncGoogle(state.uid);
       trace('oauth-google-saved', { user: String(state.uid).slice(0, 8), calendars: synced.calendarCount, items: synced.itemCount, hasRefreshToken: Boolean(token.refresh_token || previous.refreshToken) });
       // A webhook subscription is an optional live-refresh enhancement. Google can
@@ -596,9 +557,7 @@ async function status(uid) {
   const expose = snapshot => {
     if (!snapshot.exists) return { connected: false };
     const row = snapshot.data();
-    const channels = Array.isArray(row.channels) ? row.channels : [];
-    const activeChannels = channels.filter(channel => Number(channel?.expiration || 0) > Date.now());
-    return { connected: !!row.connected, serverMode: true, automaticSync: !!row.connected && !!row.refreshToken, watchActive: activeChannels.length > 0, watchCount: activeChannels.length, lastSyncedAt: row.lastSyncedAt?.toMillis?.() || 0, itemCount: Number(row.itemCount || 0), calendarCount: Number(row.calendarCount || 0), selectedCalendarIds: Array.isArray(row.selectedCalendarIds) ? row.selectedCalendarIds : [], writeEnabled: String(row.scope || '').includes('calendar.events'), coupleShareTarget: 'aiderlog-site-only', partnerGoogleWrite: false, sourceId: row.sourceId || '', workspaceName: row.workspaceName || '', lastError: row.lastError || row.watchError || '' };
+    return { connected: !!row.connected, lastSyncedAt: row.lastSyncedAt?.toMillis?.() || 0, itemCount: Number(row.itemCount || 0), calendarCount: Number(row.calendarCount || 0), selectedCalendarIds: Array.isArray(row.selectedCalendarIds) ? row.selectedCalendarIds : [], writeEnabled: String(row.scope || '').includes('calendar.events'), sourceId: row.sourceId || '', workspaceName: row.workspaceName || '', lastError: row.lastError || '' };
   };
   return { google: expose(google), notion: expose(notion), samsung: { connected: google.exists, mode: 'google-account' } };
 }
@@ -632,42 +591,18 @@ async function renewGoogleWatches(req, res) {
   const authorization = String(req.headers.authorization || '');
   if (authorization !== `Bearer ${env('CRON_SECRET')}`) return json(res, 401, { error: 'unauthorized' });
   const snapshots = await db.collectionGroup('integrations').where('provider', '==', 'google').get();
-  let synced = 0;
   let renewed = 0;
-  let failed = 0;
   for (const snapshot of snapshots.docs) {
     const uid = snapshot.ref.parent.parent?.id;
     if (!uid) continue;
-    try {
-      await syncGoogle(uid);
-      synced++;
-      const channels = Array.isArray(snapshot.data()?.channels) ? snapshot.data().channels : [];
-      const renewBefore = Date.now() + 48 * 60 * 60 * 1000;
-      if (!channels.length || channels.some(channel => Number(channel?.expiration || 0) < renewBefore)) {
-        await watchGoogle(uid);
-        renewed++;
-      }
-    } catch (error) {
-      failed++;
-      await snapshot.ref.set({ lastError: error.message || String(error), cronCheckedAt: FieldValue.serverTimestamp() }, { merge: true });
-    }
+    try { await syncGoogle(uid); await watchGoogle(uid); renewed++; } catch (error) { await snapshot.ref.set({ lastError: error.message || String(error) }, { merge: true }); }
   }
-  return json(res, 200, { synced, renewed, failed });
+  return json(res, 200, { renewed });
 }
 
 export default async function handler(req, res) {
   const action = String(req.query.action || 'status');
   try {
-    if (action === 'health') return json(res, 200, {
-      ok: true,
-      configured: {
-        publicAppUrl: !!String(process.env.PUBLIC_APP_URL || '').trim(),
-        firebaseAdmin: !!String(process.env.FIREBASE_SERVICE_ACCOUNT_JSON || process.env.FIREBASE_PROJECT_ID || '').trim(),
-        stateSecret: !!String(process.env.CALENDAR_STATE_SECRET || '').trim(),
-        cronSecret: !!String(process.env.CRON_SECRET || '').trim(),
-        googleOAuth: !!String(process.env.GOOGLE_CALENDAR_CLIENT_ID || '').trim() && !!String(process.env.GOOGLE_CALENDAR_CLIENT_SECRET || '').trim(),
-      },
-    });
     if (action === 'callback') return oauthCallback(req, res);
     if (action === 'google-webhook') {
       const channelId = String(req.headers['x-goog-channel-id'] || '');
@@ -713,7 +648,7 @@ export default async function handler(req, res) {
     }
     if (action === 'share') {
       if (parsed.value.provider !== 'google') throw new Error('Google Calendar 일정만 공유 설정할 수 있습니다.');
-      return json(res, 200, await shareGoogleEventToCoupleSiteOnly(user.uid, parsed.value.calendarId, parsed.value.eventId, parsed.value.shared));
+      return json(res, 200, await shareGoogleEvent(user.uid, parsed.value.calendarId, parsed.value.eventId, parsed.value.shared));
     }
     if (action === 'disconnect') {
       await disconnect(user.uid, parsed.value.provider);

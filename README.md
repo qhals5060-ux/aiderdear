@@ -1,14 +1,15 @@
 # AiderLog v109
 
-## v109 server automatic sync · AiderLog-only couple sharing
+## v109 Neuroscience evidence workspace
 
-- Google Calendar 연결을 서버 OAuth 경로로 통일했습니다. 선택한 캘린더는 Google 변경 알림과 매일 예약 동기화로 사이트가 닫혀 있어도 갱신됩니다.
-- 사이트 일정 등록 창에서 동기화 대상으로 선택한 내 Google 캘린더를 저장 위치로 고를 수 있습니다.
-- Google 일정을 `커플과 공유`하면 상대의 AiderLog 사이트 캘린더에만 읽기용으로 표시됩니다. 상대 Google Calendar에는 이벤트를 생성·수정·삭제하지 않습니다.
-- API v109 버전·기능 확인을 추가해, 화면만 새 버전이고 `api` 폴더가 이전 버전인 잘못된 배포를 즉시 알려줍니다.
-- Google 연결에는 오프라인 갱신 토큰과 일정 읽기·쓰기 권한이 필요하며, 가져온 Google 원본 일정은 AiderLog에서 계속 읽기 전용입니다.
+- PAPER의 GPT 가져오기를 `AIDERLOG_PAPER_V1` JSON 기반으로 바꾸고, 연구 질문과 핵심 주장을 반영한 GPT Pro용 분석 프롬프트를 화면에서 바로 복사할 수 있게 했습니다.
+- 붙여넣은 결과는 저장 전에 JSON 형식, 논문 제목, Insight 수, 원문 인용 누락, 페이지·표·그림 위치 누락을 검사하고 미리보기로 보여줍니다. 기존 대괄호 텍스트 형식도 경고와 함께 계속 가져올 수 있습니다.
+- Insight에 원문 인용, 인쇄/PDF 페이지, 절·표·그림·부록, AI/사용자 출처, 검토 상태, 지지·반대·혼합, 논문 활용 장, 추출 신뢰도, 근거 수준, 연구 관련성, 반대 근거와 검토 이력을 분리했습니다.
+- Evidence 메뉴에 검토 대기열, 출처 누락, 인용 준비 상태, 주장별 지지·반대 Matrix와 현재 연구 모달리티·뇌 영역·임상 범위 지도를 추가했습니다.
+- 논문별로 뇌 영역·네트워크, 인지 기능, 질환·임상 특성, 종·표본, 모달리티, 과제, 연구 설계, 획득·전처리, 좌표공간·분석, 통계·효과크기·다중비교, 데이터·코드 공개 여부를 저장하고 비교합니다.
+- 기존 PAPER 논문과 Insight는 새 필드가 비어 있는 상태로 안전하게 유지되며, 기존 캘린더와 다른 탭의 기능은 변경하지 않았습니다.
 
-`const CACHE='aiderlog-v109-server-calendar-sync-and-site-only-couple-share';`
+`const CACHE='aiderlog-v109-neuroscience-evidence-workspace';`
 
 ---
 
