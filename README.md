@@ -1,3 +1,18 @@
+# AiderLog v95
+
+## v95 Real trainer motion · repeatable DAY sessions
+
+- 런지·스쿼트·플랭크의 세부 동작 9종을 실사 트레이너 애니메이션으로 교체했습니다.
+- 세부 동작을 바꾸면 사진 시퀀스와 정렬·호흡·지지점 설명이 함께 바뀝니다.
+- `30 DAY · 성별 기준` 문구를 없애고 운동 이름 옆에서 동작을 바로 선택합니다.
+- 30개 DAY 버튼이 카드 내부에서 잘리지 않도록 높이와 스크롤 여유를 보강했습니다.
+- 같은 DAY를 하루에 여러 번 추가할 수 있으며, 누적 회차 배지와 회차별 수정·삭제를 지원합니다.
+- 기존 챌린지 기록은 1회차로 보존되고 이후 기록부터 2회차 이상으로 누적됩니다.
+
+`const CACHE='aiderlog-v95-real-trainer-multi-session';`
+
+---
+
 # AiderLog v94
 
 ## v94 Login separation · full couple EVENT workspace
