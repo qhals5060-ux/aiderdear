@@ -1,4 +1,9 @@
 {
+  "functions": {
+    "api/calendar-sync.mjs": {
+      "maxDuration": 60
+    }
+  },
   "crons": [
     {
       "path": "/api/calendar-sync?action=renew",

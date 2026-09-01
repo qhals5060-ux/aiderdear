@@ -1,3 +1,17 @@
+# AiderLog v109
+
+## v109 server automatic sync · AiderLog-only couple sharing
+
+- Google Calendar 연결을 서버 OAuth 경로로 통일했습니다. 선택한 캘린더는 Google 변경 알림과 매일 예약 동기화로 사이트가 닫혀 있어도 갱신됩니다.
+- 사이트 일정 등록 창에서 동기화 대상으로 선택한 내 Google 캘린더를 저장 위치로 고를 수 있습니다.
+- Google 일정을 `커플과 공유`하면 상대의 AiderLog 사이트 캘린더에만 읽기용으로 표시됩니다. 상대 Google Calendar에는 이벤트를 생성·수정·삭제하지 않습니다.
+- API v109 버전·기능 확인을 추가해, 화면만 새 버전이고 `api` 폴더가 이전 버전인 잘못된 배포를 즉시 알려줍니다.
+- Google 연결에는 오프라인 갱신 토큰과 일정 읽기·쓰기 권한이 필요하며, 가져온 Google 원본 일정은 AiderLog에서 계속 읽기 전용입니다.
+
+`const CACHE='aiderlog-v109-server-calendar-sync-and-site-only-couple-share';`
+
+---
+
 # AiderLog v108
 
 ## v108 v100 Calendar connection recovery
