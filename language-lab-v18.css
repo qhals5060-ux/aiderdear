@@ -1631,3 +1631,28 @@ a { color: inherit; text-decoration: none; }
   .recent-study-actions{grid-column:1!important;grid-row:2!important;justify-self:end!important}
   .recent-study-days{grid-row:3!important}
 }
+/* ===== v113 · 12-week adaptive course and language-specific script support ===== */
+.day-list-heading .day-list-tools{min-width:0;flex:1;justify-content:flex-end}
+.day-list-tools>span{max-width:330px;color:#566273;font-size:7px;font-weight:800;text-align:right;line-height:1.35}
+.day-page-controls{max-width:min(100%,430px);overflow-x:auto;scrollbar-width:thin;padding-bottom:2px}
+.day-page-button{flex:0 0 auto;min-width:34px}
+.day-index{align-content:center;gap:3px}
+.day-index small{display:block;color:#738092;font-size:7px;font-weight:900;letter-spacing:.08em}
+.day-info>small{display:inline-block;margin-top:5px;padding:2px 6px;border-radius:999px;background:#edf3ff;color:#315da8;font-size:7px;font-weight:900;letter-spacing:.04em}
+.script-guide-card{margin-top:15px;padding:14px 16px;border:1px solid #b9c8e8;border-left:4px solid var(--blue);background:#f5f8ff;text-align:left}
+.script-guide-card header{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.script-guide-card header span{color:#4566a8;font-size:8px;font-weight:900;letter-spacing:.08em}
+.script-guide-card header b{display:grid;place-items:center;min-width:32px;height:22px;padding:0 7px;border-radius:999px;background:#456ed1;color:#fff;font-size:8px}
+.script-guide-card p{margin:10px 0 5px;color:#1e293b;font-size:16px;font-weight:800;line-height:1.55;word-break:keep-all}
+.script-guide-card small{display:block;color:#53647a;font-size:10px;line-height:1.55}
+.expression-expansion li{padding:7px 0;border-bottom:1px solid rgba(23,130,79,.11)}
+.expression-expansion li:last-child{border-bottom:0}
+.immediate-review-button{width:100%;margin-top:14px;padding:12px 14px;border:1px solid #456ed1;background:#edf3ff;color:#234d9f;font-size:10px;font-weight:900;cursor:pointer}
+.immediate-review-button:hover{background:#456ed1;color:#fff}
+@media(max-width:760px){
+  .day-list-tools>span{display:none}
+  .day-page-controls{max-width:230px}
+  .script-guide-card{padding:11px 12px}
+  .script-guide-card p{font-size:14px}
+  .script-guide-card small{font-size:9px}
+}

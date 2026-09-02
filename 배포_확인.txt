@@ -1,3 +1,22 @@
+AiderLog v113 배포 확인
+
+1. 이 폴더의 내용 전체를 Vercel 프로젝트 루트에 배포합니다. `api` 폴더도 함께 교체합니다.
+2. Vercel Root Directory는 비워 둡니다.
+3. Firebase와 Google Calendar 환경 변수는 기존 Production 값을 그대로 유지합니다.
+4. Deployments에서 새 v113 배포를 Production으로 승격합니다.
+5. `https://aiderdear1.vercel.app/sw.js` 첫 줄을 확인합니다.
+   const CACHE='aiderlog-v113-language-core-spaced-recall';
+
+v113 정상 동작
+- Language Lab에서 코어 패스·상황 랩·체크포인트 3개 코스가 보임
+- 각 난이도의 첫 문장과 길이가 다르고 1A–5B 내부 단계가 표시됨
+- 코어 패스가 12주·84일이며 한 주에 7개 세션이 표시됨
+- 입문 일본어에서 히라가나·로마자, 입문 중국어에서 병음·성조가 표시됨
+- STEP 1 정답 확인 후 표현 연결망과 해설이 보임
+- Day 완료 직후 2분 회상 버튼이 보이며 다음 복습이 20분 후로 예약됨
+
+----------------------------------------
+
 AiderLog v112 배포 확인
 
 1. 이 폴더의 내용 전체를 Vercel 프로젝트 루트에 배포합니다. `api/admin-users.mjs`를 포함해 api 폴더도 함께 교체합니다.
