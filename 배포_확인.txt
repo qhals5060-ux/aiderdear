@@ -1,3 +1,21 @@
+AiderLog v115 배포 확인
+
+1. 이 폴더의 내용 전체를 Vercel 프로젝트 루트에 배포합니다. `api` 폴더도 함께 교체합니다.
+2. Vercel Root Directory는 비워 둡니다.
+3. Firebase와 Google Calendar 환경 변수는 기존 Production 값을 그대로 유지합니다.
+4. Deployments에서 새 v115 배포를 Production으로 승격합니다.
+5. `https://aiderdear1.vercel.app/sw.js` 첫 줄을 확인합니다.
+   const CACHE='aiderlog-v115-language-layout-type';
+
+v115 정상 동작
+- Language Lab의 최근 2주 기록과 안내 문구가 표시되지 않음
+- 각 UNIT에 10개 Lesson이 2열 × 5행으로 표시되고 COURSE SELECT와 겹치지 않음
+- 빠른 회상·역할 바꾸기·격식 전환·실전 리허설·종합 미션이 Lesson 6~10에 표시됨
+- PAPER 탭을 제외한 텍스트가 11px보다 작게 표시되지 않음
+- PAPER 연구 워크스페이스의 기존 글자 크기와 배열은 유지됨
+
+----------------------------------------
+
 AiderLog v114 배포 확인
 
 1. 이 폴더의 내용 전체를 Vercel 프로젝트 루트에 배포합니다. `api` 폴더도 함께 교체합니다.

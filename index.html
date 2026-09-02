@@ -11,13 +11,13 @@
 <meta name="description" content="">
 <meta name="format-detection" content="telephone=no">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="aiderlog-build" content="v114">
+<meta name="aiderlog-build" content="v115">
 <link rel="canonical" href="https://aiderdear1.vercel.app/">
 <script>
 (() => {
   const url = new URL(location.href);
   if (url.searchParams.has('client-intake')) document.documentElement.classList.add('client-intake-only');
-  if (['v67','v68','v69','v70','v71','v72','v73','v74','v75','v76','v77','v78','v79','v80','v81','v82','v83','v84','v85','v86','v87','v88','v89','v90','v91','v92','v93','v94','v95','v96','v97','v98','v99','v100','v101','v102','v103','v104','v105','v106','v107','v108','v109','v110','v111','v112','v113','v114'].includes(url.searchParams.get('aiderlog-main'))) {
+  if (['v67','v68','v69','v70','v71','v72','v73','v74','v75','v76','v77','v78','v79','v80','v81','v82','v83','v84','v85','v86','v87','v88','v89','v90','v91','v92','v93','v94','v95','v96','v97','v98','v99','v100','v101','v102','v103','v104','v105','v106','v107','v108','v109','v110','v111','v112','v113','v114','v115'].includes(url.searchParams.get('aiderlog-main'))) {
     url.searchParams.delete('aiderlog-main');
     history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`);
   }
@@ -4914,8 +4914,8 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
 
 <script type="module" src="./firebase-app.js"></script>
 <script src="./brain-3d.js"></script>
-<script src="./language-lab-v18-engine.js?v=114"></script>
-<script src="./language-lab-v18.js?v=114"></script>
+<script src="./language-lab-v18-engine.js?v=115"></script>
+<script src="./language-lab-v18.js?v=115"></script>
 <script>
 (()=>{
   const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
@@ -8099,6 +8099,42 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   $('#clientIntakeForm').addEventListener('submit',async e=>{e.preventDefault();const error=$('#clientIntakeError'),button=e.currentTarget.querySelector('button[type="submit"]');error.textContent='';button.disabled=true;button.textContent='제출 중…';const gpa=Math.max(0,Math.min(100,Number($('#intakeGpa').value)||0)),gpaScale=[4,4.3,4.5,100].includes(Number($('#intakeGpaScale').value))?Number($('#intakeGpaScale').value):0,payload={name:$('#intakeName').value.trim(),phone:$('#intakePhone').value.trim(),email:$('#intakeEmail').value.trim(),birthYear:Number($('#intakeBirthYear').value)||0,gender:$('#intakeGender').value,currentSchool:$('#intakeCurrentSchool').value.trim(),currentMajor:$('#intakeCurrentMajor').value.trim(),targetUniversity:$('#intakeTargetUniversity').value.trim(),targetMajor:$('#intakeTargetMajor').value.trim(),advisorNames:consultingAdvisorNames($('#intakeAdvisors').value),degree:$('#intakeDegree').value,gpa,gpaScale,applicationYear:Number($('#intakeYear').value)||0,applicationSemester:$('#intakeSemester').value,topic:$('#intakeTopic').value.trim(),languageSpec:$('#intakeLanguageSpec').value.trim(),certifications:$('#intakeCertifications').value.trim(),activities:$('#intakeActivities').value.trim(),researchExperience:$('#intakeResearchExperience').value.trim(),outputs:$('#intakeOutputs').value.trim(),inquiry:$('#intakeInquiry').value.trim()};if((gpa&&!gpaScale)||(!gpa&&gpaScale)){error.textContent='학점과 학점 만점을 함께 입력해주세요.';button.disabled=false;button.textContent='정보 제출';return}payload.note=consultingIntakeNote(payload);try{await window.AiderDearFirebase.submitClientIntake(clientIntakeToken,payload);e.currentTarget.hidden=true;const result=$('#clientIntakeResult');result.hidden=false;result.innerHTML='<div><b>제출되었습니다</b><p>창을 닫아도 됩니다.</p></div>'}catch(err){error.textContent=err.message||'제출하지 못했습니다. 잠시 후 다시 시도해주세요.';button.disabled=false;button.textContent='정보 제출'}});
   if(clientIntakeToken){if(window.AiderDearFirebase)initializeClientIntake();else window.addEventListener('aiderdear-firebase-ready',initializeClientIntake,{once:true})}
     normalizeCloudData();selectAlbumFolderColor(ALBUM_PASTELS[0]);getAlbumFolders();refreshRecordAlbumSelect(DEFAULT_ALBUM_ID);renderAlbumFolders();renderEventArchive();renderTravelArchive();renderPrivate();renderPersonal();renderPaper();renderConsultingWorkspace();renderEmotion();applyLoginUI();setDday();renderDdayList();renderCalendar();if(location.hash==='#search')setTimeout(openSearchFromQuick,0);if('serviceWorker' in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'}).then(registration=>registration.update()).catch(()=>{}));
+})();
+</script>
+<script>
+(() => {
+  const REFERENCE_TEXT = '최근 30일 동안 가장 많이 느낀 감정';
+  const FALLBACK_FLOOR = 11;
+  const PAPER_ROOT = '#paperStage';
+  const ignoredTags = 'script,style,svg,path,defs,meta,link,title';
+
+  function readableFloor() {
+    const reference = [...document.querySelectorAll('.top-v32 h3')].find(element => element.textContent.trim() === REFERENCE_TEXT);
+    const size = reference ? Number.parseFloat(getComputedStyle(reference).fontSize) : FALLBACK_FLOOR;
+    return Number.isFinite(size) && size > 0 ? Math.max(FALLBACK_FLOOR, size) : FALLBACK_FLOOR;
+  }
+
+  function applyFontFloor(scope = document) {
+    const floor = readableFloor();
+    const candidates = [];
+    if (scope instanceof Element) candidates.push(scope);
+    candidates.push(...(scope.querySelectorAll?.('*') || []));
+    candidates.forEach(element => {
+      if (!(element instanceof Element) || element.matches(ignoredTags) || element.closest(PAPER_ROOT)) return;
+      const hasOwnText = [...element.childNodes].some(node => node.nodeType === Node.TEXT_NODE && node.textContent.trim());
+      const isTextControl = element.matches('input,select,textarea');
+      if (!hasOwnText && !isTextControl) return;
+      const size = Number.parseFloat(getComputedStyle(element).fontSize);
+      if (size > 0 && size < floor) element.style.setProperty('font-size', `${floor}px`, 'important');
+    });
+  }
+
+  applyFontFloor();
+  const observer = new MutationObserver(records => records.forEach(record => record.addedNodes.forEach(node => {
+    if (node.nodeType === Node.ELEMENT_NODE) applyFontFloor(node);
+  })));
+  observer.observe(document.body, { childList: true, subtree: true });
+  window.addEventListener('resize', () => requestAnimationFrame(() => applyFontFloor()), { passive: true });
 })();
 </script>
 </body>

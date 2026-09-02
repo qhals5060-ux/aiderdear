@@ -2188,16 +2188,31 @@ const curatedFirstMeetingUnits = {
 
 const coursePhraseSets = [starterPhraseSets, elementaryPhraseSets, intermediatePhraseSets, advancedPhraseSets, nativePhraseSets];
 const CORE_UNIT_COUNT = 8;
-const LESSONS_PER_UNIT = 6;
+const LESSONS_PER_UNIT = 10;
 const CORE_LESSON_COUNT = CORE_UNIT_COUNT * LESSONS_PER_UNIT;
 const DAY_PAGE_SIZE = LESSONS_PER_UNIT;
-const weeklySessionLabels = ["핵심 표현과 장면", "상대의 질문과 응답", "문장 패턴 변형", "듣기와 발음", "상황 확장", "UNIT 종합 미션"];
+const weeklySessionLabels = [
+  "핵심 표현과 장면",
+  "상대의 질문과 응답",
+  "문장 패턴 변형",
+  "듣기와 발음",
+  "상황 확장",
+  "빠른 의미 회상",
+  "상대 역할 바꾸기",
+  "격식·관계 전환",
+  "실전 대화 리허설",
+  "UNIT 종합 미션"
+];
 const weeklySessionHelps = [
   "핵심 표현을 실제 장면·의도·뜻과 정확히 연결합니다.",
   "상대의 말에 가장 자연스럽게 이어지는 응답을 고릅니다.",
   "같은 기능을 유지하며 대상·시간·격식을 바꿉니다.",
   "글자를 가리고 소리·리듬·성조로 문장을 회상합니다.",
   "같은 장면에서 질문·반응·다음 행동을 한 단계 확장합니다.",
+  "앞에서 배운 표현을 뜻만 보고 짧은 간격으로 다시 떠올립니다.",
+  "화자와 청자의 역할을 바꾸어 질문과 응답을 모두 연습합니다.",
+  "상대와 관계에 맞게 친근함·정중함·전문성을 조절합니다.",
+  "도움말을 줄이고 여러 표현을 연결해 실제 속도로 주고받습니다.",
   "UNIT의 표현을 연결해 실제 대화를 끝까지 완성합니다."
 ];
 
@@ -2372,12 +2387,50 @@ function courseScriptGuide(language, levelIndex, anchorIndex, source) {
   return { label: language === "ja" ? "문자·의미 덩어리" : "한자·의미 덩어리", reading: source.phrase, romanization: language === "ja" ? "발음 버튼으로 소리를 먼저 듣고 조사와 어미까지 한 덩어리로 따라 하세요." : "발음 버튼으로 소리를 먼저 듣고 각 덩어리의 성조를 유지하며 따라 하세요." };
 }
 
+function combineUnitLessons(items, label) {
+  const lessons = items.filter(Boolean);
+  const phrases = lessons.map((item) => item.phrase).filter(Boolean);
+  const translations = lessons.map((item) => item.translation).filter(Boolean);
+  const tokens = lessons.flatMap((item) => item.tokens || targetTokens(item.phrase || "", "en")).filter(Boolean).slice(0, 7);
+  const readings = lessons.map((item) => item.reading).filter(Boolean);
+  const romanizations = lessons.map((item) => item.romanization).filter(Boolean);
+  return authoredLesson(
+    phrases.join(" "),
+    translations.join(" "),
+    tokens,
+    label,
+    readings.join(" / "),
+    romanizations.join(" / ")
+  );
+}
+
+function expandedFirstMeetingLessons(language, levelIndex) {
+  const original = curatedFirstMeetingUnits[language][levelIndex].lessons;
+  const [scene, response, pattern, sound, expansion, mission] = original;
+  const registerLevel = levelIndex < curatedFirstMeetingUnits[language].length - 1 ? levelIndex + 1 : levelIndex - 1;
+  const registerSource = curatedFirstMeetingUnits[language][registerLevel].lessons[0];
+  return [
+    scene,
+    response,
+    pattern,
+    sound,
+    expansion,
+    combineUnitLessons([scene, response], "빠른 의미 회상"),
+    combineUnitLessons([response, pattern], "상대 역할 바꾸기"),
+    { ...registerSource, label: "격식·관계 전환" },
+    combineUnitLessons([scene, response, expansion], "실전 대화 리허설"),
+    { ...mission, label: "UNIT 종합 미션" }
+  ];
+}
+
 function unitLessonSources(language, levelIndex, anchorIndex) {
-  if (anchorIndex === 9) return curatedFirstMeetingUnits[language][levelIndex].lessons;
+  if (anchorIndex === 9) return expandedFirstMeetingLessons(language, levelIndex);
   const profileSource = coursePhraseSets[levelIndex][language][anchorIndex];
   const network = coreInteractionNetworks[language];
   const variantLevel = levelIndex === coursePhraseSets.length - 1 ? levelIndex - 1 : levelIndex + 1;
   const variant = coursePhraseSets[variantLevel][language][anchorIndex];
+  const registerLevel = levelIndex < coursePhraseSets.length - 1 ? levelIndex + 1 : levelIndex - 1;
+  const registerVariant = coursePhraseSets[registerLevel][language][anchorIndex];
   const normalizedMode = ["social", "service", "professional"].includes(courseAnchorMeta[anchorIndex].mode) ? courseAnchorMeta[anchorIndex].mode : "professional";
   const response = authoredLesson(network.responses[anchorIndex], coreInteractionNetworkKo.responses[anchorIndex], targetTokens(network.responses[anchorIndex], language), "상대의 자연스러운 응답");
   const followUp = authoredLesson(network.followUps[anchorIndex], coreInteractionNetworkKo.followUps[anchorIndex], targetTokens(network.followUps[anchorIndex], language), "다음 질문·행동");
@@ -2389,6 +2442,10 @@ function unitLessonSources(language, levelIndex, anchorIndex) {
     { ...variant, label: variantLevel > levelIndex ? "같은 기능의 높은 단계 변형" : "같은 기능의 간결한 변형" },
     { ...profileSource, label: "듣고 다시 말하기" },
     followUp,
+    combineUnitLessons([profileSource, response], "빠른 의미 회상"),
+    combineUnitLessons([response, followUp], "상대 역할 바꾸기"),
+    { ...registerVariant, label: "격식·관계 전환" },
+    combineUnitLessons([profileSource, response, support], "실전 대화 리허설"),
     authoredLesson(missionText, `${profileSource.translation} ${followUp.translation}`, [...profileSource.tokens, ...followUp.tokens].slice(0, 5), "UNIT 종합 미션")
   ];
 }
@@ -2396,12 +2453,12 @@ function unitLessonSources(language, levelIndex, anchorIndex) {
 function unitExpressionLinks(language, levelIndex, anchorIndex, source, unitSources, lessonIndex) {
   const network = coreInteractionNetworks[language];
   const sameLessonVariants = anchorIndex === 9
-    ? curatedFirstMeetingUnits[language].map((unit) => unit.lessons[lessonIndex]?.phrase).filter(Boolean)
+    ? curatedFirstMeetingUnits[language].map((unit, index) => expandedFirstMeetingLessons(language, index)[lessonIndex]?.phrase).filter(Boolean)
     : coursePhraseSets.map((set) => set[language][anchorIndex]?.phrase).filter(Boolean);
   const distinctVariant = sameLessonVariants.find((text) => text !== source.phrase) || source.phrase;
   const alternateLevel = levelIndex < 3 ? levelIndex + 2 : levelIndex - 2;
   const registerVariant = anchorIndex === 9
-    ? curatedFirstMeetingUnits[language][alternateLevel].lessons[Math.min(lessonIndex, 5)].phrase
+    ? expandedFirstMeetingLessons(language, alternateLevel)[Math.min(lessonIndex, LESSONS_PER_UNIT - 1)].phrase
     : coursePhraseSets[alternateLevel][language][anchorIndex].phrase;
   const normalizedMode = ["social", "service", "professional"].includes(courseAnchorMeta[anchorIndex].mode) ? courseAnchorMeta[anchorIndex].mode : "professional";
   const candidates = [
@@ -2449,6 +2506,10 @@ function buildFunctionalPoint(language, levelIndex, anchorIndex, source, unitSou
     "원래 의도를 유지하면서 달라진 점을 가장 정확히 설명한 것은 무엇인가요?",
     "소리를 들을 때 반드시 구별해야 할 핵심 정보는 무엇인가요?",
     "이 표현이 같은 장면의 대화를 어떻게 확장하는지 고르세요.",
+    "뜻만 보고 앞에서 배운 표현을 다시 떠올릴 때 확인할 핵심은 무엇인가요?",
+    "화자와 청자의 역할을 바꾼 이 표현의 기능으로 가장 알맞은 것은 무엇인가요?",
+    "이 표현이 관계와 격식에 맞게 달라진 점을 고르세요.",
+    "실전 대화 리허설에서 이 표현 묶음이 하는 역할을 고르세요.",
     "UNIT 종합 대화에서 이 표현이 맡는 역할을 고르세요."
   ];
   const correctRoles = [
@@ -2457,6 +2518,10 @@ function buildFunctionalPoint(language, levelIndex, anchorIndex, source, unitSou
     `핵심 기능을 유지하면서 대상·조건·격식 중 하나를 바꾼 표현이다.`,
     `‘${source.translation}’라는 의미를 이루는 소리 덩어리와 어순이다.`,
     `${anchor.title} 장면에 필요한 질문이나 다음 행동을 덧붙인다.`,
+    `${anchor.title}에서 이미 익힌 뜻과 표현을 짧은 간격으로 다시 연결한다.`,
+    `질문하는 사람과 답하는 사람의 역할을 바꾸어 같은 장면을 이어간다.`,
+    `같은 의사소통 목적을 유지하며 상대와 관계에 맞는 말투로 조절한다.`,
+    `${anchor.title}에서 여러 표현을 실제 순서와 속도로 연결해 주고받는다.`,
     `${anchor.title} 장면에서 배운 표현을 연결해 대화를 완성한다.`
   ];
   const distractorRoles = otherScenes.map((index) => `${sceneChoices[index]} 필요한 말이다.`);
@@ -2481,7 +2546,7 @@ function buildFunctionalPoint(language, levelIndex, anchorIndex, source, unitSou
 function buildFunctionalFormula(language, levelIndex, anchorIndex, source, lessonIndex) {
   const profile = levelProfiles[language][levelIndex];
   const variants = anchorIndex === 9
-    ? curatedFirstMeetingUnits[language].map((unit) => unit.lessons[lessonIndex]?.phrase).filter(Boolean)
+    ? curatedFirstMeetingUnits[language].map((unit, index) => expandedFirstMeetingLessons(language, index)[lessonIndex]?.phrase).filter(Boolean)
     : coursePhraseSets.map((set) => set[language][anchorIndex]?.phrase).filter(Boolean);
   const uniqueVariants = variants.filter((text, index, all) => text && all.indexOf(text) === index);
   while (uniqueVariants.length < 3) uniqueVariants.push(source.phrase);
@@ -2510,6 +2575,10 @@ function lessonCanDo(anchor, source, lessonIndex) {
     `${anchor.title}의 핵심 기능을 유지하면서 대상·시간·격식을 바꿔 말할 수 있다.`,
     `문자를 가리고 ‘${source.translation}’라는 의미를 소리·리듬·성조로 회상할 수 있다.`,
     `${anchor.title} 장면에 질문·조건·다음 행동을 한 가지 덧붙일 수 있다.`,
+    `${anchor.title}에서 앞서 배운 뜻을 보고 알맞은 표현을 빠르게 회상할 수 있다.`,
+    `${anchor.title}에서 질문과 응답의 역할을 바꾸어 양쪽 표현을 모두 말할 수 있다.`,
+    `${anchor.title}에서 상대와 관계에 따라 친근함·정중함·전문성을 조절할 수 있다.`,
+    `${anchor.title}의 여러 표현을 도움말 없이 실제 순서로 연결할 수 있다.`,
     `${anchor.title}에서 배운 표현을 연결해 실제 대화를 끝까지 완성할 수 있다.`
   ][lessonIndex];
 }
@@ -2842,7 +2911,7 @@ function renderCourse() {
   const scenario = scenarios[state.scenarioIndex] || scenarios[0];
   state.scenarioIndex = scenarios.indexOf(scenario);
   $("#category-tabs").innerHTML = curriculum.map((item, index) => `<button class="category-tab ${index === state.categoryIndex ? "active" : ""}" data-category="${index}" aria-pressed="${index === state.categoryIndex}" type="button">
-    <span>${escapeHtml(item.icon)}</span><span><b>${escapeHtml(item.title)}</b><small>${escapeHtml(item.description || "")}</small></span>
+    <span>${escapeHtml(item.icon)}</span><span><b>${escapeHtml(item.title)}</b></span>
   </button>`).join("");
   $("#scenario-tabs").innerHTML = scenarios.map((item, index) => {
     const done = item.days.filter((day) => state.progress[day.id]?.completedAt).length;

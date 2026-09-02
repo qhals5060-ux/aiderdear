@@ -5,13 +5,14 @@
       this.attachShadow({mode:'open'});
       this.completion=null;
       this.lessonScrollBoundary=null;
+      this.fontFloorObserver=null;
     }
     async connectedCallback(){
       if(this.shadowRoot.childNodes.length)return;
       try{
         const [templateResponse,styleResponse]=await Promise.all([
-          fetch('./language-lab-v18-template.html?v=114',{cache:'no-store'}),
-          fetch('./language-lab-v18.css?v=114',{cache:'no-store'})
+          fetch('./language-lab-v18-template.html?v=115',{cache:'no-store'}),
+          fetch('./language-lab-v18.css?v=115',{cache:'no-store'})
         ]);
         if(!templateResponse.ok||!styleResponse.ok)throw new Error('어학 학습 자산을 불러오지 못했습니다.');
         const [source,style]=await Promise.all([templateResponse.text(),styleResponse.text()]);
@@ -25,8 +26,26 @@
         const share=document.createElement('button');
         share.type='button';share.className='language-partner-share';share.textContent='상대에게 보내기';share.disabled=true;
         share.title=this.getAttribute('data-paired')==='true'?'학습을 완료하면 보낼 수 있습니다.':'커플 연결 후 보낼 수 있습니다.';
-        app.querySelector('.recent-study-actions')?.appendChild(share);
+        app.querySelector('.records-header-actions')?.prepend(share);
         this.shadowRoot.append(styleElement,app,toast);
+        const applyFontFloor=(scope=this.shadowRoot)=>{
+          const candidates=[];
+          if(scope instanceof Element)candidates.push(scope);
+          candidates.push(...scope.querySelectorAll?.('*')||[]);
+          candidates.forEach(element=>{
+            if(!(element instanceof Element)||element.matches('style,script,svg,path'))return;
+            const hasText=[...element.childNodes].some(node=>node.nodeType===Node.TEXT_NODE&&node.textContent.trim());
+            const isControl=element.matches('input,select,textarea');
+            if(!hasText&&!isControl)return;
+            const size=Number.parseFloat(getComputedStyle(element).fontSize);
+            if(size>0&&size<11)element.style.setProperty('font-size','11px','important');
+          });
+        };
+        applyFontFloor();
+        this.fontFloorObserver=new MutationObserver(records=>records.forEach(record=>record.addedNodes.forEach(node=>{
+          if(node.nodeType===Node.ELEMENT_NODE)applyFontFloor(node);
+        })));
+        this.fontFloorObserver.observe(this.shadowRoot,{childList:true,subtree:true});
         this.lessonScrollBoundary=this.shadowRoot.querySelector('.lesson-stage');
         ['wheel','touchstart','touchmove','touchend'].forEach(type=>this.lessonScrollBoundary?.addEventListener(type,event=>event.stopPropagation(),{passive:true}));
         this.addEventListener('language-lab-complete',event=>{
@@ -46,6 +65,8 @@
     }
     disconnectedCallback(){
       this.lessonScrollBoundary=null;
+      this.fontFloorObserver?.disconnect();
+      this.fontFloorObserver=null;
     }
     static get observedAttributes(){return ['data-paired']}
     attributeChangedCallback(name,oldValue,newValue){

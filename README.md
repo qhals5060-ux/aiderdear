@@ -1,3 +1,16 @@
+# AiderLog v115
+
+## v115 Language Lab · 10-Lesson Units · Readable Type
+
+- 현재의 언어·난이도별 학습 내용은 유지하면서 모든 UNIT을 6개에서 **10개 Lesson**으로 확장했습니다.
+- 빠른 의미 회상, 역할 바꾸기, 격식·관계 전환, 실전 리허설을 추가해 새 표현 학습과 반복 회상을 한 UNIT 안에서 연결합니다.
+- Language Lab의 최근 2주 기록과 설명형 안내 문구를 제거하고, 10개 Lesson과 COURSE SELECT가 겹치지 않도록 데스크톱·모바일 배열을 다시 맞췄습니다.
+- `최근 30일 동안 가장 많이 느낀 감정` 문구의 11px을 사이트 최소 글자 크기로 적용했습니다. PAPER 탭 전체는 제외해 연구 워크스페이스의 기존 밀도를 유지합니다.
+
+`const CACHE='aiderlog-v115-language-layout-type';`
+
+---
+
 # AiderLog v114
 
 ## v114 Language Lab · Communicative Course Rebuild

@@ -1,3 +1,15 @@
+AiderLog v115
+
+[v115 변경]
+- 어학 CORE PATH·SITUATION LAB·REVIEW PATH의 모든 UNIT을 10개 Lesson으로 확장
+- 빠른 의미 회상·역할 바꾸기·격식/관계 전환·실전 리허설 추가
+- Language Lab 최근 2주 기록과 안내형 보조 문구 제거
+- 10개 Lesson·COURSE SELECT·MY WORDS가 겹치지 않도록 데스크톱/모바일 재배치
+- 인사이트 기준 문구 크기인 11px을 PAPER 제외 사이트 최소 글자 크기로 적용
+- PWA 캐시 v115로 갱신
+
+----------------------------------------
+
 AiderLog v114
 
 [v114 변경]
