@@ -1,13 +1,13 @@
-AiderLog v116 배포 확인
+AiderLog v117 배포 확인
 
 1. 이 폴더의 내용 전체를 Vercel 프로젝트 루트에 배포합니다. `api` 폴더도 함께 교체합니다.
 2. Vercel Root Directory는 비워 둡니다.
 3. Firebase와 Google Calendar 환경 변수는 기존 Production 값을 그대로 유지합니다.
-4. Deployments에서 새 v116 배포를 Production으로 승격합니다.
+4. Deployments에서 새 v117 배포를 Production으로 승격합니다.
 5. `https://aiderdear1.vercel.app/sw.js` 첫 줄을 확인합니다.
-   const CACHE='aiderlog-v116-readable-reflow';
+   const CACHE='aiderlog-v117-ui-data-fixes';
 
-v116 정상 동작
+v117 정상 동작
 - 메인 프레임 크기와 PAPER 탭 배열이 v115와 동일함
 - PAPER를 제외한 텍스트가 11px보다 작게 표시되지 않음
 - SCHEDULE 달력 날짜·월 제목·D-DAY·사진/동영상 박스의 글자가 잘리지 않음
@@ -238,7 +238,7 @@ v93 기능 유지
 - 외부 고객 작성 링크 → AiderLog 사이트와 확인 대기 문구 없이 AIDWAY 연계 작성 폼만 표시
 - 직접·외부 고객 양식의 성별 → 여성·남성만 선택 가능
 - 고객 작성 링크 모바일 화면 → 한 열 구성, 16px 입력 글자와 넓은 터치 영역 표시
-- TASK → ＋ CLIENT로 직접 추가, ＋ EXTERNAL LINK를 열 때마다 새 링크 발급
+- TASK → ＋ CLIENT로 직접 추가, LINK를 열 때마다 새 링크 발급
 - 직접 작성 폼과 외부 작성 폼의 고객 필드 일치
 - TASK → 다음 상담·진행 과업·DELIVERABLES · TASKS·CONSULTING SESSIONS 상자를 눌러 기록 추가
 - 추가된 상담·과업 오른쪽 ×로 개별 삭제

@@ -2950,7 +2950,7 @@ function renderCourse() {
     const buttonClass = record?.completedAt ? "done" : unlocked && index === complete ? "current" : "";
     return `<li class="day-row">
       <span class="day-index"><b>Lesson ${index + 1}</b><small>${escapeHtml(day.internalBand || "")}</small></span>
-      <div class="day-info"><b>${escapeHtml(day.title)}</b><p>${escapeHtml(day.focus)}</p><small>${escapeHtml(day.sessionLabel || "")}</small></div>
+      <div class="day-info"><b>${escapeHtml(day.title)}</b><p>${escapeHtml(day.focus)}</p></div>
       <button class="day-action ${buttonClass}" data-day="${index}" type="button" ${unlocked ? "" : "disabled"}>${status}</button>
     </li>`;
   }).join("");

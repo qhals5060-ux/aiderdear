@@ -1809,8 +1809,8 @@ async function submitClientIntake(token, payload = {}) {
     status: 'new',
     createdAt: serverTimestamp(),
   };
-  if (!data.name || !data.phone || !applicationYear || !applicationSemester) {
-    throw new Error('이름, 연락처, 진학 희망 학년도와 학기를 모두 입력해주세요.');
+  if (!data.name || !data.phone || !data.email || !data.birthYear || !data.gender || !applicationYear || !applicationSemester) {
+    throw new Error('개인 정보와 진학 희망 학년도·학기를 모두 입력해주세요.');
   }
   if ((data.gpa && !data.gpaScale) || (!data.gpa && data.gpaScale)) {
     throw new Error('학점과 학점 만점을 함께 입력해주세요.');
