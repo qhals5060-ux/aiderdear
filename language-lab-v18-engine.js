@@ -180,25 +180,25 @@ const languageMeta = {
 
 const levelProfiles = {
   ja: [
-    { name: "입문", standard: "문자·Pre-N5", course: "1 · 입문", goal: "문자와 생존 표현", bands: ["1A", "1B"], choiceCount: 2, showReading: true, showTranslation: true, showDialogueKo: true, suggestionCount: 3, passScore: 55, speechRate: .7 },
-    { name: "기초", standard: "JLPT N5–N4", course: "2 · 기초", goal: "짧은 일상 문답", bands: ["2A", "2B"], choiceCount: 4, showReading: true, showTranslation: true, showDialogueKo: true, suggestionCount: 3, passScore: 65, speechRate: .78 },
-    { name: "중급", standard: "JLPT N3", course: "3 · 중급", goal: "경험과 이유 설명", bands: ["3A", "3B"], choiceCount: 4, showReading: false, showTranslation: true, showDialogueKo: true, suggestionCount: 3, passScore: 75, speechRate: .86 },
-    { name: "중상급", standard: "JLPT N2", course: "4 · 중상급", goal: "격식과 뉘앙스 조절", bands: ["4A", "4B"], choiceCount: 4, showReading: false, showTranslation: false, showDialogueKo: false, suggestionCount: 2, passScore: 85, speechRate: .94 },
-    { name: "고급", standard: "JLPT N1+", course: "5 · 고급", goal: "논리·관용·즉흥 표현", bands: ["5A", "5B"], choiceCount: 4, showReading: false, showTranslation: false, showDialogueKo: false, suggestionCount: 2, passScore: 92, speechRate: 1 }
+    { name: "입문", standard: "Pre-N5", course: "1 · 입문", goal: "문자와 생존 표현", bands: ["1A", "1B"], choiceCount: 2, showReading: true, showTranslation: true, showDialogueKo: true, suggestionCount: 3, passScore: 55, speechRate: .7 },
+    { name: "기초", standard: "N5–N4", course: "2 · 기초", goal: "짧은 일상 문답", bands: ["2A", "2B"], choiceCount: 4, showReading: true, showTranslation: true, showDialogueKo: true, suggestionCount: 3, passScore: 65, speechRate: .78 },
+    { name: "독립", standard: "N3", course: "3 · 독립", goal: "경험과 이유 설명", bands: ["3A", "3B"], choiceCount: 4, showReading: false, showTranslation: true, showDialogueKo: true, suggestionCount: 3, passScore: 75, speechRate: .86 },
+    { name: "고급", standard: "N2–N1", course: "4 · 고급", goal: "관계·격식·뉘앙스 조절", bands: ["4A", "4B"], choiceCount: 4, showReading: false, showTranslation: false, showDialogueKo: false, suggestionCount: 2, passScore: 85, speechRate: .94 },
+    { name: "숙련", standard: "N1+", course: "5 · 숙련", goal: "태도·관용·전문 소통", bands: ["5A", "5B"], choiceCount: 4, showReading: false, showTranslation: false, showDialogueKo: false, suggestionCount: 1, passScore: 92, speechRate: 1 }
   ],
   en: [
-    { name: "입문", standard: "CEFR Pre-A1", course: "1 · 입문", goal: "단어와 생존 표현", bands: ["1A", "1B"], choiceCount: 2, showReading: true, showTranslation: true, showDialogueKo: true, suggestionCount: 3, passScore: 55, speechRate: .72 },
-    { name: "기초", standard: "CEFR A1–A2", course: "2 · 기초", goal: "짧은 일상 문답", bands: ["2A", "2B"], choiceCount: 4, showReading: true, showTranslation: true, showDialogueKo: true, suggestionCount: 3, passScore: 65, speechRate: .8 },
-    { name: "중급", standard: "CEFR B1", course: "3 · 중급", goal: "의견과 경험 설명", bands: ["3A", "3B"], choiceCount: 4, showReading: false, showTranslation: true, showDialogueKo: true, suggestionCount: 3, passScore: 75, speechRate: .88 },
-    { name: "중상급", standard: "CEFR B2", course: "4 · 중상급", goal: "비교·설득·문제 해결", bands: ["4A", "4B"], choiceCount: 4, showReading: false, showTranslation: false, showDialogueKo: false, suggestionCount: 2, passScore: 85, speechRate: .96 },
-    { name: "고급", standard: "CEFR C1+", course: "5 · 고급", goal: "논리·관용·즉흥 표현", bands: ["5A", "5B"], choiceCount: 4, showReading: false, showTranslation: false, showDialogueKo: false, suggestionCount: 2, passScore: 92, speechRate: 1 }
+    { name: "입문", standard: "Pre-A1", course: "1 · 입문", goal: "단어와 생존 표현", bands: ["1A", "1B"], choiceCount: 2, showReading: true, showTranslation: true, showDialogueKo: true, suggestionCount: 3, passScore: 55, speechRate: .72 },
+    { name: "기초", standard: "A1–A2", course: "2 · 기초", goal: "짧은 일상 문답", bands: ["2A", "2B"], choiceCount: 4, showReading: true, showTranslation: true, showDialogueKo: true, suggestionCount: 3, passScore: 65, speechRate: .8 },
+    { name: "독립", standard: "B1–B2", course: "3 · 독립", goal: "경험·이유·상황 설명", bands: ["3A", "3B"], choiceCount: 4, showReading: false, showTranslation: true, showDialogueKo: true, suggestionCount: 3, passScore: 75, speechRate: .88 },
+    { name: "고급", standard: "C1", course: "4 · 고급", goal: "격식·설득·뉘앙스 조절", bands: ["4A", "4B"], choiceCount: 4, showReading: false, showTranslation: false, showDialogueKo: false, suggestionCount: 2, passScore: 85, speechRate: .96 },
+    { name: "숙련", standard: "C2+", course: "5 · 숙련", goal: "암시·유머·전문 소통", bands: ["5A", "5B"], choiceCount: 4, showReading: false, showTranslation: false, showDialogueKo: false, suggestionCount: 1, passScore: 92, speechRate: 1 }
   ],
   zh: [
-    { name: "입문", standard: "병음·HSK 1", course: "1 · 입문", goal: "병음·성조와 생존 표현", bands: ["1A", "1B"], choiceCount: 2, showReading: true, showTranslation: true, showDialogueKo: true, suggestionCount: 3, passScore: 55, speechRate: .7 },
-    { name: "기초", standard: "HSK 2–3", course: "2 · 기초", goal: "짧은 일상 문답", bands: ["2A", "2B"], choiceCount: 4, showReading: true, showTranslation: true, showDialogueKo: true, suggestionCount: 3, passScore: 65, speechRate: .78 },
-    { name: "중급", standard: "HSK 4", course: "3 · 중급", goal: "경험과 이유 설명", bands: ["3A", "3B"], choiceCount: 4, showReading: false, showTranslation: true, showDialogueKo: true, suggestionCount: 3, passScore: 75, speechRate: .86 },
-    { name: "중상급", standard: "HSK 5–6", course: "4 · 중상급", goal: "격식과 뉘앙스 조절", bands: ["4A", "4B"], choiceCount: 4, showReading: false, showTranslation: false, showDialogueKo: false, suggestionCount: 2, passScore: 85, speechRate: .94 },
-    { name: "고급", standard: "HSK 6+", course: "5 · 고급", goal: "논리·관용·즉흥 표현", bands: ["5A", "5B"], choiceCount: 4, showReading: false, showTranslation: false, showDialogueKo: false, suggestionCount: 2, passScore: 92, speechRate: 1 }
+    { name: "입문", standard: "Pre-HSK 1", course: "1 · 입문", goal: "병음·성조와 생존 표현", bands: ["1A", "1B"], choiceCount: 2, showReading: true, showTranslation: true, showDialogueKo: true, suggestionCount: 3, passScore: 55, speechRate: .7 },
+    { name: "기초", standard: "HSK 1–3", course: "2 · 기초", goal: "짧은 일상 문답", bands: ["2A", "2B"], choiceCount: 4, showReading: true, showTranslation: true, showDialogueKo: true, suggestionCount: 3, passScore: 65, speechRate: .78 },
+    { name: "독립", standard: "HSK 4", course: "3 · 독립", goal: "경험·이유·상황 설명", bands: ["3A", "3B"], choiceCount: 4, showReading: false, showTranslation: true, showDialogueKo: true, suggestionCount: 3, passScore: 75, speechRate: .86 },
+    { name: "고급", standard: "HSK 5–6", course: "4 · 고급", goal: "격식·토론·뉘앙스 조절", bands: ["4A", "4B"], choiceCount: 4, showReading: false, showTranslation: false, showDialogueKo: false, suggestionCount: 2, passScore: 85, speechRate: .94 },
+    { name: "숙련", standard: "HSK 6+", course: "5 · 숙련", goal: "성어·암시·전문 소통", bands: ["5A", "5B"], choiceCount: 4, showReading: false, showTranslation: false, showDialogueKo: false, suggestionCount: 1, passScore: 92, speechRate: 1 }
   ]
 };
 
@@ -1069,6 +1069,7 @@ function buildQuiz(point, situation, target, expansion, seed) {
   const options = seededShuffle(rawOptions, seed);
   return {
     options,
+    prompt: point.quizPrompt || "표현이 실제로 쓰이는 장면을 하나 고르세요.",
     explanation: point.grammar,
     sentenceMeaning: point.sentenceMeaning,
     politeness: point.politeness,
@@ -1994,19 +1995,210 @@ function buildLegacyCurriculum(language, levelIndex) {
   });
 }
 
+const authoredLesson = (text, translation, tokens, label, reading = "", romanization = "") => ({ phrase: text, translation, tokens, pool: [...tokens.slice(1), tokens[0]], label, reading, romanization });
+
+const curatedFirstMeetingUnits = {
+  en: [
+    {
+      title: "첫 인사와 이름 말하기",
+      canDo: "처음 만난 사람에게 인사하고 이름·출신을 말한 뒤 짧게 되물을 수 있다.",
+      lessons: [
+        authoredLesson("Hi, I'm Min.", "안녕하세요, 저는 민이에요.", ["Hi", "I'm Min"], "이름 말하기"),
+        authoredLesson("Nice to meet you.", "만나서 반가워요.", ["Nice to", "meet you"], "첫인사 주고받기"),
+        authoredLesson("Where are you from?", "어디에서 오셨어요?", ["Where are", "you from"], "출신 묻기"),
+        authoredLesson("I'm from Korea.", "저는 한국에서 왔어요.", ["I'm from", "Korea"], "출신 답하기"),
+        authoredLesson("What do you do?", "무슨 일을 하세요?", ["What do", "you do"], "하는 일 묻기"),
+        authoredLesson("Hi, I'm Min. Nice to meet you. I'm from Korea. How about you?", "안녕하세요, 저는 민이에요. 만나서 반가워요. 저는 한국에서 왔어요. 당신은요?", ["Hi I'm Min", "Nice to meet you", "I'm from Korea", "How about you"], "4턴 첫 만남 미션")
+      ]
+    },
+    {
+      title: "일상적인 자기소개",
+      canDo: "새로운 모임에서 이름·현재 상황·하는 일을 1~2문장으로 말하고 상대에게 질문할 수 있다.",
+      lessons: [
+        authoredLesson("Hi, I'm Min. I'm new here.", "안녕하세요, 저는 민이에요. 여기는 처음이에요.", ["Hi I'm Min", "I'm new", "here"], "새로 왔다고 말하기"),
+        authoredLesson("Nice to meet you. What brings you here?", "만나서 반가워요. 여기에는 무슨 일로 오셨어요?", ["Nice to meet you", "What brings you", "here"], "참석 이유 묻기"),
+        authoredLesson("I'm studying psychology.", "저는 심리학을 공부하고 있어요.", ["I'm studying", "psychology"], "전공 말하기"),
+        authoredLesson("I started last month.", "저는 지난달에 시작했어요.", ["I started", "last month"], "시작 시점 말하기"),
+        authoredLesson("How about you?", "당신은요?", ["How about", "you"], "상대에게 되묻기"),
+        authoredLesson("Hi, I'm Min. I'm new here. What brings you here?", "안녕하세요, 저는 민이에요. 여기는 처음이에요. 여기에는 무슨 일로 오셨어요?", ["Hi I'm Min", "I'm new here", "What brings you here"], "자기소개 대화 미션")
+      ]
+    },
+    {
+      title: "행사에서 관계 시작하기",
+      canDo: "행사에서 자신의 배경과 참석 목적을 3~5문장으로 설명하고 공통 관심사를 찾을 수 있다.",
+      lessons: [
+        authoredLesson("Hi, I'm Min. It's my first time at this event.", "안녕하세요, 저는 민이에요. 이 행사에는 처음 왔어요.", ["Hi I'm Min", "It's my first time", "at this event"], "행사에서 첫인사하기"),
+        authoredLesson("What brought you here today?", "오늘은 어떤 계기로 오셨어요?", ["What brought you", "here today"], "참석 계기 묻기"),
+        authoredLesson("I'm here to learn more about cognitive science.", "인지과학을 더 알아보려고 왔어요.", ["I'm here to", "learn more about", "cognitive science"], "참석 목적 설명하기"),
+        authoredLesson("I've been working on a study about decision-making.", "저는 의사결정에 관한 연구를 진행하고 있어요.", ["I've been working on", "a study about", "decision-making"], "최근 활동 설명하기"),
+        authoredLesson("That sounds interesting. How did you get into it?", "흥미롭네요. 어떻게 그 일을 시작하게 됐어요?", ["That sounds interesting", "How did you", "get into it"], "관심을 보이며 이어 묻기"),
+        authoredLesson("It's my first time here, so I'm hoping to meet people in the same field.", "처음 참석해서 같은 분야의 사람들을 만나고 싶어요.", ["It's my first time here", "so I'm hoping to", "meet people in the same field"], "배경과 목적 연결 미션")
+      ]
+    },
+    {
+      title: "격식 있는 첫 대화",
+      canDo: "상대와의 거리와 격식을 판단해 자신의 연구를 소개하고 정중한 후속 질문을 할 수 있다.",
+      lessons: [
+        authoredLesson("I don't think we've met. I'm Min.", "아직 인사를 나누지 못한 것 같네요. 저는 민입니다.", ["I don't think", "we've met", "I'm Min"], "부담 없이 말 걸기"),
+        authoredLesson("I've heard a lot about your work.", "선생님의 연구에 관해 많이 들었습니다.", ["I've heard a lot", "about your work"], "상대의 연구 언급하기"),
+        authoredLesson("I'm currently looking into how people make decisions.", "저는 현재 사람들이 의사결정을 내리는 방식을 연구하고 있습니다.", ["I'm currently looking into", "how people", "make decisions"], "연구 주제 설명하기"),
+        authoredLesson("What drew you to this field?", "어떤 계기로 이 분야를 선택하셨나요?", ["What drew you", "to this field"], "전문적인 관심 질문하기"),
+        authoredLesson("It was great finally meeting you in person.", "직접 만나 뵙게 되어 반가웠습니다.", ["It was great", "finally meeting you", "in person"], "격식 있게 마무리하기"),
+        authoredLesson("I don't think we've met. I'm Min, and I'm currently researching decision-making.", "아직 인사를 못 나눈 것 같네요. 저는 민이고 현재 의사결정을 연구하고 있습니다.", ["I don't think we've met", "I'm Min", "I'm currently researching decision-making"], "격식 있는 소개 미션")
+      ]
+    },
+    {
+      title: "전문적인 첫 대화 주도",
+      canDo: "전문 맥락과 상대의 배경을 고려해 함축적이고 자연스럽게 대화를 열고 다음 교류를 제안할 수 있다.",
+      lessons: [
+        authoredLesson("Great to finally put a face to the name.", "드디어 직접 뵙게 되어 반갑습니다.", ["Great to finally", "put a face", "to the name"], "관용적인 첫인사"),
+        authoredLesson("I've been following your work on human decision-making.", "인간 의사결정에 관한 선생님의 연구를 계속 관심 있게 보고 있었습니다.", ["I've been following", "your work on", "human decision-making"], "상대의 전문성 연결하기"),
+        authoredLesson("My current research sits at the intersection of psychology and AI.", "제 연구는 심리학과 AI가 만나는 지점에 있습니다.", ["My current research", "sits at the intersection of", "psychology and AI"], "연구 정체성 압축하기"),
+        authoredLesson("I'd be curious to hear your take on our approach.", "저희 접근법에 대한 견해를 듣고 싶습니다.", ["I'd be curious to hear", "your take on", "our approach"], "견해를 정중히 요청하기"),
+        authoredLesson("Perhaps we could continue this conversation after the session.", "괜찮으시다면 세션 뒤에 이 대화를 이어가면 좋겠습니다.", ["Perhaps we could", "continue this conversation", "after the session"], "다음 교류 제안하기"),
+        authoredLesson("Great to finally meet you. Our work overlaps, so I'd value your take on our approach.", "드디어 만나 뵙게 되어 반갑습니다. 연구가 맞닿아 있어 저희 접근법에 대한 견해를 듣고 싶습니다.", ["Great to finally meet you", "Our work overlaps", "I'd value your take on our approach"], "전문 네트워킹 미션")
+      ]
+    }
+  ],
+  ja: [
+    {
+      title: "첫 인사와 자기소개",
+      canDo: "히라가나와 로마자를 보며 첫인사·이름·출신을 짧게 말할 수 있다.",
+      lessons: [
+        authoredLesson("こんにちは。", "안녕하세요.", ["こんにちは"], "기본 인사", "こんにちは", "konnichiwa"),
+        authoredLesson("はじめまして。", "처음 뵙겠습니다.", ["はじめまして"], "첫 만남 인사", "はじめまして", "hajimemashite"),
+        authoredLesson("わたしは ミンです。", "저는 민입니다.", ["わたしは", "ミンです"], "이름 말하기", "わたしは ミンです", "watashi wa Min desu"),
+        authoredLesson("かんこくから きました。", "한국에서 왔습니다.", ["かんこくから", "きました"], "출신 말하기", "かんこくから きました", "Kankoku kara kimashita"),
+        authoredLesson("よろしく おねがいします。", "잘 부탁드립니다.", ["よろしく", "おねがいします"], "인사 마무리", "よろしく おねがいします", "yoroshiku onegai shimasu"),
+        authoredLesson("こんにちは。はじめまして。わたしは ミンです。かんこくから きました。よろしく おねがいします。", "안녕하세요. 처음 뵙겠습니다. 저는 민이고 한국에서 왔습니다. 잘 부탁드립니다.", ["こんにちは", "はじめまして", "わたしは ミンです", "かんこくから きました", "よろしく おねがいします"], "자기소개 종합 미션", "こんにちは。はじめまして。わたしは ミンです。かんこくから きました。よろしく おねがいします", "konnichiwa / hajimemashite / watashi wa Min desu / Kankoku kara kimashita / yoroshiku onegai shimasu")
+      ]
+    },
+    {
+      title: "정중한 일상 자기소개",
+      canDo: "정중체로 이름·소속·전공을 말하고 상대의 출신과 경험을 질문할 수 있다.",
+      lessons: [
+        authoredLesson("はじめまして。ミンといいます。", "처음 뵙겠습니다. 민이라고 합니다.", ["はじめまして", "ミンといいます"], "이름 정중히 말하기", "はじめまして。ミンと いいます", "hajimemashite / Min to iimasu"),
+        authoredLesson("先月からこの学校で勉強しています。", "지난달부터 이 학교에서 공부하고 있습니다.", ["先月から", "この学校で", "勉強しています"], "현재 상황 말하기", "せんげつから このがっこうで べんきょうしています", "sengetsu kara / kono gakkō de / benkyō shiteimasu"),
+        authoredLesson("心理学を専攻しています。", "심리학을 전공하고 있습니다.", ["心理学を", "専攻しています"], "전공 말하기", "しんりがくを せんこうしています", "shinrigaku o / senkō shiteimasu"),
+        authoredLesson("ご出身はどちらですか。", "출신은 어디신가요?", ["ご出身は", "どちらですか"], "출신 묻기", "ごしゅっしんは どちらですか", "goshusshin wa / dochira desu ka"),
+        authoredLesson("日本にはいつ来ましたか。", "일본에는 언제 오셨어요?", ["日本には", "いつ", "来ましたか"], "경험 시점 묻기", "にほんには いつ きましたか", "Nihon ni wa / itsu / kimashita ka"),
+        authoredLesson("はじめまして。ミンといいます。心理学を専攻しています。ご出身はどちらですか。", "처음 뵙겠습니다. 민이라고 합니다. 심리학을 전공하고 있습니다. 출신은 어디신가요?", ["はじめまして", "ミンといいます", "心理学を専攻しています", "ご出身はどちらですか"], "정중한 소개 미션", "はじめまして。ミンと いいます。しんりがくを せんこうしています。ごしゅっしんは どちらですか", "hajimemashite / Min to iimasu / shinrigaku o senkō shiteimasu / goshusshin wa dochira desu ka")
+      ]
+    },
+    {
+      title: "연구회에서 관계 시작",
+      canDo: "참석 계기와 연구 관심사를 자연스럽게 설명하고 상대의 배경을 물을 수 있다.",
+      lessons: [
+        authoredLesson("初めまして。今回の研究会には初めて参加します。", "처음 뵙겠습니다. 이번 연구회에는 처음 참가합니다.", ["初めまして", "今回の研究会には", "初めて参加します"], "연구회에서 첫인사"),
+        authoredLesson("認知心理学を研究しています。", "인지심리학을 연구하고 있습니다.", ["認知心理学を", "研究しています"], "연구 분야 말하기"),
+        authoredLesson("こちらにはどのようなきっかけで来られたんですか。", "여기에는 어떤 계기로 오셨어요?", ["こちらには", "どのようなきっかけで", "来られたんですか"], "참석 계기 묻기"),
+        authoredLesson("最近は意思決定について調べています。", "최근에는 의사결정에 관해 조사하고 있습니다.", ["最近は", "意思決定について", "調べています"], "최근 관심사 설명"),
+        authoredLesson("それは興味深いですね。もう少し詳しく聞いてもいいですか。", "흥미롭네요. 조금 더 자세히 여쭤봐도 될까요?", ["それは興味深いですね", "もう少し詳しく", "聞いてもいいですか"], "관심을 보이며 이어 묻기"),
+        authoredLesson("初参加なので、同じ分野の方とお話しできればと思っています。", "첫 참가라 같은 분야의 분들과 이야기할 수 있으면 좋겠습니다.", ["初参加なので", "同じ分野の方と", "お話しできればと思っています"], "배경과 목적 연결 미션")
+      ]
+    },
+    {
+      title: "관계에 맞춘 격식 있는 소개",
+      canDo: "상대와의 거리감을 판단해 겸양 표현으로 자신을 소개하고 정중한 질문을 할 수 있다.",
+      lessons: [
+        authoredLesson("まだご挨拶していませんでしたね。ミンと申します。", "아직 인사를 못 드렸네요. 민이라고 합니다.", ["まだご挨拶していませんでしたね", "ミンと申します"], "겸양 표현으로 소개"),
+        authoredLesson("先生の研究について以前から伺っていました。", "선생님의 연구에 대해 이전부터 들어 알고 있었습니다.", ["先生の研究について", "以前から", "伺っていました"], "상대의 연구 언급"),
+        authoredLesson("現在は意思決定の過程を研究しております。", "현재는 의사결정 과정을 연구하고 있습니다.", ["現在は", "意思決定の過程を", "研究しております"], "연구를 격식 있게 설명"),
+        authoredLesson("このテーマに関心を持たれたきっかけは何でしょうか。", "이 주제에 관심을 갖게 된 계기는 무엇인가요?", ["このテーマに", "関心を持たれたきっかけは", "何でしょうか"], "계기를 정중히 묻기"),
+        authoredLesson("直接お目にかかれて光栄です。", "직접 뵙게 되어 영광입니다.", ["直接", "お目にかかれて", "光栄です"], "격식 있게 마무리"),
+        authoredLesson("ミンと申します。現在は意思決定の過程を研究しております。", "민이라고 합니다. 현재 의사결정 과정을 연구하고 있습니다.", ["ミンと申します", "現在は", "意思決定の過程を研究しております"], "격식 있는 소개 미션")
+      ]
+    },
+    {
+      title: "전문적인 첫 대화 주도",
+      canDo: "전문적 배경과 거리감을 섬세하게 조절하며 연구 접점을 만들고 다음 교류를 제안할 수 있다.",
+      lessons: [
+        authoredLesson("お名前は以前から存じ上げておりました。", "성함은 이전부터 알고 있었습니다.", ["お名前は", "以前から", "存じ上げておりました"], "고급 겸양 인사"),
+        authoredLesson("先生の研究はかねてより拝見しております。", "선생님의 연구는 전부터 계속 보아 왔습니다.", ["先生の研究は", "かねてより", "拝見しております"], "전문적 관심 밝히기"),
+        authoredLesson("私の研究は心理学とAIの接点に位置しています。", "제 연구는 심리학과 AI의 접점에 있습니다.", ["私の研究は", "心理学とAIの接点に", "位置しています"], "연구 정체성 압축"),
+        authoredLesson("差し支えなければ、先生のご見解を伺えれば幸いです。", "괜찮으시다면 선생님의 견해를 들을 수 있으면 좋겠습니다.", ["差し支えなければ", "先生のご見解を", "伺えれば幸いです"], "견해를 완곡하게 요청"),
+        authoredLesson("後ほど改めてお話を伺う機会をいただけますか。", "나중에 다시 이야기를 들을 기회를 주실 수 있을까요?", ["後ほど改めて", "お話を伺う機会を", "いただけますか"], "다음 교류 제안"),
+        authoredLesson("先生の研究を拝見しております。私の研究とも接点があり、ご見解を伺えれば幸いです。", "선생님의 연구를 보고 있습니다. 제 연구와도 접점이 있어 견해를 들을 수 있으면 좋겠습니다.", ["先生の研究を拝見しております", "私の研究とも接点があり", "ご見解を伺えれば幸いです"], "전문 네트워킹 미션")
+      ]
+    }
+  ],
+  zh: [
+    {
+      title: "성조로 시작하는 첫 만남",
+      canDo: "병음과 성조를 보며 인사·이름·출신을 말하고 상대에게 되물을 수 있다.",
+      lessons: [
+        authoredLesson("你好。", "안녕하세요.", ["你好"], "인사와 3성 연결", "你(3) 好(3)", "Nǐ hǎo"),
+        authoredLesson("我叫敏。", "저는 민이라고 해요.", ["我叫", "敏"], "이름 말하기", "我(3) 叫(4) 敏(3)", "Wǒ jiào Mǐn"),
+        authoredLesson("我是韩国人。", "저는 한국인이에요.", ["我是", "韩国人"], "출신 말하기", "我(3) 是(4) 韩(2)国(2)人(2)", "Wǒ shì Hánguórén"),
+        authoredLesson("很高兴认识你。", "만나서 반가워요.", ["很高兴", "认识你"], "의미 덩어리 연결", "很(3)高(1)兴(4) / 认(4)识(shi·경성)你(3)", "Hěn gāoxìng / rènshi nǐ"),
+        authoredLesson("你呢？", "당신은요?", ["你", "呢"], "상대에게 되묻기", "你(3) 呢(경성)", "Nǐ ne"),
+        authoredLesson("你好，我叫敏。我是韩国人。很高兴认识你。你呢？", "안녕하세요, 저는 민이에요. 저는 한국인입니다. 만나서 반가워요. 당신은요?", ["你好", "我叫敏", "我是韩国人", "很高兴认识你", "你呢"], "첫 만남 종합 미션", "你(3)好(3) / 我(3)叫(4)敏(3) / 我(3)是(4)韩(2)国(2)人(2) / 很(3)高(1)兴(4)认(4)识你(3) / 你(3)呢", "Nǐ hǎo / Wǒ jiào Mǐn / Wǒ shì Hánguórén / Hěn gāoxìng rènshi nǐ / Nǐ ne")
+      ]
+    },
+    {
+      title: "일상적인 자기소개",
+      canDo: "기본 어순과 성조를 유지하며 이름·전공·시점을 말하고 상대의 출신을 물을 수 있다.",
+      lessons: [
+        authoredLesson("你好，我叫敏，刚来这里。", "안녕하세요, 저는 민이고 여기 막 왔어요.", ["你好我叫敏", "刚来这里"], "새로 왔다고 말하기", "你(3)好(3)，我(3)叫(4)敏(3)，刚(1)来(2)这(4)里(3)", "Nǐ hǎo / wǒ jiào Mǐn / gāng lái zhèlǐ"),
+        authoredLesson("我学心理学。", "저는 심리학을 공부해요.", ["我学", "心理学"], "전공 말하기", "我(3)学(2) 心(1)理(3)学(2)", "Wǒ xué xīnlǐxué"),
+        authoredLesson("我上个月开始上课。", "저는 지난달에 수업을 시작했어요.", ["我上个月", "开始上课"], "시점 말하기", "我(3)上(4)个(ge)月(4) 开(1)始(3)上(4)课(4)", "Wǒ shàng ge yuè / kāishǐ shàngkè"),
+        authoredLesson("你是哪里人？", "어디 사람이에요?", ["你是", "哪里人"], "출신 묻기", "你(3)是(4) 哪(3)里(3)人(2)", "Nǐ shì nǎlǐ rén"),
+        authoredLesson("你呢？", "당신은요?", ["你", "呢"], "상대에게 되묻기", "你(3) 呢(경성)", "Nǐ ne"),
+        authoredLesson("你好，我叫敏。我学心理学。你是哪里人？", "안녕하세요, 저는 민이에요. 심리학을 공부해요. 어디 사람이에요?", ["你好我叫敏", "我学心理学", "你是哪里人"], "자기소개 대화 미션", "你(3)好(3)，我(3)叫(4)敏(3) / 我(3)学(2)心(1)理(3)学(2) / 你(3)是(4)哪(3)里(3)人(2)", "Nǐ hǎo, wǒ jiào Mǐn / Wǒ xué xīnlǐxué / Nǐ shì nǎlǐ rén")
+      ]
+    },
+    {
+      title: "행사에서 관계 시작하기",
+      canDo: "행사에서 배경·목적·최근 관심사를 설명하고 자연스러운 후속 질문을 할 수 있다.",
+      lessons: [
+        authoredLesson("你好，我叫敏，第一次参加这个活动。", "안녕하세요, 저는 민이고 이 행사에는 처음 참가해요.", ["你好我叫敏", "第一次参加", "这个活动"], "행사에서 첫인사"),
+        authoredLesson("你今天为什么来这儿？", "오늘은 왜 여기에 오셨어요?", ["你今天", "为什么", "来这儿"], "참석 이유 묻기"),
+        authoredLesson("我来这里是想了解认知科学。", "인지과학을 알아보려고 여기에 왔어요.", ["我来这里", "是想了解", "认知科学"], "참석 목적 설명"),
+        authoredLesson("我最近在研究人的决策。", "저는 최근 사람의 의사결정을 연구하고 있어요.", ["我最近", "在研究", "人的决策"], "최근 관심사 설명"),
+        authoredLesson("听起来很有意思。你怎么开始做这个研究的？", "흥미롭네요. 어떻게 이 연구를 시작했어요?", ["听起来很有意思", "你怎么开始", "做这个研究的"], "관심을 보이며 이어 묻기"),
+        authoredLesson("这是我第一次来，所以想认识一些同领域的人。", "처음 와서 같은 분야의 사람들을 만나고 싶어요.", ["这是我第一次来", "所以想认识", "一些同领域的人"], "배경과 목적 연결 미션")
+      ]
+    },
+    {
+      title: "격식 있는 전문 소개",
+      canDo: "상대와의 관계에 맞게 전문 배경을 소개하고 정중하게 연구 계기와 견해를 물을 수 있다.",
+      lessons: [
+        authoredLesson("我们好像还没正式认识，我叫敏。", "아직 정식으로 인사하지 못한 것 같네요. 저는 민입니다.", ["我们好像", "还没正式认识", "我叫敏"], "부드럽게 대화 시작"),
+        authoredLesson("我之前看过您关于决策的研究。", "전에 선생님의 의사결정 연구를 본 적이 있습니다.", ["我之前看过", "您关于决策的", "研究"], "상대의 연구 언급"),
+        authoredLesson("我目前关注人在不确定情况下的选择。", "저는 현재 불확실한 상황에서 사람의 선택을 연구합니다.", ["我目前关注", "人在不确定情况下的", "选择"], "연구 주제 설명"),
+        authoredLesson("是什么契机让您进入这个领域的？", "어떤 계기로 이 분야에 들어오셨나요?", ["是什么契机", "让您进入", "这个领域的"], "계기를 정중히 질문"),
+        authoredLesson("今天能当面认识您，我很荣幸。", "오늘 직접 만나 뵙게 되어 영광입니다.", ["今天能当面认识您", "我很荣幸"], "격식 있게 마무리"),
+        authoredLesson("我叫敏，目前研究人在不确定情况下的选择。", "저는 민이고 현재 불확실한 상황에서 사람의 선택을 연구합니다.", ["我叫敏", "目前研究", "人在不确定情况下的选择"], "격식 있는 소개 미션")
+      ]
+    },
+    {
+      title: "전문적인 첫 대화 주도",
+      canDo: "전문 맥락에서 함축적인 인사와 연구 접점을 만들고 상대의 견해 및 다음 교류를 제안할 수 있다.",
+      lessons: [
+        authoredLesson("久仰，今天终于见到您了。", "말씀 많이 들었습니다. 오늘 드디어 뵙네요.", ["久仰", "今天终于", "见到您了"], "관용적인 전문 인사"),
+        authoredLesson("我一直在关注您关于人类决策的研究。", "인간 의사결정에 관한 선생님의 연구를 계속 관심 있게 보고 있었습니다.", ["我一直在关注", "您关于人类决策的", "研究"], "전문적 관심 연결"),
+        authoredLesson("我的研究主要在心理学和人工智能的交叉领域。", "제 연구는 주로 심리학과 인공지능의 교차 분야에 있습니다.", ["我的研究主要在", "心理学和人工智能的", "交叉领域"], "연구 정체성 압축"),
+        authoredLesson("我很想听听您对我们这个方法的看法。", "저희 방법에 대한 선생님의 견해를 듣고 싶습니다.", ["我很想听听", "您对我们这个方法的", "看法"], "견해 요청"),
+        authoredLesson("如果您方便，我们会后可以继续聊。", "괜찮으시다면 회의 뒤에 계속 이야기할 수 있습니다.", ["如果您方便", "我们会后", "可以继续聊"], "다음 교류 제안"),
+        authoredLesson("久仰。我们的研究方向有交集，我很想听听您的看法。", "말씀 많이 들었습니다. 연구 방향에 접점이 있어 선생님의 견해를 듣고 싶습니다.", ["久仰", "我们的研究方向有交集", "我很想听听您的看法"], "전문 네트워킹 미션")
+      ]
+    }
+  ]
+};
+
 const coursePhraseSets = [starterPhraseSets, elementaryPhraseSets, intermediatePhraseSets, advancedPhraseSets, nativePhraseSets];
-const CORE_DAY_COUNT = 84;
-const CORE_WEEK_COUNT = 12;
-const DAY_PAGE_SIZE = 7;
-const weeklySessionLabels = ["처음 만나기", "응답 연결", "조건 바꾸기", "듣기 전환", "혼합 회상", "실전 역할극", "주간 체크"];
+const CORE_UNIT_COUNT = 8;
+const LESSONS_PER_UNIT = 6;
+const CORE_LESSON_COUNT = CORE_UNIT_COUNT * LESSONS_PER_UNIT;
+const DAY_PAGE_SIZE = LESSONS_PER_UNIT;
+const weeklySessionLabels = ["핵심 표현과 장면", "상대의 질문과 응답", "문장 패턴 변형", "듣기와 발음", "상황 확장", "UNIT 종합 미션"];
 const weeklySessionHelps = [
-  "소리·문자·뜻을 연결하고 핵심 문장을 처음 익힙니다.",
-  "상대의 자연스러운 응답을 듣고 다음 말을 선택합니다.",
-  "대상·시간·조건을 바꿔 같은 기능을 다시 말합니다.",
-  "글자를 가리고 음성만으로 의미와 응답을 떠올립니다.",
-  "이번 주 표현을 섞어 힌트 없이 다시 꺼냅니다.",
-  "상대의 반응이 달라지는 세 턴 대화를 완성합니다.",
-  "의미·듣기·발음·자유 발화를 점검하고 취약 항목을 복습합니다."
+  "핵심 표현을 실제 장면·의도·뜻과 정확히 연결합니다.",
+  "상대의 말에 가장 자연스럽게 이어지는 응답을 고릅니다.",
+  "같은 기능을 유지하며 대상·시간·격식을 바꿉니다.",
+  "글자를 가리고 소리·리듬·성조로 문장을 회상합니다.",
+  "같은 장면에서 질문·반응·다음 행동을 한 단계 확장합니다.",
+  "UNIT의 표현을 연결해 실제 대화를 끝까지 완성합니다."
 ];
 
 const courseAnchorMeta = [
@@ -2019,17 +2211,17 @@ const courseAnchorMeta = [
   { title: "마감과 일정 확인", scene: "마감 시점과 제출 방법 확인하기", mode: "professional", icon: "◷" },
   { title: "미팅 조율하기", scene: "가능한 시간과 대안을 조율하기", mode: "professional", icon: "▦" },
   { title: "피드백 요청하기", scene: "구체적인 의견과 수정 방향 요청하기", mode: "professional", icon: "✎" },
-  { title: "자기소개와 관계 시작", scene: "이름·배경을 밝히고 첫 대화 시작하기", mode: "social", icon: "◎" },
+  { title: "첫 만남과 자기소개", scene: "처음 만난 사람에게 이름·배경을 말하고 관계를 시작하기", mode: "social", icon: "◎" },
   { title: "직업과 관심사 묻기", scene: "상대의 일과 관심 분야 질문하기", mode: "social", icon: "◇" },
   { title: "다음 약속 제안하기", scene: "부담 없이 만남을 제안하고 시간 정하기", mode: "social", icon: "＋" }
 ];
 
 const courseOrderByLevel = [
-  [9, 0, 10, 11, 3, 4, 5, 6, 7, 8, 1, 2],
-  [0, 9, 3, 4, 5, 6, 7, 8, 10, 11, 1, 2],
-  [9, 10, 0, 1, 3, 4, 5, 6, 7, 8, 11, 2],
-  [8, 7, 6, 9, 10, 11, 0, 1, 3, 4, 5, 2],
-  [8, 6, 7, 10, 9, 11, 5, 4, 3, 1, 0, 2]
+  [9, 0, 3, 5, 10, 11, 6, 8],
+  [9, 0, 3, 5, 6, 7, 10, 11],
+  [9, 10, 0, 3, 5, 6, 7, 8],
+  [9, 8, 7, 6, 10, 0, 5, 11],
+  [9, 8, 6, 7, 10, 5, 11, 2]
 ];
 
 const coreInteractionNetworks = {
@@ -2068,6 +2260,37 @@ const coreInteractionNetworks = {
       "从那里还要坐几站？", "可以提前入住吗？", "最终文件应该发给谁？", "我可以配合你的时间。",
       "我应该先修改哪一部分？", "你今天为什么来这里？", "你为什么进入这个行业？", "几点在哪里见比较方便？"
     ]
+  }
+};
+
+const coreInteractionNetworkKo = {
+  responses: [
+    "물론입니다. 어떤 크기로 드릴까요?", "네, 귀리 우유로 변경할 수 있습니다.", "가벼운 맛을 원하시면 이것을 추천해요.", "4번 승강장에 있습니다.",
+    "네, 중앙역에서 갈아타세요.", "예약을 확인했습니다. 신분증을 보여주시겠어요?", "금요일 오후까지 제출하면 됩니다.", "네, 3시 이후에는 시간이 있어요.",
+    "물론이죠. 어느 부분에 대한 의견이 필요한가요?", "만나서 반가워요, 민 씨. 저는 알렉스예요.", "저는 제품 리서치 일을 해요.", "좋아요. 토요일은 괜찮아요."
+  ],
+  followUps: [
+    "물 한 병도 함께 받을 수 있을까요?", "추가 비용이 있나요?", "너무 달지 않은 것으로 원해요.", "다음 열차는 몇 시에 출발하나요?",
+    "거기서 몇 정거장 더 가야 하나요?", "조기 체크인이 가능한가요?", "최종 파일은 누구에게 보내야 하나요?", "상대 일정에 맞출 수 있어요.",
+    "어느 부분부터 먼저 고치면 좋을까요?", "오늘은 어떤 일로 오셨어요?", "어떻게 그 분야를 시작하게 되었어요?", "몇 시에 어디에서 만나는 것이 편한가요?"
+  ]
+};
+
+const functionalSupportLines = {
+  en: {
+    social: authoredLesson("Could you say that again?", "다시 말씀해 주시겠어요?", ["Could you", "say that again"], "대화 복구"),
+    service: authoredLesson("Could you confirm the details?", "세부 내용을 확인해 주시겠어요?", ["Could you confirm", "the details"], "조건 확인"),
+    professional: authoredLesson("Just to confirm, what's the next step?", "확인차 여쭤보는데 다음 단계는 무엇인가요?", ["Just to confirm", "what's the next step"], "다음 행동 확인")
+  },
+  ja: {
+    social: authoredLesson("もう一度お願いできますか。", "한 번 더 말씀해 주시겠어요?", ["もう一度", "お願いできますか"], "대화 복구"),
+    service: authoredLesson("内容を確認していただけますか。", "내용을 확인해 주시겠어요?", ["内容を", "確認していただけますか"], "조건 확인"),
+    professional: authoredLesson("念のため、次の対応を確認させてください。", "확인차 다음 조치를 확인하겠습니다.", ["念のため", "次の対応を", "確認させてください"], "다음 행동 확인")
+  },
+  zh: {
+    social: authoredLesson("可以再说一遍吗？", "한 번 더 말씀해 주실 수 있나요?", ["可以", "再说一遍吗"], "대화 복구"),
+    service: authoredLesson("可以确认一下细节吗？", "세부 내용을 확인할 수 있을까요?", ["可以确认一下", "细节吗"], "조건 확인"),
+    professional: authoredLesson("我确认一下，下一步怎么做？", "확인하겠습니다. 다음 단계는 어떻게 하나요?", ["我确认一下", "下一步", "怎么做"], "다음 행동 확인")
   }
 };
 
@@ -2134,64 +2357,196 @@ const elementaryScriptGuides = {
 };
 
 function courseScriptGuide(language, levelIndex, anchorIndex, source) {
+  if (source.reading || source.romanization) {
+    return {
+      label: language === "ja" ? "문자·로마자" : language === "zh" ? "한자·성조·병음" : "리듬 단위",
+      reading: source.reading || source.tokens.join(" / "),
+      romanization: source.romanization || "의미 덩어리마다 한 번씩 강세를 두고 연결해 읽으세요."
+    };
+  }
   if (language === "en") return { label: "리듬 단위", reading: source.tokens.join(" / "), romanization: "덩어리마다 한 번씩 강세를 두고 연결해 읽으세요." };
-  if (levelIndex < 2) {
+  if (levelIndex < 2 && source.phrase === coursePhraseSets[levelIndex][language][anchorIndex]?.phrase) {
     const guide = (levelIndex === 0 ? beginnerScriptGuides : elementaryScriptGuides)[language]?.[anchorIndex];
     if (guide) return { label: language === "ja" ? "히라가나·로마자" : "병음·성조", reading: guide[0], romanization: guide[1] };
   }
-  return { label: "의미 덩어리", reading: source.tokens.join(" / "), romanization: language === "ja" ? "조사와 어미까지 한 덩어리로 읽으세요." : "각 덩어리의 성조를 유지하며 연결하세요." };
+  return { label: language === "ja" ? "문자·의미 덩어리" : "한자·의미 덩어리", reading: source.phrase, romanization: language === "ja" ? "발음 버튼으로 소리를 먼저 듣고 조사와 어미까지 한 덩어리로 따라 하세요." : "발음 버튼으로 소리를 먼저 듣고 각 덩어리의 성조를 유지하며 따라 하세요." };
 }
 
-function contextualizeLearningPoint(point, language, levelIndex, anchorIndex, source) {
+function unitLessonSources(language, levelIndex, anchorIndex) {
+  if (anchorIndex === 9) return curatedFirstMeetingUnits[language][levelIndex].lessons;
+  const profileSource = coursePhraseSets[levelIndex][language][anchorIndex];
   const network = coreInteractionNetworks[language];
   const variantLevel = levelIndex === coursePhraseSets.length - 1 ? levelIndex - 1 : levelIndex + 1;
   const variant = coursePhraseSets[variantLevel][language][anchorIndex];
+  const normalizedMode = ["social", "service", "professional"].includes(courseAnchorMeta[anchorIndex].mode) ? courseAnchorMeta[anchorIndex].mode : "professional";
+  const response = authoredLesson(network.responses[anchorIndex], coreInteractionNetworkKo.responses[anchorIndex], targetTokens(network.responses[anchorIndex], language), "상대의 자연스러운 응답");
+  const followUp = authoredLesson(network.followUps[anchorIndex], coreInteractionNetworkKo.followUps[anchorIndex], targetTokens(network.followUps[anchorIndex], language), "다음 질문·행동");
+  const support = functionalSupportLines[language][normalizedMode];
+  const missionText = `${profileSource.phrase} ${followUp.phrase}`.trim();
+  return [
+    { ...profileSource, label: "핵심 표현과 장면" },
+    response,
+    { ...variant, label: variantLevel > levelIndex ? "같은 기능의 높은 단계 변형" : "같은 기능의 간결한 변형" },
+    { ...profileSource, label: "듣고 다시 말하기" },
+    followUp,
+    authoredLesson(missionText, `${profileSource.translation} ${followUp.translation}`, [...profileSource.tokens, ...followUp.tokens].slice(0, 5), "UNIT 종합 미션")
+  ];
+}
+
+function unitExpressionLinks(language, levelIndex, anchorIndex, source, unitSources, lessonIndex) {
+  const network = coreInteractionNetworks[language];
+  const sameLessonVariants = anchorIndex === 9
+    ? curatedFirstMeetingUnits[language].map((unit) => unit.lessons[lessonIndex]?.phrase).filter(Boolean)
+    : coursePhraseSets.map((set) => set[language][anchorIndex]?.phrase).filter(Boolean);
+  const distinctVariant = sameLessonVariants.find((text) => text !== source.phrase) || source.phrase;
+  const alternateLevel = levelIndex < 3 ? levelIndex + 2 : levelIndex - 2;
+  const registerVariant = anchorIndex === 9
+    ? curatedFirstMeetingUnits[language][alternateLevel].lessons[Math.min(lessonIndex, 5)].phrase
+    : coursePhraseSets[alternateLevel][language][anchorIndex].phrase;
+  const normalizedMode = ["social", "service", "professional"].includes(courseAnchorMeta[anchorIndex].mode) ? courseAnchorMeta[anchorIndex].mode : "professional";
+  const candidates = [
+    { form: distinctVariant, note: "같은 기능 · 같은 의도를 다른 수준의 말투로 표현" },
+    { form: network.responses[anchorIndex], note: "자연스러운 응답 · 상대가 바로 이어서 할 수 있는 말" },
+    { form: registerVariant, note: "격식 차이 · 관계와 난이도에 따라 달라지는 표현" },
+    { form: unitSources[(lessonIndex + 1) % unitSources.length].phrase, note: "상황 확장 · 같은 장면에 조건이나 질문을 더하는 말" },
+    { form: functionalSupportLines[language][normalizedMode].phrase, note: "대화 유지·복구 · 못 들었거나 다음 행동을 확인할 때 쓰는 말" }
+  ];
+  const fallbackPool = [
+    ...sameLessonVariants,
+    ...unitSources.map((item) => item.phrase),
+    network.responses[anchorIndex],
+    network.followUps[anchorIndex],
+    ...Object.values(functionalSupportLines[language]).map((item) => item.phrase)
+  ].filter(Boolean);
+  const used = new Set([source.phrase]);
+  return candidates.map((item) => {
+    const form = item.form && !used.has(item.form) ? item.form : fallbackPool.find((candidate) => !used.has(candidate));
+    used.add(form);
+    return { ...item, form };
+  });
+}
+
+function buildFunctionalPoint(language, levelIndex, anchorIndex, source, unitSources, lessonIndex) {
+  const anchor = courseAnchorMeta[anchorIndex];
+  const sceneChoices = [
+    "카페에서 음료를 주문할 때",
+    "카페에서 재료나 옵션 변경을 요청할 때",
+    "메뉴를 추천받을 때",
+    "이동 중 목적지로 가는 승강장을 확인할 때",
+    "환승 방법을 물을 때",
+    "호텔이나 식당에서 예약자 이름과 조건을 확인할 때",
+    "제출 마감일을 물을 때",
+    "학교나 직장에서 약속 시간을 제안할 때",
+    "업무 자료의 확인과 피드백을 요청할 때",
+    "처음 만난 사람과 인사하고 자기소개할 때",
+    "직업과 관심사를 물을 때",
+    "다음 만남을 제안할 때"
+  ];
+  const otherScenes = [1, 3, 5, 7, 10, 11].filter((index) => index !== anchorIndex).slice(0, 3);
+  const rolePrompts = [
+    "이 표현의 뜻과 실제 사용 장면으로 가장 알맞은 것은 무엇인가요?",
+    "상대의 앞말을 받은 이 표현의 역할로 가장 알맞은 것은 무엇인가요?",
+    "원래 의도를 유지하면서 달라진 점을 가장 정확히 설명한 것은 무엇인가요?",
+    "소리를 들을 때 반드시 구별해야 할 핵심 정보는 무엇인가요?",
+    "이 표현이 같은 장면의 대화를 어떻게 확장하는지 고르세요.",
+    "UNIT 종합 대화에서 이 표현이 맡는 역할을 고르세요."
+  ];
+  const correctRoles = [
+    `${sceneChoices[anchorIndex]} ‘${source.translation}’라는 뜻을 전하는 핵심 표현이다.`,
+    `상대의 말을 받아 ${anchor.title} 장면의 대화를 자연스럽게 이어간다.`,
+    `핵심 기능을 유지하면서 대상·조건·격식 중 하나를 바꾼 표현이다.`,
+    `‘${source.translation}’라는 의미를 이루는 소리 덩어리와 어순이다.`,
+    `${anchor.title} 장면에 필요한 질문이나 다음 행동을 덧붙인다.`,
+    `${anchor.title} 장면에서 배운 표현을 연결해 대화를 완성한다.`
+  ];
+  const distractorRoles = otherScenes.map((index) => `${sceneChoices[index]} 필요한 말이다.`);
+  const politeness = { social: 48, service: 68, professional: 78, resolution: 74, business: 84 }[anchor.mode] || 60;
   return {
-    ...point,
-    sentenceMeaning: source.translation,
-    alternative: network.followUps[anchorIndex],
-    alternatives: [
-      { form: source.phrase, note: "오늘 사용할 핵심 표현" },
-      { form: variant.phrase, note: variantLevel > levelIndex ? "같은 의도의 한 단계 높은 변형" : "같은 의도의 더 간결한 변형" },
-      { form: network.responses[anchorIndex], note: "상대가 자연스럽게 할 수 있는 응답" },
-      { form: network.followUps[anchorIndex], note: "같은 장면을 이어가는 다음 말" }
-    ]
+    focus: source.tokens[0] || source.phrase,
+    detailFocus: source.tokens[1] || source.tokens[0] || source.phrase,
+    meaning: source.translation,
+    alternative: unitSources[Math.min(lessonIndex + 1, unitSources.length - 1)].phrase,
+    grammar: `‘${source.phrase}’는 ${anchor.title} 장면에서 ‘${source.translation}’라는 의사소통 목적을 수행합니다. 단어별 직역보다 장면·상대·말의 기능을 함께 기억하세요.`,
+    sentenceMeaning: `‘${source.translation}’라는 뜻입니다. ${sceneChoices[anchorIndex]} 사용합니다.`,
+    politeness,
+    quizPrompt: rolePrompts[lessonIndex],
+    options: [
+      { text: correctRoles[lessonIndex], correct: true },
+      ...distractorRoles.map((text) => ({ text, correct: false }))
+    ],
+    alternatives: unitExpressionLinks(language, levelIndex, anchorIndex, source, unitSources, lessonIndex)
   };
 }
 
-function makeCourseDay(language, levelIndex, anchorIndex, weekIndex, weekdayIndex, idPrefix = "core", optional = false) {
+function buildFunctionalFormula(language, levelIndex, anchorIndex, source, lessonIndex) {
   const profile = levelProfiles[language][levelIndex];
-  const source = coursePhraseSets[levelIndex][language][anchorIndex];
-  const anchor = courseAnchorMeta[anchorIndex];
-  const stageIndex = [0, 1, 2, 3, 4, 4, 4][weekdayIndex];
-  const internalBand = profile.bands[weekIndex < CORE_WEEK_COUNT / 2 ? 0 : 1];
-  const stageTarget = buildStageTarget(source.phrase, language, anchor.mode, stageIndex);
-  const target = stageTarget.text;
-  const tokens = targetTokens(target, language);
-  const decoyCount = Math.max(0, tokens.length - 2);
-  const decoys = sentenceDecoys[language].filter((item) => !target.includes(item)).slice((weekIndex + weekdayIndex + levelIndex) % 5, (weekIndex + weekdayIndex + levelIndex) % 5 + decoyCount);
-  while (decoys.length < decoyCount) decoys.push(sentenceDecoys[language][(weekIndex + weekdayIndex + decoys.length) % sentenceDecoys[language].length]);
-  const point = contextualizeLearningPoint(deriveLearningPoint(source.phrase, language, anchor.scene, anchor.mode, weekIndex * 7 + weekdayIndex), language, levelIndex, anchorIndex, source);
-  const quiz = buildQuiz(point, anchor.scene, source.phrase, point.alternative, weekIndex * 97 + weekdayIndex * 13 + levelIndex);
-  const conversationFormula = buildConversationFormula(source.phrase, language, anchor.scene, anchor.mode, levelIndex);
-  const pronunciationFlow = buildPronunciationFlow(source.phrase, target, language, anchor.mode, coursePhraseSets[levelIndex][language].map((item) => item.phrase), courseAnchorMeta.map((item) => item.scene), anchorIndex, levelIndex);
-  const dialogue = makeDialogueTurns(language, anchor.mode, source.phrase, target, coursePhraseSets[levelIndex][language].map((item) => item.phrase), anchorIndex, point, pronunciationFlow, conversationFormula, anchor.scene, levelIndex, stageIndex);
-  const coach = buildDayCoach(language, anchor.mode, anchor.scene, profile, levelIndex, stageIndex, point);
-  coach.stage = `${internalBand} · ${weeklySessionLabels[weekdayIndex]}`;
-  coach.canDo = `${anchor.scene}에서 ${source.translation.replace(/[.。！？?!]+$/g, "")}고 상대의 반응에 이어 말하기`;
-  coach.transfer = `${anchor.title} 장면의 대상·시간·조건 중 하나를 바꿔 힌트 없이 다시 말해보세요.`;
+  const variants = anchorIndex === 9
+    ? curatedFirstMeetingUnits[language].map((unit) => unit.lessons[lessonIndex]?.phrase).filter(Boolean)
+    : coursePhraseSets.map((set) => set[language][anchorIndex]?.phrase).filter(Boolean);
+  const uniqueVariants = variants.filter((text, index, all) => text && all.indexOf(text) === index);
+  while (uniqueVariants.length < 3) uniqueVariants.push(source.phrase);
   return {
-    id: `${language}-${idPrefix}-level-${levelIndex + 1}-week-${weekIndex + 1}-day-${weekdayIndex + 1}`,
+    formula: source.tokens.join(" + "),
+    examples: uniqueVariants.slice(0, 3).map((sentence) => ({ sentence, highlight: "" })),
+    nativeVariants: uniqueVariants.filter((sentence) => sentence !== source.phrase).slice(0, 3),
+    chunks: source.tokens.slice(0, 3).map((text, index) => ({ text, note: index === 0 ? "의도를 시작하는 핵심 덩어리" : "대상·조건·관계를 구체화하는 덩어리" })),
+    levelTip: `${profile.name} 단계에서는 ${source.label || "오늘의 기능"}을 장면과 상대의 반응까지 연결해 익힙니다.`
+  };
+}
+
+function buildUnitPronunciationFlow(unitSources, lessonIndex) {
+  return {
+    turns: [1, 2, 3].map((offset, index) => {
+      const item = unitSources[(lessonIndex + offset) % unitSources.length];
+      return { label: ["상대의 말에 응답하기", "같은 기능을 바꾸어 말하기", "다음 질문으로 이어가기"][index], text: item.phrase, note: item.translation };
+    })
+  };
+}
+
+function lessonCanDo(anchor, source, lessonIndex) {
+  return [
+    `${anchor.title} 장면에서 ‘${source.translation}’라는 뜻의 핵심 표현을 고를 수 있다.`,
+    `${anchor.title} 장면에서 상대의 말에 알맞은 응답을 선택하고 이어 말할 수 있다.`,
+    `${anchor.title}의 핵심 기능을 유지하면서 대상·시간·격식을 바꿔 말할 수 있다.`,
+    `문자를 가리고 ‘${source.translation}’라는 의미를 소리·리듬·성조로 회상할 수 있다.`,
+    `${anchor.title} 장면에 질문·조건·다음 행동을 한 가지 덧붙일 수 있다.`,
+    `${anchor.title}에서 배운 표현을 연결해 실제 대화를 끝까지 완성할 수 있다.`
+  ][lessonIndex];
+}
+
+function makeCourseDay(language, levelIndex, anchorIndex, unitIndex, lessonIndex, idPrefix = "core", optional = false) {
+  const profile = levelProfiles[language][levelIndex];
+  const unitSources = unitLessonSources(language, levelIndex, anchorIndex);
+  const source = unitSources[lessonIndex];
+  const anchor = courseAnchorMeta[anchorIndex];
+  const stageIndex = Math.min(4, lessonIndex);
+  const internalBand = profile.bands[unitIndex < CORE_UNIT_COUNT / 2 ? 0 : 1];
+  const target = source.phrase;
+  const tokens = source.tokens?.length ? source.tokens : targetTokens(target, language);
+  const decoyCount = Math.max(0, tokens.length - 2);
+  const decoys = sentenceDecoys[language].filter((item) => !target.includes(item)).slice((unitIndex + lessonIndex + levelIndex) % 5, (unitIndex + lessonIndex + levelIndex) % 5 + decoyCount);
+  const point = buildFunctionalPoint(language, levelIndex, anchorIndex, source, unitSources, lessonIndex);
+  const quiz = buildQuiz(point, anchor.scene, source.phrase, point.alternative, unitIndex * 97 + lessonIndex * 13 + levelIndex);
+  const conversationFormula = buildFunctionalFormula(language, levelIndex, anchorIndex, source, lessonIndex);
+  const pronunciationFlow = buildUnitPronunciationFlow(unitSources, lessonIndex);
+  const dialogue = makeDialogueTurns(language, anchor.mode, source.phrase, target, unitSources.map((item) => item.phrase), lessonIndex, point, pronunciationFlow, conversationFormula, anchor.scene, levelIndex, stageIndex);
+  const coach = buildDayCoach(language, anchor.mode, anchor.scene, profile, levelIndex, stageIndex, point);
+  coach.stage = `${internalBand} · UNIT ${String(unitIndex + 1).padStart(2, "0")} · LESSON ${lessonIndex + 1}`;
+  coach.canDo = lessonCanDo(anchor, source, lessonIndex);
+  coach.scene = `${anchor.scene}. 오늘은 ‘${source.translation}’라는 의도를 연습합니다.`;
+  coach.transfer = `${anchor.title}의 사람·시간·조건 중 하나만 바꾸어 같은 기능으로 다시 말해보세요.`;
+  return {
+    id: `${language}-${idPrefix}-level-${levelIndex + 1}-unit-${unitIndex + 1}-lesson-${lessonIndex + 1}`,
     mode: anchor.mode,
-    title: `${anchor.title} · ${weeklySessionLabels[weekdayIndex]}`,
-    focus: weeklySessionHelps[weekdayIndex],
-    weekIndex,
-    weekLabel: `WEEK ${String(weekIndex + 1).padStart(2, "0")} · ${anchor.title}`,
-    sessionLabel: weeklySessionLabels[weekdayIndex],
+    title: source.label || weeklySessionLabels[lessonIndex],
+    focus: weeklySessionHelps[lessonIndex],
+    weekIndex: unitIndex,
+    weekLabel: `UNIT ${String(unitIndex + 1).padStart(2, "0")} · ${anchor.title}`,
+    sessionLabel: weeklySessionLabels[lessonIndex],
     internalBand,
     optional,
     stageIndex,
-    stageLabel: weeklySessionLabels[weekdayIndex],
+    stageLabel: weeklySessionLabels[lessonIndex],
     coach,
     word: point.focus,
     reading: `${profile.goal} · ${internalBand}`,
@@ -2200,14 +2555,14 @@ function makeCourseDay(language, levelIndex, anchorIndex, weekIndex, weekdayInde
     studySentence: source.phrase,
     sentenceMeaning: source.translation,
     phrase: target,
-    translation: [source.translation, stageTarget.extensionMeaning].filter(Boolean).join(" "),
+    translation: source.translation,
     tokens,
     decoys,
-    pool: seededShuffle([...tokens, ...decoys], weekIndex * 701 + weekdayIndex * 31 + levelIndex),
+    pool: seededShuffle([...tokens, ...decoys], unitIndex * 701 + lessonIndex * 31 + levelIndex),
     quiz,
     conversationFormula,
     pronunciationFlow,
-    sentenceExplanation: `${internalBand}에서는 ‘${point.focus}’를 실제 어순과 소리로 회상합니다. ${weeklySessionHelps[weekdayIndex]}`,
+    sentenceExplanation: `${internalBand}에서는 ‘${point.focus}’를 실제 장면·응답·소리와 함께 회상합니다. ${weeklySessionHelps[lessonIndex]}`,
     expansionPhrase: point.alternative,
     opening: dialogue.opening,
     openingKo: dialogue.openingKo,
@@ -2219,46 +2574,68 @@ function makeCourseDay(language, levelIndex, anchorIndex, weekIndex, weekdayInde
 
 function buildCurriculum(language, levelIndex) {
   const profile = levelProfiles[language][levelIndex];
-  const order = courseOrderByLevel[levelIndex];
-  const coreDays = Array.from({ length: CORE_DAY_COUNT }, (_, dayIndex) => {
-    const weekIndex = Math.floor(dayIndex / 7);
-    const weekdayIndex = dayIndex % 7;
-    return makeCourseDay(language, levelIndex, order[weekIndex], weekIndex, weekdayIndex);
+  const order = courseOrderByLevel[levelIndex].slice(0, CORE_UNIT_COUNT);
+  const coreTopics = order.map((anchorIndex, unitIndex) => {
+    const anchor = courseAnchorMeta[anchorIndex];
+    const authoredUnit = anchorIndex === 9 ? curatedFirstMeetingUnits[language][levelIndex] : null;
+    return {
+      id: `core-unit-${unitIndex + 1}`,
+      icon: anchor.icon,
+      unitNumber: unitIndex + 1,
+      tab: authoredUnit?.title || anchor.title,
+      place: `CORE PATH · UNIT ${String(unitIndex + 1).padStart(2, "0")}`,
+      title: authoredUnit?.title || anchor.title,
+      description: authoredUnit?.canDo || `${profile.name} · ${anchor.scene}`,
+      core: true,
+      unit: true,
+      days: Array.from({ length: LESSONS_PER_UNIT }, (_, lessonIndex) => makeCourseDay(language, levelIndex, anchorIndex, unitIndex, lessonIndex, `core-unit-${unitIndex + 1}`))
+    };
   });
-  const labTopics = order.map((anchorIndex, weekIndex) => {
+  const labTopics = order.map((anchorIndex, unitIndex) => {
     const anchor = courseAnchorMeta[anchorIndex];
     return {
       id: `lab-${anchorIndex + 1}`,
       icon: anchor.icon,
+      unitNumber: unitIndex + 1,
       tab: anchor.title,
-      place: `상황 랩 · ${anchor.title}`,
-      title: anchor.title,
-      description: `${profile.name} · 같은 기능을 7가지 방식으로 반복`,
+      place: `SITUATION LAB · ${anchor.title}`,
+      title: `${anchor.title} 집중 연습`,
+      description: `${profile.name} · 같은 장면에서 응답·변형·듣기·확장 반복`,
       optional: true,
-      days: Array.from({ length: 7 }, (_, weekdayIndex) => makeCourseDay(language, levelIndex, anchorIndex, weekIndex, weekdayIndex, `lab-${anchorIndex + 1}`, true))
+      unit: true,
+      days: Array.from({ length: LESSONS_PER_UNIT }, (_, lessonIndex) => makeCourseDay(language, levelIndex, anchorIndex, unitIndex, lessonIndex, `lab-${anchorIndex + 1}`, true))
     };
   });
-  const checkpointDays = order.map((anchorIndex, weekIndex) => {
-    const day = makeCourseDay(language, levelIndex, anchorIndex, weekIndex, 6, "checkpoint", true);
-    return { ...day, title: `${String(weekIndex + 1).padStart(2, "0")}주차 체크포인트`, focus: `${courseAnchorMeta[anchorIndex].title}의 의미·듣기·발음·자유 발화를 다시 점검합니다.` };
-  });
+  const reviewTopics = coreTopics.map((unit, unitIndex) => ({
+    id: `review-unit-${unitIndex + 1}`,
+    icon: "R",
+    unitNumber: unitIndex + 1,
+    tab: `${String(unitIndex + 1).padStart(2, "0")} · ${unit.tab}`,
+    place: "REVIEW PATH · UNIT CHECK",
+    title: `${unit.title} 재도전`,
+    description: "오답·듣기·발음·실전 대화를 짧게 다시 점검",
+    optional: true,
+    unit: true,
+    days: unit.days.map((day, lessonIndex) => ({ ...day, id: `${day.id}-review`, optional: true, title: `${day.title} 복습`, focus: `${weeklySessionLabels[lessonIndex]}에서 어려웠던 기능을 다시 확인합니다.` }))
+  }));
   return [
     {
       id: "core",
-      icon: "84",
+      icon: "CORE",
       title: "코어 패스",
-      topics: [{ id: "core-84", icon: "84", tab: "12주 코어", place: "CORE PATH · 12 WEEKS", title: `${profile.name} 84일 코어 패스`, description: `${profile.bands.join(" → ")} · 12주 · 84일`, core: true, days: coreDays }]
+      description: "순서대로 익히는 8개 UNIT · 48개 핵심 수업",
+      topics: coreTopics
     },
-    { id: "labs", icon: "LAB", title: "상황 랩", topics: labTopics },
+    { id: "labs", icon: "LAB", title: "상황 랩", description: "필요한 장면을 선택해 집중 연습", topics: labTopics },
     {
       id: "review",
-      icon: "R", title: "체크포인트",
-      topics: [{ id: "weekly-checkpoints", icon: "R", tab: "주간 점검", place: "REVIEW PATH", title: "12주 숙련도 체크", description: "주간 핵심 기능만 빠르게 재평가", optional: true, days: checkpointDays }]
+      icon: "R", title: "리뷰 패스", description: "오답·듣기·발음·대화 재도전",
+      topics: reviewTopics
     }
   ];
 }
 
-const STORAGE_KEY = "hanasu-course-v3";
+const STORAGE_KEY = "aiderlog-language-course-v114";
 
 const $ = (selector, parent = root) => parent.querySelector(selector);
 const $$ = (selector, parent = root) => [...parent.querySelectorAll(selector)];
@@ -2284,7 +2661,7 @@ const state = {
   },
   categoryIndex: Number.isInteger(saved.categoryIndex) && saved.categoryIndex >= 0 && saved.categoryIndex < 3 ? saved.categoryIndex : 0,
   scenarioIndex: Number.isInteger(saved.scenarioIndex) ? saved.scenarioIndex : 0,
-  dayPage: Number.isInteger(saved.dayPage) && saved.dayPage >= 0 && saved.dayPage < CORE_WEEK_COUNT ? saved.dayPage : 0,
+  dayPage: Number.isInteger(saved.dayPage) && saved.dayPage >= 0 ? saved.dayPage : 0,
   progress: saved.progress || {},
   activeDay: null,
   activeScenario: null,
@@ -2339,16 +2716,15 @@ function allDays() {
 }
 
 function coreDays() {
-  const scenario = curriculum.find((category) => category.id === "core")?.topics?.[0];
-  return scenario?.days || [];
+  const topics = curriculum.find((category) => category.id === "core")?.topics || [];
+  return topics.flatMap((scenario) => scenario.days || []);
 }
 
 function coreCompletedEntries() {
-  const scenario = curriculum.find((category) => category.id === "core")?.topics?.[0];
-  if (!scenario) return [];
-  return scenario.days
+  const topics = curriculum.find((category) => category.id === "core")?.topics || [];
+  return topics.flatMap((scenario) => scenario.days
     .filter((day) => state.progress[day.id]?.completedAt)
-    .map((day) => ({ scenario, day, ...state.progress[day.id] }));
+    .map((day) => ({ scenario, day, ...state.progress[day.id] })));
 }
 
 function completedEntries() {
@@ -2436,7 +2812,10 @@ function syncLanguageUI() {
   $("#language-select").value = state.language;
   $("#level-select").innerHTML = profiles.map((item, index) => `<option value="${index}">${escapeHtml(item.course)} · ${escapeHtml(item.standard)}</option>`).join("");
   $("#level-select").value = String(levelIndex);
-  $("#completed-days").nextElementSibling.textContent = `/ ${coreDays().length} 코어`;
+  const profile = profiles[levelIndex];
+  const levelGuide = $("#level-guide");
+  if (levelGuide) levelGuide.textContent = `${profile.goal} · 도움말 ${profile.showTranslation ? "표시" : "최소화"} · 역할극 선택지 ${profile.suggestionCount}개`;
+  $("#completed-days").nextElementSibling.textContent = `/ ${coreDays().length} Lesson`;
 }
 
 function closeLesson() {
@@ -2462,11 +2841,13 @@ function renderCourse() {
   scenarios = category.topics;
   const scenario = scenarios[state.scenarioIndex] || scenarios[0];
   state.scenarioIndex = scenarios.indexOf(scenario);
-  $("#category-tabs").innerHTML = curriculum.map((item, index) => `<button class="category-tab ${index === state.categoryIndex ? "active" : ""}" data-category="${index}" aria-pressed="${index === state.categoryIndex}" type="button"><b>${escapeHtml(item.title)}</b></button>`).join("");
+  $("#category-tabs").innerHTML = curriculum.map((item, index) => `<button class="category-tab ${index === state.categoryIndex ? "active" : ""}" data-category="${index}" aria-pressed="${index === state.categoryIndex}" type="button">
+    <span>${escapeHtml(item.icon)}</span><span><b>${escapeHtml(item.title)}</b><small>${escapeHtml(item.description || "")}</small></span>
+  </button>`).join("");
   $("#scenario-tabs").innerHTML = scenarios.map((item, index) => {
     const done = item.days.filter((day) => state.progress[day.id]?.completedAt).length;
     return `<button class="scenario-tab ${index === state.scenarioIndex ? "active" : ""}" data-scenario="${index}" aria-pressed="${index === state.scenarioIndex}" type="button">
-      <span>${item.icon}</span><span class="tab-copy"><b>${item.tab}</b><small>${done} / ${item.days.length} 완료</small></span>
+      <span class="unit-code">${item.unit ? `U${String(item.unitNumber || index + 1).padStart(2, "0")}` : escapeHtml(item.icon)}</span><span class="tab-copy"><b>${escapeHtml(item.tab)}</b><small>${done} / ${item.days.length} Lesson</small></span><em>${done === item.days.length ? "완료" : done ? "진행 중" : "시작"}</em>
     </button>`;
   }).join("");
 
@@ -2476,18 +2857,20 @@ function renderCourse() {
   const pageStart = state.dayPage * DAY_PAGE_SIZE;
   const pageEnd = Math.min(scenario.days.length, pageStart + DAY_PAGE_SIZE);
   $("#scenario-number").textContent = String(state.scenarioIndex + 1).padStart(2, "0");
-  $("#scenario-place").textContent = `[ ${category.title} ]`;
+  $("#scenario-place").textContent = scenario.place || category.title;
   $("#scenario-title").textContent = scenario.title;
-  $("#scenario-progress-label").textContent = `${complete} / ${scenario.days.length} Day`;
+  const scenarioDescription = $("#scenario-description");
+  if (scenarioDescription) scenarioDescription.textContent = scenario.description || "";
+  $("#scenario-progress-label").textContent = `${complete} / ${scenario.days.length} Lesson`;
   $("#scenario-progress").style.width = `${(complete / scenario.days.length) * 100}%`;
   const pageLead = scenario.days[pageStart];
-  $("#day-list-subtitle").textContent = `${scenario.tab} · ${pageLead?.weekLabel || "집중 연습"} · Day ${pageStart + 1}–${pageEnd}`;
-  $("#day-page-controls").innerHTML = Array.from({ length: totalPages }, (_, index) => {
+  $("#day-list-subtitle").textContent = `${pageLead?.weekLabel || scenario.tab} · Lesson ${pageStart + 1}–${pageEnd}`;
+  $("#day-page-controls").innerHTML = totalPages === 1 ? "" : Array.from({ length: totalPages }, (_, index) => {
     const start = index * DAY_PAGE_SIZE + 1;
     const end = Math.min(scenario.days.length, start + DAY_PAGE_SIZE - 1);
     const week = scenario.days[index * DAY_PAGE_SIZE]?.weekLabel || `${start}–${end}`;
-    const label = `${week} · Day ${start}–${end}`;
-    return `<button class="day-page-button ${index === state.dayPage ? "active" : ""}" data-day-page="${index}" type="button" aria-label="${escapeHtml(label)}" title="${escapeHtml(label)}" aria-pressed="${index === state.dayPage}">${scenario.core ? `W${index + 1}` : `${start}–${end}`}</button>`;
+    const label = `${week} · Lesson ${start}–${end}`;
+    return `<button class="day-page-button ${index === state.dayPage ? "active" : ""}" data-day-page="${index}" type="button" aria-label="${escapeHtml(label)}" title="${escapeHtml(label)}" aria-pressed="${index === state.dayPage}">${start}–${end}</button>`;
   }).join("");
 
   $("#day-list").innerHTML = scenario.days.slice(pageStart, pageEnd).map((day, pageIndex) => {
@@ -2497,7 +2880,7 @@ function renderCourse() {
     const status = record?.completedAt ? "반복" : unlocked ? "시작" : "잠김";
     const buttonClass = record?.completedAt ? "done" : unlocked && index === complete ? "current" : "";
     return `<li class="day-row">
-      <span class="day-index"><b>Day ${index + 1}</b><small>${escapeHtml(day.internalBand || "")}</small></span>
+      <span class="day-index"><b>Lesson ${index + 1}</b><small>${escapeHtml(day.internalBand || "")}</small></span>
       <div class="day-info"><b>${escapeHtml(day.title)}</b><p>${escapeHtml(day.focus)}</p><small>${escapeHtml(day.sessionLabel || "")}</small></div>
       <button class="day-action ${buttonClass}" data-day="${index}" type="button" ${unlocked ? "" : "disabled"}>${status}</button>
     </li>`;
@@ -2601,8 +2984,8 @@ function openLesson(scenario, day, dayIndex, reviewMode = false, quickReview = f
   state.dialogueRequestId += 1;
   const profile = levelProfiles[state.language][state.levelByLanguage[state.language]];
   $("#lesson-path").textContent = reviewMode
-    ? `${state.quickReview ? "2분 빠른 회상" : "간격 복습"} › ${scenario.tab} › Day ${dayIndex + 1}`
-    : `${profile.name} ${day.internalBand || ""} · ${profile.standard} › ${scenario.tab} › Day ${dayIndex + 1}`;
+    ? `${state.quickReview ? "2분 빠른 회상" : "간격 복습"} › ${scenario.tab} › Lesson ${dayIndex + 1}`
+    : `${profile.name} ${day.internalBand || ""} · ${profile.standard} › ${scenario.tab} › Lesson ${dayIndex + 1}`;
   $("#lesson-title").textContent = day.title;
   $("#lesson-view").setAttribute("aria-hidden", "false");
   labShell.classList.add("lesson-active");
@@ -2710,8 +3093,9 @@ function renderTask() {
         const selected = state.selectedChoices.includes(index);
         return `<button class="choice-button ${selected ? "selected" : ""}" data-choice="${index}" type="button"><span class="choice-check">${selected ? "✓" : ""}</span>${escapeHtml(option.text)}</button>`;
       }).join("")}</div>`;
-    body.innerHTML = `${taskHeader("STEP 1 · 소리·문자·의미", "읽을 수 있는 단위로 먼저 익히세요", "문자 체계가 낯선 입문자는 읽기 도움을 본 뒤 뜻과 실제 장면을 연결합니다.")}
+    body.innerHTML = `${taskHeader("STEP 1 · 소리·문자·의미", "장면과 말의 기능을 먼저 구별하세요", "억지 문법 정오 문제가 아니라 실제 상황에서 이 표현이 어떤 역할을 하는지 확인합니다.")}
       ${renderLessonBrief(day)}${vocabulary}<div class="question-panel"><div class="sentence-with-audio"><p class="japanese-question" lang="${meta.htmlLang}">${escapeHtml(day.studySentence || day.phrase)}</p>${pronunciationButtons(day.studySentence || day.phrase, state.language)}</div>${renderScriptGuide(day, profile, meta)}</div>
+      <p class="quiz-prompt">${escapeHtml(quiz.prompt)}</p>
       ${choices}${feedback}`;
     action.textContent = state.answerChecked ? (state.answerCorrect ? "다음" : "다시 선택") : "정답 확인";
     action.disabled = state.selectedChoices.length === 0;
@@ -2754,16 +3138,16 @@ function renderTask() {
     action.disabled = state.pronunciationRecording;
   } else if (state.taskIndex === 3) {
     renderRoleplay();
-    action.textContent = state.dialogueDone ? (state.reviewMode ? "복습 완료" : "Day 완료") : "대화를 마쳐주세요";
+    action.textContent = state.dialogueDone ? (state.reviewMode ? "복습 완료" : "Lesson 완료") : "대화를 마쳐주세요";
     action.disabled = !state.dialogueDone;
   } else {
-    const completeLabel = state.quickReview ? "QUICK RECALL COMPLETE" : state.reviewMode ? "REVIEW COMPLETE" : "DAY COMPLETE";
+    const completeLabel = state.quickReview ? "QUICK RECALL COMPLETE" : state.reviewMode ? "REVIEW COMPLETE" : "LESSON COMPLETE";
     const completeTitle = state.quickReview ? "2분 회상을 마쳤어요" : state.reviewMode ? "복습을 마쳤어요" : "오늘 학습을 마쳤어요";
     const completeMessage = state.quickReview ? "핵심 문장을 다시 만들고 소리 내어 회상한 기록을 저장했습니다." : state.reviewMode ? "복습 횟수와 발음 점수를 학습 기록에 저장했습니다." : "배운 표현은 단어장에, 점수는 학습 기록에 자동으로 저장했습니다.";
     const record = state.progress[day.id] || {};
     const savedMessage = `다음 간격 복습은 ${formatReviewDate(record.nextReviewAt)}에 준비됩니다.`;
     body.innerHTML = `${taskHeader(completeLabel, completeTitle, completeMessage)}
-      <div class="lesson-complete"><span class="complete-mark">✓</span><h2>${state.quickReview ? "빠른 회상 완료!" : state.reviewMode ? "복습 완료!" : "Day 완료!"}</h2><p>${escapeHtml(day.title)} · ${state.quickReview ? "약 2분 회상" : "약 10분 학습"}</p>
+      <div class="lesson-complete"><span class="complete-mark">✓</span><h2>${state.quickReview ? "빠른 회상 완료!" : state.reviewMode ? "복습 완료!" : "Lesson 완료!"}</h2><p>${escapeHtml(day.title)} · ${state.quickReview ? "약 2분 회상" : "약 10분 학습"}</p>
       <div class="complete-summary"><div><small>학습 단계</small><b>${state.quickReview ? "2 / 2" : "4 / 4"}</b></div><div><small>발음 점수</small><b>${state.pronunciationScore ?? "—"}점</b></div><div><small>기억 단계</small><b>${escapeHtml(record.mastery || "형성 중")}</b></div></div>
       <div class="mastery-checklist">${day.coach.rubric.map((item) => `<span>✓ ${escapeHtml(item)}</span>`).join("")}</div>
       <div class="saved-note">${savedMessage}</div>
@@ -2772,7 +3156,7 @@ function renderTask() {
     $("#lesson-progress").style.width = "100%";
     prev.hidden = true;
     pass.hidden = true;
-    action.textContent = state.reviewMode ? "학습 기록으로" : "Day 목록으로";
+    action.textContent = state.reviewMode ? "학습 기록으로" : "Lesson 목록으로";
     action.disabled = false;
   }
 }
@@ -2797,7 +3181,7 @@ function renderRoleplay() {
       <div class="roleplay-scene"><div><b>${escapeHtml(state.activeScenario.title)}</b><small>AI 역할 · ${escapeHtml(state.activeDay.dialogueRole || "대화 상대")}</small><em>${escapeHtml(state.activeDay.dialogueGoal || state.activeScenario.place)}</em></div><span class="ai-label">AI ROLEPLAY · ${Math.min(state.dialogueTurn + 1, turns.length)} / ${turns.length}</span></div>
       <div class="roleplay-rubric" aria-label="오늘의 성공 기준">${state.activeDay.coach.rubric.map((item) => `<span>✓ ${escapeHtml(item)}</span>`).join("")}</div>
       <div class="chat-messages" id="chat-messages">${state.dialogueMessages.map((message) => `<div class="chat-message ${message.role}"><div class="chat-message-row"><span class="bubble" lang="${meta.htmlLang}">${escapeHtml(message.ja)}</span><button class="chat-audio" data-speak="${escapeHtml(message.ja)}" type="button" aria-label="${message.role === "ai" ? "AI 문장" : "내 문장"} 발음 듣기">▶</button></div>${profile.showDialogueKo && message.ko ? `<small>${escapeHtml(message.ko)}</small>` : ""}</div>`).join("")}</div>
-      ${state.dialogueDone ? '<div class="roleplay-complete">대화를 끝까지 마쳤습니다. 아래 ‘Day 완료’를 눌러 기록하세요.</div>' : `<div class="roleplay-turn-guide"><small>이번 턴 목표</small><b>${escapeHtml(current.intent)}</b></div>${state.dialoguePending ? '<div class="roleplay-thinking"><i></i> 대화 상대가 답변하고 있어요</div>' : visibleSuggestions.length ? `<div class="roleplay-suggestions">${visibleSuggestions.map((suggestion) => `<div class="roleplay-suggestion"><button class="suggestion-reply" data-reply="${escapeHtml(suggestion)}" type="button" lang="${meta.htmlLang}">${escapeHtml(suggestion)}</button><button class="suggestion-audio" data-speak="${escapeHtml(suggestion)}" type="button" aria-label="추천 답변 발음 듣기">▶</button></div>`).join("")}</div>` : '<div class="roleplay-challenge">이번 턴 목표에 맞춰 직접 문장을 만들어보세요.</div>'}
+      ${state.dialogueDone ? '<div class="roleplay-complete">대화를 끝까지 마쳤습니다. 아래 ‘Lesson 완료’를 눌러 기록하세요.</div>' : `<div class="roleplay-turn-guide"><small>이번 턴 목표</small><b>${escapeHtml(current.intent)}</b></div>${state.dialoguePending ? '<div class="roleplay-thinking"><i></i> 대화 상대가 답변하고 있어요</div>' : visibleSuggestions.length ? `<div class="roleplay-suggestions">${visibleSuggestions.map((suggestion) => `<div class="roleplay-suggestion"><button class="suggestion-reply" data-reply="${escapeHtml(suggestion)}" type="button" lang="${meta.htmlLang}">${escapeHtml(suggestion)}</button><button class="suggestion-audio" data-speak="${escapeHtml(suggestion)}" type="button" aria-label="추천 답변 발음 듣기">▶</button></div>`).join("")}</div>` : '<div class="roleplay-challenge">이번 턴 목표에 맞춰 직접 문장을 만들어보세요.</div>'}
       <form class="chat-form" id="chat-form"><input id="chat-input" aria-label="${meta.label} 답변" autocomplete="off" placeholder="${meta.label}로 답해보세요" ${state.dialoguePending ? "disabled" : ""} /><button type="submit" ${state.dialoguePending ? "disabled" : ""}>${state.dialoguePending ? "응답 중" : "보내기"}</button></form>`}
     </div>`;
   requestAnimationFrame(() => {
@@ -2947,7 +3331,7 @@ function completeLesson() {
       completedAt: now
     }
   }));
-  showToast(state.reviewMode ? "복습 기록을 저장했습니다." : "Day를 완료했습니다.");
+  showToast(state.reviewMode ? "복습 기록을 저장했습니다." : "Lesson을 완료했습니다.");
 }
 
 function submitRoleplay(value) {
@@ -3228,7 +3612,7 @@ function renderWordbook() {
     <span class="word-kind">${item.type}<br><small>${escapeHtml(item.context)}</small></span>
     <div class="word-copy"><strong lang="${meta.htmlLang}">${escapeHtml(item.text)}</strong><span>${escapeHtml(item.ko)}</span></div>
     <button class="listen-button" data-speak="${escapeHtml(item.text)}" type="button">▶ 발음 듣기</button>
-  </article>`).join("") + (items.length > visibleItems.length ? `<div class="more-line">최근 표현 6개 표시 · 그 외 ${items.length - visibleItems.length}개 저장됨</div>` : "") : `<div class="empty-state"><b>아직 저장된 표현이 없어요</b><button data-scroll="course-section" type="button">첫 Day 시작하기</button></div>`;
+  </article>`).join("") + (items.length > visibleItems.length ? `<div class="more-line">최근 표현 6개 표시 · 그 외 ${items.length - visibleItems.length}개 저장됨</div>` : "") : `<div class="empty-state"><b>아직 저장된 표현이 없어요</b><button data-scroll="course-section" type="button">첫 Lesson 시작하기</button></div>`;
 }
 
 function renderRecords() {
@@ -3248,7 +3632,7 @@ function renderRecords() {
     ? `${queue[0].scenario.tab} · ${queue[0].day.title} — ${queue[0].day.phrase}`
     : upcoming
       ? `${formatReviewDate(upcoming.nextReviewAt)} 복습 예정 · ${upcoming.scenario.tab} · ${upcoming.day.title}`
-      : "첫 Day를 완료하면 20분·1·3·7·14·30일 간격 복습이 시작됩니다.";
+      : "첫 Lesson을 완료하면 20분·1·3·7·14·30일 간격 복습이 시작됩니다.";
 
   const today = new Date();
   const day = today.getDay();
@@ -3266,7 +3650,7 @@ function renderRecords() {
   $("#week-record-label").textContent = `${learnedDays}일 학습`;
   $("#week-bars").innerHTML = ["월", "화", "수", "목", "금", "토", "일"].map((label, index) => `<span class="week-bar ${weekCounts[index] ? "active" : ""}"><i style="height:${Math.min(64, Math.max(3, weekCounts[index] * 18))}px"></i><small>${label}</small></span>`).join("");
   const recentEntries = entries.slice(0, 3);
-  $("#history-list").innerHTML = entries.length ? recentEntries.map((entry) => `<div class="history-item"><div><b>${escapeHtml(entry.day.title)}</b><small>${escapeHtml(entry.scenario.tab)} · ${new Date(entry.completedAt).toLocaleDateString("ko-KR")}${entry.reviewCount ? ` · 복습 ${entry.reviewCount}회` : ""} · 다음 ${formatReviewDate(entry.nextReviewAt)}</small></div><span>발음 ${Number.isFinite(entry.pronunciationScore) ? `${entry.pronunciationScore}점` : "미측정"}<small>${escapeHtml(entry.mastery || "형성 중")}</small></span><span>10분</span></div>`).join("") + (entries.length > recentEntries.length ? `<div class="more-line">그 외 ${entries.length - recentEntries.length}개 완료 기록</div>` : "") : '<div class="history-empty">완료한 Day가 아직 없습니다.</div>';
+  $("#history-list").innerHTML = entries.length ? recentEntries.map((entry) => `<div class="history-item"><div><b>${escapeHtml(entry.day.title)}</b><small>${escapeHtml(entry.scenario.tab)} · ${new Date(entry.completedAt).toLocaleDateString("ko-KR")}${entry.reviewCount ? ` · 복습 ${entry.reviewCount}회` : ""} · 다음 ${formatReviewDate(entry.nextReviewAt)}</small></div><span>발음 ${Number.isFinite(entry.pronunciationScore) ? `${entry.pronunciationScore}점` : "미측정"}<small>${escapeHtml(entry.mastery || "형성 중")}</small></span><span>10분</span></div>`).join("") + (entries.length > recentEntries.length ? `<div class="more-line">그 외 ${entries.length - recentEntries.length}개 완료 기록</div>` : "") : '<div class="history-empty">완료한 Lesson이 아직 없습니다.</div>';
 }
 
 root.addEventListener("click", (event) => {

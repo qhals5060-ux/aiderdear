@@ -1,3 +1,22 @@
+AiderLog v114 배포 확인
+
+1. 이 폴더의 내용 전체를 Vercel 프로젝트 루트에 배포합니다. `api` 폴더도 함께 교체합니다.
+2. Vercel Root Directory는 비워 둡니다.
+3. Firebase와 Google Calendar 환경 변수는 기존 Production 값을 그대로 유지합니다.
+4. Deployments에서 새 v114 배포를 Production으로 승격합니다.
+5. `https://aiderdear1.vercel.app/sw.js` 첫 줄을 확인합니다.
+   const CACHE='aiderlog-v114-language-course-rebuild';
+
+v114 정상 동작
+- COURSE SELECT에 CORE PATH·SITUATION LAB·REVIEW PATH와 경로별 8개 UNIT가 표시됨
+- 각 UNIT에 핵심 장면·응답·변형·듣기/발음·확장·종합 미션의 6개 Lesson이 표시됨
+- 영어·일본어·중국어의 5개 난이도가 서로 다른 첫 문장과 읽기 도움을 사용함
+- STEP 1 선택지가 장면과 의사소통 기능에 맞으며 억지 문법 오답이 없음
+- 정답 확인 뒤 5종 표현 연결망이 표시되고 기존 STEP 4 역할극이 이어짐
+- COURSE SELECT, 학습 목록, 학습 문항이 서로 겹치거나 잘리지 않음
+
+----------------------------------------
+
 AiderLog v113 배포 확인
 
 1. 이 폴더의 내용 전체를 Vercel 프로젝트 루트에 배포합니다. `api` 폴더도 함께 교체합니다.

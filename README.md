@@ -1,3 +1,18 @@
+# AiderLog v114
+
+## v114 Language Lab · Communicative Course Rebuild
+
+- 학습 체계를 **CORE PATH / SITUATION LAB / REVIEW PATH**로 분리하고, 각 난이도를 8개 UNIT × 6개 Lesson으로 다시 구성했습니다.
+- 영어·일본어·중국어의 입문·기초·독립·고급·숙련 과정이 서로 다른 문장, 격식, 읽기 도움, 말하기 목표를 사용합니다.
+- 첫 만남 UNIT 15개(3개 언어 × 5개 난이도)는 자동 문장 조합이 아닌 언어·수준별 검수 콘텐츠로 교체했습니다.
+- CAN-DO와 STEP 1 선택지는 장면·의도·자연스러운 응답을 평가하며, 문장에 없는 단어 찾기 같은 억지 오답을 제거했습니다.
+- 표현 연결망을 같은 기능·자연스러운 응답·격식 차이·상황 확장·대화 유지의 다섯 범주로 고정했습니다.
+- COURSE SELECT에서 학습 경로, 8개 UNIT, 완료 수와 진행 상태를 한눈에 선택하며 데스크톱·모바일 겹침을 정리했습니다.
+
+`const CACHE='aiderlog-v114-language-course-rebuild';`
+
+---
+
 # AiderLog v113
 
 ## v113 Language Lab · 84-day Core Path · Spaced Recall
