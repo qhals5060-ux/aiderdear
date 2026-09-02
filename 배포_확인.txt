@@ -1,3 +1,27 @@
+AiderLog v112 배포 확인
+
+1. 이 폴더의 내용 전체를 Vercel 프로젝트 루트에 배포합니다. `api/admin-users.mjs`를 포함해 api 폴더도 함께 교체합니다.
+2. Vercel Root Directory는 비워 둡니다.
+3. 관리자 목록 API는 기존 캘린더 서버와 같은 Firebase Admin 환경 변수 중 하나를 사용합니다.
+   - `FIREBASE_SERVICE_ACCOUNT_JSON`, 또는
+   - `FIREBASE_PROJECT_ID` + `FIREBASE_CLIENT_EMAIL` + `FIREBASE_PRIVATE_KEY`
+4. Firebase Firestore 규칙에 이 폴더의 `firestore.rules`를 게시합니다.
+5. Deployments에서 새 v112 배포를 Production으로 승격합니다.
+6. `https://aiderdear1.vercel.app/sw.js`를 열어 첫 줄이 아래와 같은지 확인합니다.
+   const CACHE='aiderlog-v112-admin-birthdays-research-landscape';
+
+v112 정상 동작
+- qhals5060@gmail.com 계정에서만 AiderLog 계정 팝업에 `사용자 관리` 탭이 보임
+- 사용자 관리 목록은 인증된 관리자 토큰으로만 열리고 비밀번호·토큰은 표시하지 않음
+- 프로필에서 생년월일과 양력/음력/윤달을 저장할 수 있음
+- 연결된 커플·친구의 생일이 AiderLog 캘린더에만 표시되고 Google Calendar에는 생성되지 않음
+- PAPER Library에서 여러 논문을 선택해 한 번에 삭제하고 연결된 Insight도 정리할 수 있음
+- Insights에서 대상군·주제·방법을 필터링하면 방법 패턴·주제 흐름·연구 공백이 함께 갱신됨
+- Ideas에서 연구 공백을 아이디어 입력으로 옮길 수 있고, 저장한 Design에는 실현 가능성 점검과 순서도가 표시됨
+- PAPER My Lab에서 공식 연구 방향과 대표 논문 링크가 열림
+
+----------------------------------------
+
 AiderLog v108 배포 확인
 
 1. 이 폴더의 내용 전체를 Vercel 프로젝트 루트에 배포합니다. 루트 파일만 올리지 말고 api 폴더도 함께 교체합니다.

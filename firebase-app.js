@@ -89,11 +89,15 @@ const PAPER_TASK_WORKSPACE_ID = 'aiderlog-paper-task-v1';
 const PAPER_TASK_WORKSPACE_EMAILS = new Set(['qhals5060@gmail.com', 'aidway55@gmail.com']);
 
 const cleanEmail = value => String(value || '').trim().toLowerCase();
-const publicUser = user => user ? {
+const publicUser = (user, extras = {}) => user ? {
   uid: user.uid,
   email: cleanEmail(user.email),
   name: String(user.displayName || user.email?.split('@')[0] || '사용자'),
   photoURL: String(user.photoURL || ''),
+  gender: ['female', 'male'].includes(extras.gender) ? extras.gender : '',
+  birthDate: /^\d{4}-\d{2}-\d{2}$/.test(String(extras.birthDate || '')) ? String(extras.birthDate) : '',
+  birthCalendar: extras.birthCalendar === 'lunar' ? 'lunar' : 'solar',
+  birthLeap: Boolean(extras.birthLeap),
 } : null;
 const timestampValue = value => value?.toMillis?.() || Number(value || 0);
 const plainDoc = snapshot => snapshot.exists() ? { id: snapshot.id, ...snapshot.data() } : null;
@@ -172,6 +176,10 @@ function recomputeState() {
       email: cleanEmail(partner.email),
       name: String(partner.name || partner.email?.split('@')[0] || '상대'),
       photoURL: String(partner.photoURL || ''),
+      gender: ['female', 'male'].includes(partner.gender) ? partner.gender : '',
+      birthDate: /^\d{4}-\d{2}-\d{2}$/.test(String(partner.birthDate || '')) ? String(partner.birthDate) : '',
+      birthCalendar: partner.birthCalendar === 'lunar' ? 'lunar' : 'solar',
+      birthLeap: Boolean(partner.birthLeap),
     };
   }
   state.incoming = incomingRows
@@ -184,7 +192,7 @@ function recomputeState() {
     .filter(row => row.status === 'active' && row.memberUids?.includes(state.user?.uid))
     .map(row => {
       const friend = (row.memberProfiles || []).find(profile => profile.uid !== state.user?.uid) || {};
-      return { friendshipId: row.id, uid: String(friend.uid || ''), email: cleanEmail(friend.email), name: String(friend.name || friend.email?.split('@')[0] || '친구'), photoURL: String(friend.photoURL || '') };
+      return { friendshipId: row.id, uid: String(friend.uid || ''), email: cleanEmail(friend.email), name: String(friend.name || friend.email?.split('@')[0] || '친구'), photoURL: String(friend.photoURL || ''), gender: ['female', 'male'].includes(friend.gender) ? friend.gender : '', birthDate: /^\d{4}-\d{2}-\d{2}$/.test(String(friend.birthDate || '')) ? String(friend.birthDate) : '', birthCalendar: friend.birthCalendar === 'lunar' ? 'lunar' : 'solar', birthLeap: Boolean(friend.birthLeap) };
     })
     .filter(row => row.uid && row.email)
     .sort((a, b) => a.name.localeCompare(b.name, 'ko'));
@@ -210,8 +218,10 @@ async function cleanupExpiredDirectLetters(snapshots) {
 }
 
 async function ensureUserProfile(user) {
-  const profile = publicUser(user);
-  await setDoc(doc(db, 'users', user.uid), {
+  const ref = doc(db, 'users', user.uid);
+  const saved = plainDoc(await getDoc(ref)) || {};
+  const profile = publicUser(user, saved);
+  await setDoc(ref, {
     ...profile,
     updatedAt: serverTimestamp(),
   }, { merge: true });
@@ -234,6 +244,10 @@ async function propagateMemberProfile(profile) {
         ? data.memberProfiles.map(member => member.uid === profile.uid ? {
             ...member,
             name: profile.name,
+            gender: profile.gender,
+            birthDate: profile.birthDate,
+            birthCalendar: profile.birthCalendar,
+            birthLeap: profile.birthLeap,
           } : member)
         : [];
       if (!memberProfiles.some(member => member.uid === profile.uid)) return;
@@ -254,6 +268,26 @@ async function updateNickname(rawName) {
   await propagateMemberProfile(state.user);
   emit();
   return state.user;
+}
+
+async function updateProfileSettings(raw = {}) {
+  const user = auth.currentUser;
+  if (!user) throw new Error('로그인이 필요합니다.');
+  const name = String(raw.name || user.displayName || '').trim().slice(0, 24);
+  const gender = ['female', 'male'].includes(raw.gender) ? raw.gender : '';
+  const birthDate = /^\d{4}-\d{2}-\d{2}$/.test(String(raw.birthDate || '')) ? String(raw.birthDate) : '';
+  const birthCalendar = raw.birthCalendar === 'lunar' ? 'lunar' : 'solar';
+  const birthLeap = birthCalendar === 'lunar' && Boolean(raw.birthLeap);
+  if (!name) throw new Error('사용할 닉네임을 입력해주세요.');
+  if (!gender) throw new Error('성별을 선택해주세요.');
+  if (!birthDate) throw new Error('생년월일을 입력해주세요.');
+  if (name !== user.displayName) await updateProfile(user, { displayName: name });
+  const profile = publicUser(user, { gender, birthDate, birthCalendar, birthLeap });
+  await setDoc(doc(db, 'users', user.uid), { ...profile, updatedAt: serverTimestamp() }, { merge: true });
+  state.user = profile;
+  await propagateMemberProfile(profile);
+  emit();
+  return { ...profile };
 }
 
 function startListeners(user) {
@@ -633,6 +667,10 @@ async function createInvite(rawEmail) {
     fromEmail: user.email,
     fromName: user.name,
     fromPhotoURL: user.photoURL,
+    fromGender: user.gender,
+    fromBirthDate: user.birthDate,
+    fromBirthCalendar: user.birthCalendar,
+    fromBirthLeap: user.birthLeap,
     toEmail,
     status: 'pending',
     createdAt: serverTimestamp(),
@@ -663,6 +701,10 @@ async function finalizeInvitePair(invite, user, updateInvite = true) {
         email: cleanEmail(invite.fromEmail),
         name: String(invite.fromName || invite.fromEmail?.split('@')[0] || '상대'),
         photoURL: String(invite.fromPhotoURL || ''),
+        gender: ['female', 'male'].includes(invite.fromGender) ? invite.fromGender : '',
+        birthDate: /^\d{4}-\d{2}-\d{2}$/.test(String(invite.fromBirthDate || '')) ? String(invite.fromBirthDate) : '',
+        birthCalendar: invite.fromBirthCalendar === 'lunar' ? 'lunar' : 'solar',
+        birthLeap: Boolean(invite.fromBirthLeap),
       },
       { ...user },
     ],
@@ -770,6 +812,10 @@ async function createFriendInvite(rawEmail) {
     fromEmail: user.email,
     fromName: user.name,
     fromPhotoURL: user.photoURL,
+    fromGender: user.gender,
+    fromBirthDate: user.birthDate,
+    fromBirthCalendar: user.birthCalendar,
+    fromBirthLeap: user.birthLeap,
     toEmail,
     status: 'pending',
     createdAt: serverTimestamp(),
@@ -791,7 +837,7 @@ async function acceptFriendInvite(inviteId) {
     memberUids: [invite.fromUid, user.uid],
     memberEmails: [cleanEmail(invite.fromEmail), user.email],
     memberProfiles: [
-      { uid: invite.fromUid, email: cleanEmail(invite.fromEmail), name: String(invite.fromName || invite.fromEmail?.split('@')[0] || '친구'), photoURL: String(invite.fromPhotoURL || '') },
+      { uid: invite.fromUid, email: cleanEmail(invite.fromEmail), name: String(invite.fromName || invite.fromEmail?.split('@')[0] || '친구'), photoURL: String(invite.fromPhotoURL || ''), gender: ['female', 'male'].includes(invite.fromGender) ? invite.fromGender : '', birthDate: /^\d{4}-\d{2}-\d{2}$/.test(String(invite.fromBirthDate || '')) ? String(invite.fromBirthDate) : '', birthCalendar: invite.fromBirthCalendar === 'lunar' ? 'lunar' : 'solar', birthLeap: Boolean(invite.fromBirthLeap) },
       { ...user },
     ],
     createdAt: serverTimestamp(),
@@ -1855,6 +1901,7 @@ const api = {
   backupEventDataToGoogleDrive,
   backupPaperTaskDataToGoogleDrive,
   updateNickname,
+  updateProfileSettings,
   createClientIntakeLink,
   getClientIntakeLink,
   submitClientIntake,
@@ -1882,6 +1929,7 @@ onAuthStateChanged(auth, async user => {
     try {
       state.user = await ensureUserProfile(user);
       startListeners(user);
+      propagateMemberProfile(state.user).catch(error => console.warn('Connected profile sync skipped', error));
       setTimeout(() => repairPairConnection().catch(error => {
         console.warn('Pair connection repair skipped', error);
       }), 700);

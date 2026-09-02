@@ -1,3 +1,17 @@
+AiderLog v112
+
+[v112 변경]
+- 관리자 계정(qhals5060@gmail.com) 전용 사용자 관리 탭과 서버 검증 API 추가
+- 닉네임·성별 설정에 양력/음력/윤달 생년월일 추가, 커플·친구 생일을 AiderLog 캘린더에 표시
+- PAPER 타이포그래피·카드 밀도 정돈, Library 다중 선택 삭제 추가
+- 대상군·주제·방법 조합별 논문 흐름, 방법 패턴, 검증 부족과 연구 공백을 보여주는 Research Landscape 추가
+- Ideas에 선택 문헌 기반 연구 기회 후보, Design Studio에 Library 기반 실현 가능성 점검·순서도·알고리즘 추가
+- GPT 분석 프롬프트와 JSON을 NEURO_RESEARCH_WORKFLOW_V2로 확장
+- My Lab에 성균관대학교 Computational Brain Science and AI Laboratory의 공식 연구 방향과 대표 논문 추가
+- PWA 캐시 v112로 갱신
+
+----------------------------------------
+
 AiderLog v108
 
 [v108 변경]

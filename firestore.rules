@@ -37,6 +37,11 @@ service cloud.firestore {
             && request.resource.data.memberProfiles[0].name is string
             && request.resource.data.memberProfiles[0].name.size() > 0
             && request.resource.data.memberProfiles[0].name.size() <= 80
+            && request.resource.data.memberProfiles[0].gender in ['', 'female', 'male']
+            && request.resource.data.memberProfiles[0].birthDate is string
+            && request.resource.data.memberProfiles[0].birthDate.size() <= 10
+            && request.resource.data.memberProfiles[0].birthCalendar in ['solar', 'lunar']
+            && request.resource.data.memberProfiles[0].birthLeap is bool
           )
           ||
           (
@@ -48,6 +53,11 @@ service cloud.firestore {
             && request.resource.data.memberProfiles[1].name is string
             && request.resource.data.memberProfiles[1].name.size() > 0
             && request.resource.data.memberProfiles[1].name.size() <= 80
+            && request.resource.data.memberProfiles[1].gender in ['', 'female', 'male']
+            && request.resource.data.memberProfiles[1].birthDate is string
+            && request.resource.data.memberProfiles[1].birthDate.size() <= 10
+            && request.resource.data.memberProfiles[1].birthCalendar in ['solar', 'lunar']
+            && request.resource.data.memberProfiles[1].birthLeap is bool
           )
         );
     }

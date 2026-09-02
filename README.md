@@ -1,3 +1,18 @@
+# AiderLog v112
+
+## v112 Admin · Birthdays · Research Landscape
+
+- `qhals5060@gmail.com`으로 로그인한 경우에만 **AiderLog 계정 → 사용자 관리**가 표시됩니다. 서버 API가 Firebase ID 토큰의 이메일·이메일 인증·토큰 폐기 여부를 다시 검사한 뒤 로그인 계정의 안전한 프로필·가입·최근 로그인 정보만 반환합니다.
+- 프로필에 성별과 함께 생년월일, 양력·음력, 윤달을 저장합니다. 연결된 커플·친구의 생일은 AiderLog 캘린더에만 표시되며 Google Calendar에는 전송되지 않습니다.
+- PAPER 전체 타이포그래피와 카드 밀도를 정리하고 Library 다중 선택 삭제, 대상군·주제·방법 필터 기반 Research Landscape, 연구 공백 기반 Idea Opportunity Map을 추가했습니다.
+- Design Studio의 저장 설계마다 Library 유사 논문을 바탕으로 문헌 근거·대상 재현성·측정 가능성·분석 구체성·윤리·운영을 점검하고 실행 순서도와 알고리즘을 표시합니다.
+- GPT 붙여넣기 형식을 `NEURO_RESEARCH_WORKFLOW_V2`로 확장해 대상군 표준화, 주제, 설계군, 모달리티, 과제·측정, 예측변수·결과변수, 분석·검증, 자원·윤리·재현성, 연구 공백을 구조화합니다.
+- PAPER 왼쪽에 **My Lab**을 추가해 성균관대학교 Computational Brain Science and AI Laboratory의 공식 연구 방향과 대표 논문을 연구 워크스페이스 안에서 확인할 수 있습니다.
+
+`const CACHE='aiderlog-v112-admin-birthdays-research-landscape';`
+
+---
+
 # AiderLog v111
 
 ## v111 Selective sharing · Evidence Insights · Design Studio
