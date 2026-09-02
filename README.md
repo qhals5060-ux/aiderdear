@@ -1,13 +1,13 @@
-# AiderLog v115
+# AiderLog v116
 
-## v115 Language Lab · 10-Lesson Units · Readable Type
+## v116 Readable Type · Interior Reflow
 
-- 현재의 언어·난이도별 학습 내용은 유지하면서 모든 UNIT을 6개에서 **10개 Lesson**으로 확장했습니다.
-- 빠른 의미 회상, 역할 바꾸기, 격식·관계 전환, 실전 리허설을 추가해 새 표현 학습과 반복 회상을 한 UNIT 안에서 연결합니다.
-- Language Lab의 최근 2주 기록과 설명형 안내 문구를 제거하고, 10개 Lesson과 COURSE SELECT가 겹치지 않도록 데스크톱·모바일 배열을 다시 맞췄습니다.
-- `최근 30일 동안 가장 많이 느낀 감정` 문구의 11px을 사이트 최소 글자 크기로 적용했습니다. PAPER 탭 전체는 제외해 연구 워크스페이스의 기존 밀도를 유지합니다.
+- 메인 프레임과 11px 최소 글자 크기를 그대로 유지하고, SCHEDULE·ROUTINE·EVENT·PERSONAL·TASK의 내부 카드·행·팝업을 내용에 맞게 늘어나도록 재배치했습니다.
+- 접힌 페이지와 숨긴 미디어가 프레임 밖에 표시되던 문제를 막고, 긴 영역은 각 탭 내부에서 스크롤되도록 보정했습니다.
+- 로그인 전 계정 팝업의 불필요한 빈 공간과 반복 안내 문구를 없앴습니다.
+- PAPER 탭의 CSS, 배열과 글자 크기는 변경하지 않았습니다.
 
-`const CACHE='aiderlog-v115-language-layout-type';`
+`const CACHE='aiderlog-v116-readable-reflow';`
 
 ---
 

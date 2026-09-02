@@ -11,13 +11,13 @@
 <meta name="description" content="">
 <meta name="format-detection" content="telephone=no">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="aiderlog-build" content="v115">
+<meta name="aiderlog-build" content="v116">
 <link rel="canonical" href="https://aiderdear1.vercel.app/">
 <script>
 (() => {
   const url = new URL(location.href);
   if (url.searchParams.has('client-intake')) document.documentElement.classList.add('client-intake-only');
-  if (['v67','v68','v69','v70','v71','v72','v73','v74','v75','v76','v77','v78','v79','v80','v81','v82','v83','v84','v85','v86','v87','v88','v89','v90','v91','v92','v93','v94','v95','v96','v97','v98','v99','v100','v101','v102','v103','v104','v105','v106','v107','v108','v109','v110','v111','v112','v113','v114','v115'].includes(url.searchParams.get('aiderlog-main'))) {
+  if (['v67','v68','v69','v70','v71','v72','v73','v74','v75','v76','v77','v78','v79','v80','v81','v82','v83','v84','v85','v86','v87','v88','v89','v90','v91','v92','v93','v94','v95','v96','v97','v98','v99','v100','v101','v102','v103','v104','v105','v106','v107','v108','v109','v110','v111','v112','v113','v114','v115','v116'].includes(url.searchParams.get('aiderlog-main'))) {
     url.searchParams.delete('aiderlog-main');
     history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`);
   }
@@ -3728,6 +3728,114 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
 .research-workspace{--paper-text:12px;--paper-small:11px}.research-mini-item b,.paper-table td,.paper-table th,.insight-card p,.idea-saved-card>p,.design-saved-card>p{font-size:11px!important}.paper-table th{font-size:10px!important}.research-section-title p,.research-landscape-v112>header span,.idea-opportunity-v112>header span,.lab-publications-v112>header span,.landscape-grid-v112 p,.landscape-grid-v112 small,.idea-opportunity-v112>section>button span,.lab-theme-grid-v112 p,.lab-publications-v112 a b{font-size:11px!important}.landscape-filters-v112 label,.landscape-bar>span,.landscape-bar>strong,.idea-opportunity-v112>div span,.idea-opportunity-v112>div small,.idea-opportunity-v112>section>button i,.design-feasibility-card-v112>header span,.feasibility-bars-v112 span,.feasibility-bars-v112 strong,.design-flow-v112>span b,.lab-hero-v112>div>span,.lab-hero-v112 a,.lab-hero-v112 aside small,.lab-publications-v112 a small{font-size:10px!important}.research-landscape-v112>header b,.idea-opportunity-v112>header b,.lab-publications-v112>header b,.design-feasibility-card-v112>header b,.lab-hero-v112 aside b,.lab-theme-grid-v112 b{font-size:12px!important}.lab-hero-v112 p{font-size:12px}.admin-users-summary span,.admin-users-search span,.admin-users-table th,.admin-users-table td{font-size:10px}.admin-users-table td b{font-size:12px}.admin-users-table td small{font-size:9px}
 @media(max-width:900px){.landscape-grid-v112{grid-template-columns:1fr}.lab-theme-grid-v112{grid-template-columns:repeat(2,minmax(0,1fr))}.lab-hero-v112{grid-template-columns:1fr}.lab-hero-v112 aside{border-left:0;border-top:1px solid #dce3e7;padding:10px 0 0}.feasibility-bars-v112{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:760px){.login-nickname-form{grid-template-columns:1fr!important}.login-nickname-form>button{grid-column:auto;grid-row:auto;height:38px}.account-settings-nav{grid-template-columns:repeat(4,minmax(0,1fr))!important}.admin-users-summary,.landscape-filters-v112,.idea-opportunity-v112>div,.lab-theme-grid-v112,.feasibility-bars-v112{grid-template-columns:1fr}.landscape-filters-v112 button{align-self:auto}.lab-publications-v112>div>a{grid-template-columns:36px minmax(0,1fr) auto}}
+
+/* ===== AiderLog v116 · typography-safe interior reflow =====
+   The outer AiderLog frame and the PAPER workspace are intentionally untouched. */
+#stage[hidden],#emotionStage[hidden],#recordStage[hidden],#eventStage[hidden],#privateStage[hidden],#personalStage[hidden],#taskStage[hidden],
+#stage [hidden],#emotionStage [hidden],#recordStage [hidden],#eventStage [hidden],#privateStage [hidden],#personalStage [hidden],#taskStage [hidden]{display:none!important}
+#stage .page:not(.current),#recordStage .record-page:not(.current),#eventStage .event-page:not(.current),#privateStage .private-page:not(.current),#personalStage .personal-page:not(.current),#taskStage .task-page:not(.current){overflow:hidden!important}
+#app :is(#stage,#emotionStage,#recordStage,#eventStage,#privateStage,#personalStage,#taskStage) :where(article,section,aside,header,footer,div,label,button){min-width:0}
+#app :is(#stage,#emotionStage,#recordStage,#eventStage,#privateStage,#personalStage,#taskStage) :where(p,small,label,button,span){overflow-wrap:anywhere;word-break:keep-all}
+#app :is(#stage,#emotionStage,#recordStage,#eventStage,#privateStage,#personalStage,#taskStage) .font-floor-raised{line-height:1.35!important}
+.logo small{display:none!important}
+
+/* Schedule: keep the calendar frame, but let its compact rows fit readable type. */
+#stage .cal-top{height:auto!important;min-height:52px!important;align-items:center!important}
+#stage .month{height:auto!important;min-height:48px!important;line-height:1.2!important;padding-bottom:2px}
+#stage .daynum-row{height:auto!important;min-height:15px!important;line-height:1.25!important;align-items:flex-start!important}
+#stage .daynum,#stage .holiday-name{height:auto!important;min-height:15px!important;line-height:1.3!important}
+#stage .daynum{flex:0 0 auto}
+#stage #dday{height:auto!important;min-height:1.4em!important;line-height:1.4!important}
+#stage .month-media-card :is(img,video)[hidden]{display:none!important}
+#stage .story-media-open{line-height:1.35!important}
+#stage .story-media-open .photo-placeholder{height:auto!important;min-height:100%!important;box-sizing:border-box}
+
+/* Login/settings: logged-out state no longer reserves a blank full-page panel. */
+#loginModal:has(#firebasePairPanel[hidden]) .login-compact-modal{height:auto!important;max-height:calc(100dvh - 28px)!important}
+#loginModal:has(#firebasePairPanel[hidden]) .modal-body{overflow:auto!important}
+#loginModal:has(#firebasePairPanel[hidden]) .login-compact-panel{height:auto!important;grid-template-rows:auto auto auto!important}
+#loginModal .google-status.compact{height:auto!important;min-height:32px!important;line-height:1.45!important}
+#loginModal .calendar-sync-card{grid-template-rows:auto auto!important;align-items:start!important}
+#loginModal .calendar-sync-card>button,#loginModal .notion-source-compact :is(input,button){height:auto!important;min-height:34px!important;padding-block:6px!important;line-height:1.25!important}
+#loginModal .calendar-connection-guide li{height:auto!important;min-height:82px!important}
+
+/* Routine: retain the two-column dashboard while making both columns internally scrollable. */
+#privateStage .private-frame{grid-template-rows:auto minmax(0,1fr)!important}
+#privateStage .private-toolbar{height:auto!important;min-height:42px!important;align-items:center!important;flex-wrap:wrap!important}
+#privateStage :is(.private-owner,.private-feature,.emotion-feature,.routine-toolbar-tabs button){height:auto!important;min-height:32px!important;padding-block:6px!important;line-height:1.25!important}
+#privateStage :is(.routine-left-v106,.routine-right-v106){overflow:auto!important;scrollbar-width:thin}
+#privateStage .routine-mandala-v104{grid-template-rows:auto minmax(0,1fr)!important;overflow:auto!important}
+#privateStage .routine-mandala-v104>header{height:auto!important;min-height:44px!important}
+#privateStage .routine-mandala-grid label{height:auto!important;min-height:54px!important;overflow:auto!important}
+#privateStage .routine-overall-v107{height:auto!important;min-height:100%!important;overflow:auto!important;align-content:start!important}
+#privateStage .routine-metrics-v107 article,#privateStage .routine-insights-v107 article{height:auto!important;min-height:70px!important}
+#privateStage .routine-expanded-inline-v106>header{height:auto!important;min-height:50px!important}
+
+/* Event/album: cards and toolbars grow; content scrolls inside the existing tab frame. */
+#recordStage :is(.record-toolbar,.album-toolbar),#eventStage .event-toolbar{height:auto!important;min-height:44px!important;align-items:center!important;flex-wrap:wrap!important}
+#recordStage :is(.record-filter,.new-record,.record-date-search,.record-date-clear,.album-edit-folder),
+#eventStage :is(.event-category,.event-add,.event-sort,.event-wishlist-open){height:auto!important;min-height:32px!important;padding-block:6px!important;line-height:1.25!important}
+#eventStage .event-content,#recordStage :is(.record-feed,.album-folders,.album-gallery){scrollbar-gutter:stable}
+#eventStage .event-index-card{height:auto!important;min-height:246px!important}
+#eventStage .event-index-stars,#eventStage .event-index-meta{height:auto!important;min-height:15px!important;line-height:1.35!important}
+#eventStage .travel-card{height:auto!important;min-height:0!important}
+#recordStage :is(.album-folder,.album-photo,.record-post){height:auto!important;min-height:0}
+
+/* Personal/workflow: replace type-era fixed rows with content-aware rows. */
+#personalStage .personal-page.current{overflow:auto!important;scrollbar-width:thin}
+#personalStage :is(.health-v59-panel,.finance-v59-panel,.reading-shelf-panel,.reading-quote-panel){grid-template-rows:auto minmax(0,1fr)!important}
+#personalStage :is(.health-v59-head,.personal-v59-head){height:auto!important;min-height:42px!important;flex-wrap:wrap!important}
+#personalStage :is(.health-v59-head button,.personal-v59-head button,.personal-small-add,.personal-entry-submit,.personal-photo-pick){height:auto!important;min-height:32px!important;padding-block:6px!important;line-height:1.25!important}
+#personalStage .workflow-dashboard-v103{grid-template-rows:auto auto auto minmax(0,1fr)!important;overflow:auto!important}
+#personalStage .workflow-command-v103 article{height:auto!important;min-height:52px!important}
+#personalStage .workflow-focus-v103{height:auto!important;min-height:94px!important}
+#personalStage .workflow-focus-v103>header{height:auto!important;min-height:62px!important}
+#personalStage .workflow-lane-v59{grid-template-rows:auto minmax(0,1fr)!important}
+#personalStage .workflow-card-v103{height:auto!important;min-height:0!important}
+
+/* Task: forms and analytics stay inside the main frame and scroll instead of overlapping. */
+#taskStage .task-frame{grid-template-rows:auto minmax(0,1fr)!important}
+#taskStage .task-page.current{overflow:auto!important;scrollbar-width:thin}
+#taskStage :is(.task-toolbar,.task-admissions-head){height:auto!important;min-height:48px!important;flex-wrap:wrap!important}
+#taskStage :is(button,input,select){min-height:32px}
+#taskStage textarea{min-height:78px!important;resize:vertical!important}
+.consulting-dialog{height:auto!important;max-height:calc(100dvh - 28px)!important;overflow:auto!important}
+.consulting-dialog :is(input,select,button){height:auto!important;min-height:36px!important;line-height:1.3!important}
+.consulting-dialog textarea{height:auto!important;min-height:92px!important;line-height:1.5!important;resize:vertical!important}
+#graduateFitOverlay .graduate-fit-dialog{overflow:hidden!important}
+#graduateFitOverlay .graduate-fit-body{overflow-y:auto!important;overflow-x:hidden!important}
+#graduateFitOverlay :is(.graduate-fit-overview,.graduate-fit-summary,.graduate-fit-top-list,.graduate-fit-evidence){align-items:stretch!important}
+#graduateFitOverlay :is(.graduate-fit-top-card,.graduate-fit-evidence article,.graduate-fit-summary article,.graduate-fit-rank){height:auto!important;min-height:0!important;overflow:visible!important}
+#graduateFitOverlay .graduate-fit-rank{padding-block:8px!important;line-height:1.35!important}
+
+/* Modal surfaces: the outer app frame is unchanged; long interiors scroll. */
+#app>.overlay .modal:not(.research-modal),#app .overlay .modal:not(.research-modal){max-height:calc(100dvh - 28px);overflow:hidden}
+#app>.overlay .modal:not(.research-modal)>.modal-body,#app .overlay .modal:not(.research-modal)>.modal-body{min-height:0;overflow:auto}
+
+/* Remove repeated helper copy that consumed room without changing the action. */
+#app>.hint,#app .hint,#app .side-word,#app .private-page-kicker,#eventStage .event-title-group>span,
+#eventStage .event-wishlist-intro,#loginModal .calendar-connection-guide>p,#loginModal .calendar-sync-footnote,
+#loginModal .firebase-storage-note,.ephemeral-media-body>p,#personalStage .personal-challenge-toolbar p,
+#personalStage .workflow-dashboard-v103>.personal-v59-head>div>span,#personalStage .workflow-focus-v103>header>span,
+#privateStage .routine-mandala-v104>header span{display:none!important}
+
+@media(max-width:760px){
+  .nav-row{grid-row:2!important}
+  #stage,#emotionStage,#recordStage,#eventStage,#privateStage,#personalStage,#taskStage{grid-row:3!important}
+  #stage .cal-top{min-height:94px!important;align-items:flex-start!important;gap:8px!important}
+  #stage .month{min-height:40px!important}
+  #stage .month-controls{height:auto!important;min-height:44px!important;overflow-x:auto!important;overflow-y:hidden!important;padding-bottom:4px!important}
+  #stage .month-controls :is(.mini-btn,.today,.primary,.filter){height:auto!important;min-height:48px!important;line-height:1.35!important}
+  #stage .mini-btn{min-width:48px!important}
+  #stage .today{min-width:72px!important}
+  #stage .primary{min-width:90px!important}
+  #privateStage :is(.routine-left-v106,.routine-right-v106){overflow:visible!important}
+  #privateStage .routine-mandala-grid label{min-height:66px!important}
+  #personalStage .workflow-dashboard-v103{height:auto!important;min-height:980px!important}
+  #eventStage .event-index-card{min-height:206px!important}
+  .consulting-dialog{max-height:calc(100dvh - 12px)!important}
+  #graduateFitOverlay .graduate-fit-rank{grid-template-columns:28px minmax(120px,1fr) 64px!important}
+}
 </style>
 </head>
 <body>
@@ -4914,8 +5022,8 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
 
 <script type="module" src="./firebase-app.js"></script>
 <script src="./brain-3d.js"></script>
-<script src="./language-lab-v18-engine.js?v=115"></script>
-<script src="./language-lab-v18.js?v=115"></script>
+<script src="./language-lab-v18-engine.js?v=116"></script>
+<script src="./language-lab-v18.js?v=116"></script>
 <script>
 (()=>{
   const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
@@ -8125,7 +8233,10 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
       const isTextControl = element.matches('input,select,textarea');
       if (!hasOwnText && !isTextControl) return;
       const size = Number.parseFloat(getComputedStyle(element).fontSize);
-      if (size > 0 && size < floor) element.style.setProperty('font-size', `${floor}px`, 'important');
+      if (size > 0 && size < floor) {
+        element.style.setProperty('font-size', `${floor}px`, 'important');
+        element.classList.add('font-floor-raised');
+      }
     });
   }
 

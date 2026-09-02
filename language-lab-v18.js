@@ -11,8 +11,8 @@
       if(this.shadowRoot.childNodes.length)return;
       try{
         const [templateResponse,styleResponse]=await Promise.all([
-          fetch('./language-lab-v18-template.html?v=115',{cache:'no-store'}),
-          fetch('./language-lab-v18.css?v=115',{cache:'no-store'})
+          fetch('./language-lab-v18-template.html?v=116',{cache:'no-store'}),
+          fetch('./language-lab-v18.css?v=116',{cache:'no-store'})
         ]);
         if(!templateResponse.ok||!styleResponse.ok)throw new Error('어학 학습 자산을 불러오지 못했습니다.');
         const [source,style]=await Promise.all([templateResponse.text(),styleResponse.text()]);
