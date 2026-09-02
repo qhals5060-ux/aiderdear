@@ -1234,6 +1234,19 @@ a { color: inherit; text-decoration: none; }
   .dashboard-section .empty-state{padding:64px 12px!important}
 }
 
+/* ===== AiderLog v121 · compact language controls and completion sharing ===== */
+.header-stats{display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:6px!important;flex-wrap:nowrap!important}
+.header-stats .language-partner-share{height:30px!important;min-height:30px!important;width:auto!important;min-width:0!important;padding:0 10px!important;border:1px solid #1d1d22!important;border-radius:3px!important;background:#1d1d22!important;color:#fff!important;font-size:10px!important;font-weight:900!important;white-space:nowrap!important}
+.header-stats .language-partner-share:disabled{opacity:.38!important;cursor:not-allowed!important}
+.header-course,.header-course .course-selectors{width:auto!important;min-width:0!important}
+.header-course .course-selectors{display:flex!important;justify-content:flex-end!important;gap:6px!important}
+.header-course .course-selectors label{flex:0 0 auto!important;width:auto!important;min-width:0!important}
+#language-select{width:78px!important;min-width:78px!important}
+#level-select{width:122px!important;min-width:122px!important}
+.course-panel .section-heading-row{padding-bottom:7px!important;margin-bottom:4px!important}
+.course-panel .category-selector{padding-top:5px!important}
+@media(max-width:900px){.header-stats .language-partner-share{display:inline-flex!important}.header-course .course-selectors{justify-content:flex-start!important}}
+
 @media(max-width:900px){
   :host{overflow:auto!important}
   .app-shell{height:auto!important;min-height:100%!important}

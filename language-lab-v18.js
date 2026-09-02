@@ -11,8 +11,8 @@
       if(this.shadowRoot.childNodes.length)return;
       try{
         const [templateResponse,styleResponse]=await Promise.all([
-          fetch('./language-lab-v18-template.html?v=119',{cache:'no-store'}),
-          fetch('./language-lab-v18.css?v=119',{cache:'no-store'})
+          fetch('./language-lab-v18-template.html?v=121',{cache:'no-store'}),
+          fetch('./language-lab-v18.css?v=121',{cache:'no-store'})
         ]);
         if(!templateResponse.ok||!styleResponse.ok)throw new Error('어학 학습 자산을 불러오지 못했습니다.');
         const [source,style]=await Promise.all([templateResponse.text(),styleResponse.text()]);
@@ -25,8 +25,8 @@
         app.querySelector('.brand small')?.remove();
         const share=document.createElement('button');
         share.type='button';share.className='language-partner-share';share.textContent='상대에게 보내기';share.disabled=true;
-        share.title=this.getAttribute('data-paired')==='true'?'학습을 완료하면 보낼 수 있습니다.':'커플 연결 후 보낼 수 있습니다.';
-        app.querySelector('.records-header-actions')?.prepend(share);
+        share.title=this.getAttribute('data-share-ready')==='true'?'학습을 완료하면 보낼 수 있습니다.':'커플 또는 친구 연결 후 보낼 수 있습니다.';
+        app.querySelector('.header-stats')?.append(share);
         this.shadowRoot.append(styleElement,app,toast);
         const applyFontFloor=(scope=this.shadowRoot)=>{
           const candidates=[];
@@ -50,7 +50,7 @@
         ['wheel','touchstart','touchmove','touchend'].forEach(type=>this.lessonScrollBoundary?.addEventListener(type,event=>event.stopPropagation(),{passive:true}));
         this.addEventListener('language-lab-complete',event=>{
           this.completion=event.detail||null;
-          share.disabled=!this.completion||this.getAttribute('data-paired')!=='true';
+          share.disabled=!this.completion||this.getAttribute('data-share-ready')!=='true';
           share.textContent='상대에게 보내기';
         });
         share.addEventListener('click',()=>{
@@ -68,11 +68,11 @@
       this.fontFloorObserver?.disconnect();
       this.fontFloorObserver=null;
     }
-    static get observedAttributes(){return ['data-paired']}
+    static get observedAttributes(){return ['data-share-ready']}
     attributeChangedCallback(name,oldValue,newValue){
-      if(name==='data-paired'){
+      if(name==='data-share-ready'){
         const button=this.shadowRoot.querySelector('.language-partner-share');
-        if(button){button.hidden=false;button.disabled=newValue!=='true'||!this.completion;button.title=newValue==='true'?'학습을 완료하면 보낼 수 있습니다.':'커플 연결 후 보낼 수 있습니다.'}
+        if(button){button.hidden=false;button.disabled=newValue!=='true'||!this.completion;button.title=newValue==='true'?'학습을 완료하면 보낼 수 있습니다.':'커플 또는 친구 연결 후 보낼 수 있습니다.'}
       }
     }
   }

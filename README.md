@@ -1,4 +1,14 @@
-# AiderLog v120
+# AiderLog v121
+
+## v121 routine · language · travel · client · paper refinement
+
+- ALL ROUTINES의 8개 요약 상자를 제거하고 개별 성취 통계, 꾸준한 루틴, 회복이 필요한 루틴 분석을 추가했습니다.
+- LANGUAGE LAB 선택창을 짧게 정리하고 학습 완료를 커플 또는 친구에게 보낼 수 있도록 했습니다.
+- Travel을 WANT · PLAN · 최신순 · + 기록 순서로 정돈하고 계획을 예약·장소·일정·준비가 있는 한 장의 PLAN으로 표현합니다.
+- 고객 추가 폼의 03·04 배치와 저장 버튼 아래 여백을 줄였습니다.
+- Paper 상단 프로젝트 바와 Research OS 표식을 제거하고 검색·논문 가져오기를 왼쪽에 배치했으며 전체 글자 크기를 줄였습니다.
+
+`const CACHE='aiderlog-v121-routine-language-travel-paper';`
 
 ## v120 PAPER · Evidence-first Research OS
 

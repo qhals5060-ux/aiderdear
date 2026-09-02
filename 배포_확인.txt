@@ -1,3 +1,22 @@
+AiderLog v121 배포 확인
+
+1. 이 폴더의 내용 전체를 Vercel 프로젝트 루트에 배포합니다. `api` 폴더도 함께 교체합니다.
+2. Vercel Root Directory는 비워 둡니다.
+3. Firebase와 Google Calendar 환경 변수는 기존 Production 값을 그대로 유지합니다.
+4. Deployments에서 새 v121 배포를 Production으로 승격합니다.
+5. `https://aiderdear1.vercel.app/sw.js` 첫 줄을 확인합니다.
+   const CACHE='aiderlog-v121-routine-language-travel-paper';
+
+v121 정상 동작
+- ALL ROUTINES에 8개 상자 대신 개별 루틴 통계와 꾸준함·부진 분석이 표시됨
+- Language Lab 언어·난이도 선택창이 짧고 학습 기록 옆에서 커플·친구에게 완료 소식을 보낼 수 있음
+- Travel 상단 순서가 WANT · PLAN · 최신순 · + 기록이고 하단은 + Folder만 표시됨
+- PLAN에서 여행별 예약·일정·준비 정리 화면을 볼 수 있음
+- 고객 추가 팝업 03·04 하단과 SAVE CLIENT 아래에 큰 공백이 없음
+- Paper 왼쪽 위에 검색·논문 가져오기가 있고 상단 프로젝트 바는 표시되지 않음
+
+----------------------------------------
+
 AiderLog v119 배포 확인
 
 1. 이 폴더의 내용 전체를 Vercel 프로젝트 루트에 배포합니다. `api` 폴더도 함께 교체합니다.
