@@ -1,7 +1,7 @@
 {
-  "name": "aiderlog-v109",
+  "name": "aiderlog-v110",
   "private": true,
-  "version": "109.0.0",
+  "version": "110.0.0",
   "type": "module",
   "engines": {
     "node": ">=20"

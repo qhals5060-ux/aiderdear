@@ -1553,3 +1553,39 @@ a { color: inherit; text-decoration: none; }
   .lesson-stage{height:auto!important;padding-bottom:18px!important}
   .lesson-footer{padding:0 12px!important}
 }
+
+/* AiderLog v110 · restore selectors and align the Language Lab heading with every workspace. */
+.app-header{
+  height:74px!important;
+  min-height:74px!important;
+  box-sizing:border-box!important;
+  display:grid!important;
+  grid-template-columns:minmax(180px,1fr) auto!important;
+  align-items:center!important;
+  gap:18px!important;
+  padding:10px 16px 9px!important;
+  border-top:3px solid #151515!important;
+  border-bottom:1px solid #151515!important;
+  background:#fafaf8!important;
+}
+.brand{display:flex!important;align-items:center!important;min-width:0!important;text-decoration:none!important}
+.brand b{font-family:"Iowan Old Style","Palatino Linotype",Georgia,serif!important;font-size:28px!important;font-weight:500!important;letter-spacing:-.02em!important;color:#17191d!important}
+.header-controls{min-width:0!important;display:flex!important;align-items:end!important;justify-content:flex-end!important;gap:10px!important}
+.header-stats{flex:0 0 auto!important}
+.header-course{display:block!important;min-width:330px!important;width:auto!important}
+.header-course .course-selectors{display:flex!important;align-items:end!important;justify-content:flex-end!important;gap:7px!important}
+.header-course .language-select{flex:0 0 122px!important}
+.header-course .level-select{flex:0 0 205px!important}
+.header-course .language-select,.header-course .level-select{display:grid!important;gap:4px!important;font-size:8px!important;color:#66707d!important}
+.header-course .language-select select,.header-course .level-select select{display:block!important;width:100%!important;height:31px!important;margin:0!important;border:1px solid #aeb7c2!important;background:#fff!important;font-size:9px!important;color:#202a36!important}
+.single-page{height:calc(100% - 74px)!important}
+@media(max-width:900px){
+  .app-header{height:122px!important;min-height:122px!important;grid-template-columns:minmax(0,1fr) auto!important;grid-template-rows:auto auto!important;gap:7px 10px!important;padding:9px 10px!important}
+  .brand{grid-column:1!important;grid-row:1!important}.brand b{font-size:23px!important}
+  .header-stats{grid-column:2!important;grid-row:1!important}
+  .header-controls{display:contents!important}
+  .header-course{grid-column:1/-1!important;grid-row:2!important;min-width:0!important;width:100%!important}
+  .header-course .course-selectors{display:grid!important;grid-template-columns:minmax(90px,.72fr) minmax(150px,1.28fr)!important;width:100%!important}
+  .header-course .language-select,.header-course .level-select{min-width:0!important;display:grid!important}
+  .single-page{height:auto!important;min-height:calc(100% - 122px)!important}
+}

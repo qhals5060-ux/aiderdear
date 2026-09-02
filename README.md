@@ -1,3 +1,16 @@
+# AiderLog v110
+
+## v110 Language · Album · Research Ideas · Modal Scroll
+
+- Language Lab에 사라졌던 언어·난이도 선택을 복원하고, 다른 탭과 같은 가로선·타이틀 헤더로 정리했습니다.
+- 앨범 폴더 편집 버튼을 실제 앨범 폼에 연결하고, 편집 중에는 `수정하기`와 `삭제하기`를 제공합니다. 친구 공유는 로컬 화면에 즉시 반영한 뒤 저장과 공유 동기화를 병렬 처리합니다.
+- PAPER에 Research Ideas 메뉴를 추가했습니다. 논문의 제한점, 상충 근거, 뇌 영역·회로, 모달리티, 연구 노트의 공백에서 아이디어 트리거를 만들고 가설·변수·설계·반증 기준·근거 연결을 저장합니다.
+- 지원 가능 대학원 분석 팝업을 Task 프레임 밖의 독립 레이어로 옮겨 메인 스크롤과 팝업 스크롤이 겹치지 않게 했습니다.
+
+`const CACHE='aiderlog-v110-workspace-usability-repair';`
+
+---
+
 # AiderLog v109
 
 ## v109 Neuroscience evidence workspace
