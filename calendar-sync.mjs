@@ -159,13 +159,27 @@ async function replaceProviderRows(uid, provider, rows) {
     const snapshot = await transaction.get(ref);
     const previous = Array.isArray(snapshot.data()?.payload) ? snapshot.data().payload : [];
     const own = previous.filter(row => row?.externalSource !== provider);
-    const merged = [...own, ...rows.slice(0, 600)].map(row => ({
-      ...row,
-      authorEmail: email,
-      authorUid: uid,
-      owner: row?.shareWithCouple ? 'shared' : (row?.owner === 'shared' ? 'shared' : 'mine'),
-      pairKey: '',
-    })).slice(-1200);
+    // Google keeps its explicit sharedEventKeys on the connection document.
+    // Other imported providers do not have a remote share flag, so preserve the
+    // AiderLog-only choice by stable external ID when their rows are refreshed.
+    const previouslyShared = provider === 'google' ? new Set() : new Set(
+      previous
+        .filter(row => row?.externalSource === provider && (row?.shareWithCouple || row?.owner === 'shared'))
+        .map(row => String(row?.externalId || row?.id || ''))
+        .filter(Boolean),
+    );
+    const imported = rows.slice(0, 600).map(row => {
+      const keepShared = !!row?.shareWithCouple || previouslyShared.has(String(row?.externalId || row?.id || ''));
+      return {
+        ...row,
+        authorEmail: email,
+        authorUid: uid,
+        shareWithCouple: keepShared,
+        owner: keepShared ? 'shared' : 'mine',
+        pairKey: '',
+      };
+    });
+    const merged = [...own, ...imported].slice(-1200);
     savedRows = merged;
     transaction.set(ref, { ownerUid: uid, payload: merged, updatedAt: FieldValue.serverTimestamp(), updatedBy: uid }, { merge: true });
   });

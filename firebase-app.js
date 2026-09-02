@@ -1349,18 +1349,39 @@ async function pruneSharedAlbumMedia(ownerUid, keepIds) {
 
 async function publishSharedAlbums(payload = {}) {
   const user = requireUser();
-  const viewerUids = [...new Set(state.friends.map(friend => friend.uid).filter(Boolean))].slice(0, 30);
+  const allowedViewerUids = connectedRecipientUids();
+  const albums = (Array.isArray(payload.albums) ? payload.albums : []).filter(row => row?.id && row?.sharedWithFriends).slice(0, 40).map(row => {
+    const requested = Array.isArray(row.sharedFriendUids) && row.sharedFriendUids.length ? row.sharedFriendUids : [...allowedViewerUids];
+    const viewerUids = [...new Set(requested.map(String).filter(uid => allowedViewerUids.has(uid)))].slice(0, 30);
+    return { id: String(row.id), name: String(row.name || '앨범').slice(0, 60), color: String(row.color || '#DED6F4'), viewerUids };
+  }).filter(row => row.viewerUids.length);
+  const viewerUids = [...new Set(albums.flatMap(row => row.viewerUids))].slice(0, 30);
   const memberUids = [user.uid, ...viewerUids];
-  const albums = (Array.isArray(payload.albums) ? payload.albums : []).filter(row => row?.id && row?.sharedWithFriends).slice(0, 40).map(row => ({ id: String(row.id), name: String(row.name || '앨범').slice(0, 60), color: String(row.color || '#DED6F4') }));
   const albumIds = new Set(albums.map(row => row.id));
+  const albumMap = new Map(albums.map(row => [row.id, row]));
+  const recordRows = (Array.isArray(payload.records) ? payload.records : []).filter(record => albumIds.has(String(record?.folderId))).slice(-250);
+  const mediaViewerMap = new Map();
+  recordRows.forEach(row => {
+    const album = albumMap.get(String(row.folderId));
+    (Array.isArray(row.media) ? row.media : []).slice(0, 8).forEach(item => {
+      const sourceId = String(item?.fileId || item?.key || '');
+      if (!sourceId) return;
+      const recipients = mediaViewerMap.get(sourceId) || new Set();
+      (album?.viewerUids || []).forEach(uid => recipients.add(uid));
+      mediaViewerMap.set(sourceId, recipients);
+    });
+  });
   const records = [];
-  for (const row of (Array.isArray(payload.records) ? payload.records : []).filter(record => albumIds.has(String(record?.folderId))).slice(-250)) {
+  for (const row of recordRows) {
     const media = [];
     for (const item of (Array.isArray(row.media) ? row.media : []).slice(0, 8)) {
       const sourceId = String(item?.fileId || item?.key || '');
       if (!sourceId) continue;
       try {
-        const sharedId = await copyMediaToSharedAlbum(sourceId, memberUids);
+        // A favorite can appear in more than one shared folder. Give the copied
+        // blob the union of those folders' viewers while each record remains
+        // filtered to its own selected folder.
+        const sharedId = await copyMediaToSharedAlbum(sourceId, [user.uid, ...(mediaViewerMap.get(sourceId) || [])]);
         if (sharedId) media.push({ kind: item.kind === 'video' ? 'video' : 'image', sharedId, name: String(item.name || '').slice(0, 180), type: String(item.type || '') });
       } catch (error) {
         console.warn('Shared album media copy skipped', sourceId, error);
@@ -1387,7 +1408,13 @@ function watchSharedAlbums(callback) {
   const user = requireUser();
   return onSnapshot(
     query(collection(db, 'sharedAlbums'), where('viewerUids', 'array-contains', user.uid)),
-    snapshot => callback(snapshot.docs.map(item => ({ ...item.data(), id: item.id, updatedAt: timestampValue(item.data().updatedAt) }))),
+    snapshot => callback(snapshot.docs.map(item => {
+      const data = item.data();
+      const albums = (Array.isArray(data.albums) ? data.albums : []).filter(album => !Array.isArray(album.viewerUids) || album.viewerUids.includes(user.uid));
+      const folderIds = new Set(albums.map(album => String(album.id)));
+      const records = (Array.isArray(data.records) ? data.records : []).filter(record => folderIds.has(String(record.folderId)));
+      return { ...data, albums, records, id: item.id, updatedAt: timestampValue(data.updatedAt) };
+    }).filter(item => item.albums.length)),
     error => console.warn('Shared album listener stopped', error),
   );
 }

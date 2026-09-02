@@ -1,3 +1,17 @@
+# AiderLog v111
+
+## v111 Selective sharing · Evidence Insights · Design Studio
+
+- Google·Notion 등 외부에서 가져온 읽기 전용 일정도 일정 편집창에서 커플 공유를 켤 수 있습니다. 공유본은 상대 AiderLog에만 나타나며 어느 Google 캘린더에도 추가되지 않습니다.
+- PAPER Insights에 근거 품질 점수, 검토 우선순위, 논문 장별 커버리지, 단일 출처 주장 및 상충 근거 진단을 추가했습니다.
+- Language Lab의 `학습 초기화`와 `상대에게 보내기`를 최근 2주 기록 제목 오른쪽에 복원했습니다.
+- 앨범 폴더 편집창에서 공유할 연결 친구를 직접 선택하고, 사람별 읽기 전용 앨범 공유 상태를 유지합니다.
+- PAPER에 초보 연구자를 위한 Design Studio와 연구 질문→가설→측정→분석→검증→윤리 흐름을 추가했습니다. 뇌 노화·인지 기능·인지예비능·정신질환의 실제 PubMed 논문 5편과 완성된 종단 MRI 설계 예시를 제공합니다.
+
+`const CACHE='aiderlog-v111-sharing-insights-design-studio';`
+
+---
+
 # AiderLog v110
 
 ## v110 Language · Album · Research Ideas · Modal Scroll
