@@ -2652,7 +2652,7 @@ function buildCurriculum(language, levelIndex) {
       icon: anchor.icon,
       unitNumber: unitIndex + 1,
       tab: authoredUnit?.title || anchor.title,
-      place: `CORE PATH · UNIT ${String(unitIndex + 1).padStart(2, "0")}`,
+      place: `기본 과정 · UNIT ${unitIndex + 1}`,
       title: authoredUnit?.title || anchor.title,
       description: authoredUnit?.canDo || `${profile.name} · ${anchor.scene}`,
       core: true,
@@ -2667,7 +2667,7 @@ function buildCurriculum(language, levelIndex) {
       icon: anchor.icon,
       unitNumber: unitIndex + 1,
       tab: anchor.title,
-      place: `SITUATION LAB · ${anchor.title}`,
+      place: `실전 연습 · ${anchor.title}`,
       title: `${anchor.title} 집중 연습`,
       description: `${profile.name} · 같은 장면에서 응답·변형·듣기·확장 반복`,
       optional: true,
@@ -2680,7 +2680,7 @@ function buildCurriculum(language, levelIndex) {
     icon: "R",
     unitNumber: unitIndex + 1,
     tab: `${String(unitIndex + 1).padStart(2, "0")} · ${unit.tab}`,
-    place: "REVIEW PATH · UNIT CHECK",
+    place: "맞춤 복습 · UNIT CHECK",
     title: `${unit.title} 재도전`,
     description: "오답·듣기·발음·실전 대화를 짧게 다시 점검",
     optional: true,
@@ -2690,15 +2690,15 @@ function buildCurriculum(language, levelIndex) {
   return [
     {
       id: "core",
-      icon: "CORE",
-      title: "코어 패스",
-      description: "순서대로 익히는 8개 UNIT · 48개 핵심 수업",
+      icon: "기본",
+      title: "기본 과정",
+      description: "순서대로 익히는 8개 UNIT · 80개 핵심 수업",
       topics: coreTopics
     },
-    { id: "labs", icon: "LAB", title: "상황 랩", description: "필요한 장면을 선택해 집중 연습", topics: labTopics },
+    { id: "labs", icon: "실전", title: "실전 연습", description: "필요한 장면을 선택해 집중 연습", topics: labTopics },
     {
       id: "review",
-      icon: "R", title: "리뷰 패스", description: "오답·듣기·발음·대화 재도전",
+      icon: "복습", title: "맞춤 복습", description: "오답·듣기·발음·대화 재도전",
       topics: reviewTopics
     }
   ];
@@ -2915,8 +2915,10 @@ function renderCourse() {
   </button>`).join("");
   $("#scenario-tabs").innerHTML = scenarios.map((item, index) => {
     const done = item.days.filter((day) => state.progress[day.id]?.completedAt).length;
-    return `<button class="scenario-tab ${index === state.scenarioIndex ? "active" : ""}" data-scenario="${index}" aria-pressed="${index === state.scenarioIndex}" type="button">
-      <span class="unit-code">${item.unit ? `U${String(item.unitNumber || index + 1).padStart(2, "0")}` : escapeHtml(item.icon)}</span><span class="tab-copy"><b>${escapeHtml(item.tab)}</b><small>${done} / ${item.days.length} Lesson</small></span><em>${done === item.days.length ? "완료" : done ? "진행 중" : "시작"}</em>
+    const progress = item.days.length ? Math.round(done / item.days.length * 100) : 0;
+    const title = String(item.tab || item.title || "").replace(/^\s*\d+\s*[·.:-]\s*/, "");
+    return `<button class="scenario-tab ${index === state.scenarioIndex ? "active" : ""}" style="--unit-progress:${progress}%" data-scenario="${index}" aria-label="${escapeHtml(title)} · ${progress}% 완료" aria-pressed="${index === state.scenarioIndex}" type="button">
+      <span class="unit-code">${item.unit ? `U${item.unitNumber || index + 1}` : escapeHtml(item.icon)}</span><span class="tab-copy"><b>${escapeHtml(title)}</b></span>
     </button>`;
   }).join("");
 

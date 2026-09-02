@@ -1,3 +1,23 @@
+AiderLog v118 배포 확인
+
+1. 이 폴더의 내용 전체를 Vercel 프로젝트 루트에 배포합니다. `api` 폴더도 함께 교체합니다.
+2. Vercel Root Directory는 비워 둡니다.
+3. Firebase와 Google Calendar 환경 변수는 기존 Production 값을 그대로 유지합니다.
+4. Deployments에서 새 v118 배포를 Production으로 승격합니다.
+5. `https://aiderdear1.vercel.app/sw.js` 첫 줄을 확인합니다.
+   const CACHE='aiderlog-v118-ui-interaction-layout';
+
+v118 정상 동작
+- 어느 상단 탭에서든 다시 탭을 누르면 해당 탭의 첫 화면이 표시됨
+- 캘린더 일정 소유자가 머스타드/올리브로 구분되고 생리·감정 아이콘과 3건 이상 일정 툴팁이 정상 표시됨
+- ALL ROUTINES의 8개 통계 상자 높이가 같고 3줄 내용도 잘리지 않음
+- Language Lab의 Lesson 10, Course Select, My Words가 한 프레임 안에서 겹치지 않음
+- Pomodoro 세션 수 앞에 시간 텍스트가 표시되지 않음
+- Archive 분류 탭이 제목 행에 유지되고 Travel의 + 새 여행지·+ 여행 기록이 나란히 표시됨
+- 고객 직접 추가 폼이 한 화면에 보이고 전공 추가 및 필수 검증이 동작함
+
+----------------------------------------
+
 AiderLog v117 배포 확인
 
 1. 이 폴더의 내용 전체를 Vercel 프로젝트 루트에 배포합니다. `api` 폴더도 함께 교체합니다.

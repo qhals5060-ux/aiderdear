@@ -1,3 +1,17 @@
+AiderLog v118
+
+[v118 변경]
+- 상단 탭을 다시 누르면 SCHEDULE 캘린더, ROUTINE 루틴, EVENT Record·Album, PERSONAL DayLog, PAPER Home, TASK Consulting Desk 첫 화면으로 복귀
+- 캘린더의 생리 물방울·감정 색상·기록자 점 표시와 머스타드/올리브 일정 구분, 즉시 전체 일정 툴팁 적용
+- ALL ROUTINES의 8개 분석 카드를 동일한 70px 높이로 정리해 여러 줄 값 잘림 방지
+- Language Lab 상단·진도·Lesson 10·Course Select·My Words 공간 재배치와 기본 과정·실전 연습·맞춤 복습 명칭 적용
+- Pomodoro 세션 앞 시간 표시 제거
+- EVENT Archive 분류 탭 압축, Travel 기록 버튼 통합과 첫 기록 빈 상태 버튼 제거
+- 고객 직접/외부 입력을 필수 학력·목표와 선택 스펙 흐름으로 재배치하고 전공 추가·대학 유형·군필 여부·복수 희망 대학원 지원
+- PWA 캐시 v118로 갱신
+
+----------------------------------------
+
 AiderLog v117
 
 [v117 변경]
