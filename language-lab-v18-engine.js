@@ -2680,9 +2680,9 @@ function buildCurriculum(language, levelIndex) {
     icon: "R",
     unitNumber: unitIndex + 1,
     tab: `${String(unitIndex + 1).padStart(2, "0")} · ${unit.tab}`,
-    place: "맞춤 복습 · UNIT CHECK",
-    title: `${unit.title} 재도전`,
-    description: "오답·듣기·발음·실전 대화를 짧게 다시 점검",
+    place: "확장 학습 · UNIT CHECK",
+    title: `${unit.title} 확장`,
+    description: "배운 표현을 듣기·발음·변형·실전 대화로 넓혀 다시 사용",
     optional: true,
     unit: true,
     days: unit.days.map((day, lessonIndex) => ({ ...day, id: `${day.id}-review`, optional: true, title: `${day.title} 복습`, focus: `${weeklySessionLabels[lessonIndex]}에서 어려웠던 기능을 다시 확인합니다.` }))
@@ -2691,14 +2691,14 @@ function buildCurriculum(language, levelIndex) {
     {
       id: "core",
       icon: "기본",
-      title: "기본 과정",
+      title: "기본",
       description: "순서대로 익히는 8개 UNIT · 80개 핵심 수업",
       topics: coreTopics
     },
-    { id: "labs", icon: "실전", title: "실전 연습", description: "필요한 장면을 선택해 집중 연습", topics: labTopics },
+    { id: "labs", icon: "실전", title: "실전", description: "필요한 장면을 선택해 집중 연습", topics: labTopics },
     {
       id: "review",
-      icon: "복습", title: "맞춤 복습", description: "오답·듣기·발음·대화 재도전",
+      icon: "확장", title: "확장", description: "배운 표현을 더 긴 대화와 새로운 맥락으로 확장",
       topics: reviewTopics
     }
   ];
@@ -2951,9 +2951,8 @@ function renderCourse() {
     const status = record?.completedAt ? "반복" : unlocked ? "시작" : "잠김";
     const buttonClass = record?.completedAt ? "done" : unlocked && index === complete ? "current" : "";
     return `<li class="day-row">
-      <span class="day-index"><b>Lesson ${index + 1}</b><small>${escapeHtml(day.internalBand || "")}</small></span>
+      <span class="day-index"><b>Lesson ${index + 1}</b><button class="day-action ${buttonClass}" data-day="${index}" type="button" ${unlocked ? "" : "disabled"}>${status}</button></span>
       <div class="day-info"><b>${escapeHtml(day.title)}</b><p>${escapeHtml(day.focus)}</p></div>
-      <button class="day-action ${buttonClass}" data-day="${index}" type="button" ${unlocked ? "" : "disabled"}>${status}</button>
     </li>`;
   }).join("");
   renderGlobalStats();

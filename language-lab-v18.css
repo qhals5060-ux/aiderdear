@@ -1953,3 +1953,30 @@ a { color: inherit; text-decoration: none; }
   .course-panel .scenario-tab{height:35px!important;min-height:35px!important;padding:4px 6px!important}
   .course-panel .scenario-tab>.unit-code{width:24px!important;height:24px!important;font-size:9px!important}
 }
+
+/* ===== AiderLog v119 · aligned lessons and a shorter course rail ===== */
+.course-panel .scenario-selector{box-sizing:border-box!important;width:100%!important}
+.course-panel .scenario-tab{box-sizing:border-box!important;width:100%!important}
+.dashboard-section .count-box{display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:3px!important;white-space:nowrap!important}
+.dashboard-section .count-box b,.dashboard-section .count-box small{display:inline!important;margin:0!important;line-height:1!important}
+.learning-section .day-index{display:grid!important;grid-template-rows:auto auto!important;place-content:center!important;justify-items:center!important;gap:4px!important}
+.learning-section .day-index b{white-space:nowrap!important}
+.learning-section .day-index .day-action{position:static!important;margin:0!important;justify-self:center!important}
+
+@media(min-width:901px){
+  .single-page{grid-template-columns:minmax(0,1.72fr) minmax(380px,.82fr)!important}
+  .learning-section .day-row{grid-template-columns:78px minmax(0,1fr)!important;min-height:55px!important}
+  .learning-section .day-index{padding:4px 5px!important}
+  .learning-section .day-index .day-action{width:40px!important;height:19px!important;min-height:19px!important;padding:0 3px!important;font-size:8px!important;line-height:1!important}
+  .dashboard-section{grid-template-rows:210px minmax(0,1fr)!important;gap:7px!important}
+  .course-panel .section-heading-row{height:25px!important;min-height:25px!important;padding:6px 10px 2px!important}
+  .course-panel .category-selector{padding:0 10px 4px!important}
+  .course-panel .category-tab{height:30px!important;min-height:30px!important;padding:3px 5px!important}
+  .course-panel .category-tab>span:first-child{height:22px!important}
+  .course-panel .scenario-selector{padding:0 10px 6px!important;gap:3px 5px!important}
+  .course-panel .scenario-tab{height:29px!important;min-height:29px!important;padding:2px 6px!important}
+  .course-panel .scenario-tab>.unit-code{width:22px!important;height:22px!important}
+  .dashboard-section .content-heading{height:34px!important;min-height:34px!important;padding:5px 10px!important}
+  .dashboard-section .count-box{min-width:58px!important;width:auto!important;height:24px!important;padding:0 8px!important}
+  .dashboard-section .filter-row{min-height:29px!important;height:29px!important}
+}
