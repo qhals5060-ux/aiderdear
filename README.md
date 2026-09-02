@@ -1,3 +1,19 @@
+# AiderLog v120
+
+## v120 PAPER · Evidence-first Research OS
+
+- 기존 AiderLog 상단 탭과 메인 프레임은 유지하고 PAPER 내부만 Research Hub · Library · Evidence · Synthesis · Study Workspace · Brain Atlas 구조로 전면 개편했습니다.
+- 논문별 정독 화면에서 연구 질문, 표본 흐름, 측정·피처, 분석 파이프라인, 핵심/비유의 결과, 표·그림 지도, 재현성, 연구 아이디어를 한 흐름으로 확인합니다.
+- 원문 사실과 AI 해석을 분리하고, 6개 타당도 평가축·주장별 지지/제한 근거·편향 점검·연구 사용 결정을 근거 위치와 함께 표시합니다.
+- GPT Pro용 `AIDERLOG_PAPER_V3` 프롬프트와 붙여넣기 검사를 제공하며, 깊이·인용·위치·평가 근거를 통과한 결과만 Library와 Evidence에 저장합니다.
+- 상세 V3 분석은 논문별 Firestore 문서로 분리해 공동 PAPER/TASK 문서가 과도하게 커지지 않도록 했습니다.
+- 2D Brain Atlas는 정중 시상면, 4개 확대판, 방향축, 선택 영역의 미니 위치 지도와 연구 연결을 제공합니다.
+- 기존 PAPER 논문·Insight는 변환 없이 불러오며, 새 화면의 정보가 없는 항목은 원문 검토가 필요한 부분을 명시합니다.
+
+`const CACHE='aiderlog-v120-paper-research-os';`
+
+---
+
 # AiderLog v117
 
 ## v117 Calendar · Routine · Language · Task fixes

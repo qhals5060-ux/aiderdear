@@ -380,6 +380,20 @@ function paperTaskWorkspaceRef() {
   return doc(db, 'sharedWorkspaces', PAPER_TASK_WORKSPACE_ID);
 }
 
+function paperAnalysisDocumentId(paperId) {
+  const value = String(paperId || '').trim();
+  if (!value) throw new Error('논문 ID가 필요합니다.');
+  const bytes = new TextEncoder().encode(value);
+  let binary = '';
+  bytes.forEach(byte => { binary += String.fromCharCode(byte); });
+  return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/g, '').slice(0, 900);
+}
+
+function paperAnalysisRef(paperId) {
+  requirePaperTaskMember();
+  return doc(db, 'sharedWorkspaces', PAPER_TASK_WORKSPACE_ID, 'paperAnalyses', paperAnalysisDocumentId(paperId));
+}
+
 function pairScope() {
   const user = requireUser();
   return state.pair
@@ -1213,6 +1227,35 @@ function watchPaperTaskData(callback) {
   );
 }
 
+async function readPaperAnalysis(paperId) {
+  const snapshot = await getDoc(paperAnalysisRef(paperId));
+  if (!snapshot.exists()) return null;
+  const row = snapshot.data() || {};
+  return row.payload || null;
+}
+
+async function writePaperAnalysis(paperId, payload) {
+  const user = requirePaperTaskMember();
+  const cleanPayload = JSON.parse(JSON.stringify(payload || {}));
+  const bytes = new TextEncoder().encode(JSON.stringify(cleanPayload)).byteLength;
+  if (bytes > 850000) throw new Error('분석 결과가 너무 큽니다. 표·그림 원본 파일은 제외하고 JSON 설명만 저장해주세요.');
+  await setDoc(paperAnalysisRef(paperId), {
+    paperId: String(paperId),
+    schema: String(cleanPayload.schema || ''),
+    payload: cleanPayload,
+    byteSize: bytes,
+    updatedAt: serverTimestamp(),
+    updatedBy: user.uid,
+    updatedByEmail: user.email,
+  });
+  return { paperId: String(paperId), byteSize: bytes };
+}
+
+async function deletePaperAnalysis(paperId) {
+  requirePaperTaskMember();
+  await deleteDoc(paperAnalysisRef(paperId));
+}
+
 function emotionRef(uid) {
   const user = requireUser();
   if (state.pair) return doc(db, 'pairs', state.pair.id, 'emotions', uid);
@@ -1876,6 +1919,9 @@ const api = {
   readPaperTaskData,
   writePaperTaskData,
   watchPaperTaskData,
+  readPaperAnalysis,
+  writePaperAnalysis,
+  deletePaperAnalysis,
   readEmotionData,
   writeEmotionData,
   uploadMedia,
