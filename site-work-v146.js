@@ -8,11 +8,11 @@
   const ALLOWED = new Set(['qhals5060@gmail.com', 'aidway55@gmail.com']);
   const TABS = [
     ['today', '오늘'], ['tasks', '업무'], ['grants', '국가과제'], ['bio', '바이오 연구'],
-    ['admin', '행정·지출'], ['employees', '직원 관리'], ['clients', '고객'], ['archive', '보관함']
+    ['admin', '행정·지출']
   ];
   const TYPE_LABEL = Object.fromEntries(TABS);
   const CLOSED = new Set(['완료', '취소']);
-  const STATUS = ['예정', '전달 전', '전달 완료', '진행 확인', 'QC', '검토 필요', '대표 확인 필요', '보완 필요', '보류', '실무 완료', '완료', '취소'];
+  const STATUS = ['예정', '진행 중', 'QC', '검토 필요', '대표 확인 필요', '보완 필요', '보류', '실무 완료', '완료', '취소'];
   const ASSIGNEES = ['대표', '직원 1', '직원 2', '외부 업체', '공동 연구기관', '기타'];
   const LOCAL_KEY = 'aiderlog.website.work.v146';
   let stage;
@@ -48,6 +48,11 @@
     {id:'demo-admin', demo:true, type:'admin', title:'연구비 카드 증빙 및 세금계산서 대조', status:'확인 필요', priority:'보통', dueDate:todayKey(4), assignee:'직원 2', issue:'거래명세서 1건 누락', nextAction:'공급처에 명세서 재요청', amount:840000, evidenceState:'미수취'}
   ];
   function visibleRecords() { return records.length ? records : DEMO; }
+  function publishRecords() {
+    window.AiderLogSiteWorkRecords = records.slice();
+    window.dispatchEvent(new CustomEvent('aiderlog-site-work-updated', {detail:{records:window.AiderLogSiteWorkRecords}}));
+    try { window.renderCalendar?.(); } catch (error) { console.warn('[site-work-v146] calendar refresh skipped', error); }
+  }
 
   async function load() {
     if (loading || !allowed()) return;
@@ -65,6 +70,7 @@
       try { records = normalize(JSON.parse(localStorage.getItem(LOCAL_KEY) || '[]')); } catch { records = []; }
     } finally {
       loading = false;
+      publishRecords();
       render();
     }
   }
@@ -76,6 +82,7 @@
       latest.workRecords = records;
       await api().writePrivateData(latest);
     }
+    publishRecords();
     const toast = $('#toast');
     if (toast) { toast.textContent = message; toast.classList.add('show'); clearTimeout(toast._workTimer); toast._workTimer = setTimeout(() => toast.classList.remove('show'), 1800); }
   }
@@ -120,11 +127,7 @@
       ['오늘 마감', open.filter(row => row.dueDate === todayKey()).length],
       ['7일 이내', open.filter(withinWeek).length],
       ['지연 업무', open.filter(overdue).length],
-      ['확인 필요', open.filter(row => /확인|검토/.test(row.status || '')).length],
-      ['국가과제', open.filter(row => row.type === 'grants').length],
-      ['QC 확인', open.filter(row => row.type === 'bio' && /QC|재실험/.test(row.status || '')).length],
-      ['증빙 누락', open.filter(row => row.type === 'admin' && /미수취|누락/.test(`${row.evidenceState || ''} ${row.issue || ''}`)).length],
-      ['고객 미납', open.filter(row => row.type === 'clients' && Number(row.unpaid) > 0).length]
+      ['확인 필요', open.filter(row => /확인|검토|QC/.test(row.status || '')).length]
     ];
   }
 
@@ -140,22 +143,23 @@
   function todayView(rows) {
     const open = rows.filter(active), priority = open.filter(row => overdue(row) || row.priority === '높음' || /확인|검토|QC/.test(row.status || ''));
     return `<section class="site-work-summary-v146">${stats(rows).map(([label, value]) => `<article><span>${label}</span><strong>${value}</strong><small>${value ? '대표 확인 필요' : '안정'}</small></article>`).join('')}</section>
-      <div class="site-work-grid-v146"><section class="site-work-panel-v146"><header class="site-work-section-head-v146"><div><small>OWNER BRIEFING</small><h3>대표가 먼저 볼 일</h3></div><span>${priority.length} PRIORITY</span></header><div class="site-work-list-v146">${(priority.length ? priority : open.slice(0, 5)).map(card).join('') || '<div class="site-work-empty-v146">지금 바로 확인할 업무가 없습니다.</div>'}</div></section>
-      <aside class="site-work-panel-v146"><header class="site-work-section-head-v146"><div><small>PEOPLE &amp; RISK</small><h3>직원별 진행</h3></div></header>${['직원 1','직원 2','대표'].map(name => `<p class="site-work-person-v146"><b>${name}</b><strong>${open.filter(row => row.assignee === name).length}</strong><span>${esc(open.find(row => row.assignee === name)?.nextAction || '확인 일정 없음')}</span></p>`).join('')}<div class="site-work-risk-v146"><b>${open.filter(overdue).length}개 지연</b><span>결과 근거와 대표 확인 전에는 최종 완료되지 않습니다.</span></div><div class="site-work-risk-v146"><b>${open.filter(row => row.issue).length}개 문제 기록</b><span>현재 문제와 다음 행동이 등록된 항목입니다.</span></div></aside></div>`;
+      <div class="site-work-grid-v146"><section class="site-work-panel-v146"><header class="site-work-section-head-v146"><div><small>OWNER BRIEFING</small><h3>지금 먼저 볼 업무</h3></div><span>${priority.length} PRIORITY</span></header><div class="site-work-list-v146">${(priority.length ? priority : open.slice(0, 6)).map(card).join('') || '<div class="site-work-empty-v146">지금 바로 확인할 업무가 없습니다.</div>'}</div></section>
+      <aside class="site-work-panel-v146 site-work-flow-v148"><header class="site-work-section-head-v146"><div><small>WORK FLOW</small><h3>업무 흐름</h3></div></header>${[['예정',open.filter(row=>row.status==='예정').length],['진행 중',open.filter(row=>['진행 중','QC','실무 완료'].includes(row.status)).length],['검토',open.filter(row=>/검토|확인|보완/.test(row.status||'')).length],['지연',open.filter(overdue).length]].map(([label,value])=>`<p><span>${label}</span><i><b style="width:${open.length?Math.max(6,Math.round(value/open.length*100)):0}%"></b></i><strong>${value}</strong></p>`).join('')}<div class="site-work-risk-v146"><b>완료는 대표 확인 후 확정</b><span>현장에서 실무 완료를 기록하고, 결과를 확인한 뒤 최종 완료하세요.</span></div><div class="site-work-risk-v146"><b>${open.filter(row => row.issue).length}개 문제 기록</b><span>현재 문제와 다음 행동을 한 카드에서 이어서 관리합니다.</span></div></aside></div>`;
   }
 
   function listView(rows) {
-    let filtered = tab === 'archive' ? rows.filter(row => !active(row)) : rows.filter(row => row.type === tab && active(row));
+    let filtered = rows.filter(row => row.type === tab || (tab === 'tasks' && !TABS.some(([key]) => key === row.type)));
+    filtered.sort((a,b)=>Number(active(b))-Number(active(a))||String(a.dueDate||'9999').localeCompare(String(b.dueDate||'9999')));
     const needle = query.trim().toLowerCase();
     if (needle) filtered = filtered.filter(row => JSON.stringify(row).toLowerCase().includes(needle));
-    return `<section class="site-work-panel-v146"><header class="site-work-section-head-v146"><div><small>${tab.toUpperCase()}</small><h3>${esc(TYPE_LABEL[tab] || '보관함')}</h3></div><button class="site-work-button-v146" type="button" data-work-add="${esc(tab === 'archive' ? 'tasks' : tab)}">+ 기록 추가</button></header><div class="site-work-list-v146">${filtered.map(card).join('') || `<div class="site-work-empty-v146">${esc(TYPE_LABEL[tab] || '보관')} 기록이 없습니다.</div>`}</div></section>`;
+    return `<section class="site-work-panel-v146"><header class="site-work-section-head-v146"><div><small>${tab.toUpperCase()}</small><h3>${esc(TYPE_LABEL[tab] || '업무')}</h3></div><button class="site-work-button-v146" type="button" data-work-add="${esc(tab)}">+ 기록 추가</button></header><div class="site-work-list-v146">${filtered.map(card).join('') || `<div class="site-work-empty-v146">${esc(TYPE_LABEL[tab] || '업무')} 기록이 없습니다.</div>`}</div></section>`;
   }
 
   function render() {
     ensureStage();
     if (stage.hidden) return;
     const rows = visibleRecords();
-    stage.innerHTML = `<section class="site-work-shell-v146"><header class="site-work-head-v146"><div><small>OWNER OPERATIONS</small><h2>Work</h2></div><div class="site-work-head-actions-v146"><input data-work-query type="search" value="${esc(query)}" placeholder="업무 · 과제 · 실험 · 고객 검색"><button class="site-work-button-v146 primary" type="button" data-work-add="tasks">+ 업무</button></div></header><div class="site-work-body-v146"><nav class="site-work-nav-v146" aria-label="Work 메뉴">${TABS.map(([key,label]) => `<button class="${tab === key ? 'active' : ''}" type="button" data-work-tab="${key}">${label}</button>`).join('')}</nav><main class="site-work-content-v146">${loading ? '<div class="site-work-empty-v146">업무 데이터를 불러오는 중입니다.</div>' : tab === 'today' ? todayView(rows) : listView(rows)}${!records.length && !loading ? '<p class="site-work-notice-v146">DEMO 항목은 화면 확인용이며 저장 데이터와 분리됩니다. 새 기록을 추가하면 실제 업무만 표시됩니다.</p>' : ''}</main></div></section>`;
+    stage.innerHTML = `<section class="site-work-shell-v146"><header class="site-work-head-v146"><div><small>OWNER OPERATIONS</small><h2>Work</h2><p>업무·과제·연구·행정을 한 흐름으로 관리합니다.</p></div><div class="site-work-head-actions-v146"><input data-work-query type="search" value="${esc(query)}" placeholder="업무 · 과제 · 실험 검색"><button class="site-work-button-v146 primary" type="button" data-work-add="tasks">+ 업무</button></div></header><div class="site-work-body-v146"><nav class="site-work-nav-v146" aria-label="Work 메뉴">${TABS.map(([key,label]) => `<button class="${tab === key ? 'active' : ''}" type="button" data-work-tab="${key}">${label}</button>`).join('')}</nav><main class="site-work-content-v146">${loading ? '<div class="site-work-empty-v146">업무 데이터를 불러오는 중입니다.</div>' : tab === 'today' ? todayView(rows) : listView(rows)}${!records.length && !loading ? '<p class="site-work-notice-v146">DEMO 항목은 화면 확인용이며 저장 데이터와 분리됩니다. 새 기록을 추가하면 실제 업무만 표시됩니다.</p>' : ''}</main></div></section>`;
   }
 
   function field(label, name, value = '', type = 'text', wide = false) {
@@ -173,10 +177,9 @@
     overlay.innerHTML = `<section class="site-work-dialog-v146" role="dialog" aria-modal="true"><header><div><small>OWNER OPERATIONS</small><h2>${record.id ? '업무 기록 수정' : '새 업무 기록'}</h2></div><button type="button" data-work-close aria-label="닫기">×</button></header>
       <form class="site-work-form-v146" data-work-form><input type="hidden" name="id" value="${esc(record.id || '')}">
       <label>분류<select name="type">${TABS.filter(([key]) => !['today','archive'].includes(key)).map(([key,label]) => `<option value="${key}" ${key === (record.type || type) ? 'selected' : ''}>${label}</option>`).join('')}</select></label>
-      ${select('상태','status',STATUS,record.status || '예정')}${field('업무 제목 *','title',record.title || '')}${select('우선순위','priority',['낮음','보통','높음'],record.priority || '보통')}${select('실제 담당자','assignee',ASSIGNEES,record.assignee || '대표')}${field('시작일','startDate',record.startDate || '','date')}${field('마감일','dueDate',record.dueDate || '','date')}${field('예상 소요시간','estimate',record.estimate || '')}
+      ${select('상태','status',STATUS,record.status || '예정')}${field('업무 제목 *','title',record.title || '')}${select('우선순위','priority',['낮음','보통','높음'],record.priority || '보통')}${select('담당','assignee',ASSIGNEES,record.assignee || '대표')}${field('시작일','startDate',record.startDate || '','date')}${field('마감일','dueDate',record.dueDate || '','date')}${field('마감 시간','dueTime',record.dueTime || '','time')}${field('예상 소요시간','estimate',record.estimate || '')}
       ${textarea('설명 · 완료 조건','description',record.description || '')}${textarea('현재 문제','issue',record.issue || '')}${textarea('대표가 해야 할 다음 행동','nextAction',record.nextAction || '')}
-      <details open><summary>과제 · 연구 · 행정 근거</summary><div class="site-work-detail-grid-v146">${field('기관 · 프로젝트','agency',record.agency || '')}${field('과제 · 실험 코드','code',record.code || '')}${field('현재 단계','stage',record.stage || '')}${field('준비도 (%)','readiness',record.readiness || '','number')}${field('금액','amount',record.amount || '','number')}${select('증빙 상태','evidenceState',['필요 없음','미수취','확인 필요','보완 필요','완료'],record.evidenceState || '필요 없음')}${field('전달일','deliveredAt',record.deliveredAt || '','date')}${select('전달 방법','deliveryMethod',['대면','전화','문자','카카오톡','이메일','기타'],record.deliveryMethod || '대면')}${field('마지막 확인일','lastChecked',record.lastChecked || '','date')}${field('다음 확인일','nextCheck',record.nextCheck || '','date')}${textarea('공고문 페이지·조항 / QC 기준 / 완료 근거','evidence',record.evidence || record.qcCriteria || '',true)}${textarea('프로토콜 · batch · 시료 · 장비 · 시약','labDetails',record.labDetails || '',true)}${textarea('원자료 위치 · 관련 링크','source',record.source || record.rawData || '',true)}</div></details>
-      <details><summary>고객 · 납부 · 대표 결정</summary><div class="site-work-detail-grid-v146">${field('고객명 · 요청자','clientName',record.clientName || '')}${field('연락처','contact',record.contact || '')}${field('서비스 · 결정 유형','service',record.service || '')}${field('납부 예정','paymentDue',record.paymentDue || '','date')}${field('미납 금액','unpaid',record.unpaid || '','number')}${textarea('질문 · 요청 · 대표 답변','decisionNote',record.decisionNote || '',true)}</div></details>
+      <details><summary>필요할 때만 상세 정보 입력</summary><div class="site-work-detail-grid-v146">${field('기관 · 프로젝트','agency',record.agency || '')}${field('과제 · 실험 코드','code',record.code || '')}${field('현재 단계','stage',record.stage || '')}${field('준비도 (%)','readiness',record.readiness || '','number')}${field('금액','amount',record.amount || '','number')}${select('증빙 상태','evidenceState',['필요 없음','미수취','확인 필요','보완 필요','완료'],record.evidenceState || '필요 없음')}${field('전달일','deliveredAt',record.deliveredAt || '','date')}${field('마지막 확인일','lastChecked',record.lastChecked || '','date')}${field('다음 확인일','nextCheck',record.nextCheck || '','date')}${textarea('공고문 조항 · QC 기준 · 완료 근거','evidence',record.evidence || record.qcCriteria || '',true)}${textarea('프로토콜 · batch · 시료 · 장비 · 시약','labDetails',record.labDetails || '',true)}${textarea('원자료 위치 · 관련 링크','source',record.source || record.rawData || '',true)}</div></details>
       <footer><button type="button" data-work-close>취소</button><button class="primary" type="submit">저장</button></footer></form></section>`;
     document.body.append(overlay); document.body.classList.add('modal-open');
     const close = () => { overlay.remove(); document.body.classList.remove('modal-open'); };
