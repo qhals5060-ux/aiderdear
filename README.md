@@ -1,14 +1,14 @@
-# AiderLog Android v142 · Site v121
+# AiderLog Android v144 · Site v121
 
-## Android v142 stability & usability
+## Android v144 bright galaxy & tactile mail
 
-- 앱 전체 글자 크기 설정, 완화된 큰 글씨, 안정적인 카드 레이아웃
-- 상단 안전 여백, 메모장·우편함 연결, 모바일 검색 팝업 정리
-- 즉시 반응하는 글로벌 행성 휠과 Paper · Task · Speech · Brain 이동
-- 21종 위젯의 설정 유지 및 예외 안전 갱신 경로
-- 사이트의 Android APK와 전체 사이트 소스 ZIP 직접 다운로드
+- 밝은 배경에서도 원래 은하 이미지를 유지하고 테마 색조만 밝게 조정
+- 사진 기반의 실제 종이 질감을 사용한 짧은 엽서와 봉투, 엽서 중앙선 제거
+- 행성 휠의 짧게 눌러 홈 이동 및 길게 눌러 확대·메뉴 열기 복원
+- 선택 날짜의 네온 원형 띠 축소 및 대한민국 공휴일 기본 표시
+- APK와 사이트 소스 ZIP은 배포 사이트가 아니라 Codex 결과물로 제공
 
-Android APK SHA-256: `4B06A43FB152A6EBCB3A6E7939C48A1D00F06FDF8CEB58AC2782E06B8C2CBCA9`
+Android APK SHA-256: `1EBB20A1539DC4955B998EF3040C69E0FB5BEC125240B54E324C854A9DC82B30`
 
 ---
 
