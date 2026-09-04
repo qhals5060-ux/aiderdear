@@ -1,3 +1,17 @@
+# AiderLog Android v147 · Site v121 + Work
+
+## v147 Task · Work · Study Card separation
+
+- Android My에서 `Task`는 대학원 컨설팅 전용, `Work`는 국가과제·바이오 연구·행정·직원 업무를 다루는 대표 운영 전용으로 완전히 분리했습니다.
+- 앱 전용 `Study Card`에 48주 · 192모듈 · 576개념 · 1,728복습카드를 연결하고, 학습·복습·진도와 1/7/21/60일 복습 큐를 로컬에 저장합니다.
+- `Study Card`는 `aidway55@gmail.com`을 제외한 앱 사용자에게 보이며 웹사이트에는 추가하지 않았습니다.
+- 웹사이트의 기존 데스크톱 UI를 유지하면서 `Paper · Task · Work`는 `qhals5060@gmail.com`, `aidway55@gmail.com`에게만 표시하고 각 계정 데이터를 분리했습니다.
+- 캘린더 날짜·공휴일을 한 줄에 맞추고, 닫힌 행성 휠은 어두운 블러로 절제했으며, 앱 최상단에 약 0.5mm 안전 여백을 추가했습니다.
+
+Android APK SHA-256: `FBE38CF337F5F1B796F76446952117523FBACE5A2EE270949D15DECF824F531C`
+
+---
+
 # AiderLog Android v146 · Site v121 + Work
 
 ## v146 scope correction

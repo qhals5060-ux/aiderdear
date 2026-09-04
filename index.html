@@ -4121,7 +4121,7 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   html body #stage .calendar{min-height:488px!important}
 }
 </style>
-<link rel="stylesheet" href="./site-work-v146.css?v=146a">
+<link rel="stylesheet" href="./site-work-v146.css?v=147">
 </head>
 <body>
 <a class="skip-link" href="#app">본문으로 건너뛰기</a>
@@ -4821,10 +4821,10 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
               <section class="account-settings-panel" data-account-panel="app">
           <p class="firebase-storage-note">Spark 무료 요금제에서 동작합니다. 사진은 자동 압축되며 영상은 최대 5분·120MB까지 저장됩니다. 큰 영상은 무료 1GiB 저장공간을 빠르게 사용할 수 있습니다.</p>
           <div class="app-install-grid app-install-v137">
-            <article class="app-install-card windows"><i>PC</i><b>Windows PC · 사이트 파일</b><p>AiderLog 웹사이트 전체 파일을 ZIP으로 내려받습니다.</p><a class="app-download-v146" href="./AiderLog-v146-site-files.zip" download="AiderLog-v146-site-files.zip">PC 파일 다운로드</a></article>
-            <article class="app-install-card android"><i>APK</i><b>Android 앱</b><p>Galaxy Fold·Flip 및 Android 8.0 이상용 최신 설치 파일입니다.</p><a class="app-download-v146" href="./AiderLog-v146.apk" download="AiderLog-v146.apk">Android APK 다운로드</a></article>
+            <article class="app-install-card windows"><i>PC</i><b>Windows PC · 사이트 파일</b><p>AiderLog 웹사이트 전체 파일을 ZIP으로 내려받습니다.</p><a class="app-download-v146" href="./AiderLog-v147-site-files.zip" download="AiderLog-v147-site-files.zip">PC 파일 다운로드</a></article>
+            <article class="app-install-card android"><i>APK</i><b>Android 앱</b><p>Galaxy Fold·Flip 및 Android 8.0 이상용 최신 설치 파일입니다.</p><a class="app-download-v146" href="./AiderLog-v147.apk" download="AiderLog-v147.apk">Android APK 다운로드</a></article>
           </div>
-          <div class="login-data-summary"><b>기록 저장 안내</b><span>일정은 본인 공간에 저장되며 ‘커플과 공유’를 선택한 일정만 상대 캘린더에 표시됩니다.</span><span>EVENT는 커플 연결 시 함께 보고, 루틴·어학·PERSONAL·메모는 본인만 확인합니다.</span><span>PAPER·TASK는 허용된 두 계정만 열 수 있으며 같은 연구·상담 작업공간을 함께 사용합니다.</span><span>사진·영상은 압축 저장되며, 오래된 일반 기록은 삭제 전에 반드시 확인을 요청합니다.</span></div>
+          <div class="login-data-summary"><b>기록 저장 안내</b><span>일정은 본인 공간에 저장되며 ‘커플과 공유’를 선택한 일정만 상대 캘린더에 표시됩니다.</span><span>EVENT는 커플 연결 시 함께 보고, 루틴·어학·PERSONAL·메모는 본인만 확인합니다.</span><span>PAPER·TASK·WORK는 허용된 두 계정만 열 수 있으며, 각 계정의 연구·컨설팅·운영 기록은 서로 분리해 저장합니다.</span><span>사진·영상은 압축 저장되며, 오래된 일반 기록은 삭제 전에 반드시 확인을 요청합니다.</span></div>
               </section>
             </div>
           </div>
@@ -5623,16 +5623,18 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   let paperTaskWorkspaceMigratedEmails=[];
 
   function normalizeEmail(v){return String(v||'').trim().toLowerCase()}
-  function canAccessRestrictedTab(tab,email=currentUserEmail){email=normalizeEmail(email);if(tab==='paper'||tab==='task')return RESTRICTED_WORKSPACE_EMAILS.has(email);return true}
+  function localPreviewMode(){return /^(localhost|127\.0\.0\.1)$/.test(location.hostname)&&new URLSearchParams(location.search).has('preview')}
+  function canAccessRestrictedTab(tab,email=currentUserEmail){email=normalizeEmail(email);if(tab==='paper'||tab==='task'||tab==='work')return localPreviewMode()||RESTRICTED_WORKSPACE_EMAILS.has(email);return true}
   function currentUserGender(){const gender=firebaseState.user?.gender||privateData?.[currentUserEmail]?.profile?.gender;return gender==='female'||gender==='male'?gender:''}
   function isFemaleUser(){return currentUserGender()==='female'}
   function syncGenderUI(){const profile=firebaseState.user||privateData?.[currentUserEmail]?.profile||{},select=$('#loginGenderSelect'),birth=$('#loginBirthDate'),calendar=$('#loginBirthCalendar'),leap=$('#loginBirthLeap'),leapField=$('#loginBirthLeapField');if(select)select.value=currentUserGender();if(birth)birth.value=profile.birthDate||'';if(calendar)calendar.value=profile.birthCalendar==='lunar'?'lunar':'solar';if(leap)leap.checked=!!profile.birthLeap;if(leapField)leapField.hidden=(calendar?.value||'solar')!=='lunar';const section=$('#emotionCycleSection');if(section)section.hidden=!isFemaleUser();if(!isFemaleUser()&&$('#emotionPeriod'))$('#emotionPeriod').checked=false}
   function updateRestrictedTabVisibility(){
-    const paperTab=$('.tab[data-tab="paper"]'),taskTab=$('.tab[data-tab="task"]');
+    const paperTab=$('.tab[data-tab="paper"]'),taskTab=$('.tab[data-tab="task"]'),workTab=$('.tab[data-tab="work"]');
     if(paperTab)paperTab.hidden=!canAccessRestrictedTab('paper');
     if(taskTab)taskTab.hidden=!canAccessRestrictedTab('task');
+    if(workTab)workTab.hidden=!canAccessRestrictedTab('work');
     const active=$('.tab.active')?.dataset.tab;
-    if((active==='paper'||active==='task')&&!canAccessRestrictedTab(active))showMainTab('schedule');
+    if((active==='paper'||active==='task'||active==='work')&&!canAccessRestrictedTab(active))showMainTab('schedule');
   }
   function normalizeName(v,email=''){const n=String(v||'').trim();return n||String(email||'').split('@')[0]||'가족'}
   function normalizeFamilyUsers(list=[]){
@@ -5847,7 +5849,7 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
     if(!driveDataFileId)return;
     await googleApi(`https://www.googleapis.com/upload/drive/v3/files/${encodeURIComponent(driveDataFileId)}?uploadType=media`,{method:'PATCH',headers:{'Content-Type':'application/json; charset=UTF-8'},body:JSON.stringify(data)});
   }
-  function blankPrivateData(email='',name=''){return {version:PRIVATE_VERSION,profile:{email:normalizeEmail(email),name:normalizeName(name,email),gender:'',birthDate:'',birthCalendar:'solar',birthLeap:false},memos:[],routines:[],checklists:[],routineGoals:['','',''],personalItems:[],personalSettings:{},paperItems:[],researchInsights:[],researchNotes:[],researchIdeas:[],researchDesigns:[],researchComparisons:[],researchConnections:[],researchWorkspaceSeeded:false,researchNeuroscienceExamplesSeeded:false,researchYooLabSeeded:false,pomodoroSessions:[],consultingClients:[],consultingTasks:[],consultingSessions:[],consultingFiles:[],consultingIntakeToken:'',languageStudy:{completedDates:[],knownWords:{},notes:{},confidence:{}}}}
+  function blankPrivateData(email='',name=''){return {version:PRIVATE_VERSION,profile:{email:normalizeEmail(email),name:normalizeName(name,email),gender:'',birthDate:'',birthCalendar:'solar',birthLeap:false},memos:[],routines:[],checklists:[],routineGoals:['','',''],personalItems:[],personalSettings:{},paperItems:[],researchInsights:[],researchNotes:[],researchIdeas:[],researchDesigns:[],researchComparisons:[],researchConnections:[],researchWorkspaceSeeded:false,researchNeuroscienceExamplesSeeded:false,researchYooLabSeeded:false,pomodoroSessions:[],consultingClients:[],consultingTasks:[],consultingSessions:[],consultingFiles:[],consultingIntakeToken:'',workRecords:[],languageStudy:{completedDates:[],knownWords:{},notes:{},confidence:{}}}}
   function normalizePrivateData(data,email='',name=''){
     const d={...blankPrivateData(email,name),...(data||{})};d.profile={email:normalizeEmail(d.profile?.email||email),name:normalizeName(d.profile?.name||name,d.profile?.email||email),gender:['female','male'].includes(d.profile?.gender)?d.profile.gender:'',birthDate:/^\d{4}-\d{2}-\d{2}$/.test(String(d.profile?.birthDate||''))?String(d.profile.birthDate):'',birthCalendar:d.profile?.birthCalendar==='lunar'?'lunar':'solar',birthLeap:d.profile?.birthCalendar==='lunar'&&!!d.profile?.birthLeap};
     d.memos=Array.isArray(d.memos)?d.memos.filter(Boolean):[];
@@ -5927,13 +5929,22 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   async function migrateConsultingFilesToWorkspace(payload={}){if(!window.AiderDearFirebase?.uploadPaperTaskMedia)return payload;for(const file of (payload.consultingFiles||[])){if(file.storageScope==='paper-task'||normalizeEmail(file.ownerEmail)!==currentUserEmail)continue;try{const blob=await window.AiderDearFirebase.readPrivateMedia(file.fileId),uploadFile=new File([blob],file.name||'client-file',{type:file.type||blob.type||'application/octet-stream'}),uploaded=await window.AiderDearFirebase.uploadPaperTaskMedia(uploadFile,'consulting-client-file-migration');file.fileId=uploaded.id;file.storageScope='paper-task';file.ownerEmail=currentUserEmail;file.size=uploaded.size||file.size}catch(error){console.warn('Legacy TASK file migration skipped',file.name,error)}}return payload}
   function stopPaperTaskWorkspaceWatch(){try{paperTaskWorkspaceStop?.()}catch{}paperTaskWorkspaceStop=null;paperTaskWorkspaceSignature='';paperTaskWorkspaceMigratedEmails=[]}
   function renderPaperTaskWorkspace(){renderPaper();renderConsultingWorkspace();startConsultingIntakeWatch().catch(console.warn)}
-  function startPaperTaskWorkspaceWatch(){try{paperTaskWorkspaceStop?.()}catch{}paperTaskWorkspaceStop=null;if(!canAccessRestrictedTab('paper')||!window.AiderDearFirebase?.watchPaperTaskData)return;paperTaskWorkspaceStop=window.AiderDearFirebase.watchPaperTaskData(payload=>{if(!payload||!currentUserEmail||!canAccessRestrictedTab('paper'))return;paperTaskWorkspaceMigratedEmails=[...new Set((payload._migratedEmails||[]).map(normalizeEmail).filter(Boolean))];const next=paperTaskPayload(payload),signature=JSON.stringify(next);if(signature===paperTaskWorkspaceSignature)return;const current=privateData[currentUserEmail]||blankPrivateData(currentUserEmail,currentUserName);applyPaperTaskPayload(current,next);privateData[currentUserEmail]=normalizePrivateData(current,currentUserEmail,currentUserName);paperTaskWorkspaceSignature=paperTaskSignature(privateData[currentUserEmail]);renderPaperTaskWorkspace()})}
+  function startPaperTaskWorkspaceWatch(){stopPaperTaskWorkspaceWatch()}
+  async function importRestrictedWorkspaceOnce(data){
+    if(data.restrictedWorkspacePrivateV147||!canAccessRestrictedTab('paper')||!window.AiderDearFirebase?.readPaperTaskData)return data;
+    try{
+      const shared=await window.AiderDearFirebase.readPaperTaskData(),ownerEmail=normalizeEmail(currentUserEmail),ownerUid=String(firebaseState.user?.uid||'');
+      const belongs=row=>{const email=normalizeEmail(row?.ownerEmail||row?.createdByEmail||row?.userEmail||row?.email),uid=String(row?.ownerUid||row?.createdBy||row?.userUid||row?.uid||'');return Boolean((email&&email===ownerEmail)||(uid&&uid===ownerUid))};
+      for(const key of PAPER_TASK_SHARED_KEYS){if(key==='researchWorkspaceSeeded')continue;const local=Array.isArray(data[key])?data[key]:[],legacy=Array.isArray(shared?.[key])?shared[key].filter(belongs):[];if(!local.length&&legacy.length)data[key]=structuredClone(legacy)}
+      if(!data.researchWorkspaceSeeded&&data.paperItems?.length)data.researchWorkspaceSeeded=true;
+    }catch(error){console.warn('PAPER · TASK account migration skipped.',error)}
+    data.restrictedWorkspacePrivateV147=true;return data;
+  }
   async function loadPrivateData(){
     stopPaperTaskWorkspaceWatch();privateData={};privateRefs={};if(!currentUserEmail||!window.AiderDearFirebase)return;const saved=await window.AiderDearFirebase.readPrivateData();let data=normalizePrivateData(saved||blankPrivateData(currentUserEmail,currentUserName),currentUserEmail,currentUserName);privateRefs[currentUserEmail]={folderId:'firebase-private',fileId:'firebase-private',writable:true};privateOwner=currentUserEmail;
-    if(canAccessRestrictedTab('paper')&&window.AiderDearFirebase.readPaperTaskData)try{const shared=await window.AiderDearFirebase.readPaperTaskData();paperTaskWorkspaceMigratedEmails=[...new Set((shared?._migratedEmails||[]).map(normalizeEmail).filter(Boolean))];let workspace=paperTaskPayload(shared||{});if(!paperTaskWorkspaceMigratedEmails.includes(currentUserEmail)){workspace=mergePaperTaskPayload(workspace,paperTaskPayload(data));workspace=await migrateConsultingFilesToWorkspace(workspace);paperTaskWorkspaceMigratedEmails.push(currentUserEmail);await window.AiderDearFirebase.writePaperTaskData({...workspace,_migratedEmails:paperTaskWorkspaceMigratedEmails})}applyPaperTaskPayload(data,workspace);data=normalizePrivateData(data,currentUserEmail,currentUserName);paperTaskWorkspaceSignature=paperTaskSignature(data)}catch(error){console.warn('PAPER · TASK shared workspace unavailable; private routines remain available.',error)}
-    privateData[currentUserEmail]=data;syncGenderUI();renderPrivate();renderPersonal();renderPaper();renderConsultingWorkspace();startConsultingIntakeWatch().catch(console.warn);startPaperTaskWorkspaceWatch();
+    data=await importRestrictedWorkspaceOnce(data);privateData[currentUserEmail]=normalizePrivateData(data,currentUserEmail,currentUserName);await window.AiderDearFirebase.writePrivateData(privateData[currentUserEmail]);syncGenderUI();renderPrivate();renderPersonal();renderPaper();renderConsultingWorkspace();startConsultingIntakeWatch().catch(console.warn);
   }
-  async function savePrivateData(email){email=normalizeEmail(email);if(!currentUser||currentUserEmail!==email||!privateRefs[email]?.fileId)throw new Error('이 개인 기록을 수정할 권한이 없습니다.');privateData[email]=normalizePrivateData(privateData[email],email,currentUserName);await window.AiderDearFirebase.writePrivateData(privateData[email]);if(canAccessRestrictedTab('paper',email)&&window.AiderDearFirebase.writePaperTaskData){const signature=paperTaskSignature(privateData[email]);if(signature!==paperTaskWorkspaceSignature){await window.AiderDearFirebase.writePaperTaskData({...paperTaskPayload(privateData[email]),_migratedEmails:paperTaskWorkspaceMigratedEmails});paperTaskWorkspaceSignature=signature}}}
+  async function savePrivateData(email){email=normalizeEmail(email);if(!currentUser||currentUserEmail!==email||!privateRefs[email]?.fileId)throw new Error('이 개인 기록을 수정할 권한이 없습니다.');privateData[email]=normalizePrivateData(privateData[email],email,currentUserName);await window.AiderDearFirebase.writePrivateData(privateData[email])}
   function blankEmotionData(email='',name=''){return {version:EMOTION_VERSION,profile:{email:normalizeEmail(email),name:normalizeName(name,email)},entries:[]}}
   function normalizeEmotionData(data,email='',name=''){
     const d={...blankEmotionData(email,name),...(data||{})};
@@ -8544,8 +8555,8 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   $('#desktopInstallConfirm').addEventListener('click',async()=>{const prefs={autoStart:$('#desktopAutoStart').checked,taskbar:$('#desktopTaskbar').checked};localStorage.setItem(DESKTOP_PREF_KEY,JSON.stringify(prefs));if(deferredInstallPrompt){deferredInstallPrompt.prompt();const choice=await deferredInstallPrompt.userChoice;deferredInstallPrompt=null;if(choice.outcome==='accepted'){$('#desktopInstallStatus').textContent='설치를 마친 뒤 Edge의 확인 화면에서 자동 시작과 작업표시줄 고정을 허용하세요.'}else $('#desktopInstallStatus').textContent='앱 설치를 취소했습니다. 설정은 저장되었습니다.'}else if(matchMedia('(display-mode: standalone)').matches){$('#desktopInstallStatus').textContent='설정을 저장했습니다. 작업표시줄 고정은 Windows 앱 메뉴에서 적용해주세요.'}else $('#desktopInstallStatus').textContent='Edge 메뉴의 “앱 → AiderLog 설치”를 선택한 뒤 다시 설정해주세요.'});
   function animateStandaloneFrame(id){const el=$(id);if(!el)return;el.classList.remove('line-active');void el.offsetWidth;el.classList.add('line-active')}
   function showMainTab(tab){
-    if((tab==='record'||tab==='private'||tab==='personal'||tab==='paper'||tab==='task')&&!currentUser){requireLogin(()=>showMainTab(tab));return}
-    if((tab==='paper'||tab==='task')&&!canAccessRestrictedTab(tab)){toast(tab==='paper'?'PAPER는 지정된 연구 계정에서만 사용할 수 있습니다.':'TASK는 지정된 컨설팅 계정에서만 사용할 수 있습니다.');showMainTab('schedule');return}
+    if((tab==='record'||tab==='private'||tab==='personal'||tab==='paper'||tab==='task'||tab==='work')&&!currentUser&&!localPreviewMode()){requireLogin(()=>showMainTab(tab));return}
+    if((tab==='paper'||tab==='task'||tab==='work')&&!canAccessRestrictedTab(tab)){toast(tab==='paper'?'PAPER는 지정된 연구 계정에서만 사용할 수 있습니다.':tab==='task'?'TASK는 지정된 컨설팅 계정에서만 사용할 수 있습니다.':'WORK는 지정된 대표 계정에서만 사용할 수 있습니다.');showMainTab('schedule');return}
     const tabLabels={schedule:'Schedule',private:'Routine',record:'Event',personal:'Personal',paper:'Paper',task:'Task'};
     $('#app').dataset.activeTab=tab;
     $$('.tab').forEach(t=>{const active=t.dataset.tab===tab;t.classList.toggle('active',active);t.setAttribute('aria-selected',String(active));t.tabIndex=active?0:-1});
@@ -8605,7 +8616,7 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
 })();
 </script>
 <script src="./paper-workspace-v121.js?v=121"></script>
-<script src="./site-work-v146.js?v=146a"></script>
+<script src="./site-work-v146.js?v=147"></script>
 <script>
 (() => {
   const REFERENCE_TEXT = '최근 30일 동안 가장 많이 느낀 감정';

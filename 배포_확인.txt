@@ -1,12 +1,14 @@
-AiderLog Android v146 · Site Work 배포 확인
+AiderLog Android v147 · Site Work 배포 확인
 
-- APK: /AiderLog-v146.apk
-- 사이트 소스: /AiderLog-v146-site-files.zip
-- APK SHA-256: AFE4DB4B57F585171D808EE136F757E744614C8F266D113D8970BBE92579A266
+- APK: /AiderLog-v147.apk
+- 사이트 소스: /AiderLog-v147-site-files.zip
+- APK SHA-256: FBE38CF337F5F1B796F76446952117523FBACE5A2EE270949D15DECF824F531C
 - 웹사이트는 기존 v121 데스크톱 UI이고, TASK 뒤에 WORK만 추가되어야 합니다.
 - 사이트 개인 페이지 > 앱에서 PC 파일과 Android APK 다운로드를 확인합니다.
 - 앱 휠은 짧은 탭으로 Home, 길게 누른 채 끌기로 5개 고정 목적지를 선택합니다.
 - 앱 내부에는 PC/APK 다운로드 카드가 없어야 합니다.
+- 앱 My에서 Task는 대학원 컨설팅, Work는 대표 운영으로 분리되어야 합니다.
+- Study Card는 aidway55@gmail.com을 제외한 앱 사용자에게만 표시됩니다.
 
 ----------------------------------------
 
