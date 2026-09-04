@@ -3,18 +3,18 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#6255e8">
+  <meta name="theme-color" content="#f5f2ff">
   <title>AiderLog Google 로그인</title>
   <style>
-    :root{font-family:system-ui,-apple-system,"Noto Sans KR",sans-serif;color:#15172d;background:#f7f6ff}
-    *{box-sizing:border-box}body{min-height:100vh;margin:0;display:grid;place-items:center;padding:24px;background:radial-gradient(circle at 20% 10%,rgba(123,108,242,.16),transparent 34%),#f7f6ff}
-    main{width:min(100%,420px);padding:30px 24px;border:1px solid #e7e3f6;border-radius:26px;background:#fff;box-shadow:0 18px 54px rgba(35,30,90,.12);text-align:center}
-    .planet{position:relative;width:76px;height:76px;margin:0 auto 20px;border-radius:50%;background:radial-gradient(circle at 35% 27%,rgba(255,255,255,.74),transparent 31%),linear-gradient(145deg,#5b54e8,#7967f0 60%,#5141cd);box-shadow:0 0 18px rgba(98,85,232,.30),0 0 42px rgba(98,85,232,.14)}
-    .planet:before{content:"";position:absolute;inset:27px -10px;border:2px solid rgba(255,255,255,.9);border-radius:50%;transform:rotate(-18deg)}
-    .planet:after{content:"";position:absolute;width:7px;height:7px;right:4px;top:20px;border-radius:50%;background:#fff;box-shadow:0 0 7px #fff}
-    h1{font-size:24px;margin:0 0 10px}p{font-size:14px;line-height:1.65;color:#77758d;margin:0 0 22px}
-    button{width:100%;min-height:52px;border:0;border-radius:16px;background:linear-gradient(135deg,#5b54e8,#7967f0);color:#fff;font-weight:750;font-size:15px;cursor:pointer;box-shadow:0 8px 22px rgba(98,85,232,.22)}
-    button:disabled{opacity:.6;cursor:wait}.status{min-height:24px;margin:16px 0 0;font-size:13px;color:#6255e8}.error{color:#b64058}
+    :root{font-family:system-ui,-apple-system,"Noto Sans KR",sans-serif;color:#28203f;background:#f5f2ff;color-scheme:light}
+    *{box-sizing:border-box}body{min-height:100vh;margin:0;display:grid;place-items:center;padding:24px;background:radial-gradient(circle at 82% 15%,rgba(178,139,235,.28),transparent 31%),radial-gradient(circle at 12% 82%,rgba(153,203,255,.24),transparent 34%),radial-gradient(circle,rgba(104,79,170,.24) 0 1px,transparent 1.35px),linear-gradient(155deg,#fff 0%,#f7f3ff 52%,#ede8ff 100%);background-size:auto,auto,71px 71px,auto;background-position:center,center,8px 14px,center}
+    main{width:min(100%,420px);padding:32px 24px;border:1px solid rgba(111,82,183,.19);border-radius:26px;background:rgba(255,255,255,.9);box-shadow:0 20px 58px rgba(75,49,137,.13),inset 0 1px 0 #fff;text-align:center;backdrop-filter:blur(18px)}
+    .planet{position:relative;width:76px;height:76px;margin:0 auto 20px;border-radius:50%;background:radial-gradient(circle at 34% 27%,rgba(255,255,255,.94),transparent 26%),linear-gradient(145deg,#8f72dc,#ad87e7 64%,#d4b7ef);box-shadow:0 0 20px rgba(255,255,255,.92),0 0 44px rgba(126,87,224,.35),inset -7px -9px 12px rgba(86,52,158,.18)}
+    .planet:before{content:"";position:absolute;inset:27px -10px;border:2px solid #fff;border-radius:50%;transform:rotate(-18deg);filter:drop-shadow(0 0 7px rgba(118,87,216,.68))}
+    .planet:after{content:"";position:absolute;width:7px;height:7px;right:4px;top:20px;border-radius:50%;background:#fff;box-shadow:0 0 9px #9b76e4}
+    h1{font-size:24px;margin:0 0 10px;color:#28203f}p{font-size:14px;line-height:1.65;color:#746b89;margin:0 0 22px}
+    button{width:100%;min-height:52px;border:1px solid rgba(100,68,187,.24);border-radius:16px;background:linear-gradient(135deg,#7657d8,#9d72df 72%,#b88de8);color:#fff;font-weight:750;font-size:15px;cursor:pointer;box-shadow:0 10px 25px rgba(103,72,185,.22),inset 0 1px 0 rgba(255,255,255,.22)}
+    button:disabled{opacity:.6;cursor:wait}.status{min-height:24px;margin:16px 0 0;font-size:13px;color:#6748cf}.error{color:#bd4161}
   </style>
 </head>
 <body>

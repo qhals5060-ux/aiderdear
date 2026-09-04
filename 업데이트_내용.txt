@@ -1,3 +1,17 @@
+AiderLog Android v145
+
+[v145 변경]
+- 확정된 밝은 유리 행성 GIF를 시작 스플래시로 적용하고 시스템 테마 색조와 연결
+- 앱 상단 AiderLog · Event · Routine · Language · My 제목을 스플래시 로고 계열 타이포그래피로 통일
+- 대한민국 공휴일, 개인/상대 감정, 여성 사용자 생리 기록을 캘린더 날짜에 표시
+- My에 계정별 개인 Paper와 Task/Work, 완전 오프라인 Brain·Speech Training 추가
+- Paper는 DOI·URL·PDF·GPT JSON 수집, 근거 검토, 문헌 분석, 아이디어와 연구 설계를 지원
+- Task 옆 Work에서 국가과제·바이오 연구·행정·지출·직원·고객 운영 기록을 관리
+- qhals5060@gmail.com은 전체 My 기능, aidway55@gmail.com은 Paper·Task/Work, 일반 계정은 Brain·Speech 사용
+- 프로필의 PC 사이트 파일과 Android APK 다운로드 버튼 복원
+
+----------------------------------------
+
 AiderLog Android v144
 
 [v144 변경]
