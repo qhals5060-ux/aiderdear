@@ -4057,10 +4057,6 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
 .app-install-grid.app-install-v137 .app-download-link{background:linear-gradient(135deg,#6748cf,#9473ea)!important;border-color:#6748cf!important}
 .app-install-grid.app-install-v137 .site-source-download{background:#17131e!important;border-color:#17131e!important}
 .app-install-grid.app-install-v137 .app-download-link small{font-size:7px!important;color:rgba(255,255,255,.75)!important}
-.public-release-downloads-v142{display:grid;grid-template-columns:1fr 1fr;gap:7px;padding:9px;border:1px solid #c9c3d3;border-radius:13px;background:linear-gradient(145deg,#faf8ff,#f0edf8)}
-.public-release-downloads-v142>span{grid-column:1/-1;font-size:9px;font-weight:900;color:#332b46}
-.public-release-downloads-v142 a{min-height:38px;display:flex;align-items:center;justify-content:center;gap:6px;border-radius:10px;background:linear-gradient(135deg,#6748cf,#9473ea);color:#fff;text-decoration:none;font-size:9px;font-weight:900}
-.public-release-downloads-v142 a:last-child{background:#17131e}.public-release-downloads-v142 small{font-size:7px;opacity:.75}
 
 @media(max-width:760px){
   html,body{width:100%!important;max-width:100%!important;overflow:hidden!important}
@@ -4088,8 +4084,6 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   .login-compact-modal{inset:6px!important;width:calc(100vw - 12px)!important;height:calc(100dvh - 12px)!important;max-width:none!important;max-height:none!important;border-radius:16px!important}
   .account-settings-shell{grid-template-columns:1fr!important;grid-template-rows:auto minmax(0,1fr)!important}.account-settings-nav{grid-template-columns:repeat(3,minmax(0,1fr))!important;overflow-x:auto!important}.account-settings-panel{padding:12px!important;overflow-y:auto!important}
   .app-install-grid.app-install-v137{grid-template-columns:1fr!important;gap:9px!important}.app-install-grid.app-install-v137 .app-install-card{min-height:154px!important}
-  .public-release-downloads-v142{grid-template-columns:1fr}
-  .public-release-downloads-v142>span{grid-column:1}
   #recordStage :is(.record-layout,.album-layout),#eventStage :is(.event-layout,.travel-layout),#personalStage .personal-overview-layout{grid-template-columns:1fr!important}
   .modal,.overlay>.modal{width:calc(100vw - 14px)!important;max-width:none!important;margin:7px!important;border-radius:16px!important}
 }
@@ -4753,11 +4747,6 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
           <button type="button" class="secondary" id="logoutBtn" hidden>로그아웃</button>
         </div>
         <div class="google-status compact" id="googleStatus">Google 계정으로 로그인해주세요.</div>
-        <div class="public-release-downloads-v142" aria-label="AiderLog 파일 다운로드">
-          <span>로그인 없이 최신 파일을 받을 수 있습니다.</span>
-          <a href="./AiderLog-v142-stability.apk" download="AiderLog-v142-stability.apk" type="application/vnd.android.package-archive"><b>Android 앱</b><small>v142 APK</small></a>
-          <a href="./AiderLog-v142-site-files.zip" download="AiderLog-v142-site-files.zip" type="application/zip"><b>사이트 파일</b><small>전체 ZIP</small></a>
-        </div>
         <div class="firebase-pair-panel" id="firebasePairPanel" hidden>
           <div class="account-settings-shell">
             <nav class="account-settings-nav" aria-label="개인 설정 메뉴">
@@ -4830,8 +4819,8 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
               <section class="account-settings-panel" data-account-panel="app">
           <p class="firebase-storage-note">Spark 무료 요금제에서 동작합니다. 사진은 자동 압축되며 영상은 최대 5분·120MB까지 저장됩니다. 큰 영상은 무료 1GiB 저장공간을 빠르게 사용할 수 있습니다.</p>
           <div class="app-install-grid app-install-v137">
-            <article class="app-install-card windows"><i>PC</i><b>Windows PC 앱</b><p>AiderLog를 독립 창으로 설치하고 자동 시작과 작업표시줄 설정을 관리합니다.</p><button type="button" class="desktop-setup-open" id="desktopSetupBtn">PC 앱 설치·설정</button></article>
-            <article class="app-install-card android"><i>APK</i><b>Android 앱</b><p>위젯 안정화, 전역 글자 크기, 메모·우편·검색과 휠 조작 개선을 포함합니다.</p><a class="app-download-link" id="androidDownloadBtn" href="./AiderLog-v142-stability.apk" download="AiderLog-v142-stability.apk" type="application/vnd.android.package-archive" aria-label="AiderLog Android 앱 v142 APK 다운로드"><span>Android 앱 받기</span><small>v142 · APK</small></a><a class="app-download-link site-source-download" id="siteSourceDownloadBtn" href="./AiderLog-v142-site-files.zip" download="AiderLog-v142-site-files.zip" type="application/zip" aria-label="AiderLog 사이트 파일 ZIP 다운로드"><span>사이트 파일 받기</span><small>v142 · ZIP</small></a></article>
+            <article class="app-install-card windows"><i>PC</i><b>Windows PC 앱</b><p>AiderLog를 독립 창에서 사용할 수 있는 PC 환경을 안내합니다.</p></article>
+            <article class="app-install-card android"><i>APK</i><b>Android 앱</b><p>네이티브 위젯, 알림, 메모·우편과 행성 휠을 포함한 Android 버전입니다.</p></article>
           </div>
           <div class="login-data-summary"><b>기록 저장 안내</b><span>일정은 본인 공간에 저장되며 ‘커플과 공유’를 선택한 일정만 상대 캘린더에 표시됩니다.</span><span>EVENT는 커플 연결 시 함께 보고, 루틴·어학·PERSONAL·메모는 본인만 확인합니다.</span><span>PAPER·TASK는 허용된 두 계정만 열 수 있으며 같은 연구·상담 작업공간을 함께 사용합니다.</span><span>사진·영상은 압축 저장되며, 오래된 일반 기록은 삭제 전에 반드시 확인을 요청합니다.</span></div>
               </section>
@@ -8549,7 +8538,7 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   function populateDesktopPreferences(){const prefs=desktopPreferences();$('#desktopAutoStart').checked=!!prefs.autoStart;$('#desktopTaskbar').checked=!!prefs.taskbar;const installed=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;$('#desktopInstallConfirm').textContent=installed?'설정 저장':'설정 저장 · 앱 설치';$('#desktopInstallStatus').textContent=installed?'앱이 설치되어 있습니다.':''}
   function openDesktopSetup(){populateDesktopPreferences();openModal('desktopSetupModal')}
   window.addEventListener('beforeinstallprompt',event=>{event.preventDefault();deferredInstallPrompt=event;const button=$('#desktopSetupBtn');if(button)button.hidden=false});
-  $('#desktopSetupBtn').addEventListener('click',openDesktopSetup);
+  $('#desktopSetupBtn')?.addEventListener('click',openDesktopSetup);
   $('#desktopInstallConfirm').addEventListener('click',async()=>{const prefs={autoStart:$('#desktopAutoStart').checked,taskbar:$('#desktopTaskbar').checked};localStorage.setItem(DESKTOP_PREF_KEY,JSON.stringify(prefs));if(deferredInstallPrompt){deferredInstallPrompt.prompt();const choice=await deferredInstallPrompt.userChoice;deferredInstallPrompt=null;if(choice.outcome==='accepted'){$('#desktopInstallStatus').textContent='설치를 마친 뒤 Edge의 확인 화면에서 자동 시작과 작업표시줄 고정을 허용하세요.'}else $('#desktopInstallStatus').textContent='앱 설치를 취소했습니다. 설정은 저장되었습니다.'}else if(matchMedia('(display-mode: standalone)').matches){$('#desktopInstallStatus').textContent='설정을 저장했습니다. 작업표시줄 고정은 Windows 앱 메뉴에서 적용해주세요.'}else $('#desktopInstallStatus').textContent='Edge 메뉴의 “앱 → AiderLog 설치”를 선택한 뒤 다시 설정해주세요.'});
   function animateStandaloneFrame(id){const el=$(id);if(!el)return;el.classList.remove('line-active');void el.offsetWidth;el.classList.add('line-active')}
   function showMainTab(tab){
