@@ -1,5 +1,11 @@
 AiderLog 모바일 앱 설치 방법 (Android / Galaxy)
 
+최신 APK: AiderLog-v142-stability.apk
+- 사이트의 개인 페이지 > 앱에서 “Android 앱 받기”를 누르면 내려받을 수 있습니다.
+- 기존 v141과 같은 서명으로 제작되어 업데이트 설치할 수 있습니다.
+- 위젯 오류가 남아 있으면 기존 AiderLog 위젯만 제거한 뒤 v142 설치 후 다시 추가하세요.
+- “사이트 파일 받기”는 배포 가능한 전체 사이트 소스 ZIP을 내려받습니다.
+
 1. 이 폴더의 파일을 Vercel에 다시 배포합니다.
    - Vercel Root Directory는 비워 둡니다.
    - Root Directory는 비워 두세요.

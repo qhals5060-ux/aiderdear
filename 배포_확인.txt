@@ -1,3 +1,14 @@
+AiderLog Android v142 배포 확인
+
+- APK: /AiderLog-v142-stability.apk
+- 사이트 소스: /AiderLog-v142-site-files.zip
+- APK SHA-256: 4B06A43FB152A6EBCB3A6E7939C48A1D00F06FDF8CEB58AC2782E06B8C2CBCA9
+- 사이트 개인 페이지 > 앱에서 두 링크의 다운로드 응답과 파일명을 확인합니다.
+- Android에서 메모·우편·검색, 글자 크기 세 단계, 글로벌 휠 이동을 확인합니다.
+- 위젯은 테마와 노출 항목을 고른 뒤 홈 화면에 추가되고 앱이 종료되지 않아야 합니다.
+
+----------------------------------------
+
 AiderLog v121 배포 확인
 
 1. 이 폴더의 내용 전체를 Vercel 프로젝트 루트에 배포합니다. `api` 폴더도 함께 교체합니다.

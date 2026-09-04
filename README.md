@@ -1,4 +1,18 @@
-# AiderLog v121
+# AiderLog Android v142 · Site v121
+
+## Android v142 stability & usability
+
+- 앱 전체 글자 크기 설정, 완화된 큰 글씨, 안정적인 카드 레이아웃
+- 상단 안전 여백, 메모장·우편함 연결, 모바일 검색 팝업 정리
+- 즉시 반응하는 글로벌 행성 휠과 Paper · Task · Speech · Brain 이동
+- 21종 위젯의 설정 유지 및 예외 안전 갱신 경로
+- 사이트의 Android APK와 전체 사이트 소스 ZIP 직접 다운로드
+
+Android APK SHA-256: `4B06A43FB152A6EBCB3A6E7939C48A1D00F06FDF8CEB58AC2782E06B8C2CBCA9`
+
+---
+
+## Site v121
 
 ## v121 routine · language · travel · client · paper refinement
 
