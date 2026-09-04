@@ -1,4 +1,372 @@
-# AiderLog v88
+# AiderLog Android v146 · Site v121 + Work
+
+## v146 scope correction
+
+- 웹사이트는 기존 데스크톱 AiderLog v121 디자인으로 복구하고, 기존 `TASK` 바로 뒤에 대표용 `WORK` 탭만 추가했습니다.
+- 앱 전용 Paper · Brain · Speech · My 화면은 웹사이트의 기존 페이지를 대체하지 않습니다.
+- 웹사이트 개인 페이지의 `프로필 · 캘린더 · 앱` 중 앱 화면에 PC 사이트 ZIP과 Android APK 다운로드 버튼을 복원했습니다.
+- Android 앱의 행성 휠은 짧게 누르면 Home으로 이동하고, 길게 누른 채 끌면 `My · Language · Personal · Routine · Event`를 선택합니다.
+- 실행에 사용되지 않는 이전 APK, 중복 운동 애니메이션, 미리보기 산출물을 제거했습니다.
+
+Android APK SHA-256: `AFE4DB4B57F585171D808EE136F757E744614C8F266D113D8970BBE92579A266`
+
+---
+
+# AiderLog Android v144 · Site v121
+
+## Android v144 bright galaxy & tactile mail
+
+- 밝은 배경에서도 원래 은하 이미지를 유지하고 테마 색조만 밝게 조정
+- 사진 기반의 실제 종이 질감을 사용한 짧은 엽서와 봉투, 엽서 중앙선 제거
+- 행성 휠의 짧게 눌러 홈 이동 및 길게 눌러 확대·메뉴 열기 복원
+- 선택 날짜의 네온 원형 띠 축소 및 대한민국 공휴일 기본 표시
+- APK와 사이트 소스 ZIP은 배포 사이트가 아니라 Codex 결과물로 제공
+
+Android APK SHA-256: `1EBB20A1539DC4955B998EF3040C69E0FB5BEC125240B54E324C854A9DC82B30`
+
+---
+
+## Site v121
+
+## v121 routine · language · travel · client · paper refinement
+
+- ALL ROUTINES의 8개 요약 상자를 제거하고 개별 성취 통계, 꾸준한 루틴, 회복이 필요한 루틴 분석을 추가했습니다.
+- LANGUAGE LAB 선택창을 짧게 정리하고 학습 완료를 커플 또는 친구에게 보낼 수 있도록 했습니다.
+- Travel을 WANT · PLAN · 최신순 · + 기록 순서로 정돈하고 계획을 예약·장소·일정·준비가 있는 한 장의 PLAN으로 표현합니다.
+- 고객 추가 폼의 03·04 배치와 저장 버튼 아래 여백을 줄였습니다.
+- Paper 상단 프로젝트 바와 Research OS 표식을 제거하고 검색·논문 가져오기를 왼쪽에 배치했으며 전체 글자 크기를 줄였습니다.
+
+`const CACHE='aiderlog-v121-routine-language-travel-paper';`
+
+## v120 PAPER · Evidence-first Research OS
+
+- 기존 AiderLog 상단 탭과 메인 프레임은 유지하고 PAPER 내부만 Research Hub · Library · Evidence · Synthesis · Study Workspace · Brain Atlas 구조로 전면 개편했습니다.
+- 논문별 정독 화면에서 연구 질문, 표본 흐름, 측정·피처, 분석 파이프라인, 핵심/비유의 결과, 표·그림 지도, 재현성, 연구 아이디어를 한 흐름으로 확인합니다.
+- 원문 사실과 AI 해석을 분리하고, 6개 타당도 평가축·주장별 지지/제한 근거·편향 점검·연구 사용 결정을 근거 위치와 함께 표시합니다.
+- GPT Pro용 `AIDERLOG_PAPER_V3` 프롬프트와 붙여넣기 검사를 제공하며, 깊이·인용·위치·평가 근거를 통과한 결과만 Library와 Evidence에 저장합니다.
+- 상세 V3 분석은 논문별 Firestore 문서로 분리해 공동 PAPER/TASK 문서가 과도하게 커지지 않도록 했습니다.
+- 2D Brain Atlas는 정중 시상면, 4개 확대판, 방향축, 선택 영역의 미니 위치 지도와 연구 연결을 제공합니다.
+- 기존 PAPER 논문·Insight는 변환 없이 불러오며, 새 화면의 정보가 없는 항목은 원문 검토가 필요한 부분을 명시합니다.
+
+`const CACHE='aiderlog-v120-paper-research-os';`
+
+---
+
+# AiderLog v117
+
+## v117 Calendar · Routine · Language · Task fixes
+
+- 캘린더의 생리·본인/커플 감정을 날짜 오른쪽 아래 아이콘으로 표시하고, 3건 이상 일정은 날짜 셀 툴팁으로 전체 확인
+- 일정 소유자를 본인 붉은 계열·커플 푸른 계열로 구분하고 월간 목록의 이름 제거
+- 루틴 도넛과 8개 분석 카드를 축소하고 문구를 정리
+- 어학 레슨의 필 태그 제거, 시작 버튼 축소, COURSE SELECT와 MY WORDS 높이 재배분
+- 포모도로 FOCUS를 토마토 아이콘으로 변경
+- 고객 입력을 한 화면용 밀도와 필수/선택 안내로 재배치하고 다중전공·복수전공·부전공 저장 지원
+- 사용자 관리에서 Firebase Authentication 가입 이메일만 조회
+
+## v116 Readable Type · Interior Reflow
+
+- 메인 프레임과 11px 최소 글자 크기를 그대로 유지하고, SCHEDULE·ROUTINE·EVENT·PERSONAL·TASK의 내부 카드·행·팝업을 내용에 맞게 늘어나도록 재배치했습니다.
+- 접힌 페이지와 숨긴 미디어가 프레임 밖에 표시되던 문제를 막고, 긴 영역은 각 탭 내부에서 스크롤되도록 보정했습니다.
+- 로그인 전 계정 팝업의 불필요한 빈 공간과 반복 안내 문구를 없앴습니다.
+- PAPER 탭의 CSS, 배열과 글자 크기는 변경하지 않았습니다.
+
+`const CACHE='aiderlog-v116-readable-reflow';`
+
+---
+
+# AiderLog v114
+
+## v114 Language Lab · Communicative Course Rebuild
+
+- 학습 체계를 **CORE PATH / SITUATION LAB / REVIEW PATH**로 분리하고, 각 난이도를 8개 UNIT × 6개 Lesson으로 다시 구성했습니다.
+- 영어·일본어·중국어의 입문·기초·독립·고급·숙련 과정이 서로 다른 문장, 격식, 읽기 도움, 말하기 목표를 사용합니다.
+- 첫 만남 UNIT 15개(3개 언어 × 5개 난이도)는 자동 문장 조합이 아닌 언어·수준별 검수 콘텐츠로 교체했습니다.
+- CAN-DO와 STEP 1 선택지는 장면·의도·자연스러운 응답을 평가하며, 문장에 없는 단어 찾기 같은 억지 오답을 제거했습니다.
+- 표현 연결망을 같은 기능·자연스러운 응답·격식 차이·상황 확장·대화 유지의 다섯 범주로 고정했습니다.
+- COURSE SELECT에서 학습 경로, 8개 UNIT, 완료 수와 진행 상태를 한눈에 선택하며 데스크톱·모바일 겹침을 정리했습니다.
+
+`const CACHE='aiderlog-v114-language-course-rebuild';`
+
+---
+
+# AiderLog v113
+
+## v113 Language Lab · 84-day Core Path · Spaced Recall
+
+- 영어·일본어·중국어 코스를 **5개 표시 난이도와 10개 내부 단계(1A–5B)**로 재설계했습니다. 난이도마다 첫 주제, 문장 길이, 격식, 발화 과제가 실제로 달라집니다.
+- 각 난이도는 12주·84일 코어 패스로 구성되며, 매주 처음 만나기 → 응답 연결 → 조건 바꾸기 → 듣기 전환 → 혼합 회상 → 실전 역할극 → 주간 체크 순서로 진행합니다.
+- 코어 패스 외에 주제별 **상황 랩**과 12주 **체크포인트**를 제공합니다. 선택 연습은 순서와 관계없이 열 수 있습니다.
+- 입문 일본어에는 히라가나·로마자, 입문 중국어에는 병음·성조, 영어에는 리듬 덩어리를 표시합니다.
+- 기존의 일반적인 ‘표현 확장’을 핵심 표현·난이도 변형·상대의 자연스러운 응답·같은 장면의 다음 말로 구성된 표현 연결망으로 교체했습니다.
+- 학습 직후 `지금 2분 회상하기`를 제공하고 20분·1·3·7·14·30일 간격 복습을 자동 예약합니다. 완료한 Day는 언제든 `반복`으로 다시 열 수 있습니다.
+
+`const CACHE='aiderlog-v113-language-core-spaced-recall';`
+
+---
+
+# AiderLog v112
+
+## v112 Admin · Birthdays · Research Landscape
+
+- `qhals5060@gmail.com`으로 로그인한 경우에만 **AiderLog 계정 → 사용자 관리**가 표시됩니다. 서버 API가 Firebase ID 토큰의 이메일·이메일 인증·토큰 폐기 여부를 다시 검사한 뒤 로그인 계정의 안전한 프로필·가입·최근 로그인 정보만 반환합니다.
+- 프로필에 성별과 함께 생년월일, 양력·음력, 윤달을 저장합니다. 연결된 커플·친구의 생일은 AiderLog 캘린더에만 표시되며 Google Calendar에는 전송되지 않습니다.
+- PAPER 전체 타이포그래피와 카드 밀도를 정리하고 Library 다중 선택 삭제, 대상군·주제·방법 필터 기반 Research Landscape, 연구 공백 기반 Idea Opportunity Map을 추가했습니다.
+- Design Studio의 저장 설계마다 Library 유사 논문을 바탕으로 문헌 근거·대상 재현성·측정 가능성·분석 구체성·윤리·운영을 점검하고 실행 순서도와 알고리즘을 표시합니다.
+- GPT 붙여넣기 형식을 `NEURO_RESEARCH_WORKFLOW_V2`로 확장해 대상군 표준화, 주제, 설계군, 모달리티, 과제·측정, 예측변수·결과변수, 분석·검증, 자원·윤리·재현성, 연구 공백을 구조화합니다.
+- PAPER 왼쪽에 **My Lab**을 추가해 성균관대학교 Computational Brain Science and AI Laboratory의 공식 연구 방향과 대표 논문을 연구 워크스페이스 안에서 확인할 수 있습니다.
+
+`const CACHE='aiderlog-v112-admin-birthdays-research-landscape';`
+
+---
+
+# AiderLog v111
+
+## v111 Selective sharing · Evidence Insights · Design Studio
+
+- Google·Notion 등 외부에서 가져온 읽기 전용 일정도 일정 편집창에서 커플 공유를 켤 수 있습니다. 공유본은 상대 AiderLog에만 나타나며 어느 Google 캘린더에도 추가되지 않습니다.
+- PAPER Insights에 근거 품질 점수, 검토 우선순위, 논문 장별 커버리지, 단일 출처 주장 및 상충 근거 진단을 추가했습니다.
+- Language Lab의 `학습 초기화`와 `상대에게 보내기`를 최근 2주 기록 제목 오른쪽에 복원했습니다.
+- 앨범 폴더 편집창에서 공유할 연결 친구를 직접 선택하고, 사람별 읽기 전용 앨범 공유 상태를 유지합니다.
+- PAPER에 초보 연구자를 위한 Design Studio와 연구 질문→가설→측정→분석→검증→윤리 흐름을 추가했습니다. 뇌 노화·인지 기능·인지예비능·정신질환의 실제 PubMed 논문 5편과 완성된 종단 MRI 설계 예시를 제공합니다.
+
+`const CACHE='aiderlog-v111-sharing-insights-design-studio';`
+
+---
+
+# AiderLog v110
+
+## v110 Language · Album · Research Ideas · Modal Scroll
+
+- Language Lab에 사라졌던 언어·난이도 선택을 복원하고, 다른 탭과 같은 가로선·타이틀 헤더로 정리했습니다.
+- 앨범 폴더 편집 버튼을 실제 앨범 폼에 연결하고, 편집 중에는 `수정하기`와 `삭제하기`를 제공합니다. 친구 공유는 로컬 화면에 즉시 반영한 뒤 저장과 공유 동기화를 병렬 처리합니다.
+- PAPER에 Research Ideas 메뉴를 추가했습니다. 논문의 제한점, 상충 근거, 뇌 영역·회로, 모달리티, 연구 노트의 공백에서 아이디어 트리거를 만들고 가설·변수·설계·반증 기준·근거 연결을 저장합니다.
+- 지원 가능 대학원 분석 팝업을 Task 프레임 밖의 독립 레이어로 옮겨 메인 스크롤과 팝업 스크롤이 겹치지 않게 했습니다.
+
+`const CACHE='aiderlog-v110-workspace-usability-repair';`
+
+---
+
+# AiderLog v109
+
+## v109 Neuroscience evidence workspace
+
+- PAPER의 GPT 가져오기를 `AIDERLOG_PAPER_V1` JSON 기반으로 바꾸고, 연구 질문과 핵심 주장을 반영한 GPT Pro용 분석 프롬프트를 화면에서 바로 복사할 수 있게 했습니다.
+- 붙여넣은 결과는 저장 전에 JSON 형식, 논문 제목, Insight 수, 원문 인용 누락, 페이지·표·그림 위치 누락을 검사하고 미리보기로 보여줍니다. 기존 대괄호 텍스트 형식도 경고와 함께 계속 가져올 수 있습니다.
+- Insight에 원문 인용, 인쇄/PDF 페이지, 절·표·그림·부록, AI/사용자 출처, 검토 상태, 지지·반대·혼합, 논문 활용 장, 추출 신뢰도, 근거 수준, 연구 관련성, 반대 근거와 검토 이력을 분리했습니다.
+- Evidence 메뉴에 검토 대기열, 출처 누락, 인용 준비 상태, 주장별 지지·반대 Matrix와 현재 연구 모달리티·뇌 영역·임상 범위 지도를 추가했습니다.
+- 논문별로 뇌 영역·네트워크, 인지 기능, 질환·임상 특성, 종·표본, 모달리티, 과제, 연구 설계, 획득·전처리, 좌표공간·분석, 통계·효과크기·다중비교, 데이터·코드 공개 여부를 저장하고 비교합니다.
+- 기존 PAPER 논문과 Insight는 새 필드가 비어 있는 상태로 안전하게 유지되며, 기존 캘린더와 다른 탭의 기능은 변경하지 않았습니다.
+
+`const CACHE='aiderlog-v109-neuroscience-evidence-workspace';`
+
+---
+
+# AiderLog v108
+
+## v108 v100 Calendar connection recovery
+
+- 캘린더 연결 버튼을 v100에서 정상 동작했던 Firebase 브라우저 권한 방식으로 복원했습니다. 서버 OAuth 콜백과 배포된 API 버전이 맞지 않아도 로그인한 화면에서 바로 권한을 받고 캘린더 목록을 선택할 수 있습니다.
+- Google 로그인 팝업의 추가 매개변수를 v100과 동일하게 단순화하고, 브라우저 권한 성공·실패 단계를 토큰 없이 콘솔에 기록합니다.
+- 이전 버전에서 가져온 Google 일정이 남아 있으면 로컬 연결 표시가 사라졌더라도 브라우저 연결 상태를 복구합니다.
+- 연결 해제 시 브라우저 상태와 남아 있는 서버 연결을 함께 정리해 다음 연결이 오래된 상태에 막히지 않게 했습니다.
+
+`const CACHE='aiderlog-v108-calendar-browser-connection-recovery';`
+
+---
+
+# AiderLog v107
+
+## v107 Calendar recovery · readable analytics · clipping fixes
+
+- Google OAuth 콜백 뒤 서버 상태를 다시 확인하고, 상태 저장이 복구되지 않으면 브라우저 Calendar 권한 연결로 자동 전환합니다. 서버 로그에는 토큰을 제외한 연결 단계·캘린더 수·일정 수 진단 정보가 남습니다.
+- 루틴 전체 통계를 도넛 달성률, 최근 7일 증감, 실천 일관성, 꾸준한 루틴, 주요 강도와 MINI·MORE·MAX 분포로 확장했습니다.
+- 사이트 내부 어학 레슨의 높이를 부모 프레임 기준으로 계산해 하단 `정답 확인` 버튼이 항상 보이게 했습니다.
+- 뇌 모델을 안전 영역 안에 맞추고 DETAILED ATLAS INDEX와 연구 카드가 세로 스크롤 안에서 전부 표시되게 했습니다.
+- 지원 가능 대학원 분석의 개요·요약 높이를 정상 흐름으로 고정해 카드와 문구가 겹치지 않게 했습니다.
+
+`const CACHE='aiderlog-v107-calendar-ui-layout-recovery';`
+
+---
+
+# AiderLog v106
+
+## v106 Calendar recovery · archive/album polish · BIG GOALS routine workspace
+
+- 만료되거나 해제된 Google Calendar 권한을 정리한 뒤 다시 동의받으며, 서버 OAuth를 사용할 수 없을 때는 캘린더 선택이 가능한 브라우저 갱신 방식으로 전환합니다.
+- ARCHIVE와 Travel의 기준선을 맞추고 WISH LIST를 ARCHIVE 오른쪽 하단에 고정했습니다.
+- 앨범 폴더를 누르면 해당 폴더의 사진·동영상만 표시하며 폴더 이름과 색상을 편집할 수 있습니다.
+- 고객 추가 폼을 좌우 독립 열로 재배치하고 Overview의 지출 완료 확인을 체크리스트로 제공합니다.
+- 3개의 BIG GOALS가 각각 독립 만다라트를 가지며, BIG GOALS와 루틴 카드의 높이를 맞췄습니다.
+- 루틴은 한 카드 안에서 아이콘으로 전환하고, 색상과 기호가 함께 있는 스탬프 및 오른쪽 전체 인라인 펼침 화면을 제공합니다.
+
+서버 캘린더 쓰기와 자동 동기화에는 `firestore.rules` 배포 및 Google Calendar OAuth 환경변수가 필요합니다.
+
+`const CACHE='aiderlog-v106-calendar-archive-album-goals-routines';`
+
+---
+
+# AiderLog v104
+
+## v104 Calendar write-back · shared archives/albums · advisor matching · routine redesign
+
+- 선택한 Google 캘린더만 자동 동기화하고, 사이트에서 만든 일정을 쓰기 가능한 선택 캘린더로 바로 추가할 수 있습니다.
+- 불러온 Google 일정은 읽기 전용으로 유지하면서 일정별로 커플에게 공유하거나 해제할 수 있습니다.
+- EVENT 아카이브에 다녀온 장소와 `보고 싶은 것` 상태를 추가하고, 위시리스트를 한 팝업에서 모아봅니다.
+- 친구와 공유할 앨범을 지정할 수 있고 즐겨찾기 기록은 자동으로 `즐겨찾기` 앨범에 모입니다.
+- 대학원 상담의 내부 고객 폼과 외부 작성 링크에 여러 지도교수를 입력하며, 동일 지도교수 사례를 분석 가중치와 근거 카드에 반영합니다.
+- ROUTINE은 좌우 1:1 구조로 바꾸고 BIG GOALS 아래에 만다라트를, 오른쪽에는 루틴 요약 카드와 최근 30일 전체 통계를 배치했습니다. 펼치기에서 전체 스탬프를 기록합니다.
+
+서버 캘린더 쓰기와 자동 동기화에는 `firestore.rules` 배포 및 Google Calendar OAuth 환경변수가 필요합니다.
+
+`const CACHE='aiderlog-v104-calendar-events-albums-advisors-routine';`
+
+---
+
+# AiderLog v103
+
+## v103 Language practice · systematic workflow · Daily Brief
+
+- 어학 레슨 내부 스크롤이 바깥 페이지 전환에 가로막히지 않도록 휠·터치 이벤트와 레슨 레이아웃을 분리했습니다.
+- 첫 만남 회화는 실제 대화 순서에 맞게 이름 소개, 참석 이유, 하는 일, 마무리까지 이어지고 매 턴 2~3개의 자연스러운 선택지를 제공합니다.
+- `Nice to meet you`, `Good to see you`, `It was great meeting you`의 사용 시점을 구분해 학습 내용과 실전 대화를 일치시켰습니다.
+- 버피 설명을 짧게 정리하고 움직이는 스텝 백 버피와 푸시업 버피를 추가했습니다.
+- 워크플로우에 우선순위, 업무 유형, 예상 시간, 완료 기준, 리스크, 태그, 단계 체크, 오늘의 집중 순서와 WIP 표시를 추가했습니다.
+- 불렛저널을 기록 개수·활성 영역·할 일 진행·다음 일정을 먼저 보여주는 현대적인 Daily Brief로 재설계했습니다.
+
+`const CACHE='aiderlog-v103-language-workflow-daily-brief';`
+
+---
+
+# AiderLog v102
+
+## v102 Automatic calendar sync · TASK analysis clarity
+
+- Google Calendar 연결을 브라우저 임시 토큰이 아닌 서버 refresh token 방식으로 전환해, 선택한 캘린더만 자동 동기화합니다.
+- Google 변경 알림(webhook), 앱 실행·복귀·온라인 복구 시 갱신, 매일 구독 갱신 cron을 함께 사용합니다.
+- 기존 임시 연결 사용자는 배포 후 개인 설정 → 캘린더의 `자동 동기화 켜기`를 한 번 눌러 전환합니다.
+- TASK 상담 캘린더의 오늘 칸을 전용 `is-today` 스타일로 분리해 전역 `today` 스타일 충돌을 제거했습니다.
+- 대학원 분석은 학업·연구·어학·전공 적합·활동·지원 설계의 6개 축, 증빙 8개 항목, 유사 사례, 결과 표본과 신뢰도를 함께 반영합니다.
+- 학위 과정·학점·학점 만점·논문/학회/발표/포트폴리오 입력을 내부 고객 폼과 외부 접수 폼에 추가했습니다.
+
+서버 자동 동기화에는 `.env.example`의 Firebase 서비스 계정, Google Calendar OAuth, `CALENDAR_STATE_SECRET`, `CRON_SECRET`, `PUBLIC_APP_URL` 설정이 필요합니다.
+
+`const CACHE='aiderlog-v102-calendar-auto-sync-task-analysis';`
+
+---
+
+# AiderLog v95
+
+## v95 Real trainer motion · repeatable DAY sessions
+
+- 런지·스쿼트·플랭크의 세부 동작 9종을 실사 트레이너 애니메이션으로 교체했습니다.
+- 세부 동작을 바꾸면 사진 시퀀스와 정렬·호흡·지지점 설명이 함께 바뀝니다.
+- `30 DAY · 성별 기준` 문구를 없애고 운동 이름 옆에서 동작을 바로 선택합니다.
+- 30개 DAY 버튼이 카드 내부에서 잘리지 않도록 높이와 스크롤 여유를 보강했습니다.
+- 같은 DAY를 하루에 여러 번 추가할 수 있으며, 누적 회차 배지와 회차별 수정·삭제를 지원합니다.
+- 기존 챌린지 기록은 1회차로 보존되고 이후 기록부터 2회차 이상으로 누적됩니다.
+
+`const CACHE='aiderlog-v95-real-trainer-multi-session';`
+
+---
+
+# AiderLog v94
+
+## v94 Login separation · full couple EVENT workspace
+
+- AiderLog 계정 로그인과 Google Calendar 읽기 권한을 별도 상태로 표시합니다. 캘린더 OAuth 설정 오류가 로그인 실패처럼 보이지 않습니다.
+- 팝업 차단·웹 저장소 제한 환경에서는 Firebase 리디렉션 로그인으로 복구합니다.
+- 커플 연결 시 두 사용자의 기존 `Record · Album · Archive · Travel · Bucket` 자료를 커플 EVENT 공간에 한 번씩 병합합니다.
+- 커플 연결 이후 EVENT의 새 기록과 첨부 미디어는 커플 공간에 저장되어 양쪽에서 실시간으로 확인합니다.
+- 혼자 사용하던 시기의 EVENT 첨부 미디어도 커플 공간으로 이관할 수 있도록 개인 미디어 Firestore 규칙을 추가했습니다.
+
+배포 시 `firestore.rules`를 반드시 함께 게시하세요. Google Calendar 단방향 실시간 연동은 아래 OAuth 설정도 필요합니다.
+
+- OAuth 동의 화면이 테스트 상태라면 `qhals5060@gmail.com`, `aidway55@gmail.com`을 테스트 사용자로 등록
+- 승인된 JavaScript 원본: `https://aiderdear1.vercel.app`
+- 승인된 리디렉션 URI: `https://aiderdear1.vercel.app/api/calendar-sync?action=callback`
+- Vercel 환경변수: `PUBLIC_APP_URL`, `GOOGLE_CALENDAR_CLIENT_ID`, `GOOGLE_CALENDAR_CLIENT_SECRET`, `CALENDAR_STATE_SECRET`
+
+`const CACHE='aiderlog-v94-auth-event-couple-share';`
+
+---
+
+# AiderLog v93
+
+## v93 Movement challenge · InBody trend
+
+- 운동 기록 카드에 `EDIT` 동작을 추가해 일반 운동 기록을 다시 열어 수정할 수 있습니다.
+- 30일 챌린지는 날짜 칸을 직접 선택해 완료 여부를 확인하고, 이미 저장한 날짜의 기록·동작·날짜를 수정할 수 있습니다.
+- 스트레칭 챌린지를 제거하고 런지·스쿼트·플랭크마다 세 가지 세부 동작을 선택할 수 있게 했습니다.
+- 정지 이미지 대신 선택한 동작을 반복 시연하는 움직임 가이드와 저장 직후 파란 완료 애니메이션을 표시합니다.
+- DayLog의 `+ 운동`과 `30일 챌린지` 사이에 `InBody` 기록을 추가했습니다.
+- InBody는 체중, 골격근량, 체지방량·체지방률, BMI, 내장지방 레벨을 저장·수정·삭제할 수 있습니다.
+- Overview의 `InBody` 보기에서 최신 변화량, 최근 12회 추이 그래프와 측정 내역을 확인할 수 있습니다.
+
+`const CACHE='aiderlog-v93-movement-inbody';`
+
+---
+
+# AiderLog v92
+
+## v92 Routine recovery · 24-hour shared media · calendar fallback
+
+- 캘린더·미디어 연동이 실패해도 개인 기록 로드가 중단되지 않도록 루틴 데이터를 가장 먼저 불러옵니다.
+- PAPER·TASK 공유 작업공간 오류도 루틴 열람과 생성·저장을 막지 않습니다.
+- SCHEDULE 사진/동영상은 연결된 커플·친구 중 선택한 사람에게만 공유되고, 24시간 뒤 화면에서 사라집니다.
+- 여러 사람이 올린 미디어는 이전/다음으로 넘겨 보며, 다운로드와 내 화면에서 닫기, 작성자의 전체 삭제를 지원합니다.
+- Vercel OAuth 환경변수가 아직 없는 경우에도 Google Calendar는 브라우저 연결로 전환되어 앱 실행 중 2분마다 단방향 갱신됩니다.
+
+Firestore 배포 시 `firestore.rules`의 `ephemeralMedia` 규칙도 함께 반영해야 합니다.
+
+`const CACHE='aiderlog-v92-routine-ephemeral-calendar-recovery';`
+
+---
+
+## v91 Private schedules · one-way live calendar sync
+
+- 상단에는 로그인 닉네임만 표시하고, 이름을 누르면 짧은 탭형 개인 설정이 열립니다.
+- 개인 설정의 `캘린더`에서 Google Calendar와 Notion 데이터베이스를 연결·해제·새로고침할 수 있습니다.
+- Google Calendar는 push webhook, Notion은 integration webhook을 받아 외부 일정을 Firestore의 내 일정에 읽기 전용으로 반영합니다.
+- Samsung Calendar는 공개 웹 API 제약 때문에 Google 계정에 저장된 삼성 일정이 Google 연결을 통해 함께 들어옵니다.
+- 사이트에서 만든 일정은 항상 작성자 개인 공간에 저장되고, `커플과 공유`를 선택한 일정만 상대의 공유 피드에 복제됩니다.
+- SCHEDULE의 보민·Aidway·공유 필터를 제거하고, 상대가 공유한 일정은 상대 고유 색상을 유지합니다.
+
+배포 전에 Vercel 환경 변수와 외부 OAuth 설정을 완료하세요. 자세한 값은 `.env.example`을 참고합니다.
+
+Google Cloud OAuth 리디렉션 URI:
+
+`https://YOUR_DOMAIN/api/calendar-sync?action=callback`
+
+Google Calendar webhook URL:
+
+`https://YOUR_DOMAIN/api/calendar-sync?action=google-webhook`
+
+Notion OAuth 리디렉션 URI 및 webhook URL:
+
+`https://YOUR_DOMAIN/api/calendar-sync?action=callback`
+
+`https://YOUR_DOMAIN/api/calendar-sync?action=notion-webhook`
+
+`const CACHE='aiderlog-v91-private-live-calendar-sync';`
+
+---
+
+## v90 Gender profile · shared PAPER/TASK workspace
+
+- 로그인 프로필에 여성/남성 선택을 추가하고 운동 챌린지의 목표량·동작 설명을 선택한 기준에 맞춥니다.
+- 여성 프로필에서만 감정 기록에 생리일 항목이 나타납니다.
+- D-DAY 아래 `This Month` 일정은 한 줄 말줄임으로 정리되어 노트 라인을 침범하지 않습니다.
+- `PAPER`와 `TASK`는 `qhals5060@gmail.com`, `aidway55@gmail.com`에만 노출되며 두 계정이 동일한 Firestore 작업공간과 TASK 파일을 실시간으로 공유합니다.
+
+- 커플 일정은 저장 당시 `mine` 값이 아니라 작성자 계정으로 다시 판별해 상대 고유 색상으로 표시합니다.
+- SCHEDULE에서 Google Calendar를 읽기 전용으로 연결하고 선택한 캘린더의 일정과 색상을 가져올 수 있습니다.
+- Notion에서 내보낸 CSV 또는 ICS 일정 파일을 SCHEDULE로 가져올 수 있습니다.
+- LANGUAGE LAB 최근 달력 왼쪽 위에 `최근 2주 기록` 제목을 추가했습니다.
+- PERSONAL 건강의 `+ 운동` 옆에 런지·스쿼트·플랭크·스트레칭 30일 챌린지를 추가했습니다.
+- 챌린지에는 동작 이미지, 매일 목표, 30일 진행률이 표시되며 완료 기록은 최근 운동과 삭제 흐름에 함께 반영됩니다.
+
+`const CACHE='aiderlog-v90-gender-shared-paper-task';`
 
 ## v88 Mail retention · protected Paper/Task backup
 

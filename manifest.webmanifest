@@ -1,21 +1,24 @@
 {
+  "id": "./",
   "name": "AiderLog",
   "short_name": "AiderLog",
   "start_url": "./",
+  "scope": "./",
   "display": "standalone",
-  "background_color": "#f5f7fb",
-  "theme_color": "#f5f7fb",
-  "orientation": "portrait-primary",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "orientation": "any",
+  "background_color": "#46444D",
+  "theme_color": "#46444D",
+  "lang": "ko-KR",
+  "categories": ["lifestyle", "productivity", "education"],
+  "description": "AiderLog",
   "icons": [
-    {
-      "src": "aiderdear-icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "aiderdear-icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    }
+    {"src":"./aiderdear-icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any"},
+    {"src":"./aiderdear-icon-192.png","sizes":"192x192","type":"image/png","purpose":"any maskable"},
+    {"src":"./aiderdear-icon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}
+  ],
+  "shortcuts": [
+    {"name":"일정 보기","short_name":"일정","url":"./"},
+    {"name":"기록 검색","short_name":"검색","url":"./#search"}
   ]
 }

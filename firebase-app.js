@@ -2,12 +2,10 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.10.0/fireba
 import {
   browserLocalPersistence,
   getAuth,
-  getRedirectResult,
   GoogleAuthProvider,
   onAuthStateChanged,
   reauthenticateWithPopup,
   setPersistence,
-  signInWithCredential,
   signInWithPopup,
   signInWithRedirect,
   signOut,
@@ -382,6 +380,20 @@ function paperTaskWorkspaceRef() {
   return doc(db, 'sharedWorkspaces', PAPER_TASK_WORKSPACE_ID);
 }
 
+function paperAnalysisDocumentId(paperId) {
+  const value = String(paperId || '').trim();
+  if (!value) throw new Error('논문 ID가 필요합니다.');
+  const bytes = new TextEncoder().encode(value);
+  let binary = '';
+  bytes.forEach(byte => { binary += String.fromCharCode(byte); });
+  return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/g, '').slice(0, 900);
+}
+
+function paperAnalysisRef(paperId) {
+  requirePaperTaskMember();
+  return doc(db, 'sharedWorkspaces', PAPER_TASK_WORKSPACE_ID, 'paperAnalyses', paperAnalysisDocumentId(paperId));
+}
+
 function pairScope() {
   const user = requireUser();
   return state.pair
@@ -398,21 +410,6 @@ async function login() {
   state.error = '';
   const provider = new GoogleAuthProvider();
   provider.setCustomParameters({ prompt: 'select_account' });
-  // Google blocks OAuth inside embedded WebViews, while a popup delegated to a
-  // browser loses Firebase's opener. Start the authorization in the system
-  // browser and return the verified Google credential through the app link.
-  if (/\bAiderLogAndroid\//.test(navigator.userAgent) || window.AiderLogNative) {
-    if (typeof window.AiderLogNative?.startGoogleLogin !== 'function') {
-      throw new Error('Android 로그인 연결을 시작할 수 없습니다. 앱을 최신 버전으로 업데이트해주세요.');
-    }
-    const bytes = crypto.getRandomValues(new Uint8Array(24));
-    const oauthState = Array.from(bytes, value => value.toString(16).padStart(2, '0')).join('');
-    localStorage.setItem('aiderlogAndroidOAuthState', oauthState);
-    const authUrl = new URL('/android-auth.html', location.origin);
-    authUrl.searchParams.set('state', oauthState);
-    window.AiderLogNative.startGoogleLogin(authUrl.href);
-    return null;
-  }
   try {
     return await signInWithPopup(auth, provider);
   } catch (error) {
@@ -428,26 +425,6 @@ async function login() {
     }
     throw error;
   }
-}
-
-async function completeAndroidGoogleSignIn(callbackUrl) {
-  const parsed = new URL(String(callbackUrl || ''));
-  if (parsed.protocol !== 'aiderlog:' || parsed.hostname !== 'auth') {
-    throw new Error('올바르지 않은 Android 로그인 응답입니다.');
-  }
-  const expectedState = localStorage.getItem('aiderlogAndroidOAuthState') || '';
-  const returnedState = parsed.searchParams.get('state') || '';
-  localStorage.removeItem('aiderlogAndroidOAuthState');
-  if (!expectedState || !returnedState || expectedState !== returnedState) {
-    throw new Error('로그인 보안 확인에 실패했습니다. 다시 로그인해주세요.');
-  }
-  const authError = parsed.searchParams.get('error') || '';
-  if (authError) throw new Error(decodeURIComponent(authError));
-  const idToken = parsed.searchParams.get('id_token') || '';
-  const accessToken = parsed.searchParams.get('access_token') || '';
-  if (!idToken && !accessToken) throw new Error('Google 로그인 인증 정보를 받지 못했습니다.');
-  const credential = GoogleAuthProvider.credential(idToken || null, accessToken || null);
-  return signInWithCredential(auth, credential);
 }
 
 async function logout() {
@@ -1250,6 +1227,35 @@ function watchPaperTaskData(callback) {
   );
 }
 
+async function readPaperAnalysis(paperId) {
+  const snapshot = await getDoc(paperAnalysisRef(paperId));
+  if (!snapshot.exists()) return null;
+  const row = snapshot.data() || {};
+  return row.payload || null;
+}
+
+async function writePaperAnalysis(paperId, payload) {
+  const user = requirePaperTaskMember();
+  const cleanPayload = JSON.parse(JSON.stringify(payload || {}));
+  const bytes = new TextEncoder().encode(JSON.stringify(cleanPayload)).byteLength;
+  if (bytes > 850000) throw new Error('분석 결과가 너무 큽니다. 표·그림 원본 파일은 제외하고 JSON 설명만 저장해주세요.');
+  await setDoc(paperAnalysisRef(paperId), {
+    paperId: String(paperId),
+    schema: String(cleanPayload.schema || ''),
+    payload: cleanPayload,
+    byteSize: bytes,
+    updatedAt: serverTimestamp(),
+    updatedBy: user.uid,
+    updatedByEmail: user.email,
+  });
+  return { paperId: String(paperId), byteSize: bytes };
+}
+
+async function deletePaperAnalysis(paperId) {
+  requirePaperTaskMember();
+  await deleteDoc(paperAnalysisRef(paperId));
+}
+
 function emotionRef(uid) {
   const user = requireUser();
   if (state.pair) return doc(db, 'pairs', state.pair.id, 'emotions', uid);
@@ -1846,8 +1852,8 @@ async function submitClientIntake(token, payload = {}) {
     status: 'new',
     createdAt: serverTimestamp(),
   };
-  if (!data.name || !data.phone || !applicationYear || !applicationSemester) {
-    throw new Error('이름, 연락처, 진학 희망 학년도와 학기를 모두 입력해주세요.');
+  if (!data.name || !data.phone || !data.email || !data.birthYear || !data.gender || !applicationYear || !applicationSemester) {
+    throw new Error('개인 정보와 진학 희망 학년도·학기를 모두 입력해주세요.');
   }
   if ((data.gpa && !data.gpaScale) || (!data.gpa && data.gpaScale)) {
     throw new Error('학점과 학점 만점을 함께 입력해주세요.');
@@ -1887,7 +1893,6 @@ const api = {
     return () => subscribers.delete(callback);
   },
   login,
-  completeAndroidGoogleSignIn,
   logout,
   createInvite,
   acceptInvite,
@@ -1914,6 +1919,9 @@ const api = {
   readPaperTaskData,
   writePaperTaskData,
   watchPaperTaskData,
+  readPaperAnalysis,
+  writePaperAnalysis,
+  deletePaperAnalysis,
   readEmotionData,
   writeEmotionData,
   uploadMedia,
@@ -1951,15 +1959,6 @@ window.AiderDearFirebase = api;
 window.dispatchEvent(new CustomEvent('aiderdear-firebase-ready'));
 
 await setPersistence(auth, browserLocalPersistence);
-let pendingRedirectError = '';
-try {
-  await getRedirectResult(auth);
-} catch (error) {
-  console.error('[android-auth] redirect-result-failed', error?.code || error?.message || String(error));
-  pendingRedirectError = error?.code === 'auth/unauthorized-domain'
-    ? '현재 주소가 Firebase 승인 도메인에 등록되지 않았습니다.'
-    : (error?.message || 'Google 로그인 결과를 확인하지 못했습니다. 다시 로그인해주세요.');
-}
 onAuthStateChanged(auth, async user => {
   stopListeners();
   state.user = null;
@@ -1971,8 +1970,7 @@ onAuthStateChanged(auth, async user => {
   state.friendIncoming = [];
   state.friendOutgoing = [];
   state.directLetters = [];
-  state.error = pendingRedirectError;
-  pendingRedirectError = '';
+  state.error = '';
   if (user) {
     try {
       state.user = await ensureUserProfile(user);

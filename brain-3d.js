@@ -24,9 +24,11 @@
   }
 
   function corticalRegion(x, y) {
-    if (x < -0.48) return 'frontal';
-    if (x > 0.88) return 'occipital';
-    if (y < -0.24) return 'temporal';
+    /* Anatomical boundaries are evaluated in model space, so rotating the
+       camera never reassigns a point to another lobe. */
+    if (x > 0.86 + Math.max(0, y) * 0.12) return 'occipital';
+    if (y < -0.22 + Math.max(-0.08, x) * 0.08) return 'temporal';
+    if (x < -0.24 + y * 0.16) return 'frontal';
     return 'parietal';
   }
 
@@ -47,14 +49,16 @@
     if (!options.brainShape) return point;
     var nx = Math.cos(latitude) * Math.cos(longitude);
     var ny = Math.sin(latitude);
-    var frontalBulge = Math.max(0, -nx - 0.28);
-    var occipitalTaper = Math.max(0, nx - 0.52);
-    point.x -= frontalBulge * 0.055;
-    point.x -= occipitalTaper * 0.045;
-    point.y += frontalBulge * 0.035;
-    if (ny < -0.38) point.y += Math.abs(ny + 0.38) * 0.16;
+    var frontalBulge = Math.max(0, -nx - 0.22);
+    var occipitalTaper = Math.max(0, nx - 0.48);
+    var temporalDrop = Math.max(0, -ny - 0.22) * Math.max(0, 1 - Math.abs(nx) * 0.7);
+    point.x -= frontalBulge * 0.09;
+    point.x -= occipitalTaper * 0.07;
+    point.y += frontalBulge * 0.045;
+    point.y -= temporalDrop * 0.085;
+    if (ny < -0.5) point.y += Math.abs(ny + 0.5) * 0.11;
     if (ny > 0.66) point.y -= (ny - 0.66) * 0.07;
-    point.z *= 1 - occipitalTaper * 0.045;
+    point.z *= 1 - occipitalTaper * 0.06;
     return point;
   }
 
@@ -105,10 +109,10 @@
         id: 'cortex',
         cx: -0.03,
         cy: 0.12,
-        cz: side * 0.39,
+        cz: side * 0.43,
         rx: 1.49,
         ry: 1.03,
-        rz: 0.46,
+        rz: 0.405,
         gyri: true,
         brainShape: true,
         classify: function (point) { return corticalRegion(point.x, point.y); }
@@ -287,8 +291,12 @@
       context.fill();
       var yaw = Number(state.rotation || 0) * Math.PI / 180;
       var pitch = Number(state.pitch || 0) * Math.PI / 180;
+      var visibleSide = Math.cos(yaw) >= 0 ? 1 : -1;
       var focused = Boolean(state.focused && regionAnchors[state.region]);
-      var project = projector(width, height, yaw, pitch, focused ? regionAnchors[state.region] : null, focused ? 1.42 : 0.9);
+      var focusAnchor = focused ? Object.assign({}, regionAnchors[state.region], { z: Math.abs(regionAnchors[state.region].z) * visibleSide }) : null;
+      /* Leave a reliable safe area for labels, the brainstem and the drop shadow.
+         The previous 0.9 fit touched the scene edge at wide desktop aspect ratios. */
+      var project = projector(width, height, yaw, pitch, focusAnchor, focused ? 1.28 : 0.82);
       var triangles = [];
       buildMeshes().forEach(function (mesh) {
         var isCortex = mesh.id === 'cortex';
@@ -309,15 +317,16 @@
           };
           var region = mesh.classify(centroid);
           var subregion = null;
-          if (focused && region === state.region && centroid.z > 0 && Array.isArray(state.subregions) && state.subregions.length) {
+          if (focused && region === state.region && centroid.z * visibleSide > 0 && Array.isArray(state.subregions) && state.subregions.length) {
             subregion = state.subregions.filter(function (item) { return item.anchor; }).map(function (item, index) {
               var dx = centroid.x - item.anchor.x;
               var dy = centroid.y - item.anchor.y;
-              var dz = centroid.z - item.anchor.z;
+              var dz = centroid.z - Math.abs(item.anchor.z) * visibleSide;
               return { item: item, index: index, distance: dx * dx + dy * dy + dz * dz * .36 };
             }).sort(function (a, b) { return a.distance - b.distance; })[0] || null;
           }
           var normal = faceNormal(rotated[face[0]], rotated[face[1]], rotated[face[2]]);
+          if (alpha > 0.8 && normal.z < 0.015) return;
           triangles.push({
             points: [projected[face[0]], projected[face[1]], projected[face[2]]],
             depth: (rotated[face[0]].z + rotated[face[1]].z + rotated[face[2]].z) / 3,
@@ -353,12 +362,14 @@
         : ['frontal', 'parietal', 'temporal', 'occipital', 'cerebellum', 'brainstem'];
       if (focused) allowed = [state.region];
       hits = allowed.map(function (id) {
-        var point = project(regionAnchors[id]);
+        var anchor = Object.assign({}, regionAnchors[id], { z: Math.abs(regionAnchors[id].z) * visibleSide });
+        var point = project(anchor);
         return { kind: 'region', id: id, x: point.x, y: point.y };
       });
       hits.forEach(function (hit) { drawLabel(context, hit, hit.id === state.region, regions); });
       var subregionHits = (focused ? state.subregions || [] : []).filter(function (item) { return item.anchor; }).map(function (item, index) {
-        var point = project(item.anchor);
+        var anchor = Object.assign({}, item.anchor, { z: Math.abs(item.anchor.z) * visibleSide });
+        var point = project(anchor);
         var direction = index % 2 ? 1 : -1;
         var row = Math.floor(index / 2);
         return { kind: 'subregion', id: item.id, label: item.ko, color: item.color || subregionPalette[index % subregionPalette.length], anchorX: point.x, anchorY: point.y, x: Math.max(66, Math.min(width - 66, point.x + direction * (48 + row * 7))), y: Math.max(22, Math.min(height - 22, point.y + (index % 3 - 1) * 21)) };
