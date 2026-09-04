@@ -1,4 +1,12 @@
-# AiderLog Android v149 · Site v121 + Work
+# AiderLog Android v150 · Site v121 + Work
+
+## v150 Android touch reliability and 15 home widgets
+
+- Keeps the idle planet artwork in its original lower-right peek position while moving its transparent 100×100 touch target inside the safe viewport.
+- Uses a single window-capture pointer controller for tap-to-home and hold-drag destination navigation on Samsung WebView.
+- Registers 15 installable widgets: five Schedule, Bullet Journal, two Routine, Language streak, Meal photos, and five Workout variants.
+- Each installed widget can reopen `꾸미기` to change its theme, opacity (20% steps), font size (five steps), and applicable content.
+- Unfolded Galaxy Fold displays app text about 6% larger while Flip and cover displays retain the compact scale.
 
 ## v149 foldable app, widgets and Language Lab v2
 
@@ -8,9 +16,9 @@
 - Calendar spacing, current-date ring, schedule form, Routine, Daylog, Private Universe and account/settings density were refined for Galaxy Flip/Fold 3–8.
 - Language Lab uses the validated split v2 bundle: 3 languages, 5 levels per language, 8 units and 80 lessons per course. Only the selected course is parsed and cached.
 - Language progress is keyed by user/language/level/unit/lesson, preserves legacy progress and syncs between the website and Android app for the same account.
-- The profile App page downloads the current v149 site archive and signed Android APK.
+- The profile App page downloads the current v150 site archive and signed Android APK.
 
-Android APK SHA-256: `7007B7B8DE4BD9067F01437C7573930C7552B64BF928CE7D82FC83626C51627D`
+Android APK SHA-256: `E1A6BBB203A5F834BC0055D20FEDE58F9A89BCAEC8A914603859E79C5AC19B31`
 
 ---
 
