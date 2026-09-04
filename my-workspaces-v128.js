@@ -28,6 +28,7 @@
   const currentUid = () => String((typeof authState !== 'undefined' && authState?.user?.uid) || window.AiderDearFirebase?.getState?.().user?.uid || '').trim();
   const canUsePaper = () => previewMode() || ['qhals5060@gmail.com','aidway55@gmail.com'].includes(currentEmail());
   const canUseWork = () => previewMode() || ['qhals5060@gmail.com','aidway55@gmail.com'].includes(currentEmail());
+  const canUseTraining = () => previewMode() || currentEmail() !== 'aidway55@gmail.com';
 
   const icon = (name, size = 24) => {
     const paths = {
@@ -240,12 +241,13 @@
     const reviewed = data.paperItems.filter(row => row.status === 'reviewed').length;
     const paperSummary = canUsePaper() ? `<article><span>PAPERS</span><b>${data.paperItems.length}</b><small>${reviewed} reviewed</small></article>` : '';
     const workSummary = canUseWork() ? `<article><span>WORK</span><b>${(data.workItems||[]).filter(row=>row.status!=='완료').length}</b><small>active</small></article>` : '';
+    const trainingSummary = canUseTraining() ? `<article><span>SPEECH</span><b>${speechCount}</b><small>sessions</small></article><article><span>BRAIN</span><b>${brainCount}</b><small>training</small></article>` : '';
     const paperTool = canUsePaper() ? `<button class="my128-tool paper" data-my128-open="paper"><i>${icon('paper',28)}</i><span>RESEARCH WORKSPACE</span><h2>Paper</h2><p>Library, Evidence, Synthesis, Study Workspace와 Brain Atlas를 사용합니다.</p><footer><b>${data.paperItems.length} papers</b><em>OPEN</em></footer></button>` : '';
     const workTools = canUseWork() ? `<button class="my128-tool task" data-my128-open="task"><i>${icon('task',28)}</i><span>CONSULTING DESK</span><h2>Task</h2><p>고객 정보, 마감 과업, 상담 기록, 파일과 지원 결과를 관리합니다.</p><footer><b>${data.consultingClients.length} clients · ${pending} pending</b><em>OPEN</em></footer></button><button class="my128-tool work" data-my128-open="work"><i>${icon('calendar',28)}</i><span>OWNER OPERATIONS</span><h2>Work</h2><p>국가과제·바이오 연구·행정·지출·직원 업무와 대표 결정을 관리합니다.</p><footer><b>${(data.workItems||[]).length} records</b><em>OPEN</em></footer></button>` : '';
-    return `<div class="page my128-page"><header class="my128-head"><div><small>PRIVATE UNIVERSE</small><h1>My</h1><p>연구·사업 운영·대화·인지 훈련을 계정별 개인 공간에서 안전하게 이어갑니다.</p></div><span>PRIVATE</span></header><div class="my128-scroll"><section class="my128-summary">${paperSummary}${workSummary}<article><span>SPEECH</span><b>${speechCount}</b><small>sessions</small></article><article><span>BRAIN</span><b>${brainCount}</b><small>training</small></article></section><section class="my128-tools">
+    const trainingTools = canUseTraining() ? `<button class="my128-tool speech" data-my128-open="speech"><i>${icon('speech',28)}</i><span>THINKING &amp; CONVERSATION</span><h2>Speech Training</h2><p>첫 답변과 수정 답변을 녹음하고 근거와 전달 리듬을 비교합니다.</p><footer><b>${speechCount ? `최근 ${speechCount}회` : '오늘 훈련 시작'}</b><em>TRAIN</em></footer></button><button class="my128-tool brain" data-my128-open="brain"><i>${icon('brain',28)}</i><span>OFFLINE COGNITIVE WELLNESS</span><h2>Brain Training</h2><p>기억·주의·작업기억·집행/공간·지연 회상을 52주 프로그램으로 훈련합니다.</p><footer><b>${brainCount ? `최근 ${brainCount}회` : '첫 기준선 측정'}</b><em>START</em></footer></button>` : '';
+    return `<div class="page my128-page"><header class="my128-head"><div><small>PRIVATE UNIVERSE</small><h1>My</h1><p>연구·사업 운영·대화·인지 훈련을 계정별 개인 공간에서 안전하게 이어갑니다.</p></div><span>PRIVATE</span></header><div class="my128-scroll"><section class="my128-summary">${paperSummary}${workSummary}${trainingSummary}</section><section class="my128-tools">
       ${paperTool}${workTools}
-      <button class="my128-tool speech" data-my128-open="speech"><i>${icon('speech',28)}</i><span>THINKING &amp; CONVERSATION</span><h2>Speech Training</h2><p>어휘·논리·설득·반론·질문을 글로 훈련해 성숙한 대화 구조를 만듭니다.</p><footer><b>${speechCount ? `최근 ${speechCount}회` : '오늘의 25분 시작'}</b><em>TRAIN</em></footer></button>
-      <button class="my128-tool brain" data-my128-open="brain"><i>${icon('brain',28)}</i><span>OFFLINE COGNITIVE WELLNESS</span><h2>Brain Training</h2><p>기억·주의·작업기억·집행/공간·지연 회상을 하루 약 10분 훈련합니다.</p><footer><b>${brainCount ? `최근 ${brainCount}회` : '첫 기준선 측정'}</b><em>START</em></footer></button>
+      ${trainingTools}
     </section></div></div>`;
   }
 
@@ -370,6 +372,7 @@
     q('#fifthLabel') && (q('#fifthLabel').textContent='My');
     if (mode === 'paper' && !canUsePaper()) mode = 'hub';
     if ((mode === 'task' || mode === 'work') && !canUseWork()) mode = 'hub';
+    if ((mode === 'speech' || mode === 'brain') && !canUseTraining()) mode = 'hub';
     if (mode === 'speech' && window.AiderLogSuiteV145) {
       window.AiderLogSuiteV145.renderSpeech(host, () => { mode='hub'; modal=null; renderMy(); });
       return;
