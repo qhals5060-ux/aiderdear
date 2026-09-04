@@ -1,0 +1,172 @@
+{
+  "schemaVersion": "aiderlog.language-all-levels.v2",
+  "generatedAt": "2026-09-04T16:57:52.465Z",
+  "basePath": "data/",
+  "courses": [
+    {
+      "language": "en",
+      "languageLabel": "영어",
+      "uiLevelIndex": 0,
+      "levelLabel": "Pre-A1",
+      "units": 8,
+      "lessons": 80,
+      "path": "en/level-1.json",
+      "bytes": 518527,
+      "sha256": "26df989a115e4390effa04821ab6ecbdb609ec289d2af9916bcbd28b53f4c6c6"
+    },
+    {
+      "language": "en",
+      "languageLabel": "영어",
+      "uiLevelIndex": 1,
+      "levelLabel": "A1–A2",
+      "units": 8,
+      "lessons": 80,
+      "path": "en/level-2.json",
+      "bytes": 572063,
+      "sha256": "8647a087be3c1bd8249f1cf5725c00d028968967f9201a2bcf60feedaf368d8a"
+    },
+    {
+      "language": "en",
+      "languageLabel": "영어",
+      "uiLevelIndex": 2,
+      "levelLabel": "B1–B2",
+      "units": 8,
+      "lessons": 80,
+      "path": "en/level-3.json",
+      "bytes": 651463,
+      "sha256": "3c99d02f8c949dd88c2459771809501c0e393f9bf22a83ece78f44ee8882795d"
+    },
+    {
+      "language": "en",
+      "languageLabel": "영어",
+      "uiLevelIndex": 3,
+      "levelLabel": "C1",
+      "units": 8,
+      "lessons": 80,
+      "path": "en/level-4.json",
+      "bytes": 733117,
+      "sha256": "53f1d78846b83ace27b98bfd9b10f002d99a1bf130b0602628a822e19e1efafb"
+    },
+    {
+      "language": "en",
+      "languageLabel": "영어",
+      "uiLevelIndex": 4,
+      "levelLabel": "C2+",
+      "units": 8,
+      "lessons": 80,
+      "path": "en/level-5.json",
+      "bytes": 799956,
+      "sha256": "4799ec48fd4f647ad3157c1d532c5e0f0bf537e05d484d4d61425b98f11749aa"
+    },
+    {
+      "language": "ja",
+      "languageLabel": "일본어",
+      "uiLevelIndex": 0,
+      "levelLabel": "Pre-N5",
+      "units": 8,
+      "lessons": 80,
+      "path": "ja/level-1.json",
+      "bytes": 543185,
+      "sha256": "2f357a6c249b7009093142b115759235ffe10b6ec3a7e92188aac0bd72415c47"
+    },
+    {
+      "language": "ja",
+      "languageLabel": "일본어",
+      "uiLevelIndex": 1,
+      "levelLabel": "N5–N4",
+      "units": 8,
+      "lessons": 80,
+      "path": "ja/level-2.json",
+      "bytes": 602860,
+      "sha256": "55820603dc5f3d676fda4aef8056cfb23856ca62b3151d2176cb88783f132417"
+    },
+    {
+      "language": "ja",
+      "languageLabel": "일본어",
+      "uiLevelIndex": 2,
+      "levelLabel": "N3",
+      "units": 8,
+      "lessons": 80,
+      "path": "ja/level-3.json",
+      "bytes": 684963,
+      "sha256": "c1533105ef01f5ad9ed0cb43e84d3b2fadff39d2132998aef304f1c356d198c0"
+    },
+    {
+      "language": "ja",
+      "languageLabel": "일본어",
+      "uiLevelIndex": 3,
+      "levelLabel": "N2–N1",
+      "units": 8,
+      "lessons": 80,
+      "path": "ja/level-4.json",
+      "bytes": 757526,
+      "sha256": "187eac9cc8a3c5bbdda93e6a0107da69b33da1f8528cf2558e3f36305608f906"
+    },
+    {
+      "language": "ja",
+      "languageLabel": "일본어",
+      "uiLevelIndex": 4,
+      "levelLabel": "N1+",
+      "units": 8,
+      "lessons": 80,
+      "path": "ja/level-5.json",
+      "bytes": 833571,
+      "sha256": "9e5cd3b4456ef97b0c8810d4680ece4b73aed95c44d25222d04c4b3738687937"
+    },
+    {
+      "language": "zh",
+      "languageLabel": "중국어",
+      "uiLevelIndex": 0,
+      "levelLabel": "Pre-HSK1",
+      "units": 8,
+      "lessons": 80,
+      "path": "zh/level-1.json",
+      "bytes": 513578,
+      "sha256": "90118e334ecb622f0a87af24236c9069e1b434cee48c098a0fba9a0850bf15fd"
+    },
+    {
+      "language": "zh",
+      "languageLabel": "중국어",
+      "uiLevelIndex": 1,
+      "levelLabel": "HSK1–3",
+      "units": 8,
+      "lessons": 80,
+      "path": "zh/level-2.json",
+      "bytes": 564403,
+      "sha256": "ca605f81bfc7b16b73026e7a28d1109113f33537a8d0599bfcb7d11abdf771fe"
+    },
+    {
+      "language": "zh",
+      "languageLabel": "중국어",
+      "uiLevelIndex": 2,
+      "levelLabel": "HSK4",
+      "units": 8,
+      "lessons": 80,
+      "path": "zh/level-3.json",
+      "bytes": 639503,
+      "sha256": "e242779cb0c9489c0fe628f016b24cb770aa91738776993fd5100d315206a4d1"
+    },
+    {
+      "language": "zh",
+      "languageLabel": "중국어",
+      "uiLevelIndex": 3,
+      "levelLabel": "HSK5–6",
+      "units": 8,
+      "lessons": 80,
+      "path": "zh/level-4.json",
+      "bytes": 705532,
+      "sha256": "bbd78a1b2d15062febc110181bb46a4f5e046d0bd9b3afc2abdecba3feafb121"
+    },
+    {
+      "language": "zh",
+      "languageLabel": "중국어",
+      "uiLevelIndex": 4,
+      "levelLabel": "HSK6+",
+      "units": 8,
+      "lessons": 80,
+      "path": "zh/level-5.json",
+      "bytes": 775777,
+      "sha256": "38836395c1acaa52ce17d33a07d18949766806eae31377eb1016331493b6bab1"
+    }
+  ]
+}

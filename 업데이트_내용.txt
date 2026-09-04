@@ -1,3 +1,20 @@
+AiderLog Android v149 · Language Content & Foldable Stability
+
+[v149 변경]
+- 앱 화면 전환을 단일 휠 컨트롤러로 통합하고 짧게 눌러 Home, 길게 눌러 5개 고정 목적지 선택을 복구
+- 스플래시의 이미지 내 가짜 진행 막대를 가리고 실제 진행 막대 하나만 표시, 완료 후 5페이지 실제 화면 튜토리얼 제공
+- Galaxy Flip·Fold 3–8 대응을 위해 회전·화면 크기 변경·분할 화면 구성을 재검토하고 상단 0.5mm 안전 여백 적용
+- 일정 전용 Android 위젯 5종에 밝게/어둡게, 11개 시스템 테마, 0~100% 투명도, 5단계 글자 크기 설정 추가
+- 캘린더 날짜 원형 띠와 공휴일·일정 간격을 조정하고 일정 입력의 종일 체크를 제거
+- Routine, Daylog, Private Universe, 계정·설정 화면의 카드 밀도와 팝업 구성을 정돈
+- Language를 한 줄형 상단으로 압축하고 검증 완료된 3개 언어 × 5개 난이도 × 80 Lesson 분할 콘텐츠로 교체
+- Language 진도를 언어·난이도·UNIT·Lesson 키로 보존하고 사이트와 앱의 동일 계정 데이터에 동기화
+- 사이트 프로필의 PC 사이트 ZIP과 Galaxy Flip·Fold용 Android APK 다운로드를 v149로 갱신
+
+Android APK SHA-256: `7007B7B8DE4BD9067F01437C7573930C7552B64BF928CE7D82FC83626C51627D`
+
+----------------------------------------
+
 AiderLog Android v147 · Site Work
 
 [v147 변경]

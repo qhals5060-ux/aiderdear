@@ -1,0 +1,28 @@
+{
+  "ok": true,
+  "checkedAt": "2026-09-04T16:58:22.664Z",
+  "counts": {
+    "languages": 3,
+    "courses": 15,
+    "totalUnits": 120,
+    "totalLessons": 1200,
+    "uniqueLessonIds": 1200,
+    "reviewCards": 3600
+  },
+  "checks": {
+    "fiveOrderedLevelsPerLanguage": true,
+    "eightUnitsPerLevel": true,
+    "tenLessonsPerUnit": true,
+    "uniqueTargetsWithinLevel": true,
+    "uniqueTargetsAcrossAllLevels": true,
+    "uniqueOptionsAndSingleCorrect": true,
+    "exactDialogueTurns": true,
+    "exactReviewCards": true,
+    "bannedTemplateScan": true,
+    "nativeSpeakerClaimBlocked": true,
+    "characterSanity": true,
+    "lazyLoadShards": true
+  },
+  "errors": [],
+  "warnings": []
+}

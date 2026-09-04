@@ -11,7 +11,7 @@
 <meta name="description" content="">
 <meta name="format-detection" content="telephone=no">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="aiderlog-build" content="v148">
+<meta name="aiderlog-build" content="v149">
 <link rel="canonical" href="https://aiderdear1.vercel.app/">
 <script>
 (() => {
@@ -4821,8 +4821,8 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
               <section class="account-settings-panel" data-account-panel="app">
           <p class="firebase-storage-note">Spark 무료 요금제에서 동작합니다. 사진은 자동 압축되며 영상은 최대 5분·120MB까지 저장됩니다. 큰 영상은 무료 1GiB 저장공간을 빠르게 사용할 수 있습니다.</p>
           <div class="app-install-grid app-install-v137">
-            <article class="app-install-card windows"><i>PC</i><b>Windows PC · 사이트 파일</b><p>AiderLog 웹사이트 전체 파일을 ZIP으로 내려받습니다.</p><a class="app-download-v146" href="./AiderLog-v148-site-files.zip" download="AiderLog-v148-site-files.zip">PC 파일 다운로드</a></article>
-            <article class="app-install-card android"><i>APK</i><b>Android 앱</b><p>Galaxy Fold·Flip 및 Android 8.0 이상용 최신 설치 파일입니다.</p><a class="app-download-v146" href="./AiderLog-v148.apk" download="AiderLog-v148.apk">Android APK 다운로드</a></article>
+            <article class="app-install-card windows"><i>PC</i><b>Windows PC · 사이트 파일</b><p>AiderLog 웹사이트 전체 파일을 ZIP으로 내려받습니다.</p><a class="app-download-v146" href="./AiderLog-v149-site-files.zip" download="AiderLog-v149-site-files.zip">PC 파일 다운로드</a></article>
+            <article class="app-install-card android"><i>APK</i><b>Android 앱</b><p>Galaxy Fold·Flip 3–8 및 Android 8.0 이상용 최신 설치 파일입니다.</p><a class="app-download-v146" href="./AiderLog-v149.apk" download="AiderLog-v149.apk">Android APK 다운로드</a></article>
           </div>
           <div class="login-data-summary"><b>기록 저장 안내</b><span>일정은 본인 공간에 저장되며 ‘커플과 공유’를 선택한 일정만 상대 캘린더에 표시됩니다.</span><span>EVENT는 커플 연결 시 함께 보고, 루틴·어학·PERSONAL·메모는 본인만 확인합니다.</span><span>PAPER·CONSULTING·WORK는 허용된 두 계정만 열 수 있으며, 각 계정의 연구·컨설팅·운영 기록은 서로 분리해 저장합니다.</span><span>사진·영상은 압축 저장되며, 오래된 일반 기록은 삭제 전에 반드시 확인을 요청합니다.</span></div>
               </section>
@@ -5335,8 +5335,9 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
 
 <script type="module" src="./firebase-app.js"></script>
 <script src="./brain-3d.js"></script>
-<script src="./language-lab-v18-engine.js?v=121"></script>
-<script src="./language-lab-v18.js?v=121"></script>
+<script src="./language-lab-v18-engine.js?v=149"></script>
+<script src="./language-content-v149.js?v=149"></script>
+<script src="./language-lab-v18.js?v=149"></script>
 <script>
 (()=>{
   const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
@@ -5905,7 +5906,8 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
     d.consultingFiles=Array.isArray(d.consultingFiles)?d.consultingFiles.filter(x=>x&&x.id&&x.fileId&&consultingIds.has(String(x.clientId||''))).map(x=>({id:String(x.id),clientId:String(x.clientId),fileId:String(x.fileId),name:cleanConsultText(x.name,220),type:cleanConsultText(x.type,120),size:Math.max(0,Number(x.size)||0),storageScope:x.storageScope==='paper-task'?'paper-task':'private',ownerEmail:normalizeEmail(x.ownerEmail||email),createdAt:Number(x.createdAt)||Date.now()})).slice(-1200):[];
     d.pomodoroSessions=Array.isArray(d.pomodoroSessions)?d.pomodoroSessions.filter(x=>x&&x.id&&/^\d{4}-\d{2}-\d{2}$/.test(x.date||'')).map(x=>({id:String(x.id),date:x.date,minutes:Math.max(1,Math.min(180,Number(x.minutes)||25)),task:String(x.task||'집중 세션').slice(0,80),completedAt:Number(x.completedAt)||Date.now()})).slice(-500):[];
     const language=d.languageStudy&&typeof d.languageStudy==='object'?d.languageStudy:{};
-    d.languageStudy={completedDates:Array.isArray(language.completedDates)?[...new Set(language.completedDates.filter(x=>/^\d{4}-\d{2}-\d{2}$/.test(x)))].slice(-730):[],knownWords:language.knownWords&&typeof language.knownWords==='object'?Object.fromEntries(Object.entries(language.knownWords).slice(-1000).map(([key,value])=>[String(key).slice(0,120),!!value])):{},notes:language.notes&&typeof language.notes==='object'?Object.fromEntries(Object.entries(language.notes).filter(([key])=>/^\d{4}-\d{2}-\d{2}$/.test(key)).slice(-730).map(([key,value])=>[key,String(value||'').slice(0,600)])):{},confidence:language.confidence&&typeof language.confidence==='object'?Object.fromEntries(Object.entries(language.confidence).filter(([key])=>/^\d{4}-\d{2}-\d{2}$/.test(key)).slice(-730).map(([key,value])=>[key,Math.max(1,Math.min(5,Number(value)||3))])):{}};
+    const languageV2=language.v2Progress&&typeof language.v2Progress==='object'?language.v2Progress:{};
+    d.languageStudy={completedDates:Array.isArray(language.completedDates)?[...new Set(language.completedDates.filter(x=>/^\d{4}-\d{2}-\d{2}$/.test(x)))].slice(-730):[],knownWords:language.knownWords&&typeof language.knownWords==='object'?Object.fromEntries(Object.entries(language.knownWords).slice(-1000).map(([key,value])=>[String(key).slice(0,120),!!value])):{},notes:language.notes&&typeof language.notes==='object'?Object.fromEntries(Object.entries(language.notes).filter(([key])=>/^\d{4}-\d{2}-\d{2}$/.test(key)).slice(-730).map(([key,value])=>[key,String(value||'').slice(0,600)])):{},confidence:language.confidence&&typeof language.confidence==='object'?Object.fromEntries(Object.entries(language.confidence).filter(([key])=>/^\d{4}-\d{2}-\d{2}$/.test(key)).slice(-730).map(([key,value])=>[key,Math.max(1,Math.min(5,Number(value)||3))])):{},v2Progress:{language:['en','ja','zh'].includes(languageV2.language)?languageV2.language:'ja',uiLevelIndex:Math.max(0,Math.min(4,Number(languageV2.uiLevelIndex)||0)),levelByLanguage:languageV2.levelByLanguage&&typeof languageV2.levelByLanguage==='object'?Object.fromEntries(['en','ja','zh'].map(code=>[code,Math.max(0,Math.min(4,Number(languageV2.levelByLanguage[code])||0))])):{en:0,ja:0,zh:0},progress:languageV2.progress&&typeof languageV2.progress==='object'?Object.fromEntries(Object.entries(languageV2.progress).slice(-1800)): {},updatedAt:Math.max(0,Number(languageV2.updatedAt)||0)}};
     d.routineGoals=legacyGoals;d.version=PRIVATE_VERSION;return d;
   }
   function privateFolderName(email){return `${PRIVATE_FOLDER_PREFIX}${normalizeEmail(email)}`}
@@ -7601,7 +7603,7 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   ]};
   const LANGUAGE_META={ja:{label:'일본어',short:'JP',speech:'ja-JP'},en:{label:'영어',short:'EN',speech:'en-US'},zh:{label:'중국어',short:'ZH',speech:'zh-CN'}};
   const LANGUAGE_TOPICS=['DAILY','INTEREST','WEEKEND','SURVIVAL','DETAIL','SOCIAL','RECOVERY'];
-  let languageSection='today',languageRecording=false;
+  let languageSection='today',languageRecording=false,languageV2SaveTimer=0;
   function languageStudyStore(){
     if(!currentUserEmail)return null;
     const data=privateData[currentUserEmail]||(privateData[currentUserEmail]=blankPrivateData(currentUserEmail,currentUserName));
@@ -7637,9 +7639,12 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   function renderLanguageStudy(){
     const host=$('#languageLearningBlank');if(!host)return;
     if(!currentUserEmail){host.innerHTML='<section class="language-native-login"><b>LANGUAGE LAB</b><span>로그인 후 루틴의 두 번째 화면에서 어학 학습을 시작할 수 있어요.</span></section>';return}
+    const synced=languageStudyStore()?.v2Progress;
+    if(synced?.progress){let local={};try{local=JSON.parse(localStorage.getItem('aiderlog-language-course-v114')||'{}')}catch{}if(Number(synced.updatedAt||0)>=Number(local.updatedAt||0))localStorage.setItem('aiderlog-language-course-v114',JSON.stringify({...local,language:synced.language||local.language||'ja',levelByLanguage:synced.levelByLanguage||local.levelByLanguage||{},progress:synced.progress,updatedAt:synced.updatedAt||Date.now()}))}
     let lab=host.querySelector('aiderlog-language-lab');
     if(!lab){host.innerHTML='';lab=document.createElement('aiderlog-language-lab');host.appendChild(lab)}
     lab.setAttribute('data-share-ready',mailRecipients().length?'true':'false');
+    lab.setAttribute('data-user-id',firebaseState.user?.uid||currentUserEmail);
   }
   function speakLanguage(text,lang,slow=false){if(!('speechSynthesis' in window)){toast('이 기기에서는 음성 재생을 지원하지 않습니다.');return}window.speechSynthesis.cancel();const utterance=new SpeechSynthesisUtterance(String(text||''));utterance.lang=LANGUAGE_META[lang]?.speech||'ja-JP';utterance.rate=slow?0.72:0.92;window.speechSynthesis.speak(utterance)}
   function languageSpeechScore(expected,actual){const clean=value=>[...String(value||'').toLocaleLowerCase().replace(/[^\p{L}\p{N}]+/gu,'')],a=clean(expected),b=clean(actual);if(!a.length||!b.length)return 0;const row=Array.from({length:b.length+1},(_,i)=>i);for(let i=1;i<=a.length;i++){let prev=row[0];row[0]=i;for(let j=1;j<=b.length;j++){const temp=row[j];row[j]=Math.min(row[j]+1,row[j-1]+1,prev+(a[i-1]===b[j-1]?0:1));prev=temp}}return Math.max(0,Math.round((1-row[b.length]/Math.max(a.length,b.length))*100))}
@@ -7679,6 +7684,11 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   $('#languageLearningBlank').addEventListener('language-lab-share',async e=>{
     const detail=e.detail||{};
     openCompletionComposer('language',`${detail.language||'어학'} · ${detail.title||'Day 학습'}`,Number.isFinite(detail.score)?`발음 ${detail.score}점`:'학습 완료');
+  });
+  $('#languageLearningBlank').addEventListener('language-lab-progress',e=>{
+    if(!currentUserEmail)return;
+    clearTimeout(languageV2SaveTimer);
+    languageV2SaveTimer=setTimeout(async()=>{const study=languageStudyStore();study.v2Progress=e.detail||{};try{await savePrivateData(currentUserEmail)}catch(error){console.warn('Language 진도 동기화 실패',error)}},500);
   });
   $('#languageLearningBlank').addEventListener('submit',async e=>{const form=e.target.closest('#languageNoteForm');if(!form)return;e.preventDefault();e.stopPropagation();if(!privateCanWrite())return;const study=languageStudyStore(),lang=study.selectedLanguage,lesson=languageLesson(study,lang),key=languageSessionKey(lang,lesson),note=$('#languageNote')?.value.trim()||'';if(note)study.notes[key]=note;else delete study.notes[key];try{await savePrivateData(currentUserEmail);renderLanguageStudy();toast('오늘의 표현 노트를 저장했습니다.')}catch(err){toast(googleErrorMessage(err))}});
 

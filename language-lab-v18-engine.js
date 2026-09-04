@@ -2642,6 +2642,8 @@ function makeCourseDay(language, levelIndex, anchorIndex, unitIndex, lessonIndex
 }
 
 function buildCurriculum(language, levelIndex) {
+  const v2Course = window.AiderLogLanguageV2?.getCourse?.(language, levelIndex);
+  if (v2Course?.units?.length) return buildV2Curriculum(v2Course);
   const profile = levelProfiles[language][levelIndex];
   const order = courseOrderByLevel[levelIndex].slice(0, CORE_UNIT_COUNT);
   const coreTopics = order.map((anchorIndex, unitIndex) => {
@@ -2704,6 +2706,113 @@ function buildCurriculum(language, levelIndex) {
   ];
 }
 
+function buildV2Curriculum(course) {
+  const language = course.language;
+  const levelIndex = validV2Level(course.uiLevelIndex);
+  const profile = levelProfiles[language]?.[levelIndex] || levelProfiles.en[0];
+  const topics = course.units.slice(0, CORE_UNIT_COUNT).map((unit, unitIndex) => ({
+    id: unit.id || `v2-${language}-${levelIndex}-unit-${unitIndex + 1}`,
+    icon: String(unitIndex + 1).padStart(2, "0"),
+    unitNumber: unitIndex + 1,
+    tab: unit.title || `UNIT ${unitIndex + 1}`,
+    place: `기본 과정 · UNIT ${String(unitIndex + 1).padStart(2, "0")}`,
+    title: unit.title || `UNIT ${unitIndex + 1}`,
+    description: unit.description || unit.canDo || `${course.levelLabel || profile.name} · 10 Lesson`,
+    core: true,
+    unit: true,
+    days: (unit.lessons || []).slice(0, LESSONS_PER_UNIT).map((lesson, lessonIndex) => v2LessonToDay(lesson, unit, unitIndex, lessonIndex, profile))
+  }));
+  return [{ id:"core", icon:"기본", title:"기본", description:"순서대로 익히는 8개 UNIT · 80개 핵심 수업", topics }];
+}
+
+function validV2Level(value) {
+  const level = Number(value);
+  return Number.isInteger(level) && level >= 0 && level < 5 ? level : 0;
+}
+
+function v2LessonToDay(lesson, unit, unitIndex, lessonIndex, profile) {
+  const target = lesson.target || {};
+  const explanation = lesson.explanation || {};
+  const task = lesson.task || {};
+  const dialogue = lesson.dialogue || {};
+  const options = Array.isArray(task.options) ? task.options : [];
+  const correctIndices = options.map((option, index) => option?.correct ? index : -1).filter(index => index >= 0);
+  const tokens = Array.isArray(task.tokens) && task.tokens.length ? task.tokens : Array.isArray(target.chunks) && target.chunks.length ? target.chunks : String(target.text || "").split(/\s+/).filter(Boolean);
+  const decoys = Array.isArray(task.decoys) ? task.decoys : [];
+  const details = [
+    explanation.exactMeaning,
+    explanation.usageAndNuance,
+    explanation.contrastWithLowerLevel,
+    explanation.commonPitfall,
+    explanation.evidenceStatus
+  ].filter(Boolean);
+  const variants = [...new Set([target.text, ...(dialogue.turns || []).flatMap(turn => turn.suggestions || [])].filter(Boolean))].slice(0, 4);
+  return {
+    id: lesson.id || `v2-${unit.id}-${lessonIndex + 1}`,
+    mode: task.type || "conversation",
+    title: lesson.title || `Lesson ${lessonIndex + 1}`,
+    focus: lesson.canDo || lesson.sessionPurpose || "실제 장면에서 목표 표현을 사용합니다.",
+    weekIndex: unitIndex,
+    weekLabel: `UNIT ${String(unitIndex + 1).padStart(2, "0")} · ${unit.title || ""}`,
+    sessionLabel: lesson.sessionLabel || `Lesson ${lessonIndex + 1}`,
+    internalBand: lesson.levelLabel || profile.name,
+    optional: false,
+    stageIndex: lessonIndex,
+    stageLabel: lesson.sessionLabel || `Lesson ${lessonIndex + 1}`,
+    coach: {
+      canDo: lesson.canDo || "목표 표현을 장면에 맞게 사용합니다.",
+      scene: lesson.scene || "실제 대화 장면",
+      stage: `${lesson.levelLabel || profile.name} · UNIT ${String(unitIndex + 1).padStart(2, "0")} · LESSON ${lessonIndex + 1}`,
+      register: explanation.usageAndNuance || "장면과 상대에 맞는 어조를 확인합니다.",
+      commonMistake: explanation.commonPitfall || "의미와 쓰임을 확인한 뒤 응답하세요.",
+      transfer: explanation.contrastWithLowerLevel || "같은 기능을 다른 장면에도 적용해보세요.",
+      pronunciation: target.reading || "기기 음성을 듣고 문장 전체를 따라 말해보세요.",
+      rubric: [lesson.canDo || "과제의 실제 기능을 수행했는지 확인합니다."]
+    },
+    word: (target.chunks || [target.text]).filter(Boolean)[0] || target.text || "",
+    reading: target.reading || "",
+    scriptGuide: target.reading ? { label:"읽기", reading:target.text || "", romanization:target.reading } : null,
+    meaning: target.korean || "",
+    studySentence: target.text || "",
+    sentenceMeaning: target.korean || "",
+    phrase: target.text || "",
+    translation: target.korean || "",
+    tokens,
+    decoys,
+    pool: [...tokens, ...decoys],
+    quiz: {
+      prompt: task.prompt || "가장 알맞은 답을 고르세요.",
+      options: options.map(option => ({ text:option.text || "", rationale:option.rationale || "" })),
+      correctIndices: correctIndices.length ? correctIndices : [Number(task.correctIndex) || 0],
+      sentenceMeaning: target.korean || "",
+      explanation: [task.answerExplanation, ...options.map((option, index) => `${index + 1}. ${option.rationale || "확인 필요"}`)].filter(Boolean).join(" "),
+      politeness: 50,
+      alternatives: variants.map(form => ({ form, note:"같은 장면에서 사용할 수 있는 표현" }))
+    },
+    conversationFormula: {
+      formula: Array.isArray(target.chunks) && target.chunks.length ? target.chunks.join(" + ") : target.text || "",
+      levelTip: explanation.contrastWithLowerLevel || explanation.usageAndNuance || "장면과 상대에 맞게 표현을 조절해보세요.",
+      examples: variants.map(sentence => ({ sentence, highlight:"" })),
+      nativeVariants: variants,
+      chunks: (target.chunks || []).map(text => ({ text, note:"의미 덩어리" }))
+    },
+    pronunciationFlow: { turns:(dialogue.turns || []).map((turn, index) => ({
+      label: turn.intent || `대화 ${index + 1}`,
+      text: (turn.suggestions || [target.text])[0] || target.text || "",
+      note: turn.replyKo || turn.reply || "장면에 맞게 이어 말해보세요."
+    })) },
+    sentenceExplanation: details.join(" ") || task.answerExplanation || "",
+    expansionPhrase: variants[1] || target.text || "",
+    opening: dialogue.opening || "",
+    openingKo: dialogue.openingKo || "",
+    dialogueRole: dialogue.role || "장면 속 대화 상대",
+    dialogueGoal: dialogue.goal || lesson.canDo || "",
+    dialogueTurns: dialogue.turns || [],
+    reviewCards: Array.isArray(lesson.review) ? lesson.review : [],
+    quality: lesson.quality || {}
+  };
+}
+
 const STORAGE_KEY = "aiderlog-language-course-v114";
 
 const $ = (selector, parent = root) => parent.querySelector(selector);
@@ -2755,6 +2864,7 @@ const state = {
   returnScroll: 0
 };
 curriculum = buildCurriculum(state.language, state.levelByLanguage[state.language]);
+state.categoryIndex = Math.min(state.categoryIndex, Math.max(0, curriculum.length - 1));
 scenarios = curriculum[state.categoryIndex].topics;
 
 function escapeHtml(value) {
@@ -2768,8 +2878,25 @@ function persist() {
     categoryIndex: state.categoryIndex,
     scenarioIndex: state.scenarioIndex,
     dayPage: state.dayPage,
-    progress: state.progress
+    progress: state.progress,
+    updatedAt: Date.now()
   }));
+  root.host?.dispatchEvent(new CustomEvent("language-lab-progress", {
+    bubbles:true,
+    composed:true,
+    detail:{
+      language:state.language,
+      uiLevelIndex:state.levelByLanguage[state.language],
+      progress:state.progress,
+      levelByLanguage:state.levelByLanguage,
+      updatedAt:Date.now()
+    }
+  }));
+}
+
+function lessonProgressKey(day = state.activeDay, scenario = state.activeScenario) {
+  const userId = String(root.host?.dataset?.userId || "local");
+  return `languageProgress:${userId}:${state.language}:${state.levelByLanguage[state.language]}:${scenario?.id || "unit"}:${day?.id || "lesson"}`;
 }
 
 function showToast(message) {
@@ -3199,10 +3326,10 @@ function renderTask() {
       <section class="pronunciation-flow"><div class="pronunciation-flow-heading"><div><small>다음에 이어 말하기</small><strong>한 문장이 아닌 대화 흐름으로 익혀보세요</strong></div><span>${escapeHtml(profile.name)} · 3문장</span></div>
       <ol><li class="current"><span>START</span><div><b lang="${meta.htmlLang}">${escapeHtml(day.phrase)}</b><small>오늘 연습한 문장</small></div><button data-speak="${escapeHtml(day.phrase)}" data-speak-rate="${profile.speechRate}" type="button" aria-label="오늘 문장 듣기">▶</button></li>${flow.map((turn, index) => `<li><span>${String(index + 1).padStart(2, "0")}</span><div><small>${escapeHtml(turn.label)}</small><b lang="${meta.htmlLang}">${escapeHtml(turn.text)}</b><em>${escapeHtml(turn.note)}</em></div><button data-speak="${escapeHtml(turn.text)}" data-speak-rate="${profile.speechRate}" type="button" aria-label="${escapeHtml(turn.label)} 듣기">▶</button></li>`).join("")}</ol></section>
     </div>` : "";
-    body.innerHTML = `${taskHeader("STEP 3 · 듣기·회상·발음", "소리를 듣고 힌트 없이 다시 말해보세요", `마이크를 누른 뒤 ${meta.label}로 말하면 인식 결과와 발음 점수를 확인할 수 있어요.`)}
+    body.innerHTML = `${taskHeader("STEP 3 · 듣기·회상·말하기", "기기 음성을 듣고 힌트 없이 다시 말해보세요", `마이크를 누른 뒤 ${meta.label}로 말하면 기기의 문장 인식 일치도를 확인할 수 있어요.`)}
       <div class="sound-coach"><span>발음 코치</span><p>${escapeHtml(day.coach.pronunciation)}</p></div>
       <div class="pronunciation-card"><span class="reading">오늘의 문장 · 목표 ${profile.passScore}점</span><strong class="target-sentence" lang="${meta.htmlLang}">${day.phrase}</strong><span class="translation ${profile.showTranslation || state.pronunciationResult ? "" : "translation-hidden"}">${profile.showTranslation || state.pronunciationResult ? escapeHtml(day.translation) : "번역 없이 의미와 뉘앙스를 파악해 보세요."}</span>
-      <div class="listen-speed-row"><button data-speak="${escapeHtml(day.phrase)}" data-speak-rate="0.62" type="button">느리게 듣기</button><button class="listen-large" data-speak="${escapeHtml(day.phrase)}" data-speak-rate="${profile.speechRate}" type="button">▶ 먼저 듣기</button><button data-speak="${escapeHtml(day.phrase)}" data-speak-rate="1.05" type="button">원어민 속도</button></div>
+      <div class="listen-speed-row"><button data-speak="${escapeHtml(day.phrase)}" data-speak-rate="0.62" type="button">느리게 듣기</button><button class="listen-large" data-speak="${escapeHtml(day.phrase)}" data-speak-rate="${profile.speechRate}" type="button">▶ 기기 ${meta.label} 음성</button><button data-speak="${escapeHtml(day.phrase)}" data-speak-rate="1.05" type="button">빠르게 듣기</button></div>
       <button class="record-control ${state.pronunciationRecording ? "listening" : ""}" id="record-control" type="button" aria-label="${state.pronunciationRecording ? "발음 녹음 종료" : "발음 녹음 시작"}">${state.pronunciationRecording ? "■" : "●"}</button><p class="record-caption">${state.pronunciationRecording ? "녹음 중이에요 · 마이크를 다시 누르면 종료됩니다" : "마이크를 눌러 발음을 녹음하고 확인하세요"}</p>${result}</div>`;
     action.textContent = state.pronunciationRecording ? "녹음 중" : "다음";
     action.disabled = state.pronunciationRecording;
@@ -3213,12 +3340,12 @@ function renderTask() {
   } else {
     const completeLabel = state.quickReview ? "QUICK RECALL COMPLETE" : state.reviewMode ? "REVIEW COMPLETE" : "LESSON COMPLETE";
     const completeTitle = state.quickReview ? "2분 회상을 마쳤어요" : state.reviewMode ? "복습을 마쳤어요" : "오늘 학습을 마쳤어요";
-    const completeMessage = state.quickReview ? "핵심 문장을 다시 만들고 소리 내어 회상한 기록을 저장했습니다." : state.reviewMode ? "복습 횟수와 발음 점수를 학습 기록에 저장했습니다." : "배운 표현은 단어장에, 점수는 학습 기록에 자동으로 저장했습니다.";
+    const completeMessage = state.quickReview ? "핵심 문장을 다시 만들고 소리 내어 회상한 기록을 저장했습니다." : state.reviewMode ? "복습 횟수와 문장 인식 일치도를 학습 기록에 저장했습니다." : "배운 표현과 학습 기록을 저장했습니다.";
     const record = state.progress[day.id] || {};
     const savedMessage = `다음 간격 복습은 ${formatReviewDate(record.nextReviewAt)}에 준비됩니다.`;
     body.innerHTML = `${taskHeader(completeLabel, completeTitle, completeMessage)}
       <div class="lesson-complete"><span class="complete-mark">✓</span><h2>${state.quickReview ? "빠른 회상 완료!" : state.reviewMode ? "복습 완료!" : "Lesson 완료!"}</h2><p>${escapeHtml(day.title)} · ${state.quickReview ? "약 2분 회상" : "약 10분 학습"}</p>
-      <div class="complete-summary"><div><small>학습 단계</small><b>${state.quickReview ? "2 / 2" : "4 / 4"}</b></div><div><small>발음 점수</small><b>${state.pronunciationScore ?? "—"}점</b></div><div><small>기억 단계</small><b>${escapeHtml(record.mastery || "형성 중")}</b></div></div>
+      <div class="complete-summary"><div><small>학습 단계</small><b>${state.quickReview ? "2 / 2" : "4 / 4"}</b></div><div><small>문장 인식 일치도</small><b>${state.pronunciationScore ?? "—"}%</b></div><div><small>기억 단계</small><b>${escapeHtml(record.mastery || "형성 중")}</b></div></div>
       <div class="mastery-checklist">${day.coach.rubric.map((item) => `<span>✓ ${escapeHtml(item)}</span>`).join("")}</div>
       <div class="saved-note">${savedMessage}</div>
       ${state.reviewMode ? "" : '<button class="immediate-review-button" data-immediate-review type="button">지금 2분 회상하기</button>'}</div>`;
@@ -3378,12 +3505,15 @@ function completeLesson() {
     attempts: (existing?.attempts || 0) + 1,
     mastery,
     nextReviewAt: addReviewInterval(now, REVIEW_INTERVALS[intervalIndex]),
+    reviewCards: state.activeDay.reviewCards || existing?.reviewCards || [],
+    nativeSpeakerReviewed: state.activeDay.quality?.nativeSpeakerReviewed === true,
     ...(isReview ? {
       lastReviewedAt: now,
       reviewCount: nextReviewCount,
       reviewHistory: [...(existing?.reviewHistory || []), now].slice(-50)
     } : {})
   };
+  localStorage.setItem(lessonProgressKey(), JSON.stringify(state.progress[state.activeDay.id]));
   persist();
   state.taskIndex = 4;
   renderTask();
@@ -3828,8 +3958,9 @@ $("#records-modal").addEventListener("click", (event) => {
 root.addEventListener("keydown", (event) => {
   if (event.key === "Escape" && !$("#records-modal").hidden) closeRecordsModal();
 });
-$("#language-select").addEventListener("change", (event) => {
+$("#language-select").addEventListener("change", async (event) => {
   state.language = event.target.value;
+  await window.AiderLogLanguageV2?.loadCourse?.(state.language, state.levelByLanguage[state.language]);
   curriculum = buildCurriculum(state.language, state.levelByLanguage[state.language]);
   state.categoryIndex = 0;
   scenarios = curriculum[0].topics;
@@ -3840,9 +3971,10 @@ $("#language-select").addEventListener("change", (event) => {
   renderPage();
   showToast(`${languageMeta[state.language].label} 코스로 바꿨어요.`);
 });
-$("#level-select").addEventListener("change", (event) => {
+$("#level-select").addEventListener("change", async (event) => {
   const nextLevel = validLevel(Number(event.target.value));
   state.levelByLanguage[state.language] = nextLevel;
+  await window.AiderLogLanguageV2?.loadCourse?.(state.language, nextLevel);
   curriculum = buildCurriculum(state.language, nextLevel);
   state.categoryIndex = 0;
   scenarios = curriculum[0].topics;
@@ -3859,16 +3991,21 @@ $$('.filter-button').forEach((button) => button.addEventListener("click", () => 
 }));
 
 $("#reset-button").addEventListener("click", () => {
-  const confirmed = window.confirm("모든 언어의 학습 진도, 발음 점수, 복습 기록을 초기화할까요?");
-  if (!confirmed) return;
-  localStorage.removeItem(STORAGE_KEY);
-  state.progress = {};
+  const currentOnly = window.confirm(`${languageMeta[state.language].label} · ${levelProfiles[state.language][state.levelByLanguage[state.language]].name} 과정의 진도만 초기화할까요?\n\n취소를 누르면 전체 초기화 여부를 다시 확인합니다.`);
+  if (!currentOnly && !window.confirm("모든 언어와 난이도의 학습 진도, 문장 인식 일치도, 복습 기록을 초기화할까요?")) return;
+  const activeIds = new Set(coreDays().map(day => day.id));
+  if (currentOnly) Object.keys(state.progress).forEach(id => { if (activeIds.has(id)) delete state.progress[id]; });
+  else state.progress = {};
+  Object.keys(localStorage).filter(key => key.startsWith("languageProgress:")).forEach(key => {
+    if (!currentOnly || key.includes(`:${state.language}:${state.levelByLanguage[state.language]}:`)) localStorage.removeItem(key);
+  });
+  persist();
   state.categoryIndex = 0;
   state.scenarioIndex = 0;
   state.dayPage = 0;
   state.wordFilter = "전체";
   renderPage();
-  showToast("학습 기록을 초기화했습니다.");
+  showToast(currentOnly ? "현재 과정의 학습 기록을 초기화했습니다." : "전체 학습 기록을 초기화했습니다.");
 });
 
 renderPage();

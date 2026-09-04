@@ -21,7 +21,7 @@
         if(!app||!toast)throw new Error('어학 학습 화면 구조를 찾지 못했습니다.');
         const styleElement=document.createElement('style');styleElement.textContent=style;
         app.querySelector('.brand-icon')?.remove();
-        app.querySelector('.brand b').textContent='LANGUAGE LAB';
+        app.querySelector('.brand b').textContent='Language';
         app.querySelector('.brand small')?.remove();
         const share=document.createElement('button');
         share.type='button';share.className='language-partner-share';share.textContent='상대에게 보내기';share.disabled=true;

@@ -1,3 +1,19 @@
+# AiderLog Android v149 · Site v121 + Work
+
+## v149 foldable app, widgets and Language Lab v2
+
+- Android navigation uses one wheel controller: a short tap returns Home and a long press opens the fixed `My · Language · Personal · Routine · Event` destinations.
+- The splash shows one real progress indicator and then a five-page tutorial built from the actual app screens.
+- The five exposed Android widgets are schedule-only and support light/dark appearance, system-theme colors, opacity in 20% steps, and five font sizes.
+- Calendar spacing, current-date ring, schedule form, Routine, Daylog, Private Universe and account/settings density were refined for Galaxy Flip/Fold 3–8.
+- Language Lab uses the validated split v2 bundle: 3 languages, 5 levels per language, 8 units and 80 lessons per course. Only the selected course is parsed and cached.
+- Language progress is keyed by user/language/level/unit/lesson, preserves legacy progress and syncs between the website and Android app for the same account.
+- The profile App page downloads the current v149 site archive and signed Android APK.
+
+Android APK SHA-256: `7007B7B8DE4BD9067F01437C7573930C7552B64BF928CE7D82FC83626C51627D`
+
+---
+
 # AiderLog Android v147 · Site v121 + Work
 
 ## v147 Task · Work · Study Card separation
