@@ -54,10 +54,10 @@ if (!css.startsWith(':host{')) throw new Error('Paper CSS is not scoped to the s
 if (!css.includes('.paper-app{width:100%;height:100%')) throw new Error('Paper workspace does not fit the AiderLog frame.');
 if (!firebase.includes("'paperAnalyses'")) throw new Error('Per-paper analysis storage is missing.');
 if (!rules.includes('match /sharedWorkspaces/aiderlog-paper-task-v1')) throw new Error('Paper workspace Firestore rule is missing.');
-if (!sw.startsWith("const CACHE='aiderlog-v122-android-download';")) throw new Error('Unexpected service worker cache.');
+if (!sw.startsWith("const CACHE='aiderlog-v123-layout-download-fixes';")) throw new Error('Unexpected service worker cache.');
 if (!sw.includes("'./paper-workspace-v121.js'") || !sw.includes("'./paper-workspace-v121.css'")) throw new Error('Paper assets are not cached.');
 if (!sw.includes("requestUrl.pathname.includes('/downloads/')")) throw new Error('Large downloads must bypass the service worker cache.');
-if (!html.includes('href="./downloads/AiderLog-v129-offline-training.apk"') || !html.includes('download="AiderLog-v129-offline-training.apk"')) throw new Error('Android APK download link is missing.');
+if (!html.includes('class="app-install-card android app-install-download-card"') || !html.includes('href="./downloads/AiderLog-v129-offline-training.apk"') || !html.includes('download="AiderLog-v129-offline-training.apk"')) throw new Error('Full-card Android APK download link is missing.');
 if (!fs.existsSync('downloads/AiderLog-v129-offline-training.apk')) throw new Error('Android APK file is missing.');
 if (pkg.name !== 'aiderlog-v121' || pkg.version !== '121.0.0') throw new Error('Unexpected package version.');
 

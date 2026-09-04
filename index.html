@@ -3554,6 +3554,7 @@ html.client-intake-only .client-intake-result b{font:800 38px/1.1 Arial,sans-ser
 .app-install-card .app-download-link:hover{background:#28242d;box-shadow:0 5px 16px rgba(34,27,43,.16)}.app-install-card .app-download-link:active{transform:scale(.985)}
 .app-install-card .app-download-link:focus-visible{outline:2px solid #6f5bc7;outline-offset:2px}.app-install-card .app-download-link small{font-size:7px;font-weight:700;opacity:.72}
 .app-install-card button[aria-disabled="true"]{background:#efefef;color:#777;border-color:#c8c8c8;cursor:default}
+.app-install-download-card{color:inherit;text-decoration:none;cursor:pointer;transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease}.app-install-download-card:hover{transform:translateY(-2px);border-color:#6f5bc7;box-shadow:0 10px 24px rgba(56,43,90,.13)}.app-install-download-card:active{transform:translateY(0) scale(.992)}.app-install-download-card:focus-visible{outline:3px solid rgba(111,91,199,.3);outline-offset:3px}.app-install-download-card .app-download-link{pointer-events:none}
 .challenge-cue-box{display:grid;gap:3px;border-left:3px solid #0b62b8;background:#eef6ff;padding:6px 8px}
 .challenge-cue-box>b{font-size:8px;color:#0b4f91}.challenge-cue-box .challenge-cue{min-height:0!important;font-size:9px!important;line-height:1.55!important;color:#303b46!important}
 @media(max-width:760px){.account-settings-nav{grid-template-columns:repeat(3,minmax(0,1fr))!important}.profile-connections-block,.app-install-grid{grid-template-columns:1fr}.profile-connections-block .friend-panel{grid-column:1;grid-row:auto}}
@@ -4027,6 +4028,21 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
 #consultingClientForm .spec-fields,#consultingClientForm .inquiry-fields{align-self:stretch!important;align-content:start!important}
 #consultingClientForm .spec-fields{grid-template-columns:repeat(2,minmax(0,1fr))!important;grid-auto-rows:auto!important}.consulting-client-dialog #consultingClientForm .spec-language,.consulting-client-dialog #consultingClientForm .spec-certificate{grid-column:span 1!important}.consulting-client-dialog #consultingClientForm .spec-fields textarea{height:34px!important;min-height:34px!important}.consulting-client-dialog #consultingClientForm .inquiry-fields label{height:100%!important}.consulting-client-dialog #consultingClientForm .inquiry-fields textarea{height:100%!important;min-height:116px!important}.consulting-client-dialog #consultingClientForm{padding-bottom:4px!important;gap:4px!important}.consulting-client-dialog #consultingClientForm>button[type="submit"]{height:30px!important;min-height:30px!important}
 @media(max-width:900px){.routine-summary-strip-v121{grid-template-columns:72px 1fr}.routine-summary-strip-v121>p{grid-column:1/-1}.routine-performance-row-v121{grid-template-columns:minmax(110px,1fr) repeat(3,52px) 85px}.routine-performance-levels-v121{grid-column:1/-1}.travel-plan-picks-v121,.travel-plan-prep-v121{grid-template-columns:1fr}}
+
+/* v123 · fix routine statistics flow, journal date card and full-card APK download. */
+#privateStage .routine-overall-v121{display:flex!important;flex-direction:column!important;align-content:initial!important;gap:0!important;height:auto!important;min-height:100%!important;overflow:auto!important}
+#privateStage .routine-overall-v121>*{position:relative;flex:0 0 auto;min-width:0}
+#privateStage .routine-summary-strip-v121{grid-template-rows:auto!important;min-height:94px;isolation:isolate}
+#privateStage .routine-summary-strip-v121 .routine-donut-v107{grid-row:auto!important;align-self:center!important;justify-self:center!important}
+#privateStage .routine-summary-strip-v121 .routine-levels-v107{grid-row:auto!important;align-self:stretch!important;align-content:center!important}
+#privateStage .routine-performance-table-v121{clear:both;margin-top:10px!important;background:transparent}
+#privateStage .routine-analysis-v121{clear:both;margin-top:10px!important;padding-bottom:2px}
+.journal-week-v105 article{box-sizing:border-box;height:auto!important;min-height:94px;display:grid;grid-template-rows:auto auto 4px minmax(0,1fr);align-content:start;gap:5px;overflow:hidden}
+.journal-week-v105 article.is-current{border-color:#7265d6;background:#f1efff;box-shadow:inset 0 0 0 1px rgba(114,101,214,.13)}
+.journal-week-v105 article.is-current>span{color:#5c50b8}.journal-week-v105 article.is-current>b{color:#26213f!important}
+.journal-week-v105 article>span{line-height:1.2}.journal-week-v105 article>b{margin:0!important;line-height:1.1;color:#20242a!important}.journal-week-v105 article>i{margin:1px 0 0}.journal-week-v105 article>small{margin-top:1px!important;font-size:7px!important;line-height:1.55!important;word-break:keep-all;overflow-wrap:normal;color:#5f6670!important}
+@media(max-width:900px){#privateStage .routine-overall-v121{min-height:0!important}.routine-analysis-v121{grid-template-columns:1fr}.journal-week-v105 article{min-height:102px}}
+@media(max-width:640px){.journal-week-v105>div{grid-template-columns:repeat(7,118px)!important}.journal-week-v105 article{min-height:108px;padding:9px!important}.journal-week-v105 article>small{font-size:7.5px!important}}
 </style>
 </head>
 <body>
@@ -4734,7 +4750,7 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
           <p class="firebase-storage-note">Spark 무료 요금제에서 동작합니다. 사진은 자동 압축되며 영상은 최대 5분·120MB까지 저장됩니다. 큰 영상은 무료 1GiB 저장공간을 빠르게 사용할 수 있습니다.</p>
           <div class="app-install-grid">
             <article class="app-install-card windows"><i>PC</i><b>Windows PC 앱</b><p>AiderLog를 독립 창으로 설치하고 자동 시작과 작업표시줄 설정을 관리합니다.</p><button type="button" class="desktop-setup-open" id="desktopSetupBtn">PC 앱 설치·설정</button></article>
-            <article class="app-install-card android"><i>A</i><b>Android 앱</b><p>Galaxy Flip·Fold를 포함한 Android 8.0 이상에서 사용할 수 있습니다. 최신 버전 1.9.20 (129)을 바로 내려받으세요.</p><a class="app-download-link" id="androidDownloadBtn" href="./downloads/AiderLog-v129-offline-training.apk" download="AiderLog-v129-offline-training.apk" type="application/vnd.android.package-archive" aria-label="AiderLog Android 앱 APK 다운로드">Android 앱 다운로드 <small>약 24.8 MB</small></a></article>
+            <a class="app-install-card android app-install-download-card" id="androidDownloadBtn" href="./downloads/AiderLog-v129-offline-training.apk" download="AiderLog-v129-offline-training.apk" type="application/vnd.android.package-archive" aria-label="AiderLog Android 앱 APK 다운로드"><i>A</i><b>Android 앱</b><p>Galaxy Flip·Fold를 포함한 Android 8.0 이상에서 사용할 수 있습니다. 최신 버전 1.9.20 (129)을 바로 내려받으세요.</p><span class="app-download-link">Android 앱 다운로드 <small>약 24.8 MB</small></span></a>
           </div>
           <div class="login-data-summary"><b>기록 저장 안내</b><span>일정은 본인 공간에 저장되며 ‘커플과 공유’를 선택한 일정만 상대 캘린더에 표시됩니다.</span><span>EVENT는 커플 연결 시 함께 보고, 루틴·어학·PERSONAL·메모는 본인만 확인합니다.</span><span>PAPER·TASK는 허용된 두 계정만 열 수 있으며 같은 연구·상담 작업공간을 함께 사용합니다.</span><span>사진·영상은 압축 저장되며, 오래된 일반 기록은 삭제 전에 반드시 확인을 요청합니다.</span></div>
               </section>
@@ -8305,7 +8321,7 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
     const groups=[schedule,emotion,routine,personalRows('health'),personalRows('reading'),personalRows('workflow'),personalRows('finance'),records,todos],total=groups.reduce((sum,rows)=>sum+rows.length,0),active=groups.filter(rows=>rows.length).length,doneTodos=checklistToday.filter(row=>row.done).length,nextSchedule=schedule.find(row=>row.time&&row.time!=='종일');
     $('#todayJournalDate').textContent=dateLabel;
     $('#todayJournalSummary').innerHTML=`<article><span>기록</span><b>${total}</b></article><article><span>활성 영역</span><b>${active}/9</b></article><article><span>할 일</span><b>${doneTodos}/${checklistToday.length}</b></article><article class="wide"><span>NEXT</span><b>${nextSchedule?`${escapeHtml(nextSchedule.time)} · ${escapeHtml(nextSchedule.text)}`:'예정된 일정 없음'}</b></article>`;
-    const week=journalWeekSummary(privateStore,key),weekTotal=week.reduce((sum,row)=>sum+row.total,0);$('#todayJournalWeek').innerHTML=`<header><div><span>THIS WEEK</span><b>${week[0].key.slice(5).replace('-','.')} — ${week[6].key.slice(5).replace('-','.')}</b></div><strong>${weekTotal}<small>주간 기록</small></strong></header><div>${week.map(row=>`<article class="${row.key===key?'today':''}"><span>${escapeHtml(row.label)}</span><b>${row.day}</b><i style="--week-load:${Math.min(100,row.total*14)}%"></i><small>일정 ${row.scheduleCount} · 감정 ${row.emotionCount} · 루틴 ${row.routineCount} · 할 일 ${row.todoDone}/${row.todos}</small></article>`).join('')}</div>`;
+    const week=journalWeekSummary(privateStore,key),weekTotal=week.reduce((sum,row)=>sum+row.total,0);$('#todayJournalWeek').innerHTML=`<header><div><span>THIS WEEK</span><b>${week[0].key.slice(5).replace('-','.')} — ${week[6].key.slice(5).replace('-','.')}</b></div><strong>${weekTotal}<small>주간 기록</small></strong></header><div>${week.map(row=>`<article class="${row.key===key?'is-current':''}"><span>${escapeHtml(row.label)}</span><b>${row.day}</b><i style="--week-load:${Math.min(100,row.total*14)}%"></i><small>일정 ${row.scheduleCount} · 감정 ${row.emotionCount} · 루틴 ${row.routineCount} · 할 일 ${row.todoDone}/${row.todos}</small></article>`).join('')}</div>`;
     $('#journalTodoDate').value=$('#journalTodoDate').value||key;renderJournalCapture(privateStore);
     $('#todayJournalContent').innerHTML=sections.join('');
   }
