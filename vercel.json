@@ -50,7 +50,7 @@
       ]
     },
     {
-      "source": "/AiderLog-v140-themed-wheel.apk",
+      "source": "/AiderLog-v141-configurable-widgets.apk",
       "headers": [
         {
           "key": "Content-Type",
@@ -58,7 +58,7 @@
         },
         {
           "key": "Content-Disposition",
-          "value": "attachment; filename=\"AiderLog-v140-themed-wheel.apk\""
+          "value": "attachment; filename=\"AiderLog-v141-configurable-widgets.apk\""
         },
         {
           "key": "Cache-Control",
