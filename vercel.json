@@ -17,6 +17,12 @@
       "permanent": false
     }
   ],
+  "rewrites": [
+    {
+      "source": "/downloads/AiderLog-v129-offline-training.apk",
+      "destination": "/AiderLog-v129-offline-training.apk"
+    }
+  ],
   "headers": [
     {
       "source": "/sw.js",
