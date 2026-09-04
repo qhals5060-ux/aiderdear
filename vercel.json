@@ -50,7 +50,7 @@
       ]
     },
     {
-      "source": "/AiderLog-v131-login-wheel.apk",
+      "source": "/AiderLog-v134-solar-material.apk",
       "headers": [
         {
           "key": "Content-Type",
@@ -58,7 +58,7 @@
         },
         {
           "key": "Content-Disposition",
-          "value": "attachment; filename=\"AiderLog-v131-login-wheel.apk\""
+          "value": "attachment; filename=\"AiderLog-v134-solar-material.apk\""
         },
         {
           "key": "Cache-Control",
