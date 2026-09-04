@@ -17,12 +17,6 @@
       "permanent": false
     }
   ],
-  "rewrites": [
-    {
-      "source": "/downloads/AiderLog-v129-offline-training.apk",
-      "destination": "/AiderLog-v129-offline-training.apk"
-    }
-  ],
   "headers": [
     {
       "source": "/sw.js",
@@ -56,7 +50,7 @@
       ]
     },
     {
-      "source": "/downloads/AiderLog-v129-offline-training.apk",
+      "source": "/AiderLog-v130-login-wheel.apk",
       "headers": [
         {
           "key": "Content-Type",
@@ -64,7 +58,7 @@
         },
         {
           "key": "Content-Disposition",
-          "value": "attachment; filename=\"AiderLog-v129-offline-training.apk\""
+          "value": "attachment; filename=\"AiderLog-v130-login-wheel.apk\""
         },
         {
           "key": "Cache-Control",
