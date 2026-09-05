@@ -1,4 +1,13 @@
-# AiderLog Android v151 · Site v121 + Work
+# AiderLog Android v152 · Site v121 + Work
+
+## v152 emotion, Event and post-install widget settings
+
+- Reframes the emotion recorder as a bounded mobile sheet and turns the long context/activity/action lists into collapsible multi-select controls.
+- Removes the footer background behind Cancel/Save, restores the compact planetary system-theme selector, and refines the insight postcard/envelope.
+- Repairs the mobile Event layout so Record, Archive and Travel use the full available width instead of collapsing into a narrow column.
+- Adds every widget immediately with its default cosmic design; tapping the installed widget opens theme, opacity, font and content settings.
+
+Android APK SHA-256: `0DE718A8AAB51F40F8333A69C02AEAE58F951117C33F2D05AE7F47C17E1F4419`
 
 ## v151 Android native-touch wheel and live cosmic widgets
 
@@ -16,7 +25,7 @@
 - Calendar spacing, current-date ring, schedule form, Routine, Daylog, Private Universe and account/settings density were refined for Galaxy Flip/Fold 3–8.
 - Language Lab uses the validated split v2 bundle: 3 languages, 5 levels per language, 8 units and 80 lessons per course. Only the selected course is parsed and cached.
 - Language progress is keyed by user/language/level/unit/lesson, preserves legacy progress and syncs between the website and Android app for the same account.
-- The profile App page downloads the current v151 site archive and signed Android APK.
+- The profile App page downloads the current v152 site archive and signed Android APK.
 
 Android APK SHA-256: `53CF581A3EF3F73E98CAB8F91D67F4FD143FD0991E80EEE4A5FBAB9AAA808ED6`
 

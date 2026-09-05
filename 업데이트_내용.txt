@@ -1,3 +1,17 @@
+AiderLog Android v152 · Emotion · Event · Widget Setup
+
+[v152 변경]
+
+- 감정 기록창 상단과 내부 스크롤을 모바일 화면에 맞추고 상황·활동·행동·원하는 것을 접이식 복수 선택창으로 변경
+- 취소·저장 버튼 뒤의 배경을 제거하고 인사이트 엽서·봉투의 우주 테마 질감과 정보 배치를 개선
+- Record·Archive·Travel 이벤트 화면이 가늘게 축소되던 레이아웃을 전체 폭 카드 구조로 수정
+- 시스템 테마 선택을 행성 모양 카드로 복원
+- 위젯은 별도 설정창 없이 기본 우주 디자인으로 즉시 추가되고, 설치된 위젯을 누르면 테마·불투명도·폰트·내용 설정을 열도록 변경
+
+Android APK SHA-256: 0DE718A8AAB51F40F8333A69C02AEAE58F951117C33F2D05AE7F47C17E1F4419
+
+----------------------------------------
+
 AiderLog Android v151 · Native Touch Wheel & Live Cosmic Widgets
 
 [v151 변경]
