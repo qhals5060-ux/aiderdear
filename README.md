@@ -1,9 +1,9 @@
-# AiderLog Android v150 · Site v121 + Work
+# AiderLog Android v151 · Site v121 + Work
 
-## v150 Android touch reliability and 15 home widgets
+## v151 Android native-touch wheel and live cosmic widgets
 
-- Keeps the idle planet artwork in its original lower-right peek position while moving its transparent 100×100 touch target inside the safe viewport.
-- Uses a single window-capture pointer controller for tap-to-home and hold-drag destination navigation on Samsung WebView.
+- Keeps the idle planet artwork in its original lower-right peek position while enlarging the transparent core target and the complete open fan hit area.
+- Uses native Android TouchEvent handling for tap-to-home, hold-open, drag selection and direct destination taps on Samsung WebView; mouse and pen remain separate fallbacks.
 - Registers 15 installable widgets: five Schedule, Bullet Journal, two Routine, Language streak, Meal photos, and five Workout variants.
 - Each installed widget can reopen `꾸미기` to change its theme, opacity (20% steps), font size (five steps), and applicable content.
 - Unfolded Galaxy Fold displays app text about 6% larger while Flip and cover displays retain the compact scale.
@@ -16,9 +16,9 @@
 - Calendar spacing, current-date ring, schedule form, Routine, Daylog, Private Universe and account/settings density were refined for Galaxy Flip/Fold 3–8.
 - Language Lab uses the validated split v2 bundle: 3 languages, 5 levels per language, 8 units and 80 lessons per course. Only the selected course is parsed and cached.
 - Language progress is keyed by user/language/level/unit/lesson, preserves legacy progress and syncs between the website and Android app for the same account.
-- The profile App page downloads the current v150 site archive and signed Android APK.
+- The profile App page downloads the current v151 site archive and signed Android APK.
 
-Android APK SHA-256: `E1A6BBB203A5F834BC0055D20FEDE58F9A89BCAEC8A914603859E79C5AC19B31`
+Android APK SHA-256: `53CF581A3EF3F73E98CAB8F91D67F4FD143FD0991E80EEE4A5FBAB9AAA808ED6`
 
 ---
 

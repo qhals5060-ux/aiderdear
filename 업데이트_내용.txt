@@ -1,4 +1,12 @@
-AiderLog Android v150 · Touch Wheel & Cosmic Home Widgets
+AiderLog Android v151 · Native Touch Wheel & Live Cosmic Widgets
+
+[v151 변경]
+
+- 삼성 WebView에서 PointerEvent만 사용하던 휠 입력을 실제 TouchEvent 기반으로 교체
+- 휠 본체, 펼쳐진 휠바 전체, 각 아이콘 주변까지 독립 터치 영역으로 처리
+- 짧은 터치는 홈, 길게 누르기는 펼침, 드래그·직접 터치는 선택 페이지로 이동
+- 실제 홈 화면 위젯 15종에 테마색 우주 배경, 궤도, 별빛, 유리 테두리를 직접 적용
+- APK 업데이트 후 앱을 열면 기존에 설치된 위젯도 즉시 다시 그림
 
 [v150 변경]
 - 휠 행성의 기존 우측 하단 위치는 유지하고, 투명 터치 영역만 화면 안전영역 안쪽에 배치
