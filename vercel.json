@@ -50,7 +50,7 @@
       ]
     },
     {
-      "source": "/AiderLog-v152.apk",
+      "source": "/AiderLog-v153.apk",
       "headers": [
         {
           "key": "Content-Type",
@@ -58,7 +58,7 @@
         },
         {
           "key": "Content-Disposition",
-          "value": "attachment; filename=\"AiderLog-v152.apk\""
+          "value": "attachment; filename=\"AiderLog-v153.apk\""
         },
         {
           "key": "Cache-Control",
@@ -67,7 +67,7 @@
       ]
     },
     {
-      "source": "/AiderLog-v152-site-files.zip",
+      "source": "/AiderLog-v153-site-files.zip",
       "headers": [
         {
           "key": "Content-Type",
@@ -75,7 +75,7 @@
         },
         {
           "key": "Content-Disposition",
-          "value": "attachment; filename=\"AiderLog-v152-site-files.zip\""
+          "value": "attachment; filename=\"AiderLog-v153-site-files.zip\""
         },
         {
           "key": "Cache-Control",

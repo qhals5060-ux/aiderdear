@@ -1,4 +1,15 @@
-# AiderLog Android v152 · Site v121 + Work
+# AiderLog Android v153 · Site v121 + Work
+
+## v153 fresh-install startup recovery and 5 mm frame
+
+- Removes the unnecessary native widget refresh from the Activity startup path so a fresh install can open without initializing widget code before the WebView.
+- Applies an explicit 5 mm (31.5 dp) content frame at both the top and bottom of the Android screen.
+- Prevents the `#home` URL target from scrolling the app header above the top frame during first launch.
+- Keeps the site download filenames versioned so a first-time visitor receives the current APK instead of a cached older file.
+
+Android APK SHA-256: `D79681D1F41433ECEE7791648654BCE4CB67FAFFB4166CCD1EBF7CE638E85FBA`
+
+---
 
 ## v152 emotion, Event and post-install widget settings
 
@@ -25,7 +36,7 @@ Android APK SHA-256: `0DE718A8AAB51F40F8333A69C02AEAE58F951117C33F2D05AE7F47C17E
 - Calendar spacing, current-date ring, schedule form, Routine, Daylog, Private Universe and account/settings density were refined for Galaxy Flip/Fold 3–8.
 - Language Lab uses the validated split v2 bundle: 3 languages, 5 levels per language, 8 units and 80 lessons per course. Only the selected course is parsed and cached.
 - Language progress is keyed by user/language/level/unit/lesson, preserves legacy progress and syncs between the website and Android app for the same account.
-- The profile App page downloads the current v152 site archive and signed Android APK.
+- The profile App page downloads the current v153 site archive and signed Android APK.
 
 Android APK SHA-256: `53CF581A3EF3F73E98CAB8F91D67F4FD143FD0991E80EEE4A5FBAB9AAA808ED6`
 

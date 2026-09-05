@@ -1,3 +1,15 @@
+AiderLog Android v153 · Fresh Install Recovery · 5 mm Frame
+
+[v153 변경]
+- 앱 최초 실행에서 사용하지 않는 위젯 갱신 호출을 제거해 새 설치 직후의 네이티브 시작 경로를 단순화했습니다.
+- 앱 화면 상단과 하단에 각각 5mm(31.5dp) 여백을 적용했습니다.
+- #home 주소가 앱 컨테이너를 위로 자동 스크롤해 헤더가 여백을 침범하던 문제를 수정했습니다.
+- 사이트 다운로드 파일명을 v153으로 갱신해 처음 방문한 사용자도 최신 APK를 받도록 했습니다.
+
+Android APK SHA-256: D79681D1F41433ECEE7791648654BCE4CB67FAFFB4166CCD1EBF7CE638E85FBA
+
+---
+
 AiderLog Android v152 · Emotion · Event · Widget Setup
 
 [v152 변경]
