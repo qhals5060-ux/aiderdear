@@ -29,6 +29,7 @@
         app.querySelector('.header-stats')?.append(share);
         this.shadowRoot.append(styleElement,app,toast);
         const applyFontFloor=(scope=this.shadowRoot)=>{
+          if(document.documentElement.classList.contains('modern-site'))return;
           const candidates=[];
           if(scope instanceof Element)candidates.push(scope);
           candidates.push(...scope.querySelectorAll?.('*')||[]);

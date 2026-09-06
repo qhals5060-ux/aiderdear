@@ -1,0 +1,11 @@
+/* Closed geometry only: retain the tested wheel navigation and open hit map. */
+html body #wheel.global-wheel-v126:not(.open){right:18px!important;bottom:10px!important}
+html body #wheel.global-wheel-v126:not(.open) #wheelCore{filter:brightness(.88)!important}
+#fileTransferStatusV163{position:fixed;left:16px;right:16px;bottom:40px;z-index:2147483646;padding:12px 16px;border-radius:14px;background:var(--theme-surface,#fff);color:var(--theme-ink,#24213b);box-shadow:0 4px 28px #0003;font-size:14px;text-align:center;pointer-events:none}
+#fileTransferStatusV163[hidden]{display:none!important}
+.file-viewer-v163{position:fixed;inset:0;z-index:2147483645;display:flex;flex-direction:column;gap:12px;padding:calc(16px + env(safe-area-inset-top)) 14px calc(16px + env(safe-area-inset-bottom));background:var(--theme-surface,#faf8ff);color:var(--theme-ink,#24213b)}
+.file-viewer-v163 header{display:flex;align-items:center;gap:8px;flex:none}
+.file-viewer-v163 header strong{min-width:0;flex:1;overflow-wrap:anywhere;font-size:14px}
+.file-viewer-v163 button{min-height:44px;padding:8px 12px;border:1px solid var(--theme-primary,#7657d8);border-radius:12px;background:transparent;color:inherit}
+.file-viewer-v163 :is(img,video){width:100%;min-height:0;flex:1;object-fit:contain}
+.file-viewer-v163 audio{width:100%;margin:auto}

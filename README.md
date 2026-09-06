@@ -1,4 +1,14 @@
-# AiderLog Android v161 · Site v121 + Work
+# AiderLog v163 · Modern site layout / Android local files
+
+Current release: Android versionCode 163 (1.9.53).
+
+- Modern site: `site-modern-v163.css/js`, with dedicated Paper / Language shadow styles.
+- Downloads: `AiderLog-v163.apk`, `AiderLog-Modern-v163-site-files.zip`.
+- Original design retained: `AiderLog-Editorial-v161-site-files.zip`.
+- Change scope and verification limits: [RELEASE_V163.md](./RELEASE_V163.md).
+- Native file-transfer patch sources: [android-src](./android-src/README.md).
+
+## Previous releases
 
 ## v161 compact wheel · exact sheets · system theme · Event repair
 

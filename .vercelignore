@@ -1,0 +1,5 @@
+android-src/
+node_modules/
+.git/
+DESIGN_PRESERVATION*.md
+RELEASE*.md
