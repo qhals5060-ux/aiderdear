@@ -346,3 +346,13 @@ v93 기능 유지
 - PERSONAL → 화면 전환 → 식사·운동·독서·금융 패턴 Overview
 - 운동 기록 → 사진 추가 → Overview에서 두 날짜 사진 비교
 - 금융 기록 → 납부 주기·납부일 → Overview에서 납부 완료 체크
+AiderLog Android v158 · Consult · Work Lab Notes · Study Workspace 배포 확인
+
+- APK: /AiderLog-v158.apk
+- 사이트 소스: /AiderLog-v158-site-files.zip
+- APK SHA-256: 5111655312FA98449A0E198019136C44E458AC541529C9A3EBED7C24FA6FB2BA
+- 지원 기기: Galaxy Flip·Fold 3–8, Android 8.0 이상
+- Work의 실험노트 링크 5개와 사진·영상 첨부, Yoo Lab 논문 아카이브, 여러 연구 설계를 확인합니다.
+- 앱 My의 Language Lab과 네 항목 휠, 하단 여백 축소를 확인합니다.
+
+----------------------------------------

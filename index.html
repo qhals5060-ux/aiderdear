@@ -4122,7 +4122,8 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   html body #stage .calendar{min-height:488px!important}
 }
 </style>
-<link rel="stylesheet" href="./site-work-v146.css?v=148">
+<link rel="stylesheet" href="./site-work-v146.css?v=158">
+<link rel="stylesheet" href="./site-polish-v158.css?v=158">
 </head>
 <body>
 <a class="skip-link" href="#app">본문으로 건너뛰기</a>
@@ -4138,7 +4139,7 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
       <button class="tab" type="button" role="tab" data-tab="record" aria-controls="recordStage" aria-selected="false" tabindex="-1">EVENT</button>
       <button class="tab" type="button" role="tab" data-tab="personal" aria-controls="personalStage" aria-selected="false" tabindex="-1">PERSONAL</button>
       <button class="tab" type="button" role="tab" data-tab="paper" aria-controls="paperStage" aria-selected="false" tabindex="-1" hidden>PAPER</button>
-      <button class="tab" type="button" role="tab" data-tab="task" aria-controls="taskStage" aria-selected="false" tabindex="-1" hidden>CONSULTING</button>
+      <button class="tab" type="button" role="tab" data-tab="task" aria-controls="taskStage" aria-selected="false" tabindex="-1" hidden>CONSULT</button>
       <button class="tab site-work-tab-v146" type="button" role="tab" data-tab="work" aria-controls="siteWorkStageV146" aria-selected="false" tabindex="-1" hidden>WORK</button>
     </nav>
     <div class="nav-tools" aria-label="빠른 도구">
@@ -4822,8 +4823,8 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
               <section class="account-settings-panel" data-account-panel="app">
           <p class="firebase-storage-note">Spark 무료 요금제에서 동작합니다. 사진은 자동 압축되며 영상은 최대 5분·120MB까지 저장됩니다. 큰 영상은 무료 1GiB 저장공간을 빠르게 사용할 수 있습니다.</p>
           <div class="app-install-grid app-install-v137">
-            <article class="app-install-card windows"><i>PC</i><b>Windows PC · 사이트 파일</b><p>AiderLog 웹사이트 전체 파일을 ZIP으로 내려받습니다.</p><a class="app-download-link app-download-v157" href="./AiderLog-v157-site-files.zip" download="AiderLog-v157-site-files.zip">PC 파일 다운로드</a></article>
-            <article class="app-install-card android"><i>APK</i><b>Android 앱</b><p>Galaxy Fold·Flip 3–8 및 Android 8.0 이상용 최신 설치 파일입니다.</p><a class="app-download-link app-download-v157" href="./AiderLog-v157.apk" download="AiderLog-v157.apk">Android APK 다운로드</a></article>
+            <article class="app-install-card windows"><i>PC</i><b>Windows PC · 사이트 파일</b><p>AiderLog 웹사이트 전체 파일을 ZIP으로 내려받습니다.</p><a class="app-download-link app-download-v158" href="./AiderLog-v158-site-files.zip" download="AiderLog-v158-site-files.zip">PC 파일 다운로드</a></article>
+            <article class="app-install-card android"><i>APK</i><b>Android 앱</b><p>Galaxy Fold·Flip 3–8 및 Android 8.0 이상용 최신 설치 파일입니다.</p><a class="app-download-link app-download-v158" href="./AiderLog-v158.apk" download="AiderLog-v158.apk">Android APK 다운로드</a></article>
           </div>
           <div class="login-data-summary"><b>기록 저장 안내</b><span>일정은 본인 공간에 저장되며 ‘커플과 공유’를 선택한 일정만 상대 캘린더에 표시됩니다.</span><span>EVENT는 커플 연결 시 함께 보고, 루틴·어학·PERSONAL·메모는 본인만 확인합니다.</span><span>PAPER·CONSULTING·WORK는 허용된 두 계정만 열 수 있으며, 각 계정의 연구·컨설팅·운영 기록은 서로 분리해 저장합니다.</span><span>사진·영상은 압축 저장되며, 오래된 일반 기록은 삭제 전에 반드시 확인을 요청합니다.</span></div>
               </section>
@@ -8623,9 +8624,18 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
     let analysisStored=false;try{if(window.AiderDearFirebase?.writePaperAnalysis){await window.AiderDearFirebase.writePaperAnalysis(id,payload);analysisStored=true}}catch(error){console.warn('Detailed paper analysis storage failed',error)}
     window.AiderPaperWorkspace?.refresh?.();return {id,analysisStored};
   }
+  async function savePaperV158Design(payload){
+    if(!currentUserEmail)throw new Error('AiderLog 로그인이 필요합니다.');
+    const data=researchStore(),id=String(payload?.id||`design-v158-${Date.now()}`),existing=(data.researchDesigns||[]).find(row=>row.id===id),allowedPapers=new Set((data.paperItems||[]).map(row=>row.id));
+    const row={id,ideaId:String(payload?.ideaId||''),title:String(payload?.title||'').trim(),question:String(payload?.question||'').trim(),hypothesis:String(payload?.hypothesis||'').trim(),studyDesign:String(payload?.studyDesign||'').trim(),analysisPlan:String(payload?.analysisPlan||'').trim(),status:['아이디어','초안','진행 중','보류'].includes(payload?.status)?payload.status:'초안',linkedPaperIds:[...new Set((payload?.linkedPaperIds||[]).map(String).filter(value=>allowedPapers.has(value)))],createdAt:existing?.createdAt||Date.now(),updatedAt:Date.now()};
+    if(!row.title)throw new Error('연구 설계 이름을 입력해주세요.');
+    data.researchDesigns=Array.isArray(data.researchDesigns)?data.researchDesigns:[];const index=data.researchDesigns.findIndex(item=>item.id===id);if(index>=0)data.researchDesigns.splice(index,1,row);else data.researchDesigns.unshift(row);
+    await persistResearch('연구 설계를 저장했습니다.');window.AiderPaperWorkspace?.refresh?.();return structuredClone(row);
+  }
   window.AiderPaperBridge={
     snapshot:paperV120Snapshot,
     saveImport:savePaperV120Import,
+    saveDesign:savePaperV158Design,
     loadAnalysis:async paperId=>window.AiderDearFirebase?.readPaperAnalysis?window.AiderDearFirebase.readPaperAnalysis(paperId):null,
     deletePapers:async ids=>{const selected=new Set(ids||[]),data=researchStore();data.paperItems=(data.paperItems||[]).filter(row=>!selected.has(row.id));data.researchInsights=(data.researchInsights||[]).filter(row=>!selected.has(row.paperId));await persistResearch(`${selected.size}개 논문을 삭제했습니다.`);if(window.AiderDearFirebase?.deletePaperAnalysis)await Promise.allSettled([...selected].map(id=>window.AiderDearFirebase.deletePaperAnalysis(id)));window.AiderPaperWorkspace?.refresh?.()},
     setInsightReview:async(id,state)=>{const data=researchStore(),row=(data.researchInsights||[]).find(item=>item.id===id);if(!row)return;row.reviewState=state;row.status=state==='verified'?'reviewed':'aiCandidate';row.reviewedAt=state==='verified'?Date.now():0;row.updatedAt=Date.now();await persistResearch('근거 검토 상태를 저장했습니다.');window.AiderPaperWorkspace?.refresh?.()},
@@ -8634,8 +8644,9 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
     normalizeCloudData();selectAlbumFolderColor(ALBUM_PASTELS[0]);getAlbumFolders();refreshRecordAlbumSelect(DEFAULT_ALBUM_ID);renderAlbumFolders();renderEventArchive();renderTravelArchive();renderPrivate();renderPersonal();renderPaper();renderConsultingWorkspace();renderEmotion();applyLoginUI();setDday();renderDdayList();renderCalendar();if(location.hash==='#search')setTimeout(openSearchFromQuick,0);if('serviceWorker' in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'}).then(registration=>registration.update()).catch(()=>{}));
 })();
 </script>
-<script src="./paper-workspace-v121.js?v=121"></script>
-<script src="./site-work-v146.js?v=148"></script>
+<script src="./paper-workspace-v121.js?v=158"></script>
+<script src="./site-work-v146.js?v=158"></script>
+<script src="./site-polish-v158.js?v=158"></script>
 <script>
 (() => {
   const REFERENCE_TEXT = '최근 30일 동안 가장 많이 느낀 감정';

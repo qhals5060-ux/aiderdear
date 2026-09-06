@@ -19,6 +19,8 @@
   let tab = 'today';
   let query = '';
   let records = [];
+  let labLinks = [];
+  let labEntries = [];
   let loading = false;
 
   function api() { return window.AiderDearFirebase; }
@@ -62,8 +64,16 @@
       if (auth().user && api()?.readPrivateData) {
         const payload = await api().readPrivateData();
         records = normalize(payload?.workRecords);
+        labLinks = Array.isArray(payload?.labNotebookLinks) ? payload.labNotebookLinks.slice(0, 5) : [];
+        if (api()?.createLabNotebookLinks) {
+          labLinks = await api().createLabNotebookLinks(labLinks);
+          payload.labNotebookLinks = labLinks;
+          await api().writePrivateData(payload);
+        }
+        if (api()?.readLabNotebookSubmissions) labEntries = await api().readLabNotebookSubmissions(labLinks);
       } else {
         records = normalize(JSON.parse(localStorage.getItem(LOCAL_KEY) || '[]'));
+        labLinks = []; labEntries = [];
       }
     } catch (error) {
       console.warn('[site-work-v146] load fallback', error);
@@ -80,6 +90,7 @@
     if (auth().user && api()?.readPrivateData && api()?.writePrivateData) {
       const latest = await api().readPrivateData() || {};
       latest.workRecords = records;
+      if (labLinks.length) latest.labNotebookLinks = labLinks;
       await api().writePrivateData(latest);
     }
     publishRecords();
@@ -152,14 +163,24 @@
     filtered.sort((a,b)=>Number(active(b))-Number(active(a))||String(a.dueDate||'9999').localeCompare(String(b.dueDate||'9999')));
     const needle = query.trim().toLowerCase();
     if (needle) filtered = filtered.filter(row => JSON.stringify(row).toLowerCase().includes(needle));
-    return `<section class="site-work-panel-v146"><header class="site-work-section-head-v146"><div><small>${tab.toUpperCase()}</small><h3>${esc(TYPE_LABEL[tab] || '업무')}</h3></div><button class="site-work-button-v146" type="button" data-work-add="${esc(tab)}">+ 기록 추가</button></header><div class="site-work-list-v146">${filtered.map(card).join('') || `<div class="site-work-empty-v146">${esc(TYPE_LABEL[tab] || '업무')} 기록이 없습니다.</div>`}</div></section>`;
+    const list = `<section class="site-work-panel-v146"><header class="site-work-section-head-v146"><div><small>${tab.toUpperCase()}</small><h3>${esc(TYPE_LABEL[tab] || '업무')}</h3></div><button class="site-work-button-v146" type="button" data-work-add="${esc(tab)}">+ 기록 추가</button></header><div class="site-work-list-v146">${filtered.map(card).join('') || `<div class="site-work-empty-v146">${esc(TYPE_LABEL[tab] || '업무')} 기록이 없습니다.</div>`}</div></section>`;
+    return tab === 'bio' ? `<div class="site-work-bio-pages-v158">${list}${labNotebookView()}</div>` : list;
+  }
+
+  function labNotebookView() {
+    const links = labLinks.map((row,index) => {
+      const url = `${location.origin}${location.pathname}?lab-note=${encodeURIComponent(row.token)}`;
+      return `<article class="site-lab-link-v158"><span><small>${esc(row.label || `LAB NOTE ${index+1}`)}</small><b>${esc(row.researcherName || `연구원 ${index+1}`)}</b></span><input readonly value="${esc(url)}" aria-label="${esc(row.researcherName || `연구원 ${index+1}`)} 고정 실험노트 링크"><button type="button" data-lab-copy="${esc(url)}">링크 복사</button></article>`;
+    }).join('');
+    const notes = labEntries.map(row => `<article class="site-lab-note-v158"><header><span><small>${esc(row.researcher || row.linkLabel || '연구원')}</small><b>${esc(row.title || '실험 기록')}</b></span><time>${esc(String(row.performedAt || '').replace('T',' '))}</time></header><dl><div><dt>프로젝트 · 코드</dt><dd>${esc([row.project,row.code].filter(Boolean).join(' · ') || '미입력')}</dd></div><div><dt>프로토콜 · Batch</dt><dd>${esc([row.protocol,row.batch].filter(Boolean).join(' · ') || '미입력')}</dd></div><div><dt>QC</dt><dd>${esc(row.qcResult || '확인 전')} · ${esc(row.qcCriteria || '기준 미입력')}</dd></div><div><dt>다음 행동</dt><dd>${esc(row.nextAction || '대표 확인')}</dd></div></dl><details><summary>실험노트 한눈에 보기</summary><p><b>목적</b>${esc(row.purpose || '—')}</p><p><b>재료·시료·장비</b>${esc(row.materials || '—')}</p><p><b>절차</b>${esc(row.procedure || '—')}</p><p><b>결과·관찰</b>${esc(row.result || '—')}</p></details>${(row.media||[]).length?`<footer>${row.media.map(media=>`<button type="button" data-lab-media="${esc(row.token)}|${esc(row.id)}|${esc(media.id)}">${/^video\//.test(media.type)?'영상':'사진'} · ${esc(media.name)}</button>`).join('')}</footer>`:''}</article>`).join('');
+    return `<section class="site-work-lab-v158"><header class="site-work-section-head-v146"><div><small>EXPERIMENT NOTEBOOK</small><h3>연구원별 실험노트</h3><p>아래로 이어지는 실험 기록 화면입니다. 5개의 고정 링크는 연구원별로 계속 사용할 수 있습니다.</p></div><button class="site-work-button-v146" type="button" data-lab-refresh>새 기록 확인</button></header><div class="site-lab-links-v158">${links || '<div class="site-work-empty-v146">로그인 후 연구원 링크를 준비합니다.</div>'}</div><div class="site-lab-notes-v158">${notes || '<div class="site-work-empty-v146">제출된 실험노트가 없습니다.</div>'}</div></section>`;
   }
 
   function render() {
     ensureStage();
     if (stage.hidden) return;
     const rows = visibleRecords();
-    stage.innerHTML = `<section class="site-work-shell-v146"><header class="site-work-head-v146"><div><small>OWNER OPERATIONS</small><h2>Work</h2><p>업무·과제·연구·행정을 한 흐름으로 관리합니다.</p></div><div class="site-work-head-actions-v146"><input data-work-query type="search" value="${esc(query)}" placeholder="업무 · 과제 · 실험 검색"><button class="site-work-button-v146 primary" type="button" data-work-add="tasks">+ 업무</button></div></header><div class="site-work-body-v146"><nav class="site-work-nav-v146" aria-label="Work 메뉴">${TABS.map(([key,label]) => `<button class="${tab === key ? 'active' : ''}" type="button" data-work-tab="${key}">${label}</button>`).join('')}</nav><main class="site-work-content-v146">${loading ? '<div class="site-work-empty-v146">업무 데이터를 불러오는 중입니다.</div>' : tab === 'today' ? todayView(rows) : listView(rows)}${!records.length && !loading ? '<p class="site-work-notice-v146">DEMO 항목은 화면 확인용이며 저장 데이터와 분리됩니다. 새 기록을 추가하면 실제 업무만 표시됩니다.</p>' : ''}</main></div></section>`;
+    stage.innerHTML = `<section class="site-work-shell-v146"><header class="site-work-head-v146"><div><small>OWNER OPERATIONS</small><h2>Work</h2><p>업무·과제·연구·행정을 한 흐름으로 관리합니다.</p></div><div class="site-work-head-actions-v146"><input data-work-query type="search" value="${esc(query)}" placeholder="업무 · 과제 · 실험 검색"><button class="site-work-button-v146 primary" type="button" data-work-add="tasks">+ 업무</button></div></header><div class="site-work-body-v146"><nav class="site-work-nav-v146" aria-label="Work 메뉴">${TABS.map(([key,label]) => `<button class="${tab === key ? 'active' : ''}" type="button" data-work-tab="${key}">${label}</button>`).join('')}</nav><main class="site-work-content-v146">${loading ? '<div class="site-work-empty-v146">업무 데이터를 불러오는 중입니다.</div>' : tab === 'today' ? todayView(rows) : listView(rows)}</main></div></section>`;
   }
 
   function field(label, name, value = '', type = 'text', wide = false) {
@@ -172,14 +193,19 @@
     return `<label class="${wide ? 'wide' : ''}">${label}<select name="${name}">${values.map(value => `<option ${value === current ? 'selected' : ''}>${esc(value)}</option>`).join('')}</select></label>`;
   }
 
+  function purposeFields(type, record) {
+    if (type === 'grants') return `${select('상태','status',STATUS,record.status||'예정')}${select('담당','assignee',ASSIGNEES,record.assignee||'대표')}${field('지원기관 · 사업명','agency',record.agency||'')}${field('현재 단계','stage',record.stage||'')}${field('제출 마감','dueDate',record.dueDate||'','date')}${field('준비도 (%)','readiness',record.readiness||'','number')}${field('정부지원금 · 총사업비','amount',record.amount||'','number')}${textarea('신청 자격 · 페이지·조항 근거','evidence',record.evidence||'')}${textarea('필수 문서 · 주요 위험','description',record.description||'')}${textarea('대표가 해야 할 다음 행동','nextAction',record.nextAction||'')}`;
+    if (type === 'bio') return `${select('상태','status',STATUS,record.status||'예정')}${select('실제 담당자','assignee',ASSIGNEES,record.assignee||'대표')}${field('수행일 · 마감일','dueDate',record.dueDate||'','date')}${field('연구 프로젝트','agency',record.agency||'')}${field('실험 코드','code',record.code||'')}${field('프로토콜 버전','protocol',record.protocol||'')}${field('Batch · Lot','batch',record.batch||'')}${field('시료 · 표본 수','sample',record.sample||'')}${field('장비 · 시약','equipment',record.equipment||'')}${textarea('실험 목적 · 절차','description',record.description||'')}${textarea('QC 기준 · 결과','evidence',record.evidence||record.qcCriteria||'')}${textarea('원자료 위치 · 이상치 · deviation','source',record.source||record.rawData||'')}${textarea('현재 문제 · 다음 행동','issue',record.issue||'')}${field('다음 행동','nextAction',record.nextAction||'', 'text', true)}`;
+    if (type === 'admin') return `${select('상태','status',STATUS,record.status||'예정')}${select('실제 처리 담당자','assignee',ASSIGNEES,record.assignee||'대표')}${select('업무 분류','adminType',['지출','구매','계약','세무','인사','급여','보험','신고','연구윤리','개인정보','문서','기타'],record.adminType||'지출')}${field('금액','amount',record.amount||'','number')}${field('공급처','vendor',record.vendor||'')}${field('마감일','dueDate',record.dueDate||'','date')}${field('연결 과제 · 예산 항목','agency',record.agency||'')}${select('증빙 상태','evidenceState',['필요 없음','미수취','확인 필요','보완 필요','완료'],record.evidenceState||'필요 없음')}${textarea('처리 내용 · 증빙','description',record.description||'')}${textarea('현재 문제','issue',record.issue||'')}${field('다음 행동','nextAction',record.nextAction||'', 'text', true)}`;
+    return `${select('상태','status',STATUS,record.status||'예정')}${select('우선순위','priority',['낮음','보통','높음'],record.priority||'보통')}${select('담당','assignee',ASSIGNEES,record.assignee||'대표')}${field('시작일','startDate',record.startDate||'','date')}${field('마감일','dueDate',record.dueDate||'','date')}${field('예상 소요시간','estimate',record.estimate||'')}${textarea('업무 설명 · 완료 조건','description',record.description||'')}${textarea('현재 문제','issue',record.issue||'')}${field('다음 행동','nextAction',record.nextAction||'', 'text', true)}`;
+  }
+
   function openEditor(record = {}, type = 'tasks') {
     const overlay = document.createElement('div'); overlay.className = 'site-work-overlay-v146';
     overlay.innerHTML = `<section class="site-work-dialog-v146" role="dialog" aria-modal="true"><header><div><small>OWNER OPERATIONS</small><h2>${record.id ? '업무 기록 수정' : '새 업무 기록'}</h2></div><button type="button" data-work-close aria-label="닫기">×</button></header>
-      <form class="site-work-form-v146" data-work-form><input type="hidden" name="id" value="${esc(record.id || '')}">
-      <label>분류<select name="type">${TABS.filter(([key]) => !['today','archive'].includes(key)).map(([key,label]) => `<option value="${key}" ${key === (record.type || type) ? 'selected' : ''}>${label}</option>`).join('')}</select></label>
-      ${select('상태','status',STATUS,record.status || '예정')}${field('업무 제목 *','title',record.title || '')}${select('우선순위','priority',['낮음','보통','높음'],record.priority || '보통')}${select('담당','assignee',ASSIGNEES,record.assignee || '대표')}${field('시작일','startDate',record.startDate || '','date')}${field('마감일','dueDate',record.dueDate || '','date')}${field('마감 시간','dueTime',record.dueTime || '','time')}${field('예상 소요시간','estimate',record.estimate || '')}
-      ${textarea('설명 · 완료 조건','description',record.description || '')}${textarea('현재 문제','issue',record.issue || '')}${textarea('대표가 해야 할 다음 행동','nextAction',record.nextAction || '')}
-      <details><summary>필요할 때만 상세 정보 입력</summary><div class="site-work-detail-grid-v146">${field('기관 · 프로젝트','agency',record.agency || '')}${field('과제 · 실험 코드','code',record.code || '')}${field('현재 단계','stage',record.stage || '')}${field('준비도 (%)','readiness',record.readiness || '','number')}${field('금액','amount',record.amount || '','number')}${select('증빙 상태','evidenceState',['필요 없음','미수취','확인 필요','보완 필요','완료'],record.evidenceState || '필요 없음')}${field('전달일','deliveredAt',record.deliveredAt || '','date')}${field('마지막 확인일','lastChecked',record.lastChecked || '','date')}${field('다음 확인일','nextCheck',record.nextCheck || '','date')}${textarea('공고문 조항 · QC 기준 · 완료 근거','evidence',record.evidence || record.qcCriteria || '',true)}${textarea('프로토콜 · batch · 시료 · 장비 · 시약','labDetails',record.labDetails || '',true)}${textarea('원자료 위치 · 관련 링크','source',record.source || record.rawData || '',true)}</div></details>
+      <form class="site-work-form-v146" data-work-form><input type="hidden" name="id" value="${esc(record.id || '')}"><input type="hidden" name="type" value="${esc(record.type || type)}">
+      ${field(`${TYPE_LABEL[record.type || type] || '업무'} 이름 *`,'title',record.title || '', 'text', true)}
+      ${purposeFields(record.type || type, record)}
       <footer><button type="button" data-work-close>취소</button><button class="primary" type="submit">저장</button></footer></form></section>`;
     document.body.append(overlay); document.body.classList.add('modal-open');
     const close = () => { overlay.remove(); document.body.classList.remove('modal-open'); };
@@ -203,6 +229,9 @@
     const progress = event.target.closest('[data-work-progress]'); if (progress) { const row = records.find(item => item.id === progress.dataset.workProgress); if (!row) return; row.status = '실무 완료'; row.updatedAt = Date.now(); await save('실무 완료를 기록했습니다. 대표 확인 후 최종 완료됩니다.'); render(); return; }
     const confirmButton = event.target.closest('[data-work-confirm]'); if (confirmButton) { const row = records.find(item => item.id === confirmButton.dataset.workConfirm); if (!row) return; row.status = '완료'; row.representativeChecked = true; row.completedAt = Date.now(); await save('대표 확인을 기록하고 최종 완료했습니다.'); render(); return; }
     const remove = event.target.closest('[data-work-delete]'); if (remove) { const row = records.find(item => item.id === remove.dataset.workDelete); if (!row || !confirm(`“${row.title}” 기록을 삭제할까요?`)) return; records = records.filter(item => item.id !== row.id); await save('업무 기록을 삭제했습니다.'); render(); }
+    const copy = event.target.closest('[data-lab-copy]'); if (copy) { await navigator.clipboard.writeText(copy.dataset.labCopy); copy.textContent='복사됨'; setTimeout(()=>copy.textContent='링크 복사',1200); return; }
+    if (event.target.closest('[data-lab-refresh]')) { loading=true; render(); try { labEntries=await api()?.readLabNotebookSubmissions?.(labLinks)||[]; } finally { loading=false; render(); } return; }
+    const mediaButton = event.target.closest('[data-lab-media]'); if (mediaButton) { const [token,submissionId,mediaId]=mediaButton.dataset.labMedia.split('|'); try { const blob=await api().readLabNotebookMedia(token,submissionId,mediaId),url=URL.createObjectURL(blob); window.open(url,'_blank','noopener'); setTimeout(()=>URL.revokeObjectURL(url),60000); } catch(error) { alert(error.message||'첨부 파일을 열지 못했습니다.'); } }
   }
 
   function bind() {

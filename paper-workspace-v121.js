@@ -11,7 +11,7 @@
   const paperHost = document.createElement('aider-paper-workspace-v121');
   const paperRoot = paperHost.attachShadow({ mode: 'open' });
   paperRoot.innerHTML = `
-    <link rel="stylesheet" href="./paper-workspace-v121.css?v=121">
+    <link rel="stylesheet" href="./paper-workspace-v121.css?v=158">
     <div class="paper-v121-surface">
       <main class="paper-app">
         <aside class="paper-sidebar">
@@ -28,8 +28,8 @@
             <button type="button" data-view="study"><span>◇</span><b>Study Workspace</b><small>아이디어와 설계</small></button>
             <button type="button" data-view="atlas"><span>◉</span><b>Brain Atlas</b><small>영역과 논문</small></button>
           </nav>
-          <div class="sidebar-project"><span>ACTIVE PROJECT</span><strong>뇌 노화 × 인지예비능</strong><div><i style="--value:68%"></i></div><small>Evidence review 68%</small></div>
-          <a class="sidebar-lab" href="https://sites.google.com/view/yooklab/home" target="_blank" rel="noopener" aria-label="Yoo Lab 연구실 사이트 열기"><span>MY LABORATORY</span><strong>Yoo Lab</strong><small>Computational Brain Science<br>&amp; AI Laboratory</small><em>SKKU · SAIHST · SMC <b>↗</b></em></a>
+          <div class="sidebar-project"><span>ACTIVE PROJECT</span><select id="activeProjectSelect" aria-label="활성 연구 아이디어"></select><div><i id="activeProjectProgress" style="--value:0%"></i></div><small id="activeProjectMeta">저장된 연구 아이디어를 선택하세요.</small></div>
+          <button class="sidebar-lab" id="yooLabButton" type="button" aria-label="Yoo Lab 출판 논문 열기"><span>MY LABORATORY</span><strong>Yoo Lab</strong><small>출판 논문과 연구 방향을<br>한 공간에서 정리합니다.</small><em>PUBLICATION ARCHIVE <b>→</b></em></button>
         </aside>
         <section class="paper-main">
           <div class="paper-content" id="paperContent" aria-live="polite"></div>
@@ -1367,6 +1367,12 @@ id, claim, claimType, sourceQuote, locator{printedPage,pdfPage,section,table,fig
 
   function syncBridgeCollections() {
     const snapshot = window.AiderPaperBridge?.snapshot?.() || { paperItems: [], researchInsights: [] };
+    workspaceSnapshot = {
+      researchIdeas: Array.isArray(snapshot.researchIdeas) ? snapshot.researchIdeas : [],
+      researchDesigns: Array.isArray(snapshot.researchDesigns) ? snapshot.researchDesigns : []
+    };
+    if (!workspaceSnapshot.researchIdeas.some(row => row.id === activeProjectId)) activeProjectId = workspaceSnapshot.researchIdeas[0]?.id || '';
+    if (!workspaceSnapshot.researchDesigns.some(row => row.id === activeDesignId)) activeDesignId = workspaceSnapshot.researchDesigns[0]?.id || '';
     bridgePaperIds.clear();
     const mergedPapers = builtInPapers.map(row => structuredClone(row));
     const fingerprints = new Set(mergedPapers.map(row => String(row.doi || row.title).trim().toLowerCase()));
@@ -1463,6 +1469,9 @@ id, claim, claimType, sourceQuote, locator{printedPage,pdfPage,section,table,fig
   let selectedPaperId = 'qu-2025-ef';
   let previousView = 'library';
   let paperDetailTab = 'overview';
+  let workspaceSnapshot = { researchIdeas: [], researchDesigns: [] };
+  let activeProjectId = '';
+  let activeDesignId = '';
 
   function paperById(id) { return papers.find(paper => paper.id === id); }
   function deepForPaper(paper) {
@@ -1554,6 +1563,18 @@ id, claim, claimType, sourceQuote, locator{printedPage,pdfPage,section,table,fig
     const count = evidence.filter(item => item.state === 'review').length;
     $('#evidenceBadge').textContent = count;
     $('#evidenceBadge').hidden = count === 0;
+    const select = $('#activeProjectSelect');
+    if (select) {
+      const ideas = workspaceSnapshot.researchIdeas;
+      select.innerHTML = ideas.length
+        ? ideas.map(row => `<option value="${escapeHtml(row.id)}"${row.id === activeProjectId ? ' selected' : ''}>${escapeHtml(row.title || '제목 없는 연구 아이디어')}</option>`).join('')
+        : '<option value="">저장된 아이디어 없음</option>';
+      const active = ideas.find(row => row.id === activeProjectId);
+      const linked = workspaceSnapshot.researchDesigns.filter(row => row.ideaId === activeProjectId).length;
+      const progress = active ? Math.min(100, 24 + linked * 18 + (active.hypothesis ? 18 : 0) + (active.researchQuestion ? 16 : 0)) : 0;
+      $('#activeProjectProgress')?.style.setProperty('--value', `${progress}%`);
+      if ($('#activeProjectMeta')) $('#activeProjectMeta').textContent = active ? `저장 설계 ${linked}개 · 정리도 ${progress}%` : 'Study Workspace에서 연구 아이디어를 추가하세요.';
+    }
   }
 
   function goView(view) {
@@ -1817,13 +1838,33 @@ id, claim, claimType, sourceQuote, locator{printedPage,pdfPage,section,table,fig
 
   function renderStudy() {
     const steps = ['연구 공백', '연구 질문', '가설·개념 모형', '실현 가능성', '연구 설계', '분석 계획', '연구 출력'];
+    const ideas = workspaceSnapshot.researchIdeas;
+    const designs = workspaceSnapshot.researchDesigns;
+    const activeIdea = ideas.find(row => row.id === activeProjectId);
+    const ideaTitle = activeIdea?.title || '새 연구 아이디어';
+    const ideaQuestion = activeIdea?.researchQuestion || activeIdea?.question || '연구 질문과 검증 범위를 구체화하세요.';
+    const ideaSummary = activeIdea?.background || activeIdea?.gap || activeIdea?.note || '저장된 연구 아이디어를 선택하면 연결된 설계와 논문이 함께 표시됩니다.';
+    const projectDesigns = activeProjectId ? designs.filter(row => row.ideaId === activeProjectId) : designs;
     return `<div class="view-stack">
-      ${heading('STUDY WORKSPACE', '아이디어를 실행 가능한 연구로 바꾸세요', 'Library의 검증 근거를 사용해 초보 연구자도 설계 누락을 확인할 수 있습니다.', '<button class="primary-button">연구 설계 저장</button>')}
-      <article class="research-card study-hero"><span>ACTIVE STUDY · AI 제안, 사용자 검토 필요</span><h2>인지예비능은 정신질환 성인의 BrainAGE와 종단 인지 변화의 관계를 완충하는가?</h2><p>BrainAGE의 임상적 연관은 혼재되어 있고 인지예비능은 인지 저하와 관련되지만 조작화가 다양합니다. 두 문헌 흐름을 연결하되 인과적 표현은 사용하지 않습니다.</p></article>
+      ${heading('STUDY WORKSPACE', '여러 연구 아이디어와 설계를 병렬로 관리하세요', '아이디어별 설계 초안과 사용 논문을 분리해 저장하고 ACTIVE PROJECT에서 하나씩 집중해 봅니다.', '<button class="primary-button" data-new-study-design>＋ 새 연구 설계</button>')}
+      <article class="research-card study-hero active-study-v158"><span>ACTIVE PROJECT · 사용자 선택</span><select id="studyActiveProject" aria-label="활성 연구 아이디어">${ideas.length ? ideas.map(row => `<option value="${escapeHtml(row.id)}"${row.id === activeProjectId ? ' selected' : ''}>${escapeHtml(row.title || '제목 없는 아이디어')}</option>`).join('') : '<option value="">저장된 연구 아이디어 없음</option>'}</select><h2>${escapeHtml(ideaTitle)}</h2><p>${escapeHtml(ideaQuestion)}</p><small>${escapeHtml(ideaSummary)}</small></article>
+      <section class="research-card saved-studies-v158"><div class="section-heading"><div><span>SAVED RESEARCH DESIGNS</span><h2>${escapeHtml(ideaTitle)}의 설계 ${projectDesigns.length}개</h2><p>한 아이디어에도 서로 다른 표본·방법·분석 설계를 여러 개 저장할 수 있습니다.</p></div></div><div class="saved-study-grid">${projectDesigns.length ? projectDesigns.map(row => { const refs = (row.linkedPaperIds || []).map(id => paperById(id)).filter(Boolean); return `<button type="button" data-study-design="${escapeHtml(row.id)}" class="${row.id === activeDesignId ? 'active' : ''}"><span>${escapeHtml(row.status || '초안')}</span><b>${escapeHtml(row.title || '제목 없는 연구 설계')}</b><p>${escapeHtml(row.studyDesign || row.question || '설계 내용을 추가하세요.')}</p><small>참고 논문 ${refs.length}편${refs.length ? ` · ${escapeHtml(refs.slice(0, 2).map(ref => ref.title).join(' / '))}` : ''}</small></button>`; }).join('') : '<p class="empty-study-v158">이 아이디어에 저장된 설계가 없습니다. 새 설계를 추가해 비교해보세요.</p>'}</div></section>
+      <form class="research-card study-design-form-v158" id="paperV158DesignForm" ${activeDesignId ? '' : 'hidden'}><div class="section-heading"><div><span>DESIGN EDITOR</span><h2>${escapeHtml(designs.find(row => row.id === activeDesignId)?.title || '새 연구 설계')}</h2><p>연구 설계와 실제 사용한 참고 논문을 함께 저장합니다.</p></div></div>${(() => { const design = designs.find(row => row.id === activeDesignId) || {}; const linked = new Set(design.linkedPaperIds || []); return `<input type="hidden" name="id" value="${escapeHtml(design.id || '')}"><label><span>설계 이름</span><input name="title" required value="${escapeHtml(design.title || '')}" placeholder="예: 다기관 종단 코호트 설계"></label><div class="study-form-grid-v158"><label><span>연구 질문</span><textarea name="question" rows="3">${escapeHtml(design.question || activeIdea?.researchQuestion || '')}</textarea></label><label><span>가설</span><textarea name="hypothesis" rows="3">${escapeHtml(design.hypothesis || activeIdea?.hypothesis || '')}</textarea></label><label><span>연구 설계</span><textarea name="studyDesign" rows="4">${escapeHtml(design.studyDesign || '')}</textarea></label><label><span>분석 계획</span><textarea name="analysisPlan" rows="4">${escapeHtml(design.analysisPlan || '')}</textarea></label></div><fieldset><legend>이 설계에 사용한 Library 논문</legend><div class="study-paper-picker-v158">${papers.map(paper => `<label><input type="checkbox" name="linkedPaperIds" value="${escapeHtml(paper.id)}"${linked.has(paper.id) ? ' checked' : ''}><span><b>${escapeHtml(paper.title)}</b><small>${escapeHtml(paper.journal)} · ${paper.year}</small></span></label>`).join('')}</div></fieldset><footer><label><span>상태</span><select name="status"><option${design.status === '아이디어' ? ' selected' : ''}>아이디어</option><option${!design.status || design.status === '초안' ? ' selected' : ''}>초안</option><option${design.status === '진행 중' ? ' selected' : ''}>진행 중</option><option${design.status === '보류' ? ' selected' : ''}>보류</option></select></label><button type="submit" class="primary-button">연구 설계 저장</button></footer>`; })()}</form>
       <section class="study-layout">
         <nav class="research-card study-steps">${steps.map((label, index) => `<button type="button" class="${index < studyStep ? 'done' : ''} ${index === studyStep ? 'active' : ''}" data-study-step="${index}"><span>${index < studyStep ? '✓' : index + 1}</span><b>${label}</b></button>`).join('')}</nav>
         <div class="study-work">${studyPanelHtml()}</div>
       </section>
+    </div>`;
+  }
+
+  function renderLab() {
+    const labPapers = papers.filter(paper => String(paper.id).startsWith('yoo-') || [...(paper.topics || []), ...(paper.tags || [])].some(tag => /yoo\s*lab|connectome|functional network|precision/i.test(String(tag))));
+    const topics = new Map();
+    labPapers.forEach(paper => (paper.topics || paper.tags || []).slice(0, 6).forEach(topic => topics.set(topic, (topics.get(topic) || 0) + 1)));
+    return `<div class="view-stack lab-workspace-v158">${heading('YOO LAB · PUBLICATION ARCHIVE', '연구실의 논문에서 연구 방향을 읽습니다', '외부 사이트로 이동하는 링크가 아니라, Library에 저장한 Yoo Lab 출판 논문과 반복되는 연구 주제를 정리하는 공간입니다.')}
+      <section class="lab-direction-grid-v158"><article class="research-card"><span>RESEARCH DIRECTION</span><h2>정밀 기능 네트워크</h2><p>개인 수준의 기능적 연결성과 네트워크 표현을 어떻게 안정적으로 측정하고 일반화하는지 추적합니다.</p></article><article class="research-card"><span>METHOD DIRECTION</span><h2>Connectome-based prediction</h2><p>내부 적합도뿐 아니라 독립 데이터셋 검증, 재현성과 임상적 사용 경계를 함께 확인합니다.</p></article><article class="research-card"><span>TRANSLATION</span><h2>인지·정신건강 연결</h2><p>주의·인지와 정신질환 표현형을 네트워크 특징에 연결하되 개인 진단으로 과장하지 않습니다.</p></article></section>
+      <section class="research-card lab-topic-v158"><div class="section-heading"><div><span>TOPIC PULSE</span><h2>Library에서 반복되는 연구 축</h2></div></div><div>${[...topics.entries()].sort((a,b) => b[1]-a[1]).slice(0, 12).map(([topic,count]) => `<span>${escapeHtml(topic)} <b>${count}</b></span>`).join('') || '<p>Yoo Lab 논문에 태그를 추가하면 연구 축이 나타납니다.</p>'}</div></section>
+      <section><div class="section-heading"><div><span>PUBLICATIONS</span><h2>저장된 출판 논문 ${labPapers.length}편</h2><p>논문을 선택하면 정독 요약·근거·방법론 평가로 이어집니다.</p></div></div><div class="lab-paper-grid-v158">${labPapers.length ? labPapers.map(paper => `<button type="button" class="research-card" data-paper="${escapeHtml(paper.id)}"><span>${paper.year} · ${escapeHtml(paper.journal)}</span><h3>${escapeHtml(paper.title)}</h3><p>${escapeHtml(paper.finding || paper.summary || '')}</p><small>${escapeHtml((paper.topics || []).slice(0, 4).join(' · '))}</small></button>`).join('') : '<article class="research-card"><h3>연결된 논문이 없습니다.</h3><p>Library에서 Yoo Lab 논문을 저장하고 관련 태그를 추가해주세요.</p></article>'}</div></section>
     </div>`;
   }
 
@@ -1961,7 +2002,7 @@ id, claim, claimType, sourceQuote, locator{printedPage,pdfPage,section,table,fig
 
   function render() {
     const content = $('#paperContent');
-    const renderers = { hub: renderHub, library: renderLibrary, evidence: renderEvidence, synthesis: renderSynthesis, study: renderStudy, atlas: renderAtlasDetailed, paper: renderPaperDetail };
+    const renderers = { hub: renderHub, library: renderLibrary, evidence: renderEvidence, synthesis: renderSynthesis, study: renderStudy, lab: renderLab, atlas: renderAtlasDetailed, paper: renderPaperDetail };
     content.innerHTML = (renderers[currentView] || renderHub)();
     decorateAtlas();
     updateBadges();
@@ -1995,6 +2036,12 @@ id, claim, claimType, sourceQuote, locator{printedPage,pdfPage,section,table,fig
     const button = event.target.closest('[data-view]');
     if (button) goView(button.dataset.view);
   });
+  $('#yooLabButton').addEventListener('click', () => goView('lab'));
+  $('#activeProjectSelect').addEventListener('change', event => {
+    activeProjectId = event.target.value;
+    activeDesignId = workspaceSnapshot.researchDesigns.find(row => row.ideaId === activeProjectId)?.id || '';
+    goView('study');
+  });
   $('#paperContent').addEventListener('click', event => {
     const back = event.target.closest('[data-paper-back]');
     if (back) { goView(previousView || 'library'); return; }
@@ -2024,6 +2071,10 @@ id, claim, claimType, sourceQuote, locator{printedPage,pdfPage,section,table,fig
     }
     const studyButton = event.target.closest('[data-study-step]');
     if (studyButton) { studyStep = Number(studyButton.dataset.studyStep); render(); showToast(`${studyButton.textContent.trim()} 단계를 선택했습니다.`); return; }
+    const designButton = event.target.closest('[data-study-design]');
+    if (designButton) { activeDesignId = designButton.dataset.studyDesign; render(); return; }
+    const newDesignButton = event.target.closest('[data-new-study-design]');
+    if (newDesignButton) { activeDesignId = `design-v158-${Date.now()}`; workspaceSnapshot.researchDesigns.unshift({ id: activeDesignId, ideaId: activeProjectId, title: '', status: '초안', linkedPaperIds: [] }); render(); return; }
     const atlasExpand = event.target.closest('[data-atlas-expand]');
     if (atlasExpand) { atlasMapExpanded = !atlasMapExpanded; render(); return; }
     const region = event.target.closest('[data-region]');
@@ -2044,6 +2095,12 @@ id, claim, claimType, sourceQuote, locator{printedPage,pdfPage,section,table,fig
     }
   });
   $('#paperContent').addEventListener('change', event => {
+    if (event.target.id === 'studyActiveProject') {
+      activeProjectId = event.target.value;
+      activeDesignId = workspaceSnapshot.researchDesigns.find(row => row.ideaId === activeProjectId)?.id || '';
+      render();
+      return;
+    }
     if (event.target.matches('[data-library-select]')) {
       event.target.checked ? librarySelection.add(event.target.dataset.librarySelect) : librarySelection.delete(event.target.dataset.librarySelect);
       const label = $('.library-toolbar span');
@@ -2054,6 +2111,30 @@ id, claim, claimType, sourceQuote, locator{printedPage,pdfPage,section,table,fig
       render();
     }
     if (['libraryType', 'libraryModality', 'libraryState'].includes(event.target.id)) render();
+  });
+  $('#paperContent').addEventListener('submit', async event => {
+    if (event.target.id !== 'paperV158DesignForm') return;
+    event.preventDefault();
+    const form = new FormData(event.target);
+    const payload = {
+      id: String(form.get('id') || activeDesignId || `design-v158-${Date.now()}`),
+      ideaId: activeProjectId,
+      title: String(form.get('title') || '').trim(),
+      question: String(form.get('question') || '').trim(),
+      hypothesis: String(form.get('hypothesis') || '').trim(),
+      studyDesign: String(form.get('studyDesign') || '').trim(),
+      analysisPlan: String(form.get('analysisPlan') || '').trim(),
+      status: String(form.get('status') || '초안'),
+      linkedPaperIds: form.getAll('linkedPaperIds').map(String)
+    };
+    if (!payload.title) { showToast('연구 설계 이름을 입력해주세요.'); return; }
+    try {
+      await window.AiderPaperBridge?.saveDesign?.(payload);
+      activeDesignId = payload.id;
+      syncBridgeCollections();
+      render();
+      showToast('연구 설계와 참고 논문을 저장했습니다.');
+    } catch (error) { showToast(error.message || '연구 설계를 저장하지 못했습니다.'); }
   });
   $('#paperContent').addEventListener('input', event => {
     if (event.target.id === 'libraryQuery') {

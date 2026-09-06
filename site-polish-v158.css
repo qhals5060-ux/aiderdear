@@ -1,0 +1,49 @@
+/* AiderLog website v158 · compact consulting form and structured travel editor. */
+.tab[data-tab="task"]{min-width:108px!important;width:108px!important}
+
+.consulting-client-dialog #consultingClientForm .spec-fields{
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  column-gap:7px!important;
+}
+.consulting-client-dialog #consultingClientForm .spec-language,
+.consulting-client-dialog #consultingClientForm .spec-certificate{grid-column:span 1!important;width:100%!important}
+.consulting-client-dialog #consultingClientForm :is(.target-university,.target-major-list,.target-advisors,.target-topic) textarea{
+  height:32px!important;min-height:32px!important;padding-block:5px!important;
+}
+.consulting-client-dialog #consultingClientForm .inquiry-fields label{height:auto!important;align-self:start!important}
+.consulting-client-dialog #consultingClientForm .inquiry-fields textarea{
+  height:52px!important;min-height:52px!important;max-height:52px!important;
+}
+
+.travel-structured-editor-v158{grid-column:1/-1;display:grid;gap:8px}
+.travel-structured-list-v158{display:grid;gap:8px}
+.travel-structured-row-v158{
+  display:grid;grid-template-columns:repeat(var(--travel-cols,4),minmax(96px,1fr));gap:6px;
+  padding:9px;border:1px solid #c9c3b5;border-radius:8px;background:#fff;
+}
+.travel-structured-row-v158 label{min-width:0;display:grid;gap:4px;color:#625d54;font-size:8px;font-weight:850}
+.travel-structured-row-v158 :is(input,select){width:100%;min-width:0;height:35px;border:1px solid #bcb6aa;border-radius:5px;background:#fff;padding:0 8px;font-size:10px}
+.travel-structured-row-v158 .travel-note-v158{grid-column:span 2}
+.travel-structured-actions-v158{display:flex;justify-content:flex-end;gap:6px}
+.travel-structured-actions-v158 button,.travel-remove-row-v158{
+  min-height:32px;border:1px solid #53675f;border-radius:5px;background:#fff;color:#26332e;padding:0 10px;font-size:8px;font-weight:900;
+}
+.travel-remove-row-v158{grid-column:1/-1;justify-self:end;color:#8a3e3e;border-color:#cba6a6}
+.travel-source-field-v158{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;clip:rect(0 0 0 0)!important;white-space:nowrap!important}
+
+.lab-note-only-v158 body{margin:0;background:#eef1ee;color:#18201d;font-family:Arial,"Noto Sans KR",sans-serif}
+.lab-note-page-v158{min-height:100dvh;display:grid;place-items:start center;padding:34px 14px;background:radial-gradient(circle at 85% 4%,#dce9e2,transparent 35%),#eef1ee}
+.lab-note-card-v158{width:min(760px,100%);border:1px solid #29342f;background:#fff;box-shadow:0 24px 70px rgba(22,35,29,.13)}
+.lab-note-card-v158>header{padding:22px;border-bottom:1px solid #29342f;background:#f8faf8}
+.lab-note-card-v158>header small{font-size:9px;font-weight:900;letter-spacing:.16em;color:#698176}
+.lab-note-card-v158>header h1{margin:5px 0 4px;font:600 27px/1.1 Georgia,serif}.lab-note-card-v158>header p{margin:0;color:#68716d;font-size:11px}
+.lab-note-form-v158{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;padding:20px}
+.lab-note-form-v158 label{display:grid;gap:5px;font-size:10px;font-weight:850}.lab-note-form-v158 label.wide,.lab-note-form-v158 footer{grid-column:1/-1}
+.lab-note-form-v158 :is(input,select,textarea){width:100%;min-width:0;border:1px solid #aeb8b3;background:#fff;padding:10px;font:500 13px/1.45 Arial,sans-serif}.lab-note-form-v158 input,.lab-note-form-v158 select{height:44px}.lab-note-form-v158 textarea{min-height:92px;resize:vertical}.lab-note-form-v158 input[type=file]{height:auto}
+.lab-note-form-v158 footer{display:flex;align-items:center;justify-content:space-between;gap:9px}.lab-note-form-v158 footer span{color:#69726e;font-size:9px}.lab-note-form-v158 button{height:44px;border:1px solid #18201d;background:#18201d;color:#fff;padding:0 18px;font-weight:900}
+.lab-note-result-v158{padding:42px 20px;text-align:center}.lab-note-result-v158 b{display:block;font-size:21px}.lab-note-result-v158 p{color:#65706a}
+@media(max-width:760px){
+  .tab[data-tab="task"]{min-width:82px!important;width:82px!important}
+  .travel-structured-row-v158{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .lab-note-form-v158{grid-template-columns:1fr}.lab-note-form-v158 label.wide,.lab-note-form-v158 footer{grid-column:1}
+}

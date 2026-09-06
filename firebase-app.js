@@ -1884,6 +1884,104 @@ async function markClientIntakeImported(token, submissionId) {
   await deleteDoc(doc(clientIntakeRef(token), 'submissions', String(submissionId)));
 }
 
+const LAB_NOTEBOOK_TOKEN = /^[A-Za-z0-9_-]{32,100}$/;
+function labNotebookRef(token) {
+  if (!LAB_NOTEBOOK_TOKEN.test(String(token || ''))) throw new Error('실험노트 링크 형식이 올바르지 않습니다.');
+  return doc(db, 'labNotebookLinks', String(token));
+}
+function randomLabNotebookToken() {
+  const bytes = crypto.getRandomValues(new Uint8Array(24));
+  return btoa(String.fromCharCode(...bytes)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/g, '');
+}
+async function createLabNotebookLinks(existing = []) {
+  const user = requirePaperTaskMember();
+  const source = Array.isArray(existing) ? existing : [];
+  const rows = [];
+  for (let index = 0; index < 5; index += 1) {
+    const old = source[index] || {};
+    const token = LAB_NOTEBOOK_TOKEN.test(String(old.token || '')) ? String(old.token) : randomLabNotebookToken();
+    const ref = labNotebookRef(token);
+    let snapshot = null;
+    try { snapshot = await getDoc(ref); }
+    catch (error) {
+      console.info('[lab-notebook] creating a new fixed researcher link', index + 1);
+    }
+    const payload = {
+      ownerUid: user.uid,
+      ownerEmail: intakeText(user.email, 120).toLowerCase(),
+      researcherName: intakeText(old.researcherName || `연구원 ${index + 1}`, 60),
+      label: intakeText(old.label || `LAB NOTE ${String(index + 1).padStart(2, '0')}`, 80),
+      slot: index + 1,
+      active: true,
+      updatedAt: serverTimestamp(),
+    };
+    if (snapshot?.exists()) await setDoc(ref, payload, { merge: true });
+    else await setDoc(ref, { ...payload, createdAt: serverTimestamp() });
+    rows.push({ token, researcherName: payload.researcherName, label: payload.label, slot: payload.slot });
+  }
+  return rows;
+}
+async function getLabNotebookLink(token) {
+  const snapshot = await getDoc(labNotebookRef(token));
+  if (!snapshot.exists() || snapshot.data().active !== true) throw new Error('존재하지 않거나 비활성화된 실험노트 링크입니다.');
+  const row = snapshot.data();
+  return { active:true, researcherName:intakeText(row.researcherName,60), label:intakeText(row.label,80) };
+}
+async function submitLabNotebook(token, payload = {}, originalFiles = []) {
+  const link = await getDoc(labNotebookRef(token));
+  if (!link.exists() || link.data().active !== true) throw new Error('만료되었거나 비활성화된 실험노트 링크입니다.');
+  const files = Array.from(originalFiles || []).slice(0, 3);
+  for (const file of files) {
+    if (!/^(image|video)\//.test(file.type || '')) throw new Error('사진 또는 영상 파일만 첨부할 수 있습니다.');
+    if (file.size > 25 * 1024 * 1024) throw new Error('첨부 파일은 각각 25MB 이하여야 합니다.');
+  }
+  const ref = doc(collection(labNotebookRef(token), 'submissions'));
+  const media = files.map((file, index) => ({ id:`labm-${Date.now()}-${index}-${crypto.randomUUID().slice(0,8)}`, name:intakeText(file.name,160), type:intakeText(file.type,100), size:file.size }));
+  const data = {
+    researcher:intakeText(payload.researcher,60), performedAt:intakeText(payload.performedAt,30),
+    title:intakeText(payload.title,160), project:intakeText(payload.project,120), code:intakeText(payload.code,80),
+    protocol:intakeText(payload.protocol,80), batch:intakeText(payload.batch,100), purpose:intakeText(payload.purpose,2000),
+    materials:intakeText(payload.materials,3000), procedure:intakeText(payload.procedure,5000),
+    qcCriteria:intakeText(payload.qcCriteria,400), qcResult:['확인 전','통과','조건부 통과','재실험 필요'].includes(payload.qcResult)?payload.qcResult:'확인 전',
+    result:intakeText(payload.result,5000), nextAction:intakeText(payload.nextAction,1200), media,
+    source:'external-lab-notebook-v158', status:'new', createdAt:serverTimestamp(),
+  };
+  if (!data.researcher || !data.performedAt || !data.title || !data.procedure || !data.result) throw new Error('연구원, 일시, 제목, 절차와 결과를 입력해주세요.');
+  await setDoc(ref, data);
+  for (let fileIndex = 0; fileIndex < files.length; fileIndex += 1) {
+    const file = files[fileIndex], descriptor = media[fileIndex], mediaRef = doc(ref, 'media', descriptor.id);
+    await setDoc(mediaRef, { ...descriptor, createdAt:serverTimestamp() });
+    const bytes = new Uint8Array(await file.arrayBuffer()), chunkSize = 700 * 1024, chunks = collection(mediaRef, 'chunks');
+    let batch = writeBatch(db), operations = 0;
+    for (let offset = 0, index = 0; offset < bytes.length; offset += chunkSize, index += 1) {
+      batch.set(doc(chunks, String(index).padStart(5, '0')), { data:Bytes.fromUint8Array(bytes.slice(offset, Math.min(bytes.length, offset + chunkSize))) });
+      operations += 1;
+      if (operations === 400) { await batch.commit(); batch = writeBatch(db); operations = 0; }
+    }
+    if (operations) await batch.commit();
+  }
+  return ref.id;
+}
+async function readLabNotebookSubmissions(links = []) {
+  requirePaperTaskMember();
+  const rows = [];
+  for (const link of (Array.isArray(links) ? links : []).slice(0, 5)) {
+    if (!LAB_NOTEBOOK_TOKEN.test(String(link?.token || ''))) continue;
+    const snapshot = await getDocs(query(collection(labNotebookRef(link.token), 'submissions'), limit(200)));
+    snapshot.docs.forEach(item => rows.push({ id:item.id, token:link.token, slot:link.slot, linkLabel:link.label, ...item.data(), createdAt:timestampValue(item.data().createdAt) }));
+  }
+  return rows.sort((a,b)=>Number(b.createdAt||0)-Number(a.createdAt||0));
+}
+async function readLabNotebookMedia(token, submissionId, mediaId) {
+  requirePaperTaskMember();
+  const ref = doc(labNotebookRef(token), 'submissions', String(submissionId), 'media', String(mediaId));
+  const metaSnapshot = await getDoc(ref);
+  if (!metaSnapshot.exists()) throw new Error('실험노트 첨부 파일을 찾을 수 없습니다.');
+  const meta = metaSnapshot.data(), chunkSnapshot = await getDocs(collection(ref, 'chunks'));
+  const parts = chunkSnapshot.docs.sort((a,b)=>a.id.localeCompare(b.id)).map(item=>item.data().data.toUint8Array());
+  return new Blob(parts,{type:meta.type||'application/octet-stream'});
+}
+
 const api = {
   config: { projectId: firebaseConfig.projectId, authDomain: firebaseConfig.authDomain },
   getState: () => ({ ...state }),
@@ -1953,6 +2051,11 @@ const api = {
   submitClientIntake,
   watchClientIntakeSubmissions,
   markClientIntakeImported,
+  createLabNotebookLinks,
+  getLabNotebookLink,
+  submitLabNotebook,
+  readLabNotebookSubmissions,
+  readLabNotebookMedia,
 };
 
 window.AiderDearFirebase = api;
