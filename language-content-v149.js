@@ -5,7 +5,7 @@
   const cache=new Map();
   let manifestPromise=null;
   let validationPromise=null;
-  const normalizeLanguage=value=>['en','ja','zh'].includes(String(value))?String(value):'ja';
+  const normalizeLanguage=value=>['en','ja'].includes(String(value))?String(value):'ja';
   const normalizeLevel=value=>{const n=Number(value);return Number.isInteger(n)&&n>=0&&n<5?n:0};
   const key=(language,level)=>`${normalizeLanguage(language)}:${normalizeLevel(level)}`;
   async function json(path){const response=await fetch(path,{cache:'force-cache'});if(!response.ok)throw new Error(`Language 콘텐츠를 열 수 없습니다 (${response.status}).`);return response.json()}
@@ -45,6 +45,10 @@
       const level=normalizeLevel(saved.levelByLanguage?.[language]);
       await loadCourse(language,level);
       const result=original(root,shell);
+      root?.querySelector?.('#language-select option[value="zh"]')?.remove();
+      root?.querySelector?.('.header-course')?.setAttribute('aria-label','영어와 일본어 학습 과정 선택');
+      const languageSelect=root?.querySelector?.('#language-select');
+      if(languageSelect&&!['en','ja'].includes(languageSelect.value))languageSelect.value='ja';
       const style=document.createElement('style');
       style.dataset.languageV149='true';
       style.textContent=`

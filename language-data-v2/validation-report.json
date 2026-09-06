@@ -2,12 +2,12 @@
   "ok": true,
   "checkedAt": "2026-09-04T16:58:22.664Z",
   "counts": {
-    "languages": 3,
-    "courses": 15,
-    "totalUnits": 120,
-    "totalLessons": 1200,
-    "uniqueLessonIds": 1200,
-    "reviewCards": 3600
+    "languages": 2,
+    "courses": 10,
+    "totalUnits": 80,
+    "totalLessons": 800,
+    "uniqueLessonIds": 800,
+    "reviewCards": 2400
   },
   "checks": {
     "fiveOrderedLevelsPerLanguage": true,
