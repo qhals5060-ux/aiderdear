@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@id/widget_root" android:layout_width="match_parent" android:layout_height="match_parent">
+    <ImageView android:id="@id/widget_background" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@drawable/widget_bg_aurora" android:scaleType="fitXY" android:src="@android:color/transparent" />
+    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:paddingLeft="13dp" android:paddingTop="11dp" android:paddingRight="13dp" android:paddingBottom="11dp">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="36dp" android:gravity="center_vertical" android:orientation="horizontal">
+            <TextView android:layout_width="32dp" android:layout_height="32dp" android:background="@drawable/widget_icon_v154" android:gravity="center" android:text="◫" android:textColor="#FFFFFFFF" android:textSize="15sp" />
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginLeft="9dp" android:layout_weight="1" android:orientation="vertical">
+                <TextView android:id="@id/widget_title" android:layout_width="match_parent" android:layout_height="wrap_content" android:ellipsize="end" android:maxLines="1" android:text="9월 · 2주" android:textColor="#FF151329" android:textSize="17sp" android:textStyle="bold" />
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="FORTNIGHT ORBIT" android:textColor="#FF766E8F" android:textSize="8sp" android:textStyle="bold" />
+            </LinearLayout>
+            <TextView android:id="@id/widget_action" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone" />
+        </LinearLayout>
+        <TextView android:id="@id/widget_body" android:layout_width="match_parent" android:layout_height="0dp" android:layout_marginTop="7dp" android:layout_weight="1" android:background="@drawable/widget_panel_v154" android:ellipsize="end" android:fontFamily="monospace" android:gravity="center" android:lineSpacingExtra="7dp" android:maxLines="4" android:padding="12dp" android:text="일  월  화  수  목  금  토\n30 31  1  2  3  4  5\n 6  7  8  9 10 11 12" android:textColor="#FF29253D" android:textSize="14sp" android:textStyle="bold" />
+        <TextView android:id="@id/widget_subtitle" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="6dp" android:background="@drawable/widget_row_v154" android:ellipsize="end" android:maxLines="1" android:paddingLeft="10dp" android:paddingTop="5dp" android:paddingRight="10dp" android:paddingBottom="5dp" android:text="● 09:30 팀 미팅   ·   ● 14:00 병원 예약" android:textColor="#FF29253D" android:textSize="9sp" />
+    </LinearLayout>
+</FrameLayout>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/widget_day_cell_v164" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:layout_margin="1dp">
+<ImageView android:id="@+id/widget_day_background_v164" android:layout_width="match_parent" android:layout_height="match_parent" android:src="@drawable/widget_day_bg_v164" android:scaleType="fitXY" android:contentDescription="@null" />
+<LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:padding="2dp" android:orientation="vertical">
+<TextView android:id="@+id/widget_day_number_v164" android:layout_width="match_parent" android:layout_height="18dp" android:gravity="center" android:text="6" android:textSize="11sp" android:textColor="#171A3A" android:textStyle="bold"/>
+<TextView android:id="@+id/widget_day_label_v164" android:layout_width="match_parent" android:layout_height="10dp" android:textColor="#6255E8" android:textSize="8sp" android:maxLines="1" android:ellipsize="end"/>
+<TextView android:id="@+id/widget_day_events_v164" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:textColor="#171A3A" android:textSize="9sp" android:maxLines="2" android:ellipsize="end"/>
+<TextView android:id="@+id/widget_day_more_v164" android:layout_width="match_parent" android:layout_height="10dp" android:textColor="#6255E8" android:textSize="8sp" android:maxLines="1"/>
+</LinearLayout>
+</FrameLayout>

@@ -39,10 +39,19 @@
             const isControl=element.matches('input,select,textarea');
             if(!hasText&&!isControl)return;
             const size=Number.parseFloat(getComputedStyle(element).fontSize);
-            if(size>0&&size<11)element.style.setProperty('font-size','11px','important');
+            if(size>0&&size<11){
+              if(!element.hasAttribute('data-site-font-floor-original')){
+                element.dataset.siteFontFloorOriginal=element.style.getPropertyValue('font-size');
+                element.dataset.siteFontFloorPriority=element.style.getPropertyPriority('font-size');
+              }
+              element.dataset.siteFontFloorApplied='11px';
+              element.style.setProperty('font-size','11px','important');
+            }
           });
         };
         applyFontFloor();
+        this.siteEditionListener=()=>applyFontFloor();
+        window.addEventListener('aiderlog-site-editionchange',this.siteEditionListener);
         this.fontFloorObserver=new MutationObserver(records=>records.forEach(record=>record.addedNodes.forEach(node=>{
           if(node.nodeType===Node.ELEMENT_NODE)applyFontFloor(node);
         })));
@@ -68,6 +77,8 @@
       this.lessonScrollBoundary=null;
       this.fontFloorObserver?.disconnect();
       this.fontFloorObserver=null;
+      if(this.siteEditionListener)window.removeEventListener('aiderlog-site-editionchange',this.siteEditionListener);
+      this.siteEditionListener=null;
     }
     static get observedAttributes(){return ['data-share-ready']}
     attributeChangedCallback(name,oldValue,newValue){

@@ -1,0 +1,24 @@
+package com.aiderlog.v22app;
+import android.content.Context;
+import android.content.Intent;
+import android.widget.RemoteViews;
+import android.widget.RemoteViewsService;
+import java.util.ArrayList;
+import java.util.List;
+/** API 26–30 native scrollable collection; API 31+ uses inline RemoteCollectionItems. */
+public final class WidgetRowsV164 extends RemoteViewsService {
+    public RemoteViewsFactory onGetViewFactory(Intent intent){return new Rows(getApplicationContext(),intent);}
+    static final class Rows implements RemoteViewsFactory {
+        final Context context;final int widget;final String kind;List<String> items=new ArrayList<String>();
+        Rows(Context c,Intent i){context=c;widget=i.getIntExtra("appWidgetId",0);kind=i.getStringExtra("kind");}
+        public void onCreate(){onDataSetChanged();}
+        public void onDataSetChanged(){items=WidgetNativeV164.rows(context,widget,kind,WidgetNativeV164.snapshot(context));}
+        public void onDestroy(){items.clear();}
+        public int getCount(){return items.size();}
+        public RemoteViews getViewAt(int position){return position<0||position>=items.size()?null:WidgetNativeV164.row(context,widget,kind,items.get(position),position,null,-1);}
+        public RemoteViews getLoadingView(){return null;}
+        public int getViewTypeCount(){return 1;}
+        public long getItemId(int position){return ((long)items.get(position).hashCode()<<32)^position;}
+        public boolean hasStableIds(){return true;}
+    }
+}

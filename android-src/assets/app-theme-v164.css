@@ -1,0 +1,249 @@
+/* v164: semantic app colours and header-owned profile.
+   New palette values never replace the wheel's inherited legacy variables.
+   Layout declarations are confined to the profile and existing colour pickers. */
+:root {
+  --app-space-base:#382A49; --app-space-glow:#9170AE;
+  --app-surface:#FAF7FC; --app-card:#E7DFEF; --app-control:#E0D5EB;
+  --app-input:#FAF7FC; --app-text:#30283B; --app-body:#44384F;
+  --app-text-muted:#61536E; --app-border:#C4B4D4;
+  --app-primary:#76509B; --app-on-primary:#FFFFFF;
+  --app-active-on-space:#E8CCFF; --app-focus:#76509B;
+  --app-editor:#F6F1FA; --app-editor-head:#E8DDEF; --app-editor-foot:#EEE5F5;
+  --app-rating:#86601C;
+}
+:root[data-app-palette="terracotta"] {
+  --app-space-base:#66382D; --app-space-glow:#C57856;
+  --app-surface:#FFF8F3; --app-card:#F6E4D9; --app-control:#F2D2BD;
+  --app-input:#FFF8F3; --app-text:#3C2926; --app-body:#3C2926;
+  --app-text-muted:#76534B; --app-border:#D9B5A3;
+  --app-primary:#B84E34; --app-on-primary:#FFFFFF;
+  --app-active-on-space:#F4BAA1; --app-focus:#B84E34;
+  --app-editor:#FFF8F3; --app-editor-head:#F6E4D9; --app-editor-foot:#F2D2BD;
+}
+:root[data-app-palette="apricot"] {
+  --app-space-base:#755342; --app-space-glow:#E3A176;
+  --app-surface:#FFFBF7; --app-card:#FFF1E5; --app-control:#F7D5BB;
+  --app-input:#FFFBF7; --app-text:#392C27; --app-body:#392C27;
+  --app-text-muted:#775D4C; --app-border:#D7B397;
+  --app-primary:#E38B5D; --app-on-primary:#1F2A33;
+  --app-active-on-space:#FFD4AF; --app-focus:#8B4625;
+  --app-editor:#FFFBF7; --app-editor-head:#FFF1E5; --app-editor-foot:#F7D5BB;
+}
+:root[data-app-palette="peach"] {
+  --app-space-base:#77614F; --app-space-glow:#F6D6BF;
+  --app-surface:#FFFAF5; --app-card:#F6D6BF; --app-control:#FAEDE1;
+  --app-input:#FFFAF5; --app-text:#1F2A33; --app-body:#1F2A33;
+  --app-text-muted:#63574F; --app-border:#C9AD98;
+  --app-primary:#4E6A7A; --app-on-primary:#FFFFFF;
+  --app-active-on-space:#F6D6BF; --app-focus:#4E6A7A;
+  --app-editor:#FFFAF5; --app-editor-head:#F6D6BF; --app-editor-foot:#FAEDE1;
+}
+:root[data-app-palette="slate"] {
+  --app-space-base:#304958; --app-space-glow:#7A9BAB;
+  --app-surface:#F7FBFD; --app-card:#DEE8ED; --app-control:#CFDEE5;
+  --app-input:#F7FBFD; --app-text:#1F2A33; --app-body:#1F2A33;
+  --app-text-muted:#4C616E; --app-border:#AAC0CB;
+  --app-primary:#4E6A7A; --app-on-primary:#FFFFFF;
+  --app-active-on-space:#C1DBE9; --app-focus:#4E6A7A;
+  --app-editor:#F7FBFD; --app-editor-head:#DEE8ED; --app-editor-foot:#CFDEE5;
+}
+:root[data-app-palette="charcoal"] {
+  --app-space-base:#1F2A33; --app-space-glow:#697985;
+  --app-surface:#F9FBFB; --app-card:#E3E6E6; --app-control:#CFD6D9;
+  --app-input:#F9FBFB; --app-text:#1F2A33; --app-body:#1F2A33;
+  --app-text-muted:#4D5A63; --app-border:#AFBABF;
+  --app-primary:#1F2A33; --app-on-primary:#FFFFFF;
+  --app-active-on-space:#E9AA85; --app-focus:#1F2A33;
+  --app-editor:#F9FBFB; --app-editor-head:#E3E6E6; --app-editor-foot:#CFD6D9;
+}
+/* Keep the existing automatic OS mode on the first swatch. Other palettes
+   intentionally retain bright reading surfaces, including Ink Charcoal. */
+@media (prefers-color-scheme:dark) {
+  :root[data-theme="system"] {
+    --app-space-base:#221A2D; --app-space-glow:#9170AE;
+    --app-surface:#292331; --app-card:#352D40; --app-control:#42364F;
+    --app-input:#302839; --app-text:#FAF7FC; --app-body:#E7DFEF;
+    --app-text-muted:#D2C5DD; --app-border:#80708E;
+    --app-primary:#C9AFE2; --app-on-primary:#30283B; --app-focus:#E8CCFF;
+    --app-editor:#292331; --app-editor-head:#352D40; --app-editor-foot:#42364F;
+    --app-rating:#EDC871;
+  }
+}
+/* Body children inherit app aliases; #wheel and all its descendants retain
+   the old theme variables. Do not put these aliases on html or body. */
+body > :not(#wheel):not(script):not(style):not(link) {
+  --theme-primary:var(--app-primary); --theme-secondary:var(--app-space-glow);
+  --theme-accent:var(--app-active-on-space); --theme-accent-soft:var(--app-control);
+  --theme-background:var(--app-surface); --theme-surface:var(--app-surface);
+  --theme-border:var(--app-border); --theme-text:var(--app-text); --theme-text-muted:var(--app-text-muted);
+  --theme-deep:var(--app-space-base); --theme-gradient-start:var(--app-primary);
+  --theme-gradient-mid:var(--app-space-glow); --theme-gradient-middle:var(--app-space-glow);
+  --theme-gradient-end:var(--app-space-base);
+  --theme-glow:color-mix(in srgb,var(--app-primary) 22%,transparent);
+  --theme-atmosphere:color-mix(in srgb,var(--app-space-glow) 15%,transparent);
+  --theme-orbit:color-mix(in srgb,var(--app-space-glow) 20%,transparent);
+  --cosmic-primary:var(--app-primary); --cosmic-secondary:var(--app-space-glow);
+  --cosmic-blue:var(--app-primary); --cosmic-violet:var(--app-space-glow);
+  --cosmic-bg:var(--app-surface); --cosmic-surface:var(--app-surface);
+  --cosmic-ink:var(--app-text); --cosmic-muted:var(--app-text-muted);
+  --cosmic-border:var(--app-border); --cosmic-lavender:var(--app-control);
+  --blue:var(--app-primary); --violet:var(--app-space-glow); --bg:var(--app-surface);
+  --ink:var(--app-text); --muted:var(--app-text-muted); --line:var(--app-border);
+  --glass:var(--app-card); --glass-strong:var(--app-surface); --glass-soft:var(--app-control);
+  --material-line:var(--app-border); --paper:var(--app-surface); --envelope:var(--app-control);
+  --v137-ink:var(--app-text); --v137-muted:var(--app-text-muted); --v137-line:var(--app-border);
+}
+/* Background-only tint: the existing wallpaper composition is kept intact.
+   No filter/transform/zoom is applied to the app, user photos or wheel. */
+html[data-app-palette],html[data-app-palette] body { background:var(--app-space-base)!important; }
+html[data-app-palette] body::before {
+  background-color:var(--app-space-base)!important;
+  background-image:url("./cosmic-wallpaper-v134.png")!important;
+  background-blend-mode:luminosity!important;
+  filter:none!important;
+}
+html[data-app-palette] body::after {
+  background:radial-gradient(ellipse at 80% 9%,color-mix(in srgb,var(--app-space-glow) 24%,transparent),transparent 64%),linear-gradient(color-mix(in srgb,var(--app-space-base) 20%,transparent),color-mix(in srgb,var(--app-space-base) 32%,transparent))!important;
+}
+html[data-app-palette][data-background-mode="light"] body::before {
+  background:var(--app-surface)!important;
+}
+html[data-app-palette][data-background-mode="light"] body::after {
+  background:radial-gradient(ellipse at 90% 10%,color-mix(in srgb,var(--app-card) 54%,transparent),transparent 68%)!important;
+}
+/* Colour only: preserve all non-Event page layouts, business actions and
+   semantic error/success colours. No generic nav/.active layout overrides. */
+@layer appColour164 {
+  #app .top .iconbtn { background:var(--app-control)!important;color:var(--app-text)!important;border-color:var(--app-border)!important; }
+  #app .top .brand,#app .barebar > .page-title { color:var(--app-surface)!important; }
+  html[data-background-mode="light"] #app .top .brand,
+  html[data-background-mode="light"] #app .barebar > .page-title { color:var(--app-text)!important;-webkit-text-fill-color:var(--app-text)!important; }
+  #app :is(.card,.iv-card,.schedule-calendar-v119,.schedule-upcoming-v119,.routine-card-v127,.my128-tool,.personal-panel) {
+    background-color:var(--app-card)!important;border-color:var(--app-border)!important;color:var(--app-text)!important;
+  }
+  #app :is(.card,.iv-card,.schedule-upcoming-v119,.routine-card-v127,.personal-panel) :is(h2,h3,h4,p,label,small) {
+    color:var(--app-body)!important;
+  }
+  :is(#app,.modal,.feature-dialog-v125,.settings-v125,.drawer) :is(input,select,textarea) {
+    background-color:var(--app-input)!important;border-color:var(--app-border)!important;
+    color:var(--app-text)!important;-webkit-text-fill-color:var(--app-text)!important;
+  }
+  :is(#app,.modal,.feature-dialog-v125,.settings-v125,.drawer) :is(input,textarea)::placeholder {
+    color:var(--app-text-muted)!important;-webkit-text-fill-color:var(--app-text-muted)!important;opacity:1!important;
+  }
+  :is(#app,.modal,.feature-dialog-v125,.settings-v125,.drawer) :is(button,input,select,textarea):focus-visible {
+    outline-color:var(--app-focus)!important;
+  }
+  :is(#app,.modal,.feature-dialog-v125,.settings-v125,.drawer) :is(button.primary,.schedule-icon-v119.insights,.schedule-icon-v119.emotion,.routine-plus-v111) {
+    background:var(--app-primary)!important;border-color:var(--app-primary)!important;
+    color:var(--app-on-primary)!important;-webkit-text-fill-color:var(--app-on-primary)!important;
+  }
+}
+/* These narrowly scoped declarations replace several obsolete profile-card
+   overrides as one layer, without escalating id specificity. */
+@layer appProfile164 {
+  .profile-overlay-v137 {
+    align-items:center!important;justify-items:center!important;padding:16px!important;
+    background:color-mix(in srgb,var(--app-space-base) 42%,transparent)!important;
+    backdrop-filter:blur(4px)!important;
+  }
+  .profile-overlay-v137 .profile-compact-v164 {
+    box-sizing:border-box!important;width:min(390px,100%)!important;height:auto!important;
+    max-height:calc(100dvh - 32px)!important;min-height:0!important;
+    padding:18px 22px 16px!important;margin:0!important;overflow:auto!important;
+    border:1px solid var(--app-border)!important;border-radius:24px!important;
+    background:var(--app-surface)!important;color:var(--app-text)!important;
+    box-shadow:0 20px 60px #0004!important;animation:none!important;
+  }
+  .profile-compact-v164 .profile-head-v137 {
+    display:flex!important;align-items:center!important;gap:8px!important;padding:0!important;
+    border:0!important;margin:0 0 16px!important;background:transparent!important;
+  }
+  .profile-compact-v164 .profile-head-v137 h1 {
+    margin:0!important;color:var(--app-text)!important;font-size:calc(22px * var(--app-font-multiplier,1))!important;
+    letter-spacing:-.025em!important;line-height:1.3!important;
+  }
+  .profile-compact-v164 .profile-close-v137 {
+    width:44px!important;height:44px!important;background:transparent!important;border:0!important;
+    color:var(--app-text)!important;font-size:28px!important;box-shadow:none!important;
+  }
+  .profile-compact-v164 .profile-identity-v137 { gap:12px!important;margin-bottom:18px!important; }
+  .profile-compact-v164 .profile-avatar-v137 {
+    width:38px!important;height:38px!important;border-radius:50%!important;
+    background:var(--app-control)!important;color:var(--app-text)!important;box-shadow:none!important;font-size:17px!important;
+  }
+  .profile-compact-v164 .profile-identity-v137 > div:last-child { min-width:0; }
+  .profile-compact-v164 .profile-identity-v137 b { color:var(--app-text)!important;font-size:calc(15px * var(--app-font-multiplier,1))!important;overflow-wrap:anywhere; }
+  .profile-compact-v164 .profile-identity-v137 p {
+    max-width:100%!important;white-space:normal!important;overflow-wrap:anywhere!important;
+    margin:3px 0 0!important;font-size:calc(12px * var(--app-font-multiplier,1))!important;color:var(--app-text-muted)!important;
+  }
+  .profile-compact-v164 .profile-section-v137 {
+    margin:0!important;padding:16px 0!important;border:0!important;border-top:1px solid var(--app-border)!important;
+    border-radius:0!important;background:transparent!important;box-shadow:none!important;
+  }
+  .profile-compact-v164 .profile-section-v137 > header h2 {
+    margin:0!important;font-size:calc(15px * var(--app-font-multiplier,1))!important;color:var(--app-text)!important;
+  }
+  .profile-compact-v164 .profile-theme-grid-v137,.settings-v125 .theme-grid-v125 {
+    display:flex!important;flex-wrap:wrap!important;gap:0!important;justify-content:space-between!important;
+    padding:0!important;margin:10px 0 0!important;grid-template-columns:none!important;
+  }
+  :is(.profile-compact-v164,.settings-v125) .theme-swatch-v164 {
+    display:grid!important;place-items:center!important;box-sizing:border-box!important;
+    width:44px!important;height:44px!important;min-width:44px!important;min-height:44px!important;
+    flex:0 0 44px!important;margin:0!important;padding:8px!important;
+    border:0!important;border-radius:50%!important;background:transparent!important;
+    box-shadow:none!important;filter:none!important;transform:none!important;text-shadow:none!important;
+  }
+  :is(.profile-compact-v164,.settings-v125) .theme-swatch-v164::before,
+  :is(.profile-compact-v164,.settings-v125) .theme-swatch-v164::after { content:none!important;display:none!important; }
+  :is(.profile-compact-v164,.settings-v125) .theme-swatch-v164 > span {
+    display:block!important;width:28px!important;height:28px!important;margin:0!important;
+    border:0!important;border-radius:50%!important;background:var(--swatch)!important;box-shadow:none!important;
+  }
+  :is(.profile-compact-v164,.settings-v125) .theme-swatch-v164[aria-pressed="true"] > span {
+    outline:2px solid var(--app-text)!important;outline-offset:4px!important;
+  }
+  :is(.profile-compact-v164,.settings-v125) .theme-swatch-v164:focus-visible {
+    outline:2px dashed var(--app-focus)!important;outline-offset:1px!important;
+  }
+  .profile-compact-v164 .profile-font-v137 {
+    display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;
+    gap:3px!important;padding:3px!important;margin-top:10px!important;border-radius:9px!important;background:var(--app-control)!important;
+  }
+  .profile-compact-v164 .profile-font-v137 button {
+    min-width:0!important;min-height:44px!important;height:auto!important;padding:8px 4px!important;
+    border:0!important;border-radius:7px!important;background:transparent!important;box-shadow:none!important;
+    color:var(--app-text)!important;font-size:calc(14px * var(--app-font-multiplier,1))!important;
+  }
+  .profile-compact-v164 .profile-font-v137 button.active { background:var(--app-surface)!important;font-weight:700!important;box-shadow:0 1px 4px #0001!important; }
+  .profile-compact-v164 .profile-background-v143 {
+    display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:3px!important;padding:3px!important;margin:10px 0 0!important;
+    border:0!important;border-radius:9px!important;background:var(--app-control)!important;
+  }
+  .profile-compact-v164 .profile-background-v143 button {
+    display:block!important;min-height:44px!important;padding:6px 4px!important;
+    border:0!important;border-radius:7px!important;background:transparent!important;box-shadow:none!important;
+    color:var(--app-text)!important;font-size:calc(13px * var(--app-font-multiplier,1))!important;text-align:center!important;
+  }
+  .profile-compact-v164 .profile-background-v143 button::before,
+  .profile-compact-v164 .profile-background-v143 button::after { content:none!important;display:none!important; }
+  .profile-compact-v164 .profile-background-v143 button.active { background:var(--app-surface)!important;font-weight:700!important; }
+  .profile-compact-v164 [data-profile-calendar-section-v138] { padding:8px 0!important; }
+  .profile-compact-v164 .profile-calendar-link-v164 {
+    display:flex!important;align-items:center!important;justify-content:space-between!important;gap:8px!important;width:100%!important;min-height:44px!important;
+    padding:4px 0!important;border:0!important;background:transparent!important;color:var(--app-text)!important;font-size:calc(14px * var(--app-font-multiplier,1))!important;
+  }
+  .profile-compact-v164 .profile-calendar-link-v164 > span:last-child { color:var(--app-text-muted)!important;font-size:calc(12px * var(--app-font-multiplier,1))!important; }
+  .profile-compact-v164 .profile-foot-v137 {
+    display:flex!important;flex-wrap:wrap!important;gap:8px!important;justify-content:space-between!important;
+    margin:0!important;padding-top:13px!important;border-top:1px solid var(--app-border)!important;background:transparent!important;
+  }
+  .profile-compact-v164 .profile-foot-v137 button {
+    min-height:44px!important;padding:7px 0!important;border:0!important;border-radius:0!important;
+    background:transparent!important;box-shadow:none!important;font-size:calc(14px * var(--app-font-multiplier,1))!important;
+    color:var(--app-text)!important;
+  }
+}

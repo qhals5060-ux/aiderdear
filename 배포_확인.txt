@@ -1,10 +1,10 @@
-AiderLog v163 · 현재 다운로드 경로
+AiderLog v164 · 현재 다운로드 경로
 
-- Android: /AiderLog-v163.apk
-- 모던: /AiderLog-Modern-v163-site-files.zip
-- 에디토리얼: /AiderLog-Editorial-v161-site-files.zip
-- 버전: versionCode 163 / versionName 1.9.53
-- 검사 범위와 미검증 항목: RELEASE_V163.md
+- Android: /AiderLog-v164.apk
+- 모던: /AiderLog-Modern-v164-site-files.zip
+- 에디토리얼: /AiderLog-Editorial-v164-site-files.zip
+- 버전: versionCode 164 / versionName 1.9.54
+- 검사 범위와 미검증 항목: RELEASE_V164.md
 
 아래는 이전 배포 이력입니다.
 AiderLog Android v161 · Compact Wheel · Exact Sheets · System Theme · Event 배포 확인

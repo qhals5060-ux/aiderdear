@@ -41,6 +41,15 @@
 
 
 # virtual methods
+.method public onPermissionRequestCanceled(Landroid/webkit/PermissionRequest;)V
+    .locals 1
+    iget-object v0, p0, Lcom/aiderlog/v22app/MainActivity$AiderLogChromeClient;->this$0:Lcom/aiderlog/v22app/MainActivity;
+    invoke-static {v0}, Lcom/aiderlog/v22app/MainActivity;->access$6(Lcom/aiderlog/v22app/MainActivity;)Lcom/aiderlog/v22app/PermissionFlow;
+    move-result-object v0
+    invoke-virtual {v0, p1}, Lcom/aiderlog/v22app/PermissionFlow;->cancelMedia(Ljava/lang/Object;)V
+    return-void
+.end method
+
 .method public onPermissionRequest(Landroid/webkit/PermissionRequest;)V
     .locals 2
 

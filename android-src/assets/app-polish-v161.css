@@ -1,0 +1,158 @@
+/* AiderLog v161 · compact wheel, exact bottom sheets, system palette and Event repair. */
+
+/* The outer 5 mm frame belongs to body. Remove legacy inner padding so the
+   active page uses every pixel inside that frame. */
+html body #app#app{
+  padding:0!important;
+}
+html body #app#app>main.views{
+  padding-bottom:0!important;
+}
+html body #app#app>main.views>section.view{
+  padding:0!important;
+}
+html body #app#app>main.views>section.view>.page{
+  padding-bottom:0!important;
+}
+
+/* Preserve the proven wheel hit map. Only move the opened assembly down and
+   make the planet/orbit treatment visually quieter. */
+html body .global-wheel-v126.open{
+  right:max(2px,env(safe-area-inset-right))!important;
+  bottom:-18px!important;
+}
+html body .global-wheel-v126.open #wheelCore.global-wheel-planet-v126{
+  transform:scale(.92)!important;
+}
+html body .global-wheel-v126.open .global-wheel-field-v126::after,
+html body .global-wheel-v126.open .global-wheel-orbits-v126{
+  width:176px!important;
+  height:176px!important;
+  opacity:.72!important;
+}
+html body .global-wheel-v126.open .global-wheel-item-v126::before{
+  inset:10px!important;
+}
+html body .global-wheel-v126.open .global-wheel-item-v126 :is(svg,i){
+  transform:scale(.88)!important;
+}
+html body .global-wheel-v126.open .global-wheel-item-v126 b{
+  font-size:8px!important;
+}
+
+/* System follows the operating-system scheme. v134 accidentally restored
+   white surfaces while prefers-color-scheme was dark. */
+@media(prefers-color-scheme:light){
+  html[data-theme="system"]{
+    color-scheme:light!important;
+    --theme-primary:#7657d8;--theme-secondary:#a57ce2;--theme-accent:#8b6bdd;
+    --theme-accent-soft:#eee9fb;--theme-star:#f3d783;--theme-background:#f8f7fc;
+    --theme-surface:#fff;--theme-border:#ded9ea;--theme-text:#29233a;
+    --theme-text-muted:#756f83;--theme-deep:#4d397f;--theme-glow:rgba(118,87,216,.28);
+    --glass:rgba(255,255,255,.82);--glass-strong:rgba(255,255,255,.94);
+    --glass-soft:rgba(255,255,255,.72);--material-line:rgba(255,255,255,.58);
+    --paper:#fffdf9;--envelope:#dcd4e8;
+  }
+}
+@media(prefers-color-scheme:dark){
+  html[data-theme="system"]{
+    color-scheme:dark!important;
+    --theme-primary:#b6a7ff;--theme-secondary:#8f7be8;--theme-accent:#d4c7ff;
+    --theme-accent-soft:#332d4e;--theme-star:#f1d98d;--theme-background:#171523;
+    --theme-surface:#242135;--theme-border:#45405d;--theme-text:#f8f6ff;
+    --theme-text-muted:#c9c3da;--theme-deep:#0d0c16;--theme-glow:rgba(182,167,255,.32);
+    --glass:rgba(31,28,46,.84);--glass-strong:rgba(36,33,53,.95);
+    --glass-soft:rgba(44,40,63,.76);--material-line:rgba(212,199,255,.2);
+    --material-shadow:0 18px 48px rgba(3,2,10,.34),inset 0 1px rgba(255,255,255,.08);
+    --paper:#29263a;--envelope:#413b55;
+  }
+  html[data-theme="system"] :is(
+    #event .record-head,#event .event-toolbar-v111,#event .travel-head,
+    #event .record-card,#event .event-archive-card-v111,#event .travel-log-card-v148,
+    #event .event-empty-v111
+  ){
+    background:var(--glass-strong)!important;
+    border-color:var(--theme-border)!important;
+    color:var(--theme-text)!important;
+  }
+  html[data-theme="system"] #event :is(input,select,textarea,button:not(.primary)){
+    border-color:var(--theme-border)!important;
+    background:var(--glass-soft)!important;
+    color:var(--theme-text)!important;
+    -webkit-text-fill-color:var(--theme-text)!important;
+  }
+  html[data-theme="system"] #event .event-word-tabs-v157 button{
+    border-color:transparent!important;background:transparent!important;color:var(--theme-text-muted)!important;
+    -webkit-text-fill-color:var(--theme-text-muted)!important;box-shadow:none!important;
+  }
+  html[data-theme="system"] #event .event-word-tabs-v157 button.active{
+    background:var(--theme-primary)!important;color:#171523!important;
+    -webkit-text-fill-color:#171523!important;box-shadow:0 0 14px var(--theme-glow)!important;
+  }
+}
+
+
+/* A fixed child must never be anchored to an animated page. */
+@media(max-width:700px){
+  html body #app>main.views>section.view.on:has(
+    .event-editor-overlay-v111,.schedule-dialog-v125.on,.schedule-dialog-v119.on,
+    .emotion-dialog-v119.on,#recordModal.modal.on,#personalModal.modal.on,
+    .travel-folder-dialog-v125.on,.work145-overlay
+  ){
+    animation:none!important;transform:none!important;translate:none!important;
+    overflow:visible!important;
+  }
+  html body #app>main.views>section#event.view.on.event-editor-open-v157,
+  html body #app>main.views>section#event.view.on.event-editor-open-v157>.page{
+    animation:none!important;transform:none!important;translate:none!important;overflow:visible!important;
+  }
+  html body #app>main.views>section#event.view.on.event-editor-open-v157 .event-editor-overlay-v111,
+  html body :is(
+    .schedule-dialog-v125.on,.schedule-dialog-v119.on,.emotion-dialog-v119.on,
+    #recordModal.modal.on,#personalModal.modal.on,.travel-folder-dialog-v125.on,.work145-overlay
+  ){
+    position:fixed!important;z-index:950!important;inset:0!important;
+    width:100vw!important;min-width:100vw!important;max-width:100vw!important;
+    height:100dvh!important;min-height:100dvh!important;max-height:100dvh!important;
+    margin:0!important;padding:0!important;box-sizing:border-box!important;
+    display:flex!important;align-items:flex-end!important;justify-content:center!important;
+    place-items:end center!important;transform:none!important;translate:none!important;
+    background:rgba(10,7,29,.42)!important;backdrop-filter:blur(7px) saturate(92%)!important;
+  }
+  html body #app>main.views>section#event.view.on.event-editor-open-v157 .event-editor-overlay-v111>.event-editor-sheet-v111,
+  html body :is(
+    .schedule-dialog-v125,.schedule-dialog-v119,.emotion-dialog-v119,
+    #recordModal.modal,#personalModal.modal,.travel-folder-dialog-v125,.work145-overlay
+  )>:is(section,.box){
+    position:relative!important;inset:auto!important;
+    width:100vw!important;min-width:100vw!important;max-width:100vw!important;
+    height:60dvh!important;min-height:60dvh!important;max-height:60dvh!important;
+    margin:0!important;padding-left:0!important;padding-right:0!important;box-sizing:border-box!important;
+    display:flex!important;flex-direction:column!important;overflow:hidden!important;
+    border-left:0!important;border-right:0!important;border-bottom:0!important;
+    border-radius:26px 26px 0 0!important;
+    transform:none!important;translate:none!important;
+  }
+  html body #app #event .event-editor-head-v111,
+  html body :is(.schedule-dialog-v125,.schedule-dialog-v119,.emotion-dialog-v119,.travel-folder-dialog-v125) :is(.feature-dialog-head-v125,header){
+    width:100%!important;border-radius:26px 26px 0 0!important;box-sizing:border-box!important;
+  }
+  html body #app #event .event-editor-form-v111{
+    width:100%!important;min-width:0!important;padding:12px 14px 0!important;box-sizing:border-box!important;
+    overflow-x:hidden!important;overflow-y:auto!important;
+  }
+  html body :is(#recordModal,#personalModal)>.box{
+    border-radius:26px 26px 0 0!important;
+  }
+  html body :is(#recordModal,#personalModal)>.box>form,
+  html body :is(.schedule-dialog-v125,.schedule-dialog-v119,.emotion-dialog-v119,.travel-folder-dialog-v125) form,
+  html body .work145-overlay>section>*:not(header):not(footer){
+    min-width:0!important;max-width:100%!important;box-sizing:border-box!important;overflow-x:hidden!important;
+  }
+}
+
+
+
+@media(prefers-reduced-motion:reduce){
+  html body .global-wheel-v126.open #wheelCore.global-wheel-planet-v126{transition:none!important}
+}

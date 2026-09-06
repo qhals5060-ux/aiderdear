@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:compileSdkVersion="35" android:compileSdkVersionCodename="15" package="com.aiderlog.v22app" platformBuildVersionCode="35" platformBuildVersionName="15">
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
+    <uses-feature android:name="android.hardware.camera.any" android:required="false"/>
+    <uses-feature android:name="android.hardware.microphone" android:required="false"/>
+    <application android:allowBackup="true" android:hardwareAccelerated="true" android:icon="@mipmap/ic_launcher" android:label="AiderLog" android:resizeableActivity="true" android:supportsRtl="true" android:theme="@style/AppTheme" android:usesCleartextTraffic="false">
+        <activity android:configChanges="keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" android:exported="true" android:launchMode="singleTask" android:name=".MainActivity" android:screenOrientation="unspecified" android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:host="auth" android:scheme="aiderlog"/>
+            </intent-filter>
+        </activity>
+        <activity android:exported="true" android:name=".WidgetConfigActivity" android:theme="@style/ConfigTheme"/>
+        <receiver android:exported="false" android:name=".WidgetNavV164"/>
+        <service android:exported="false" android:name=".WidgetRowsV164" android:permission="android.permission.BIND_REMOTEVIEWS"/>
+        <receiver android:exported="false" android:name=".ReminderReceiver"/>
+        <receiver android:exported="true" android:label="일정 · 월간 캘린더" android:name=".WidgetProvider$CalendarMonth">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_calendar_month"/>
+        </receiver>
+        <receiver android:exported="true" android:label="일정 · 캘린더와 일정" android:name=".WidgetProvider$CalendarCombined">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_calendar_combined"/>
+        </receiver>
+        <receiver android:exported="true" android:label="일정 · 분리형 캘린더와 일정" android:name=".WidgetProvider$CalendarSplit">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_calendar_split"/>
+        </receiver>
+        <receiver android:exported="true" android:label="일정 · 2주 캘린더와 일정" android:name=".WidgetProvider$CalendarFortnight">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_calendar_fortnight"/>
+        </receiver>
+        <receiver android:exported="true" android:label="일정 · 일정 목록" android:name=".WidgetProvider$CalendarAgenda">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_calendar_agenda"/>
+        </receiver>
+        <receiver android:exported="true" android:label="불렛저널 · 3일과 메모" android:name=".WidgetProvider$PersonalToday">
+            <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE"/></intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_personal_today"/>
+        </receiver>
+        <receiver android:exported="true" android:label="루틴 · 전체" android:name=".WidgetProvider$RoutineAll">
+            <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE"/></intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_routine_all"/>
+        </receiver>
+        <receiver android:exported="true" android:label="루틴 · 개별" android:name=".WidgetProvider$RoutineCards">
+            <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE"/></intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_routine_cards"/>
+        </receiver>
+        <receiver android:exported="true" android:label="어학 · 선택 언어 7일" android:name=".WidgetProvider$RoutineLanguage">
+            <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE"/></intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_routine_language"/>
+        </receiver>
+        <receiver android:exported="true" android:label="어학 · YouTube 문장" android:name=".WidgetProvider$LanguageYoutube">
+            <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE"/></intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_language_youtube"/>
+        </receiver>
+        <receiver android:exported="true" android:label="건강 · 오늘의 식사" android:name=".WidgetProvider$PersonalMeal">
+            <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE"/></intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_personal_meal"/>
+        </receiver>
+        <receiver android:exported="true" android:label="건강 · 오늘의 운동" android:name=".WidgetProvider$PersonalWorkout">
+            <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE"/></intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_personal_workout"/>
+        </receiver>
+        <receiver android:exported="true" android:label="건강 · 운동과 챌린지" android:name=".WidgetProvider$PersonalWorkoutChallenge">
+            <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE"/></intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_personal_workout_challenge"/>
+        </receiver>
+        <receiver android:exported="true" android:label="건강 · 선택 챌린지" android:name=".WidgetProvider$PersonalWorkoutChallengeOnly">
+            <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE"/></intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_personal_challenge"/>
+        </receiver>
+        <receiver android:exported="true" android:label="건강 · 운동 통계" android:name=".WidgetProvider$PersonalWorkoutStats">
+            <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE"/></intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_personal_workout_stats"/>
+        </receiver>
+        <receiver android:exported="true" android:label="건강 · 운동 통계와 인바디" android:name=".WidgetProvider$PersonalWorkoutStatsInbody">
+            <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE"/></intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_personal_workout_stats_inbody"/>
+        </receiver>
+        <receiver android:exported="true" android:label="메모 · 메모" android:name=".WidgetProvider$PersonalWorkflowOne">
+            <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE"/></intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_personal_workflow_one"/>
+        </receiver>
+        <receiver android:exported="true" android:label="메모 · 메모와 할 일" android:name=".WidgetProvider$PersonalWorkflowAll">
+            <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE"/></intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_personal_workflow_all"/>
+        </receiver>
+        <receiver android:exported="true" android:label="메모 · 할 일" android:name=".WidgetProvider$PersonalTodo">
+            <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE"/></intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_personal_todo"/>
+        </receiver>
+        <receiver android:exported="true" android:label="독서 · 현재 책과 문장" android:name=".WidgetProvider$PersonalQuote">
+            <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE"/></intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_personal_quote"/>
+        </receiver>
+        <receiver android:exported="true" android:label="독서 · 서재" android:name=".WidgetProvider$PersonalReading">
+            <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE"/></intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_personal_reading"/>
+        </receiver>
+        <receiver android:exported="true" android:label="불렛저널 · 7일" android:name=".WidgetProvider$PersonalBulletSeven">
+            <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE"/></intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_personal_bullet_seven"/>
+        </receiver>
+        <receiver android:exported="true" android:label="불렛저널 · 3일과 워크플로우" android:name=".WidgetProvider$PersonalBulletThreeWorkflow">
+            <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE"/></intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_personal_bullet_three_workflow"/>
+        </receiver>
+        <receiver android:exported="true" android:label="불렛저널 · 7일과 워크플로우" android:name=".WidgetProvider$PersonalBulletSevenWorkflow">
+            <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE"/></intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_personal_bullet_seven_workflow"/>
+        </receiver>
+        <receiver android:exported="true" android:label="루틴 · 전체와 통계" android:name=".WidgetProvider$RoutineStats">
+            <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE"/></intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_routine_stats"/>
+        </receiver>
+        <receiver android:exported="true" android:label="어학 · 영어와 일본어 7일" android:name=".WidgetProvider$RoutineLanguageAll">
+            <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE"/></intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_routine_language_all"/>
+        </receiver>
+        <receiver android:exported="true" android:label="건강 · 식사와 운동" android:name=".WidgetProvider$PersonalWorkoutMeal">
+            <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE"/></intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_personal_workout_meal"/>
+        </receiver>
+        <receiver android:exported="true" android:label="건강 · 전체 챌린지" android:name=".WidgetProvider$PersonalWorkoutChallengeAll">
+            <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE"/></intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_personal_workout_challenge_all"/>
+        </receiver>
+        <receiver android:exported="true" android:label="건강 · 선택 및 전체 챌린지" android:name=".WidgetProvider$PersonalWorkoutChallengeCombined">
+            <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE"/></intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_personal_workout_challenge_combined"/>
+        </receiver>
+    </application>
+</manifest>

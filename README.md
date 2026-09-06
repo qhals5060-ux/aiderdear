@@ -1,12 +1,12 @@
-# AiderLog v163 · Modern site layout / Android local files
+# AiderLog v164 · Event / native widgets / site editions
 
-Current release: Android versionCode 163 (1.9.53).
+Current release: Android versionCode 164 (1.9.54).
 
-- Modern site: `site-modern-v163.css/js`, with dedicated Paper / Language shadow styles.
-- Downloads: `AiderLog-v163.apk`, `AiderLog-Modern-v163-site-files.zip`.
-- Original design retained: `AiderLog-Editorial-v161-site-files.zip`.
-- Change scope and verification limits: [RELEASE_V163.md](./RELEASE_V163.md).
-- Native file-transfer patch sources: [android-src](./android-src/README.md).
+- Site appearance: `site-editions-v164.js/css` switches Modern / Editorial without changing functions.
+- Downloads: `AiderLog-v164.apk`, `AiderLog-Modern-v164-site-files.zip`, `AiderLog-Editorial-v164-site-files.zip`.
+- Both site ZIPs have current functions and a different initial appearance. The Android app is not switched to the site layout.
+- Change scope and verification limits: [RELEASE_V164.md](./RELEASE_V164.md).
+- Native permission, widget and file-transfer patch sources: [android-src](./android-src/README.md).
 
 ## Previous releases
 

@@ -1,4 +1,26 @@
-# Android v163 file-transfer changes
+# Android native release patches
+
+## v164 permission setup
+
+`PermissionFlow.java` replaces the unconditional `onCreate` runtime prompt with
+one optional first-run explanation. The "필요 권한 함께 설정" button requests
+microphone and camera together; Android still requires its own permission choices.
+"나중에" and dialog cancellation leave the app usable. Existing SAF file attachment
+does not request gallery-wide or storage permissions. `permissions-v164.js` waits
+until splash and tutorial are closed before invoking the native explanation.
+
+Web media requests now check the trusted HTTPS origin, allow only microphone and
+camera resources, wait for Android permission results, and grant only permissions
+actually allowed by the user. Cancelled requests are cleared. Denied permissions
+can be requested contextually when the user later starts the feature. Notifications
+are not bundled into this media explanation, and no new permissions were added.
+
+App index integration: load `permissions-v164.js` once near the end of the bundled
+HTML after the existing startup/tutorial scripts; add it to the app service-worker
+cache. Integration smali is included in this directory. Compile Java 8 / D8 min API
+26 and merge generated `PermissionFlow*.smali` with the decoded app.
+
+## v163 file transfers
 
 This directory is the release patch source, not a complete Gradle project.
 The complete base is the retained decoded AiderLog app. Unchanged widget, training,
@@ -10,7 +32,7 @@ authentication, routing, and data code are not duplicated here.
   session cookie and user-agent. Blob/data responses use the local export bridge.
 - `smali/`: edited MainActivity / ChromeClient / DownloadListener integration.
 - `assets/`: Android-only JavaScript and CSS introduced in this release.
-- `apktool.yml`: release versionCode 163, versionName 1.9.53.
+- `apktool.yml`: current release versionCode 164, versionName 1.9.54.
 
 Build: compile the Java sources for Android (Java 8, min API 26), dex the generated
 `com.aiderlog.v22app` classes, disassemble and copy their generated smali into the

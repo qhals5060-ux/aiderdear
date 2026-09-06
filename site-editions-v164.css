@@ -1,0 +1,24 @@
+/* Shared website download controls. This sheet is never included in Android. */
+html:not(.aiderlog-android) #loginModal .site-guest-downloads{display:grid;gap:12px;min-width:0;min-height:0;overflow:auto;padding-bottom:2px}
+html:not(.aiderlog-android) #loginModal:has(#firebasePairPanel:not([hidden])) .site-guest-downloads{display:none!important}
+html:not(.aiderlog-android) #loginModal .site-theme-control{display:grid;grid-template-columns:minmax(0,1fr) minmax(150px,220px);align-items:center;gap:12px;padding:14px;border:1px solid #c8c7cc;background:#fff;color:#252d31}
+html:not(.aiderlog-android) #loginModal .site-theme-control>div{display:grid;gap:5px;min-width:0}
+html:not(.aiderlog-android) #loginModal .site-theme-control b{font-size:15px!important;line-height:1.3}
+html:not(.aiderlog-android) #loginModal .site-theme-control span{font-size:12px!important;line-height:1.5;color:#626b70}
+html:not(.aiderlog-android) #loginModal .site-theme-control label{display:grid;gap:5px;font-size:12px!important}
+html:not(.aiderlog-android) #loginModal .site-theme-control select{width:100%;min-width:0;min-height:44px;border:1px solid #a7aeac;background:#fff;color:#252d31;padding:8px;font-size:14px!important}
+html:not(.aiderlog-android) #loginModal .site-edition-downloads{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important;min-width:0}
+html:not(.aiderlog-android) #loginModal .site-edition-downloads>.app-install-card{width:100%!important;min-width:0!important;min-height:210px!important;height:auto!important;display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:9px!important;padding:16px!important;background:#fff!important;color:#252d31!important;border:1px solid #c8c7cc!important;box-shadow:none!important;overflow:hidden!important}
+html:not(.aiderlog-android) #loginModal .site-edition-downloads>.app-install-card>i{width:auto!important;height:auto!important;min-height:0!important;display:block!important;background:transparent!important;color:#5f686c!important;padding:0!important;font:700 11px/1.5 Arial,sans-serif!important;border:0!important;box-shadow:none!important;border-radius:0!important}
+html:not(.aiderlog-android) #loginModal .site-edition-downloads>.app-install-card>b{font-size:19px!important;line-height:1.3!important;white-space:normal!important}
+html:not(.aiderlog-android) #loginModal .site-edition-downloads>.app-install-card>p{font-size:13px!important;line-height:1.55!important;color:#626b70!important;min-height:0!important;margin:0!important;overflow-wrap:anywhere}
+html:not(.aiderlog-android) #loginModal .site-edition-downloads .app-download-link{display:flex!important;align-items:center;justify-content:center;min-height:44px!important;height:auto!important;width:100%!important;box-sizing:border-box;padding:10px 8px!important;margin-top:auto!important;font-size:13px!important;line-height:1.4!important;font-weight:700!important;text-align:center;text-decoration:none!important;white-space:normal!important;color:#fff!important;background:#252d31!important;border:1px solid #252d31!important}
+html:not(.aiderlog-android) #loginModal .site-edition-downloads>.android{grid-column:1/-1;min-height:165px!important}
+html.modern-site #loginModal .site-theme-control,html.modern-site #loginModal .site-edition-downloads>.app-install-card{border-color:#dde2e0!important;border-radius:7px!important}
+html.modern-site #loginModal .site-edition-downloads .app-download-link{background:#335d5b!important;border-color:#335d5b!important;border-radius:5px!important}
+html:not(.modern-site):not(.aiderlog-android) #loginModal .site-theme-control,html:not(.modern-site):not(.aiderlog-android) #loginModal .site-edition-downloads>.app-install-card,html:not(.modern-site):not(.aiderlog-android) #loginModal .site-edition-downloads .app-download-link{border-radius:0!important}
+@media(max-width:520px){
+ html:not(.aiderlog-android) #loginModal .site-theme-control{grid-template-columns:1fr}
+ html:not(.aiderlog-android) #loginModal .site-edition-downloads{grid-template-columns:minmax(0,1fr)!important}
+ html:not(.aiderlog-android) #loginModal .site-edition-downloads>.app-install-card{min-height:175px!important}
+}

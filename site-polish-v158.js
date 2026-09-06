@@ -4,8 +4,8 @@
   const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
   const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const specs={
-    travelPlanBookings:{cols:4,fields:[['분류','category','숙소'],['예약 상태','status','예약 완료'],['예약명','name',''],['플랫폼','platform',''],['예약자','booker',''],['날짜','date','', 'date'],['금액','amount','', 'number'],['예약번호 · 메모','note','']]},
-    travelPlanPicks:{cols:4,fields:[['여행 일차','day','D1'],['시간','time','', 'time'],['장소 · 활동','activity',''],['분류','category','관광'],['지역 · 위치','location',''],['예상 소요시간','duration',''],['우선순위','priority','보통'],['메모','note','']]},
+    travelPlanBookings:{cols:4,fields:[['분류','category','숙소'],['예약 상태','status','예약 완료'],['예약명','name',''],['예약 플랫폼','platform',''],['예약자','booker',''],['예약 날짜','date','', 'date'],['금액','amount','', 'number'],['예약번호 · 메모','note','']]},
+    travelPlanPicks:{cols:4,fields:[['여행 일차','day','D1'],['시간','time','', 'time'],['장소 · 활동 이름','activity',''],['카테고리','category','관광'],['지역 · 위치','location',''],['예상 소요시간','duration',''],['우선순위','priority','가능하면'],['메모','note','']]},
     travelPlanChecklist:{cols:2,fields:[['구분','kind','짐'],['준비 항목','item','']]}
   };
   const editors=new Map();

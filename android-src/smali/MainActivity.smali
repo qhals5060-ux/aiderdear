@@ -42,8 +42,16 @@
 
 .field private fileTransfer:Lcom/aiderlog/v22app/FileTransfer;
 
+.field private permissionFlow:Lcom/aiderlog/v22app/PermissionFlow;
+
 
 # direct methods
+.method static synthetic access$6(Lcom/aiderlog/v22app/MainActivity;)Lcom/aiderlog/v22app/PermissionFlow;
+    .locals 0
+    iget-object p0, p0, Lcom/aiderlog/v22app/MainActivity;->permissionFlow:Lcom/aiderlog/v22app/PermissionFlow;
+    return-object p0
+.end method
+
 .method public constructor <init>()V
     .locals 1
 
@@ -308,6 +316,12 @@
     invoke-direct {v1, p0}, Lcom/aiderlog/v22app/FileTransfer;-><init>(Landroid/app/Activity;)V
     iput-object v1, p0, Lcom/aiderlog/v22app/MainActivity;->fileTransfer:Lcom/aiderlog/v22app/FileTransfer;
     const-string v2, "AiderLogFiles"
+    invoke-virtual {v0, v1, v2}, Landroid/webkit/WebView;->addJavascriptInterface(Ljava/lang/Object;Ljava/lang/String;)V
+
+    new-instance v1, Lcom/aiderlog/v22app/PermissionFlow;
+    invoke-direct {v1, p0}, Lcom/aiderlog/v22app/PermissionFlow;-><init>(Landroid/app/Activity;)V
+    iput-object v1, p0, Lcom/aiderlog/v22app/MainActivity;->permissionFlow:Lcom/aiderlog/v22app/PermissionFlow;
+    const-string v2, "AiderLogPermissions"
     invoke-virtual {v0, v1, v2}, Landroid/webkit/WebView;->addJavascriptInterface(Ljava/lang/Object;Ljava/lang/String;)V
 
     .line 83
@@ -645,80 +659,6 @@
     return-void
 .end method
 
-.method private requestRuntimePermissions()V
-    .locals 3
-
-    .line 145
-    new-instance v0, Ljava/util/ArrayList;
-
-    invoke-direct {v0}, Ljava/util/ArrayList;-><init>()V
-
-    .line 146
-    const-string v1, "android.permission.CAMERA"
-
-    invoke-virtual {p0, v1}, Lcom/aiderlog/v22app/MainActivity;->checkSelfPermission(Ljava/lang/String;)I
-
-    move-result v2
-
-    if-eqz v2, :cond_0
-
-    invoke-virtual {v0, v1}, Ljava/util/ArrayList;->add(Ljava/lang/Object;)Z
-
-    .line 147
-    :cond_0
-    const-string v1, "android.permission.RECORD_AUDIO"
-
-    invoke-virtual {p0, v1}, Lcom/aiderlog/v22app/MainActivity;->checkSelfPermission(Ljava/lang/String;)I
-
-    move-result v2
-
-    if-eqz v2, :cond_1
-
-    invoke-virtual {v0, v1}, Ljava/util/ArrayList;->add(Ljava/lang/Object;)Z
-
-    .line 148
-    :cond_1
-    sget v1, Landroid/os/Build$VERSION;->SDK_INT:I
-
-    const/16 v2, 0x21
-
-    if-lt v1, v2, :cond_2
-
-    const-string v1, "android.permission.POST_NOTIFICATIONS"
-
-    invoke-virtual {p0, v1}, Lcom/aiderlog/v22app/MainActivity;->checkSelfPermission(Ljava/lang/String;)I
-
-    move-result v2
-
-    if-eqz v2, :cond_2
-
-    invoke-virtual {v0, v1}, Ljava/util/ArrayList;->add(Ljava/lang/Object;)Z
-
-    .line 149
-    :cond_2
-    invoke-virtual {v0}, Ljava/util/ArrayList;->isEmpty()Z
-
-    move-result v1
-
-    if-nez v1, :cond_3
-
-    const/4 v1, 0x0
-
-    new-array v1, v1, [Ljava/lang/String;
-
-    invoke-virtual {v0, v1}, Ljava/util/ArrayList;->toArray([Ljava/lang/Object;)[Ljava/lang/Object;
-
-    move-result-object v0
-
-    check-cast v0, [Ljava/lang/String;
-
-    const/16 v1, 0x386
-
-    invoke-virtual {p0, v0, v1}, Lcom/aiderlog/v22app/MainActivity;->requestPermissions([Ljava/lang/String;I)V
-
-    :cond_3
-    return-void
-.end method
 
 .method private safeTarget(Ljava/lang/String;)Ljava/lang/String;
     .locals 2
@@ -1033,9 +973,6 @@
     .line 55
     invoke-direct {p0, p1}, Lcom/aiderlog/v22app/MainActivity;->configureWebView(Landroid/os/Bundle;)V
 
-    .line 56
-    invoke-direct {p0}, Lcom/aiderlog/v22app/MainActivity;->requestRuntimePermissions()V
-
     return-void
 .end method
 
@@ -1054,6 +991,18 @@
     .line 117
     invoke-direct {p0}, Lcom/aiderlog/v22app/MainActivity;->deliverIntentToWeb()V
 
+    return-void
+.end method
+
+.method public onRequestPermissionsResult(I[Ljava/lang/String;[I)V
+    .locals 1
+    invoke-super {p0, p1, p2, p3}, Landroid/app/Activity;->onRequestPermissionsResult(I[Ljava/lang/String;[I)V
+    const/16 v0, 0x386
+    if-ne p1, v0, :permission_result_done_v164
+    iget-object v0, p0, Lcom/aiderlog/v22app/MainActivity;->permissionFlow:Lcom/aiderlog/v22app/PermissionFlow;
+    if-eqz v0, :permission_result_done_v164
+    invoke-virtual {v0}, Lcom/aiderlog/v22app/PermissionFlow;->onResult()V
+    :permission_result_done_v164
     return-void
 .end method
 
