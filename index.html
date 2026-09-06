@@ -8647,6 +8647,13 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
     setInsightReview:async(id,state)=>{const data=researchStore(),row=(data.researchInsights||[]).find(item=>item.id===id);if(!row)return;row.reviewState=state;row.status=state==='verified'?'reviewed':'aiCandidate';row.reviewedAt=state==='verified'?Date.now():0;row.updatedAt=Date.now();await persistResearch('근거 검토 상태를 저장했습니다.');window.AiderPaperWorkspace?.refresh?.()},
     toast,
   };
+  window.AiderConsultBridge={
+    snapshot:()=>structuredClone(consultingStore()),
+    selectedId:()=>selectedConsultingClientId,
+    setStage:async(clientId,stage)=>{const row=(consultingStore().consultingClients||[]).find(item=>item.id===clientId);if(!row)return false;row.stage=stage;row.updatedAt=Date.now();await savePrivateData(currentUserEmail);renderConsultingWorkspace();return true},
+    notify:toast,
+    errorMessage:googleErrorMessage,
+  };
     normalizeCloudData();selectAlbumFolderColor(ALBUM_PASTELS[0]);getAlbumFolders();refreshRecordAlbumSelect(DEFAULT_ALBUM_ID);renderAlbumFolders();renderEventArchive();renderTravelArchive();renderPrivate();renderPersonal();renderPaper();renderConsultingWorkspace();renderEmotion();applyLoginUI();setDday();renderDdayList();renderCalendar();if(location.hash==='#search')setTimeout(openSearchFromQuick,0);if('serviceWorker' in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'}).then(registration=>registration.update()).catch(()=>{}));
 })();
 </script>
