@@ -1,3 +1,19 @@
+AiderLog Android v155 · Calendar · Wheel · Private Universe
+
+[v155 변경]
+- 15종 Android 위젯을 미리보기 이미지가 아닌 실제 설치용 RemoteViews-safe 우주 글래스 레이아웃으로 다시 구성했습니다.
+- 설치된 위젯을 누르면 행성 테마, 불투명도, 글자 크기 1–5단계를 다시 설정할 수 있습니다.
+- Samsung WebView에서 오래된 휠 제어 코드가 터치를 가로채던 충돌을 제거하고 최신 터치 컨트롤러 하나만 동작하게 했습니다.
+- 휠의 홀로그램 광륜, 궤도선, 선택 행성 발광을 복원하고 기존 오른쪽 하단 위치를 유지했습니다.
+- 시스템 테마 카드의 행성 디자인을 복원하고 앱이 백그라운드에서 돌아올 때 사용 중이던 페이지를 유지합니다.
+- 캘린더의 선택 네온띠를 날짜 숫자 중심에 맞추고 휠 메뉴를 휠 버튼 가까이 내렸습니다.
+- 빈 기록 화면의 행성 장식을 제거하고 기록 추가 창을 오른쪽·하단 밀착형으로 재구성했습니다.
+- Paper, Consulting, Work, Speech, Brain, Study Card의 헤더·탭·카드를 행성 글래스 테마로 통일했습니다.
+
+Android APK SHA-256: 4F4C8F9A81AFF02CD9AF17C34DE636624D1C0621A653250ADEF0BF942A35D2E4
+
+---
+
 AiderLog Android v153 · Fresh Install Recovery · 5 mm Frame
 
 [v153 변경]

@@ -1,4 +1,19 @@
-# AiderLog Android v153 · Site v121 + Work
+# AiderLog Android v155 · Site v121 + Work
+
+## v155 aligned calendar, compact wheel and Private Universe polish
+
+- Rebuilds all 15 installed Android widgets with RemoteViews-safe cosmic glass layouts instead of relying on picker preview artwork.
+- Keeps theme, opacity and five-level type controls available by tapping an installed widget.
+- Makes the newest native-touch wheel controller the sole owner of wheel gestures, and reasserts the selected route while Samsung WebView settles.
+- Restores the luminous hologram, orbital trails and selected-planet glow while retaining the original lower-right wheel position.
+- Restores planetary system-theme cards and keeps the current page when the app resumes from the background.
+- Aligns the calendar neon ring to the date numeral and moves the wheel fan closer to its planet button.
+- Removes decorative planets from empty record states and rebuilds record editors as right-flush sheets with no bottom void.
+- Unifies Paper, Consulting, Work, Speech, Brain and Study Card with a compact planetary glass interface.
+
+Android APK SHA-256: `4F4C8F9A81AFF02CD9AF17C34DE636624D1C0621A653250ADEF0BF942A35D2E4`
+
+---
 
 ## v153 fresh-install startup recovery and 5 mm frame
 
@@ -36,7 +51,7 @@ Android APK SHA-256: `0DE718A8AAB51F40F8333A69C02AEAE58F951117C33F2D05AE7F47C17E
 - Calendar spacing, current-date ring, schedule form, Routine, Daylog, Private Universe and account/settings density were refined for Galaxy Flip/Fold 3–8.
 - Language Lab uses the validated split v2 bundle: 3 languages, 5 levels per language, 8 units and 80 lessons per course. Only the selected course is parsed and cached.
 - Language progress is keyed by user/language/level/unit/lesson, preserves legacy progress and syncs between the website and Android app for the same account.
-- The profile App page downloads the current v153 site archive and signed Android APK.
+- The profile App page downloads the current v155 site archive and signed Android APK.
 
 Android APK SHA-256: `53CF581A3EF3F73E98CAB8F91D67F4FD143FD0991E80EEE4A5FBAB9AAA808ED6`
 
