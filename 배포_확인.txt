@@ -1,3 +1,15 @@
+AiderLog Android v156 · Widgets · YouTube Study 배포 확인
+
+- APK: /AiderLog-v156.apk
+- 사이트 소스: /AiderLog-v156-site-files.zip
+- APK SHA-256: CC9CCAFBC3548FC3839778A3E22F1B420181B66B13F869B8250A801D1B0DA108
+- 사이트 개인 페이지 > 앱에서 PC 파일과 Android APK 다운로드 버튼이 표시되고 직접 다운로드되어야 합니다.
+- Android 위젯 선택기에는 일정·불렛저널·루틴·어학·건강의 목적별 그룹과 16종 위젯이 표시되어야 합니다.
+- 설치된 위젯의 런처 설정 또는 톱니바퀴에서 테마·불투명도·폰트 설정을 다시 열 수 있어야 합니다.
+- Language의 YouTube 문장 학습에서 링크 연결, 문장 저장, 회상 연습, 복습 완료가 동작해야 합니다.
+
+----------------------------------------
+
 AiderLog Android v147 · Site Work 배포 확인
 
 - APK: /AiderLog-v147.apk

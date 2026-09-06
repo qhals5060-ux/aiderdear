@@ -1,3 +1,16 @@
+# AiderLog Android v156 · Site v121 + Work
+
+## v156 목적별 위젯 · YouTube 문장 학습 · 다운로드 복구
+
+- Samsung 위젯 선택기에서 일정·불렛저널·루틴·어학·건강 목적별로 묶고, 설치 후 런처의 `설정` 또는 위젯 톱니바퀴에서 테마·불투명도·글자 크기를 다시 조정할 수 있습니다.
+- 기존 15종 위젯에 `YouTube 문장 복습` 위젯을 추가했습니다. 저장한 영상 문장을 홈 화면에서 확인하고 탭하면 어학의 YouTube 학습 화면으로 이동합니다.
+- 어학에서 일반 YouTube URL을 연결하고 영상 문장·뜻·나만의 문장을 저장한 뒤 회상 연습과 복습 완료를 기록할 수 있습니다. 공개 자막 자동 불러오기가 제한된 영상도 직접 입력 학습은 유지됩니다.
+- 사이트 개인 페이지의 PC·Android 다운로드 버튼 클래스를 복구하고 v156 파일로 교체했습니다.
+
+Android APK SHA-256: `CC9CCAFBC3548FC3839778A3E22F1B420181B66B13F869B8250A801D1B0DA108`
+
+---
+
 # AiderLog Android v155 · Site v121 + Work
 
 ## v155 aligned calendar, compact wheel and Private Universe polish
