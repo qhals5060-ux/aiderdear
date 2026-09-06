@@ -1,3 +1,16 @@
+AiderLog Android v161 · Compact Wheel · Exact Sheets · System Theme · Event 배포 확인
+
+- APK: /AiderLog-v161.apk
+- 사이트 소스: /AiderLog-v161-site-files.zip
+- APK SHA-256: 1F00DA97A6575E7472597665FDE63D92CB9C8D4E0119862A730927EABDD40DB0
+- 휠의 네 목적지 선택과 페이지 이동은 유지되고, 열린 휠만 하단으로 내려가야 합니다.
+- 앱 화면의 상단과 하단 외부 여백은 각각 5mm이며 내부에 중복 하단 여백이 없어야 합니다.
+- 모바일 기록창은 x=0, 화면 전체 폭, 화면 높이 3/5, 상단 모서리만 둥글어야 합니다.
+- 시스템 다크 모드에서 카드·입력창·글자·테두리가 모두 어두운 팔레트로 전환되어야 합니다.
+- Event의 Record·Archive·Travel 피드와 컨트롤이 겹치거나 잘리지 않아야 합니다.
+
+----------------------------------------
+
 AiderLog Android v157 · Navigation · Bottom Sheets · Widget Settings 배포 확인
 
 - APK: /AiderLog-v157.apk

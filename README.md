@@ -1,3 +1,18 @@
+# AiderLog Android v161 · Site v121 + Work
+
+## v161 compact wheel · exact sheets · system theme · Event repair
+
+- 검증된 휠 터치·페이지 전환 로직은 유지하고, 열린 휠을 화면 하단으로 내려 차지하는 공간과 행성 크기만 줄였습니다.
+- 앱 내부의 중복 하단 패딩을 제거해 상·하단 외부 프레임이 각각 5mm만 남도록 맞췄습니다.
+- 모든 모바일 기록창을 화면 왼쪽 0px부터 전체 폭으로 채우고 높이 3/5, 상단 모서리만 둥근 시트로 통일했습니다.
+- 시스템 테마는 밝기 모드에 따라 표면·글자·입력창·테두리와 네이티브 테마 색상을 함께 전환합니다.
+- Event의 Record 카드 그리드 겹침을 수정하고 Record·Archive·Travel의 상단 도구와 피드 흐름을 정돈했습니다.
+- 사이트 개인 페이지의 PC·Android 다운로드를 v161 파일로 교체했습니다.
+
+Android APK SHA-256: `1F00DA97A6575E7472597665FDE63D92CB9C8D4E0119862A730927EABDD40DB0`
+
+---
+
 # AiderLog Android v156 · Site v121 + Work
 
 ## v156 목적별 위젯 · YouTube 문장 학습 · 다운로드 복구
