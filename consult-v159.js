@@ -13,6 +13,7 @@
   function enhance(){
     const host=document.querySelector('#consultingMain');
     if(!host||!host.querySelector('.consulting-client-head'))return;
+    if(host.querySelector('.consult-v159-roadmap'))return;
     const data=typeof consultingStore==='function'?consultingStore():null;
     const selected=(data?.consultingClients||[]).find(row=>row.id===selectedConsultingClientId);
     if(!selected)return;
@@ -54,5 +55,7 @@
       popup.document.write(`<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>${esc(client.name)} · 컨설팅 요약</title><style>@page{size:A4;margin:18mm}body{font-family:Arial,'Malgun Gothic',sans-serif;color:#191815;line-height:1.55}header{border-bottom:3px solid #1e1e1e;padding-bottom:18px}h1{font-family:Georgia,serif;margin:4px 0}.meta{color:#716b5e}.box{border:1px solid #bbb5a5;padding:16px;margin:16px 0}li{margin:8px 0}.tag{font-size:11px;letter-spacing:.14em;font-weight:800;color:#8d7300}</style></head><body><header><span class="tag">AIDERLOG · CONSULT DELIVERY</span><h1>${esc(client.name)} 컨설팅 진행 요약</h1><p class="meta">${esc([client.targetUniversity||client.university,client.targetMajor||client.major,client.applicationYear&&`${client.applicationYear}학년도`].filter(Boolean).join(' · '))}</p></header><section class="box"><b>연구 방향</b><p>${esc(client.topic||'확인 필요')}</p></section><section><h2>과업</h2><ul>${tasks.map(row=>`<li>${row.done?'완료':'진행'} · ${esc(row.title)}${row.dueDate?` · ${esc(row.dueDate)}`:''}</li>`).join('')||'<li>등록된 과업 없음</li>'}</ul></section><section><h2>상담 기록</h2><ul>${sessions.map(row=>`<li>${esc(row.date||'날짜 미정')} · ${esc(row.summary||'')}</li>`).join('')||'<li>등록된 상담 기록 없음</li>'}</ul></section><script>addEventListener('load',()=>print())<\/script></body></html>`);popup.document.close();
     }
   });
+  const consultHost=document.querySelector('#consultingMain');
+  if(consultHost)new MutationObserver(()=>queueMicrotask(enhance)).observe(consultHost,{childList:true});
   window.renderConsultingWorkspace();
 })();
