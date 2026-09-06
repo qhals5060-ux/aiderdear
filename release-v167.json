@@ -1,0 +1,27 @@
+{
+  "versionCode": 167,
+  "versionName": "1.9.57",
+  "status": "staged-candidate",
+  "requiresCoordinatedApiClientRulesRollout": true,
+  "artifacts": [
+    {"file": "AiderLog-v167.apk", "bytes": 63549161, "sha256": "f23eb7832a7f61c5acbb11dd9abb7339ea65341cb123683e3781103ee65db279"},
+    {"file": "AiderLog-Modern-v167-site-files.zip", "bytes": 1728059, "sha256": "770abcf25e6b0ee8b1f49a010978012662f5358bcd440498bfd01cb2697462a2"},
+    {"file": "AiderLog-Editorial-v167-site-files.zip", "bytes": 1728054, "sha256": "b052015b8155d8d9ceedb1bd75bfb08a9d15198808e7b2f71494dc50d5769558"}
+  ],
+  "apkVerification": {
+    "certificateSha256": "1e08a903aef9c3a721510b64ec764d01d3d094eb954161b62544ea8f187b5953",
+    "certificateNote": "Same Android Debug signing identity as previous distribution; not a new Play Store production key.",
+    "connectedDeviceTested": false
+  },
+  "pcPackages": {
+    "kind": "Browser source files and Windows Internet Shortcut; not a standalone Windows executable or offline API server.",
+    "entry": "AiderLog-시작.url",
+    "origin": "https://aiderdear1.vercel.app",
+    "editionQuery": "site-edition=modern|editorial",
+    "directFileIndex": "Opens the corresponding HTTPS edition to keep authentication and /api calls on the production origin.",
+    "browserSourceFilesPerEdition": 69,
+    "includedLanguageLessons": 800,
+    "languages": ["en", "ja"],
+    "excludes": ["server", "api", "Android source", "secrets", "environment configuration", "APKs", "previous ZIPs"]
+  }
+}

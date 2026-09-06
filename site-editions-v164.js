@@ -15,6 +15,13 @@
     const saved = localStorage.getItem(KEY);
     if (saved === 'modern' || saved === 'editorial') current = saved;
   } catch { /* Downloaded file or private browsing may disable localStorage. */ }
+  // Edition-specific Windows shortcuts open the authenticated HTTPS app. Only
+  // these two public appearance values may override the saved preference.
+  const requestedEdition = new URL(location.href).searchParams.get('site-edition');
+  if (requestedEdition === 'modern' || requestedEdition === 'editorial') {
+    current = requestedEdition;
+    try { localStorage.setItem(KEY, current); } catch {}
+  }
   const sectionNavs = [
     ['.page-dots', ['캘린더', '감정 인사이트']],
     ['.record-page-dots', ['기록 · 앨범', '아카이브 · 여행']],

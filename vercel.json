@@ -80,7 +80,7 @@
       ]
     },
     {
-      "source": "/AiderLog-v165.apk",
+      "source": "/AiderLog-v167.apk",
       "headers": [
         {
           "key": "Content-Type",
@@ -88,7 +88,7 @@
         },
         {
           "key": "Content-Disposition",
-          "value": "attachment; filename=\"AiderLog-v165.apk\""
+          "value": "attachment; filename=\"AiderLog-v167.apk\""
         },
         {
           "key": "Cache-Control",
@@ -97,7 +97,7 @@
       ]
     },
     {
-      "source": "/AiderLog-Modern-v165-site-files.zip",
+      "source": "/AiderLog-Modern-v167-site-files.zip",
       "headers": [
         {
           "key": "Content-Type",
@@ -105,7 +105,7 @@
         },
         {
           "key": "Content-Disposition",
-          "value": "attachment; filename=\"AiderLog-Modern-v165-site-files.zip\""
+          "value": "attachment; filename=\"AiderLog-Modern-v167-site-files.zip\""
         },
         {
           "key": "Cache-Control",
@@ -114,7 +114,7 @@
       ]
     },
     {
-      "source": "/AiderLog-Editorial-v165-site-files.zip",
+      "source": "/AiderLog-Editorial-v167-site-files.zip",
       "headers": [
         {
           "key": "Content-Type",
@@ -122,7 +122,7 @@
         },
         {
           "key": "Content-Disposition",
-          "value": "attachment; filename=\"AiderLog-Editorial-v165-site-files.zip\""
+          "value": "attachment; filename=\"AiderLog-Editorial-v167-site-files.zip\""
         },
         {
           "key": "Cache-Control",
