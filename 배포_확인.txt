@@ -1,3 +1,16 @@
+AiderLog Android v157 · Navigation · Bottom Sheets · Widget Settings 배포 확인
+
+- APK: /AiderLog-v157.apk
+- 사이트 소스: /AiderLog-v157-site-files.zip
+- APK SHA-256: 269A0645EFD0173D879E6CEB27AC1F745491CD0821186354919B53AA7AB3D12C
+- 사이트 개인 페이지 > 앱에서 PC 파일과 Android APK 다운로드 버튼이 표시되고 직접 다운로드되어야 합니다.
+- 휠 메뉴가 즉시 열리고 각 목적지가 겹치지 않으며 선택한 페이지로 이동해야 합니다.
+- 다른 앱에서 돌아왔을 때 사용 중이던 페이지가 유지되어야 합니다.
+- Event 제목 옆에 Record·Archive·Travel 메뉴가 표시되고, 기록 창은 아래에서 올라오는 화면 높이 3/5 시트여야 합니다.
+- 실제 설치 위젯에 우주 글래스 디자인이 표시되고 런처의 재설정에서 테마·불투명도·폰트를 변경할 수 있어야 합니다.
+
+----------------------------------------
+
 AiderLog Android v156 · Widgets · YouTube Study 배포 확인
 
 - APK: /AiderLog-v156.apk

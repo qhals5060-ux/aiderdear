@@ -1,3 +1,17 @@
+AiderLog Android v157 · Navigation · Bottom Sheets · Widget Settings
+
+[v157 변경]
+- Galaxy 터치 환경에서 휠 버튼과 각 목적지의 터치 영역이 겹치지 않도록 분리하고, 홀로그램 메뉴를 즉시 표시한 뒤 선택한 페이지로 안정적으로 이동하도록 개선했습니다.
+- 다른 앱을 사용한 뒤 돌아왔을 때 마지막으로 사용하던 페이지와 상태를 복원하고, 비어 있는 실행 명령이 Home 이동으로 처리되지 않게 수정했습니다.
+- 기록 추가 창을 화면 아래에서 올라오는 3/5 높이의 둥근 모서리 시트로 통일하고 하단 빈 공간을 제거했습니다.
+- Event 제목 옆에 Record·Archive·Travel 전환 메뉴를 작게 배치했습니다.
+- 실제 홈 화면 위젯에 우주 글래스 디자인을 적용하고, 런처에서 길게 눌러 설정을 열면 테마·불투명도·폰트·표시 내용을 다시 바꿀 수 있게 했습니다.
+- 사이트 개인 페이지의 PC·Android 다운로드를 v157 배포 파일로 교체했습니다.
+
+Android APK SHA-256: 269A0645EFD0173D879E6CEB27AC1F745491CD0821186354919B53AA7AB3D12C
+
+---
+
 AiderLog Android v156 · Widgets · YouTube Study · Download Recovery
 
 [v156 변경]
