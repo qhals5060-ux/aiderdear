@@ -1,63 +1,91 @@
-# v164 native widgets
+# v165 native widgets (v12 designs)
 
-These are release patches for the retained decoded AiderLog application, not a
-standalone Gradle project. Keep the base package name and existing public resource
-IDs. The source and small resource snapshots together are about 1.5 MiB.
+This is a reproducible patch for the retained decoded Android application, not a
+standalone Gradle project. Preserve the package/provider names and existing public
+resource IDs. The former v164 source snapshot is backed up outside Git at
+work/widget-v164-backup-20260906-222354/widgets.
 
-## What changed
+## Actual launcher implementation
 
-- `WidgetProvider.updateWidget` delegates to `WidgetNativeV164`; the calendar is
-  real nested RemoteViews with 42 month cells or 14 fortnight cells, not a text
-  block or a background screenshot. Small cells hide overflowing labels while
-  their content description and selected-day agenda retain the information.
-- The selected-day agenda is an actual native scrollable collection. API31+
-  RemoteCollectionItems and API26–30 RemoteViewsService use the same model rows.
-  If the newer API is unavailable, the service fallback is refreshed explicitly.
-- Background opacity uses ImageView.setImageAlpha, which is remotely invocable;
-  View.setAlpha cannot be used safely through RemoteViews on supported Android.
-- Configuration retains launcher long-press Settings and per-widget preferences.
-  Its preview uses the same RemoteViews renderer with unsaved appearance values.
-- All 29 active picker entries use explicit `previewLayout` and `previewImage`.
-  Example content occurs only in picker resources, never in installed snapshots.
-  The 13 old preview names/IDs are retained with small updated image content.
-- The app's active `widget-sync-v164.js` bridges canonical local app data, not
-  text scraped from a rendered calendar. This script must be in the bundled index
-  and its service-worker cache. `android-shell.js` is not the active sender.
-  Its `accessState` distinguishes login/sync-required placeholders from a genuinely empty library.
+- Calendar uses native month cells (4–6 actual weeks) or fourteen fortnight cells.
+  Five retained provider IDs cover month, selected-day agenda, combined calendar
+  and agenda, large month with one/two event labels and +N, and fortnight+agenda.
+  Compact cells reserve room for the date and holiday rather than drawing over
+  other labels. Large-month default/minimum height is 440dp.
+- Notes/todos, routines, English/Japanese learning, health, reading and bullet
+  journal use purpose-specific native RemoteViews cards, not flat text lists.
+  Progress bars are real ProgressBar views. Seven learning stars, routine and
+  challenge nodes, and actual-value statistics are drawn into native graph images.
+- Meals have exactly four photo/time/rating slots; no imaginary food or nutrition.
+  Book covers use actual private media and preserve the full cover aspect ratio.
+  Missing media keeps a plain placeholder; missing measurements stay unavailable.
+- Native scrolling collections retain all rows. Content-heavy cards use
+  RemoteViewsService on all supported versions to avoid a large image-heavy
+  Binder transaction; short calendar agendas may use API31 RemoteCollectionItems.
+- Fold-width layouts use paired panels, four book/photo columns and seven bullet
+  days. Narrow seven-day bullet widgets page through three visible days; 3-day
+  widgets stack vertically. Emotion records are excluded structurally, not by
+  matching words in unrelated titles.
 
-## Integration
+## Appearance, previews and actions
 
-1. Compile the three production Java files (`WidgetNativeV164`, `WidgetNavV164`,
-   `WidgetRowsV164`) with Java8 Android stubs and org.json. Dex with min API26,
-   disassemble, and merge generated package smali into the decoded app.
-2. Apply the included WidgetProvider/WidgetConfigActivity integration smali and
-   overlay `res/`. Preserve existing public.xml resource IDs from the app base.
-3. The application manifest must include an exported=false `.WidgetNavV164`
-   receiver and exported=false `.WidgetRowsV164` service requiring
-   `android.permission.BIND_REMOTEVIEWS`. Preserve existing purpose-labelled
-   provider declarations and `configuration_optional|reconfigurable` metadata.
-4. Keep the app-side localized hooks: `experience-v143.js` exports the existing
-   holiday resolver as `AiderLogHolidayTitleV164`, and `feature-system-v125.js`
-   exposes its existing `openScheduleV125` via `AiderLogCalendarV125.openSchedule`.
-   Other agents' edits to these shared app files must not be overwritten.
-5. Rebuild resources with apktool, then align/sign with the release key. No SDK
-   jars, signing secrets, APKs, helper class/dex caches belong in this directory.
+- Long-press launcher Settings, optional default installation, per-widget theme,
+  opacity and five font sizes are retained. Theme changes the outer background
+  and light/dark text; content cards keep the v12 neutral white/purple palette.
+- Settings renders the same native cards with temporary preferences. Cancel does
+  not save the changed range/content/appearance. Selected content uses stable
+  real record IDs rather than example names.
+- The 29 launcher previewLayout/previewImage pairs reuse production component XML.
+  Eleven tiny graph images contain DEMO data only for the launcher picker.
+  Thirteen older preview resource names retain updated small image bytes for
+  compatibility. No DEMO records enter installed widget snapshots.
+- Todo and routine controls OPEN THE APP, then execute the same-account Firestore
+  transaction. They are not headless/background Firebase writes. Successful
+  transactions refresh the widget snapshot and dispatch a guarded one-row UI
+  update. Duplicate keys are idempotent; stale edits are rejected.
+- Offline actions remain in a UID-scoped queue. Permanent validation failures
+  leave that active queue and preserve their input in UID-scoped failed drafts.
+  Quick-add accepts up to 180 characters and stores ordinary checklist/memo rows.
+- Language “오늘 기록” opens the existing learning page and selected language.
+  The widget never bypasses the lesson completion gate or invents learning time.
 
-## Verification and limits
+## Ownership and integration
 
-- Production Java was compiled and dexed; the package smali was integrated.
-- `WidgetNativeContractTest` covers real event intervals/order and empty-state
-  behavior. Compile it only into a separate test output; do not ship it in APK.
-- All active picker/initial-layout references resolve to resources. Preview
-  calendars were visually checked after applying runtime-equivalent small-cell
-  visibility thresholds; combined preview no longer leaks dots/holiday text.
-- `render-widget-previews-v164.cjs` renders static native preview XML through a
-  build-time HTML adapter to produce fallback PNGs. Set WIDGET_PLAYWRIGHT_MODULE
-  and optional WIDGET_CHROME_PATH, or install Playwright normally. These images
-  are NOT Android screenshots and do not verify One UI rendering by themselves.
-- No connected Samsung device or Android emulator was available. Final release
-  still requires adding/resizing all five calendars on Flip/Fold launchers,
-  scrolling the agenda, opening long-press Settings, saving dark/opacity/font
-  choices, foreground/logout transitions, and checking launcher runtime logs.
-- This patch repairs actual rendering and data delivery. It does not claim new
-  direct-edit workout/routine graphs or all advanced v12 interactions are finished.
+widget-models-v165.js must load before widget-sync-v164.js in the app index and
+service-worker cache. The adapter reads only scoped Firebase app/private/schedule
+responses and owner-tagged caches, never legacy global A/P data as a widget source.
+Account/pair/logout changes immediately clear content; late image/read callbacks
+cannot republish an earlier owner. Empty native lists are hidden before refresh,
+and every photo/cover explicitly clears any previously applied bitmap.
+
+Compile WidgetNativeV164, WidgetDesignV165, WidgetRowsV164 and WidgetNavV164 using
+Java8 Android stubs plus org.json; dex with min API26 and merge the package smali.
+Apply retained WidgetProvider/WidgetConfigActivity smali and the res overlay.
+Keep the private WidgetNavV164 receiver and BIND_REMOTEVIEWS WidgetRowsV164 service.
+MainActivity.NativeBridge.syncWidgets accepts up to 4 MiB in-process; no external
+server receives a widget snapshot. firebase-app.js exposes applyWidgetActionV165
+in both site and app builds; its transaction receipts use the existing owner-only
+private collection rules.
+
+## Rebuild preview assets
+
+Run generate-components-v165.cjs against the decoded res directory, then
+generate-picker-v165.cjs against the same directory. Set WIDGET_PLAYWRIGHT_MODULE
+to the installed Playwright module and optionally WIDGET_CHROME_PATH.
+The latter generates native XML and PNG fallbacks from those XML trees. They are
+HTML-measurement-adapter renders, NOT Android screenshots. Copy final small
+picker images to the thirteen retained legacy aliases when regenerating them.
+
+## Verification and remaining device gate
+
+- Java compile and D8 min26 completed; seven helper smali files integrated.
+- 15 Java model assertions, 26 JavaScript model tests, 24 transaction tests,
+  11 native layout/RemoteViews contract checks pass (including AAPT integer progress).
+- Existing ownership/privacy suite and new action routing tests pass, including
+  stale reads/images, replay, offline owner changes and permanent-error handling.
+- All 29 picker XML files parsed/rendered. Calendar, learning, routine, meal,
+  reading and bullet previews were visually inspected after the final pass.
+- No connected Samsung device or emulator was available. One UI add/resize,
+  native ListView scrolling, settings Save/Cancel, physical touch actions, and
+  foreground/account transitions still need an actual Flip/Fold device test.
+  Browser/PNG checks do not prove Android RemoteViews inflation or host behavior.

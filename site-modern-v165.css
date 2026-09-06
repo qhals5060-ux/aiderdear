@@ -1,0 +1,446 @@
+/* Modern v165 — one website layout layer. Editorial and Android never match. */
+html.modern-site{--modern-bg:#f3f3f0;--modern-surface:#fff;--modern-soft:#f7f9f8;--modern-ink:#252d31;--modern-muted:#626b70;--modern-primary:#335d5b;--modern-selected:#e8f0ee;--modern-border:#dde2e0;--work-accent:#335d5b;--work-accent-soft:#e8f0ee;--work-paper:#fff;--work-line:#dde2e0;--work-ink:#252d31;--work-muted:#626b70;--paper:#fff;--ink:#252d31;--navy:#335d5b;--display-font:Inter,Pretendard,"Malgun Gothic",sans-serif;color-scheme:light;background:var(--modern-bg)!important}
+html.modern-site body{margin:0;background:var(--modern-bg)!important;color:var(--modern-ink);font-family:var(--display-font)!important;overflow:hidden!important}
+html.modern-site body::before,html.modern-site body::after{display:none!important}
+html.modern-site *{box-sizing:border-box}
+html.modern-site body #app,html.modern-site body #app :is(div,span,b,strong,em,small,p,label,button,input,select,textarea,summary){font-family:Arial,"Malgun Gothic",sans-serif!important}
+html.modern-site [hidden]{display:none!important}
+html.modern-site :is(button,input,select,textarea){font-family:var(--display-font)!important;font-size:14px!important;line-height:1.45;letter-spacing:0}
+html.modern-site :is(button,a,input,select,textarea,summary):focus-visible{outline:3px solid #4a8d82;outline-offset:2px}
+html.modern-site :is(input,select,textarea){min-width:0;border:1px solid #bdc9c3!important;border-radius:6px!important;background:#fff!important;color:#252d31!important;padding:8px 10px!important}
+html.modern-site :is(input:not([type=checkbox]):not([type=radio]):not([type=range]),select,button){min-height:36px}
+html.modern-site :is(input,textarea)::placeholder{color:#77817d}
+html.modern-site button{cursor:pointer;border-radius:6px}
+html.modern-site button:disabled{cursor:default}
+html.modern-site p,html.modern-site li,html.modern-site dd{font-size:14px!important;line-height:1.6!important;overflow-wrap:anywhere}
+html.modern-site small,html.modern-site dt,html.modern-site time{font-size:12px!important;line-height:1.5!important}
+html.modern-site h1,html.modern-site h2,html.modern-site h3{font-family:var(--display-font)!important;letter-spacing:-.025em}
+html.modern-site h2{font-size:21px!important}html.modern-site h3{font-size:18px!important}
+html.modern-site .modern-empty{padding:20px;margin:0;color:var(--modern-muted)}
+html.modern-site body #app.app{display:grid!important;grid-template-rows:56px minmax(0,1fr)!important;gap:0!important;width:100%!important;max-width:none!important;height:100dvh!important;min-height:0!important;padding:0 18px 16px!important;margin:0!important;background:transparent!important}
+html.modern-site body #app>.masthead{grid-area:1/1;display:flex!important;position:relative!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;min-width:0!important;height:56px!important;padding:0!important;margin:0!important;border:0!important;background:transparent!important}
+html.modern-site body #app>.nav-row{display:none!important}
+html.modern-site body #app .logo{position:static!important;display:flex!important;transform:none!important;flex:none!important;align-items:baseline;margin:0!important;gap:0}
+html.modern-site body #app .logo :is(span,em){font:600 21px/1 var(--display-font)!important;color:var(--modern-ink)!important;letter-spacing:-1px!important}
+html.modern-site body #app .logo em{font-weight:400!important}
+html.modern-site body #app .logo small{display:none!important}
+html.modern-site body #app .masthead>.tabs{position:static!important;display:flex!important;align-items:center;gap:2px!important;flex:1 1 auto;min-width:0!important;width:auto!important;height:100%!important;overflow-x:auto;overflow-y:hidden;padding:0!important;margin:0!important;scrollbar-width:none}
+html.modern-site body #app .tab{position:static!important;flex:none;min-width:0!important;width:auto!important;max-width:none!important;height:36px!important;padding:0 9px!important;border:0!important;border-radius:6px!important;background:transparent!important;color:#56615b!important;clip-path:none!important;box-shadow:none!important;font:650 13px/1 var(--display-font)!important;letter-spacing:0!important}
+html.modern-site body #app .tab.active{background:var(--modern-selected)!important;color:var(--modern-primary)!important;text-decoration:none!important}
+html.modern-site body #app .tab::before,html.modern-site body #app .tab::after{display:none!important;content:none!important}
+html.modern-site body #app .nav-tools{position:static!important;display:flex!important;align-items:center!important;gap:4px!important;width:auto!important;flex:none!important;height:38px!important;grid-template:none!important}
+html.modern-site body #app .nav-tools :is(.top-actions,.account-stack,.account-inline){display:flex!important;position:static!important;align-items:center;gap:4px!important;width:auto!important;padding:0!important;background:none!important;box-shadow:none!important}
+html.modern-site body #app .nav-tools :is(.top-action,.quick-notes-top,.mailbox-top,.sync-mini,.masthead-date){position:static!important;height:34px!important;min-height:34px!important;padding:0 8px!important;border:1px solid var(--modern-border)!important;border-radius:6px!important;background:#fff!important;color:var(--modern-ink)!important;box-shadow:none!important;font-size:12px!important;width:auto!important;white-space:nowrap}
+html.modern-site body #app .nav-tools .quick-notes-top>span:last-child,html.modern-site body #app .nav-tools .mailbox-top>span:nth-child(2){display:none}
+html.modern-site body #app .nav-tools .mailbox-icon{font-size:17px!important}
+html.modern-site body #app .nav-tools .masthead-date{font-size:0!important}
+html.modern-site body #app .nav-tools .masthead-date::after{content:'오늘';font-size:12px}
+html.modern-site body #app .nav-tools .frame-search{position:static!important;width:34px!important;height:34px!important;display:flex!important;padding:0!important;border:0!important;background:none!important}
+html.modern-site body #app .frame-search input{display:none!important}
+html.modern-site body #app .frame-search button{width:34px!important;height:34px!important;border:1px solid var(--modern-border)!important;background:#fff!important;color:var(--modern-ink)!important;padding:0!important;font-size:21px!important}
+html.modern-site body #app .modern-header-pages{display:flex;align-items:center;flex:none;gap:0;margin-left:auto;min-width:0}
+html.modern-site body #app .modern-header-pages .modern-section-nav{position:static!important;inset:auto!important;transform:none!important;display:flex!important;gap:2px!important;width:auto!important;height:36px!important;padding:2px!important;border:1px solid var(--modern-border)!important;border-radius:7px!important;background:#fff!important;box-shadow:none!important;z-index:auto}
+html.modern-site body #app .modern-header-pages .modern-section-nav button{width:auto!important;min-width:0!important;height:30px!important;min-height:30px!important;padding:0 10px!important;border:0!important;border-radius:5px!important;background:transparent!important;color:var(--modern-muted)!important;font-size:13px!important;white-space:nowrap}
+html.modern-site body #app .modern-header-pages .modern-section-nav button.active{color:var(--modern-primary)!important;background:var(--modern-selected)!important}
+html.modern-site body #app .modern-header-page-select{display:none!important}
+html.modern-site body #app>:is(#stage,#recordStage,#privateStage,#personalStage,#paperStage,#taskStage,#siteWorkStageV146){grid-area:2/1!important;position:relative!important;width:100%!important;height:100%!important;min-width:0!important;min-height:0!important;margin:0!important;padding:0!important;border:0!important;overflow:hidden!important;background:transparent!important;box-shadow:none!important;isolation:isolate}
+html.modern-site body #app .modern-has-section-nav{padding-top:0!important}
+html.modern-site body #app>#paperStage.modern-paper-overlay-open{z-index:10000!important;overflow:visible!important}
+html.modern-site body #app :is(.page,.record-page,.private-page,.personal-page,.task-page):not(.current){display:none!important}
+html.modern-site body #app :is(.page,.record-page,.private-page,.personal-page,.task-page).current{position:relative!important;inset:auto!important;transform:none!important;visibility:visible!important;opacity:1!important;width:100%!important;height:100%!important;min-height:0!important;padding:0!important;margin:0!important;border:0!important;background:transparent!important;animation:none!important;transition:none!important}
+html.modern-site body #app :is(.record-shell,.album-shell,.event-shell,.private-shell,.personal-shell,.paper-shell,.task-shell,.task-admissions-shell,.event-frame,.private-frame,.personal-frame,.album-frame,.task-frame,.task-admissions-frame){border:0!important;background:transparent!important;box-shadow:none!important;border-radius:0!important;padding:0!important;min-width:0!important;min-height:0!important}
+html.modern-site body #app :is(.frame,.side,.event-frame,.private-frame,.personal-frame,.album-frame,.task-frame)::before,html.modern-site body #app :is(.frame,.side,.event-frame,.private-frame,.personal-frame,.album-frame,.task-frame)::after{display:none!important}
+html.modern-site body #app :is(.record-toolbar,.album-toolbar,.event-toolbar,.private-toolbar,.personal-toolbar,.task-toolbar,.personal-overview-toolbar){position:relative!important;display:flex!important;align-items:center!important;gap:10px!important;flex-wrap:wrap;min-height:48px!important;height:auto!important;padding:6px 0!important;margin:0!important;border:0!important;background:transparent!important}
+html.modern-site body #app :is(.record-controls,.album-actions,.event-actions,.month-controls,.routine-toolbar-tabs){display:flex!important;align-items:center!important;gap:6px!important;flex-wrap:wrap;min-width:0!important;width:auto!important;height:auto!important;position:static!important;padding:0!important;margin:0!important;background:none!important;box-shadow:none!important}
+html.modern-site body #app :is(.primary,.new-record,.emotion-quick,.event-add,.album-new-folder,.site-work-button-v146.primary){background:var(--modern-primary)!important;border:1px solid var(--modern-primary)!important;color:#fff!important;min-height:36px!important;padding:7px 11px!important;border-radius:6px!important}
+
+/* Schedule: one toolbar, 74/26 body, the existing month/media controls. */
+html.modern-site body #app #page0.calendar-page{display:grid!important;grid-template-columns:minmax(0,74fr) minmax(240px,26fr)!important;grid-template-rows:auto minmax(0,1fr)!important;gap:12px!important}
+html.modern-site body #app #page0>.cal-top{grid-column:1/-1;display:flex!important;align-items:center!important;justify-content:space-between;min-height:48px;height:auto!important;padding:0!important;border:0!important;margin:0!important;gap:12px}
+html.modern-site body #app #monthTitle{font:650 22px/1.2 var(--display-font)!important;color:var(--modern-ink)!important;letter-spacing:0!important;white-space:nowrap}
+html.modern-site body #app #monthTitle b{font:inherit!important}
+html.modern-site body #app :is(.mini-btn,.today){width:auto!important;min-width:36px;height:36px!important;background:#fff!important;border:1px solid var(--modern-border)!important;padding:0 10px!important;color:var(--modern-ink)!important}
+html.modern-site body #app #page0>.frame{padding:0!important;display:block!important;border:0!important;background:transparent!important;min-height:0!important}
+html.modern-site body #app #calendar{display:grid!important;height:100%!important;min-height:0!important;grid-template-columns:repeat(7,minmax(0,1fr))!important;grid-template-rows:30px repeat(6,minmax(75px,1fr))!important;gap:1px!important;padding:0!important;background:var(--modern-border)!important;border:1px solid var(--modern-border)!important;border-radius:8px!important;overflow:auto!important}
+html.modern-site body #app #calendar :is(.week,.day){border:0!important;border-radius:0!important;min-width:0!important;min-height:0!important;background:#fff!important;color:var(--modern-ink)!important;box-shadow:none!important}
+html.modern-site body #app #calendar .week{font-size:12px!important;background:var(--modern-soft)!important}
+html.modern-site body #app #calendar .day{padding:6px!important;overflow:hidden!important}
+html.modern-site body #app #calendar .day.out{background:#f7f8f5!important;color:#8a938e!important}
+html.modern-site body #app #calendar .day.today-cell{box-shadow:inset 0 0 0 2px var(--modern-primary)!important;background:#f2f7f4!important}
+html.modern-site body #app #calendar .daynum{font-size:13px!important;font-weight:650}
+html.modern-site body #app #calendar .ev{font-size:12px!important;line-height:1.35!important;color:#253f39!important;background:var(--modern-selected)!important;border:0!important;border-left:3px solid var(--modern-primary)!important;border-radius:3px!important;padding:2px 4px!important;margin-top:4px!important;min-height:20px!important}
+html.modern-site body #app #page0>.side{display:flex!important;flex-direction:column;gap:12px;padding:0!important;border:0!important;background:transparent!important;overflow:auto!important}
+html.modern-site body #app #page0 .side-half{flex:none;height:auto!important;min-height:0!important;padding:14px!important;background:#fff!important;border:1px solid var(--modern-border)!important;border-radius:8px;overflow:visible!important}
+html.modern-site body #app .dday-panel{position:static!important;display:flex!important;align-items:baseline;justify-content:space-between;gap:12px;width:100%!important;height:auto!important;padding:0!important;background:transparent!important;border:0!important;color:var(--modern-ink)!important}
+html.modern-site body #app .dday-panel strong{font:650 24px/1.3 var(--display-font)!important}
+html.modern-site body #app :is(.month-agenda,.agenda-lower,.shared-list){display:block!important;height:auto!important;min-height:0!important;overflow:visible!important;background:none!important;background-image:none!important;box-shadow:none!important;border:0!important;padding:0!important}
+html.modern-site body #app .month-agenda::before,html.modern-site body #app .month-agenda::after{display:none!important}
+html.modern-site body #app .month-list-kicker{font-size:15px!important;color:var(--modern-ink)!important;letter-spacing:0}
+html.modern-site body #app .shared-row{font-size:14px!important;line-height:1.55!important;padding:10px 0!important;border-bottom:1px solid var(--modern-border)!important}
+html.modern-site body #app .story-media.month-media-card{position:relative!important;inset:auto!important;width:100%!important;height:145px!important;min-height:0!important;margin:12px 0 0!important;border:1px solid var(--modern-border)!important;border-radius:7px!important;overflow:hidden!important}
+html.modern-site body #app .story-media.month-media-card.minimized{height:40px!important}
+html.modern-site body #app .story-media-open{width:100%!important;height:100%!important}
+html.modern-site body #app #page1{overflow:auto!important}
+
+/* Routine uses the original full-period renderer, not a second data store. */
+html.modern-site body #app #privateFrame{display:grid!important;grid-template-rows:auto minmax(0,1fr)!important;height:100%!important}
+html.modern-site body #app .private-heading{display:none}
+html.modern-site body #app #privateFrame:has(.modern-routine-workspace){grid-template-rows:minmax(0,1fr)!important;gap:0!important}
+html.modern-site body #app #privateFrame:has(.modern-routine-workspace)>.private-toolbar{display:none!important}
+html.modern-site body #app :is(.private-routine-content,#privateRoutinePanel){display:block!important;padding:0!important;border:0!important;min-height:0!important;height:100%!important;overflow:auto!important;background:transparent!important}
+html.modern-site body #app .modern-routine-workspace{display:grid;grid-template-columns:230px minmax(0,1fr);gap:14px;height:100%;min-height:0}
+html.modern-site body #app .modern-routine-nav{min-height:0;overflow:auto;padding:12px;background:#fff;border:1px solid var(--modern-border);border-radius:8px;align-self:start}
+html.modern-site body #app .modern-routine-nav>button{width:100%;background:var(--modern-primary);color:#fff;border:0;padding:9px}
+html.modern-site body #app .modern-routine-nav nav{display:grid;gap:4px;margin:10px 0}
+html.modern-site body #app .modern-routine-nav nav button{display:grid;grid-template-columns:8px minmax(0,1fr) auto;align-items:center;text-align:left;gap:8px;min-height:44px;border:0;padding:8px;background:transparent;color:var(--modern-ink)}
+html.modern-site body #app .modern-routine-nav nav button i{width:8px;height:8px;border-radius:50%;background:var(--routine)}
+html.modern-site body #app .modern-routine-nav nav button.active{background:var(--modern-selected)}
+html.modern-site body #app .modern-routine-nav nav button span{font-size:15px;overflow-wrap:anywhere}
+html.modern-site body #app .modern-routine-paging{display:flex;justify-content:space-between;gap:5px}
+html.modern-site body #app .modern-routine-mobile-select{display:none}
+html.modern-site body #app .modern-routine-detail{min-height:0;min-width:0;overflow:auto;display:flex;flex-direction:column;gap:12px}
+html.modern-site body #app .modern-routine-detail>*{flex:none!important}
+html.modern-site body #app .modern-routine-detail .routine-progress-card{contain:none!important;box-shadow:none!important;block-size:auto!important;max-block-size:none!important}
+html.modern-site body #app .modern-routine-detail .routine-progress-card{height:auto!important;min-height:0!important;padding:16px!important;border:1px solid var(--modern-border)!important;border-top:3px solid var(--routine)!important;border-radius:8px!important;background:#fff!important;overflow:visible!important;display:block!important;color:var(--modern-ink)!important}
+html.modern-site body #app .modern-routine-detail .routine-hero-selector{display:none!important}
+html.modern-site body #app .routine-progress-top{position:static!important;display:flex!important;justify-content:space-between;flex-wrap:wrap;gap:8px!important;padding:0 0 12px!important;min-height:0!important;background:transparent!important;color:var(--modern-ink)!important}
+html.modern-site body #app .routine-progress-metrics{display:flex;flex-wrap:wrap;gap:12px}
+html.modern-site body #app .routine-progress-metrics :is(span,b){font-size:12px!important;color:var(--modern-muted)!important}
+html.modern-site body #app .routine-progress-intro{display:flex!important;align-items:flex-start;justify-content:space-between;gap:16px!important;position:static!important;min-height:0!important;padding:0 0 14px!important;background:transparent!important;color:var(--modern-ink)!important}
+html.modern-site body #app .routine-progress-intro h3{font-size:22px!important;margin:0 0 10px!important}
+html.modern-site body #app .routine-progress-intro h3,html.modern-site body #app .routine-progress-round :is(span,strong,em){color:var(--modern-ink)!important;opacity:1!important}
+html.modern-site body #app .routine-progress-card::before,html.modern-site body #app .routine-progress-card::after{display:none!important}
+html.modern-site body #app .routine-progress-tools button{position:static!important;color:var(--modern-primary)!important;background:var(--modern-selected)!important;border:1px solid var(--modern-border)!important;padding:7px 10px!important}
+html.modern-site body #app .routine-progress-ruleline{display:grid!important;gap:6px!important}
+html.modern-site body #app .routine-progress-ruleline span{display:grid;grid-template-columns:58px minmax(0,1fr);gap:9px;font-size:14px!important;color:var(--modern-ink)!important}
+html.modern-site body #app .routine-progress-ruleline b{font-size:13px!important;color:var(--routine)!important}
+html.modern-site body #app .routine-progress-round{position:static!important;display:grid!important;flex:none;gap:2px;text-align:center;padding:0!important;background:none!important;color:var(--routine)!important}
+html.modern-site body #app .routine-progress-round strong{font-size:30px!important}
+html.modern-site body #app .routine-progress-round :is(span,em){font-size:12px!important}
+html.modern-site body #app .routine-round-grid{display:grid!important;grid-template-columns:repeat(10,minmax(0,1fr))!important;grid-template-rows:none!important;grid-auto-rows:minmax(62px,auto)!important;width:100%!important;height:auto!important;max-height:none!important;overflow:visible!important;padding:4px!important;gap:8px!important}
+html.modern-site body #app .routine-round-grid{background:transparent!important;border:0!important;border-radius:0!important;place-items:stretch!important}
+html.modern-site body #app .routine-round-stamp{width:100%!important;max-width:none!important;height:auto!important;aspect-ratio:auto!important;min-height:62px!important;border-radius:8px!important;clip-path:none!important;margin:0!important;padding:6px!important}
+html.modern-site body #app .routine-round-stamp :is(small,b,span){font-size:12px!important;line-height:1.3!important}
+html.modern-site body #app .routine-round-stamp{border:1px solid var(--modern-border)!important;background:#f7f9f8!important;color:var(--modern-ink)!important;box-shadow:none!important}
+html.modern-site body #app .routine-round-stamp :is(small,b,span){color:inherit!important}
+html.modern-site body #app .routine-round-stamp.future{opacity:.5!important}
+html.modern-site body #app .routine-round-stamp:is(.status-mini,.status-more,.status-max){background:color-mix(in srgb,var(--routine) 14%,white)!important;border-color:var(--routine)!important}
+html.modern-site body #app .routine-round-stamp.today{outline:2px solid var(--routine);outline-offset:1px}
+html.modern-site body #app .routine-progress-intro::before,html.modern-site body #app .routine-progress-intro::after,html.modern-site body #app .record-main::before,html.modern-site body #app .record-main::after{display:none!important;content:none!important}
+html.modern-site body #app .modern-routine-support>details{border:1px solid var(--modern-border);border-radius:8px;background:#fff;margin:0 0 12px;padding:12px}
+html.modern-site body #app .modern-routine-support summary{font-size:15px;font-weight:650;padding:3px 0 10px;cursor:pointer}
+html.modern-site body #app .modern-routine-goals{display:grid;grid-template-columns:minmax(190px,.7fr) minmax(0,1.3fr);gap:14px}
+html.modern-site body #app :is(.routine-big-goals-v106,.routine-mandala-v106){height:auto!important;min-height:0!important;overflow:visible!important;padding:12px!important;border:1px solid var(--modern-border)!important;border-radius:7px!important;background:#fff!important}
+html.modern-site body #app .routine-goal-list label{display:grid!important;grid-template-columns:42px minmax(0,1fr)!important;min-height:46px!important}
+html.modern-site body #app .routine-goal-list input{font-size:14px!important;width:100%!important;height:38px!important}
+html.modern-site body #app .routine-goal-list{display:grid!important;grid-template-rows:repeat(3,52px)!important;height:auto!important;align-content:start!important;gap:5px!important}
+html.modern-site body #app .routine-card-head span,html.modern-site body #app .routine-mandala-v106>header span{font-size:12px!important}
+html.modern-site body #app .routine-mandala-grid{grid-template-rows:repeat(3,minmax(88px,auto))!important;gap:6px!important}
+html.modern-site body #app .routine-mandala-grid :is(label,.routine-mandala-center){min-height:88px!important;height:auto!important;padding:8px!important}
+html.modern-site body #app .routine-mandala-grid textarea{font-size:13px!important;min-height:58px!important;height:100%!important;line-height:1.5!important}
+html.modern-site body #app .routine-mandala-center b{font-size:13px!important}
+html.modern-site body #app :is(.routine-card-head,.routine-mandala-v106>header){min-height:40px!important;height:auto!important;gap:8px!important;padding:0 0 8px!important}
+html.modern-site body #app :is(.routine-card-head,.routine-mandala-v106>header) b{font-size:14px!important}
+html.modern-site body #app .routine-overall-v104{height:auto!important;min-height:0!important;padding:12px!important;overflow:visible!important;border:0!important}
+html.modern-site body #app .routine-stat-card{padding:12px!important;min-height:0!important;height:auto!important;border:1px solid var(--modern-border)!important;border-radius:7px!important;background:#fff!important}
+html.modern-site body #app .routine-stat-main{display:flex!important;gap:18px!important;min-height:0!important}
+html.modern-site body #app .routine-donut{width:100px!important;height:100px!important;min-width:100px!important}
+html.modern-site body #app .routine-stat-summary{display:flex!important;justify-content:space-between;padding:10px 0!important}
+html.modern-site body #app .routine-stat-summary b{font-size:20px!important}
+html.modern-site body #app :is(.routine-stat-legend,.routine-goal-table){font-size:12px!important;overflow:auto!important}
+html.modern-site body #app :is(.routine-stat-legend,.routine-goal-table) :is(span,b,em){font-size:12px!important}
+html.modern-site body #app .routine-goal-tracker{height:auto!important;min-height:0!important;margin-top:12px;overflow:auto!important}
+html.modern-site body #app .modern-routine-create{max-width:640px;margin:auto;padding:14px}
+html.modern-site body #app .routine-create-page{height:auto!important;min-height:0!important;overflow:visible!important;padding:16px!important;border:1px solid var(--modern-border)!important;background:#fff!important;border-radius:8px!important}
+html.modern-site body #app .routine-create-form{display:grid!important;grid-template-columns:1fr 1fr!important;gap:12px!important}
+html.modern-site body #app .routine-create-form>label:first-of-type{grid-column:1/-1}
+html.modern-site body #app .routine-create-form :is(input,select){height:40px!important;font-size:14px!important}
+
+/* Event: original two page groups; selected internal view uses the full width. */
+html.modern-site body #app :is(#recordHubShell,#eventStage).current{display:block!important;padding:0!important;overflow:auto!important}
+html.modern-site body #app :is(#recordShell,#albumShell,#eventArchiveShell,#travelArchiveShell){height:100%!important;width:100%!important;min-height:0!important;display:block!important}
+html.modern-site body #app :is(.record-main,.album-frame,.event-frame){height:100%!important;display:flex!important;flex-direction:column;gap:0!important}
+html.modern-site body #app .record-main{padding:0!important;border:0!important;box-shadow:none!important}
+html.modern-site body #app :is(.record-heading,.album-heading,.event-title-group){display:none!important}
+html.modern-site body #app :is(.record-toolbar,.album-toolbar,.event-toolbar)>[data-modern-event-view]{font-weight:650!important;min-width:105px;width:auto;flex:none}
+html.modern-site body #app .record-controls{flex:1;justify-content:flex-end}
+html.modern-site body #app .record-date-search{width:145px!important}
+html.modern-site body #app :is(.record-feed,.album-content,.event-content){min-height:0!important;flex:1;overflow:auto!important;padding:8px 0!important;border:0!important;background:transparent!important}
+html.modern-site body #app .record-feed-inner{width:100%!important;max-width:none!important;display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:15px!important;margin:0!important;align-content:start!important}
+html.modern-site body #app .record-post{height:auto!important;min-height:0!important;border:1px solid var(--modern-border)!important;border-top:3px solid var(--record-color)!important;border-radius:8px!important;background:#fff!important;overflow:hidden!important;display:flex;flex-direction:column}
+html.modern-site body #app .post-head{padding:10px!important;grid-template-columns:30px minmax(0,1fr) auto!important;gap:8px!important;background:#fff!important}
+html.modern-site body #app .post-meta :is(b,span),html.modern-site body #app .post-menu button{font-size:12px!important}
+html.modern-site body #app .post-avatar{width:30px!important;height:30px!important;font-size:12px!important}
+html.modern-site body #app .post-media{aspect-ratio:4/3!important;height:auto!important;min-height:0!important}
+html.modern-site body #app .post-media.empty{display:none!important}
+html.modern-site body #app .post-copy{padding:12px!important}
+html.modern-site body #app .post-title{font-size:16px!important;line-height:1.45!important;margin:0 0 7px!important;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+html.modern-site body #app .post-body{font-size:14px!important;line-height:1.55!important;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+html.modern-site body #app .post-actions{padding:6px 12px!important;font-size:12px!important}
+html.modern-site body #app .post-tag{font-size:12px!important}
+html.modern-site body #app .record-empty{grid-column:1/-1;min-height:0!important;height:auto!important;padding:20px!important;border:1px dashed var(--modern-border)!important}
+html.modern-site body #app .modern-record-browser{position:relative;flex:none;font-size:13px}
+html.modern-site body #app .modern-record-browser summary{padding:9px;border:1px solid var(--modern-border);border-radius:6px;background:#fff;cursor:pointer}
+html.modern-site body #app .modern-record-browser .record-aside{display:block!important;position:absolute;right:0;top:100%;width:260px!important;max-height:65vh;overflow:auto;padding:14px!important;z-index:20;background:#fff!important;border:1px solid var(--modern-border)!important;box-shadow:0 10px 25px #0002}
+html.modern-site body #app .album-folder-grid{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;grid-template-rows:none!important;grid-auto-rows:auto!important;gap:15px!important;align-content:start!important;height:auto!important}
+html.modern-site body #app .album-folder{height:auto!important;min-height:145px!important;padding:14px!important;clip-path:none!important;border:1px solid var(--modern-border)!important;border-radius:8px!important;box-shadow:none!important}
+html.modern-site body #app .album-folder :is(b,strong){font-size:16px!important;white-space:normal!important}
+html.modern-site body #app .album-folder :is(span,small){font-size:12px!important}
+html.modern-site body #app .event-category-tabs{display:flex!important;gap:4px;flex-wrap:wrap}
+html.modern-site body #app .event-category-tabs button{width:auto!important;height:36px!important;padding:0 8px!important;clip-path:none!important;border-radius:5px!important;background:#fff!important;border:1px solid var(--modern-border)!important;color:var(--modern-ink)!important}
+html.modern-site body #app .event-category-tabs button.active{background:var(--modern-selected)!important;color:var(--modern-primary)!important}
+html.modern-site body #app .event-category-tabs button :is(span,small){font-size:12px!important;display:inline!important}
+html.modern-site body #app :is(.event-index-grid,.travel-review-grid){display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;grid-template-rows:none!important;grid-auto-rows:auto!important;gap:14px!important;min-height:0!important;height:auto!important;align-content:start!important}
+html.modern-site body #app .event-index-card{display:grid!important;grid-template-columns:100px minmax(0,1fr)!important;gap:12px!important;height:auto!important;min-height:128px!important;padding:12px!important;background:#fff!important;border:1px solid var(--modern-border)!important;border-radius:8px!important;clip-path:none!important;box-shadow:none!important}
+html.modern-site body #app .event-index-card :is(h3,strong,b){font-size:16px!important;line-height:1.4!important}
+html.modern-site body #app .event-index-card :is(span,small){font-size:12px!important;line-height:1.5!important}
+html.modern-site body #app .event-art{height:100px!important;min-height:0!important;max-width:100px!important}
+html.modern-site body #app :is(.event-wishlist-dock,.travel-bottom-dock){height:auto!important;min-height:0!important;padding:12px 0!important;margin-top:12px!important;position:static!important}
+
+/* Personal and Consult retain all controls; only their parent layout changes. */
+html.modern-site body #app #personalMainShell>.personal-frame{display:grid!important;grid-template-columns:200px minmax(0,1fr)!important;grid-template-rows:auto minmax(0,1fr)!important;gap:12px!important;height:100%!important}
+html.modern-site body #app .modern-personal-navigation{grid-column:1;grid-row:1/-1;display:flex;flex-direction:column;gap:15px;overflow:auto;background:#fff;border:1px solid var(--modern-border);border-radius:8px;padding:12px}
+html.modern-site body #app .personal-toolbar{grid-column:2;min-height:0!important;padding:0!important}
+html.modern-site body #app .personal-toolbar h2{display:none}
+html.modern-site body #app .personal-toolbar-tools:empty{display:none!important}
+html.modern-site body #app .personal-category-tabs{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:4px!important;width:100%!important;padding:0!important;background:none!important}
+html.modern-site body #app .personal-category-tabs button{width:100%!important;min-height:44px!important;text-align:left;display:flex;align-items:center;gap:10px;padding:8px 10px!important;border:0!important;background:transparent!important;color:var(--modern-ink)!important;clip-path:none!important;font-size:15px!important}
+html.modern-site body #app .personal-category-tabs button.active{background:var(--modern-selected)!important;color:var(--modern-primary)!important}
+html.modern-site body #app .personal-content{grid-column:2;padding:0!important;min-height:0!important;overflow:auto!important;background:transparent!important}
+html.modern-site body #app .personal-ledger{padding:0!important;border:0!important;background:transparent!important;min-height:0!important;overflow:visible!important}
+html.modern-site body #app .personal-dashboard{height:auto!important;min-height:0!important;overflow:visible!important}
+html.modern-site body #app .pomodoro-card{position:static!important;display:grid!important;grid-template-columns:minmax(0,1fr)!important;grid-template-rows:none!important;width:100%!important;height:auto!important;min-height:0!important;padding:12px!important;gap:8px!important;border:1px solid var(--modern-border)!important;border-radius:7px!important;background:var(--modern-soft)!important;color:var(--modern-ink)!important;overflow:visible!important}
+html.modern-site body #app .pomodoro-card>*{grid-column:auto!important;grid-row:auto!important;min-width:0!important;max-width:100%!important}
+html.modern-site body #app .pomodoro-card :is(.pomodoro-custom-time,.pomodoro-presets,.pomodoro-actions){display:flex!important;gap:5px!important;min-width:0!important;height:auto!important;flex-wrap:wrap!important}
+html.modern-site body #app .pomodoro-card button{height:36px!important;min-height:36px!important;font-size:12px!important;padding:5px!important;flex:1!important}
+html.modern-site body #app .pomodoro-custom-time input{width:60px!important;min-width:0!important}
+html.modern-site body #app .pomodoro-card input{width:100%!important;font-size:13px!important}
+html.modern-site body #app .pomodoro-card :is(b,span){font-size:13px!important}
+html.modern-site body #app #taskStage>.task-page.current{display:block!important}
+html.modern-site body #app #taskStage :is(.task-shell,.task-frame){height:100%!important;display:flex!important;flex-direction:column}
+html.modern-site body #app .task-toolbar h2{display:none}
+html.modern-site body #app #taskStage .task-toolbar{display:none!important}
+html.modern-site body #app .consulting-client-rail .task-toolbar-actions{display:grid!important;grid-template-columns:1fr 1fr!important;gap:6px!important;width:100%!important;padding:0!important;margin:10px 0!important}
+html.modern-site body #app .consulting-client-rail #consultingClientSearch{grid-column:1/-1!important;width:100%!important;min-width:0!important;font-size:13px!important}
+html.modern-site body #app .consulting-client-rail .task-toolbar-actions button{width:auto!important;min-width:0!important;padding:8px!important;font-size:12px!important}
+html.modern-site body #app .consulting-layout{display:grid!important;grid-template-columns:250px minmax(0,1fr)!important;grid-template-rows:minmax(0,1fr)!important;min-height:0!important;flex:1;gap:14px!important;background:transparent!important}
+html.modern-site body #app .consulting-client-rail{padding:12px!important;background:#fff!important;border:1px solid var(--modern-border)!important;border-radius:8px;min-height:0!important;overflow:auto!important}
+html.modern-site body #app .consulting-client-rail{display:flex!important;flex-direction:column!important;gap:8px!important}
+html.modern-site body #app .consulting-client-rail>*{flex:none!important;margin:0!important}
+html.modern-site body #app .consulting-client-rail .consulting-client-list{flex:1!important}
+html.modern-site body #app .consulting-client-rail :is(small,em,.consulting-rail-head span){font-size:12px!important}
+html.modern-site body #app .consulting-client-list{min-height:0!important;overflow:auto!important;padding:8px 0!important;display:grid!important;align-content:start!important;gap:5px!important}
+html.modern-site body #app .modern-consult-client-select{display:none!important}
+html.modern-site body #app .consulting-client-list button{min-height:52px!important;width:100%!important;padding:9px!important;border:1px solid var(--modern-border)!important;background:#fff!important;color:var(--modern-ink)!important;white-space:normal!important}
+html.modern-site body #app .consulting-client-list button.active{background:var(--modern-selected)!important;border-color:var(--modern-primary)!important}
+html.modern-site body #app .consulting-client-list :is(b,strong){font-size:15px!important}
+html.modern-site body #app .consulting-client-list :is(span,small){font-size:12px!important}
+html.modern-site body #app .consulting-main{min-height:0!important;overflow:auto!important;padding:14px!important;background:#fff!important;border:1px solid var(--modern-border)!important;border-radius:8px}
+html.modern-site body #app .consulting-client-head{padding:0 0 12px!important;margin:0!important;min-height:0!important;height:auto!important;background:transparent!important;border:0!important}
+html.modern-site body #app .consulting-client-head h3{font-size:22px!important}
+html.modern-site body #app .consult-v159-roadmap{padding:0!important;border:0!important;background:transparent!important;margin:0 0 10px!important}
+html.modern-site body #app .consult-v159-roadmap>header{display:none!important}
+html.modern-site body #app .consult-v159-stages{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:6px!important}
+html.modern-site body #app .consult-v159-stages button{display:flex!important;align-items:center!important;gap:8px!important;min-height:48px!important;height:auto!important;padding:8px 10px!important;border:1px solid var(--modern-border)!important;border-radius:6px!important;background:var(--modern-soft)!important;color:var(--modern-ink)!important}
+html.modern-site body #app .consult-v159-stages button.active{border-color:var(--modern-primary)!important;background:var(--modern-selected)!important}
+html.modern-site body #app .consult-v159-stages :is(p,small,em){display:none!important}
+html.modern-site body #app .consult-v159-stages :is(b,span){font-size:14px!important;position:static!important}
+html.modern-site body #app .consult-v159-tabs{display:flex!important;flex-wrap:wrap;gap:4px!important;margin:0 0 12px!important}
+html.modern-site body #app .consult-v159-tabs button{min-height:36px!important;padding:7px 10px!important;font-size:13px!important}
+html.modern-site body #app .consulting-detail-grid{grid-template-columns:minmax(0,42fr) minmax(0,33fr) minmax(0,25fr)!important;gap:12px!important}
+html.modern-site body #app .consulting-files-panel{grid-column:auto!important;grid-row:auto!important}
+html.modern-site body #app .consulting-client-note{grid-column:1/-1!important}
+html.modern-site body #app :is(.consulting-stat,.consulting-client-head,.consulting-client-note,.consulting-file,.consulting-panel)>span,html.modern-site body #app .consulting-stat :is(b,small){font-size:12px!important;line-height:1.5!important}
+html.modern-site body #app .consulting-entry :is(b,small,span){font-size:13px!important;line-height:1.5!important}
+html.modern-site body #app .consulting-panel{min-height:0!important;padding:12px!important;border:1px solid var(--modern-border)!important;border-radius:7px!important;background:#fff!important}
+html.modern-site body #app .consulting-panel :is(b,span){font-size:13px!important}
+
+/* Work: genuine selected record detail, existing edit/confirm/delete actions. */
+html.modern-site body #app .site-work-shell-v146{height:100%!important;display:flex!important;flex-direction:column;gap:10px!important;padding:0!important;border:0!important;background:transparent!important}
+html.modern-site body #app .site-work-head-v146{display:flex!important;flex-wrap:wrap;align-items:center;gap:10px;padding:0!important;min-height:48px!important;border:0!important;background:transparent!important}
+html.modern-site body #app .site-work-head-v146>div:first-of-type{display:none!important}
+html.modern-site body #app .site-work-head-actions-v146{margin-left:auto;display:flex;gap:8px}
+html.modern-site body #app .site-work-nav-v146{display:flex!important;flex-wrap:wrap;gap:4px!important;padding:0!important;border:0!important;background:transparent!important;position:static!important;width:auto!important}
+html.modern-site body #app .site-work-nav-v146 button{min-height:36px!important;padding:7px 10px!important;border:0!important;background:#fff!important;color:var(--modern-ink)!important}
+html.modern-site body #app .site-work-nav-v146 button.active{background:var(--modern-selected)!important;color:var(--modern-primary)!important}
+html.modern-site body #app .site-work-body-v146{display:contents!important}
+html.modern-site body #app .site-work-content-v146{flex:1;min-height:0!important;padding:0!important;overflow:auto!important}
+html.modern-site body #app .site-work-summary-v146{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:8px!important;margin-bottom:12px}
+html.modern-site body #app .site-work-summary-v146 article{display:flex;align-items:center;gap:12px;min-height:64px!important;padding:12px!important;background:#fff!important;border:1px solid var(--modern-border)!important;border-radius:7px!important}
+html.modern-site body #app .site-work-summary-v146 strong{font-size:24px!important}
+html.modern-site body #app .site-work-summary-v146 small{display:none}
+html.modern-site body #app .site-work-panel-v146{padding:14px!important;border:1px solid var(--modern-border)!important;background:#fff!important;border-radius:8px!important}
+html.modern-site body #app .site-work-grid-v146{gap:14px!important}
+html.modern-site body #app .site-work-card-v146{border:1px solid var(--modern-border)!important;border-radius:7px!important;background:#fff!important;min-height:0!important;padding:12px!important}
+html.modern-site body #app .site-work-card-v146 h4{font-size:17px!important}
+html.modern-site body #app .modern-work-master-detail{display:grid;grid-template-columns:minmax(0,55fr) minmax(0,45fr);gap:14px;height:100%;min-height:0}
+html.modern-site body #app .modern-work-list{display:flex;flex-direction:column;min-width:0;min-height:0;background:#fff;border:1px solid var(--modern-border);border-radius:8px;padding:12px}
+html.modern-site body #app .modern-work-list>header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+html.modern-site body #app .modern-work-rows{overflow:auto;min-height:0;display:grid;gap:0;align-content:start}
+html.modern-site body #app .modern-work-rows>button{display:grid;gap:2px;min-height:52px;width:100%;text-align:left;background:transparent;border:0;border-bottom:1px solid var(--modern-border);padding:7px 10px}
+html.modern-site body #app .modern-work-rows>button.active{background:var(--modern-selected);box-shadow:inset 3px 0 var(--modern-primary)}
+html.modern-site body #app .modern-work-rows strong{font-size:14px;line-height:20px;overflow-wrap:anywhere}
+html.modern-site body #app .modern-work-rows>button>small{display:none}
+html.modern-site body #app .modern-work-rows span{font-size:12px;color:var(--modern-muted)}
+html.modern-site body #app .modern-work-detail{min-width:0;min-height:0;overflow:auto;padding:12px;border:1px solid var(--modern-border);border-radius:8px;background:#fff}
+html.modern-site body #app .modern-work-fields{display:grid;gap:0;margin:10px 0}
+html.modern-site body #app .modern-work-fields>div{padding:10px 0;border-bottom:1px solid var(--modern-border)}
+html.modern-site body #app .modern-work-fields dd{margin:5px 0 0;white-space:pre-wrap}
+html.modern-site body #app .modern-work-detail dd{white-space:pre-wrap!important;overflow:visible!important;text-overflow:clip!important;max-height:none!important}
+html.modern-site body #app .modern-work-back{display:none}
+html.modern-site body #app .site-work-bio-pages-v158{display:grid;grid-template-rows:minmax(420px,calc(100dvh - 150px)) auto!important;scroll-snap-type:none!important;gap:18px}
+
+/* Forms/settings are live original controls; retain validation and drafts. */
+html.modern-site :is(.modal,.personal-entry-dialog,.site-work-dialog-v146,.consulting-dialog){border:1px solid var(--modern-border)!important;border-radius:10px!important;background:#fff!important;box-shadow:0 16px 56px #182b2026!important;max-height:calc(100dvh - 32px)!important;overflow:auto!important}
+html.modern-site :is(.modal-head,.modal-body,.site-work-dialog-v146>header){padding:16px!important;background:#fff!important;color:var(--modern-ink)!important;border-color:var(--modern-border)!important}
+html.modern-site :is(.form,.site-work-form-v146){gap:12px!important}
+html.modern-site :is(.form label,.site-work-form-v146 label){font-size:14px!important;line-height:1.5!important}
+html.modern-site :is(.modal-actions,.site-work-form-v146 footer){position:sticky;bottom:0;padding:12px!important;background:#fff!important;border-top:1px solid var(--modern-border)!important;z-index:2}
+html.modern-site .account-tabs{display:flex;gap:5px}
+html.modern-site .account-tabs button{min-height:42px;font-size:14px!important}
+html.modern-site .site-edition-downloads{gap:10px!important}
+
+@media(min-width:1600px){html.modern-site body #app .tab{padding:0 12px!important;font-size:14px!important}html.modern-site body #app .nav-tools .quick-notes-top>span:last-child,html.modern-site body #app .nav-tools .mailbox-top>span:nth-child(2){display:inline}}
+@media(max-width:1199px){
+ html.modern-site body #app .modern-header-pages .modern-section-nav{display:none!important}
+ html.modern-site body #app .modern-header-page-select{display:block!important;max-width:160px!important;height:36px!important;font-size:13px!important}
+ html.modern-site body #app .modern-routine-workspace{grid-template-columns:190px minmax(0,1fr)}
+ html.modern-site body #app .modern-routine-goals{grid-template-columns:minmax(0,1fr)}
+ html.modern-site body #app .routine-round-grid{grid-template-columns:repeat(7,minmax(0,1fr))!important}
+ html.modern-site body #app .album-folder-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+ html.modern-site body #app :is(.event-index-grid,.travel-review-grid){grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ html.modern-site body #app .consulting-layout{grid-template-columns:215px minmax(0,1fr)!important}
+ html.modern-site body #app .site-work-head-v146{gap:6px}
+}
+@media(max-width:767px){
+ html.modern-site body #app.app{grid-template-rows:100px minmax(0,1fr)!important;padding:0 12px 12px!important}
+ html.modern-site body #app>.masthead{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;grid-template-rows:48px 48px!important;gap:2px 8px!important;height:100px!important}
+ html.modern-site body #app .logo{grid-area:1/1}
+ html.modern-site body #app .nav-tools{grid-area:1/2;justify-content:flex-end}
+ html.modern-site body #app .nav-tools :is(.top-action,.quick-notes-top,.mailbox-top,.sync-mini,.masthead-date,.frame-search button){min-height:40px!important;height:40px!important;padding:0 7px!important}
+ html.modern-site body #app .nav-tools .masthead-date{display:none!important}
+ html.modern-site body #app .masthead>.tabs{grid-area:2/1;width:100%!important;overflow-x:auto!important;overflow-y:hidden!important;overscroll-behavior:contain}
+ html.modern-site body #app .tab{min-height:44px!important;height:44px!important;padding:0 8px!important;font-size:12px!important}
+ html.modern-site body #app .modern-header-pages{grid-area:2/2;margin:0}
+ html.modern-site body #app .modern-header-page-select{width:122px!important;max-width:122px!important;min-height:44px!important;font-size:12px!important;padding:7px!important}
+ html.modern-site body #app>:is(#stage,#recordStage,#privateStage,#personalStage,#paperStage,#taskStage,#siteWorkStageV146){overflow:auto!important}
+ html.modern-site body #app :is(.page,.record-page,.private-page,.personal-page,.task-page).current{height:auto!important;min-height:100%!important}
+ html.modern-site body #app #page0.calendar-page{display:flex!important;flex-direction:column;gap:12px!important;height:auto!important}
+ html.modern-site body #app #page0>.cal-top{display:grid!important;grid-template-columns:1fr!important;gap:8px;padding:4px 0!important}
+ html.modern-site body #app #monthTitle{font-size:20px!important}
+ html.modern-site body #app .month-controls{display:flex!important;flex-wrap:wrap;gap:5px!important}
+ html.modern-site body #app .month-controls button{min-height:44px!important}
+ html.modern-site body #app #calendar{height:auto!important;min-height:485px!important;grid-template-rows:28px repeat(6,minmax(74px,auto))!important;overflow:visible!important}
+ html.modern-site body #app #calendar .day{padding:4px!important}
+ html.modern-site body #app #calendar .ev{font-size:12px!important;max-height:36px;overflow:hidden}
+ html.modern-site body #app #page0>.side{overflow:visible!important}
+ html.modern-site body #app #privateFrame{height:auto!important;min-height:100%!important;display:block!important}
+ html.modern-site body #app :is(.private-routine-content,#privateRoutinePanel){height:auto!important;overflow:visible!important}
+ html.modern-site body #app .modern-routine-workspace{display:block;height:auto}
+ html.modern-site body #app .modern-routine-nav{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px;margin-bottom:10px;padding:10px}
+ html.modern-site body #app .modern-routine-nav nav{display:none}
+ html.modern-site body #app .modern-routine-mobile-select{display:grid;gap:5px;font-size:12px}
+ html.modern-site body #app .modern-routine-mobile-select select{width:100%;min-height:44px}
+ html.modern-site body #app .modern-routine-paging{grid-column:1/-1}
+ html.modern-site body #app .modern-routine-detail{display:block;overflow:visible}
+ html.modern-site body #app .routine-progress-tools{display:flex;gap:5px}
+ html.modern-site body #app .routine-progress-intro{display:block!important}
+ html.modern-site body #app .routine-progress-round{display:flex!important;gap:6px;align-items:baseline;justify-content:flex-end}
+ html.modern-site body #app .routine-round-grid{grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:5px!important}
+ html.modern-site body #app .routine-round-stamp{min-height:66px!important;padding:4px!important}
+ html.modern-site body #app .modern-routine-goals{display:block}
+ html.modern-site body #app .routine-mandala-v106{margin-top:12px}
+ html.modern-site body #app .modern-routine-actions{margin:10px 0}
+ html.modern-site body #app .modern-routine-actions button{width:100%;min-height:44px}
+ html.modern-site body #app .routine-create-form{grid-template-columns:minmax(0,1fr)!important}
+ html.modern-site body #app :is(.record-main,.album-frame,.event-frame){height:auto!important;display:block!important}
+ html.modern-site body #app :is(.record-toolbar,.album-toolbar,.event-toolbar){gap:6px!important;min-height:44px!important;padding:4px 0 9px!important}
+ html.modern-site body #app .record-toolbar{display:grid!important;grid-template-columns:88px minmax(0,1fr) 102px!important;grid-auto-rows:minmax(44px,auto)!important;gap:6px!important}
+ html.modern-site body #app .record-controls{display:contents!important}
+ html.modern-site body #app .record-toolbar>[data-modern-event-view]{grid-column:1;grid-row:1;min-width:0!important;width:100%!important}
+ html.modern-site body #app .record-toolbar .modern-record-browser{grid-column:3;grid-row:1;margin:0!important}
+ html.modern-site body #app .record-toolbar .modern-record-browser summary{font-size:12px!important;padding:9px 3px!important;white-space:nowrap}
+ html.modern-site body #app #newRecordTop{grid-column:2;grid-row:1;width:100%!important;min-width:0!important;font-size:12px!important;padding:7px 4px!important}
+ html.modern-site body #app .record-toolbar .record-filter{grid-column:1;grid-row:2;min-height:44px!important}
+ html.modern-site body #app #recordDateSearch{grid-column:2;grid-row:2;width:100%!important;min-width:0!important;padding:5px!important;font-size:12px!important}
+ html.modern-site body #app #recordSort{grid-column:3;grid-row:2;width:100%!important;min-width:0!important;padding:6px!important;font-size:12px!important}
+ html.modern-site body #app #recordPeopleFilters:empty{display:none!important}
+ html.modern-site body #app #recordPeopleFilters:not(:empty){grid-column:1/-1;display:flex!important;flex-wrap:wrap;gap:5px}
+ html.modern-site body #app .record-date-search{width:137px!important}
+ html.modern-site body #app .modern-record-browser{margin-left:auto}
+ html.modern-site body #app :is(.record-feed,.album-content,.event-content){height:auto!important;overflow:visible!important}
+ html.modern-site body #app .record-feed-inner{grid-template-columns:minmax(0,1fr)!important;gap:9px!important}
+ html.modern-site body #app .record-post{display:grid!important;grid-template-columns:100px minmax(0,1fr)!important;grid-template-rows:auto auto!important;gap:0!important;min-height:112px!important;border-top-width:1px!important}
+ html.modern-site body #app .record-post .post-media{grid-column:1;grid-row:1/3;width:100%!important;height:100%!important;aspect-ratio:auto!important;min-height:112px!important}
+ html.modern-site body #app .record-post .post-head{grid-column:2;grid-row:1;padding:7px 8px 0!important;display:flex!important;gap:5px!important;align-items:flex-start!important}
+ html.modern-site body #app .record-post .post-avatar{display:none!important}
+ html.modern-site body #app .record-post .post-meta{min-width:0;flex:1}
+ html.modern-site body #app .record-post .post-meta b{display:none}
+ html.modern-site body #app .record-post .post-menu{display:flex;gap:3px;flex-wrap:wrap}
+ html.modern-site body #app .record-post .post-menu button{min-height:32px!important;padding:2px!important;font-size:12px!important}
+ html.modern-site body #app .record-post .post-copy{grid-column:2;grid-row:2;padding:4px 8px 8px!important}
+ html.modern-site body #app .record-post .post-title{font-size:15px!important;margin:0!important}
+ html.modern-site body #app .record-post .post-body{-webkit-line-clamp:1;font-size:13px!important;margin:4px 0!important}
+ html.modern-site body #app .record-post .post-tags{display:flex!important;flex-wrap:wrap;grid-column:2;font-size:12px!important}
+ html.modern-site body #app .record-post .post-actions{display:flex!important;flex-wrap:wrap;grid-column:2;padding:4px 8px!important;min-height:44px!important}
+ html.modern-site body #app .record-post .post-actions button{min-height:44px!important}
+ html.modern-site body #app .record-post:has(.post-media.empty){grid-template-columns:minmax(0,1fr)!important}
+ html.modern-site body #app .record-post:has(.post-media.empty) :is(.post-head,.post-copy){grid-column:1}
+ html.modern-site body #app .album-folder-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}
+ html.modern-site body #app :is(.event-index-grid,.travel-review-grid){grid-template-columns:minmax(0,1fr)!important;gap:10px!important}
+ html.modern-site body #app #personalMainShell>.personal-frame{display:flex!important;flex-direction:column;gap:8px!important;height:auto!important}
+ html.modern-site body #app .modern-personal-navigation{display:contents}
+ html.modern-site body #app .personal-category-tabs{order:-1;display:flex!important;flex-wrap:wrap;gap:3px!important}
+ html.modern-site body #app .personal-category-tabs button{width:auto!important;flex:1;white-space:nowrap;justify-content:center;font-size:13px!important;padding:6px!important}
+ html.modern-site body #app .personal-content{overflow:visible!important}
+ html.modern-site body #app .pomodoro-card{order:3;width:100%!important;margin:12px 0!important;grid-template-columns:1fr 1fr!important}
+ html.modern-site body #app .consulting-layout{display:block!important;height:auto!important;overflow:visible!important}
+ html.modern-site body #app .consulting-client-rail{margin-bottom:12px;max-height:none!important;overflow:visible!important}
+ html.modern-site body #app .consulting-client-list{display:none!important}
+ html.modern-site body #app .modern-consult-client-select{display:block!important;width:100%!important;min-height:44px!important}
+ html.modern-site body #app .consulting-main{overflow:visible!important;padding:12px!important}
+ html.modern-site body #app .consulting-client-head{grid-template-columns:minmax(0,1fr)!important;gap:10px!important}
+ html.modern-site body #app .consulting-client-head h3{display:flex!important;flex-wrap:wrap!important;gap:8px!important;white-space:normal!important;word-break:keep-all!important}
+ html.modern-site body #app .consulting-client-head>div>span{font-size:12px!important;white-space:normal!important}
+ html.modern-site body #app .consulting-actions{justify-content:flex-start!important}
+ html.modern-site body #app .consult-v159-stages{grid-template-columns:1fr!important}
+ html.modern-site body #app .consult-v159-tabs{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important}
+ html.modern-site body #app .consulting-detail-grid{grid-template-columns:minmax(0,1fr)!important}
+ html.modern-site body #app .site-work-shell-v146{height:auto!important}
+ html.modern-site body #app .site-work-content-v146{overflow:visible!important}
+ html.modern-site body #app .site-work-head-actions-v146{width:100%;margin:0}
+ html.modern-site body #app .site-work-head-actions-v146 input{min-width:0;width:100%}
+ html.modern-site body #app .site-work-summary-v146{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ html.modern-site body #app .site-work-grid-v146{grid-template-columns:minmax(0,1fr)!important}
+ html.modern-site body #app .modern-work-master-detail{display:block;height:auto}
+ html.modern-site body #app .modern-work-rows{overflow:visible}
+ html.modern-site body #app .modern-work-master-detail:not(.show-detail) .modern-work-detail,html.modern-site body #app .modern-work-master-detail.show-detail .modern-work-list{display:none}
+ html.modern-site body #app .modern-work-back{display:block;min-height:44px;margin-bottom:12px}
+ html.modern-site body #app .site-work-bio-pages-v158{grid-template-rows:auto auto!important}
+ html.modern-site :is(.modal,.personal-entry-dialog,.site-work-dialog-v146,.consulting-dialog){max-width:calc(100vw - 24px)!important;max-height:calc(100dvh - 24px)!important;border-radius:9px!important}
+ html.modern-site :is(.form,.site-work-form-v146){grid-template-columns:minmax(0,1fr)!important}
+ html.modern-site :is(.modal,.personal-entry-dialog,.site-work-dialog-v146,.consulting-dialog) :is(button,input,select){min-height:44px!important}
+}
+/* Preserve semantic hidden state after the stronger legacy stage rules. */
+html.modern-site body #app :is(#recordShell,#albumShell,#eventArchiveShell,#travelArchiveShell)[hidden],html.modern-site body #app .modern-header-pages[hidden],html.modern-site body #app .modern-header-pages>[hidden],html.modern-site body #app>.masthead .tabs>[hidden]{display:none!important}
+html.modern-site .login-compact-modal{width:min(940px,calc(100vw - 32px))!important;height:min(760px,calc(100dvh - 32px))!important}
+html.modern-site .account-settings-shell{grid-template-columns:160px minmax(0,1fr)!important;border:1px solid var(--modern-border)!important;border-radius:6px!important;background:#fff!important}
+html.modern-site .account-settings-nav{padding:10px!important;gap:5px!important;background:#f7f9f8!important;border-color:var(--modern-border)!important}
+html.modern-site .account-settings-nav button{font-size:14px!important;min-height:42px!important;border-radius:5px!important;padding:8px!important}
+html.modern-site .account-settings-nav button.active{background:var(--modern-primary)!important;color:white!important}
+html.modern-site .account-settings-panel{padding:14px!important;gap:12px!important}
+html.modern-site .account-settings-panel[data-account-panel=profile]{grid-template-columns:minmax(0,1fr)!important}
+html.modern-site .profile-account-summary{grid-column:auto!important;border:0!important;border-bottom:1px solid var(--modern-border)!important;padding:0 0 10px!important}
+html.modern-site .login-nickname-form{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}
+html.modern-site .login-nickname-form>button{grid-column:1/-1!important;grid-row:auto!important;justify-self:end;min-height:40px!important}
+html.modern-site .account-settings-panel :is(span,small,.firebase-storage-note,.login-data-summary){font-size:12px!important;line-height:1.5!important}
+html.modern-site .account-settings-panel :is(b,strong){font-size:14px!important}
+html.modern-site .calendar-sync-grid{grid-template-columns:1fr!important;gap:10px!important}
+html.modern-site .calendar-sync-card,html.modern-site .calendar-sync-card[data-calendar-provider=notion]{grid-column:auto!important;padding:12px!important}
+html.modern-site .calendar-sync-card :is(button,input){min-height:38px!important;font-size:13px!important}
+html.modern-site .profile-connections-block{display:grid!important;grid-template-columns:1fr!important;height:auto!important;overflow:visible!important;gap:10px!important}
+html.modern-site .profile-connections-block .friend-panel{grid-column:auto!important;grid-row:auto!important}
+html.modern-site #searchModal .search-results{max-height:calc(100dvh - 230px)!important;overflow:auto!important}
+html.modern-site #searchModal .search-results :is(b,strong){font-size:15px!important;white-space:normal!important}
+@media(max-width:767px){html.modern-site .account-settings-shell{grid-template-columns:1fr!important;grid-template-rows:auto minmax(0,1fr)!important}html.modern-site .account-settings-nav{display:flex!important;padding:5px!important}html.modern-site .account-settings-nav button{flex:1;min-height:44px!important;text-align:center!important}html.modern-site .account-settings-panel{padding:10px!important}html.modern-site .login-nickname-form{grid-template-columns:1fr!important}html.modern-site .calendar-sync-card{grid-template-columns:24px minmax(0,1fr) auto!important}html.modern-site .notion-source-compact{grid-template-columns:minmax(0,1fr) auto!important}html.modern-site .notion-source-compact span{grid-column:1/-1!important}}
+@media(prefers-reduced-motion:reduce){html.modern-site *,html.modern-site *::before,html.modern-site *::after{animation:none!important;transition:none!important}}

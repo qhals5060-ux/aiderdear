@@ -11,8 +11,8 @@
 <meta name="description" content="">
 <meta name="format-detection" content="telephone=no">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="aiderlog-build" content="v164">
-<meta name="aiderlog-android-build" content="v164">
+<meta name="aiderlog-build" content="v165">
+<meta name="aiderlog-android-build" content="v165">
 <link rel="canonical" href="https://aiderdear1.vercel.app/">
 <script>
 (() => {
@@ -4125,7 +4125,7 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
 <link rel="stylesheet" href="./site-work-v146.css?v=160">
 <link rel="stylesheet" href="./site-polish-v158.css?v=160">
 <script>(()=>{const h=document.documentElement;if(window.AiderLogNative){h.classList.add('aiderlog-android');return}let e=h.dataset.siteDefaultEdition==='editorial'?'editorial':'modern';try{const s=localStorage.getItem('aiderlog.site.edition');if(s==='modern'||s==='editorial')e=s}catch{}h.dataset.siteEdition=e;h.classList.toggle('modern-site',e==='modern')})();</script>
-<link rel="stylesheet" href="./site-modern-v163.css?v=163">
+<link rel="stylesheet" href="./site-modern-v165.css?v=165">
 <link rel="stylesheet" href="./site-editions-v164.css?v=164">
 </head>
 <body>
@@ -4832,15 +4832,15 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
 <div class="app-install-grid app-install-v137 site-edition-downloads">
   <article class="app-install-card windows">
     <i>Windows PC · 사이트 파일</i><b>모던</b><p>간결한 구조와 차분한 색상의 사이트 디자인입니다.</p>
-    <a class="app-download-link app-download-v164" href="./AiderLog-Modern-v164-site-files.zip" download="AiderLog-Modern-v164-site-files.zip">모던 사이트 파일 다운로드</a>
+    <a class="app-download-link app-download-v164" href="./AiderLog-Modern-v165-site-files.zip" download="AiderLog-Modern-v165-site-files.zip">모던 사이트 파일 다운로드</a>
   </article>
   <article class="app-install-card windows">
     <i>Windows PC · 사이트 파일</i><b>에디토리얼</b><p>기존의 잡지형 구성과 탭 디자인을 유지합니다.</p>
-    <a class="app-download-link app-download-v164" href="./AiderLog-Editorial-v164-site-files.zip" download="AiderLog-Editorial-v164-site-files.zip">에디토리얼 사이트 파일 다운로드</a>
+    <a class="app-download-link app-download-v164" href="./AiderLog-Editorial-v165-site-files.zip" download="AiderLog-Editorial-v165-site-files.zip">에디토리얼 사이트 파일 다운로드</a>
   </article>
   <article class="app-install-card android">
     <i>Android APK</i><b>Android 앱</b><p>Galaxy Fold·Flip 3–8 및 Android 8.0 이상용 최신 설치 파일입니다.</p>
-    <a class="app-download-link app-download-v164" href="./AiderLog-v164.apk" download="AiderLog-v164.apk">Android APK 다운로드</a>
+    <a class="app-download-link app-download-v164" href="./AiderLog-v165.apk" download="AiderLog-v165.apk">Android APK 다운로드</a>
   </article>
 </div>
           <div class="login-data-summary"><b>기록 저장 안내</b><span>일정은 본인 공간에 저장되며 ‘커플과 공유’를 선택한 일정만 상대 캘린더에 표시됩니다.</span><span>EVENT는 커플 연결 시 함께 보고, 루틴·어학·PERSONAL·메모는 본인만 확인합니다.</span><span>PAPER·CONSULTING·WORK는 허용된 두 계정만 열 수 있으며, 각 계정의 연구·컨설팅·운영 기록은 서로 분리해 저장합니다.</span><span>사진·영상은 압축 저장되며, 오래된 일반 기록은 삭제 전에 반드시 확인을 요청합니다.</span></div>
@@ -5355,7 +5355,7 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script type="module" src="./firebase-app.js"></script>
+<script type="module" src="./firebase-app.js?v=165"></script>
 <script src="./brain-3d.js"></script>
 <script src="./language-lab-v18-engine.js?v=160"></script>
 <script src="./language-content-v149.js?v=160"></script>
@@ -7592,7 +7592,15 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   function renderRoutineOverviewRow(r,index,dates,writable){const done=dates.filter(k=>{const v=String(r.dailyLevels?.[k]||'').toUpperCase();return v&&v!=='SKIP'}).length;return `<div class="routine-goal-row"><div class="routine-goal-name"><span>${escapeHtml(r.icon||String(index+1).padStart(2,'0'))}</span><b>${escapeHtml(r.text||'Routine')}</b></div>${dates.map(k=>{const v=String(r.dailyLevels?.[k]||'').toUpperCase();return `<button type="button" class="routine-goal-dot ${routineStatusClass(v)}" data-routine-date-status="${escapeHtml(r.id)}" data-date="${escapeHtml(k)}" ${writable?'':'disabled'} aria-label="${escapeHtml(r.text||'Routine')} ${escapeHtml(k)} ${escapeHtml(v||'미기록')}"></button>`}).join('')}<div class="routine-goal-rate"><b>${done}</b><span>/ ${dates.length}</span></div></div>`}
   function renderGoalTracker(routines,selected,writable){if(!routines.length)return '';const dates=Array.from({length:10},(_,i)=>dateKeyOffset(i-9)),rows=[selected,...routines.filter(r=>r.id!==selected?.id)].filter(Boolean);return `<section class="routine-goal-tracker"><div class="routine-card-head"><b>루틴별 진행 현황</b><span>${rows.length}개 루틴 · 최근 10일</span></div><div class="routine-goal-scroll"><div class="routine-goal-table" style="--routine-count:${rows.length}"><div class="routine-goal-head"><span>루틴</span>${dates.map(k=>`<b>${routineDateLabel(k,true)}</b>`).join('')}<span>실천일</span></div>${rows.map((r,i)=>renderRoutineOverviewRow(r,i,dates,writable)).join('')}</div></div><div class="routine-goal-legend"><span><i class="status-max"></i>MAX</span><span><i class="status-more"></i>MORE</span><span><i class="status-mini"></i>MINI</span><span><i class="status-skip"></i>SKIP</span><span><i class="status-empty"></i>미기록</span></div></section>`}
   function renderRoutineCreator(writable){if(!writable)return '';const icons=['🇪🇸','🧘','🥗','🥊','✨','🏃','📚','💪','🌞','🎨','🎧','💬','💧','✍️','💰','🌿','🎯'];const data=privateData[privateOwner]||{},editing=(data.routines||[]).find(r=>r.id===editingRoutineId)||null;if(editing)routineCreateIcon=editing.icon||'✨';const title=editing?'EDIT ROUTINE':'CREATE ROUTINE',save=editing?'SAVE CHANGES':'CREATE';return `<section class="routine-create-page"><div class="routine-create-title"><b>${title}</b><button type="button" data-routine-tab="routines">← ROUTINES</button></div><form id="privateRoutineForm" class="routine-create-form" autocomplete="off"><input type="hidden" id="privateRoutineEditId" value="${escapeHtml(editing?.id||'')}"><label><span>ROUTINE</span><input id="privateRoutineText" maxlength="80" placeholder="예: 스페인어 배우기" value="${escapeHtml(editing?.text||'')}" required></label><label><span>GOAL DAYS</span><select id="privateRoutineGoal">${[7,14,20,21,30,66,100].map(n=>`<option value="${n}" ${Number(editing?.goalDays||20)===n?'selected':''}>${n}일</option>`).join('')}</select></label><label><span>COLOR</span><select id="privateRoutineColor">${[['orange','VIVID ORANGE'],['blue','COBALT BLUE'],['purple','VIOLET'],['green','FOREST GREEN'],['pink','PINK'],['peach','PEACH'],['black','BLACK']].map(([c,l])=>`<option value="${c}" ${(editing?.color||'orange')===c?'selected':''}>${l}</option>`).join('')}</select></label><div class="routine-create-icons"><span>ICON</span><input type="hidden" id="privateRoutineIcon" value="${escapeHtml(routineCreateIcon)}"><div>${icons.map(icon=>`<button type="button" data-routine-icon="${escapeHtml(icon)}" class="${icon===routineCreateIcon?'active':''}">${icon}</button>`).join('')}</div></div><label class="routine-create-wide"><span>MINI</span><input id="privateRoutineMini" maxlength="100" value="${escapeHtml(editing?.miniText||'')}" placeholder="가장 작은 실천 · 예: 단어 2개"></label><label class="routine-create-wide"><span>MORE</span><input id="privateRoutineMore" maxlength="100" value="${escapeHtml(editing?.moreText||'')}" placeholder="기본 실천 · 예: 학습지 20분"></label><label class="routine-create-wide"><span>MAX</span><input id="privateRoutineMax" maxlength="100" value="${escapeHtml(editing?.maxText||'')}" placeholder="충분한 실천 · 예: 드라마 1편"></label><button class="routine-create-save" type="submit">${save}</button></form></section>`}
-  function renderRoutinePanel(data,writable,note){const routines=data.routines||[];routineGoalWorkspace(data);if(routines.length&&!routines.some(r=>r.id===selectedRoutineId))selectedRoutineId=routines[0].id;if(!routines.length){selectedRoutineId='';routineExpandedId=''}if(routineExpandedId&&!routines.some(r=>r.id===routineExpandedId))routineExpandedId='';const selected=routines.find(r=>r.id===selectedRoutineId)||routines[0]||null;if(routinePanelMode==='create')return note+`<div class="routine-v30-shell">${renderRoutineCreator(writable)}</div>`;const expanded=!!(selected&&routineExpandedId);const routineArea=selected?(expanded?renderRoutineExpanded(routines,writable):`<section class="routine-compact-list-v104 routine-compact-list-v106">${renderRoutineCompactCard(selected,routines.indexOf(selected),routines,writable)}</section>${renderRoutineOverallStats(routines)}`):`<section class="routine-v106-empty-card"><strong>첫 루틴을 만들어보세요.</strong><span>BIG GOALS와 만다라트는 루틴과 별도로 저장됩니다.</span><button type="button" data-routine-tab="create" ${writable?'':'disabled'}>+ CREATE</button></section>${renderRoutineOverallStats(routines)}`;return note+`<div class="routine-v30-shell routine-v104-shell routine-v106-shell"><div class="routine-dashboard-v30 routine-dashboard-v104 routine-dashboard-v106"><div class="routine-left-v30 routine-left-v104 routine-left-v106">${renderBigGoals(data,writable)}${renderRoutineMandala(data,writable)}</div><div class="routine-right-v30 routine-right-v104 routine-right-v106 ${expanded?'is-expanded':''}">${routineArea}</div></div></div>`}
+  function renderRoutinePanel(data,writable,note){
+    if(!document.documentElement.classList.contains('modern-site'))return renderRoutinePanelEditorialV165(data,writable,note);
+    const routines=data.routines||[];routineGoalWorkspace(data);
+    if(!routines.some(row=>row.id===selectedRoutineId))selectedRoutineId=routines[0]?.id||'';
+    const selected=routines.find(row=>row.id===selectedRoutineId),index=routines.indexOf(selected);
+    if(routinePanelMode==='create')return note+`<div class="modern-routine-create">${renderRoutineCreator(writable)}</div>`;
+    return note+`<div class="modern-routine-workspace"><aside class="modern-routine-nav"><button type="button" data-routine-tab="create" ${writable?'':'disabled'}>+ 루틴 생성</button><label class="modern-routine-mobile-select">루틴 선택<select data-modern-routine-select>${routines.map(row=>`<option value="${escapeHtml(row.id)}" ${row===selected?'selected':''}>${escapeHtml(row.text||'루틴')}</option>`).join('')}</select></label><nav aria-label="루틴 이름 목록">${routines.map(row=>`<button type="button" data-routine-select="${escapeHtml(row.id)}" class="${row===selected?'active':''}" aria-pressed="${row===selected}" style="--routine:${routineColor(row,routines.indexOf(row))}"><i aria-hidden="true"></i><span>${escapeHtml(row.text||'루틴')}</span><small>${row.goalDays}일</small></button>`).join('')}</nav><div class="modern-routine-paging">${index>0?`<button type="button" data-routine-select="${escapeHtml(routines[index-1].id)}">← 이전</button>`:''}${index>=0&&index<routines.length-1?`<button type="button" data-routine-select="${escapeHtml(routines[index+1].id)}">다음 →</button>`:''}</div></aside><main class="modern-routine-detail">${selected?`${renderRoutineProgressCard(selected,routines,writable)}<div class="modern-routine-actions"><button type="button" data-routine-level="MINI" data-id="${escapeHtml(selected.id)}" ${writable?'':'disabled'}>오늘 수행 기록 · MINI / MORE / MAX / SKIP</button></div>`:'<p class="modern-empty">루틴 생성 버튼으로 첫 루틴을 만들어보세요.</p>'}<section class="modern-routine-support"><details open><summary>목표 · 만다라트</summary><div class="modern-routine-goals" data-modern-goal-index="${selectedBigGoalIndex}">${renderBigGoals(data,writable)}${renderRoutineMandala(data,writable)}</div></details><details><summary>루틴 통계 · 전체 비교</summary>${renderRoutineOverallStats(routines)}${selected?renderRoutineStats(selected):''}${renderGoalTracker(routines,selected,writable)}</details></section></main></div>`;
+  }
+  function renderRoutinePanelEditorialV165(data,writable,note){const routines=data.routines||[];routineGoalWorkspace(data);if(routines.length&&!routines.some(r=>r.id===selectedRoutineId))selectedRoutineId=routines[0].id;if(!routines.length){selectedRoutineId='';routineExpandedId=''}if(routineExpandedId&&!routines.some(r=>r.id===routineExpandedId))routineExpandedId='';const selected=routines.find(r=>r.id===selectedRoutineId)||routines[0]||null;if(routinePanelMode==='create')return note+`<div class="routine-v30-shell">${renderRoutineCreator(writable)}</div>`;const expanded=!!(selected&&routineExpandedId);const routineArea=selected?(expanded?renderRoutineExpanded(routines,writable):`<section class="routine-compact-list-v104 routine-compact-list-v106">${renderRoutineCompactCard(selected,routines.indexOf(selected),routines,writable)}</section>${renderRoutineOverallStats(routines)}`):`<section class="routine-v106-empty-card"><strong>첫 루틴을 만들어보세요.</strong><span>BIG GOALS와 만다라트는 루틴과 별도로 저장됩니다.</span><button type="button" data-routine-tab="create" ${writable?'':'disabled'}>+ CREATE</button></section>${renderRoutineOverallStats(routines)}`;return note+`<div class="routine-v30-shell routine-v104-shell routine-v106-shell"><div class="routine-dashboard-v30 routine-dashboard-v104 routine-dashboard-v106"><div class="routine-left-v30 routine-left-v104 routine-left-v106">${renderBigGoals(data,writable)}${renderRoutineMandala(data,writable)}</div><div class="routine-right-v30 routine-right-v104 routine-right-v106 ${expanded?'is-expanded':''}">${routineArea}</div></div></div>`}
   function ensureRoutineStatusDialog(){let box=document.getElementById('routineStatusOverlay');if(box)return box;box=document.createElement('div');box.id='routineStatusOverlay';box.className='routine-status-overlay';box.hidden=true;box.innerHTML=`<div class="routine-status-dialog" role="dialog" aria-modal="true"><button type="button" class="routine-status-close" data-routine-status-close>×</button><span class="routine-status-kicker">ROUTINE LOG</span><h3 id="routineStatusTitle">수행 정도</h3><p id="routineStatusDate"></p><div class="routine-status-options"><button type="button" data-routine-status-value="MINI">MINI</button><button type="button" data-routine-status-value="MORE">MORE</button><button type="button" data-routine-status-value="MAX">MAX</button><button type="button" data-routine-status-value="SKIP">SKIP</button><button type="button" class="clear" data-routine-status-value="">미기록</button></div></div>`;document.body.appendChild(box);box.addEventListener('click',async e=>{if(e.target===box||e.target.closest('[data-routine-status-close]')){box.hidden=true;return}const b=e.target.closest('[data-routine-status-value]');if(!b)return;await saveRoutineStatusSelection(b.dataset.routineStatusValue||'');box.hidden=true});return box}
   let routineStatusContext=null;
   function openRoutineStatusSelector(routineId,date,goalIndex=null){if(!privateCanWrite())return;const d=privateData[privateOwner],r=d?.routines?.find(x=>x.id===routineId);if(!r)return;routineStatusContext={routineId,date,goalIndex};const box=ensureRoutineStatusDialog(),title=goalIndex===null?'오늘의 수행 정도':(r.bigGoals?.[Number(goalIndex)]||'목표 수행 정도');box.querySelector('#routineStatusTitle').textContent=title;box.querySelector('#routineStatusDate').textContent=`${date} · MINI / MORE / MAX / SKIP`;box.hidden=false}
@@ -7615,6 +7623,8 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
     renderQuickTodo();renderLanguageStudy();toolbarTabs?.querySelectorAll('[data-routine-tab]').forEach(button=>button.classList.toggle('active',button.dataset.routineTab===routinePanelMode));requestAnimationFrame(()=>{const scroller=routine.querySelector('.routine-round-grid'),today=scroller?.querySelector('.today');if(scroller&&today)scroller.scrollLeft=Math.max(0,today.offsetLeft-(scroller.clientWidth-today.clientWidth)/2)})
   }
   $('#privateStage').addEventListener('click',e=>{const button=e.target.closest('[data-private-delete]');if(!button)return;const message=button.dataset.privateDelete==='routine'?'이 루틴과 모든 수행 기록을 삭제할까요?':'이 기록을 삭제할까요?';if(!confirm(message)){e.preventDefault();e.stopImmediatePropagation()}},true);
+  window.addEventListener('aiderlog-site-editionchange',()=>{if(!$('#privateRoutineForm'))renderPrivate();});
+  $('#privateStage').addEventListener('change',event=>{if(!event.target.matches('[data-modern-routine-select]'))return;const button=[...$('#privateStage').querySelectorAll('[data-routine-select]')].find(item=>item.dataset.routineSelect===event.target.value);button?.click();});
   const LANGUAGE_LESSONS={ja:[
     {id:'day',jp:'今日はどんな一日でしたか。',reading:'きょうは どんな いちにち でしたか。',ko:'오늘은 어떤 하루였나요?',answer:'今日は忙しかったですが、充実していました。',answerKo:'오늘은 바빴지만 알찬 하루였어요.',mission:'오늘 하루를 한 문장으로 말해보세요.',words:[['今日','きょう','오늘'],['一日','いちにち','하루'],['忙しい','いそがしい','바쁘다'],['充実','じゅうじつ','충실함'],['どんな','どんな','어떤']]},
     {id:'recent',jp:'最近、何に夢中ですか。',reading:'さいきん、なにに むちゅう ですか。',ko:'요즘 무엇에 푹 빠져 있나요?',answer:'最近は日本語の勉強に夢中です。',answerKo:'요즘은 일본어 공부에 푹 빠져 있어요.',mission:'요즘 관심사를 넣어 답해보세요.',words:[['最近','さいきん','최근'],['何','なに','무엇'],['夢中','むちゅう','몰두함'],['勉強','べんきょう','공부'],['趣味','しゅみ','취미']]},
@@ -8595,6 +8605,15 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   document.addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'&&!$('#paperStage').hidden){e.preventDefault();window.AiderPaperWorkspace?.focusSearch?.()}if(e.key!=='Escape')return;if(!$('#personalEntryOverlay').hidden)closePersonalEntry();if(!$('#personalChallengeOverlay').hidden)closePersonalChallenge();if(!$('#personalInbodyOverlay').hidden)closePersonalInbody();if(!$('#graduateFitOverlay').hidden)closeGraduateFit();$$('.research-modal').forEach(modal=>modal.hidden=true)});
 
   const DESKTOP_PREF_KEY='aiderlog-windows-preferences-v2';
+  // Modern has no flip animation. Reuse the original display functions without
+  // retaining the old 760ms animation lock after an explicit menu click.
+  document.addEventListener('click',event=>{
+    if(!document.documentElement.classList.contains('modern-site'))return;
+    const button=event.target.closest?.('.modern-header-pages button');if(!button)return;
+    const routes=[['page',goPage],['privatePage',goPrivatePage],['recordPage',goRecordPage],['personalPage',goPersonalPage],['taskPage',goTaskPage]];
+    const route=routes.find(([key])=>button.dataset[key]!==undefined);if(!route)return;
+    event.stopImmediatePropagation();route[1](Number(button.dataset[route[0]]),true);
+  },true);
   let deferredInstallPrompt=null;
   function desktopPreferences(){try{return {...{autoStart:false,taskbar:false},...JSON.parse(localStorage.getItem(DESKTOP_PREF_KEY)||'{}')}}catch(_){return {autoStart:false,taskbar:false}}}
   function populateDesktopPreferences(){const prefs=desktopPreferences();$('#desktopAutoStart').checked=!!prefs.autoStart;$('#desktopTaskbar').checked=!!prefs.taskbar;const installed=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;$('#desktopInstallConfirm').textContent=installed?'설정 저장':'설정 저장 · 앱 설치';$('#desktopInstallStatus').textContent=installed?'앱이 설치되어 있습니다.':''}
@@ -8687,13 +8706,14 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
     normalizeCloudData();selectAlbumFolderColor(ALBUM_PASTELS[0]);getAlbumFolders();refreshRecordAlbumSelect(DEFAULT_ALBUM_ID);renderAlbumFolders();renderEventArchive();renderTravelArchive();renderPrivate();renderPersonal();renderPaper();renderConsultingWorkspace();renderEmotion();applyLoginUI();setDday();renderDdayList();renderCalendar();if(location.hash==='#search')setTimeout(openSearchFromQuick,0);if('serviceWorker' in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'}).then(registration=>registration.update()).catch(()=>{}));
 })();
 </script>
-<script src="./paper-workspace-v121.js?v=158"></script>
+<script src="./paper-workspace-v121.js?v=165"></script>
 <script src="./paper-v159.js?v=160"></script>
 <link rel="stylesheet" href="./consult-v159.css?v=160">
 <script src="./consult-v159.js?v=160"></script>
-<script src="./site-work-v146.js?v=160"></script>
+<script src="./site-work-v146.js?v=165"></script>
 <script src="./site-polish-v158.js?v=160"></script>
-<script src="./site-editions-v164.js?v=164"></script>
+<script src="./site-editions-v164.js?v=165"></script>
+<script src="./site-layout-v165.js?v=165"></script>
 <script src="./widget-sync-v162.js?v=162"></script>
 <script>
 (() => {

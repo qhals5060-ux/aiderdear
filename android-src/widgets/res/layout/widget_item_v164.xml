@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/widget_item_row_v164" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="40dp" android:paddingTop="7dp" android:paddingBottom="7dp" android:orientation="horizontal" android:gravity="center_vertical">
-<TextView android:id="@+id/widget_item_dot_v164" android:layout_width="12dp" android:layout_height="wrap_content" android:gravity="center" android:text="●" android:textColor="#6255E8" android:textSize="9sp"/>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/widget_item_row_v164" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_margin="3dp">
+<ImageView android:id="@+id/widget_item_background_v165" android:layout_width="match_parent" android:layout_height="match_parent" android:src="@drawable/widget_card_v165" android:scaleType="fitXY" android:contentDescription="@null"/>
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="44dp" android:padding="9dp" android:orientation="horizontal" android:gravity="center_vertical">
+<TextView android:id="@+id/widget_item_dot_v164" android:layout_width="3dp" android:layout_height="24dp" android:background="#6255E8" android:text=""/>
+<TextView android:id="@+id/widget_item_time_v165" android:layout_width="48dp" android:layout_height="wrap_content" android:layout_marginLeft="8dp" android:textColor="#6255E8" android:textSize="12sp"/>
 <TextView android:id="@+id/widget_item_text_v164" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:layout_marginLeft="5dp" android:textColor="#171A3A" android:textSize="14sp"/>
-</LinearLayout>
+</LinearLayout></FrameLayout>

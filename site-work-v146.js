@@ -23,6 +23,10 @@
   let labEntries = [];
   let activeLabToken = 'all';
   let loading = false;
+  let selectedWorkId = '';
+  let workMobileDetail = false;
+  const workListScroll = new Map();
+  const modern = () => document.documentElement.classList.contains('modern-site');
 
   function api() { return window.AiderDearFirebase; }
   function auth() { return api()?.getState?.() || {}; }
@@ -164,6 +168,12 @@
     filtered.sort((a,b)=>Number(active(b))-Number(active(a))||String(a.dueDate||'9999').localeCompare(String(b.dueDate||'9999')));
     const needle = query.trim().toLowerCase();
     if (needle) filtered = filtered.filter(row => JSON.stringify(row).toLowerCase().includes(needle));
+    if(modern()){
+      if(!filtered.some(row=>row.id===selectedWorkId))selectedWorkId=filtered[0]?.id||'';
+      const selected=filtered.find(row=>row.id===selectedWorkId);
+      const listing=`<div class="modern-work-master-detail ${workMobileDetail?'show-detail':''}"><section class="modern-work-list" aria-label="업무 목록"><header><b>${esc(TYPE_LABEL[tab]||'업무')} · ${filtered.length}</b><button type="button" data-work-add="${esc(tab)}">+ 기록</button></header><div class="modern-work-rows">${filtered.map(row=>`<button type="button" data-work-select="${esc(row.id)}" class="${row.id===selectedWorkId?'active':''}" aria-pressed="${row.id===selectedWorkId}"><strong>${esc(row.title)}</strong><span>${esc(row.status)} · ${esc(row.assignee||'대표')} · ${esc(row.dueDate||'마감 미정')}</span><small>${esc(row.nextAction||'다음 행동 미입력')}</small></button>`).join('')||'<p class="modern-empty">등록된 기록이 없습니다.</p>'}</div></section><section class="modern-work-detail" aria-label="선택 업무 상세"><button type="button" class="modern-work-back" data-work-list>← 목록으로</button>${selected?`${card(selected)}<dl class="modern-work-fields">${[['시작일','startDate'],['예상 시간','estimate'],['업무 설명 · 완료 조건','description'],['기관 · 프로젝트','agency'],['현재 단계','stage'],['준비도 (%)','readiness'],['금액','amount'],['신청 자격 · 근거','evidence'],['실험 코드','code'],['프로토콜','protocol'],['Batch · Lot','batch'],['시료','sample'],['장비 · 시약','equipment'],['원자료 위치','source'],['업무 분류','adminType'],['공급처','vendor'],['증빙 상태','evidenceState']].filter(([,key])=>selected[key]!==undefined&&selected[key]!==null&&selected[key]!=='').map(([label,key])=>`<div><dt>${esc(label)}</dt><dd>${esc(selected[key])}</dd></div>`).join('')}</dl>`:'<p class="modern-empty">목록에서 기록을 선택하세요.</p>'}</section></div>`;
+      return tab==='bio'?`<div class="site-work-bio-pages-v158">${listing}${labNotebookView()}</div>`:listing;
+    }
     const list = `<section class="site-work-panel-v146"><header class="site-work-section-head-v146"><div><small>${tab.toUpperCase()}</small><h3>${esc(TYPE_LABEL[tab] || '업무')}</h3></div><button class="site-work-button-v146" type="button" data-work-add="${esc(tab)}">+ 기록 추가</button></header><div class="site-work-list-v146">${filtered.map(card).join('') || `<div class="site-work-empty-v146">${esc(TYPE_LABEL[tab] || '업무')} 기록이 없습니다.</div>`}</div></section>`;
     return tab === 'bio' ? `<div class="site-work-bio-pages-v158">${list}${labNotebookView()}</div>` : list;
   }
@@ -185,6 +195,7 @@
     if (stage.hidden) return;
     const rows = visibleRecords();
     stage.innerHTML = `<section class="site-work-shell-v146"><header class="site-work-head-v146"><div><small>OWNER OPERATIONS</small><h2>Work</h2><p>업무·과제·연구·행정을 한 흐름으로 관리합니다.</p></div><div class="site-work-head-actions-v146"><input data-work-query type="search" value="${esc(query)}" placeholder="업무 · 과제 · 실험 검색"><button class="site-work-button-v146 primary" type="button" data-work-add="tasks">+ 업무</button></div></header><div class="site-work-body-v146"><nav class="site-work-nav-v146" aria-label="Work 메뉴">${TABS.map(([key,label]) => `<button class="${tab === key ? 'active' : ''}" type="button" data-work-tab="${key}">${label}</button>`).join('')}</nav><main class="site-work-content-v146">${loading ? '<div class="site-work-empty-v146">업무 데이터를 불러오는 중입니다.</div>' : tab === 'today' ? todayView(rows) : listView(rows)}</main></div></section>`;
+    const list=stage.querySelector('.modern-work-rows');if(list)list.scrollTop=workListScroll.get(tab)||0;
   }
 
   function field(label, name, value = '', type = 'text', wide = false) {
@@ -245,6 +256,14 @@
     $('.tab[data-tab="work"]')?.addEventListener('click', event => { event.preventDefault(); event.stopImmediatePropagation(); activate(); });
     $('.tabs')?.addEventListener('click', event => { if (!event.target.closest('.tab[data-tab="work"]') && stage && !stage.hidden) { stage.hidden = true; stage.setAttribute('aria-hidden','true'); } }, true);
     stage.addEventListener('click', action);
+    stage.addEventListener('click',event=>{
+      const select=event.target.closest('[data-work-select]'),back=event.target.closest('[data-work-list]');
+      if(!select&&!back)return;
+      const list=stage.querySelector('.modern-work-rows');if(list)workListScroll.set(tab,list.scrollTop);
+      if(select){selectedWorkId=select.dataset.workSelect;workMobileDetail=true;}else workMobileDetail=false;
+      render();
+    });
+    window.addEventListener('aiderlog-site-editionchange',()=>{if(!stage.hidden)render();});
     stage.addEventListener('input', event => { if (event.target.matches('[data-work-query]')) { query = event.target.value; if (tab !== 'today') { const position = event.target.selectionStart; render(); const next = $('[data-work-query]', stage); next?.focus(); next?.setSelectionRange(position, position); } } });
     window.addEventListener('aiderdear-firebase-state', () => { syncVisibility(); if (!stage.hidden && allowed()) load(); });
     window.addEventListener('aiderdear-firebase-ready', syncVisibility);

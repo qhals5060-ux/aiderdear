@@ -74,14 +74,16 @@
 
     move-result v4
 
-    const-string v5, "widget_date_"
+    const-string v5, "-1"
+
+    const-string v6, "widget_date_"
+
+    const/4 v7, 0x0
 
     if-eqz v4, :cond_4
 
     .line 13
-    const-string v3, "-1"
-
-    invoke-virtual {v3, p2}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+    invoke-virtual {v5, p2}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result p2
 
@@ -130,7 +132,7 @@
 
     new-instance v3, Ljava/lang/StringBuilder;
 
-    invoke-direct {v3, v5}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+    invoke-direct {v3, v6}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
 
     invoke-virtual {v3, v0}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
 
@@ -165,23 +167,21 @@
 
     move-result-object p2
 
-    new-instance v6, Ljava/lang/StringBuilder;
+    new-instance v5, Ljava/lang/StringBuilder;
 
-    const-string v7, "widget_month_"
+    const-string v8, "widget_month_"
 
-    invoke-direct {v6, v7}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+    invoke-direct {v5, v8}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
 
-    invoke-virtual {v6, v0}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+    invoke-virtual {v5, v0}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
 
-    move-result-object v6
+    move-result-object v5
 
-    invoke-virtual {v6}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+    invoke-virtual {v5}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
-    move-result-object v6
+    move-result-object v5
 
-    const/4 v8, 0x0
-
-    invoke-interface {p2, v6, v8}, Landroid/content/SharedPreferences;->getInt(Ljava/lang/String;I)I
+    invoke-interface {p2, v5, v7}, Landroid/content/SharedPreferences;->getInt(Ljava/lang/String;I)I
 
     move-result p2
 
@@ -209,7 +209,7 @@
 
     new-instance v4, Ljava/lang/StringBuilder;
 
-    invoke-direct {v4, v7}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+    invoke-direct {v4, v8}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
 
     invoke-virtual {v4, v0}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
 
@@ -225,7 +225,7 @@
 
     new-instance v3, Ljava/lang/StringBuilder;
 
-    invoke-direct {v3, v5}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+    invoke-direct {v3, v6}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
 
     invoke-virtual {v3, v0}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
 
@@ -245,19 +245,104 @@
 
     invoke-interface {p2}, Landroid/content/SharedPreferences$Editor;->apply()V
 
+    .line 22
+    goto/16 :goto_3
+
+    :cond_4
+    const-string v1, "bullet"
+
+    invoke-virtual {v1, v3}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v1
+
+    if-eqz v1, :cond_8
+
+    invoke-static {p1}, Lcom/aiderlog/v22app/WidgetNativeV164;->prefs(Landroid/content/Context;)Landroid/content/SharedPreferences;
+
+    move-result-object v1
+
+    new-instance v3, Ljava/lang/StringBuilder;
+
+    const-string v4, "widget_page_"
+
+    invoke-direct {v3, v4}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+
+    invoke-virtual {v3, v0}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    move-result-object v3
+
+    invoke-virtual {v3}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v3
+
+    invoke-interface {v1, v3, v7}, Landroid/content/SharedPreferences;->getInt(Ljava/lang/String;I)I
+
+    move-result v1
+
+    invoke-virtual {v5, p2}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result p2
+
+    const/4 v3, 0x3
+
+    if-eqz p2, :cond_5
+
+    if-le v1, v3, :cond_7
+
     goto :goto_1
 
-    .line 22
-    :cond_4
+    :cond_5
+    if-ge v1, v3, :cond_6
+
+    :goto_1
+    move v7, v3
+
+    goto :goto_2
+
+    :cond_6
+    const/4 v7, 0x4
+
+    :cond_7
+    :goto_2
+    invoke-static {p1}, Lcom/aiderlog/v22app/WidgetNativeV164;->prefs(Landroid/content/Context;)Landroid/content/SharedPreferences;
+
+    move-result-object p2
+
+    invoke-interface {p2}, Landroid/content/SharedPreferences;->edit()Landroid/content/SharedPreferences$Editor;
+
+    move-result-object p2
+
+    new-instance v1, Ljava/lang/StringBuilder;
+
+    invoke-direct {v1, v4}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+
+    invoke-virtual {v1, v0}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-interface {p2, v1, v7}, Landroid/content/SharedPreferences$Editor;->putInt(Ljava/lang/String;I)Landroid/content/SharedPreferences$Editor;
+
+    move-result-object p2
+
+    invoke-interface {p2}, Landroid/content/SharedPreferences$Editor;->apply()V
+
+    goto :goto_3
+
+    .line 23
+    :cond_8
     const-string v1, "date"
 
     invoke-virtual {v1, v3}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result v1
 
-    if-eqz v1, :cond_5
+    if-eqz v1, :cond_9
 
-    if-eqz p2, :cond_5
+    if-eqz p2, :cond_9
 
     const-string v1, "\\d{4}-\\d{2}-\\d{2}"
 
@@ -265,7 +350,7 @@
 
     move-result v1
 
-    if-eqz v1, :cond_5
+    if-eqz v1, :cond_9
 
     invoke-static {p1}, Lcom/aiderlog/v22app/WidgetNativeV164;->prefs(Landroid/content/Context;)Landroid/content/SharedPreferences;
 
@@ -277,7 +362,7 @@
 
     new-instance v3, Ljava/lang/StringBuilder;
 
-    invoke-direct {v3, v5}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+    invoke-direct {v3, v6}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
 
     invoke-virtual {v3, v0}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
 
@@ -293,20 +378,15 @@
 
     invoke-interface {p2}, Landroid/content/SharedPreferences$Editor;->apply()V
 
-    goto :goto_2
-
-    :cond_5
-    :goto_1
-    nop
-
-    .line 23
-    :goto_2
+    .line 24
+    :cond_9
+    :goto_3
     invoke-static {p1}, Landroid/appwidget/AppWidgetManager;->getInstance(Landroid/content/Context;)Landroid/appwidget/AppWidgetManager;
 
     move-result-object p2
 
     invoke-static {p1, p2, v0, v2}, Lcom/aiderlog/v22app/WidgetNativeV164;->update(Landroid/content/Context;Landroid/appwidget/AppWidgetManager;ILjava/lang/String;)Z
 
-    .line 24
+    .line 25
     return-void
 .end method

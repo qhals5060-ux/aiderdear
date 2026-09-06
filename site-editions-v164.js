@@ -69,7 +69,7 @@
   function styleShadow(host, kind, path) {
     const root = host?.shadowRoot;
     if (!root || !root.querySelector(kind === 'paper' ? '.paper-v121-surface' : '.app-shell')) return;
-    let style = shadowStyles.get(root);
+    let style = shadowStyles.get(root) || root.querySelector(`[data-site-edition-style="${kind}"]`);
     if (!style) {
       style = document.createElement('link');
       style.rel = 'stylesheet'; style.href = path; style.dataset.siteEditionStyle = kind;
@@ -90,8 +90,8 @@
     }
   }
   function styleWorkspaces() {
-    styleShadow(document.querySelector('aider-paper-workspace-v121'), 'paper', './site-paper-modern-v163.css?v=164');
-    styleShadow(document.querySelector('aiderlog-language-lab'), 'language', './site-language-modern-v163.css?v=164');
+    styleShadow(document.querySelector('aider-paper-workspace-v121'), 'paper', './site-paper-modern-v165.css');
+    styleShadow(document.querySelector('aiderlog-language-lab'), 'language', './site-language-modern-v165.css');
   }
   function apply(value, persist = true) {
     current = value === 'editorial' ? 'editorial' : 'modern';

@@ -1,5 +1,14 @@
 # Android native release patches
 
+## v165 Routine / DayLog / widgets
+
+App-only presentation changes are documented in `ROUTINE_V165.md` and
+`DAYLOG_V165.md`. `widget-ui-v165.js` reconciles a single successful widget
+transaction into the active app without uploading or replacing the full document.
+`widgets/widget-model-test-v165.cjs`, `widget-transaction-test-v165.cjs`,
+`widget-ui-test-v165.cjs` and the retained privacy suite cover the data boundary.
+The website's Modern layout files must not be copied into the Android UI.
+
 ## v164 permission setup
 
 `PermissionFlow.java` replaces the unconditional `onCreate` runtime prompt with
@@ -32,7 +41,7 @@ authentication, routing, and data code are not duplicated here.
   session cookie and user-agent. Blob/data responses use the local export bridge.
 - `smali/`: edited MainActivity / ChromeClient / DownloadListener integration.
 - `assets/`: Android-only JavaScript and CSS introduced in this release.
-- `apktool.yml`: current release versionCode 164, versionName 1.9.54.
+- `apktool.yml`: current release versionCode 165, versionName 1.9.55.
 
 Build: compile the Java sources for Android (Java 8, min API 26), dex the generated
 `com.aiderlog.v22app` classes, disassemble and copy their generated smali into the

@@ -24,7 +24,7 @@
   // A/P and the v20 local keys are legacy, unscoped data. They can still contain
   // another user's fields while the app merges a new cloud response. Never read
   // them here: only atomically owner-tagged, scoped Firebase responses are used.
-  function blankSnapshot(){return {version:164,email:'',theme:themeMap[document.documentElement.dataset.theme]||'aurora',syncState:'account-unverified',accessState:owner&&!logoutPending?'sync-required':'needs-login',scheduleItems:[],schedule:[],holidays:{},routines:[],routineStats:[],languageRows:[],language:'',youtubeNotes:[],memos:[],todos:[],memoTodos:[],readingBooks:[],readingCurrent:[],quote:'',workouts:[],workoutStats:[],workoutStatsInbody:[],challengeSelected:[],challengeAll:[],challengeCombined:[],workoutChallenges:[],mealWorkouts:[],mealPhotos:['','','',''],mealTimes:['','','',''],mealRatings:['','','',''],meals:[],workflows:[],bullet3:[],bullet7:[],bullet3Workflow:[],bullet7Workflow:[]};}
+  function blankSnapshot(){return {version:165,uid:'',v165:{},email:'',theme:themeMap[document.documentElement.dataset.theme]||'aurora',syncState:'account-unverified',accessState:owner&&!logoutPending?'sync-required':'needs-login',scheduleItems:[],schedule:[],holidays:{},routines:[],routineStats:[],languageRows:[],language:'',youtubeNotes:[],memos:[],todos:[],memoTodos:[],readingBooks:[],readingCurrent:[],quote:'',workouts:[],workoutStats:[],workoutStatsInbody:[],challengeSelected:[],challengeAll:[],challengeCombined:[],workoutChallenges:[],mealWorkouts:[],mealPhotos:['','','',''],mealTimes:['','','',''],mealRatings:['','','',''],meals:[],workflows:[],bullet3:[],bullet7:[],bullet3Workflow:[],bullet7Workflow:[]};}
   function sendBlank(){try{const payload=JSON.stringify(blankSnapshot());native.syncWidgets(payload);last=payload;}catch{last='';}}
   function changeOwner(state){
     const next=identity(state);if(next===owner)return;
@@ -61,7 +61,7 @@
       if(scheduleRows.length){const byId=new Map();[...array(cleanApp.scheduleEvents),...scheduleRows].forEach((row,index)=>{if(row&&typeof row==='object')byId.set(str(row.id)||`undated:${index}`,copy(row));});cleanApp.scheduleEvents=[...byId.values()];}
       source={app:cleanApp,personal:copy(personal||{})};verified=true;
       try{localStorage.setItem(cacheKey(owner),JSON.stringify({owner,...source}));}catch{}
-      sync();prepareMealPhotos();
+      sync();prepareMealPhotos();flushCommands();
     }catch{/* Offline: retain only the already verified snapshot for this owner. */}
   }
   function bindAuth(){
@@ -83,9 +83,10 @@
     const run=++photoRun,expectedEpoch=epoch,expectedOwner=owner,personal=source.personal,user=ownerState.user.uid;
     try{
       const meals=array(personal.personalItems).filter(row=>row.category==='health'&&row.details?.healthType==='meal'&&date(row.date)===key(new Date())).slice().sort(newest);
-      for(const slot of ['breakfast','lunch','dinner','snack']){
+      const selected=['breakfast','lunch','dinner','snack'].map(slot=>meals.find(row=>row.details?.mealType===slot)).filter(Boolean);
+      const coverKeys=new Set();array(personal.personalItems).filter(row=>row.category==='reading'&&!row.demo).sort((a,b)=>str(b.date).localeCompare(str(a.date))||Number(b.createdAt||0)-Number(a.createdAt||0)).forEach(row=>{const id=window.AiderWidgetModelsV165?.bookKey?.(row)||row.id;if(!coverKeys.has(id)&&(row.media?.fileId||row.localImage)){coverKeys.add(id);selected.push(row)}});
+      for(const row of selected){
         if(!stillCurrent(expectedEpoch,expectedOwner)||run!==photoRun)return;
-        const row=meals.find(row=>row.details?.mealType===slot);if(!row)continue;
         const cacheKey=`${user}:${row.id}:${row.media?.fileId||row.updatedAt||row.createdAt||''}`;
         if(photoCache.has(cacheKey))continue;
         let url=str(row.localImage),revoke=false;
@@ -94,8 +95,8 @@
         try{
           const image=await new Promise((resolve,reject)=>{const image=new Image();image.onload=()=>resolve(image);image.onerror=reject;image.src=url});
           if(!stillCurrent(expectedEpoch,expectedOwner)||run!==photoRun)return;
-          const canvas=document.createElement('canvas');canvas.width=180;canvas.height=140;const scale=Math.max(180/image.width,140/image.height),context=canvas.getContext('2d');context.drawImage(image,(180-image.width*scale)/2,(140-image.height*scale)/2,image.width*scale,image.height*scale);
-          photoCache.set(cacheKey,canvas.toDataURL('image/jpeg',.5));
+          const canvas=document.createElement('canvas'),cover=row.category==='reading',width=cover?80:180,height=cover?110:140;canvas.width=width;canvas.height=height;const scale=(cover?Math.min:Math.max)(width/image.width,height/image.height),context=canvas.getContext('2d');if(cover){context.fillStyle='#F7F6FF';context.fillRect(0,0,width,height)}context.drawImage(image,(width-image.width*scale)/2,(height-image.height*scale)/2,image.width*scale,image.height*scale);
+          photoCache.set(cacheKey,canvas.toDataURL('image/jpeg',cover?.4:.5));
         }catch{}finally{if(revoke)URL.revokeObjectURL(url)}
       }
     }finally{if(stillCurrent(expectedEpoch,expectedOwner)&&run===photoRun)sync()}
@@ -152,14 +153,46 @@
         result.push(...items.filter(row=>date(row.date)===d&&row.category!=='emotion').map(row=>`${d.slice(5)} · ${text(row)}`));
       }return [...result,...memos,...todos];
     };
-    return {version:164,email,theme:themeMap[document.documentElement.dataset.theme]||'aurora',today:new Intl.DateTimeFormat('ko-KR',{month:'long',day:'numeric',weekday:'short'}).format(now),month:new Intl.DateTimeFormat('ko-KR',{year:'numeric',month:'long'}).format(now),scheduleItems,holidays,schedule:scheduleItems.map(row=>`${row.date} ${row.time} ${row.title}`),routines,routineStats:routines,languageRows,language:languageRows.join('\n'),youtubeNotes:youtube,memos,todos,memoTodos:[...memos,...todos],readingBooks:reading,readingCurrent:[...reading,...quotes],quote:quotes[0]||'',workouts,workoutStats,workoutStatsInbody:[...workoutStats,...inbody],challengeSelected:challenges,challengeAll:challenges,challengeCombined:challenges,workoutChallenges:[...workouts,...challenges],mealWorkouts:workouts,mealPhotos,mealTimes,mealRatings,meals:[],workflows,bullet3:bullet(3),bullet7:bullet(7),bullet3Workflow:[...bullet(3),...workflows],bullet7Workflow:[...bullet(7),...workflows]};
+    return {version:165,uid,v165:window.AiderWidgetModelsV165?.build({app,personal,uid,now,photo:row=>photoCache.get(`${uid}:${row.id}:${row.media?.fileId||row.updatedAt||row.createdAt||''}`)||''})||{},email,theme:themeMap[document.documentElement.dataset.theme]||'aurora',today:new Intl.DateTimeFormat('ko-KR',{month:'long',day:'numeric',weekday:'short'}).format(now),month:new Intl.DateTimeFormat('ko-KR',{year:'numeric',month:'long'}).format(now),scheduleItems,holidays,schedule:scheduleItems.map(row=>`${row.date} ${row.time} ${row.title}`),routines,routineStats:routines,languageRows,language:languageRows.join('\n'),youtubeNotes:youtube,memos,todos,memoTodos:[...memos,...todos],readingBooks:reading,readingCurrent:[...reading,...quotes],quote:quotes[0]||'',workouts,workoutStats,workoutStatsInbody:[...workoutStats,...inbody],challengeSelected:challenges,challengeAll:challenges,challengeCombined:challenges,workoutChallenges:[...workouts,...challenges],mealWorkouts:workouts,mealPhotos,mealTimes,mealRatings,meals:[],workflows,bullet3:bullet(3),bullet7:bullet(7),bullet3Workflow:[...bullet(3),...workflows],bullet7Workflow:[...bullet(7),...workflows]};
   }
   let timer=0,last='';
-  function sync(){clearTimeout(timer);timer=setTimeout(()=>{try{const payload=JSON.stringify(snapshot());if(payload!==last&&payload.length<=250000){native.syncWidgets(payload);last=payload}else if(payload.length>250000){sendBlank();console.warn('[widgets-v164] Snapshot exceeds native transfer limit.');}}catch{sendBlank();console.warn('[widgets-v164] Snapshot sync failed.');}},250)}
+  const commandQueueKey=uid=>`aiderlog.widget-actions.v165:${encodeURIComponent(uid)}`;
+  let executing=false;
+  function enqueue(command){const name=commandQueueKey(command.uid),rows=array(read(name)),remaining=rows.filter(row=>row.key!==command.key&&!(row.id===command.id&&row.op===command.op));remaining.push(command);localStorage.setItem(name,JSON.stringify(remaining));}
+  function notify(message){if(typeof window.toast==='function')window.toast(message);else if(typeof window.AiderLogAppShell?.toast==='function')window.AiderLogAppShell.toast(message);}
+  async function flushCommands(){
+    if(executing||!checkOwner()||!verified||typeof window.AiderDearFirebase?.applyWidgetActionV165!=='function')return;
+    executing=true;const uid=ownerState.user.uid,expectedEpoch=epoch,expectedOwner=owner,name=commandQueueKey(uid);
+    try{for(const command of array(read(name))){if(!stillCurrent(expectedEpoch,expectedOwner))break;try{
+      const localRows=typeof P!=='undefined'?array(P[command.op==='routine'?'routines':'checklists']):[],localRow=localRows.find(row=>str(row.id)===str(command.id)),localBefore=JSON.stringify(localRow||null);
+      const result=await window.AiderDearFirebase.applyWidgetActionV165(command);if(!stillCurrent(expectedEpoch,expectedOwner))break;
+      localStorage.setItem(name,JSON.stringify(array(read(name)).filter(row=>row.key!==command.key)));
+      if(object(result?.payload)){source.personal=copy(result.payload);try{localStorage.setItem(cacheKey(owner),JSON.stringify({owner,...source}))}catch{}}
+      sync();requestRefresh(50);window.dispatchEvent(new CustomEvent('aiderlog:widget-private-changed',{detail:{uid,payload:result?.payload,command,localBefore}}));
+    }catch(error){if(!stillCurrent(expectedEpoch,expectedOwner))break;const code=String(error?.code||error?.message||''),terminal=['stale-action','invalid-action','not-found','replay-mismatch','invalid-data','permission-denied','unauthenticated'].some(value=>code.includes(value));if(terminal){localStorage.setItem(name,JSON.stringify(array(read(name)).filter(row=>row.key!==command.key)));const draftsKey=`${name}:failed`;localStorage.setItem(draftsKey,JSON.stringify([...array(read(draftsKey)),{command,error:code,at:Date.now()}]));notify(code.includes('stale-action')?'기록이 변경되어 다시 불러왔습니다. 위젯에서 다시 선택해주세요.':'저장할 수 없는 작업입니다. 입력 내용은 기기에 보관했습니다. 앱에서 확인해주세요.');requestRefresh(0);continue;}notify('기기에 저장했습니다. 연결되면 동기화합니다.');break;}}}finally{executing=false;}
+  }
+  function quickAdd(command){
+    const dialog=document.createElement('dialog');dialog.style.cssText='width:min(92vw,480px);max-height:60dvh;padding:20px;border:1px solid var(--line,#ded9ff);border-radius:20px;background:var(--card,#f7f6ff);color:var(--ink,#171a3a)';
+    const form=document.createElement('form'),label=document.createElement('label'),input=document.createElement('textarea'),dateInput=document.createElement('input'),buttons=document.createElement('div'),save=document.createElement('button'),cancel=document.createElement('button');
+    label.textContent=command.op==='add-todo'?'할 일 (180자 이내)':'메모 (180자 이내)';input.rows=3;input.required=true;input.maxLength=180;input.setAttribute('aria-label',label.textContent);input.style.cssText='display:block;width:100%;box-sizing:border-box;margin:10px 0;padding:12px;font:inherit';dateInput.type='date';dateInput.setAttribute('aria-label','기한 (선택)');dateInput.style.cssText='width:100%;padding:10px;box-sizing:border-box;font:inherit';dateInput.hidden=command.op!=='add-todo';
+    buttons.style.cssText='display:flex;justify-content:flex-end;gap:12px;margin-top:14px';save.type='submit';save.textContent='저장';cancel.type='button';cancel.textContent='취소';for(const b of [save,cancel])b.style.cssText='min-width:68px;min-height:44px;font:inherit';buttons.append(cancel,save);form.append(label,input,dateInput,buttons);dialog.append(form);document.body.append(dialog);dialog.addEventListener('close',()=>dialog.remove());cancel.onclick=()=>dialog.close();form.onsubmit=e=>{e.preventDefault();if(!str(input.value))return;const uid=auth()?.user?.uid;if(uid!==command.uid){dialog.close();return;}const id='widget-'+crypto.randomUUID();enqueue({...command,id,key:id,value:str(input.value),date:dateInput.value||''});dialog.close();flushCommands();};dialog.showModal();
+  }
+  function openLanguage(lang){const open=window.AiderLogAppShell?.openTarget;open?.call(window.AiderLogAppShell,'language','');setTimeout(()=>{let select=document.querySelector('#language-select');if(!select)for(const el of document.querySelectorAll('*'))if(el.shadowRoot){select=el.shadowRoot.querySelector('#language-select');if(select)break;}if(select&&['en','ja'].includes(lang)){select.value=lang;select.dispatchEvent(new Event('change',{bubbles:true}));}},500);}
+  async function commandAction(raw){
+    let command;try{command=JSON.parse(decodeURIComponent(String(raw).slice(12)));}catch{return;}
+    if(!object(command)||str(command.uid)!==str(auth()?.user?.uid)||!checkOwner())return;
+    if(['add-memo','add-todo'].includes(command.op)){quickAdd(command);return;}
+    if(command.op==='language'){openLanguage(command.value);return;}
+    if(['todo','routine'].includes(command.op)){if(!str(command.id)||!str(command.key)||command.key.length>1000)return;enqueue(command);if(!verified)await refresh();flushCommands();return;}
+    if(command.op==='youtube'){window.AiderLogAppShell?.openTarget?.('language','open-youtube');return;}
+    if(command.op==='open'){const target=command.value==='routine'?'routine':command.value==='language'?'language':'personal';window.AiderLogAppShell?.openTarget?.(target,'');if(['note','todo'].includes(command.value))document.querySelector('#quickMemoBtn')?.click();}
+  }
+  function sync(){clearTimeout(timer);timer=setTimeout(()=>{try{const payload=JSON.stringify(snapshot());if(payload!==last&&payload.length<=4194304){native.syncWidgets(payload);last=payload}else if(payload.length>4194304){sendBlank();console.warn('[widgets-v164] Snapshot exceeds native transfer limit.');}}catch{sendBlank();console.warn('[widgets-v164] Snapshot sync failed.');}},250)}
   function hook(){
     const shell=window.AiderLogAppShell;if(!shell||shell.widgetV164)return;
     shell.widgetV164=true;shell.syncWidgets=sync;const open=shell.openTarget;
     shell.openTarget=function(target,action){
+      if(String(action||'').startsWith('widget-v165:')){commandAction(action);return;}
       if(String(action||'').startsWith('add-schedule:')){
         if(typeof go==='function')go('home',false);else location.hash='home';
         const requested=String(action).slice(13);
@@ -171,7 +204,8 @@
       return open?.call(this,target,action);
     };
   }
-  window.AiderWidgetSyncV164={snapshot,sync,refresh,prepareMealPhotos};
+  window.AiderWidgetSyncV164={snapshot,sync,refresh,prepareMealPhotos,commandAction,flushCommands};
+  addEventListener('online',()=>{requestRefresh(0);flushCommands()});
   document.addEventListener('click',sync,{passive:true});document.addEventListener('change',sync,{passive:true});
   document.addEventListener('visibilitychange',()=>{if(!document.hidden){checkOwner();sync();requestRefresh();prepareMealPhotos()}});
   addEventListener('aiderlog:data-changed',()=>{sync();requestRefresh()});addEventListener('aiderdear-firebase-ready',()=>{bindAuth();sync()});addEventListener('pageshow',()=>{bindAuth();sync();requestRefresh()});

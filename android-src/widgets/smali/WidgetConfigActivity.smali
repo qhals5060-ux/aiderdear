@@ -1163,6 +1163,10 @@
 .method public showContentDialog()V
     .locals 5
 
+    invoke-static {p0}, Lcom/aiderlog/v22app/WidgetDesignV165;->showContentDialog(Landroid/app/Activity;)V
+
+    return-void
+
     invoke-direct {p0}, Lcom/aiderlog/v22app/WidgetConfigActivity;->contentChoices()[Ljava/lang/CharSequence;
 
     move-result-object v0

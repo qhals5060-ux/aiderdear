@@ -1,0 +1,209 @@
+{
+  "demoOnly": true,
+  "renderer": "native XML through HTML measurement adapter, not Android screenshot",
+  "specs": [
+    {
+      "kind": "personal_workflow_one",
+      "name": "widget_picker_personal_workflow_one_v164",
+      "width": 320,
+      "height": 300,
+      "xmlValid": true
+    },
+    {
+      "kind": "personal_workflow_all",
+      "name": "widget_picker_personal_workflow_all_v164",
+      "width": 320,
+      "height": 460,
+      "xmlValid": true
+    },
+    {
+      "kind": "personal_todo",
+      "name": "widget_picker_personal_todo_v164",
+      "width": 320,
+      "height": 290,
+      "xmlValid": true
+    },
+    {
+      "kind": "routine_all",
+      "name": "widget_picker_routine_all_v164",
+      "width": 320,
+      "height": 480,
+      "xmlValid": true
+    },
+    {
+      "kind": "routine_cards",
+      "name": "widget_picker_routine_cards_v164",
+      "width": 320,
+      "height": 310,
+      "xmlValid": true
+    },
+    {
+      "kind": "routine_stats",
+      "name": "widget_picker_routine_stats_v164",
+      "width": 320,
+      "height": 480,
+      "xmlValid": true
+    },
+    {
+      "kind": "routine_language",
+      "name": "widget_picker_routine_language_v164",
+      "width": 320,
+      "height": 250,
+      "xmlValid": true
+    },
+    {
+      "kind": "routine_language_all",
+      "name": "widget_picker_routine_language_all_v164",
+      "width": 320,
+      "height": 480,
+      "xmlValid": true
+    },
+    {
+      "kind": "language_youtube",
+      "name": "widget_picker_language_youtube_v164",
+      "width": 320,
+      "height": 285,
+      "xmlValid": true
+    },
+    {
+      "kind": "personal_meal",
+      "name": "widget_picker_personal_meal_v164",
+      "width": 320,
+      "height": 350,
+      "xmlValid": true
+    },
+    {
+      "kind": "personal_workout_meal",
+      "name": "widget_picker_personal_workout_meal_v164",
+      "width": 320,
+      "height": 480,
+      "xmlValid": true
+    },
+    {
+      "kind": "personal_workout",
+      "name": "widget_picker_personal_workout_v164",
+      "width": 320,
+      "height": 240,
+      "xmlValid": true
+    },
+    {
+      "kind": "personal_workout_challenge",
+      "name": "widget_picker_personal_workout_challenge_v164",
+      "width": 320,
+      "height": 470,
+      "xmlValid": true
+    },
+    {
+      "kind": "personal_challenge",
+      "name": "widget_picker_personal_challenge_v164",
+      "width": 320,
+      "height": 275,
+      "xmlValid": true
+    },
+    {
+      "kind": "personal_workout_challenge_all",
+      "name": "widget_picker_personal_workout_challenge_all_v164",
+      "width": 320,
+      "height": 470,
+      "xmlValid": true
+    },
+    {
+      "kind": "personal_workout_challenge_combined",
+      "name": "widget_picker_personal_workout_challenge_combined_v164",
+      "width": 320,
+      "height": 480,
+      "xmlValid": true
+    },
+    {
+      "kind": "personal_workout_stats",
+      "name": "widget_picker_personal_workout_stats_v164",
+      "width": 320,
+      "height": 480,
+      "xmlValid": true
+    },
+    {
+      "kind": "personal_workout_stats_inbody",
+      "name": "widget_picker_personal_workout_stats_inbody_v164",
+      "width": 320,
+      "height": 480,
+      "xmlValid": true
+    },
+    {
+      "kind": "personal_reading",
+      "name": "widget_picker_personal_reading_v164",
+      "width": 320,
+      "height": 480,
+      "xmlValid": true
+    },
+    {
+      "kind": "personal_quote",
+      "name": "widget_picker_personal_quote_v164",
+      "width": 320,
+      "height": 400,
+      "xmlValid": true
+    },
+    {
+      "kind": "personal_today",
+      "name": "widget_picker_personal_today_v164",
+      "width": 320,
+      "height": 480,
+      "xmlValid": true
+    },
+    {
+      "kind": "personal_bullet_three_workflow",
+      "name": "widget_picker_personal_bullet_three_workflow_v164",
+      "width": 320,
+      "height": 480,
+      "xmlValid": true
+    },
+    {
+      "kind": "personal_bullet_seven",
+      "name": "widget_picker_personal_bullet_seven_v164",
+      "width": 320,
+      "height": 480,
+      "xmlValid": true
+    },
+    {
+      "kind": "personal_bullet_seven_workflow",
+      "name": "widget_picker_personal_bullet_seven_workflow_v164",
+      "width": 320,
+      "height": 480,
+      "xmlValid": true
+    },
+    {
+      "kind": "calendar_agenda",
+      "name": "widget_picker_calendar_agenda_v164",
+      "width": 320,
+      "height": 230,
+      "xmlValid": true
+    },
+    {
+      "kind": "calendar_combined",
+      "name": "widget_picker_calendar_combined_v164",
+      "width": 320,
+      "height": 365,
+      "xmlValid": true
+    },
+    {
+      "kind": "calendar_fortnight",
+      "name": "widget_picker_calendar_fortnight_v164",
+      "width": 320,
+      "height": 260,
+      "xmlValid": true
+    },
+    {
+      "kind": "calendar_month",
+      "name": "widget_picker_calendar_month_v164",
+      "width": 320,
+      "height": 310,
+      "xmlValid": true
+    },
+    {
+      "kind": "calendar_split",
+      "name": "widget_picker_calendar_split_v164",
+      "width": 560,
+      "height": 440,
+      "xmlValid": true
+    }
+  ]
+}

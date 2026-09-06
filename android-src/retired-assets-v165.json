@@ -1,0 +1,183 @@
+{
+  "release": 165,
+  "reason": "Unreferenced APK-only assets. Active site deployment files and current animation/feature resources are retained.",
+  "recoverability": "Retained in local C:/AiderLogBuild/retired-assets-v165 and previous v164 APK; do not delete user data.",
+  "bytes": 495187,
+  "files": [
+    {
+      "file": "challenge-lunge-forward-animated-v95.webp",
+      "bytes": 22480,
+      "sha256": "bf10caa01a1be8ed79aa79ea2e2b2cbd2858bbfe88f27510f0e0a3c069deaa07"
+    },
+    {
+      "file": "challenge-lunge-forward-animated-v95 (1).webp",
+      "bytes": 22480,
+      "sha256": "bf10caa01a1be8ed79aa79ea2e2b2cbd2858bbfe88f27510f0e0a3c069deaa07"
+    },
+    {
+      "file": "challenge-lunge-forward-animated-v95 (7).webp",
+      "bytes": 22480,
+      "sha256": "bf10caa01a1be8ed79aa79ea2e2b2cbd2858bbfe88f27510f0e0a3c069deaa07"
+    },
+    {
+      "file": "challenge-lunge-reverse-animated-v95.webp",
+      "bytes": 28276,
+      "sha256": "ec81f8f9a79a170ad1217d6649c33427dfb1537da9ab425d75edfde5f6d3fc59"
+    },
+    {
+      "file": "challenge-lunge-reverse-animated-v95 (2).webp",
+      "bytes": 28276,
+      "sha256": "ec81f8f9a79a170ad1217d6649c33427dfb1537da9ab425d75edfde5f6d3fc59"
+    },
+    {
+      "file": "challenge-lunge-reverse-animated-v95 (8).webp",
+      "bytes": 28276,
+      "sha256": "ec81f8f9a79a170ad1217d6649c33427dfb1537da9ab425d75edfde5f6d3fc59"
+    },
+    {
+      "file": "challenge-plank-forearm-animated-v95.webp",
+      "bytes": 17140,
+      "sha256": "4744b15e2dc69032a5948ff41c95f09d20c85d3cedd5628bbb647249ad858a13"
+    },
+    {
+      "file": "challenge-plank-forearm-animated-v95 (1).webp",
+      "bytes": 17140,
+      "sha256": "4744b15e2dc69032a5948ff41c95f09d20c85d3cedd5628bbb647249ad858a13"
+    },
+    {
+      "file": "challenge-plank-forearm-animated-v95 (4).webp",
+      "bytes": 17140,
+      "sha256": "4744b15e2dc69032a5948ff41c95f09d20c85d3cedd5628bbb647249ad858a13"
+    },
+    {
+      "file": "challenge-plank-high-animated-v95.webp",
+      "bytes": 19102,
+      "sha256": "f5f500e5bbc9543f5c5831706949e1ec49fed6f9498adfb49e1a60f057de5ed3"
+    },
+    {
+      "file": "challenge-plank-high-animated-v95 (2).webp",
+      "bytes": 19102,
+      "sha256": "f5f500e5bbc9543f5c5831706949e1ec49fed6f9498adfb49e1a60f057de5ed3"
+    },
+    {
+      "file": "challenge-plank-high-animated-v95 (5).webp",
+      "bytes": 19102,
+      "sha256": "f5f500e5bbc9543f5c5831706949e1ec49fed6f9498adfb49e1a60f057de5ed3"
+    },
+    {
+      "file": "challenge-plank-side-animated-v95.webp",
+      "bytes": 22574,
+      "sha256": "9d0169ab3725529b6e3dcc755723f7fed4e25b51e4bd07a666fc2c473e6efb5d"
+    },
+    {
+      "file": "challenge-plank-side-animated-v95 (3).webp",
+      "bytes": 22574,
+      "sha256": "9d0169ab3725529b6e3dcc755723f7fed4e25b51e4bd07a666fc2c473e6efb5d"
+    },
+    {
+      "file": "challenge-plank-side-animated-v95 (6).webp",
+      "bytes": 22574,
+      "sha256": "9d0169ab3725529b6e3dcc755723f7fed4e25b51e4bd07a666fc2c473e6efb5d"
+    },
+    {
+      "file": "challenge-lunge.webp",
+      "bytes": 17266,
+      "sha256": "3a25eb826b5ba9b35168f782b2aa8a54487c18679b9a4884d2a1c15941381e2b"
+    },
+    {
+      "file": "challenge-plank.webp",
+      "bytes": 12470,
+      "sha256": "341fc08c10f0d3e16b14522338ade4ccd73b2131afd6cfa77f651e3ad311bcb7"
+    },
+    {
+      "file": "challenge-squat.webp",
+      "bytes": 16380,
+      "sha256": "ddc82b12165abd381bc9357f59b7f953b7596661f0562f98c3f6b7e04b0f97dd"
+    },
+    {
+      "file": "challenge-stretch.webp",
+      "bytes": 16418,
+      "sha256": "efc0457e92c5cf83ee127287fd8a3996b9819fb4844c80128129e52a5446dec3"
+    },
+    {
+      "file": "cosmic-final-v121.js",
+      "bytes": 6522,
+      "sha256": "6ae3e44703372153b04e0ad3cde900e0b6ccc2c78754dd0ab168055ac3a29226"
+    },
+    {
+      "file": "global-cosmic-v123.css",
+      "bytes": 9730,
+      "sha256": "c89771edb66a0548846147ca84183efbe898447e8a42a2d6738df1af05a84a62"
+    },
+    {
+      "file": "global-cosmic-v123.js",
+      "bytes": 18675,
+      "sha256": "5db1ec6cb539a2cbd0ed2c5c919023c123be0beb35a2f02cebf158d27e08ed87"
+    },
+    {
+      "file": "wheel-navigation-v149.js",
+      "bytes": 6557,
+      "sha256": "65e6cd5f504ff6e3f891ef85dcfefb08c45c67851e23f81389376064b1da2b81"
+    },
+    {
+      "file": "wheel-navigation-v150.js",
+      "bytes": 6891,
+      "sha256": "026530c444f2434d13177d1a796927fb0863302fcf2bc0d8ebae48eb40e084d0"
+    },
+    {
+      "file": "env.example",
+      "bytes": 982,
+      "sha256": "b8d79434a0b6c08fd5bcd9dc49ac6df875dff9d0432359a61f16adfcdb0d0095"
+    },
+    {
+      "file": "firestore.rules",
+      "bytes": 25955,
+      "sha256": "620fc5288a5924eb4bbced278501c0fac677ed2e58f16684c3ac0b6343e3fca1"
+    },
+    {
+      "file": "vercel.json",
+      "bytes": 1574,
+      "sha256": "b4b4f694fbc1403e97e3dc20b8b962127593a32375551c68c4a26660b936813f"
+    },
+    {
+      "file": "모바일_설치_방법.txt",
+      "bytes": 2089,
+      "sha256": "ca58ca3a5e69805b27bac6a7f00b5c2f1930b063169dcac3066ec7c69fe1ff65"
+    },
+    {
+      "file": "배포_확인.txt",
+      "bytes": 21403,
+      "sha256": "f76b90249b9a8375fd6518206784fa87b27970c6c67ba098fe9298e750e48755"
+    },
+    {
+      "file": "clients-data.json",
+      "bytes": 131,
+      "sha256": "f824ce8207a172936973a5c12e16609957e280e05fdbc7c3f748b0ca23fdea83"
+    },
+    {
+      "file": "clients-template.json",
+      "bytes": 1130,
+      "sha256": "37cf59c815dde41dc419c144543d881c7472a39f6a97d5cc81b271d03ef1c523"
+    },
+    {
+      "file": "insights-data.json",
+      "bytes": 126,
+      "sha256": "ab1e86bbd9e78709f74d604fbf56c5c5314803304f9cf08c372d038418c30b75"
+    },
+    {
+      "file": "insights-template.json",
+      "bytes": 906,
+      "sha256": "27496fdfc16bcc185d2c2122810ae31e3e13644baf923f86ae8d5c19bf1c0d0b"
+    },
+    {
+      "file": "schedule-data.json",
+      "bytes": 118,
+      "sha256": "91503731df03bb5f8c63c5516f5dc96165ecff9518d8c621e6b9525fb1779905"
+    },
+    {
+      "file": "schedule-template.json",
+      "bytes": 1148,
+      "sha256": "8b02d3787a475bed7fb9141204ab155cfa36b3541308449b34f0f534271567a1"
+    }
+  ]
+}

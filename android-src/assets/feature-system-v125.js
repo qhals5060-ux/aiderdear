@@ -407,11 +407,17 @@
 
   function installRoutineStatsModal() {
     if (typeof routineOverallHTML !== 'function' || routineOverallHTML.__v125) return;
-    const next = function(){
-      if(!routineOverallOpen)return'';
+    // Shared snapshot extracted from the original renderer; calculation boundaries stay unchanged.
+    const snapshot = function(){
       const routines=Array.isArray(P.routines)?P.routines:[],stats=routineOverall(),days=Array.from({length:14},(_,index)=>routineOffsetDate(index-13)),levelCounts={MINI:0,MORE:0,MAX:0,SKIP:0},weekday=Array(7).fill(0),daily=days.map(date=>({date,value:0}));
       routines.forEach(r=>Object.entries(r.dailyLevels||{}).forEach(([date,raw])=>{const level=String(raw||'').toUpperCase();if(level in levelCounts)levelCounts[level]++;if(level&&level!=='SKIP'){const day=new Date(`${date}T12:00:00`).getDay();weekday[day]++;const point=daily.find(item=>item.date===date);if(point)point.value++}}));
       const totalLevels=Object.values(levelCounts).reduce((sum,value)=>sum+value,0)||1,bestDay=weekday.indexOf(Math.max(...weekday)),weekNames=['일','월','화','수','목','금','토'],maxDaily=Math.max(1,...daily.map(item=>item.value));
+      return{routines,stats,days,levelCounts,weekday,daily,totalLevels,bestDay,weekNames,maxDaily};
+    };
+    window.AiderLogRoutineStatisticsV125={snapshot};
+    const next = function(){
+      if(!routineOverallOpen)return'';
+      const {routines,stats,daily,levelCounts,weekday,totalLevels,bestDay,weekNames,maxDaily}=snapshot();
       const rows=routines.map(r=>{const metric=routineMetrics(r);return `<article class="routine-stat-row-v127" style="--routine-color:${routineColor(r)}"><i></i><div><b>${safe(r.text||r.title||'Routine')}</b><span>${metric.cycle.day}/${metric.cycle.goal}일 · ${metric.practice}회 실천</span></div><strong>${metric.completion}%</strong></article>`}).join('')||'<p class="routine-stat-empty-v127">루틴을 추가하면 비교 분석이 시작됩니다.</p>';
       const levelBars=['MINI','MORE','MAX','SKIP'].map(level=>`<div><span>${level}</span><i><em style="width:${Math.round(levelCounts[level]/totalLevels*100)}%"></em></i><b>${levelCounts[level]}</b></div>`).join('');
       const dayBars=daily.map(item=>`<div title="${item.date}"><i style="height:${Math.max(7,Math.round(item.value/maxDaily*100))}%"></i><span>${item.date.slice(8)}</span></div>`).join('');

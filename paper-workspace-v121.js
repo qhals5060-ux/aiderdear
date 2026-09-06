@@ -1642,11 +1642,14 @@ id, claim, claimType, sourceQuote, locator{printedPage,pdfPage,section,table,fig
     </tr>`).join('');
   }
 
+  const modernLibraryState={query:'',type:'',modality:'',state:'',scroll:0};
   function renderLibrary() {
-    const query = ($('#libraryQuery')?.value || '').trim().toLowerCase();
-    const selectedType = $('#libraryType')?.value || '';
-    const selectedModality = $('#libraryModality')?.value || '';
-    const selectedState = $('#libraryState')?.value || '';
+    const modern=document.documentElement.classList.contains('modern-site');
+    const query = ($('#libraryQuery')?.value ?? (modern?modernLibraryState.query:'')).trim().toLowerCase();
+    const selectedType = $('#libraryType')?.value ?? (modern?modernLibraryState.type:'');
+    const selectedModality = $('#libraryModality')?.value ?? (modern?modernLibraryState.modality:'');
+    const selectedState = $('#libraryState')?.value ?? (modern?modernLibraryState.state:'');
+    if(modern)Object.assign(modernLibraryState,{query,type:selectedType,modality:selectedModality,state:selectedState});
     const rows = papers.filter(paper => {
       const hay = [paper.title, paper.authors, paper.journal, paper.type, paper.population, paper.modality, ...paper.topics].join(' ').toLowerCase();
       return (!query || hay.includes(query)) && (!selectedType || paper.type === selectedType) && (!selectedModality || paper.modality.includes(selectedModality)) && (!selectedState || paper.status === selectedState);
@@ -2003,7 +2006,19 @@ id, claim, claimType, sourceQuote, locator{printedPage,pdfPage,section,table,fig
   function render() {
     const content = $('#paperContent');
     const renderers = { hub: renderHub, library: renderLibrary, evidence: renderEvidence, synthesis: renderSynthesis, study: renderStudy, lab: renderLab, atlas: renderAtlasDetailed, paper: renderPaperDetail };
-    content.innerHTML = (renderers[currentView] || renderHub)();
+    const modern=document.documentElement.classList.contains('modern-site');
+    if(modern&&['library','paper'].includes(currentView)){
+      const oldList=content.querySelector('.modern-paper-library');if(oldList)modernLibraryState.scroll=oldList.scrollTop;
+      const detail=paperById(selectedPaperId)?renderPaperDetail():'<p class="modern-paper-empty">논문 목록에서 읽을 논문을 선택하세요.</p>';
+      if(currentView==='paper'&&oldList){
+        // Selecting/reading a paper only replaces the detail region. Keep filter, scroll,
+        // multi-selection and focus on the very same library controls.
+        content.querySelector('.modern-paper-selected').innerHTML=detail;
+        content.querySelector('.modern-paper-split').classList.add('detail-selected');
+      }else content.innerHTML=`<div class="modern-paper-split ${currentView==='paper'?'detail-selected':''}"><section class="modern-paper-library" aria-label="논문 목록">${renderLibrary()}</section><section class="modern-paper-selected" aria-label="선택한 논문 상세">${detail}</section></div>`;
+      content.querySelector('.modern-paper-library').scrollTop=modernLibraryState.scroll;
+      content.querySelectorAll('[data-paper]').forEach(button=>button.closest('tr')?.classList.toggle('modern-paper-selected-row',button.dataset.paper===selectedPaperId));
+    }else content.innerHTML = (renderers[currentView] || renderHub)();
     decorateAtlas();
     updateBadges();
   }
@@ -2225,5 +2240,10 @@ id, claim, claimType, sourceQuote, locator{printedPage,pdfPage,section,table,fig
     focusSearch() { $('#globalSearch')?.focus(); },
     root: paperRoot,
   };
+  window.addEventListener('aiderlog-site-editionchange',()=>{
+    // Only the two base display views require a structural rerender. Never reset
+    // Import JSON, Design Studio inputs or extension Concepts/Notes drafts.
+    if(['library','paper'].includes(currentView)&&!$('#paperContent').querySelector('.v159-view'))render();
+  });
   render();
 })();

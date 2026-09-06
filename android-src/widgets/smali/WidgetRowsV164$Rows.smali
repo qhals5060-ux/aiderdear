@@ -89,7 +89,7 @@
 .end method
 
 .method public getItemId(I)J
-    .locals 4
+    .locals 2
 
     .line 21
     iget-object v0, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->items:Ljava/util/List;
@@ -100,19 +100,9 @@
 
     check-cast v0, Ljava/lang/String;
 
-    invoke-virtual {v0}, Ljava/lang/String;->hashCode()I
+    invoke-static {v0, p1}, Lcom/aiderlog/v22app/WidgetDesignV165;->stableId(Ljava/lang/String;I)J
 
-    move-result v0
-
-    int-to-long v0, v0
-
-    const/16 v2, 0x20
-
-    shl-long/2addr v0, v2
-
-    int-to-long v2, p1
-
-    xor-long/2addr v0, v2
+    move-result-wide v0
 
     return-wide v0
 .end method
@@ -183,7 +173,7 @@
     .locals 1
 
     .line 20
-    const/4 v0, 0x1
+    const/16 v0, 0x10
 
     return v0
 .end method

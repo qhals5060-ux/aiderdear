@@ -17,8 +17,8 @@ public final class WidgetRowsV164 extends RemoteViewsService {
         public int getCount(){return items.size();}
         public RemoteViews getViewAt(int position){return position<0||position>=items.size()?null:WidgetNativeV164.row(context,widget,kind,items.get(position),position,null,-1);}
         public RemoteViews getLoadingView(){return null;}
-        public int getViewTypeCount(){return 1;}
-        public long getItemId(int position){return ((long)items.get(position).hashCode()<<32)^position;}
+        public int getViewTypeCount(){return 16;}
+        public long getItemId(int position){return WidgetDesignV165.stableId(items.get(position),position);}
         public boolean hasStableIds(){return true;}
     }
 }

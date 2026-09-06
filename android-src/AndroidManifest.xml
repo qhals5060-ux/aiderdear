@@ -37,7 +37,7 @@
             </intent-filter>
             <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_calendar_combined"/>
         </receiver>
-        <receiver android:exported="true" android:label="일정 · 분리형 캘린더와 일정" android:name=".WidgetProvider$CalendarSplit">
+        <receiver android:exported="true" android:label="일정 · 일정 포함 대형 월간" android:name=".WidgetProvider$CalendarSplit">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>

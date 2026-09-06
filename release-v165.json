@@ -1,0 +1,37 @@
+{
+  "versionCode": 165,
+  "versionName": "1.9.55",
+  "artifacts": [
+    {"file": "AiderLog-v165.apk", "bytes": 63524340, "sha256": "2bb1d9a1abbaba0e9df297c816f1642c68d8feaba375b75b1459bb518dfad96e"},
+    {"file": "AiderLog-Modern-v165-site-files.zip", "bytes": 1771709, "sha256": "ed9721ebf9ea9bed93be133cb1ecb9c4140514b08c9563b8f7ded3193bace0c7"},
+    {"file": "AiderLog-Editorial-v165-site-files.zip", "bytes": 1771710, "sha256": "d5b9209a5424b4dcebe5422b646ea25ae04c01562a6221591bf7c40bef5f5046"}
+  ],
+  "apkVerification": {
+    "zipAligned": true,
+    "signatures": ["v2", "v3"],
+    "certificateSha256": "1e08a903aef9c3a721510b64ec764d01d3d094eb954161b62544ea8f187b5953",
+    "certificateNote": "Same Android Debug signing identity as the previous distribution; not a new Play Store production key.",
+    "finalAssetHashesMatch": true,
+    "widgetPickerImages": 29,
+    "connectedDeviceTested": false,
+    "widgetActionMode": "Opens the app for authenticated, row-scoped writes; not a native background Firestore client."
+  },
+  "verification": {
+    "daylogViewports": 5,
+    "routineViewports": 6,
+    "modernSiteViewports": 6,
+    "modernSiteScreens": 48,
+    "modernSiteFlowAssertions": 34,
+    "nativeModelAssertions": 15,
+    "widgetModelAssertions": 26,
+    "widgetTransactionAssertions": 24,
+    "nativeResourceContractAssertions": 11,
+    "wheelTouchRegression": true,
+    "eventRegression": true,
+    "themeAndPermissionRegression": true,
+    "widgetAccountIsolationRegression": true,
+    "widgetUiReconciliationRegression": true,
+    "englishJapaneseLessons": 800,
+    "chineseContentIncluded": false
+  }
+}

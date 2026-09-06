@@ -1195,6 +1195,133 @@ async function readPrivateData() {
   return snapshot.exists() ? snapshot.data().payload || null : null;
 }
 
+// BEGIN WIDGET ACTION TRANSACTION V165
+// A widget changes one explicit record, never the caller's cached private document.
+// Receipts live beside main, so legacy full-document saves cannot erase replay keys.
+async function applyWidgetActionV165(input = {}) {
+  const fail = (code, message) => { const error = new Error(message); error.code = code; throw error; };
+  const uid = String(input.uid || '');
+  const assertOwner = () => {
+    if (!uid || auth.currentUser?.uid !== uid || state.user?.uid !== uid) {
+      fail('widget/owner-changed', '계정이 변경되었습니다. 앱에서 다시 동기화해주세요.');
+    }
+  };
+  assertOwner();
+  const op = String(input.op || ''), id = String(input.id || ''), key = String(input.key || '');
+  if (!['todo', 'routine', 'add-memo', 'add-todo'].includes(op) || !id || id.length > 180 || !key) {
+    fail('widget/invalid-action', '위젯 작업 정보가 올바르지 않습니다.');
+  }
+  const keyBytes = new TextEncoder().encode(key);
+  if (keyBytes.length > 600) fail('widget/invalid-action', '위젯 작업 키가 너무 깁니다.');
+  const adding = op === 'add-memo' || op === 'add-todo';
+  const expected = Number(input.expectedUpdatedAt);
+  if (!adding && (input.expectedUpdatedAt == null || !Number.isFinite(expected) || expected < 0)) {
+    fail('widget/stale-action', '이 기록을 다시 불러온 후 변경해주세요.');
+  }
+  const date = String(input.date || '');
+  const validDate = value => {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+    const parsed = new Date(value + 'T12:00:00Z');
+    return !Number.isNaN(parsed.getTime()) && parsed.toISOString().slice(0, 10) === value;
+  };
+  let value;
+  if (op === 'todo') {
+    if (![true, false, 'true', 'false'].includes(input.value)) fail('widget/invalid-action', '완료 상태가 올바르지 않습니다.');
+    value = input.value === true || input.value === 'true';
+  } else if (op === 'routine') {
+    value = String(input.value || '').toUpperCase();
+    if (!['MINI', 'MORE', 'MAX', 'SKIP', ''].includes(value) || !validDate(date)) {
+      fail('widget/invalid-action', '루틴 날짜 또는 단계가 올바르지 않습니다.');
+    }
+    const current = new Date();
+    const today = current.getFullYear() + '-' + String(current.getMonth() + 1).padStart(2, '0') + '-' + String(current.getDate()).padStart(2, '0');
+    if (date > today) fail('widget/invalid-action', '미래 날짜에는 루틴을 기록할 수 없습니다.');
+  } else {
+    value = typeof input.value === 'string' ? input.value.trim() : '';
+    if (!value || value.length > 180 || (op === 'add-todo' && date && !validDate(date))) {
+      fail('widget/invalid-action', '내용은 180자 이내로 입력하고 마감일을 확인해주세요.');
+    }
+  }
+  const fingerprint = JSON.stringify([op, id, op === 'add-memo' ? '' : date, value, adding ? null : expected]);
+  const receiptId = 'widget-action-v165-' + Array.from(keyBytes, byte => byte.toString(16).padStart(2, '0')).join('');
+  const mainRef = doc(db, 'users', uid, 'private', 'main');
+  const receiptRef = doc(db, 'users', uid, 'private', receiptId);
+  const result = await runTransaction(db, async transaction => {
+    // Firestore can retry this callback: no local state changes or network side effects.
+    assertOwner();
+    const [main, receipt] = await Promise.all([transaction.get(mainRef), transaction.get(receiptRef)]);
+    assertOwner();
+    const stored = main.exists() ? main.data().payload : null;
+    if (stored != null && (typeof stored !== 'object' || Array.isArray(stored))) {
+      fail('widget/invalid-data', '기존 기록 형식을 확인해주세요. 위젯에서는 덮어쓰지 않았습니다.');
+    }
+    const payload = stored || {};
+    if (receipt.exists()) {
+      const previous = receipt.data();
+      if (previous.uid !== uid || previous.key !== key || previous.fingerprint !== fingerprint) {
+        fail('widget/replay-mismatch', '이 작업 키가 다른 변경에 사용되었습니다. 다시 불러와주세요.');
+      }
+      return {applied: false, replayed: true, payload};
+    }
+    const collectionKey = op === 'routine' ? 'routines' : 'checklists';
+    if (payload[collectionKey] != null && !Array.isArray(payload[collectionKey])) {
+      fail('widget/invalid-data', '기존 기록 형식을 확인해주세요. 위젯에서는 덮어쓰지 않았습니다.');
+    }
+    const rows = payload[collectionKey] || [];
+    const index = rows.findIndex(row => row && String(row.id) === id);
+    let nextRow, changed = true;
+    if (adding) {
+      if (index !== -1) fail('widget/stale-action', '같은 ID의 기록이 이미 있습니다. 다시 불러와주세요.');
+      const stamp = Date.now();
+      nextRow = {id, text: value, date: op === 'add-todo' ? date : '', kind: op === 'add-memo' ? 'memo' : 'todo', done: false, createdAt: stamp, updatedAt: stamp};
+    } else {
+      if (index < 0) fail('widget/not-found', '기록이 삭제되었거나 변경되었습니다. 다시 불러와주세요.');
+      const row = rows[index];
+      const revision = Number(row.updatedAt || row.createdAt || 0);
+      if (!Number.isFinite(revision) || revision !== expected) {
+        fail('widget/stale-action', '다른 곳에서 수정된 기록입니다. 최신 내용을 다시 불러와주세요.');
+      }
+      const stamp = Math.max(Date.now(), revision + 1);
+      if (op === 'todo') {
+        if (row.kind === 'memo' || row.type === 'memo') fail('widget/invalid-action', '메모에는 완료 상태를 설정할 수 없습니다.');
+        changed = Boolean(row.done) !== value;
+        nextRow = {...row, done: value, completedAt: value ? stamp : 0, updatedAt: stamp};
+      } else {
+        if ((row.doneDates != null && !Array.isArray(row.doneDates)) || (row.dailyLevels != null && (typeof row.dailyLevels !== 'object' || Array.isArray(row.dailyLevels)))) {
+          fail('widget/invalid-data', '기존 루틴 기록 형식을 확인해주세요.');
+        }
+        const oldDates = row.doneDates || [], oldLevels = row.dailyLevels || {};
+        const doneDates = oldDates.filter(day => day !== date), dailyLevels = {...oldLevels};
+        if (value && value !== 'SKIP') {
+          // Keep legacy lower-case storage compatible; current app records use upper-case.
+          const sample = String(oldLevels[date] || Object.values(oldLevels).find(level => /^(mini|more|max)$/i.test(String(level))) || '');
+          dailyLevels[date] = sample && sample === sample.toLowerCase() ? value.toLowerCase() : value;
+          if (oldDates.includes(date)) doneDates.splice(Math.min(oldDates.indexOf(date), doneDates.length), 0, date);
+          else doneDates.push(date);
+        } else delete dailyLevels[date];
+        changed = JSON.stringify(doneDates) !== JSON.stringify(oldDates) || JSON.stringify(dailyLevels) !== JSON.stringify(oldLevels);
+        nextRow = {...row, doneDates, dailyLevels, updatedAt: stamp};
+      }
+    }
+    let nextPayload = payload;
+    if (changed) {
+      const nextRows = rows.slice();
+      if (adding) nextRows.push(nextRow); else nextRows[index] = nextRow;
+      nextPayload = {...payload, [collectionKey]: nextRows};
+      assertOwner();
+      if (main.exists()) transaction.update(mainRef, {payload: nextPayload, updatedAt: serverTimestamp()});
+      else transaction.set(mainRef, {payload: nextPayload, updatedAt: serverTimestamp()});
+    }
+    assertOwner();
+    transaction.set(receiptRef, {schema: 165, uid, key, fingerprint, applied: changed, createdAt: serverTimestamp()});
+    return {applied: changed, replayed: false, payload: nextPayload};
+  });
+  // A response received after account switching must never populate the next account.
+  assertOwner();
+  return result;
+}
+// END WIDGET ACTION TRANSACTION V165
+
 async function writePrivateData(payload) {
   const user = requireUser();
   await setDoc(doc(db, 'users', user.uid, 'private', 'main'), {
@@ -2014,6 +2141,7 @@ const api = {
   getFirebaseIdToken,
   readPrivateData,
   writePrivateData,
+  applyWidgetActionV165,
   readPaperTaskData,
   writePaperTaskData,
   watchPaperTaskData,

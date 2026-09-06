@@ -22,6 +22,16 @@ public final class WidgetNativeContractTest {
         require("CalendarMonth".equals(WidgetNativeV164.type("com.aiderlog.v22app.WidgetProvider$CalendarMonth")),"provider resolution");
         require("".equals(WidgetNativeV164.type(null)),"missing type safe");
         require("2026-09-06".equals(WidgetNativeV164.day(WidgetNativeV164.date("2026-09-06"))),"date round trip");
+        JSONObject model=new JSONObject("{\"today\":\"2026-09-06\",\"workouts\":[{\"date\":\"2026-09-01\",\"minutes\":30,\"exercises\":[{\"name\":\"Squat\",\"sets\":[{\"weight\":20,\"reps\":12}]}]},{\"date\":\"2026-09-06\",\"minutes\":60,\"exercises\":[{\"name\":\"Squat\",\"sets\":[{\"weight\":35,\"reps\":8}]}]},{\"date\":\"2026-07-01\",\"minutes\":90}]}");
+        JSONObject stats=WidgetDesignV165.workoutStats(model,7);
+        require(stats.optInt("count")==2&&stats.optInt("total")==90,"exercise period counts and measured minutes only");
+        require(stats.optInt("average")==45&&stats.optInt("longest")==60,"actual average and longest minutes");
+        List<JSONObject> trends=WidgetDesignV165.workoutTrends(model,7);
+        require(trends.size()==1&&trends.get(0).optString("title").contains("35kg"),"maximum weight by actual exercise");
+        require(trends.get(0).optJSONArray("values").length()==2,"per-date weight trend, no invented seconds from reps");
+        long initial=WidgetDesignV165.stableId("{\"kind\":\"todo\",\"id\":\"A\",\"done\":false}",0);
+        require(initial==WidgetDesignV165.stableId("{\"kind\":\"todo\",\"id\":\"A\",\"done\":true}",5),"stable collection ID survives update/reorder");
+        require(initial!=WidgetDesignV165.stableId("{\"kind\":\"todo\",\"id\":\"B\"}",0),"different record IDs remain distinct");
         System.out.println("PASS: "+checks+" native model assertions.");
     }
 }

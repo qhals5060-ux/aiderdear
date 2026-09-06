@@ -80,16 +80,18 @@ public final class WidgetNativeV164 {
         try{
             RemoteViews v=render(c,widget,kind,false,null,-1,-1);
             manager.updateAppWidget(widget,v);
-            if(prefs(c).getBoolean("widget_service_"+widget,false))manager.notifyAppWidgetViewDataChanged(widget,id(c,"widget_items_v164"));
+            manager.notifyAppWidgetViewDataChanged(widget,id(c,"widget_items_v164"));
+            manager.notifyAppWidgetViewDataChanged(widget,id(c,"w165_secondary_list"));
             return true;
         }catch(Throwable error){Log.e("AiderLogWidget","native-render failed type="+kind+" id="+widget,error);return false;}
     }
     public static RemoteViews render(Context c,int widget,String kind,boolean preview,String selectedTheme,int opacity,int selectedFont){
+        if(!kind.startsWith("Calendar"))return WidgetDesignV165.render(c,widget,kind,preview,selectedTheme,opacity,selectedFont);
         JSONObject data=snapshot(c);
         Bundle options=AppWidgetManager.getInstance(c).getAppWidgetOptions(widget);
         int width=options==null?320:options.getInt("appWidgetMinWidth",320);
         int height=options==null?320:options.getInt("appWidgetMinHeight",320);
-        boolean calendar=kind.startsWith("Calendar"),agenda="CalendarAgenda".equals(kind),onlyMonth="CalendarMonth".equals(kind),meal="PersonalMeal".equals(kind);
+        boolean calendar=kind.startsWith("Calendar"),agenda="CalendarAgenda".equals(kind),onlyMonth="CalendarMonth".equals(kind)||"CalendarSplit".equals(kind),meal="PersonalMeal".equals(kind);
         boolean split=calendar&&!onlyMonth&&!agenda&&(width>=480||kind.equals("CalendarSplit")||height<330&&!kind.equals("CalendarFortnight"))||meal&&width>=480;
         RemoteViews v=view(c,split?"widget_native_wide_v164":"widget_native_v164");
         appearance(c,v,widget,selectedTheme,opacity,selectedFont);
@@ -126,7 +128,7 @@ public final class WidgetNativeV164 {
     static String monthTitle(Context c,int widget,String kind){Calendar cal=kind.equals("CalendarFortnight")?date(selected(c,widget)):Calendar.getInstance();if(!kind.equals("CalendarFortnight"))cal.add(Calendar.MONTH,prefs(c).getInt("widget_month_"+widget,0));return cal.get(Calendar.YEAR)+"년 "+(cal.get(Calendar.MONTH)+1)+"월"+(kind.equals("CalendarFortnight")?" · 2주":"");}
     static void calendar(Context c,RemoteViews v,int widget,String kind,JSONObject data,String overrideTheme,int selectedFont,int opacity,boolean split){
         Calendar start=Calendar.getInstance();start.set(Calendar.DAY_OF_MONTH,1);start.add(Calendar.MONTH,prefs(c).getInt("widget_month_"+widget,0));
-        int shownMonth=start.get(Calendar.MONTH);boolean fortnight=kind.equals("CalendarFortnight");
+        int shownMonth=start.get(Calendar.MONTH),monthRows=(start.get(Calendar.DAY_OF_WEEK)-1+start.getActualMaximum(Calendar.DAY_OF_MONTH)+6)/7;boolean fortnight=kind.equals("CalendarFortnight");
         if(fortnight){start=date(selected(c,widget));}
         start.add(Calendar.DAY_OF_MONTH,1-start.get(Calendar.DAY_OF_WEEK));
         v.removeAllViews(id(c,"widget_calendar_v164"));
@@ -138,10 +140,10 @@ public final class WidgetNativeV164 {
         v.addView(id(c,"widget_calendar_v164"),heading);
         JSONArray events=data.optJSONArray("scheduleItems");JSONObject holidays=data.optJSONObject("holidays");
         String selected=selected(c,widget),today=day(Calendar.getInstance());
-        int rowCount=fortnight?2:6;
+        int rowCount=fortnight?2:monthRows;
         Bundle dimensions=AppWidgetManager.getInstance(c).getAppWidgetOptions(widget);
         int available=dimensions==null?260:dimensions.getInt("appWidgetMinHeight",260);
-        float cellHeight=((available-62f)*(kind.equals("CalendarMonth")||split?1f:.6f)-20f)/rowCount-6f;
+        float cellHeight=((available-62f)*(kind.equals("CalendarMonth")||kind.equals("CalendarSplit")||split?1f:.6f)-20f)/rowCount-6f;
         for(int row=0;row<rowCount;row++){
             RemoteViews week=view(c,"widget_week_v164");
             for(int col=0;col<7;col++){
@@ -150,12 +152,15 @@ public final class WidgetNativeV164 {
                 String holiday=holidays==null?"":holidays.optString(key,"");
                 text(c,cell,"widget_day_label_v164",holiday);
                 List<String> dated=eventsOn(events,key);
-                text(c,cell,"widget_day_events_v164",dated.isEmpty()?"":dated.get(0));
-                text(c,cell,"widget_day_more_v164",dated.size()>1?"+"+(dated.size()-1):dated.size()==1?"●":"");
-                show(c,cell,"widget_day_label_v164",cellHeight>=28&&!holiday.isEmpty());
-                show(c,cell,"widget_day_events_v164",cellHeight>=49);
-                show(c,cell,"widget_day_more_v164",cellHeight>=38);
-                cell.setInt(id(c,"widget_day_number_v164"),"setHeight",Math.round(c.getResources().getDisplayMetrics().density*Math.max(12,Math.min(18,cellHeight))));
+                int visibleEvents=kind.equals("CalendarSplit")&&dimensions!=null&&dimensions.getInt("appWidgetMinWidth",320)>=560?2:1;
+                String eventText=dated.isEmpty()?"":dated.get(0);if(visibleEvents==2&&dated.size()>1)eventText+="\n"+dated.get(1);
+                text(c,cell,"widget_day_events_v164",eventText);
+                text(c,cell,"widget_day_more_v164",dated.size()>visibleEvents?"+"+(dated.size()-visibleEvents):dated.size()>0?"●":"");
+                boolean visibleHoliday=cellHeight>=24&&!holiday.isEmpty();
+                show(c,cell,"widget_day_label_v164",visibleHoliday);
+                show(c,cell,"widget_day_events_v164",kind.equals("CalendarSplit")&&cellHeight>=40);
+                show(c,cell,"widget_day_more_v164",cellHeight>=(visibleHoliday?38:28));
+                cell.setInt(id(c,"widget_day_number_v164"),"setHeight",Math.round(c.getResources().getDisplayMetrics().density*Math.max(12,Math.min(18,cellHeight-(visibleHoliday?10:0)))));
                 boolean chosen=key.equals(selected),outside=!fortnight&&start.get(Calendar.MONTH)!=shownMonth;
                 color(c,cell,"widget_day_number_v164",chosen?0xffffffff:outside?(dark(c,chosenTheme)?0xff89899a:0xffaaa9b7):foreground);
                 color(c,cell,"widget_day_label_v164",dark(c,chosenTheme)?0xffc1baff:PRIMARY);
@@ -181,6 +186,7 @@ public final class WidgetNativeV164 {
         Collections.sort(out);return out;
     }
     static List<String> rows(Context c,int widget,String kind,JSONObject data){
+        if(!kind.startsWith("Calendar"))return WidgetDesignV165.rows(c,widget,kind,data);
         if(kind.startsWith("Calendar"))return eventsOn(data.optJSONArray("scheduleItems"),selected(c,widget));
         String key=kind.equals("RoutineAll")||kind.equals("RoutineCards")?"routines":kind.equals("RoutineStats")?"routineStats":kind.contains("RoutineLanguage")?"languageRows":kind.equals("LanguageYoutube")?"youtubeNotes":kind.equals("PersonalWorkflowOne")?"memos":kind.equals("PersonalWorkflowAll")?"memoTodos":kind.equals("PersonalTodo")?"todos":kind.equals("PersonalReading")?"readingBooks":kind.equals("PersonalQuote")?"readingCurrent":kind.equals("PersonalWorkoutStatsInbody")?"workoutStatsInbody":kind.equals("PersonalWorkoutStats")?"workoutStats":kind.equals("PersonalWorkoutChallengeAll")?"challengeAll":kind.equals("PersonalWorkoutChallengeCombined")?"challengeCombined":kind.equals("PersonalWorkoutChallengeOnly")?"challengeSelected":kind.equals("PersonalWorkoutChallenge")?"workoutChallenges":kind.equals("PersonalWorkoutMeal")?"mealWorkouts":kind.equals("PersonalWorkout")?"workouts":kind.equals("PersonalBulletSeven")?"bullet7":kind.equals("PersonalBulletSevenWorkflow")?"bullet7Workflow":kind.equals("PersonalBulletThreeWorkflow")?"bullet3Workflow":"bullet3";
         JSONArray list=data.optJSONArray(key);List<String> out=new ArrayList<String>();String selected=prefs(c).getString("widget_content_"+widget,"전체 내용");
@@ -192,23 +198,27 @@ public final class WidgetNativeV164 {
         }return out;
     }
     static RemoteViews row(Context c,int widget,String kind,String line,int index,String overrideTheme,int selectedFont){
-        RemoteViews row=view(c,"widget_item_v164");text(c,row,"widget_item_text_v164",line);
+        if(!kind.startsWith("Calendar"))return WidgetDesignV165.row(c,widget,kind,line,index,overrideTheme,selectedFont);
+        RemoteViews row=view(c,"widget_item_v164");boolean timed=line.matches("^[0-9]{2}:[0-9]{2}.*");text(c,row,"widget_item_text_v164",timed?line.substring(5).trim():line);text(c,row,"widget_item_time_v165",timed?line.substring(0,5):"");show(c,row,"widget_item_time_v165",timed);
+        String rowTheme=overrideTheme==null?theme(c,widget):overrideTheme;row.setImageViewResource(id(c,"widget_item_background_v165"),drawable(c,dark(c,rowTheme)?"widget_card_dark_v165":"widget_card_v165"));Integer previewOpacity=WidgetDesignV165.previewOpacity.get();row.setInt(id(c,"widget_item_background_v165"),"setImageAlpha",Math.round(255*(previewOpacity==null?prefs(c).getInt("widget_opacity_"+widget,100):previewOpacity)/100f));
         color(c,row,"widget_item_text_v164",ink(c,overrideTheme==null?theme(c,widget):overrideTheme));
         float size=selectedFont<0?font(c,widget):11.5f+selectedFont*.8f;
         row.setTextViewTextSize(id(c,"widget_item_text_v164"),2,size);
         show(c,row,"widget_item_dot_v164",kind.startsWith("Calendar"));
-        row.setOnClickFillInIntent(id(c,"widget_item_row_v164"),new Intent().putExtra("widgetRow",index));
+        row.setOnClickFillInIntent(id(c,"widget_item_row_v164"),new Intent().putExtra("widgetRow",index).putExtra("action",""));
         return row;
     }
     static void collection(Context c,RemoteViews v,int widget,String kind,List<String> rows)throws RuntimeException{
-        int list=id(c,"widget_items_v164");
+        collection(c,v,widget,kind,rows,id(c,"widget_items_v164"));
+    }
+    static void collection(Context c,RemoteViews v,int widget,String kind,List<String> rows,int list)throws RuntimeException{
         String target=kind.startsWith("Calendar")?"home":kind.contains("Language")?"language":kind.startsWith("Routine")?"private":"personal";
-        Intent open=new Intent().setClassName(c,c.getPackageName()+".MainActivity").setAction("aiderlog.widget.collection."+widget+"."+kind).putExtra("target",target).putExtra("action","LanguageYoutube".equals(kind)?"open-youtube":"").addFlags(0x14000000);
+        Intent open=new Intent().setClassName(c,c.getPackageName()+".MainActivity").setAction("aiderlog.widget.collection."+widget+"."+kind).putExtra("target",target).addFlags(0x14000000);
         v.setPendingIntentTemplate(list,PendingIntent.getActivity(c,widget*17+kind.hashCode(),open,android.os.Build.VERSION.SDK_INT>=31?0x0a000000:0x08000000));
-        if(android.os.Build.VERSION.SDK_INT>=31){try{
+        if(android.os.Build.VERSION.SDK_INT>=31&&kind.startsWith("Calendar")&&rows.size()<=40){try{
             Class<?> builderClass=Class.forName("android.widget.RemoteViews$RemoteCollectionItems$Builder");Object builder=builderClass.getDeclaredConstructor().newInstance();
             builderClass.getMethod("setHasStableIds",boolean.class).invoke(builder,true);
-            builderClass.getMethod("setViewTypeCount",int.class).invoke(builder,1);
+            builderClass.getMethod("setViewTypeCount",int.class).invoke(builder,16);
             for(int i=0;i<rows.size();i++)builderClass.getMethod("addItem",long.class,RemoteViews.class).invoke(builder,((long)rows.get(i).hashCode()<<32)^i,row(c,widget,kind,rows.get(i),i,null,-1));
             Object items=builderClass.getMethod("build").invoke(builder);
             RemoteViews.class.getMethod("setRemoteAdapter",int.class,items.getClass()).invoke(v,list,items);prefs(c).edit().putBoolean("widget_service_"+widget,false).apply();return;
@@ -236,8 +246,9 @@ public final class WidgetNativeV164 {
             Class<?> cls=activity.getClass();java.lang.reflect.Field wf=cls.getDeclaredField("appWidgetId"),kf=cls.getDeclaredField("providerClass"),tf=cls.getDeclaredField("selectedTheme"),of=cls.getDeclaredField("selectedOpacity"),ff=cls.getDeclaredField("selectedFont");
             for(java.lang.reflect.Field f:new java.lang.reflect.Field[]{wf,kf,tf,of,ff})f.setAccessible(true);
             ViewGroup host=(ViewGroup)activity.findViewById(id(activity,"widget_config_preview_v164"));if(host==null)return;
+            java.lang.reflect.Field content=cls.getDeclaredField("selectedContent");content.setAccessible(true);WidgetDesignV165.previewContent.set((String)content.get(activity));WidgetDesignV165.previewOpacity.set(of.getInt(activity));
             RemoteViews remote=render(activity,wf.getInt(activity),type((String)kf.get(activity)),true,(String)tf.get(activity),of.getInt(activity),ff.getInt(activity));
             host.removeAllViews();host.addView(remote.apply(activity,host));
-        }catch(Throwable error){Log.w("AiderLogWidget","Settings preview unavailable",error);}
+        }catch(Throwable error){Log.w("AiderLogWidget","Settings preview unavailable",error);}finally{WidgetDesignV165.previewContent.remove();WidgetDesignV165.previewOpacity.remove();}
     }
 }

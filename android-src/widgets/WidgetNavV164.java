@@ -19,7 +19,8 @@ public final class WidgetNavV164 extends BroadcastReceiver {
             int offset=WidgetNativeV164.prefs(c).getInt("widget_month_"+id,0)+delta;
             Calendar date=Calendar.getInstance();date.set(Calendar.DAY_OF_MONTH,1);date.add(Calendar.MONTH,offset);
             WidgetNativeV164.prefs(c).edit().putInt("widget_month_"+id,offset).putString("widget_date_"+id,WidgetNativeV164.day(date)).apply();
-        }else if("date".equals(operation)&&value!=null&&value.matches("\\d{4}-\\d{2}-\\d{2}"))WidgetNativeV164.prefs(c).edit().putString("widget_date_"+id,value).apply();
+        }else if("bullet".equals(operation)){int current=WidgetNativeV164.prefs(c).getInt("widget_page_"+id,0),next="-1".equals(value)?(current>3?3:0):(current<3?3:4);WidgetNativeV164.prefs(c).edit().putInt("widget_page_"+id,next).apply();}
+        else if("date".equals(operation)&&value!=null&&value.matches("\\d{4}-\\d{2}-\\d{2}"))WidgetNativeV164.prefs(c).edit().putString("widget_date_"+id,value).apply();
         WidgetNativeV164.update(c,AppWidgetManager.getInstance(c),id,kind);
     }
 }
