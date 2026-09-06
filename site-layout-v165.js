@@ -7,7 +7,7 @@
   const $=(selector,root=document)=>root?.querySelector(selector)||null;
   const modern=()=>html.classList.contains('modern-site');
   const moves=new Map(),created=new Set(),shadowRoots=new Map();
-  const views={record:'record',archive:'archive'};
+  let eventView='record';
   const drafts=new Map();let scheduled=0,applying=false;
   function move(node,parent,before=null){
     if(!node||!parent)return;
@@ -17,37 +17,39 @@
   function make(tag,className,parent){const node=document.createElement(tag);node.className=className;parent.append(node);created.add(node);return node;}
   const dock=make('div','modern-header-pages',head),choice=document.createElement('select');
   choice.className='modern-header-page-select';choice.setAttribute('aria-label','현재 메뉴의 세부 화면');dock.append(choice);
-  const groups=[['schedule','.page-dots',['캘린더','감정 인사이트']],['private','.private-page-dots',['루틴','어학']],['record','.record-page-dots',['기록·앨범','아카이브·여행']],['personal','.personal-page-dots',['개인 기록','통합 대시보드']],['task','.task-page-dots',['고객 관리','입시요강']]].map(([tab,selector,names])=>({tab,node:$(selector),names})).filter(row=>row.node);
-  choice.addEventListener('change',()=>{const group=groups.find(row=>row.tab===app.dataset.activeTab);group?.node.querySelectorAll('button')[Number(choice.value)]?.click();});
+  const groups=[['schedule','.page-dots',['캘린더','감정 인사이트']],['private','.private-page-dots',['루틴','어학']],['record','.record-page-dots',['Record','Archive','Travel']],['personal','.personal-page-dots',['개인 기록','통합 대시보드']],['task','.task-page-dots',['고객 관리','입시요강']]].map(([tab,selector,names])=>({tab,node:$(selector),names})).filter(row=>row.node);
+  function currentEvent(){return $('.record-dot[data-record-page="0"]')?.classList.contains('active')?'record':eventView==='record'?'archive':eventView;}
+  function selectEvent(view){eventView=['archive','travel'].includes(view)?view:'record';$(`.record-dot[data-record-page="${eventView==='record'?0:1}"]`)?.click();apply();}
+  choice.addEventListener('change',()=>{if(app.dataset.activeTab==='record'){selectEvent(choice.value);return;}const group=groups.find(row=>row.tab===app.dataset.activeTab);group?.node.querySelectorAll('button')[Number(choice.value)]?.click();});
   function arrangeHeader(){
     move($('.tabs',app),head,$('.nav-tools',head));
     // The edition controller owns the original toolbar marker and Editorial restore.
     const tools=$('.nav-tools',app);if(tools&&tools.parentNode!==head)head.append(tools);
     if(head.lastElementChild!==dock)head.append(dock);
     const active=groups.find(row=>row.tab===app.dataset.activeTab);
-    for(const group of groups){move(group.node,dock,choice);group.node.hidden=group!==active;}
+    for(const group of groups){move(group.node,dock,choice);group.node.hidden=group!==active||group.tab==='record';}
+    dock.classList.toggle('modern-event-pages',active?.tab==='record');
     dock.hidden=!active;
     if(active){
       const selected=[...active.node.querySelectorAll('button')].findIndex(button=>button.classList.contains('active'));
-      if(choice.dataset.menu!==active.tab){choice.replaceChildren(...active.names.map((name,index)=>new Option(name,index)));choice.dataset.menu=active.tab;}
-      choice.value=String(Math.max(0,selected));
+      if(choice.dataset.menu!==active.tab){choice.replaceChildren(...active.names.map((name,index)=>new Option(name,active.tab==='record'?name.toLowerCase():index)));choice.dataset.menu=active.tab;}
+      choice.value=active.tab==='record'?currentEvent():String(Math.max(0,selected));
     }
     for(const selector of ['#quickMemoBtn','#mailboxBtn','#loginBtn','#todayJournalBtn']){const button=$(selector);if(button&&!button.getAttribute('aria-label'))button.setAttribute('aria-label',button.textContent.trim());}
   }
   function arrangeCalendar(){const page=$('#page0');move($('.cal-top',page),page,$('.frame',page));}
-  function ensureEventView(panelSelector,toolbarSelector,key,names){
-    const panel=$(panelSelector),toolbar=$(toolbarSelector,panel);if(!panel||!toolbar)return;
-    let select=$('[data-modern-event-view]',toolbar);
-    if(!select){select=document.createElement('select');select.dataset.modernEventView=key;select.setAttribute('aria-label',key==='record'?'기록·앨범 보기':'아카이브·여행 보기');for(const [value,label]of names)select.add(new Option(label,value));toolbar.prepend(select);created.add(select);select.addEventListener('change',()=>{views[key]=select.value;applyEvent();});}
-    select.value=views[key];
-  }
   function applyEvent(){
-    ensureEventView('#recordShell','.record-toolbar','record',[['record','Record'],['album','Album']]);
-    ensureEventView('#albumShell','.album-toolbar','record',[['record','Record'],['album','Album']]);
-    ensureEventView('#eventArchiveShell','.event-toolbar','archive',[['archive','Archive'],['travel','Travel']]);
-    ensureEventView('#travelArchiveShell','.event-toolbar','archive',[['archive','Archive'],['travel','Travel']]);
-    for(const [id,key,value]of [['recordShell','record','record'],['albumShell','record','album'],['eventArchiveShell','archive','archive'],['travelArchiveShell','archive','travel']])$('#'+id).hidden=views[key]!==value;
-    const sidebar=$('.record-aside');if(sidebar&&!sidebar.closest('details')){const details=make('details','modern-record-browser',$('.record-toolbar'));const summary=document.createElement('summary');summary.textContent='기록 찾아보기';details.append(summary);move(sidebar,details);}
+    eventView=currentEvent();
+    $('#recordShell').hidden=false;$('#albumShell').hidden=false;
+    $('#eventArchiveShell').hidden=eventView==='travel';$('#travelArchiveShell').hidden=eventView!=='travel';
+    const sidebar=$('.record-aside');
+    if(sidebar){
+      let dialog=$('#modernRecordBrowserV167');
+      if(!dialog){dialog=make('dialog','site-display-dialog modern-record-browser-dialog',app);dialog.id='modernRecordBrowserV167';dialog.setAttribute('aria-label','기록 찾아보기');const close=document.createElement('button');close.type='button';close.className='site-display-dialog-close';close.textContent='닫기';close.addEventListener('click',()=>dialog.close());dialog.append(close);dialog.addEventListener('click',event=>{if(event.target===dialog||event.target.closest('.record-month'))dialog.close();});}
+      move(sidebar,dialog);
+      if(!$('.modern-record-browse-open')){const button=make('button','modern-record-browse-open',$('.record-toolbar'));button.type='button';button.textContent='기록 찾아보기';button.addEventListener('click',()=>dialog.showModal());}
+      if(dialog.open&&(app.dataset.activeTab!=='record'||eventView!=='record'))dialog.close();
+    }
   }
   function arrangePersonal(){
     const frame=$('#personalMainShell>.personal-frame');if(!frame)return;
@@ -57,6 +59,7 @@
   }
   function arrangeWork(){const stage=$('#siteWorkStageV146'),workHead=$('.site-work-head-v146',stage);if(workHead)move($('.site-work-nav-v146',stage),workHead,workHead.firstElementChild);}
   function arrangeConsult(){
+    if(document.getElementById('consultV167'))return;
     const rail=$('.consulting-client-rail'),actions=$('#taskStage .task-toolbar-actions');if(!rail)return;
     if(actions)move(actions,rail,$('.consulting-cohort-filter',rail)||$('#consultingClientList'));
     let select=$('.modern-consult-client-select',rail);
@@ -123,8 +126,8 @@
     }
     const buttons=[...root.querySelectorAll('#paperNav button')];
     const signature=buttons.map(b=>(b.dataset.view||b.dataset.v159View)+':'+b.querySelector('b')?.textContent).join('|');
-    if(state.select.dataset.signature!==signature){state.select.replaceChildren(...buttons.map(b=>new Option(b.querySelector('b')?.textContent||b.textContent,b.dataset.view||b.dataset.v159View)));state.select.dataset.signature=signature;}
-    const active=buttons.find(b=>b.classList.contains('active'));if(active)state.select.value=active.dataset.view||active.dataset.v159View;
+    if(state.select.dataset.signature!==signature){const home=new Option('연구 홈','');home.disabled=true;state.select.replaceChildren(home,...buttons.map(b=>new Option(b.querySelector('b')?.textContent||b.textContent,b.dataset.view||b.dataset.v159View)));state.select.dataset.signature=signature;}
+    const active=buttons.find(b=>b.classList.contains('active'));state.select.value=active?(active.dataset.view||active.dataset.v159View):'';
     if(modern()&&root.lastElementChild!==state.style)root.append(state.style);
     const flow=$('.v159-import-flow',root);
     if(flow&&!$('.modern-import-pager',flow)){
@@ -142,6 +145,7 @@
     const pager=$('.modern-import-pager',flow);if(pager)pager.hidden=!modern();
   }
   function restore(){
+    document.querySelectorAll('.site-display-dialog[open]').forEach(dialog=>dialog.close());
     for(const [node,marker]of [...moves].reverse()){if(marker.isConnected&&node.isConnected)marker.after(node);}
     for(const node of created)node.hidden=true;
     for(const group of groups)group.node.hidden=false;

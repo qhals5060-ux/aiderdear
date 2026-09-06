@@ -1,4 +1,15 @@
-# AiderLog v165 · Routine / DayLog / native widgets / Modern site
+# AiderLog v167 source candidate · published release remains v165
+
+The resumed app presentation work, latest semantic theme, website layout and
+Consult/Work/employee portal implementation are local source changes. The latest
+Consult/Work brief excludes production deployment and APK rebuild. Published
+download links therefore still refer to the existing v165 files.
+
+Before any rollout, read [WORK_V167_OPERATIONS.md](./WORK_V167_OPERATIONS.md) and
+[RELEASE_V167.md](./RELEASE_V167.md). Do not publish the new rules independently of
+the matching clients/API: older Consult direct writes will be rejected.
+
+## Published v165 · Routine / DayLog / native widgets / Modern site
 
 Current release: Android versionCode 165 (1.9.55).
 

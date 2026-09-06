@@ -109,7 +109,10 @@ function verifyState(value) {
 async function currentUser(req) {
   const token = String(req.headers.authorization || '').replace(/^Bearer\s+/i, '');
   if (!token) throw Object.assign(new Error('로그인이 필요합니다.'), { status: 401 });
-  return getAuth().verifyIdToken(token);
+  const user=await getAuth().verifyIdToken(token,true);
+  const identity=await db.doc(`workIdentities/${user.uid}`).get();
+  if(identity.data()?.kind==='employee')throw Object.assign(new Error('직원 개인 페이지에서 이용해주세요.'),{status:403});
+  return user;
 }
 
 function integrationRef(uid, provider) {

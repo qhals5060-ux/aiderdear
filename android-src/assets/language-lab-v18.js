@@ -1,0 +1,81 @@
+(function(){
+  class AiderLogLanguageLab extends HTMLElement{
+    constructor(){
+      super();
+      this.attachShadow({mode:'open'});
+      this.completion=null;
+      this.lessonScrollBoundary=null;
+      this.fontFloorObserver=null;
+    }
+    async connectedCallback(){
+      this.setAttribute('data-training-v166','');this.setAttribute('data-css-typography','');
+      if(this.shadowRoot.childNodes.length)return;
+      try{
+        const [templateResponse,styleResponse]=await Promise.all([
+          fetch('./language-lab-v18-template.html?v=121',{cache:'no-store'}),
+          fetch('./language-lab-v18.css?v=121',{cache:'no-store'})
+        ]);
+        if(!templateResponse.ok||!styleResponse.ok)throw new Error('어학 학습 자산을 불러오지 못했습니다.');
+        const [source,style]=await Promise.all([templateResponse.text(),styleResponse.text()]);
+        const parsed=new DOMParser().parseFromString(source,'text/html');
+        const app=parsed.querySelector('.app-shell'),toast=parsed.querySelector('.toast');
+        if(!app||!toast)throw new Error('어학 학습 화면 구조를 찾지 못했습니다.');
+        const styleElement=document.createElement('style');styleElement.textContent=style;
+        app.querySelector('.brand-icon')?.remove();
+        app.querySelector('.brand b').textContent='Language';
+        app.querySelector('.brand small')?.remove();
+        const share=document.createElement('button');
+        share.type='button';share.className='language-partner-share';share.textContent='상대에게 보내기';share.disabled=true;
+        share.title=this.getAttribute('data-share-ready')==='true'?'학습을 완료하면 보낼 수 있습니다.':'커플 또는 친구 연결 후 보낼 수 있습니다.';
+        app.querySelector('.header-stats')?.append(share);
+        this.shadowRoot.append(styleElement,app,toast);
+        const applyFontFloor=(scope=this.shadowRoot)=>{ if(this.hasAttribute('data-training-v166'))return;
+          const candidates=[];
+          if(scope instanceof Element)candidates.push(scope);
+          candidates.push(...scope.querySelectorAll?.('*')||[]);
+          candidates.forEach(element=>{
+            if(!(element instanceof Element)||element.matches('style,script,svg,path'))return;
+            const hasText=[...element.childNodes].some(node=>node.nodeType===Node.TEXT_NODE&&node.textContent.trim());
+            const isControl=element.matches('input,select,textarea');
+            if(!hasText&&!isControl)return;
+            const size=Number.parseFloat(getComputedStyle(element).fontSize);
+            if(size>0&&size<11)element.style.setProperty('font-size','11px','important');
+          });
+        };
+        applyFontFloor();
+        this.fontFloorObserver=new MutationObserver(records=>records.forEach(record=>record.addedNodes.forEach(node=>{
+          if(node.nodeType===Node.ELEMENT_NODE)applyFontFloor(node);
+        })));
+        this.fontFloorObserver.observe(this.shadowRoot,{childList:true,subtree:true});
+        this.lessonScrollBoundary=this.shadowRoot.querySelector('.lesson-stage');
+        ['wheel','touchstart','touchmove','touchend'].forEach(type=>this.lessonScrollBoundary?.addEventListener(type,event=>event.stopPropagation(),{passive:true}));
+        this.addEventListener('language-lab-complete',event=>{
+          this.completion=event.detail||null;
+          share.disabled=!this.completion||this.getAttribute('data-share-ready')!=='true';
+          share.textContent='상대에게 보내기';
+        });
+        share.addEventListener('click',()=>{
+          if(!this.completion)return;
+          this.dispatchEvent(new CustomEvent('language-lab-share',{bubbles:true,composed:true,detail:this.completion}));
+        });
+        window.initAiderLogLanguageLab?.(this.shadowRoot,app);
+        this.dispatchEvent(new CustomEvent('language-lab-ready',{bubbles:true,composed:true}));
+      }catch(error){
+        this.shadowRoot.innerHTML=`<div style="padding:24px;font:700 13px/1.6 sans-serif;color:#8a2432">${String(error.message||error)}</div>`;
+      }
+    }
+    disconnectedCallback(){
+      this.lessonScrollBoundary=null;
+      this.fontFloorObserver?.disconnect();
+      this.fontFloorObserver=null;
+    }
+    static get observedAttributes(){return ['data-share-ready']}
+    attributeChangedCallback(name,oldValue,newValue){
+      if(name==='data-share-ready'){
+        const button=this.shadowRoot.querySelector('.language-partner-share');
+        if(button){button.hidden=false;button.disabled=newValue!=='true'||!this.completion;button.title=newValue==='true'?'학습을 완료하면 보낼 수 있습니다.':'커플 또는 친구 연결 후 보낼 수 있습니다.'}
+      }
+    }
+  }
+  if(!customElements.get('aiderlog-language-lab'))customElements.define('aiderlog-language-lab',AiderLogLanguageLab);
+})();

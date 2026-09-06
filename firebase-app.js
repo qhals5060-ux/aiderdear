@@ -1,3 +1,4 @@
+import { createConsultSync, CONSULT_KEYS } from './consult-sync-v167.js';
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js';
 import {
   browserLocalPersistence,
@@ -13,10 +14,12 @@ import {
 } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js';
 import {
   Bytes,
+  FieldPath,
   Timestamp,
   addDoc,
   collection,
   deleteDoc,
+  deleteField,
   doc,
   getDoc,
   getDocs,
@@ -1192,8 +1195,37 @@ async function getFirebaseIdToken(forceRefresh = false) {
 async function readPrivateData() {
   const user = requireUser();
   const snapshot = await getDoc(doc(db, 'users', user.uid, 'private', 'main'));
-  return snapshot.exists() ? snapshot.data().payload || null : null;
+  return consultSyncV167.remember(user.uid, snapshot.exists() ? snapshot.data().payload || null : null);
 }
+
+const consultSyncV167 = createConsultSync({
+  currentUid:()=>auth.currentUser?.uid,
+  readCurrent:async uid=>(await getDoc(doc(db,'users',uid,'private','main'))).data()?.payload||{},
+  commitRecord:async(uid,input)=>{
+    if(auth.currentUser?.uid!==uid)throw Error('계정이 변경되었습니다.');
+    const token=await auth.currentUser.getIdToken();
+    if(auth.currentUser?.uid!==uid)throw Error('계정이 변경되었습니다.');
+    const response=await fetch('/api/consult',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+token},body:JSON.stringify(input)});
+    const result=await response.json();
+    if(!response.ok)throw Object.assign(Error(result.error||'컨설트 저장에 실패했습니다.'),{status:response.status});
+    return result;
+  },
+  writeRemaining:async(uid,incoming)=>{
+    const ref=doc(db,'users',uid,'private','main');
+    return runTransaction(db,async transaction=>{
+      const snap=await transaction.get(ref),current=snap.data()?.payload||{},next=JSON.parse(JSON.stringify(incoming));
+      if(auth.currentUser?.uid!==uid)throw Error('계정이 변경되었습니다.');
+      for(const key of CONSULT_KEYS){if(Object.hasOwn(current,key))next[key]=current[key];else delete next[key];}
+      if(snap.exists()){
+        const fields=[new FieldPath('updatedAt'),serverTimestamp()];
+        for(const [key,value] of Object.entries(incoming))if(!CONSULT_KEYS.includes(key))fields.push(new FieldPath('payload',key),value);
+        for(const key of Object.keys(current))if(!CONSULT_KEYS.includes(key)&&!Object.prototype.hasOwnProperty.call(incoming,key))fields.push(new FieldPath('payload',key),deleteField());
+        transaction.update(ref,...fields);
+      }else transaction.set(ref,{payload:next,updatedAt:serverTimestamp()});
+      return next;
+    });
+  }
+});
 
 // BEGIN WIDGET ACTION TRANSACTION V165
 // A widget changes one explicit record, never the caller's cached private document.
@@ -1309,7 +1341,7 @@ async function applyWidgetActionV165(input = {}) {
       if (adding) nextRows.push(nextRow); else nextRows[index] = nextRow;
       nextPayload = {...payload, [collectionKey]: nextRows};
       assertOwner();
-      if (main.exists()) transaction.update(mainRef, {payload: nextPayload, updatedAt: serverTimestamp()});
+      if (main.exists()) transaction.update(mainRef, new FieldPath('payload',collectionKey),nextRows,new FieldPath('updatedAt'),serverTimestamp());
       else transaction.set(mainRef, {payload: nextPayload, updatedAt: serverTimestamp()});
     }
     assertOwner();
@@ -1323,11 +1355,8 @@ async function applyWidgetActionV165(input = {}) {
 // END WIDGET ACTION TRANSACTION V165
 
 async function writePrivateData(payload) {
-  const user = requireUser();
-  await setDoc(doc(db, 'users', user.uid, 'private', 'main'), {
-    payload: JSON.parse(JSON.stringify(payload)),
-    updatedAt: serverTimestamp(),
-  });
+  requireUser();
+  return consultSyncV167.write(payload);
 }
 
 async function readPaperTaskData() {
@@ -2202,8 +2231,18 @@ onAuthStateChanged(auth, async user => {
   state.friendOutgoing = [];
   state.directLetters = [];
   state.error = '';
+  state.ready=false;
+  emit();
   if (user) {
     try {
+      // Employee accounts never enter the general site's profile/listener boot.
+      // This self-only lookup contains no employee private records.
+      const workIdentity=await getDoc(doc(db,'workIdentities',user.uid));
+      if(auth.currentUser?.uid!==user.uid)return;
+      if(workIdentity.data()?.kind==='employee'){
+        state.ready=true;state.error='직원 개인 페이지로 이동합니다.';emit();
+        location.replace(new URL('./employee.html',location.href).href);return;
+      }
       state.user = await ensureUserProfile(user);
       startListeners(user);
       propagateMemberProfile(state.user).catch(error => console.warn('Connected profile sync skipped', error));

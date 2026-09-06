@@ -3,7 +3,27 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     function signedIn() {
-      return request.auth != null;
+      return request.auth != null
+        && (!exists(/databases/$(database)/documents/workIdentities/$(request.auth.uid))
+          || get(/databases/$(database)/documents/workIdentities/$(request.auth.uid)).data.kind != 'employee');
+    }
+
+    // Work is server-authorized. Even an owner cannot query employee drafts.
+    // The small identity marker is the only direct client read and permits a
+    // missing document so existing general users keep their original access.
+    match /workIdentities/{uid} {
+      allow get: if request.auth != null && request.auth.uid == uid;
+      allow list, write: if false;
+    }
+    match /workspaces/{document=**} { allow read, write: if false; }
+    match /workInvitations/{document=**} { allow read, write: if false; }
+    match /employeePrivate/{document=**} { allow read, write: if false; }
+
+    function legacyNotebookAccepting(token) {
+      let link = get(/databases/$(database)/documents/labNotebookLinks/$(token)).data;
+      return link.active == true
+        && (!exists(/databases/$(database)/documents/workspaces/$(link.ownerUid))
+          || get(/databases/$(database)/documents/workspaces/$(link.ownerUid)).data.get('legacyWritesDisabled', false) != true);
     }
 
     function currentEmail() {
@@ -84,7 +104,18 @@ service cloud.firestore {
       }
 
       match /private/{documentId} {
-        allow read, write: if signedIn() && request.auth.uid == userId;
+        allow read: if signedIn() && request.auth.uid == userId;
+        // Consult originals, document versions and delivery snapshots are only
+        // written by the validated Admin transaction, never a cached app save.
+        allow create: if signedIn() && request.auth.uid == userId
+          && request.resource.data.get('payload', {}).get('consultingClients', []) == []
+          && request.resource.data.get('payload', {}).get('consultingTasks', []) == []
+          && request.resource.data.get('payload', {}).get('consultingSessions', []) == []
+          && request.resource.data.get('payload', {}).get('consultingFiles', []) == [];
+        allow update: if signedIn() && request.auth.uid == userId
+          && !request.resource.data.get('payload', {}).diff(resource.data.get('payload', {})).affectedKeys()
+            .hasAny(['consultingClients','consultingTasks','consultingSessions','consultingFiles']);
+        allow delete: if false;
       }
 
       match /emotion/{documentId} {
@@ -96,7 +127,20 @@ service cloud.firestore {
       }
 
       match /privateMedia/{documentId} {
-        allow read, write: if signedIn() && request.auth.uid == userId;
+        function unlocked() {
+          return !exists(/databases/$(database)/documents/users/$(userId)/privateMedia/$(documentId))
+            || get(/databases/$(database)/documents/users/$(userId)/privateMedia/$(documentId)).data.get('immutableConsult', false) != true;
+        }
+        allow read: if signedIn() && request.auth.uid == userId;
+        allow create: if signedIn() && request.auth.uid == userId
+          && request.resource.data.get('immutableConsult', false) == false;
+        allow update: if signedIn() && request.auth.uid == userId && unlocked()
+          && request.resource.data.get('immutableConsult', false) == false;
+        allow delete: if signedIn() && request.auth.uid == userId && unlocked();
+        match /chunks/{chunkId} {
+          allow read: if signedIn() && request.auth.uid == userId;
+          allow write: if signedIn() && request.auth.uid == userId && unlocked();
+        }
       }
 
       // OAuth access/refresh tokens are server-only. Firebase Admin bypasses rules.
@@ -532,7 +576,7 @@ service cloud.firestore {
       allow delete: if signedIn() && resource.data.ownerUid == request.auth.uid;
 
       match /submissions/{submissionId} {
-        allow create: if get(/databases/$(database)/documents/labNotebookLinks/$(token)).data.active == true
+        allow create: if legacyNotebookAccepting(token)
           && request.resource.data.keys().hasOnly(['researcher','performedAt','title','project','code','protocol','batch','purpose','materials','procedure','qcCriteria','qcResult','result','nextAction','media','source','status','createdAt'])
           && request.resource.data.researcher is string && request.resource.data.researcher.size() > 0 && request.resource.data.researcher.size() <= 60
           && request.resource.data.performedAt is string && request.resource.data.performedAt.size() <= 30
@@ -546,7 +590,7 @@ service cloud.firestore {
           && get(/databases/$(database)/documents/labNotebookLinks/$(token)).data.ownerUid == request.auth.uid;
 
         match /media/{mediaId} {
-          allow create: if get(/databases/$(database)/documents/labNotebookLinks/$(token)).data.active == true
+          allow create: if legacyNotebookAccepting(token)
             && request.resource.data.keys().hasOnly(['id','name','type','size','createdAt'])
             && request.resource.data.id == mediaId
             && request.resource.data.size is int && request.resource.data.size >= 0 && request.resource.data.size <= 26214400
@@ -554,7 +598,7 @@ service cloud.firestore {
           allow read, update, delete: if signedIn()
             && get(/databases/$(database)/documents/labNotebookLinks/$(token)).data.ownerUid == request.auth.uid;
           match /chunks/{chunkId} {
-            allow create: if get(/databases/$(database)/documents/labNotebookLinks/$(token)).data.active == true
+            allow create: if legacyNotebookAccepting(token)
               && request.resource.data.keys().hasOnly(['data']);
             allow read, update, delete: if signedIn()
               && get(/databases/$(database)/documents/labNotebookLinks/$(token)).data.ownerUid == request.auth.uid;

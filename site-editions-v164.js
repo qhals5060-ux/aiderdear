@@ -90,7 +90,7 @@
     }
   }
   function styleWorkspaces() {
-    styleShadow(document.querySelector('aider-paper-workspace-v121'), 'paper', './site-paper-modern-v165.css');
+    styleShadow(document.querySelector('aider-paper-workspace-v121'), 'paper', './site-paper-modern-v165.css?v=167');
     styleShadow(document.querySelector('aiderlog-language-lab'), 'language', './site-language-modern-v165.css');
   }
   function apply(value, persist = true) {

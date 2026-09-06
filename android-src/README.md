@@ -1,5 +1,23 @@
 # Android native release patches
 
+## v167 source candidate (not built or deployed)
+
+The latest colour-only specification supersedes the v166 default-palette notes
+below. See `APP_COLOUR_V167.md`. My/Paper/training presentation and the .72/.84/1.0
+font mapping remain. `permissions-v164.js` is removed, so startup no longer opens
+the app consent selector; contextual Android microphone/camera permission checks
+remain. `firebase-app.js` + `consult-sync-v167.js` preserve server Consult versions
+when the app syncs. They require the matching API/rules rollout described in
+`../WORK_V167_OPERATIONS.md`. No new APK is included in this source candidate.
+
+## v166 Soft Purple / My / mobile Paper / training
+
+The default `system` choice is now the app's Soft Purple palette, not an OS
+light/dark switch. The other five palette IDs and saved preferences are unchanged.
+Global text choices are small .72, normal .84 and large 1.0. See
+`SYSTEM_THEME_FONT_V166.md` and `MY_PAPER_V166.md` for scope and verification.
+The existing widget rendering and wheel navigation are not redesigned in v166.
+
 ## v165 Routine / DayLog / widgets
 
 App-only presentation changes are documented in `ROUTINE_V165.md` and
@@ -41,7 +59,7 @@ authentication, routing, and data code are not duplicated here.
   session cookie and user-agent. Blob/data responses use the local export bridge.
 - `smali/`: edited MainActivity / ChromeClient / DownloadListener integration.
 - `assets/`: Android-only JavaScript and CSS introduced in this release.
-- `apktool.yml`: current release versionCode 165, versionName 1.9.55.
+- `apktool.yml`: current release versionCode 166, versionName 1.9.56.
 
 Build: compile the Java sources for Android (Java 8, min API 26), dex the generated
 `com.aiderlog.v22app` classes, disassemble and copy their generated smali into the

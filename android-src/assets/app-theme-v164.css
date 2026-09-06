@@ -1,143 +1,348 @@
-/* v164: semantic app colours and header-owned profile.
-   New palette values never replace the wheel's inherited legacy variables.
-   Layout declarations are confined to the profile and existing colour pickers. */
+/* v167: one colour-only palette path for app content, existing wheel artwork
+   and header logo. All profile geometry/typography below remains unchanged. */
 :root {
-  --app-space-base:#382A49; --app-space-glow:#9170AE;
-  --app-surface:#FAF7FC; --app-card:#E7DFEF; --app-control:#E0D5EB;
-  --app-input:#FAF7FC; --app-text:#30283B; --app-body:#44384F;
-  --app-text-muted:#61536E; --app-border:#C4B4D4;
-  --app-primary:#76509B; --app-on-primary:#FFFFFF;
-  --app-active-on-space:#E8CCFF; --app-focus:#76509B;
-  --app-editor:#F6F1FA; --app-editor-head:#E8DDEF; --app-editor-foot:#EEE5F5;
-  --app-rating:#86601C;
+  --app-canvas:#EEEAF4;
+  --app-space-base:#231E35;
+  --app-space-glow:#76618F;
+  --app-surface:#FBF9FD;
+  --app-card:#F7F3FB;
+  --app-control:#E4DCEB;
+  --app-text:#2D2538;
+  --app-body:#3E3549;
+  --app-text-muted:#62566E;
+  --app-border:#C1B4CC;
+  --app-control-border:#847294;
+  --app-primary:#6E4A8E;
+  --app-on-primary:#FFFFFF;
+  --app-active-on-space:#E2D0F5;
+  --app-focus:#6E4A8E;
+  --app-rating:#795715;
 }
 :root[data-app-palette="terracotta"] {
-  --app-space-base:#66382D; --app-space-glow:#C57856;
-  --app-surface:#FFF8F3; --app-card:#F6E4D9; --app-control:#F2D2BD;
-  --app-input:#FFF8F3; --app-text:#3C2926; --app-body:#3C2926;
-  --app-text-muted:#76534B; --app-border:#D9B5A3;
-  --app-primary:#B84E34; --app-on-primary:#FFFFFF;
-  --app-active-on-space:#F4BAA1; --app-focus:#B84E34;
-  --app-editor:#FFF8F3; --app-editor-head:#F6E4D9; --app-editor-foot:#F2D2BD;
+  --app-canvas:#F5ECE7;
+  --app-space-base:#30211D;
+  --app-space-glow:#966E5D;
+  --app-surface:#FFFAF6;
+  --app-card:#F9EDE5;
+  --app-control:#F0DCD0;
+  --app-text:#372822;
+  --app-body:#49362E;
+  --app-text-muted:#73574B;
+  --app-border:#D5B9AA;
+  --app-control-border:#9B7866;
+  --app-primary:#99472F;
+  --app-on-primary:#FFFFFF;
+  --app-active-on-space:#F6C5AE;
+  --app-focus:#99472F;
+  --app-rating:#7D571F;
 }
 :root[data-app-palette="apricot"] {
-  --app-space-base:#755342; --app-space-glow:#E3A176;
-  --app-surface:#FFFBF7; --app-card:#FFF1E5; --app-control:#F7D5BB;
-  --app-input:#FFFBF7; --app-text:#392C27; --app-body:#392C27;
-  --app-text-muted:#775D4C; --app-border:#D7B397;
-  --app-primary:#E38B5D; --app-on-primary:#1F2A33;
-  --app-active-on-space:#FFD4AF; --app-focus:#8B4625;
-  --app-editor:#FFFBF7; --app-editor-head:#FFF1E5; --app-editor-foot:#F7D5BB;
+  --app-canvas:#F7EFE5;
+  --app-space-base:#33281E;
+  --app-space-glow:#9E7D5B;
+  --app-surface:#FFFCF7;
+  --app-card:#FAF0E3;
+  --app-control:#F6E0C5;
+  --app-text:#362A1F;
+  --app-body:#483829;
+  --app-text-muted:#735C42;
+  --app-border:#D9C3A7;
+  --app-control-border:#967755;
+  --app-primary:#E8A168;
+  --app-on-primary:#322317;
+  --app-active-on-space:#FFDBB6;
+  --app-focus:#835028;
+  --app-rating:#81551B;
 }
 :root[data-app-palette="peach"] {
-  --app-space-base:#77614F; --app-space-glow:#F6D6BF;
-  --app-surface:#FFFAF5; --app-card:#F6D6BF; --app-control:#FAEDE1;
-  --app-input:#FFFAF5; --app-text:#1F2A33; --app-body:#1F2A33;
-  --app-text-muted:#63574F; --app-border:#C9AD98;
-  --app-primary:#4E6A7A; --app-on-primary:#FFFFFF;
-  --app-active-on-space:#F6D6BF; --app-focus:#4E6A7A;
-  --app-editor:#FFFAF5; --app-editor-head:#F6D6BF; --app-editor-foot:#FAEDE1;
+  --app-canvas:#F5EEE9;
+  --app-space-base:#2F2524;
+  --app-space-glow:#9F8073;
+  --app-surface:#FFFBF8;
+  --app-card:#F9ECE3;
+  --app-control:#F3E0D2;
+  --app-text:#372C28;
+  --app-body:#4B3C34;
+  --app-text-muted:#745F52;
+  --app-border:#D5BDAE;
+  --app-control-border:#947663;
+  --app-primary:#F0CEB4;
+  --app-on-primary:#493021;
+  --app-active-on-space:#F9DECC;
+  --app-focus:#835E45;
+  --app-rating:#7D5923;
 }
 :root[data-app-palette="slate"] {
-  --app-space-base:#304958; --app-space-glow:#7A9BAB;
-  --app-surface:#F7FBFD; --app-card:#DEE8ED; --app-control:#CFDEE5;
-  --app-input:#F7FBFD; --app-text:#1F2A33; --app-body:#1F2A33;
-  --app-text-muted:#4C616E; --app-border:#AAC0CB;
-  --app-primary:#4E6A7A; --app-on-primary:#FFFFFF;
-  --app-active-on-space:#C1DBE9; --app-focus:#4E6A7A;
-  --app-editor:#F7FBFD; --app-editor-head:#DEE8ED; --app-editor-foot:#CFDEE5;
+  --app-canvas:#EAF0F3;
+  --app-space-base:#1F2B33;
+  --app-space-glow:#5A8194;
+  --app-surface:#F9FCFD;
+  --app-card:#EDF4F7;
+  --app-control:#D9E6ED;
+  --app-text:#23333E;
+  --app-body:#374B57;
+  --app-text-muted:#536B79;
+  --app-border:#B5C8D2;
+  --app-control-border:#668291;
+  --app-primary:#416579;
+  --app-on-primary:#FFFFFF;
+  --app-active-on-space:#C9E7F5;
+  --app-focus:#416579;
+  --app-rating:#7B5B20;
 }
 :root[data-app-palette="charcoal"] {
-  --app-space-base:#1F2A33; --app-space-glow:#697985;
-  --app-surface:#F9FBFB; --app-card:#E3E6E6; --app-control:#CFD6D9;
-  --app-input:#F9FBFB; --app-text:#1F2A33; --app-body:#1F2A33;
-  --app-text-muted:#4D5A63; --app-border:#AFBABF;
-  --app-primary:#1F2A33; --app-on-primary:#FFFFFF;
-  --app-active-on-space:#E9AA85; --app-focus:#1F2A33;
-  --app-editor:#F9FBFB; --app-editor-head:#E3E6E6; --app-editor-foot:#CFD6D9;
+  --app-canvas:#ECEFF0;
+  --app-space-base:#1C252B;
+  --app-space-glow:#536872;
+  --app-surface:#FCFDFD;
+  --app-card:#F1F4F5;
+  --app-control:#DBE2E5;
+  --app-text:#242E35;
+  --app-body:#394952;
+  --app-text-muted:#596A74;
+  --app-border:#BBC7CD;
+  --app-control-border:#6D818D;
+  --app-primary:#2D3E48;
+  --app-on-primary:#FFFFFF;
+  --app-active-on-space:#E2EDF2;
+  --app-focus:#2D3E48;
+  --app-rating:#76571D;
 }
-/* Keep the existing automatic OS mode on the first swatch. Other palettes
-   intentionally retain bright reading surfaces, including Ink Charcoal. */
+:root {
+  --app-input:var(--app-surface);
+  --app-holiday:#A92E4C;--app-weekend:#2A527B;
+  --app-editor:var(--app-surface);--app-editor-head:var(--app-card);--app-editor-foot:var(--app-control);
+  --app-ink:var(--app-text);--app-muted:var(--app-text-muted);--app-selected:var(--app-control);
+  --app-progress:var(--app-primary);--app-progress-track:var(--app-control);
+  --app-on-space:#FCF9FF;--app-tab-inactive:#E6E0EA;
+  --app-tab-active:var(--app-active-on-space);--app-tab-line:var(--app-active-on-space);
+  --app-primary-border:var(--app-primary);--app-brand-text:var(--app-active-on-space);
+  --app-logo-start:var(--app-primary);
+  --app-logo-end:color-mix(in srgb,var(--app-primary) 92%,var(--app-text));
+  --app-logo-symbol:var(--app-on-primary);
+  --app-wheel-tint:var(--app-primary);--app-wheel-shade:var(--app-space-base);
+  --app-wheel-highlight:var(--app-active-on-space);--app-wheel-glow:var(--app-space-glow);
+  --app-wheel-ring:var(--app-active-on-space);
+  --app-wheel-colour-filter:saturate(1.08) contrast(1.04);
+}
+:root:is([data-app-palette="apricot"],[data-app-palette="peach"]) {--app-primary-border:var(--app-focus)}
+:root[data-app-palette="terracotta"] {--app-wheel-colour-filter:hue-rotate(124deg) saturate(.72) contrast(1.04)}
+:root[data-app-palette="apricot"] {--app-wheel-colour-filter:hue-rotate(138deg) saturate(.65) contrast(1.04)}
+:root[data-app-palette="peach"] {--app-wheel-colour-filter:hue-rotate(138deg) saturate(.32) contrast(1.04)}
+:root[data-app-palette="slate"] {--app-wheel-colour-filter:hue-rotate(-45deg) saturate(.32) contrast(1.04)}
+:root[data-app-palette="charcoal"] {--app-wheel-colour-filter:grayscale(1) contrast(1.04)}
 @media (prefers-color-scheme:dark) {
-  :root[data-theme="system"] {
-    --app-space-base:#221A2D; --app-space-glow:#9170AE;
-    --app-surface:#292331; --app-card:#352D40; --app-control:#42364F;
-    --app-input:#302839; --app-text:#FAF7FC; --app-body:#E7DFEF;
-    --app-text-muted:#D2C5DD; --app-border:#80708E;
-    --app-primary:#C9AFE2; --app-on-primary:#30283B; --app-focus:#E8CCFF;
-    --app-editor:#292331; --app-editor-head:#352D40; --app-editor-foot:#42364F;
-    --app-rating:#EDC871;
-  }
+:root[data-app-palette="system"] {
+  --app-canvas:#292433;
+  --app-space-base:#1D1928;
+  --app-space-glow:#695584;
+  --app-surface:#332C3F;
+  --app-card:#3D344A;
+  --app-control:#463B54;
+  --app-text:#F7F1FC;
+  --app-body:#EBE2F3;
+  --app-text-muted:#CABED7;
+  --app-border:#6B5B7C;
+  --app-control-border:#A08DB3;
+  --app-primary:#C4A6DF;
+  --app-on-primary:#281E33;
+  --app-active-on-space:#E2CDF6;
+  --app-focus:#E2CDF6;
+  --app-rating:#EDCB83;
 }
-/* Body children inherit app aliases; #wheel and all its descendants retain
-   the old theme variables. Do not put these aliases on html or body. */
+  :root[data-app-palette="system"] {--app-input:#282232;--app-holiday:#F3A0B2;--app-weekend:#A5C7F1;color-scheme:dark!important}
+  :is([data-profile-theme-v137="system"],[data-theme-choice-v125="system"]) {--swatch:#C4A6DF!important}
+}
+:root[data-app-palette]:not([data-app-palette="system"]) {color-scheme:light!important}
+@media (prefers-color-scheme:light) {:root[data-app-palette="system"] {color-scheme:light!important}}
+/* Keep the one existing independent background preference; dark system/light
+   means a solid dark canvas, not the space photograph. */
+html[data-app-palette][data-background-mode="light"] {
+  --app-on-space:var(--app-text);--app-tab-inactive:var(--app-body);
+  --app-tab-active:var(--app-focus);--app-tab-line:var(--app-focus);
+  --app-brand-text:var(--app-focus);--app-wheel-ring:var(--app-focus);
+}
+/* Existing aliases stay scoped to body children, not html/body. Wheel aliases
+   are explicit below, so there is no second theme state or wheel rerender. */
 body > :not(#wheel):not(script):not(style):not(link) {
-  --theme-primary:var(--app-primary); --theme-secondary:var(--app-space-glow);
-  --theme-accent:var(--app-active-on-space); --theme-accent-soft:var(--app-control);
-  --theme-background:var(--app-surface); --theme-surface:var(--app-surface);
-  --theme-border:var(--app-border); --theme-text:var(--app-text); --theme-text-muted:var(--app-text-muted);
-  --theme-deep:var(--app-space-base); --theme-gradient-start:var(--app-primary);
-  --theme-gradient-mid:var(--app-space-glow); --theme-gradient-middle:var(--app-space-glow);
+  --theme-primary:var(--app-primary);--theme-secondary:var(--app-space-glow);
+  --theme-accent:var(--app-active-on-space);--theme-accent-soft:var(--app-control);
+  --theme-star:var(--app-active-on-space);
+  --theme-background:var(--app-surface);--theme-surface:var(--app-surface);
+  --theme-border:var(--app-border);--theme-text:var(--app-text);--theme-text-muted:var(--app-text-muted);
+  --theme-deep:var(--app-space-base);--theme-gradient-start:var(--app-primary);
+  --theme-gradient-mid:var(--app-space-glow);--theme-gradient-middle:var(--app-space-glow);
   --theme-gradient-end:var(--app-space-base);
   --theme-glow:color-mix(in srgb,var(--app-primary) 22%,transparent);
   --theme-atmosphere:color-mix(in srgb,var(--app-space-glow) 15%,transparent);
   --theme-orbit:color-mix(in srgb,var(--app-space-glow) 20%,transparent);
-  --cosmic-primary:var(--app-primary); --cosmic-secondary:var(--app-space-glow);
-  --cosmic-blue:var(--app-primary); --cosmic-violet:var(--app-space-glow);
-  --cosmic-bg:var(--app-surface); --cosmic-surface:var(--app-surface);
-  --cosmic-ink:var(--app-text); --cosmic-muted:var(--app-text-muted);
-  --cosmic-border:var(--app-border); --cosmic-lavender:var(--app-control);
-  --blue:var(--app-primary); --violet:var(--app-space-glow); --bg:var(--app-surface);
-  --ink:var(--app-text); --muted:var(--app-text-muted); --line:var(--app-border);
-  --glass:var(--app-card); --glass-strong:var(--app-surface); --glass-soft:var(--app-control);
-  --material-line:var(--app-border); --paper:var(--app-surface); --envelope:var(--app-control);
-  --v137-ink:var(--app-text); --v137-muted:var(--app-text-muted); --v137-line:var(--app-border);
+  --cosmic-primary:var(--app-primary);--cosmic-secondary:var(--app-space-glow);
+  --cosmic-blue:var(--app-primary);--cosmic-violet:var(--app-space-glow);
+  --cosmic-bg:var(--app-surface);--cosmic-surface:var(--app-surface);
+  --cosmic-ink:var(--app-text);--cosmic-muted:var(--app-text-muted);
+  --cosmic-border:var(--app-border);--cosmic-lavender:var(--app-control);
+  --blue:var(--app-primary);--violet:var(--app-space-glow);--bg:var(--app-surface);
+  --ink:var(--app-text);--muted:var(--app-text-muted);--line:var(--app-border);
+  --glass:var(--app-surface);--glass-strong:var(--app-surface);--glass-soft:var(--app-control);
+  --material-line:var(--app-border);--paper:var(--app-surface);--envelope:var(--app-control);
+  --v137-ink:var(--app-text);--v137-muted:var(--app-text-muted);--v137-line:var(--app-border);
+  --v137-glow:var(--theme-glow);
 }
-/* Background-only tint: the existing wallpaper composition is kept intact.
-   No filter/transform/zoom is applied to the app, user photos or wheel. */
-html[data-app-palette],html[data-app-palette] body { background:var(--app-space-base)!important; }
+#wheel {
+  --theme-primary:var(--app-wheel-tint);--theme-secondary:var(--app-wheel-glow);
+  --theme-accent:var(--app-wheel-ring);--theme-accent-soft:var(--app-control);
+  --theme-star:var(--app-wheel-highlight);
+  --theme-background:var(--app-control);--theme-border:var(--app-control-border);
+  --theme-deep:var(--app-wheel-shade);--theme-text:var(--app-text);
+  --theme-glow:color-mix(in srgb,var(--app-wheel-glow) 62%,transparent);
+  --theme-orbit:var(--app-wheel-ring);
+  --wheel-art-tone:var(--app-wheel-tint);--wheel-art-filter:var(--app-wheel-colour-filter);
+  --wheel-art-glow:color-mix(in srgb,var(--app-wheel-glow) 62%,transparent);
+}
+/* The mask is already primary-tinted; rotating it again changes copper to
+   green. Only the original raster needs hue correction. Keep all existing
+   pressed/open brightness, saturation and shadow operations on both layers. */
+#wheel #wheelCore::before {--wheel-art-filter:saturate(1.08) contrast(1.04)}
+/* Wallpaper composition, crop, alpha and size are inherited unchanged.
+   Only these background layers receive the luminosity tint. */
+html[data-app-palette],html[data-app-palette] body {background:var(--app-space-base)!important}
 html[data-app-palette] body::before {
   background-color:var(--app-space-base)!important;
   background-image:url("./cosmic-wallpaper-v134.png")!important;
-  background-blend-mode:luminosity!important;
-  filter:none!important;
+  background-blend-mode:luminosity!important;filter:none!important;
 }
 html[data-app-palette] body::after {
-  background:radial-gradient(ellipse at 80% 9%,color-mix(in srgb,var(--app-space-glow) 24%,transparent),transparent 64%),linear-gradient(color-mix(in srgb,var(--app-space-base) 20%,transparent),color-mix(in srgb,var(--app-space-base) 32%,transparent))!important;
+  background:linear-gradient(color-mix(in srgb,var(--app-space-base) 68%,transparent),color-mix(in srgb,var(--app-space-base) 40%,transparent))!important;
 }
-html[data-app-palette][data-background-mode="light"] body::before {
-  background:var(--app-surface)!important;
-}
-html[data-app-palette][data-background-mode="light"] body::after {
-  background:radial-gradient(ellipse at 90% 10%,color-mix(in srgb,var(--app-card) 54%,transparent),transparent 68%)!important;
-}
-/* Colour only: preserve all non-Event page layouts, business actions and
-   semantic error/success colours. No generic nav/.active layout overrides. */
+html[data-app-palette][data-background-mode="light"],html[data-app-palette][data-background-mode="light"] body,
+html[data-app-palette][data-background-mode="light"] body::before {background:var(--app-canvas)!important}
+html[data-app-palette][data-background-mode="light"] body::after {background:transparent!important}
+/* Important declarations in this already-earliest colour layer deliberately
+   outrank old unlayered inline colour patches and later component layers.
+   No geometry, font, opacity, transition or functional state is overridden. */
 @layer appColour164 {
-  #app .top .iconbtn { background:var(--app-control)!important;color:var(--app-text)!important;border-color:var(--app-border)!important; }
-  #app .top .brand,#app .barebar > .page-title { color:var(--app-surface)!important; }
-  html[data-background-mode="light"] #app .top .brand,
-  html[data-background-mode="light"] #app .barebar > .page-title { color:var(--app-text)!important;-webkit-text-fill-color:var(--app-text)!important; }
-  #app :is(.card,.iv-card,.schedule-calendar-v119,.schedule-upcoming-v119,.routine-card-v127,.my128-tool,.personal-panel) {
-    background-color:var(--app-card)!important;border-color:var(--app-border)!important;color:var(--app-text)!important;
+  #app .top .iconbtn {background:var(--app-control)!important;color:var(--app-text)!important;border-color:var(--app-control-border)!important}
+  #app .top .iconbtn svg {color:var(--app-text)!important;stroke:currentColor!important}
+  #app .top .brand {color:var(--app-brand-text)!important;-webkit-text-fill-color:currentColor!important}
+  #app .top .brandmark {background:linear-gradient(145deg,var(--app-logo-start),var(--app-logo-end))!important}
+  #app .top .brandmark::after {border-color:var(--app-logo-symbol)!important}
+  #app :is(.barebar>.page-title,.r165-header>.page-title,.my166-head h1,.mp159-head h1),
+  #event :is(.archive-v111 h2,.travel-v111 h2,.travel-head h3),
+  #routine .r165-section-heading h2,#personal :is(.daylog-toolbar-v165 h2,.reading-hero-v113 h2) {
+    color:var(--app-on-space)!important;-webkit-text-fill-color:currentColor!important;
   }
-  #app :is(.card,.iv-card,.schedule-upcoming-v119,.routine-card-v127,.personal-panel) :is(h2,h3,h4,p,label,small) {
-    color:var(--app-body)!important;
+  #app :is(.event-word-tabs-v157,.r165-tabs,.personal-tabs,.mp159-tabs) button {color:var(--app-tab-inactive)!important;-webkit-text-fill-color:currentColor!important}
+  #app :is(.event-word-tabs-v157,.r165-tabs,.personal-tabs,.mp159-tabs) button.active {color:var(--app-tab-active)!important;border-bottom-color:var(--app-tab-line)!important}
+  #app :is(.event-word-tabs-v157,.r165-tabs,.personal-tabs,.mp159-tabs) button :is(span,i,svg) {color:inherit!important;-webkit-text-fill-color:currentColor!important}
+  #app :is(.barebar .album-btn,.barebar .album-btn span,.personal-title-actions button) {color:var(--app-tab-active)!important;-webkit-text-fill-color:currentColor!important}
+  #routine .r165-section-heading time {color:var(--app-tab-inactive)!important}
+  html[data-background-mode="light"] #app :is(.brand,.page-title,.barebar,.my166-head,.mp159-head,.archive-v111 h2,.travel-head h3,.r165-section-heading h2) {text-shadow:0 0 transparent!important}
+  #app :is(.card,.iv-card,.schedule-calendar-v119,.schedule-upcoming-v119,.routine-card-v127,.personal-panel,
+  .r165-practice-card,.r165-goal-card,.r165-stat-card,.mp159-card,.my166-panel) {
+    background-color:var(--app-surface)!important;border-color:var(--app-border)!important;color:var(--app-text)!important;
   }
-  :is(#app,.modal,.feature-dialog-v125,.settings-v125,.drawer) :is(input,select,textarea) {
-    background-color:var(--app-input)!important;border-color:var(--app-border)!important;
-    color:var(--app-text)!important;-webkit-text-fill-color:var(--app-text)!important;
+  #app :is(.card,.iv-card,.schedule-upcoming-v119,.routine-card-v127,.personal-panel) :is(h2,h3,h4,label) {color:var(--app-text)!important;-webkit-text-fill-color:currentColor!important}
+  #app :is(.card,.iv-card,.schedule-upcoming-v119,.routine-card-v127,.personal-panel) p {color:var(--app-body)!important;-webkit-text-fill-color:currentColor!important}
+  #app :is(.card,.iv-card,.schedule-upcoming-v119,.routine-card-v127,.personal-panel) :is(small,time) {color:var(--app-text-muted)!important;-webkit-text-fill-color:currentColor!important}
+  :is(#app,.modal,.feature-dialog-v125,.settings-v125,.drawer,.mp166-dialog) :is(input,select,textarea) {
+    background-color:var(--app-input)!important;border-color:var(--app-control-border)!important;
+    color:var(--app-text)!important;-webkit-text-fill-color:var(--app-text)!important;accent-color:var(--app-primary)!important;
   }
-  :is(#app,.modal,.feature-dialog-v125,.settings-v125,.drawer) :is(input,textarea)::placeholder {
+  :is(#app,.modal,.feature-dialog-v125,.settings-v125,.drawer,.mp166-dialog) :is(input,textarea)::placeholder {
     color:var(--app-text-muted)!important;-webkit-text-fill-color:var(--app-text-muted)!important;opacity:1!important;
   }
-  :is(#app,.modal,.feature-dialog-v125,.settings-v125,.drawer) :is(button,input,select,textarea):focus-visible {
-    outline-color:var(--app-focus)!important;
-  }
-  :is(#app,.modal,.feature-dialog-v125,.settings-v125,.drawer) :is(button.primary,.schedule-icon-v119.insights,.schedule-icon-v119.emotion,.routine-plus-v111) {
-    background:var(--app-primary)!important;border-color:var(--app-primary)!important;
+  :is(#app,.modal,.feature-dialog-v125,.settings-v125,.drawer,.mp166-dialog) :is(button,input,select,textarea):focus-visible {outline-color:var(--app-focus)!important}
+  :is(#app,.modal,.feature-dialog-v125,.settings-v125,.drawer,.mp166-dialog) :is(button.primary,.schedule-icon-v119.insights,.schedule-icon-v119.emotion,.routine-plus-v111),
+  #routine :is([data-routine-create-open],.r165-levels button.active,.r165-goal-shortcuts button.active),
+  #event :is(.event-filter-scroll-v111 button.active,.travel-folder-strip-v111 button.active,.event-editor-actions-v111 .save),
+  #personal :is(header [data-padd],.daylog-toolbar-v165 [data-padd],.reading-hero-v113 [data-padd]),
+  #fifth .mp159-filters>button.active {
+    background:var(--app-primary)!important;border-color:var(--app-primary-border)!important;
     color:var(--app-on-primary)!important;-webkit-text-fill-color:var(--app-on-primary)!important;
   }
+  #app :is(.schedule-icon-v119.insights,.schedule-icon-v119.emotion) svg {color:var(--app-on-primary)!important;stroke:currentColor!important}
+  #event :is(.event-tools-v111,.quick,.event-filter-scroll-v111,.travel-folder-strip-v111) button:not(.primary):not(.active),
+  #fifth .mp159-filters>button:not(.active) {background:var(--app-control)!important;border-color:var(--app-control-border)!important;color:var(--app-text)!important}
+  #home :is(.schedule-calhead-v119 h1,.schedule-calendar-v119 h2,.schedule-calendar-v119 h3,.schedule-upcoming-v119 b) {color:var(--app-text)!important;-webkit-text-fill-color:currentColor!important}
+  #home .schedule-calctl-v119 button:not(.insights):not(.emotion) {background:var(--app-control)!important;color:var(--app-text)!important;border-color:var(--app-control-border)!important;-webkit-text-fill-color:currentColor!important}
+  #home .schedule-calctl-v119 button:not(.insights):not(.emotion) svg {color:var(--app-text)!important;stroke:currentColor!important}
+  #home .schedule-day-v119 {background-color:var(--app-card)!important;border-color:var(--app-border)!important}
+  #home .schedule-day-number-v119 {color:var(--app-text)!important;-webkit-text-fill-color:currentColor!important}
+  #home .schedule-day-v119:is(.today,.selected) .schedule-day-number-v119 {background-color:var(--app-primary)!important;color:var(--app-on-primary)!important;border-color:var(--app-focus)!important}
+  #home .schedule-day-v119.selected {background-color:var(--app-control)!important;border-color:var(--app-focus)!important}
+  #home .schedule-day-v119.selected::before {border-color:var(--app-focus)!important}
+  #home :is(.schedule-event-name-v119,.schedule-event-title-v148) {background-color:var(--app-control)!important;color:var(--app-text)!important;-webkit-text-fill-color:currentColor!important}
+  #home .schedule-week-v119 span:not(:first-child):not(:last-child) {color:var(--app-text-muted)!important}
+  #home :is(.schedule-holiday-v144,.schedule-week-v119 span:first-child) {color:var(--app-holiday)!important;-webkit-text-fill-color:currentColor!important}
+  #home .schedule-week-v119 span:last-child {color:var(--app-weekend)!important}
+  #home .schedule-upcoming-v119 :is(time,small,.uprow i) {color:var(--app-text-muted)!important}
+  :is(.modal,.drawer,.feature-dialog-v125)>:is(.box,section),.settings-v125 {background-color:var(--app-editor)!important;color:var(--app-text)!important}
+  :is(.modal,.drawer,.feature-dialog-v125)>:is(.box,section)>header {background-color:var(--app-editor-head)!important;color:var(--app-text)!important}
+  :is(.modal,.drawer,.feature-dialog-v125)>:is(.box,section)>footer {background-color:var(--app-editor-foot)!important}
+  #event .event-editor-head-v111 button,#event .event-editor-head-v111 button svg {color:var(--app-text)!important;stroke:currentColor!important;-webkit-text-fill-color:currentColor!important}
+  #event .event-editor-actions-v111 button:not(.save):not(.delete) {background:var(--app-control)!important;border-color:var(--app-control-border)!important}
+  #routine :is(.r165-practice-card>header button,.r165-goal-card>header button,.r165-levels button:not(.active),.r165-goal-shortcuts button:not(.active)) {background:var(--app-control)!important;border-color:var(--app-control-border)!important}
+  #fifth .my166-tool>i {color:var(--app-focus)!important}
+  #fifth .my166-tool>i svg {color:var(--app-focus)!important;stroke:currentColor!important}
+  #fifth :is(.work145-page,.lab145-page) {--v145-card:var(--app-surface);--v145-line:var(--app-border)}
+  #fifth :is(.work145-page,.lab145-page) :is(.suite145-head,.suite145-card,.work145-brief article,.work145-card,.lab145-entry-list details),
+  #fifth .my128-task-shell>:is(aside,main),#fifth .my128-task-panels>article {background:var(--app-surface)!important;color:var(--app-text)!important;border-color:var(--app-border)!important}
+  #fifth :is(.work145-page,.lab145-page) :is(.work145-mode,.work145-tabs,.work145-card dl>div,.lab145-entry-list dl>div,.suite145-callout),
+  #fifth .my128-task-stats article {background:var(--app-card)!important;color:var(--app-body)!important}
+  #fifth :is(.work145-page,.lab145-page) :is(h1,h2,h3,b,strong),#fifth .my128-client-main :is(h2,h3,b) {color:var(--app-text)!important;-webkit-text-fill-color:currentColor!important}
+  #fifth :is(.work145-page,.lab145-page) :is(small,time,dt,.suite145-muted,.work145-type),#fifth .my128-task-shell :is(small,time) {color:var(--app-text-muted)!important;-webkit-text-fill-color:currentColor!important}
+  #fifth :is(.work145-page,.lab145-page) :is(.work145-tabs,.work145-mode,.work145-card footer,.suite145-head,.lab145-filters,.lab145-links,.lab145-entry-list footer) button:not(.primary):not(.active):not(.danger),
+  #fifth .my128-task-shell button:not(.active):not(.danger) {background:var(--app-control)!important;color:var(--app-text)!important;border-color:var(--app-control-border)!important}
+  #fifth :is(.work145-tabs,.work145-mode,.lab145-filters) button.active,
+  #fifth .my128-client.active,#fifth .my128-primary {background:var(--app-primary)!important;color:var(--app-on-primary)!important;border-color:var(--app-primary-border)!important}
+  #fifth .my128-client.active :is(b,small,i),#fifth .lab145-links i {color:var(--app-on-primary)!important;-webkit-text-fill-color:currentColor!important}
+  #fifth .my128-subhead {background:var(--app-surface)!important;color:var(--app-text)!important}
+  #fifth .my128-subhead h1 {color:var(--app-text)!important;-webkit-text-fill-color:currentColor!important}
+  #fifth .my128-subhead small {color:var(--app-text-muted)!important;-webkit-text-fill-color:currentColor!important}
+  #fifth .my128-task-shell>aside>label {background:var(--app-control)!important;border-color:var(--app-control-border)!important;color:var(--app-text)!important}
+  #fifth :is(.my128-back,.my128-icon-action) {background:var(--app-control)!important;border-color:var(--app-control-border)!important;color:var(--app-text)!important}
+  #fifth :is(.my128-back,.my128-icon-action) svg {color:var(--app-text)!important;stroke:currentColor!important}
+  #fifth .mp166-page .mp159-actions>button {border-color:var(--app-control-border)!important}
+  #fifth .mp166-page .mp159-actions svg {color:var(--app-focus)!important;stroke:currentColor!important}
+  #fifth .mp166-page :is(.mp159-hero>p,.mp159-feed article>p,.mp159-queue article>p) {color:var(--app-body)!important}
+  #fifth .mp166-page :is(.mp166-primary,.mp159-progress),dialog.mp166-modal .mp166-primary {border-color:var(--app-primary-border)!important}
+  :is(.work145-overlay,.my128-modal)>section {background:var(--app-editor)!important;color:var(--app-text)!important;border-color:var(--app-border)!important}
+  :is(.work145-overlay,.my128-modal)>section>header {background:var(--app-editor-head)!important;color:var(--app-text)!important}
+  :is(.work145-overlay,.my128-modal) :is(fieldset,details) {background:var(--app-card)!important;border-color:var(--app-border)!important}
+  :is(.work145-overlay,.my128-modal) :is(input,select,textarea) {background:var(--app-input)!important;color:var(--app-text)!important;border-color:var(--app-control-border)!important;-webkit-text-fill-color:currentColor!important}
+  :is(.work145-overlay,.my128-modal) :is(label,legend,small) {color:var(--app-text-muted)!important;-webkit-text-fill-color:currentColor!important}
+  :is(.work145-overlay,.my128-modal) form>footer {background:var(--app-editor-foot)!important}
+  :is(.work145-overlay,.my128-modal) button:not(.primary):not(.danger) {background:var(--app-control)!important;color:var(--app-text)!important;border-color:var(--app-control-border)!important}
+  :is(.work145-overlay,.my128-modal) button.primary {background:var(--app-primary)!important;color:var(--app-on-primary)!important;border-color:var(--app-primary-border)!important}
+  :is(.schedule-dialog-v125,.schedule-dialog-v119,.emotion-dialog-v119,.dday-dialog-v125,.routine-stats-dialog-v125,.travel-folder-dialog-v125,.settings-v125)>section {background:var(--app-editor)!important;color:var(--app-text)!important;border-color:var(--app-border)!important}
+  :is(.schedule-dialog-v125,.schedule-dialog-v119,.emotion-dialog-v119,.dday-dialog-v125,.routine-stats-dialog-v125,.travel-folder-dialog-v125)>section>header {background:var(--app-editor-head)!important;color:var(--app-text)!important}
+  :is(.schedule-dialog-v125,.schedule-dialog-v119,.emotion-dialog-v119,.dday-dialog-v125,.routine-stats-dialog-v125,.travel-folder-dialog-v125) :is(h2,label) {color:var(--app-text)!important;-webkit-text-fill-color:currentColor!important}
+  :is(.schedule-dialog-v125,.schedule-dialog-v119,.emotion-dialog-v119,.dday-dialog-v125,.routine-stats-dialog-v125,.travel-folder-dialog-v125) :is(small,time) {color:var(--app-text-muted)!important;-webkit-text-fill-color:currentColor!important}
+  :is(.schedule-dialog-v125,.schedule-dialog-v119,.emotion-dialog-v119,.dday-dialog-v125,.routine-stats-dialog-v125,.travel-folder-dialog-v125) :is(input,select,textarea) {background:var(--app-input)!important;color:var(--app-text)!important;border-color:var(--app-control-border)!important;-webkit-text-fill-color:currentColor!important}
+  :is(.schedule-dialog-v125,.schedule-dialog-v119,.emotion-dialog-v119,.dday-dialog-v125,.travel-folder-dialog-v125) :is(input,textarea)::placeholder {color:var(--app-text-muted)!important;-webkit-text-fill-color:currentColor!important}
+  :is(.schedule-dialog-v125,.schedule-dialog-v119,.emotion-dialog-v119,.dday-dialog-v125,.routine-stats-dialog-v125,.travel-folder-dialog-v125)>section>header button {background:var(--app-control)!important;color:var(--app-text)!important;border-color:var(--app-control-border)!important}
+  :is(.schedule-dialog-v125,.schedule-dialog-v119,.emotion-dialog-v119,.dday-dialog-v125,.routine-stats-dialog-v125,.travel-folder-dialog-v125)>section>header button svg {color:var(--app-text)!important;stroke:currentColor!important}
+  :is(.schedule-dialog-actions-v125,.schedule-dialog-v119 footer,.emotion-dialog-v119 footer) {background:var(--app-editor-foot)!important}
+  .schedule-dialog-actions-v125 button:not(.primary):not(.danger) {background:var(--app-control)!important;color:var(--app-text)!important;border-color:var(--app-control-border)!important}
+  :is(.schedule-dialog-v125,.schedule-dialog-v119,.emotion-dialog-v119,.dday-dialog-v125,.travel-folder-dialog-v125) button.primary,
+  .dday-form-v125 button {background:var(--app-primary)!important;color:var(--app-on-primary)!important;border-color:var(--app-primary-border)!important;-webkit-text-fill-color:currentColor!important}
+  .schedule-item-v125,.routine-stats-dialog-v125 .routine-overall-v110 {background:var(--app-surface)!important;color:var(--app-text)!important}
+  /* The hitbox stays transparent. Colour the existing inner planet/button
+     surfaces, not the larger 58px interaction area or the wheel root. */
+  #wheel .global-wheel-item-v126 {color:var(--app-text)!important}
+  #wheel .global-wheel-item-v126 :is(i,svg,b) {color:var(--app-text)!important;stroke:currentColor!important;-webkit-text-fill-color:currentColor!important}
+  #wheel.open .global-wheel-item-v126::before {
+    background:radial-gradient(circle at 30% 24%,color-mix(in srgb,var(--app-wheel-highlight) 98%,transparent),transparent 16%),linear-gradient(145deg,var(--app-control),var(--app-control))!important;
+    border-color:var(--app-control-border)!important;
+  }
+  #wheel.open .global-wheel-item-v126:is(.hovered,[data-wheel-selected-v151="true"],[data-wheel-selected-v143="true"])::before {
+    background:linear-gradient(145deg,var(--app-primary),var(--app-primary))!important;border-color:var(--app-primary-border)!important;
+  }
+  #wheel .global-wheel-item-v126:is(.hovered,[data-wheel-selected-v151="true"],[data-wheel-selected-v143="true"]),
+  #wheel .global-wheel-item-v126:is(.hovered,[data-wheel-selected-v151="true"],[data-wheel-selected-v143="true"]) :is(i,svg,b) {
+    color:var(--app-on-primary)!important;stroke:currentColor!important;-webkit-text-fill-color:currentColor!important;
+  }
+  #wheel.open .global-wheel-orbits-v126 {border-color:var(--app-wheel-ring)!important}
 }
 /* These narrowly scoped declarations replace several obsolete profile-card
    overrides as one layer, without escalating id specificity. */

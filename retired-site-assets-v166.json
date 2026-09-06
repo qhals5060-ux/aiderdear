@@ -1,0 +1,46 @@
+{
+  "version": 166,
+  "retiredAt": "2026-09-07",
+  "scope": "Unused website-only Adaptive Card templates, empty placeholder payloads and unused icon. No user records.",
+  "reason": "No runtime, service worker, manifest or package configuration references. JSON filenames appear only in the historical Android v165 retirement log.",
+  "backupDirectory": "C:/AiderLogBuild/retired-assets-v166/site",
+  "backupSha256Verified": true,
+  "totalBytes": 4452,
+  "files": [
+    {
+      "file": "icon.svg",
+      "bytes": 893,
+      "sha256": "4d6f76c24d6b1e60d559105138f19d17f9116c253b2889db8660fb684b25e325"
+    },
+    {
+      "file": "clients-data.json",
+      "bytes": 131,
+      "sha256": "f824ce8207a172936973a5c12e16609957e280e05fdbc7c3f748b0ca23fdea83"
+    },
+    {
+      "file": "clients-template.json",
+      "bytes": 1130,
+      "sha256": "37cf59c815dde41dc419c144543d881c7472a39f6a97d5cc81b271d03ef1c523"
+    },
+    {
+      "file": "insights-data.json",
+      "bytes": 126,
+      "sha256": "ab1e86bbd9e78709f74d604fbf56c5c5314803304f9cf08c372d038418c30b75"
+    },
+    {
+      "file": "insights-template.json",
+      "bytes": 906,
+      "sha256": "27496fdfc16bcc185d2c2122810ae31e3e13644baf923f86ae8d5c19bf1c0d0b"
+    },
+    {
+      "file": "schedule-data.json",
+      "bytes": 118,
+      "sha256": "91503731df03bb5f8c63c5516f5dc96165ecff9518d8c621e6b9525fb1779905"
+    },
+    {
+      "file": "schedule-template.json",
+      "bytes": 1148,
+      "sha256": "8b02d3787a475bed7fb9141204ab155cfa36b3541308449b34f0f534271567a1"
+    }
+  ]
+}

@@ -7,14 +7,14 @@
   // Shared by both existing settings entry points. Labels remain accessible,
   // while the visible controls are six small, solid colour swatches.
   const THEMES = Object.freeze({
-    system:{name:'기본 라벤더 · 기기 밝게·어둡게 자동',a:'#76509B'},
-    terracotta:{name:'테라코타',a:'#B84E34'},
-    apricot:{name:'애프리콧',a:'#E38B5D'},
-    peach:{name:'피치 크림',a:'#F6D6BF'},
-    slate:{name:'슬레이트 블루',a:'#4E6A7A'},
-    charcoal:{name:'잉크 차콜',a:'#1F2A33'}
+    system:{name:'기본 · Soft Purple',a:'#6E4A8E'},
+    terracotta:{name:'테라코타',a:'#99472F'},
+    apricot:{name:'애프리콧',a:'#E8A168'},
+    peach:{name:'피치 크림',a:'#F0CEB4'},
+    slate:{name:'슬레이트 블루',a:'#416579'},
+    charcoal:{name:'잉크 차콜',a:'#2D3E48'}
   });
-  // Read old selections without replacing the saved value or its wheel theme.
+  // Keep legacy saved IDs; one resolved palette now colours content, wheel and logo.
   const LEGACY_THEMES = Object.freeze({sun:'terracotta',mercury:'charcoal',venus:'peach',earth:'slate',mars:'terracotta',jupiter:'apricot',saturn:'peach',uranus:'slate',neptune:'slate',pluto:'charcoal','cosmic-violet':'system','nebula-blue':'slate','solar-dust':'terracotta','aurora-pink':'peach','eclipse-mono':'charcoal',aurora:'system',lavender:'system',ocean:'slate',mint:'slate',rose:'peach',sunset:'apricot',midnight:'charcoal',mono:'charcoal'});
   const FONT_SIZES = {
     small:{name:'작게',note:'정보를 더 많이 봅니다'},
@@ -54,7 +54,7 @@
   }
 
   function applyLanguageTheme() {
-    // UI aliases are deliberately scoped below body, excluding the wheel.
+    // Content aliases are scoped below body; wheel has its own explicit colour aliases.
     const styles = getComputedStyle($('#app') || document.documentElement);
     $$('aiderlog-language-lab').forEach(host => {
       const names = ['primary','secondary','accent','accent-soft','background','border','text','text-muted','deep','gradient-start','gradient-mid','gradient-end','glow'];
@@ -69,6 +69,12 @@
       host.style.setProperty('--blue-pale',styles.getPropertyValue('--theme-accent-soft').trim());
       const root = host.shadowRoot;
       if (!root) return;
+      if (host.hasAttribute('data-training-v166')) {
+        LANGUAGE_THEME_OBSERVERS_V126.get(root)?.disconnect();
+        LANGUAGE_THEME_OBSERVERS_V126.delete(root);
+        root.querySelector('style[data-theme-v125]')?.remove();
+        return;
+      }
       let style = root.querySelector('style[data-theme-v125]');
       if (!style) {
         style = document.createElement('style');
@@ -95,6 +101,9 @@
       if (!LANGUAGE_THEME_OBSERVERS_V126.has(root)) {
         const observer = new MutationObserver(() => {
           const themeStyle = root.querySelector('style[data-theme-v125]');
+          if (host.hasAttribute('data-training-v166')) {
+            observer.disconnect();LANGUAGE_THEME_OBSERVERS_V126.delete(root);themeStyle?.remove();return;
+          }
           if (themeStyle && themeStyle !== root.lastElementChild) root.append(themeStyle);
         });
         observer.observe(root,{childList:true});
@@ -139,7 +148,9 @@
   async function applyFontSize(value,persist=false){
     const id=fontSizeId(value);document.documentElement.dataset.appFontSize=id;
     $$('[data-font-choice-v133]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.fontChoiceV133===id)));
-    document.querySelectorAll('aiderlog-language-lab').forEach(host=>host.style.setProperty('--app-font-multiplier',id==='large'?'1.14':id==='small'?'.92':'1'));
+    const scale={small:.72,normal:.84,large:1}[id];
+    document.documentElement.style.setProperty('--app-font-multiplier',String(scale));
+    document.querySelectorAll('aiderlog-language-lab').forEach(host=>host.style.setProperty('--app-font-multiplier',String(scale)));
     try{localStorage.setItem('aiderlogFontSize',id)}catch(_){}
     if(!persist||typeof P==='undefined')return;
     P.settings=P.settings&&typeof P.settings==='object'?P.settings:{};P.settings.fontSize=id;
@@ -458,7 +469,7 @@
 
   document.addEventListener('language-lab-ready',()=>{applyLanguageTheme();ensureTranscriptPanelV125();[80,320,900].forEach(delay=>setTimeout(applyLanguageTheme,delay))});
   const systemSchemeV164=window.matchMedia?.('(prefers-color-scheme: dark)');
-  const refreshSystemSchemeV164=()=>{if(currentTheme()==='system')applyTheme('system',false)};
+  const refreshSystemSchemeV164=()=>{if(paletteId(currentTheme())==='system')applyTheme(currentTheme(),false)};
   if(systemSchemeV164?.addEventListener)systemSchemeV164.addEventListener('change',refreshSystemSchemeV164);
   else systemSchemeV164?.addListener?.(refreshSystemSchemeV164);
   document.addEventListener('click',event=>{const close=event.target.closest('#introClose');if(close)$('#intro')?.classList.remove('on')});

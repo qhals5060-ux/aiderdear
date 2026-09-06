@@ -3,3 +3,7 @@ node_modules/
 .git/
 DESIGN_PRESERVATION*.md
 RELEASE*.md
+verification/
+WORK_V167_OPERATIONS.md
+EMPLOYEE_V167.md
+CONSULT_V167.md

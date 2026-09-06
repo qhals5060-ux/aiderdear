@@ -1,4 +1,7 @@
 /* Modern v165 — one website layout layer. Editorial and Android never match. */
+/* The shared website dot controls are buttons, not scroll gestures. Their active
+   state must never magnify the text when the same nodes are used by Modern. */
+html:not(.aiderlog-android) #app :is(.dotnav,.record-dot,.private-dot,.personal-dot,.emotion-dot,[data-task-page]){transform:none!important;scale:none!important}
 html.modern-site{--modern-bg:#f3f3f0;--modern-surface:#fff;--modern-soft:#f7f9f8;--modern-ink:#252d31;--modern-muted:#626b70;--modern-primary:#335d5b;--modern-selected:#e8f0ee;--modern-border:#dde2e0;--work-accent:#335d5b;--work-accent-soft:#e8f0ee;--work-paper:#fff;--work-line:#dde2e0;--work-ink:#252d31;--work-muted:#626b70;--paper:#fff;--ink:#252d31;--navy:#335d5b;--display-font:Inter,Pretendard,"Malgun Gothic",sans-serif;color-scheme:light;background:var(--modern-bg)!important}
 html.modern-site body{margin:0;background:var(--modern-bg)!important;color:var(--modern-ink);font-family:var(--display-font)!important;overflow:hidden!important}
 html.modern-site body::before,html.modern-site body::after{display:none!important}
@@ -162,7 +165,6 @@ html.modern-site body #app :is(#recordShell,#albumShell,#eventArchiveShell,#trav
 html.modern-site body #app :is(.record-main,.album-frame,.event-frame){height:100%!important;display:flex!important;flex-direction:column;gap:0!important}
 html.modern-site body #app .record-main{padding:0!important;border:0!important;box-shadow:none!important}
 html.modern-site body #app :is(.record-heading,.album-heading,.event-title-group){display:none!important}
-html.modern-site body #app :is(.record-toolbar,.album-toolbar,.event-toolbar)>[data-modern-event-view]{font-weight:650!important;min-width:105px;width:auto;flex:none}
 html.modern-site body #app .record-controls{flex:1;justify-content:flex-end}
 html.modern-site body #app .record-date-search{width:145px!important}
 html.modern-site body #app :is(.record-feed,.album-content,.event-content){min-height:0!important;flex:1;overflow:auto!important;padding:8px 0!important;border:0!important;background:transparent!important}
@@ -179,9 +181,6 @@ html.modern-site body #app .post-body{font-size:14px!important;line-height:1.55!
 html.modern-site body #app .post-actions{padding:6px 12px!important;font-size:12px!important}
 html.modern-site body #app .post-tag{font-size:12px!important}
 html.modern-site body #app .record-empty{grid-column:1/-1;min-height:0!important;height:auto!important;padding:20px!important;border:1px dashed var(--modern-border)!important}
-html.modern-site body #app .modern-record-browser{position:relative;flex:none;font-size:13px}
-html.modern-site body #app .modern-record-browser summary{padding:9px;border:1px solid var(--modern-border);border-radius:6px;background:#fff;cursor:pointer}
-html.modern-site body #app .modern-record-browser .record-aside{display:block!important;position:absolute;right:0;top:100%;width:260px!important;max-height:65vh;overflow:auto;padding:14px!important;z-index:20;background:#fff!important;border:1px solid var(--modern-border)!important;box-shadow:0 10px 25px #0002}
 html.modern-site body #app .album-folder-grid{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;grid-template-rows:none!important;grid-auto-rows:auto!important;gap:15px!important;align-content:start!important;height:auto!important}
 html.modern-site body #app .album-folder{height:auto!important;min-height:145px!important;padding:14px!important;clip-path:none!important;border:1px solid var(--modern-border)!important;border-radius:8px!important;box-shadow:none!important}
 html.modern-site body #app .album-folder :is(b,strong){font-size:16px!important;white-space:normal!important}
@@ -204,7 +203,7 @@ html.modern-site body #app .personal-toolbar{grid-column:2;min-height:0!importan
 html.modern-site body #app .personal-toolbar h2{display:none}
 html.modern-site body #app .personal-toolbar-tools:empty{display:none!important}
 html.modern-site body #app .personal-category-tabs{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:4px!important;width:100%!important;padding:0!important;background:none!important}
-html.modern-site body #app .personal-category-tabs button{width:100%!important;min-height:44px!important;text-align:left;display:flex;align-items:center;gap:10px;padding:8px 10px!important;border:0!important;background:transparent!important;color:var(--modern-ink)!important;clip-path:none!important;font-size:15px!important}
+html.modern-site body #app .personal-category-tabs button{width:100%!important;min-height:44px!important;text-align:left;display:flex;align-items:center;gap:8px;padding:8px 10px!important;border:0!important;background:transparent!important;color:var(--modern-ink)!important;clip-path:none!important;font-size:13px!important}
 html.modern-site body #app .personal-category-tabs button.active{background:var(--modern-selected)!important;color:var(--modern-primary)!important}
 html.modern-site body #app .personal-content{grid-column:2;padding:0!important;min-height:0!important;overflow:auto!important;background:transparent!important}
 html.modern-site body #app .personal-ledger{padding:0!important;border:0!important;background:transparent!important;min-height:0!important;overflow:visible!important}
@@ -215,7 +214,8 @@ html.modern-site body #app .pomodoro-card :is(.pomodoro-custom-time,.pomodoro-pr
 html.modern-site body #app .pomodoro-card button{height:36px!important;min-height:36px!important;font-size:12px!important;padding:5px!important;flex:1!important}
 html.modern-site body #app .pomodoro-custom-time input{width:60px!important;min-width:0!important}
 html.modern-site body #app .pomodoro-card input{width:100%!important;font-size:13px!important}
-html.modern-site body #app .pomodoro-card :is(b,span){font-size:13px!important}
+html.modern-site body #app .pomodoro-card :is(b,span,label){font-size:12px!important}
+html.modern-site body #app .modern-pomodoro-clock{font-size:15px!important}
 html.modern-site body #app #taskStage>.task-page.current{display:block!important}
 html.modern-site body #app #taskStage :is(.task-shell,.task-frame){height:100%!important;display:flex!important;flex-direction:column}
 html.modern-site body #app .task-toolbar h2{display:none}
@@ -238,15 +238,6 @@ html.modern-site body #app .consulting-client-list :is(span,small){font-size:12p
 html.modern-site body #app .consulting-main{min-height:0!important;overflow:auto!important;padding:14px!important;background:#fff!important;border:1px solid var(--modern-border)!important;border-radius:8px}
 html.modern-site body #app .consulting-client-head{padding:0 0 12px!important;margin:0!important;min-height:0!important;height:auto!important;background:transparent!important;border:0!important}
 html.modern-site body #app .consulting-client-head h3{font-size:22px!important}
-html.modern-site body #app .consult-v159-roadmap{padding:0!important;border:0!important;background:transparent!important;margin:0 0 10px!important}
-html.modern-site body #app .consult-v159-roadmap>header{display:none!important}
-html.modern-site body #app .consult-v159-stages{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:6px!important}
-html.modern-site body #app .consult-v159-stages button{display:flex!important;align-items:center!important;gap:8px!important;min-height:48px!important;height:auto!important;padding:8px 10px!important;border:1px solid var(--modern-border)!important;border-radius:6px!important;background:var(--modern-soft)!important;color:var(--modern-ink)!important}
-html.modern-site body #app .consult-v159-stages button.active{border-color:var(--modern-primary)!important;background:var(--modern-selected)!important}
-html.modern-site body #app .consult-v159-stages :is(p,small,em){display:none!important}
-html.modern-site body #app .consult-v159-stages :is(b,span){font-size:14px!important;position:static!important}
-html.modern-site body #app .consult-v159-tabs{display:flex!important;flex-wrap:wrap;gap:4px!important;margin:0 0 12px!important}
-html.modern-site body #app .consult-v159-tabs button{min-height:36px!important;padding:7px 10px!important;font-size:13px!important}
 html.modern-site body #app .consulting-detail-grid{grid-template-columns:minmax(0,42fr) minmax(0,33fr) minmax(0,25fr)!important;gap:12px!important}
 html.modern-site body #app .consulting-files-panel{grid-column:auto!important;grid-row:auto!important}
 html.modern-site body #app .consulting-client-note{grid-column:1/-1!important}
@@ -350,16 +341,11 @@ html.modern-site .site-edition-downloads{gap:10px!important}
  html.modern-site body #app .routine-round-stamp{min-height:66px!important;padding:4px!important}
  html.modern-site body #app .modern-routine-goals{display:block}
  html.modern-site body #app .routine-mandala-v106{margin-top:12px}
- html.modern-site body #app .modern-routine-actions{margin:10px 0}
- html.modern-site body #app .modern-routine-actions button{width:100%;min-height:44px}
  html.modern-site body #app .routine-create-form{grid-template-columns:minmax(0,1fr)!important}
  html.modern-site body #app :is(.record-main,.album-frame,.event-frame){height:auto!important;display:block!important}
  html.modern-site body #app :is(.record-toolbar,.album-toolbar,.event-toolbar){gap:6px!important;min-height:44px!important;padding:4px 0 9px!important}
  html.modern-site body #app .record-toolbar{display:grid!important;grid-template-columns:88px minmax(0,1fr) 102px!important;grid-auto-rows:minmax(44px,auto)!important;gap:6px!important}
  html.modern-site body #app .record-controls{display:contents!important}
- html.modern-site body #app .record-toolbar>[data-modern-event-view]{grid-column:1;grid-row:1;min-width:0!important;width:100%!important}
- html.modern-site body #app .record-toolbar .modern-record-browser{grid-column:3;grid-row:1;margin:0!important}
- html.modern-site body #app .record-toolbar .modern-record-browser summary{font-size:12px!important;padding:9px 3px!important;white-space:nowrap}
  html.modern-site body #app #newRecordTop{grid-column:2;grid-row:1;width:100%!important;min-width:0!important;font-size:12px!important;padding:7px 4px!important}
  html.modern-site body #app .record-toolbar .record-filter{grid-column:1;grid-row:2;min-height:44px!important}
  html.modern-site body #app #recordDateSearch{grid-column:2;grid-row:2;width:100%!important;min-width:0!important;padding:5px!important;font-size:12px!important}
@@ -367,7 +353,6 @@ html.modern-site .site-edition-downloads{gap:10px!important}
  html.modern-site body #app #recordPeopleFilters:empty{display:none!important}
  html.modern-site body #app #recordPeopleFilters:not(:empty){grid-column:1/-1;display:flex!important;flex-wrap:wrap;gap:5px}
  html.modern-site body #app .record-date-search{width:137px!important}
- html.modern-site body #app .modern-record-browser{margin-left:auto}
  html.modern-site body #app :is(.record-feed,.album-content,.event-content){height:auto!important;overflow:visible!important}
  html.modern-site body #app .record-feed-inner{grid-template-columns:minmax(0,1fr)!important;gap:9px!important}
  html.modern-site body #app .record-post{display:grid!important;grid-template-columns:100px minmax(0,1fr)!important;grid-template-rows:auto auto!important;gap:0!important;min-height:112px!important;border-top-width:1px!important}
@@ -403,8 +388,6 @@ html.modern-site .site-edition-downloads{gap:10px!important}
  html.modern-site body #app .consulting-client-head h3{display:flex!important;flex-wrap:wrap!important;gap:8px!important;white-space:normal!important;word-break:keep-all!important}
  html.modern-site body #app .consulting-client-head>div>span{font-size:12px!important;white-space:normal!important}
  html.modern-site body #app .consulting-actions{justify-content:flex-start!important}
- html.modern-site body #app .consult-v159-stages{grid-template-columns:1fr!important}
- html.modern-site body #app .consult-v159-tabs{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important}
  html.modern-site body #app .consulting-detail-grid{grid-template-columns:minmax(0,1fr)!important}
  html.modern-site body #app .site-work-shell-v146{height:auto!important}
  html.modern-site body #app .site-work-content-v146{overflow:visible!important}

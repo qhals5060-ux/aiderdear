@@ -4,6 +4,7 @@
   const $$=(selector,root=document)=>Array.from(root.querySelectorAll(selector));
   const safe=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
   const fontBases=new WeakMap();
+  const managedFonts=new Set();
   const observedRoots=new WeakSet();
   let typeQueued=false,typeApplying=false,mailTab='received',wheelGesture=null,wheelHoldTimer=null,ignoreWheelClickUntil=0;
   const appShellMode=location.protocol==='file:'||Boolean(window.AiderLogNative)||new URLSearchParams(location.search).get('android-preview')==='1';
@@ -25,7 +26,7 @@
     });
     // New scoped presentations already scale type using the shared app token.
     // Do not freeze their hidden pre-layout sizes into inline !important styles.
-    return [...result].filter(node=>!node.closest('[data-css-typography]'));
+    return [...result].filter(node=>!node.closest('#wheel,[data-css-typography],.profile-compact-v164'));
   }
 
   function shadowRoots(){return $$('aiderlog-language-lab').map(host=>host.shadowRoot).filter(Boolean)}
@@ -40,23 +41,47 @@
     if(typeApplying)return;
     typeApplying=true;typeQueued=false;
     const html=document.documentElement,mode=['small','normal','large'].includes(html.dataset.appFontSize)?html.dataset.appFontSize:'normal';
-    const scale={small:.93,normal:1,large:1.075}[mode];
+    const scale={small:.72,normal:.84,large:1}[mode];
     const roots=[document,...shadowRoots()];
+    const typeTransitions=[];
     roots.forEach(observeRoot);
-    /* Derive the normal-size baseline from the active scale, then resize only
-       glyphs. Avoiding a temporary dataset change also prevents observer loops. */
-    const targets=roots.flatMap(textTargets);
-    targets.forEach(node=>{
-      if(fontBases.has(node))return;
-      const size=parseFloat(getComputedStyle(node).fontSize);
-      if(Number.isFinite(size)&&size>0)fontBases.set(node,size/scale);
-    });
-    targets.forEach(node=>{
-      const base=fontBases.get(node);if(!base)return;
-      const next=Math.max(7,Math.min(42,base*scale));
-      node.style.setProperty('font-size',`${Math.round(next*100)/100}px`,'important');
-    });
-    typeApplying=false;
+    // Measure the authored, unscaled type once per pass. Never divide a hidden
+    // computed size by the current choice: that made cold starts and later
+    // navigation use different baselines. Only glyphs change, not viewport zoom.
+    const restore=node=>{const row=fontBases.get(node);if(!row)return;
+      if(node.style.getPropertyValue('font-size')===row.applied&&node.style.getPropertyPriority('font-size')==='important'){
+        if(row.value)node.style.setProperty('font-size',row.value,row.priority);else node.style.removeProperty('font-size');
+      }else if(row.applied){row.value=node.style.getPropertyValue('font-size');row.priority=node.style.getPropertyPriority('font-size');}
+      row.applied='';
+    };
+    try{
+      managedFonts.forEach(node=>{if(!node.isConnected){managedFonts.delete(node);return}restore(node);
+        if(node.closest('#wheel,[data-css-typography],.profile-compact-v164')){managedFonts.delete(node);fontBases.delete(node);}});
+      html.setAttribute('data-measuring-type-v166','');
+      const targets=roots.flatMap(textTargets).filter(node=>node.isConnected&&node.getClientRects().length);
+      // "transition: all" exposes an interpolated old font-size during a read.
+      // Settle only those text targets before measuring, otherwise repeated
+      // normal/small passes progressively shrink controls such as Today.
+      targets.forEach(node=>{const css=getComputedStyle(node);
+        if(css.transitionProperty.split(',').some(name=>['all','font-size','font'].includes(name.trim()))&&css.transitionDuration.split(',').some(value=>parseFloat(value)>0)){
+          typeTransitions.push([node,node.style.getPropertyValue('transition-property'),node.style.getPropertyPriority('transition-property')]);
+          node.style.setProperty('transition-property','none','important');
+        }
+      });
+      // Complete all reads before any write so an inherited child is not scaled twice.
+      const sizes=targets.map(node=>[node,parseFloat(getComputedStyle(node).fontSize)]);
+      html.removeAttribute('data-measuring-type-v166');
+      sizes.forEach(([node,base])=>{if(!Number.isFinite(base)||base<=0)return;
+        let row=fontBases.get(node);if(!row){row={value:node.style.getPropertyValue('font-size'),priority:node.style.getPropertyPriority('font-size'),applied:''};fontBases.set(node,row);}
+        row.applied=`${Math.round(Math.max(7,base*scale)*100)/100}px`;
+        node.style.setProperty('font-size',row.applied,'important');managedFonts.add(node);
+      });
+      // Commit final glyph sizes before reinstating the original hover effects.
+      if(typeTransitions.length)getComputedStyle(typeTransitions[0][0]).fontSize;
+    }finally{html.removeAttribute('data-measuring-type-v166');
+      typeTransitions.forEach(([node,value,priority])=>{if(value)node.style.setProperty('transition-property',value,priority);else node.style.removeProperty('transition-property');});
+      typeApplying=false;
+    }
   }
   function queueTypography(){if(typeQueued||typeApplying)return;typeQueued=true;requestAnimationFrame(applyTypography)}
 
@@ -214,6 +239,7 @@
   function refresh(){bindUtilityButtons();enhanceSearch();installWheelControl();queueTypography()}
   document.addEventListener('keydown',event=>{if(event.key==='Escape')closeTopUtility()});
   addEventListener('aiderdear-firebase-state',()=>{if($('#mailboxModalV142.on'))renderMailbox();queueTypography()});
+  document.addEventListener('aiderlog-page-changed',queueTypography);
   new MutationObserver(records=>{
     if(records.some(record=>record.addedNodes.length)){bindUtilityButtons();enhanceSearch();installWheelControl();queueTypography()}
     if(!typeApplying&&records.some(record=>record.type==='attributes'&&record.attributeName==='data-app-font-size'))queueTypography();

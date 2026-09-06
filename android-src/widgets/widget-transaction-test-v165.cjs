@@ -15,12 +15,13 @@ function harness(payload=initial()){
   if(payload!==undefined)docs.set(mainPath,{payload:copy(payload),updatedAt:'prior-server-time',unrelatedDocumentField:'keep'});
   let now=Date.parse('2026-09-06T12:00:00Z'),attempts=0,reads=0,commits=0;
   class Clock extends Date { constructor(...args){super(...(args.length?args:[now]));} static now(){return now;} }
+  class FieldPath { constructor(...segments){this.segments=segments;} }
   const h={auth,state,docs,versions,beforeCommit:null,afterCommit:null,afterRead:null};
   const set=(key,data)=>{docs.set(key,copy(data));versions.set(key,(versions.get(key)||0)+1)};
   const runTransaction=async(_,callback)=>{
     for(let n=0;n<6;n++){
       attempts++;const observed=new Map(),writes=[];
-      const tx={get:async ref=>{if(writes.length)throw Error('read after write');reads++;observed.set(ref,versions.get(ref)||0);const data=copy(docs.get(ref));if(h.afterRead)await h.afterRead(ref,reads);return {exists:()=>data!==undefined,data:()=>data};},update:(ref,data)=>writes.push({ref,data:copy(data),update:true}),set:(ref,data)=>writes.push({ref,data:copy(data),update:false})};
+      const tx={get:async ref=>{if(writes.length)throw Error('read after write');reads++;observed.set(ref,versions.get(ref)||0);const data=copy(docs.get(ref));if(h.afterRead)await h.afterRead(ref,reads);return {exists:()=>data!==undefined,data:()=>data};},update:(ref,...args)=>{let data;if(args[0] instanceof FieldPath){data=copy(docs.get(ref));for(let i=0;i<args.length;i+=2){const keys=args[i].segments;let target=data;for(const key of keys.slice(0,-1))target=target[key]||=( {} );target[keys.at(-1)]=copy(args[i+1]);}}else data=copy(args[0]);writes.push({ref,data,update:true});},set:(ref,data)=>writes.push({ref,data:copy(data),update:false})};
       const result=await callback(tx);
       if(h.beforeCommit)await h.beforeCommit(n,writes);
       if([...observed].some(([key,version])=>(versions.get(key)||0)!==version))continue;
@@ -30,7 +31,7 @@ function harness(payload=initial()){
     }
     throw Error('transaction retry limit');
   };
-  h.api=new Function('auth','state','doc','db','runTransaction','serverTimestamp','TextEncoder','Date',block+'\nreturn applyWidgetActionV165;')(auth,state,(_,...parts)=>parts.join('/'),{},runTransaction,()=> 'SERVER_TIME',TextEncoder,Clock);
+  h.api=new Function('auth','state','doc','db','runTransaction','serverTimestamp','TextEncoder','Date','FieldPath',block+'\nreturn applyWidgetActionV165;')(auth,state,(_,...parts)=>parts.join('/'),{},runTransaction,()=> 'SERVER_TIME',TextEncoder,Clock,FieldPath);
   h.payload=()=>copy(docs.get(mainPath)?.payload);
   h.replace=(payload)=>set(mainPath,{...docs.get(mainPath),payload:copy(payload)});
   h.switch=uid=>{auth.currentUser=uid?{uid}:null;state.user=uid?{uid}:null};

@@ -1,0 +1,174 @@
+/* v167 website-only refinements. Editorial's page composition is retained. */
+html:not(.aiderlog-android) .record-classification-v167{display:grid;grid-template-columns:minmax(105px,.8fr) minmax(0,1.2fr);gap:14px;grid-column:1/-1;min-width:0;align-items:end}
+html:not(.aiderlog-android) .record-classification-v167>.field{grid-column:auto!important;min-width:0}
+html:not(.aiderlog-android) #recordColorPicker{display:flex!important;align-items:center;flex-wrap:wrap;gap:10px!important;min-height:42px}
+html:not(.aiderlog-android) #recordColorPicker .record-color-swatch{flex:0 0 30px!important;width:30px!important;height:30px!important;min-width:30px!important;min-height:30px!important;padding:0!important;border-radius:50%!important;background:var(--swatch)!important;border:1px solid #0002!important;box-shadow:none!important;outline:0;position:relative}
+html:not(.aiderlog-android) #recordColorPicker .record-color-swatch.active{outline:2px solid currentColor;outline-offset:3px}
+html:not(.aiderlog-android) #recordColorPicker .record-color-swatch.active::after{content:'✓';color:var(--ink);font:700 15px/1 sans-serif;position:absolute;inset:0;display:grid;place-items:center}
+html:not(.aiderlog-android) #recordColorPicker .record-color-swatch:focus-visible{outline:3px solid #506fa0;outline-offset:3px}
+
+/* Compact month actions share the month heading's left alignment. */
+html.modern-site body #app #page0{gap:8px!important}
+html.modern-site body #app #page0>.cal-top{justify-content:flex-start!important;gap:14px!important;min-height:38px!important;padding:0!important}
+html.modern-site body #app #monthTitle{flex:none;font-size:20px!important;line-height:1.2!important;white-space:nowrap}
+html.modern-site body #app #page0 .month-controls{justify-content:flex-start!important;flex-direction:row!important;flex:1;gap:5px!important;max-width:none!important}
+html.modern-site body #app #page0 .month-controls button{min-height:32px!important;height:32px!important;width:auto!important;min-width:32px!important;padding:4px 9px!important;font-size:12px!important}
+html.modern-site body #app #page0>.side{display:grid!important;grid-template-rows:auto minmax(0,1fr)!important;gap:8px!important;overflow:hidden!important}
+html.modern-site body #app #page0 .side-half{padding:10px!important;overflow:hidden!important}
+html.modern-site body #app #page0 .side-half:last-child{display:flex!important;flex-direction:column!important;gap:5px}
+html.modern-site body #app #page0 .dday-panel{align-items:center!important;gap:8px}
+html.modern-site body #app #page0 .dday-panel strong{font-size:21px!important}
+html.modern-site body #app #page0 .month-list-head{flex:none;min-height:30px!important;padding:0!important}
+html.modern-site body #app #page0 .month-agenda{flex:1;overflow:auto!important;padding-right:3px!important}
+html.modern-site body #app #page0 .shared-row{padding:8px 0!important;font-size:13px!important}
+html.modern-site body #app #page0 .story-media.month-media-card{height:116px!important;margin-top:8px!important}
+html.modern-site body #app #page0 .story-media.month-media-card.minimized{height:40px!important}
+
+/* Current round, original date stamps and statistics are visible together. */
+html.modern-site body #app .modern-routine-workspace{grid-template-columns:205px minmax(0,1fr);gap:10px}
+html.modern-site body #app .modern-routine-nav{padding:10px}
+html.modern-site body #app .modern-routine-nav>button{font-size:13px!important;min-height:36px;padding:7px}
+html.modern-site body #app .modern-routine-nav>button.routine-overall-open-v167{margin-bottom:7px;color:var(--modern-primary);background:var(--modern-selected);border:1px solid var(--modern-border)}
+html.modern-site body #app .modern-routine-nav nav button{min-height:40px;padding:7px;gap:6px}
+html.modern-site body #app .modern-routine-nav nav button span{font-size:13px!important}
+html.modern-site body #app .modern-routine-nav nav button small{font-size:11px!important}
+html.modern-site body #app .modern-routine-current{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(245px,1fr);gap:10px;align-items:start;min-width:0}
+html.modern-site body #app .modern-routine-detail .routine-progress-card{padding:11px!important}
+html.modern-site body #app .routine-progress-top{gap:5px!important;padding-bottom:8px!important}
+html.modern-site body #app .routine-progress-metrics{gap:8px!important}
+html.modern-site body #app .routine-progress-metrics :is(span,b){font-size:11px!important}
+html.modern-site body #app .routine-progress-tools button{font-size:11px!important;padding:4px 7px!important}
+html.modern-site body #app .routine-progress-intro{gap:8px!important;padding-bottom:9px!important;border-radius:0!important;overflow:visible!important}
+html.modern-site body #app .routine-progress-intro h3{font-size:17px!important;margin-bottom:6px!important;line-height:1.35!important}
+html.modern-site body #app .routine-progress-ruleline{gap:4px!important}
+html.modern-site body #app .routine-progress-ruleline span{grid-template-columns:38px minmax(0,1fr);gap:6px;font-size:12px!important;line-height:1.4!important}
+html.modern-site body #app .routine-progress-ruleline b{font-size:11px!important}
+html.modern-site body #app .routine-progress-round{min-width:62px!important;max-width:none!important;clip-path:none!important;overflow:visible!important;white-space:nowrap}
+html.modern-site body #app .routine-progress-round::before,html.modern-site body #app .routine-progress-round::after{display:none!important;content:none!important}
+html.modern-site body #app .routine-progress-round>span{font:500 11px/1.4 Arial,sans-serif!important;min-height:16px;letter-spacing:0!important;padding:0!important;transform:none!important;clip-path:none!important;overflow:visible!important}
+html.modern-site body #app .routine-progress-round strong{font-size:24px!important}
+html.modern-site body #app .routine-progress-round :is(span,em){font-size:11px!important}
+html.modern-site body #app .routine-round-grid{grid-template-columns:repeat(10,minmax(0,1fr))!important;grid-auto-rows:minmax(42px,auto)!important;padding:3px!important;gap:4px!important}
+html.modern-site body #app .routine-round-stamp{min-width:0!important;min-height:42px!important;padding:3px 1px!important;border-radius:5px!important;align-self:stretch!important;justify-self:stretch!important;overflow:hidden!important}
+html.modern-site body #app .routine-round-stamp :is(small,b,span){font-size:11px!important;line-height:1.15!important}
+html.modern-site body #app .modern-routine-current .routine-stat-card{padding:10px!important}
+html.modern-site body #app .modern-routine-current .routine-card-head{flex-direction:column;align-items:flex-start;gap:3px!important;min-height:0!important;padding-bottom:10px!important}
+html.modern-site body #app .modern-routine-current .routine-card-head b{font-size:13px!important}
+html.modern-site body #app .modern-routine-current .routine-card-head span{font-size:11px!important}
+html.modern-site body #app .modern-routine-current .routine-stat-main{gap:10px!important;align-items:center}
+html.modern-site body #app .modern-routine-current .routine-donut{width:78px!important;height:78px!important;min-width:78px!important}
+html.modern-site body #app .modern-routine-current .routine-donut::after{inset:12%!important;background:#fff!important}
+html.modern-site body #app .modern-routine-current .routine-donut>div{color:var(--modern-ink)!important;gap:2px}
+html.modern-site body #app .modern-routine-current .routine-donut>div>span{margin:0!important}
+html.modern-site body #app .modern-routine-current .routine-donut em{margin:0!important;color:var(--modern-muted)!important}
+html.modern-site body #app .modern-routine-current .routine-donut :is(strong,b){font-size:18px!important}
+html.modern-site body #app .modern-routine-current .routine-donut :is(span,em){font-size:11px!important}
+html.modern-site body #app .modern-routine-current .routine-stat-legend{flex:1;min-width:0}
+html.modern-site body #app .modern-routine-current .routine-stat-legend :is(span,b,em){font-size:11px!important}
+html.modern-site body #app .modern-routine-current .routine-stat-summary{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding-top:12px!important;padding-bottom:0!important}
+html.modern-site body #app .modern-routine-current .routine-stat-summary :is(span,small){font-size:11px!important}
+html.modern-site body #app .modern-routine-current .routine-stat-summary b{font-size:17px!important}
+html.modern-site body #app .modern-routine-support>details{padding:10px}
+html.modern-site body #app .modern-routine-support summary{font-size:13px}
+
+/* Native dialog top layer avoids the clipped/unclickable month-browser popover. */
+html.modern-site body #app .site-display-dialog{width:min(440px,calc(100vw - 32px));max-width:calc(100vw - 32px);max-height:80dvh;padding:18px;border:1px solid var(--modern-border);border-radius:12px;background:#fff;color:var(--modern-ink);box-shadow:0 16px 55px #192d3833;overflow:auto}
+html.modern-site body #app .site-display-dialog:not([open]){display:none!important}
+html.modern-site body #app .site-display-dialog::backdrop{background:#1b283b66;backdrop-filter:blur(3px)}
+html.modern-site body #app .site-display-dialog>header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+html.modern-site body #app .site-display-dialog h2{font-size:18px;margin:0}
+html.modern-site body #app .site-display-dialog-close{display:block;margin-left:auto;min-height:36px;padding:6px 12px;font-size:13px}
+html.modern-site body #app .modern-record-browser-dialog .record-aside{display:block!important;position:static!important;inset:auto!important;width:100%!important;height:auto!important;max-height:none!important;padding:12px 0 0!important;background:#fff!important;border:0!important;overflow:visible!important}
+html.modern-site body #app .modern-record-browser-dialog .record-months{max-height:none!important;overflow:visible!important}
+html.modern-site body #app .modern-record-browser-dialog .record-month{min-height:38px!important}
+html.modern-site body #app .routine-overall-dialog-v167{width:min(1100px,calc(100vw - 32px));max-height:88dvh}
+html.modern-site body #app .routine-overall-content-v167{min-width:0}
+html.modern-site body #app [data-routine-overall-panel]>summary{display:none!important}
+
+/* Record and the live album remain together; Archive and Travel use their own view. */
+html.modern-site body #app .modern-event-pages .modern-header-page-select{display:block!important;min-width:104px;max-width:135px;font-size:13px!important}
+html.modern-site body #app #recordHubShell.current{display:grid!important;grid-template-columns:minmax(0,4fr) minmax(205px,1fr)!important;gap:14px!important;overflow:hidden!important}
+html.modern-site body #app #recordHubShell :is(#recordShell,#albumShell){min-width:0!important;padding:0!important}
+html.modern-site body #app #recordHubShell #albumShell{padding-left:12px!important;border-left:1px solid var(--modern-border)!important;background:transparent!important}
+html.modern-site body #app .record-toolbar{gap:6px!important;min-height:40px!important;padding:0!important}
+html.modern-site body #app :is(.record-heading,.album-heading,.event-title-group){display:block!important}
+html.modern-site body #app :is(.record-heading h2,#albumHeading,.event-title-group h2){font:600 16px/1.3 Arial,"Malgun Gothic",sans-serif!important;margin:0!important;white-space:nowrap}
+html.modern-site body #app .record-controls{gap:5px!important;justify-content:flex-start;flex:1}
+html.modern-site body #app .record-controls>button,html.modern-site body #app .modern-record-browse-open{font-size:12px!important;padding:6px 8px!important;min-height:34px!important;white-space:nowrap}
+html.modern-site body #app .record-date-search{width:126px!important;height:34px!important;min-height:34px!important;font-size:12px!important}
+html.modern-site body #app .record-controls select{width:90px!important;min-height:34px!important;font-size:12px!important}
+html.modern-site body #app .record-feed-inner{gap:10px!important}
+html.modern-site body #app .record-post .post-copy{padding:10px!important}
+html.modern-site body #app .record-post .post-title{font-size:14px!important}
+html.modern-site body #app .record-post .post-body{font-size:13px!important}
+html.modern-site body #app .album-toolbar{gap:6px!important;align-items:center!important;min-height:40px!important;padding:0!important;justify-content:space-between}
+html.modern-site body #app .album-actions{gap:4px!important;max-width:100%}
+html.modern-site body #app .album-actions button{min-height:32px!important;padding:4px 7px!important;font-size:11px!important}
+html.modern-site body #app .album-heading{min-width:0;max-width:100%}
+html.modern-site body #app #albumHeading{overflow:hidden;text-overflow:ellipsis;max-width:180px}
+html.modern-site body #app .album-folder-grid{grid-template-columns:minmax(0,1fr)!important;gap:16px!important;padding:12px 2px 5px!important}
+html.modern-site body #app .album-folder-wrap{min-width:0;position:relative;padding-top:8px!important}
+html.modern-site body #app .album-folder{position:relative;isolation:isolate;min-height:132px!important;height:auto!important;width:100%!important;padding:11px 10px 34px!important;border:1px solid color-mix(in srgb,var(--folder-color,#789486) 48%,#c4cec8)!important;border-top-width:3px!important;border-radius:0 9px 9px 9px!important;background:color-mix(in srgb,var(--folder-color,#789486) 13%,#fff)!important;overflow:visible!important}
+html.modern-site body #app .album-folder::before{content:''!important;display:block!important;position:absolute!important;left:-1px!important;top:-12px!important;width:45%!important;height:12px!important;border-radius:6px 9px 0 0!important;background:color-mix(in srgb,var(--folder-color,#789486) 45%,#eaf0ed)!important;border:1px solid color-mix(in srgb,var(--folder-color,#789486) 48%,#c4cec8)!important;border-bottom:0!important;transform:none!important;box-shadow:none!important;z-index:-1}
+html.modern-site body #app .album-folder::after{display:none!important}
+html.modern-site body #app .album-folder-body{display:grid!important;grid-template-columns:52px minmax(0,1fr)!important;align-items:center;gap:9px!important;padding:0!important;height:auto!important;background:none!important;border:0!important;transform:none!important;box-shadow:none!important;overflow:visible!important}
+html.modern-site body #app .album-cover{width:52px!important;height:64px!important;min-height:0!important;border:1px solid #fff;border-radius:5px!important;overflow:hidden!important;box-shadow:0 2px 6px #0001}
+html.modern-site body #app .album-cover img{height:100%!important;width:100%!important;object-fit:cover!important}
+html.modern-site body #app .album-cover>span{display:none!important}
+html.modern-site body #app .album-folder-copy{min-width:0;padding:0!important;position:static!important;color:var(--modern-ink)!important}
+html.modern-site body #app .album-folder-copy b{font-size:13px!important;line-height:1.4!important;display:block;overflow-wrap:anywhere}
+html.modern-site body #app .album-folder-copy span{font-size:11px!important;line-height:1.4!important;display:block;margin-top:4px}
+html.modern-site body #app .album-folder-color-chip{display:none!important}
+html.modern-site body #app .album-folder-wrap>:is(.album-folder-share,.album-folder-edit,.album-folder-delete){position:absolute!important;top:auto!important;bottom:7px!important;min-width:28px!important;width:28px!important;height:28px!important;min-height:28px!important;right:8px!important;border:1px solid #0002!important;border-radius:6px!important;background:#fff!important;color:var(--modern-ink)!important;font-size:12px!important;box-shadow:none!important}
+html.modern-site body #app .album-folder-wrap>.album-folder-share{right:74px!important;left:auto!important;min-width:62px!important;width:auto!important;padding:0 7px!important;white-space:nowrap!important;font-size:11px!important}
+html.modern-site body #app .album-folder-wrap>.album-folder-edit{right:41px!important}
+html.modern-site body #app .album-photo-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:6px!important}
+html.modern-site body #app :is(.album-folder-grid,.album-photo-grid)[hidden]{display:none!important}
+@media(max-width:1200px){
+ html.modern-site body #app .modern-routine-workspace{grid-template-columns:170px minmax(0,1fr)}
+ html.modern-site body #app .modern-routine-current{grid-template-columns:minmax(0,1fr) 230px}
+ html.modern-site body #app .routine-round-grid{grid-template-columns:repeat(7,minmax(0,1fr))!important}
+ html.modern-site body #app .record-feed-inner{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ html.modern-site body #app #recordHubShell.current{grid-template-columns:minmax(0,4fr) minmax(180px,1fr)!important;gap:10px!important}
+ html.modern-site body #app .record-heading{display:none!important}
+}
+@media(max-width:900px){
+ html.modern-site body #app .modern-routine-current{grid-template-columns:minmax(0,1fr)}
+ html.modern-site body #app .modern-routine-current .routine-stat-summary{grid-template-columns:repeat(4,minmax(0,1fr))}
+ html.modern-site body #app .modern-routine-current .routine-stat-main{max-width:350px}
+}
+@media(max-width:767px){
+ html:not(.aiderlog-android) .record-classification-v167{grid-template-columns:98px minmax(0,1fr);gap:10px}
+ html:not(.aiderlog-android) #recordColorPicker{gap:8px!important}
+ html:not(.aiderlog-android) #recordColorPicker .record-color-swatch{flex-basis:25px!important;width:25px!important;height:25px!important;min-width:25px!important;min-height:25px!important}
+ html.modern-site body #app #page0>.cal-top{flex-wrap:wrap!important;gap:7px!important}
+ html.modern-site body #app #page0 .month-controls{flex:1 1 100%;flex-wrap:wrap!important}
+ html.modern-site body #app #page0 .month-controls button{min-height:38px!important;height:38px!important}
+ html.modern-site body #app #page0>.side{display:block!important;overflow:visible!important}
+ html.modern-site body #app #page0 .side-half{margin-bottom:8px}
+ html.modern-site body #app #page0 .month-agenda{max-height:420px}
+ html.modern-site body #app .modern-routine-workspace{display:block}
+ html.modern-site body #app .modern-routine-nav{grid-template-columns:1fr 1fr;gap:6px}
+ html.modern-site body #app .modern-routine-nav>button.routine-overall-open-v167{margin-bottom:0}
+ html.modern-site body #app .modern-routine-nav .modern-routine-mobile-select{grid-column:1/-1}
+ html.modern-site body #app .modern-routine-current{gap:8px;margin-bottom:10px}
+ html.modern-site body #app .routine-round-grid{grid-template-columns:repeat(7,minmax(0,1fr))!important;grid-auto-rows:minmax(42px,auto)!important}
+ html.modern-site body #app #recordHubShell.current{display:flex!important;flex-direction:column!important;gap:16px!important;overflow:visible!important;height:auto!important}
+ html.modern-site body #app #recordHubShell :is(#recordShell,#albumShell){height:auto!important;flex:none!important}
+ html.modern-site body #app #recordHubShell #albumShell{padding:12px 0 0!important;border-left:0!important;border-top:1px solid var(--modern-border)!important}
+ html.modern-site body #app .record-toolbar{display:grid!important;grid-template-columns:1fr 1fr!important;grid-auto-rows:auto!important;gap:5px!important}
+ html.modern-site body #app .record-toolbar .record-heading{display:block!important;grid-column:1;grid-row:1}
+ html.modern-site body #app .record-toolbar .modern-record-browse-open{grid-column:2;grid-row:1;justify-self:end}
+ html.modern-site body #app .record-toolbar .record-controls{display:flex!important;grid-column:1/-1;flex-wrap:wrap!important;gap:5px!important}
+ html.modern-site body #app .record-toolbar .record-controls>*{grid-column:auto!important;grid-row:auto!important}
+ html.modern-site body #app .record-controls .record-filter{flex:none!important;min-height:36px!important}
+ html.modern-site body #app #recordDateSearch{flex:1!important;min-width:110px!important;width:auto!important}
+ html.modern-site body #app #recordSort{flex:0 0 80px!important;width:80px!important}
+ html.modern-site body #app #newRecordTop{flex:none!important;min-height:36px!important}
+ html.modern-site body #app .record-feed-inner{grid-template-columns:minmax(0,1fr)!important;gap:8px!important}
+ html.modern-site body #app .album-folder-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important}
+ html.modern-site body #app .album-folder{min-height:150px!important;padding:10px 8px 35px!important}
+ html.modern-site body #app .album-folder-body{grid-template-columns:40px minmax(0,1fr)!important;gap:7px!important}
+ html.modern-site body #app .album-cover{width:40px!important;height:52px!important}
+ html.modern-site body #app .album-photo-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+}

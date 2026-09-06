@@ -21,7 +21,6 @@
             <button type="button" class="sidebar-guide" id="guideButton">사용 안내</button>
           </div>
           <nav class="paper-nav" id="paperNav" aria-label="Paper 연구 메뉴">
-            <button type="button" data-view="hub"><span>⌂</span><b>Research Hub</b><small>오늘의 연구</small></button>
             <button type="button" class="active" data-view="library"><span>▤</span><b>Library</b><small>논문과 자료</small></button>
             <button type="button" data-view="evidence"><span>✓</span><b>Evidence</b><small>근거 검증</small><i id="evidenceBadge">3</i></button>
             <button type="button" data-view="synthesis"><span>⌁</span><b>Synthesis</b><small>통합 분석</small></button>
@@ -1579,20 +1578,21 @@ id, claim, claimType, sourceQuote, locator{printedPage,pdfPage,section,table,fig
 
   function goView(view) {
     currentView = view;
-    $$('#paperNav [data-view]').forEach(button => button.classList.toggle('active', button.dataset.view === view || (view === 'paper' && button.dataset.view === 'library')));
+    $$('#paperNav button').forEach(button => button.classList.toggle('active', button.dataset.view === view || (view === 'paper' && button.dataset.view === 'library')));
+    $('#paperResearchHomeV160')?.setAttribute('aria-current', view === 'hub' ? 'page' : 'false');
     render();
     $('#paperContent')?.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   function heading(eyebrow, title, description, actions = '') {
-    return `<header class="page-heading"><div><span class="eyebrow">${escapeHtml(eyebrow)}</span><h1>${escapeHtml(title)}</h1></div><p>${escapeHtml(description)}</p>${actions ? `<div class="heading-actions">${actions}</div>` : ''}</header>`;
+    return `<header class="page-heading"><div><span class="eyebrow">${escapeHtml(eyebrow)}</span><h1>${escapeHtml(title)}</h1></div>${description?`<p>${escapeHtml(description)}</p>`:''}${actions ? `<div class="heading-actions">${actions}</div>` : ''}</header>`;
   }
 
   function renderHub() {
     const verified = evidence.filter(item => item.state === 'verified').length;
     const pending = evidence.filter(item => item.state === 'review').length;
     return `<div class="view-stack">
-      ${heading('RESEARCH HUB', '연구를 이어갈 지점이 보이는 홈', '단순한 개수 대신 지금 검토할 근거와 다음 연구 행동을 먼저 보여줍니다.')}
+      ${heading('RESEARCH HUB', '연구 홈', '')}
       <section class="hub-hero">
         <article class="research-card focus-card">
           <span>TODAY’S RESEARCH FOCUS</span>
@@ -1655,7 +1655,7 @@ id, claim, claimType, sourceQuote, locator{printedPage,pdfPage,section,table,fig
       return (!query || hay.includes(query)) && (!selectedType || paper.type === selectedType) && (!selectedModality || paper.modality.includes(selectedModality)) && (!selectedState || paper.status === selectedState);
     });
     return `<div class="view-stack">
-      ${heading('LIBRARY', '논문을 찾고, 묶고, 바로 검토하세요', '태그를 별도 페이지로 분리하지 않고 대상·주제·방법·모달리티 필터 안에 통합했습니다.', '<button class="outline-button" data-selection-action="compare">선택 비교</button>')}
+      ${heading('LIBRARY', '논문 자료', '', '<button class="outline-button" data-selection-action="compare">선택 비교</button>')}
       <form class="research-card filter-bar" id="libraryFilters">
         <label><span>SEARCH</span><input id="libraryQuery" value="${escapeHtml(query)}" placeholder="제목, 저자, 키워드"></label>
         <label><span>STUDY TYPE</span><select id="libraryType"><option value="">전체 연구</option>${[...new Set(papers.map(p => p.type))].map(value => `<option ${selectedType === value ? 'selected' : ''}>${escapeHtml(value)}</option>`).join('')}</select></label>
@@ -1763,7 +1763,7 @@ id, claim, claimType, sourceQuote, locator{printedPage,pdfPage,section,table,fig
     const paper = paperById(selected.paperId);
     const deep = deepForEvidence(selected, paper);
     return `<div class="view-stack">
-      ${heading('EVIDENCE', 'AI 정리와 원문 근거를 분리해서 검토하세요', '검증 완료한 항목만 Synthesis와 Study Workspace에 기본 반영됩니다.')}
+      ${heading('EVIDENCE', '근거 검토', '검증 완료한 항목만 Synthesis와 Study Workspace에 기본 반영됩니다.')}
       <section class="evidence-layout">
         <aside class="research-card evidence-queue">
           <header><h3>Verification queue</h3><p>${evidence.filter(item => item.state === 'review').length}건이 원문 확인을 기다립니다.</p></header>
@@ -1849,7 +1849,7 @@ id, claim, claimType, sourceQuote, locator{printedPage,pdfPage,section,table,fig
     const ideaSummary = activeIdea?.background || activeIdea?.gap || activeIdea?.note || '저장된 연구 아이디어를 선택하면 연결된 설계와 논문이 함께 표시됩니다.';
     const projectDesigns = activeProjectId ? designs.filter(row => row.ideaId === activeProjectId) : designs;
     return `<div class="view-stack">
-      ${heading('STUDY WORKSPACE', '여러 연구 아이디어와 설계를 병렬로 관리하세요', '아이디어별 설계 초안과 사용 논문을 분리해 저장하고 ACTIVE PROJECT에서 하나씩 집중해 봅니다.', '<button class="primary-button" data-new-study-design>＋ 새 연구 설계</button>')}
+      ${heading('STUDY WORKSPACE', '연구 설계', '', '<button class="primary-button" data-new-study-design>＋ 새 연구 설계</button>')}
       <article class="research-card study-hero active-study-v158"><span>ACTIVE PROJECT · 사용자 선택</span><select id="studyActiveProject" aria-label="활성 연구 아이디어">${ideas.length ? ideas.map(row => `<option value="${escapeHtml(row.id)}"${row.id === activeProjectId ? ' selected' : ''}>${escapeHtml(row.title || '제목 없는 아이디어')}</option>`).join('') : '<option value="">저장된 연구 아이디어 없음</option>'}</select><h2>${escapeHtml(ideaTitle)}</h2><p>${escapeHtml(ideaQuestion)}</p><small>${escapeHtml(ideaSummary)}</small></article>
       <section class="research-card saved-studies-v158"><div class="section-heading"><div><span>SAVED RESEARCH DESIGNS</span><h2>${escapeHtml(ideaTitle)}의 설계 ${projectDesigns.length}개</h2><p>한 아이디어에도 서로 다른 표본·방법·분석 설계를 여러 개 저장할 수 있습니다.</p></div></div><div class="saved-study-grid">${projectDesigns.length ? projectDesigns.map(row => { const refs = (row.linkedPaperIds || []).map(id => paperById(id)).filter(Boolean); return `<button type="button" data-study-design="${escapeHtml(row.id)}" class="${row.id === activeDesignId ? 'active' : ''}"><span>${escapeHtml(row.status || '초안')}</span><b>${escapeHtml(row.title || '제목 없는 연구 설계')}</b><p>${escapeHtml(row.studyDesign || row.question || '설계 내용을 추가하세요.')}</p><small>참고 논문 ${refs.length}편${refs.length ? ` · ${escapeHtml(refs.slice(0, 2).map(ref => ref.title).join(' / '))}` : ''}</small></button>`; }).join('') : '<p class="empty-study-v158">이 아이디어에 저장된 설계가 없습니다. 새 설계를 추가해 비교해보세요.</p>'}</div></section>
       <form class="research-card study-design-form-v158" id="paperV158DesignForm" ${activeDesignId ? '' : 'hidden'}><div class="section-heading"><div><span>DESIGN EDITOR</span><h2>${escapeHtml(designs.find(row => row.id === activeDesignId)?.title || '새 연구 설계')}</h2><p>연구 설계와 실제 사용한 참고 논문을 함께 저장합니다.</p></div></div>${(() => { const design = designs.find(row => row.id === activeDesignId) || {}; const linked = new Set(design.linkedPaperIds || []); return `<input type="hidden" name="id" value="${escapeHtml(design.id || '')}"><label><span>설계 이름</span><input name="title" required value="${escapeHtml(design.title || '')}" placeholder="예: 다기관 종단 코호트 설계"></label><div class="study-form-grid-v158"><label><span>연구 질문</span><textarea name="question" rows="3">${escapeHtml(design.question || activeIdea?.researchQuestion || '')}</textarea></label><label><span>가설</span><textarea name="hypothesis" rows="3">${escapeHtml(design.hypothesis || activeIdea?.hypothesis || '')}</textarea></label><label><span>연구 설계</span><textarea name="studyDesign" rows="4">${escapeHtml(design.studyDesign || '')}</textarea></label><label><span>분석 계획</span><textarea name="analysisPlan" rows="4">${escapeHtml(design.analysisPlan || '')}</textarea></label></div><fieldset><legend>이 설계에 사용한 Library 논문</legend><div class="study-paper-picker-v158">${papers.map(paper => `<label><input type="checkbox" name="linkedPaperIds" value="${escapeHtml(paper.id)}"${linked.has(paper.id) ? ' checked' : ''}><span><b>${escapeHtml(paper.title)}</b><small>${escapeHtml(paper.journal)} · ${paper.year}</small></span></label>`).join('')}</div></fieldset><footer><label><span>상태</span><select name="status"><option${design.status === '아이디어' ? ' selected' : ''}>아이디어</option><option${!design.status || design.status === '초안' ? ' selected' : ''}>초안</option><option${design.status === '진행 중' ? ' selected' : ''}>진행 중</option><option${design.status === '보류' ? ' selected' : ''}>보류</option></select></label><button type="submit" class="primary-button">연구 설계 저장</button></footer>`; })()}</form>
@@ -1864,7 +1864,7 @@ id, claim, claimType, sourceQuote, locator{printedPage,pdfPage,section,table,fig
     const labPapers = papers.filter(paper => String(paper.id).startsWith('yoo-') || [...(paper.topics || []), ...(paper.tags || [])].some(tag => /yoo\s*lab|connectome|functional network|precision/i.test(String(tag))));
     const topics = new Map();
     labPapers.forEach(paper => (paper.topics || paper.tags || []).slice(0, 6).forEach(topic => topics.set(topic, (topics.get(topic) || 0) + 1)));
-    return `<div class="view-stack lab-workspace-v158">${heading('YOO LAB · PUBLICATION ARCHIVE', '연구실의 논문에서 연구 방향을 읽습니다', '외부 사이트로 이동하는 링크가 아니라, Library에 저장한 Yoo Lab 출판 논문과 반복되는 연구 주제를 정리하는 공간입니다.')}
+    return `<div class="view-stack lab-workspace-v158">${heading('YOO LAB · PUBLICATION ARCHIVE', 'Yoo Lab 출판 논문', '')}
       <section class="lab-direction-grid-v158"><article class="research-card"><span>RESEARCH DIRECTION</span><h2>정밀 기능 네트워크</h2><p>개인 수준의 기능적 연결성과 네트워크 표현을 어떻게 안정적으로 측정하고 일반화하는지 추적합니다.</p></article><article class="research-card"><span>METHOD DIRECTION</span><h2>Connectome-based prediction</h2><p>내부 적합도뿐 아니라 독립 데이터셋 검증, 재현성과 임상적 사용 경계를 함께 확인합니다.</p></article><article class="research-card"><span>TRANSLATION</span><h2>인지·정신건강 연결</h2><p>주의·인지와 정신질환 표현형을 네트워크 특징에 연결하되 개인 진단으로 과장하지 않습니다.</p></article></section>
       <section class="research-card lab-topic-v158"><div class="section-heading"><div><span>TOPIC PULSE</span><h2>Library에서 반복되는 연구 축</h2></div></div><div>${[...topics.entries()].sort((a,b) => b[1]-a[1]).slice(0, 12).map(([topic,count]) => `<span>${escapeHtml(topic)} <b>${count}</b></span>`).join('') || '<p>Yoo Lab 논문에 태그를 추가하면 연구 축이 나타납니다.</p>'}</div></section>
       <section><div class="section-heading"><div><span>PUBLICATIONS</span><h2>저장된 출판 논문 ${labPapers.length}편</h2><p>논문을 선택하면 정독 요약·근거·방법론 평가로 이어집니다.</p></div></div><div class="lab-paper-grid-v158">${labPapers.length ? labPapers.map(paper => `<button type="button" class="research-card" data-paper="${escapeHtml(paper.id)}"><span>${paper.year} · ${escapeHtml(paper.journal)}</span><h3>${escapeHtml(paper.title)}</h3><p>${escapeHtml(paper.finding || paper.summary || '')}</p><small>${escapeHtml((paper.topics || []).slice(0, 4).join(' · '))}</small></button>`).join('') : '<article class="research-card"><h3>연결된 논문이 없습니다.</h3><p>Library에서 Yoo Lab 논문을 저장하고 관련 태그를 추가해주세요.</p></article>'}</div></section>
@@ -1874,7 +1874,7 @@ id, claim, claimType, sourceQuote, locator{printedPage,pdfPage,section,table,fig
   function renderAtlas() {
     const region = atlas[atlasRegion];
     return `<div class="view-stack">
-      ${heading('BRAIN ATLAS', '움직임보다 정확한 선택과 연구 연결에 집중합니다', '미리보기에서는 잘림과 왜곡이 없는 고정 2D 지도를 사용합니다. 최종 구현에서 검증된 atlas 데이터를 연결합니다.')}
+      ${heading('BRAIN ATLAS', '뇌 지도', '교육·탐색용 도식이며 해부학적 계측에는 사용하지 않습니다.')}
       <section class="atlas-layout">
         <article class="research-card brain-map"><svg viewBox="0 0 720 510" role="img" aria-label="선택 가능한 뇌 영역 참고 지도"><path fill="#eef1f1" stroke="#a7b5bc" stroke-width="4" d="M92 254C73 160 132 81 243 58c87-18 150 2 195 42 80-10 157 39 181 111 29 88-27 168-117 191-72 58-194 69-288 24-78-37-127-102-122-172Z"/><path class="brain-region ${atlasRegion === 'frontal' ? 'active' : ''}" data-region="frontal" fill="${atlas.frontal.color}" d="M99 250C84 169 136 105 226 80l42 139-39 155c-77-22-122-65-130-124Z"/><path class="brain-region ${atlasRegion === 'parietal' ? 'active' : ''}" data-region="parietal" fill="${atlas.parietal.color}" d="M226 80c75-24 157-2 209 35l-22 139-145-35-42-139Z"/><path class="brain-region ${atlasRegion === 'temporal' ? 'active' : ''}" data-region="temporal" fill="${atlas.temporal.color}" d="M229 374l39-155 145 35 24 111c-59 55-143 62-208 9Z"/><path class="brain-region ${atlasRegion === 'occipital' ? 'active' : ''}" data-region="occipital" fill="${atlas.occipital.color}" d="M435 115c83 0 151 53 177 115 20 51-7 108-79 147l-96-12-24-111 22-139Z"/><path class="brain-region ${atlasRegion === 'hippocampus' ? 'active' : ''}" data-region="hippocampus" fill="${atlas.hippocampus.color}" d="M291 292c35-33 89-31 124-3-10 39-44 62-84 56-29-5-45-24-40-53Z"/><text class="brain-label" x="142" y="218">전두엽</text><text class="brain-label" x="310" y="155">두정엽</text><text class="brain-label" x="291" y="390">측두엽</text><text class="brain-label" x="505" y="244">후두엽</text><text class="brain-label" x="324" y="316">해마</text><text x="360" y="478" text-anchor="middle" font-family="DM Sans" font-size="12" fill="#61747f">SCHEMATIC PREVIEW · NOT FOR ANATOMICAL MEASUREMENT</text></svg></article>
         <aside class="research-card atlas-detail" style="--region-color:${region.color}"><span>SELECTED REGION</span><h2>${region.ko}</h2><small>${region.en}</small><p>${region.summary}</p><div class="atlas-facts"><div><span>COGNITIVE FUNCTIONS</span><b>${region.functions}</b></div><div><span>RELATED DISORDERS</span><b>${region.disorders}</b></div><div><span>COMMON METHODS</span><b>${region.method}</b></div><div><span>CONNECTED PAPERS</span><b>${region.paperIds.length}편</b></div></div><details class="atlas-deep" open><summary>하위영역과 기능</summary><ul>${region.subregions.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul></details><details class="atlas-deep"><summary>질환·인지 기전 해석</summary><p>${escapeHtml(region.mechanism)}</p></details><div class="atlas-caution"><b>해석 주의</b><p>${escapeHtml(region.caution)}</p></div><div class="related-papers">${region.paperIds.map(id => { const paper = paperById(id); return `<button type="button" data-paper="${paper.id}"><span><b>${escapeHtml(paper.title)}</b><small>${paper.journal} · ${paper.year}</small></span><i>→</i></button>`; }).join('')}</div></aside>
@@ -1887,7 +1887,7 @@ id, claim, claimType, sourceQuote, locator{printedPage,pdfPage,section,table,fig
     const region = atlas[atlasRegion];
     const active = key => atlasRegion === key ? 'active' : '';
     return `<div class="view-stack">
-      ${heading('BRAIN ATLAS', '구조의 이름뿐 아니라 뇌 안의 위치까지 함께 봅니다', '정중 시상면의 방향 기준, 번호가 연결된 확대판, 선택 영역의 미니 위치 지도를 함께 제공합니다. 연구 탐색용이며 해부학적 계측에는 사용하지 않습니다.')}
+      ${heading('BRAIN ATLAS', '뇌 지도', '교육·탐색용 도식이며 해부학적 계측에는 사용하지 않습니다.')}
       <section class="atlas-layout ${atlasMapExpanded ? 'map-expanded' : ''}">
         <article class="research-card brain-map">
           <div class="brain-map-toolbar"><div><span>PLATE 01 · MEDIAL VIEW</span><b>정중 시상면 · 얼굴은 왼쪽, 뒤통수는 오른쪽</b></div><button type="button" data-atlas-expand>${atlasMapExpanded ? '설명과 함께 보기' : '지도 크게 보기'} ${atlasMapExpanded ? '↙' : '↗'}</button></div>
@@ -2235,6 +2235,8 @@ id, claim, claimType, sourceQuote, locator{printedPage,pdfPage,section,table,fig
   });
   syncBridgeCollections();
   window.AiderPaperWorkspace = {
+    openHome() { goView('hub'); },
+    get currentView() { return currentView; },
     activate() { syncBridgeCollections(); render(); },
     refresh() { syncBridgeCollections(); render(); },
     focusSearch() { $('#globalSearch')?.focus(); },
