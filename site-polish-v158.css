@@ -1,5 +1,5 @@
 /* AiderLog website v158 · compact consulting form and structured travel editor. */
-.tab[data-tab="task"]{min-width:108px!important;width:108px!important}
+.tab[data-tab="task"]{min-width:74px!important;width:74px!important;padding-inline:8px!important}
 
 .consulting-client-dialog #consultingClientForm .spec-fields{
   grid-template-columns:repeat(2,minmax(0,1fr))!important;
@@ -42,8 +42,16 @@
 .lab-note-form-v158 :is(input,select,textarea){width:100%;min-width:0;border:1px solid #aeb8b3;background:#fff;padding:10px;font:500 13px/1.45 Arial,sans-serif}.lab-note-form-v158 input,.lab-note-form-v158 select{height:44px}.lab-note-form-v158 textarea{min-height:92px;resize:vertical}.lab-note-form-v158 input[type=file]{height:auto}
 .lab-note-form-v158 footer{display:flex;align-items:center;justify-content:space-between;gap:9px}.lab-note-form-v158 footer span{color:#69726e;font-size:9px}.lab-note-form-v158 button{height:44px;border:1px solid #18201d;background:#18201d;color:#fff;padding:0 18px;font-weight:900}
 .lab-note-result-v158{padding:42px 20px;text-align:center}.lab-note-result-v158 b{display:block;font-size:21px}.lab-note-result-v158 p{color:#65706a}
+.site-lab-link-v158.active{outline:2px solid var(--work-accent);outline-offset:1px}
+.site-lab-link-actions-v160{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}
+.site-lab-link-actions-v160 button{min-width:0;padding:0 4px}
+.site-lab-filters-v160{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px;padding-bottom:10px;border-bottom:1px solid var(--work-line)}
+.site-lab-filters-v160 button{min-height:34px;border:1px solid var(--work-line);border-radius:999px;background:#fff;color:var(--work-ink);padding:0 11px;font-size:8px;font-weight:850}
+.site-lab-filters-v160 button.active{border-color:var(--work-accent);background:var(--work-accent);color:#fff}
+.site-lab-filters-v160 b{margin-left:4px;font-size:7px}
 @media(max-width:760px){
-  .tab[data-tab="task"]{min-width:82px!important;width:82px!important}
+  .tab[data-tab="task"]{min-width:72px!important;width:72px!important;padding-inline:7px!important}
   .travel-structured-row-v158{grid-template-columns:repeat(2,minmax(0,1fr))}
   .lab-note-form-v158{grid-template-columns:1fr}.lab-note-form-v158 label.wide,.lab-note-form-v158 footer{grid-column:1}
+  .site-lab-link-actions-v160{grid-template-columns:repeat(3,minmax(64px,1fr))}
 }

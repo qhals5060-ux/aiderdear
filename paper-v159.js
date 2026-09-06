@@ -1,4 +1,4 @@
-/* AiderLog v159 · PAPER information architecture and verified v2 import */
+/* AiderLog v160 · PAPER information architecture, close reading and concept folders */
 (async function(){
   'use strict';
   const workspace=window.AiderPaperWorkspace,root=workspace?.root;if(!root)return;
@@ -9,7 +9,7 @@
     read('./paper-analysis-prompt-v159.txt','첨부 논문을 aiderlog.paper.v2 JSON으로 구조화하고, 확인할 수 없는 값은 null로 출력하세요.'),
     read('./paper-verification-prompt-v159.txt','생성한 JSON을 원문과 다시 대조하고 수정된 aiderlog.paper.v2 JSON 하나만 출력하세요.')
   ]);
-  const style=document.createElement('link');style.rel='stylesheet';style.href='./paper-v159.css?v=159';root.append(style);
+  const style=document.createElement('link');style.rel='stylesheet';style.href='./paper-v159.css?v=160';root.append(style);
   const nav=$('#paperNav');
   nav.innerHTML=`
     <button data-view="hub"><span>⌂</span><b>Home</b><small>연구 홈</small></button>
@@ -22,12 +22,36 @@
     <button data-v159-view="notes"><span>✎</span><b>Research Notes</b><small>메모와 수집함</small></button>
     <button data-view="atlas"><span>◉</span><b>Brain</b><small>연구용 뇌 지도</small></button>
     <button data-view="lab"><span>⌬</span><b>My Lab</b><small>Yoo Lab 논문</small></button>`;
+  const oldGuide=$('#guideButton');
+  if(oldGuide){
+    const homeButton=oldGuide.cloneNode(true);
+    homeButton.id='paperResearchHomeV160';
+    homeButton.textContent='연구 홈';
+    homeButton.setAttribute('aria-label','Paper 연구 홈 열기');
+    oldGuide.replaceWith(homeButton);
+    homeButton.addEventListener('click',()=>nav.querySelector('[data-view="hub"]')?.click());
+  }
   const snap=()=>window.AiderPaperBridge?.snapshot?.()||{paperItems:[],researchInsights:[],researchNotes:[],researchIdeas:[],researchDesigns:[]};
   function heading(kicker,title,text){return `<header class="v159-heading"><div><span>${esc(kicker)}</span><h1>${esc(title)}</h1></div><p>${esc(text)}</p></header>`}
-  function concepts(){const data=snap(),analyses=data.paperItems.map(p=>({paper:p,analysis:null}));return `<div class="v159-view">${heading('CONCEPTS','논문 속 개념을 정의와 근거로 학습합니다','일반적인 의미와 각 논문에서 사용한 정의·측정 방식을 섞지 않습니다.')}<section class="v159-concept-grid">${analyses.flatMap(({paper})=>{const words=[...(paper.keywords||paper.tags||[])].slice(0,6);return words.map(word=>`<article><span>${esc(paper.year||'')} · ${esc(paper.journal||'PAPER')}</span><h2>${esc(word)}</h2><p>${esc(paper.theory||paper.summary||'논문별 정의는 상세 분석에서 확인합니다.')}</p><dl><div><dt>이 논문에서는</dt><dd>${esc(paper.researchQuestion||paper.purpose||'확인 필요')}</dd></div><div><dt>원문 근거</dt><dd>${esc(paper.citationCandidates||'페이지·표·그림 위치 확인 필요')}</dd></div></dl><footer><button data-paper="${esc(paper.id)}">관련 논문 열기</button><button>복습 카드</button></footer></article>`)}).join('')||'<article class="v159-empty">논문을 가져오면 개념 카드가 만들어집니다.</article>'}</section></div>`}
+  let activeConceptFolder='all';
+  function conceptFolderData(){const data=snap(),folders=Array.isArray(data.paperConceptFolders)?data.paperConceptFolders:[];return folders.length?folders:[{id:'uncategorized',name:'미분류',conceptKeys:[]}]}
+  async function saveConceptFolders(folders){await window.AiderPaperBridge?.saveConceptFolders?.(folders);window.AiderPaperBridge?.toast?.('개념 폴더를 저장했습니다.');renderV159View('concepts')}
+  function papers(){const data=snap(),items=data.paperItems||[];return `<div class="v159-view v160-reading-view">${heading('CLOSE READING','논문을 정독 흐름으로 읽습니다','논문 자료 목록과 분리해 연구 질문, 방법, 결과, 한계와 원문 근거를 순서대로 확인합니다.')}<section class="v160-reading-list">${items.map(paper=>`<article><header><span>${esc(paper.journal||'JOURNAL')} · ${esc(paper.year||'')}</span><em>${esc(({toRead:'읽기 전',reading:'읽는 중',reviewed:'검토 완료',citationCandidate:'인용 후보'})[paper.status]||'읽는 중')}</em></header><h2>${esc(paper.title)}</h2><p>${esc(paper.summary||paper.researchQuestion||'정독 요약을 확인하세요.')}</p><dl><div><dt>연구 질문</dt><dd>${esc(paper.researchQuestion||paper.purpose||'확인 필요')}</dd></div><div><dt>대상·방법</dt><dd>${esc([paper.population,paper.method].filter(Boolean).join(' · ')||'확인 필요')}</dd></div><div><dt>핵심 결과</dt><dd>${esc(paper.findings||'원문 결과 확인 필요')}</dd></div><div><dt>중요한 한계</dt><dd>${esc(paper.limitations||'확인 필요')}</dd></div></dl><button type="button" data-v160-open-paper="${esc(paper.id)}">정독 화면 열기 →</button></article>`).join('')||'<article class="v159-empty">Library에 논문을 등록하면 정독 목록에 표시됩니다.</article>'}</section></div>`}
+  function concepts(){
+    const data=snap(),folders=conceptFolderData(),cards=(data.paperItems||[]).flatMap(paper=>[...(paper.keywords||paper.tags||[])].slice(0,6).map(word=>({paper,word,key:`${paper.id}::${word}`}))),selected=activeConceptFolder==='all'?cards:cards.filter(card=>(folders.find(folder=>folder.id===activeConceptFolder)?.conceptKeys||[]).includes(card.key));
+    const folderOptions=folders.map(folder=>`<option value="${esc(folder.id)}">${esc(folder.name)}</option>`).join('');
+    return `<div class="v159-view">${heading('CONCEPTS','논문 속 개념을 폴더별로 학습합니다','일반적인 의미와 각 논문에서 사용한 정의·측정 방식을 섞지 않습니다.')}<section class="v160-folderbar"><div class="v160-folder-tabs"><button type="button" data-concept-folder="all" class="${activeConceptFolder==='all'?'active':''}">전체 <b>${cards.length}</b></button>${folders.map(folder=>`<button type="button" data-concept-folder="${esc(folder.id)}" class="${activeConceptFolder===folder.id?'active':''}">${esc(folder.name)} <b>${(folder.conceptKeys||[]).length}</b></button>`).join('')}</div><button type="button" data-concept-folder-add>＋ 폴더</button></section><section class="v159-concept-grid">${selected.map(({paper,word,key})=>`<article data-concept-key="${esc(key)}"><span>${esc(paper.year||'')} · ${esc(paper.journal||'PAPER')}</span><h2>${esc(word)}</h2><p>${esc(paper.theory||paper.summary||'논문별 정의는 상세 분석에서 확인합니다.')}</p><dl><div><dt>이 논문에서는</dt><dd>${esc(paper.researchQuestion||paper.purpose||'확인 필요')}</dd></div><div><dt>원문 근거</dt><dd>${esc(paper.citationCandidates||'페이지·표·그림 위치 확인 필요')}</dd></div></dl><label class="v160-concept-folder-select">폴더<select data-concept-move="${esc(key)}"><option value="">미분류</option>${folderOptions}</select></label><footer><button data-paper="${esc(paper.id)}">관련 논문 열기</button><button>복습 카드</button></footer></article>`).join('')||'<article class="v159-empty">선택한 폴더에 개념 카드가 없습니다.</article>'}</section></div>`}
   function ideas(){const data=snap(),ideas=data.researchIdeas||[],designs=data.researchDesigns||[];return `<div class="v159-view">${heading('IDEAS','연구 공백을 질문과 가설로 발전시킵니다','각 아이디어는 여러 연구 설계와 참고 논문을 가질 수 있습니다.')}<section class="v159-idea-list">${ideas.map(row=>`<article><span>${esc(row.status||'IDEA')}</span><h2>${esc(row.title||'제목 없는 연구 아이디어')}</h2><p>${esc(row.researchQuestion||row.question||row.summary||'연구 질문을 구체화하세요.')}</p><dl><div><dt>가설</dt><dd>${esc(row.hypothesis||'확인 필요')}</dd></div><div><dt>연결된 설계</dt><dd>${designs.filter(item=>item.ideaId===row.id).length}개</dd></div></dl><button data-go="study">Design Studio에서 열기</button></article>`).join('')||'<article class="v159-empty">Study Workspace에서 저장한 연구 아이디어가 이곳에 표시됩니다.</article>'}</section></div>`}
   function notes(){const data=snap(),notes=data.researchNotes||[];return `<div class="v159-view">${heading('RESEARCH NOTES','읽으면서 수집한 메모와 질문','앱 CAPTURE에서 저장한 메모도 같은 계정으로 동기화됩니다.')}<section class="v159-note-list">${notes.slice().sort((a,b)=>(b.updatedAt||b.createdAt||0)-(a.updatedAt||a.createdAt||0)).map(row=>`<article><header><span>${esc((row.type||row.source||'NOTE').toUpperCase())}</span><time>${new Date(row.updatedAt||row.createdAt||Date.now()).toLocaleDateString('ko-KR')}</time></header><h2>${esc(row.title||'연구 메모')}</h2><p>${esc(row.content||row.note||'')}</p><small>${row.paperId?'논문 연결됨':'받은 편지함'}</small></article>`).join('')||'<article class="v159-empty">아직 저장한 연구 메모가 없습니다.</article>'}</section></div>`}
-  nav.addEventListener('click',event=>{const button=event.target.closest('[data-v159-view]');if(!button)return;event.preventDefault();event.stopImmediatePropagation();const view=button.dataset.v159View;if(view==='papers'){nav.querySelector('[data-view="library"]')?.click();requestAnimationFrame(()=>$$('#paperNav button').forEach(b=>b.classList.toggle('active',b===button)));return}$$('#paperNav button').forEach(b=>b.classList.toggle('active',b===button));$('#paperContent').innerHTML=view==='concepts'?concepts():view==='ideas'?ideas():notes();$('#paperContent').scrollTop=0},true);
+  function renderV159View(view){$('#paperContent').innerHTML=view==='papers'?papers():view==='concepts'?concepts():view==='ideas'?ideas():notes();$('#paperContent').scrollTop=0}
+  nav.addEventListener('click',event=>{const button=event.target.closest('[data-v159-view]');if(!button)return;event.preventDefault();event.stopImmediatePropagation();const view=button.dataset.v159View;$$('#paperNav button').forEach(b=>b.classList.toggle('active',b===button));renderV159View(view)},true);
+  $('#paperContent').addEventListener('click',async event=>{
+    const openPaper=event.target.closest('[data-v160-open-paper]');
+    if(openPaper){nav.querySelector('[data-view="library"]')?.click();requestAnimationFrame(()=>root.querySelector(`[data-paper="${CSS.escape(openPaper.dataset.v160OpenPaper)}"]`)?.click());return}
+    const folderButton=event.target.closest('[data-concept-folder]');if(folderButton){activeConceptFolder=folderButton.dataset.conceptFolder;renderV159View('concepts');return}
+    if(event.target.closest('[data-concept-folder-add]')){const name=prompt('새 개념 폴더 이름');if(!String(name||'').trim())return;const folders=conceptFolderData().filter(folder=>folder.id!=='uncategorized');folders.push({id:`folder-${Date.now()}`,name:String(name).trim().slice(0,50),conceptKeys:[]});await saveConceptFolders(folders)}
+  });
+  $('#paperContent').addEventListener('change',async event=>{const select=event.target.closest('[data-concept-move]');if(!select)return;const key=select.dataset.conceptMove,folders=conceptFolderData().filter(folder=>folder.id!=='uncategorized').map(folder=>({...folder,conceptKeys:(folder.conceptKeys||[]).filter(item=>item!==key)}));const target=folders.find(folder=>folder.id===select.value);if(target&&!target.conceptKeys.includes(key))target.conceptKeys.push(key);await saveConceptFolders(folders)});
 
   const drawer=$('#importDrawer'),oldSteps=$('.import-steps',drawer),oldSections=$$('.import-section,.import-validation',drawer);oldSteps?.remove();oldSections.forEach(node=>node.remove());
   const flow=document.createElement('div');flow.className='v159-import-flow';flow.innerHTML=`

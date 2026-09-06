@@ -45,7 +45,6 @@
       const level=normalizeLevel(saved.levelByLanguage?.[language]);
       await loadCourse(language,level);
       const result=original(root,shell);
-      root?.querySelector?.('#language-select option[value="zh"]')?.remove();
       root?.querySelector?.('.header-course')?.setAttribute('aria-label','영어와 일본어 학습 과정 선택');
       const languageSelect=root?.querySelector?.('#language-select');
       if(languageSelect&&!['en','ja'].includes(languageSelect.value))languageSelect.value='ja';
