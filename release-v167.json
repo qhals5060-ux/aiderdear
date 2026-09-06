@@ -1,8 +1,24 @@
 {
   "versionCode": 167,
   "versionName": "1.9.57",
-  "status": "staged-candidate",
-  "requiresCoordinatedApiClientRulesRollout": true,
+  "status": "deployed",
+  "requiresCoordinatedApiClientRulesRollout": false,
+  "rollout": {
+    "date": "2026-09-07",
+    "applicationCommit": "4dc8d36c13e14c422b8ac43cfe6bc089a94e6717",
+    "applicationDeployment": "dpl_78NQbBQS76J868Faw28SJSkmQ9Qw",
+    "url": "https://aiderdear1.vercel.app",
+    "rules": "final-v167-published",
+    "plans": ["Firebase Spark", "Vercel Hobby"],
+    "paidUpgradePerformed": false,
+    "managedDataBackupPerformed": false,
+    "productionDataMigratedOrDeleted": false,
+    "productionInvitationsIssued": false,
+    "authenticatedReadSmokeTestPassed": true,
+    "productionWriteSmokeTestPerformed": false,
+    "ownerWorkspaceInitialization": "Owner confirms initial creation in Work; no test workspace created.",
+    "pendingSeparateRelease": ["widget-v13", "app-consult-work-detailed-redesign"]
+  },
   "artifacts": [
     {"file": "AiderLog-v167.apk", "bytes": 63549161, "sha256": "f23eb7832a7f61c5acbb11dd9abb7339ea65341cb123683e3781103ee65db279"},
     {"file": "AiderLog-Modern-v167-site-files.zip", "bytes": 1728059, "sha256": "770abcf25e6b0ee8b1f49a010978012662f5358bcd440498bfd01cb2697462a2"},

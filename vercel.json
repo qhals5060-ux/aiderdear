@@ -7,6 +7,21 @@
   ],
   "redirects": [
     {
+      "source": "/AiderLog-v165.apk",
+      "destination": "/AiderLog-v167.apk",
+      "permanent": false
+    },
+    {
+      "source": "/AiderLog-Modern-v165-site-files.zip",
+      "destination": "/AiderLog-Modern-v167-site-files.zip",
+      "permanent": false
+    },
+    {
+      "source": "/AiderLog-Editorial-v165-site-files.zip",
+      "destination": "/AiderLog-Editorial-v167-site-files.zip",
+      "permanent": false
+    },
+    {
       "source": "/language-study",
       "destination": "/",
       "permanent": false

@@ -1,22 +1,23 @@
-# AiderLog v167 source candidate · published release remains v165
+# AiderLog v167 · current downloads
 
-The resumed app presentation work, latest semantic theme, website layout and
-Consult/Work/employee portal implementation are local source changes. The latest
-Consult/Work brief excludes production deployment and APK rebuild. Published
-download links therefore still refer to the existing v165 files.
+Current download links provide the compatible v167 Android APK and the Modern /
+Editorial v167 site packages. The three former v165 download URLs redirect to
+their corresponding v167 files; recoverable originals are kept outside the Git
+working tree. Each PC ZIP contains browser source and a Windows shortcut to the
+HTTPS site, not a standalone Windows executable or local API server.
 
 Before any rollout, read [WORK_V167_OPERATIONS.md](./WORK_V167_OPERATIONS.md) and
 [RELEASE_V167.md](./RELEASE_V167.md). Do not publish the new rules independently of
 the matching clients/API: older Consult direct writes will be rejected.
 
-## Published v165 · Routine / DayLog / native widgets / Modern site
+## Current v167 downloads · Routine / DayLog / native widgets / Modern site
 
-Current release: Android versionCode 165 (1.9.55).
+Current download: Android versionCode 167 (1.9.57).
 
 - Site appearance: `site-editions-v164.js/css` switches Modern / Editorial without changing functions.
-- Downloads: `AiderLog-v165.apk`, `AiderLog-Modern-v165-site-files.zip`, `AiderLog-Editorial-v165-site-files.zip`.
+- Downloads: `AiderLog-v167.apk`, `AiderLog-Modern-v167-site-files.zip`, `AiderLog-Editorial-v167-site-files.zip`.
 - Both site ZIPs have current functions and a different initial appearance. The Android app is not switched to the site layout.
-- Change scope and verification limits: [RELEASE_V165.md](./RELEASE_V165.md).
+- Download hashes: [release-v167.json](./release-v167.json). Change scope and verification limits: [RELEASE_V167.md](./RELEASE_V167.md).
 - Native permission, widget and file-transfer patch sources: [android-src](./android-src/README.md).
 
 ## Previous releases
