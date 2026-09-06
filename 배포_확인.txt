@@ -359,6 +359,20 @@ v93 기능 유지
 - PERSONAL → 화면 전환 → 식사·운동·독서·금융 패턴 Overview
 - 운동 기록 → 사진 추가 → Overview에서 두 날짜 사진 비교
 - 금융 기록 → 납부 주기·납부일 → Overview에서 납부 완료 체크
+AiderLog v162 · 모던 사이트 · 목적별 위젯 배포 확인
+
+- Android APK: /AiderLog-v162.apk
+- 모던 사이트 소스: /AiderLog-Modern-v162-site-files.zip
+- 에디토리얼 사이트 소스: /AiderLog-Editorial-v161-site-files.zip
+- APK SHA-256: 30F288D2113B19002C3C2FC84A6932FA5B57DDE4DA271F1C3CF28FFF29957D90
+- 새 디자인은 사이트에서만 적용되며 Android WebView의 앱 디자인은 변경하지 않습니다.
+- 개인 페이지의 Windows 다운로드 카드에서 모던/에디토리얼 디자인을 선택할 수 있습니다.
+- 위젯 선택 목록은 일정·메모·루틴·어학·건강·독서·불렛저널 이름으로 구분됩니다.
+- 설치된 위젯은 Galaxy 홈 화면에서 길게 눌러 설정을 다시 열 수 있습니다.
+- 사이트·앱 런타임에서 참조하지 않는 과거 빌드/검증 스크립트와 중복 이미지 27개를 제거했습니다.
+
+----------------------------------------
+
 AiderLog Android v158 · Consult · Work Lab Notes · Study Workspace 배포 확인
 
 - APK: /AiderLog-v158.apk
