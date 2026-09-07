@@ -30,6 +30,14 @@ service cloud.firestore {
       return request.auth.token.email;
     }
 
+    // After the first v168 write, an older app cannot replace compressed arrays
+    // with an unreadable/truncated cache. Fresh server time proves adapter use.
+    function compatibleArchiveWrite() {
+      return resource == null || resource.data.get('storageVersion', 0) < 168
+        || (request.resource.data.get('storageVersion', 0) >= 168
+          && request.resource.data.get('formatWrittenAt', null) == request.time);
+    }
+
     function paperTaskWorkspaceMember() {
       return signedIn()
         && currentEmail() in ['qhals5060@gmail.com', 'aidway55@gmail.com'];
@@ -96,11 +104,13 @@ service cloud.firestore {
         && request.resource.data.email == resource.data.email;
 
       match /app/{documentId} {
-        allow read, write: if signedIn() && request.auth.uid == userId;
+        allow read, delete: if signedIn() && request.auth.uid == userId;
+        allow create, update: if signedIn() && request.auth.uid == userId && compatibleArchiveWrite();
       }
 
       match /schedule/{documentId} {
-        allow read, write: if signedIn() && request.auth.uid == userId;
+        allow read, delete: if signedIn() && request.auth.uid == userId;
+        allow create, update: if signedIn() && request.auth.uid == userId && compatibleArchiveWrite();
       }
 
       match /private/{documentId} {
@@ -112,14 +122,15 @@ service cloud.firestore {
           && request.resource.data.get('payload', {}).get('consultingTasks', []) == []
           && request.resource.data.get('payload', {}).get('consultingSessions', []) == []
           && request.resource.data.get('payload', {}).get('consultingFiles', []) == [];
-        allow update: if signedIn() && request.auth.uid == userId
+        allow update: if signedIn() && request.auth.uid == userId && compatibleArchiveWrite()
           && !request.resource.data.get('payload', {}).diff(resource.data.get('payload', {})).affectedKeys()
             .hasAny(['consultingClients','consultingTasks','consultingSessions','consultingFiles']);
         allow delete: if false;
       }
 
       match /emotion/{documentId} {
-        allow read, write: if signedIn() && request.auth.uid == userId;
+        allow read, delete: if signedIn() && request.auth.uid == userId;
+        allow create, update: if signedIn() && request.auth.uid == userId && compatibleArchiveWrite();
       }
 
       match /media/{document=**} {
@@ -231,13 +242,14 @@ service cloud.firestore {
       allow delete: if false;
 
       match /app/{documentId} {
-        allow read, write: if activePairMember(pairId);
+        allow read, delete: if activePairMember(pairId);
+        allow create, update: if activePairMember(pairId) && compatibleArchiveWrite();
       }
 
       match /emotions/{ownerUid} {
         allow read: if activePairMember(pairId);
         allow create, update: if activePairMember(pairId)
-          && ownerUid == request.auth.uid;
+          && ownerUid == request.auth.uid && compatibleArchiveWrite();
         allow delete: if activePairMember(pairId)
           && ownerUid == request.auth.uid;
       }
@@ -246,7 +258,7 @@ service cloud.firestore {
         allow read: if activePairMember(pairId);
         allow create, update: if activePairMember(pairId)
           && ownerUid == request.auth.uid
-          && request.resource.data.ownerUid == request.auth.uid;
+          && request.resource.data.ownerUid == request.auth.uid && compatibleArchiveWrite();
         allow delete: if activePairMember(pairId)
           && ownerUid == request.auth.uid;
       }

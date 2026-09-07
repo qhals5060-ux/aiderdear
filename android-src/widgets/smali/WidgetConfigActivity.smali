@@ -545,9 +545,17 @@
 
     invoke-virtual {v7, v5}, Ljava/lang/String;->equalsIgnoreCase(Ljava/lang/String;)Z
 
-    move-result v5
+    move-result v8
 
-    if-nez v5, :cond_2
+    if-nez v8, :cond_2
+
+    const-string v7, "qhals5060@gmail.com"
+
+    invoke-virtual {v7, v5}, Ljava/lang/String;->equalsIgnoreCase(Ljava/lang/String;)Z
+
+    move-result v8
+
+    if-nez v8, :cond_2
 
     const-string v0, "Task \uc704\uc82f\uc740 \uc9c0\uc815\ub41c \uacc4\uc815\uc5d0\uc11c\ub9cc \uc0ac\uc6a9\ud560 \uc218 \uc788\uc5b4\uc694."
 

@@ -25,6 +25,10 @@
         <receiver android:exported="false" android:name=".WidgetNavV164"/>
         <service android:exported="false" android:name=".WidgetRowsV164" android:permission="android.permission.BIND_REMOTEVIEWS"/>
         <receiver android:exported="false" android:name=".ReminderReceiver"/>
+        <receiver android:exported="true" android:label="컨설트 · 고객정보 입력 링크" android:name=".WidgetProvider$TaskClientLink">
+            <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE"/></intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_task_client_link"/>
+        </receiver>
         <receiver android:exported="true" android:label="일정 · 월간 캘린더" android:name=".WidgetProvider$CalendarMonth">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>

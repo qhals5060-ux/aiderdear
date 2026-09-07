@@ -11,8 +11,8 @@
 <meta name="description" content="">
 <meta name="format-detection" content="telephone=no">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="aiderlog-build" content="v167">
-<meta name="aiderlog-android-build" content="v167">
+<meta name="aiderlog-build" content="v168">
+<meta name="aiderlog-android-build" content="v168">
 <link rel="canonical" href="https://aiderdear1.vercel.app/">
 <script>
 (() => {
@@ -4122,7 +4122,7 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   html body #stage .calendar{min-height:488px!important}
 }
 </style>
-<link rel="stylesheet" href="./site-work-v167.css?v=167">
+<link rel="stylesheet" href="./site-work-v167.css?v=168">
 <link rel="stylesheet" href="./site-polish-v158.css?v=160">
 <script>(()=>{const h=document.documentElement;if(window.AiderLogNative){h.classList.add('aiderlog-android');return}let e=h.dataset.siteDefaultEdition==='editorial'?'editorial':'modern';try{const s=localStorage.getItem('aiderlog.site.edition');if(s==='modern'||s==='editorial')e=s}catch{}h.dataset.siteEdition=e;h.classList.toggle('modern-site',e==='modern')})();</script>
 <link rel="stylesheet" href="./site-modern-v165.css?v=167">
@@ -4831,15 +4831,15 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
 <div class="app-install-grid app-install-v137 site-edition-downloads">
   <article class="app-install-card windows">
     <i>Windows PC · 사이트 파일</i><b>모던</b><p>간결한 구조와 차분한 색상의 사이트 디자인입니다.</p>
-    <a class="app-download-link app-download-v164" href="./AiderLog-Modern-v167-site-files.zip" download="AiderLog-Modern-v167-site-files.zip">모던 사이트 파일 다운로드</a>
+    <a class="app-download-link app-download-v164" href="./AiderLog-Modern-v168-site-files.zip" download="AiderLog-Modern-v168-site-files.zip">모던 사이트 파일 다운로드</a>
   </article>
   <article class="app-install-card windows">
     <i>Windows PC · 사이트 파일</i><b>에디토리얼</b><p>기존의 잡지형 구성과 탭 디자인을 유지합니다.</p>
-    <a class="app-download-link app-download-v164" href="./AiderLog-Editorial-v167-site-files.zip" download="AiderLog-Editorial-v167-site-files.zip">에디토리얼 사이트 파일 다운로드</a>
+    <a class="app-download-link app-download-v164" href="./AiderLog-Editorial-v168-site-files.zip" download="AiderLog-Editorial-v168-site-files.zip">에디토리얼 사이트 파일 다운로드</a>
   </article>
   <article class="app-install-card android">
     <i>Android APK</i><b>Android 앱</b><p>Galaxy Fold·Flip 3–8 및 Android 8.0 이상용 최신 설치 파일입니다.</p>
-    <a class="app-download-link app-download-v164" href="./AiderLog-v167.apk" download="AiderLog-v167.apk">Android APK 다운로드</a>
+    <a class="app-download-link app-download-v164" href="./AiderLog-v168.apk" download="AiderLog-v168.apk">Android APK 다운로드</a>
   </article>
 </div>
           <div class="login-data-summary"><b>기록 저장 안내</b><span>일정은 본인 공간에 저장되며 ‘커플과 공유’를 선택한 일정만 상대 캘린더에 표시됩니다.</span><span>EVENT는 커플 연결 시 함께 보고, 루틴·어학·PERSONAL·메모는 본인만 확인합니다.</span><span>PAPER·CONSULTING·WORK는 허용된 두 계정만 열 수 있으며, 각 계정의 연구·컨설팅·운영 기록은 서로 분리해 저장합니다.</span><span>사진·영상은 압축 저장되며, 오래된 일반 기록은 삭제 전에 반드시 확인을 요청합니다.</span></div>
@@ -5354,7 +5354,7 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script type="module" src="./firebase-app.js?v=165"></script>
+<script type="module" src="./firebase-app.js?v=168"></script>
 <script src="./brain-3d.js"></script>
 <script src="./language-lab-v18-engine.js?v=160"></script>
 <script src="./language-content-v149.js?v=160"></script>
@@ -5409,13 +5409,10 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   function lunarBirthdayInGregorianYear(year,month,day,leap=false){const key=`${year}-${month}-${day}-${leap?1:0}`;if(lunarBirthdayCache.has(key))return lunarBirthdayCache.get(key);let found='';try{const formatter=new Intl.DateTimeFormat('en-u-ca-chinese',{month:'numeric',day:'numeric'}),cursor=new Date(year,0,1,12);while(cursor.getFullYear()===year){const parts=formatter.formatToParts(cursor),monthValue=String(parts.find(part=>part.type==='month')?.value||''),dayValue=Number(parts.find(part=>part.type==='day')?.value||0),lunarMonth=Number((monthValue.match(/\d+/)||[])[0]||0),isLeap=/bis|leap|윤/i.test(monthValue);if(lunarMonth===month&&dayValue===day&&isLeap===!!leap){found=iso(cursor.getFullYear(),cursor.getMonth(),cursor.getDate());break}cursor.setDate(cursor.getDate()+1)}}catch(error){console.warn('Lunar birthday conversion unavailable',error)}lunarBirthdayCache.set(key,found);return found}
   function connectionBirthdayEvents(year){const people=[...(firebaseState.partner?[{...firebaseState.partner,relation:'커플'}]:[]),...(firebaseState.friends||[]).map(row=>({...row,relation:'친구'}))],seen=new Set();return people.flatMap(person=>{if(!person.uid||seen.has(person.uid)||!/^\d{4}-\d{2}-\d{2}$/.test(String(person.birthDate||'')))return[];seen.add(person.uid);const [,mm,dd]=person.birthDate.split('-').map(Number),lunar=person.birthCalendar==='lunar',date=lunar?lunarBirthdayInGregorianYear(year,mm,dd,person.birthLeap):`${year}-${String(mm).padStart(2,'0')}-${String(dd).padStart(2,'0')}`;if(!date)return[];return[{id:`birthday-${person.uid}-${date}`,googleEventId:'',calendarId:'aiderlog-birthday',sourceTitle:`${person.relation} 생일`,isAiderDear:false,isHoliday:false,isBirthday:true,title:`🎂 ${person.name} 생일`,date,endDate:date,time:'',endTime:'',allDay:true,owner:person.relation==='커플'?'partner':'shared',authorEmail:person.email,pairKey:'',memo:`${lunar?'음력':'양력'} 생일${person.birthLeap?' · 윤달':''} · AiderLog에만 표시`}]} )}
   window.addEventListener('aiderlog-site-work-updated',()=>renderCalendar());
+  window.addEventListener('aiderlog-calendar-projection-v168',()=>renderCalendar());
   function restrictedCalendarEvents(){
     if(!currentUserEmail||!canAccessRestrictedTab('task'))return[];
-    const data=privateData[currentUserEmail]||{},clients=new Map((data.consultingClients||[]).map(row=>[String(row.id),row]));
-    const consulting=(data.consultingTasks||[]).filter(row=>row?.dueDate).map(row=>({id:`consulting:${row.id}`,sourceTitle:`Consulting${clients.get(String(row.clientId))?.name?` · ${clients.get(String(row.clientId)).name}`:''}`,sourceColor:'#B56A46',isAiderDear:false,readOnly:true,calendarScope:'consulting',title:row.title||'Consulting 과업',date:String(row.dueDate).slice(0,10),endDate:String(row.dueDate).slice(0,10),time:row.dueTime||'',endTime:'',allDay:!row.dueTime,owner:'mine',authorEmail:currentUserEmail,memo:'Consulting에서 수정할 수 있습니다.'}));
-    const workRows=Array.isArray(window.AiderLogSiteWorkRecords)?window.AiderLogSiteWorkRecords:(data.workRecords||[]),work=workRows.filter(row=>row?.dueDate||row?.date).map(row=>({id:`work:${row.id}`,sourceTitle:'Work',sourceColor:'#6255E8',isAiderDear:false,readOnly:true,calendarScope:'work',title:row.title||'Work 업무',date:String(row.dueDate||row.date).slice(0,10),endDate:String(row.endDate||row.dueDate||row.date).slice(0,10),time:row.dueTime||row.time||'',endTime:row.endTime||'',allDay:!(row.dueTime||row.time),owner:'mine',authorEmail:currentUserEmail,memo:[row.nextAction,row.issue].filter(Boolean).join(' · ')||'Work에서 수정할 수 있습니다.'}));
-    const extra=window.AiderConsultV167?.calendar?.().filter(row=>row.kind!=='task'&&row.status!=='cancelled').map(row=>({id:row.id,sourceTitle:`Consult · ${row.clientName||''}`,sourceColor:'#B56A46',isAiderDear:false,readOnly:true,calendarScope:'consulting',title:row.title,date:row.date,endDate:row.date,time:row.time||'',endTime:'',allDay:!row.time,owner:'mine',authorEmail:currentUserEmail,memo:'Consult에서 수정할 수 있습니다.'}))||[];
-    return [...consulting,...extra,...work];
+    return window.AiderWorkCalendarV168?.rows(privateData[currentUserEmail]||{})||[];
   }
   function calendarDisplayEvents(year){return [...events,...restrictedCalendarEvents(),...connectionBirthdayEvents(year-1),...connectionBirthdayEvents(year),...connectionBirthdayEvents(year+1)]}
   const SEOUL_OFFSET='+09:00';
@@ -5656,7 +5653,7 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
 
   function normalizeEmail(v){return String(v||'').trim().toLowerCase()}
   function localPreviewMode(){return /^(localhost|127\.0\.0\.1)$/.test(location.hostname)&&new URLSearchParams(location.search).has('preview')}
-  function canAccessRestrictedTab(tab,email=currentUserEmail){email=normalizeEmail(email);if(tab==='paper'||tab==='task'||tab==='work')return localPreviewMode()||RESTRICTED_WORKSPACE_EMAILS.has(email);return true}
+  function canAccessRestrictedTab(tab,email=currentUserEmail){email=normalizeEmail(email);if(tab==='paper')return localPreviewMode()||email==='qhals5060@gmail.com';if(tab==='task'||tab==='work')return localPreviewMode()||RESTRICTED_WORKSPACE_EMAILS.has(email);return true}
   function currentUserGender(){const gender=firebaseState.user?.gender||privateData?.[currentUserEmail]?.profile?.gender;return gender==='female'||gender==='male'?gender:''}
   function isFemaleUser(){return currentUserGender()==='female'}
   function syncGenderUI(){const profile=firebaseState.user||privateData?.[currentUserEmail]?.profile||{},select=$('#loginGenderSelect'),birth=$('#loginBirthDate'),calendar=$('#loginBirthCalendar'),leap=$('#loginBirthLeap'),leapField=$('#loginBirthLeapField');if(select)select.value=currentUserGender();if(birth)birth.value=profile.birthDate||'';if(calendar)calendar.value=profile.birthCalendar==='lunar'?'lunar':'solar';if(leap)leap.checked=!!profile.birthLeap;if(leapField)leapField.hidden=(calendar?.value||'solar')!=='lunar';const section=$('#emotionCycleSection');if(section)section.hidden=!isFemaleUser();if(!isFemaleUser()&&$('#emotionPeriod'))$('#emotionPeriod').checked=false}
@@ -6196,37 +6193,6 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
 
   const RETENTION_DAYS=90,RETENTION_INTERVAL_MS=90*86400000,BACKUP_INTERVAL_MS=30*86400000,PAPER_TASK_BACKUP_INTERVAL_MS=90*86400000,BACKUP_REMIND_MS=7*86400000,MAIL_RETENTION_MS=7*86400000;
   function maintenanceKey(kind){return `aiderlog-${kind}:${currentUserEmail||'guest'}`}
-  function maintenanceCutoffDate(){const d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()-RETENTION_DAYS);return iso(d.getFullYear(),d.getMonth(),d.getDate())}
-  function recordDateBefore(row,cutoff){const date=String(row?.date||'').slice(0,10);if(/^\d{4}-\d{2}-\d{2}$/.test(date))return date<cutoff;const stamp=Number(row?.createdAt||row?.updatedAt)||0;return !!stamp&&stamp<new Date(`${cutoff}T00:00:00`).getTime()}
-  function ownMaintenanceRow(row){const author=normalizeEmail(row?.authorEmail||row?.createdBy||'');return author?author===currentUserEmail:!mutualPartner()}
-  function collectRetentionPlan(){
-    const cutoff=maintenanceCutoffDate(),data=privateData[currentUserEmail]||blankPrivateData(currentUserEmail,currentUserName),emotion=emotionData[currentUserEmail]||{entries:[]};
-    const schedules=(ownScheduleEvents||[]).filter(row=>recordDateBefore(row,cutoff));
-    const archive=(cloudData.eventReviews||[]).filter(row=>row.category!=='travel'&&ownMaintenanceRow(row)&&recordDateBefore(row,cutoff));
-    const emotions=(emotion.entries||[]).filter(row=>recordDateBefore(row,cutoff));
-    const personal=(data.personalItems||[]).filter(row=>['health','reading'].includes(row.category)&&recordDateBefore(row,cutoff));
-    const checklists=(data.checklists||[]).filter(row=>row.done&&recordDateBefore(row,cutoff));
-    const pomodoro=(data.pomodoroSessions||[]).filter(row=>recordDateBefore(row,cutoff));
-    let routineLogs=0;(data.routines||[]).forEach(routine=>{const dates=new Set([...(routine.doneDates||[]),...Object.keys(routine.dailyLevels||{}),...Object.values(routine.goalTracking||{}).flatMap(map=>Object.keys(map||{}))]);routineLogs+=[...dates].filter(date=>date<cutoff).length});
-    const mediaKey=currentPairKey()||'guest',monthMedia=cloudData.coupleMediaBySpace?.[mediaKey],oldMonthMedia=monthMedia&&ownMaintenanceRow(monthMedia)&&recordDateBefore(monthMedia,cutoff)?monthMedia:null;
-    return {cutoff,data,emotion,schedules,archive,emotions,personal,checklists,pomodoro,routineLogs,monthMedia:oldMonthMedia,mediaKey,total:schedules.length+archive.length+emotions.length+personal.length+checklists.length+pomodoro.length+routineLogs+(oldMonthMedia?1:0)};
-  }
-  async function deleteExpiredRecords(plan){
-    const cloudMedia=[],privateMedia=[];
-    if(plan.schedules.length){const ids=new Set(plan.schedules.map(row=>row.id));ownScheduleEvents=(ownScheduleEvents||[]).filter(row=>!ids.has(row.id));await persistOwnScheduleEvents()}
-    if(plan.archive.length){const ids=new Set(plan.archive.map(row=>row.id));plan.archive.forEach(row=>{if(row.media?.fileId)cloudMedia.push(row.media.fileId)});cloudData.eventReviews=(cloudData.eventReviews||[]).filter(row=>!ids.has(row.id))}
-    if(plan.monthMedia){if(plan.monthMedia.fileId)cloudMedia.push(plan.monthMedia.fileId);delete cloudData.coupleMediaBySpace[plan.mediaKey]}
-    if(plan.archive.length||plan.monthMedia)await saveCloudData();
-    if(plan.emotions.length){const ids=new Set(plan.emotions.map(row=>row.id));plan.emotion.entries=(plan.emotion.entries||[]).filter(row=>!ids.has(row.id));await saveEmotionData(currentUserEmail)}
-    const personalIds=new Set(plan.personal.map(row=>row.id));plan.personal.forEach(row=>{if(row.media?.fileId)privateMedia.push(row.media.fileId)});plan.data.personalItems=(plan.data.personalItems||[]).filter(row=>!personalIds.has(row.id));
-    const checklistIds=new Set(plan.checklists.map(row=>row.id));plan.data.checklists=(plan.data.checklists||[]).filter(row=>!checklistIds.has(row.id));
-    const pomodoroIds=new Set(plan.pomodoro.map(row=>row.id));plan.data.pomodoroSessions=(plan.data.pomodoroSessions||[]).filter(row=>!pomodoroIds.has(row.id));
-    (plan.data.routines||[]).forEach(routine=>{routine.doneDates=(routine.doneDates||[]).filter(date=>date>=plan.cutoff);Object.keys(routine.dailyLevels||{}).forEach(date=>{if(date<plan.cutoff)delete routine.dailyLevels[date]});Object.keys(routine.goalDerivedDates||{}).forEach(date=>{if(date<plan.cutoff)delete routine.goalDerivedDates[date]});Object.values(routine.goalTracking||{}).forEach(map=>Object.keys(map||{}).forEach(date=>{if(date<plan.cutoff)delete map[date]}))});
-    if(plan.personal.length||plan.checklists.length||plan.pomodoro.length||plan.routineLogs)await savePrivateData(currentUserEmail);
-    await Promise.allSettled(cloudMedia.map(driveDeleteFile));
-    await Promise.allSettled(privateMedia.map(id=>window.AiderDearFirebase.deletePrivateMedia(id)));
-    await loadCalendarEvents();renderEventArchive();renderPersonal();renderPrivate();renderEmotion();resetCoupleMediaView();await loadCoupleMedia();
-  }
   function backupMediaDescriptor(item){const id=String(item?.fileId||item?.key||'');return id?{id,name:String(item.name||id),type:String(item.type||item.mimeType||'application/octet-stream'),storageScope:item?.storageScope==='paper-task'?'paper-task':'private'}:null}
   function buildEventBackup(){
     const records=getRecords().map(row=>({...row,photos:[],media:recordMediaItems(row).map(item=>{const media=backupMediaDescriptor(item);return media?{kind:item.kind||'image',...media}:null}).filter(Boolean)}));
@@ -6239,9 +6205,7 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
     return {paper,task,media,paperCount:Object.values(paper).reduce((sum,rows)=>sum+(Array.isArray(rows)?rows.length:0),0),taskCount:Object.values(task).reduce((sum,rows)=>sum+(Array.isArray(rows)?rows.length:0),0),exportedAt:new Date().toISOString()};
   }
   async function promptRetentionCleanup(){
-    const key=maintenanceKey('retention-auto'),last=Number(localStorage.getItem(key)||0);if(Date.now()-last<RETENTION_INTERVAL_MS)return false;
-    const plan=collectRetentionPlan();
-    try{if(plan.total){toast('3개월 자동 정리를 실행하는 중…');await deleteExpiredRecords(plan);toast(`${plan.total}개의 오래된 임시·완료 기록과 연결 미디어를 정리했습니다.`)}localStorage.setItem(key,String(Date.now()))}catch(err){console.warn('Quarterly storage cleanup failed',err)}return true;
+    try{return await window.AiderDearFirebase?.compactQuarterly?.()}catch(error){console.warn('Lossless quarterly archive deferred',error);return false}
   }
   async function promptEventBackup(){
     const last=Number(localStorage.getItem(maintenanceKey('event-backup-success'))||0),snooze=Number(localStorage.getItem(maintenanceKey('event-backup-snooze'))||0);if(Date.now()-last<BACKUP_INTERVAL_MS||Date.now()-snooze<BACKUP_REMIND_MS)return;
@@ -8534,9 +8498,12 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   function consultingMilitaryStatus(value){const text=String(value||'').trim();return ({completed:'completed','군필':'completed',pending:'pending','미필':'pending',exempt:'exempt','면제':'exempt',serving:'serving','복무 중':'serving'})[text]||''}
   async function startConsultingIntakeWatch(){
     try{consultingIntakeStop?.()}catch{}consultingIntakeStop=null;
-    const token=currentUserEmail?consultingStore().consultingIntakeToken:'';if(!token||!window.AiderDearFirebase?.watchClientIntakeSubmissions)return;
-    consultingIntakeStop=window.AiderDearFirebase.watchClientIntakeSubmissions(token,async rows=>{if(consultingIntakeBusy||!rows?.length||!currentUserEmail)return;consultingIntakeBusy=true;try{const data=consultingStore();data.consultingClients=Array.isArray(data.consultingClients)?data.consultingClients:[];const acknowledged=[],newlyAdded=[];for(const item of rows){if(data.consultingClients.some(row=>row.externalSubmissionId===item.id)){acknowledged.push(item.id);continue}const now=Date.now(),id=`client-external-${item.id}`,targetUniversity=String(item.targetUniversity||item.university||'').slice(0,600),currentSchool=String(item.currentSchool||item.institution||'').slice(0,120),targetMajor=String(item.targetMajor||item.major||'').slice(0,600),currentMajor=String(item.currentMajor||item.program||'').slice(0,120),gpa=Math.max(0,Math.min(100,Number(item.gpa)||0)),gpaScale=[4,4.3,4.5,100].includes(Number(item.gpaScale))?Number(item.gpaScale):0;data.consultingClients.push({id,externalSubmissionId:item.id,name:String(item.name||'').slice(0,60),phone:String(item.phone||'').slice(0,30),email:String(item.email||'').slice(0,120),contact:[item.phone,item.email].filter(Boolean).join(' · ').slice(0,180),birthYear:Math.max(0,Math.min(2200,Number(item.birthYear)||0)),gender:['female','male'].includes(item.gender)?item.gender:'',currentSchool,currentMajor,additionalMajors:String(item.additionalMajors||consultingMajorFromNote(item.note,'다중전공')).slice(0,240),doubleMajor:String(item.doubleMajor||consultingMajorFromNote(item.note,'복수전공')).slice(0,120),minor:String(item.minor||consultingMajorFromNote(item.note,'부전공')).slice(0,120),universityYears:consultingUniversityYears(item.universityYears||consultingNoteField(item.note,'대학 유형')),militaryStatus:consultingMilitaryStatus(item.militaryStatus||consultingNoteField(item.note,'군필 여부')),targetUniversity,targetMajor,advisorNames:consultingAdvisorNames(item.advisorNames),degree:['masters','doctoral','integrated','other'].includes(item.degree)?item.degree:'',gpa,gpaScale,university:targetUniversity,institution:currentSchool,program:currentMajor,major:targetMajor,applicationYear:Math.max(0,Math.min(2200,Number(item.applicationYear)||0)),applicationSemester:['spring','fall','rolling','other'].includes(item.applicationSemester)?item.applicationSemester:'',topic:String(item.topic||'').slice(0,1200),languageSpec:String(item.languageSpec||'').slice(0,1200),certifications:String(item.certifications||'').slice(0,1200),activities:String(item.activities||'').slice(0,1600),researchExperience:String(item.researchExperience||'').slice(0,1600),outputs:String(item.outputs||'').slice(0,1600),inquiry:String(item.inquiry||'').slice(0,2000),stage:'inquiry',admissionResult:'pending',nextSession:'',note:String(item.note||'').slice(0,6000),createdAt:Number(item.createdAt)||now,updatedAt:now});acknowledged.push(item.id);newlyAdded.push(item.id);selectedConsultingClientId=id}if(acknowledged.length){if(newlyAdded.length)await savePrivateData(currentUserEmail);await Promise.allSettled(acknowledged.map(id=>window.AiderDearFirebase.markClientIntakeImported(token,id)));renderConsultingWorkspace();if(newlyAdded.length)toast(`${newlyAdded.length}명의 고객 작성 정보가 추가되었습니다.`)}}catch(err){console.warn('Client intake import failed',err)}finally{consultingIntakeBusy=false}})
+    return window.AiderConsultIntakeV168?.sync(true);
   }
+  window.addEventListener('aiderlog-intakes-imported-v168',async event=>{
+    if(event.detail.uid!==firebaseState.user?.uid)return;
+    await window.AiderConsultBridge.refresh();renderConsultingWorkspace();toast(`${event.detail.count}명의 고객 작성 정보가 추가되었습니다.`);
+  });
   async function ensureConsultingIntakeLink(){if(!currentUserEmail)throw new Error('로그인이 필요합니다.');const data=consultingStore(),oldToken=data.consultingIntakeToken||'',token=await window.AiderDearFirebase.createClientIntakeLink('',oldToken);data.consultingIntakeToken=token;await savePrivateData(currentUserEmail);await startConsultingIntakeWatch();return token}
   async function openConsultingShare(){const overlay=$('#consultingShareOverlay'),status=$('#consultingShareStatus'),input=$('#consultingShareUrl');overlay.hidden=false;status.textContent='새 외부 작성 링크를 발급하는 중입니다.';input.value='';try{const token=await ensureConsultingIntakeLink();input.value=consultingIntakeUrl(token);status.textContent='새 링크가 발급되었습니다. 고객이 제출하면 Consulting 목록에 자동으로 반영됩니다.'}catch(err){status.textContent=err.message||String(err)}}
   function closeConsultingShare(){$('#consultingShareOverlay').hidden=true}
@@ -8687,16 +8654,20 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
 </script>
 <script src="./paper-workspace-v121.js?v=167"></script>
 <script src="./paper-v159.js?v=167"></script>
-<link rel="stylesheet" href="./consult-v167.css?v=167">
-<script src="./consult-model-v167.js?v=167"></script>
-<script src="./consult-v167.js?v=167"></script>
+<link rel="stylesheet" href="./consult-v167.css?v=168">
+<script src="./consult-model-v167.js?v=168"></script>
+<script src="./work-calendar-v168.js?v=168"></script>
+<script src="./storage-maintenance-v168.js?v=168"></script>
+<script src="./consult-intake-v168.js?v=168"></script>
+<script src="./consult-deeplink-v168.js?v=168"></script>
+<script src="./consult-v167.js?v=168"></script>
 <script src="./work-client-v167.js?v=167"></script>
-<script src="./site-work-v167.js?v=167"></script>
+<script src="./site-work-v167.js?v=168"></script>
 <script src="./site-polish-v158.js?v=160"></script>
 <script src="./site-editions-v164.js?v=167"></script>
 <script src="./site-layout-v165.js?v=167"></script>
-<link rel="stylesheet" href="./site-ui-v167.css?v=167">
-<script src="./site-ui-v167.js?v=167"></script>
+<link rel="stylesheet" href="./site-ui-v167.css?v=168">
+<script src="./site-ui-v167.js?v=168"></script>
 <script src="./widget-sync-v162.js?v=162"></script>
 <script>
 (() => {

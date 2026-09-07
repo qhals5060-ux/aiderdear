@@ -1,6 +1,15 @@
 # Android native release patches
 
-## v167 source candidate (not built or deployed)
+## v168 native release
+
+Consult/Work mobile composition, v13 native widgets, 1×1 intake link, and shared
+lossless-storage adapters are included. See `../WORK_V168_OPERATIONS.md` for the
+verified gates and unavailable physical Galaxy checks. Compile the widget Java
+helpers with Java8 stubs, D8 min26, then merge `widgets/smali` and `widgets/res`
+into the retained full decoded application. The full decoded tree is in the
+separate source archive, not duplicated in Git.
+
+## v167 historical source changes
 
 The latest colour-only specification supersedes the v166 default-palette notes
 below. See `APP_COLOUR_V167.md`. My/Paper/training presentation and the .72/.84/1.0

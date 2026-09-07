@@ -1,3 +1,4 @@
+import {decodeArchive,encodeStoredPayload} from '../archive-codec-v168.js';
 import crypto from 'node:crypto';
 import { applicationDefault, cert, getApps, initializeApp } from 'firebase-admin/app';
 import { getAuth } from 'firebase-admin/auth';
@@ -158,7 +159,7 @@ async function mirrorSharedSchedule(uid, email, rows) {
     authorUid: uid,
   }));
   await db.doc(`pairs/${pairId}/schedules/${uid}`).set({
-    payload: shared,
+    payload: encodeStoredPayload(shared), storageVersion:168, formatWrittenAt:FieldValue.serverTimestamp(),
     ownerUid: uid,
     ownerEmail: email,
     updatedAt: FieldValue.serverTimestamp(),
@@ -172,17 +173,17 @@ async function replaceProviderRows(uid, provider, rows) {
   await db.runTransaction(async transaction => {
     const ref = scheduleRef(uid);
     const snapshot = await transaction.get(ref);
-    const previous = Array.isArray(snapshot.data()?.payload) ? snapshot.data().payload : [];
+    const previous = decodeArchive(snapshot.data()?.payload) || [];
     const own = previous.filter(row => row?.externalSource !== provider);
-    const merged = [...own, ...rows.slice(0, 600)].map(row => ({
+    const merged = [...own, ...rows].map(row => ({
       ...row,
       authorEmail: email,
       authorUid: uid,
       owner: row?.shareWithCouple ? 'shared' : (row?.owner === 'shared' ? 'shared' : 'mine'),
       pairKey: '',
-    })).slice(-1200);
+    }));
     savedRows = merged;
-    transaction.set(ref, { ownerUid: uid, payload: merged, updatedAt: FieldValue.serverTimestamp(), updatedBy: uid }, { merge: true });
+    transaction.set(ref, { ownerUid: uid, payload: encodeStoredPayload(merged), storageVersion:168, formatWrittenAt:FieldValue.serverTimestamp(), updatedAt: FieldValue.serverTimestamp(), updatedBy: uid }, { merge: true });
   });
   await mirrorSharedSchedule(uid, email, savedRows);
 }
@@ -194,9 +195,9 @@ async function removeProviderRows(uid, provider) {
   await db.runTransaction(async transaction => {
     const ref = scheduleRef(uid);
     const snapshot = await transaction.get(ref);
-    const rows = (Array.isArray(snapshot.data()?.payload) ? snapshot.data().payload : []).filter(row => row?.externalSource !== provider);
+    const rows = (decodeArchive(snapshot.data()?.payload) || []).filter(row => row?.externalSource !== provider);
     savedRows = rows;
-    transaction.set(ref, { ownerUid: uid, payload: rows, updatedAt: FieldValue.serverTimestamp(), updatedBy: uid }, { merge: true });
+    transaction.set(ref, { ownerUid: uid, payload: encodeStoredPayload(rows), storageVersion:168, formatWrittenAt:FieldValue.serverTimestamp(), updatedAt: FieldValue.serverTimestamp(), updatedBy: uid }, { merge: true });
   });
   await mirrorSharedSchedule(uid, email, savedRows);
 }

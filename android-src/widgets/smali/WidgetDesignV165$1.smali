@@ -30,7 +30,7 @@
 .method constructor <init>()V
     .locals 0
 
-    .line 94
+    .line 99
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -56,7 +56,7 @@
 .method public compare(Ljava/lang/String;Ljava/lang/String;)I
     .locals 5
 
-    .line 94
+    .line 99
     const-string v0, "^[0-9]{2}:[0-9]{2}.*"
 
     invoke-virtual {p1, v0}, Ljava/lang/String;->matches(Ljava/lang/String;)Z

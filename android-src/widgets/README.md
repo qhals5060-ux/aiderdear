@@ -1,4 +1,18 @@
-# v165 native widgets (v12 designs)
+# v168 native widgets (v13 designs)
+
+The notes below retain historical architecture details. For v168 use
+`generate-components-v168.cjs` and then `generate-picker-v168.cjs` against the
+decoded `res` directory. Both intentionally reuse the v165 generators and stable
+resource IDs; do not delete those dependencies. v168 adds the 1×1 TaskClientLink
+provider (30 total picker choices), four-token default palette and typography,
+560dp/font-aware split layouts, and read-only bullet journal actions.
+
+Native settings and installed rendering share the same production components.
+Consult/Work calendar projection is owner guarded. Goal-linked routine actions
+open the existing app flow, never bypassing linked goals. Full current test and
+physical-device limitations are in `../../WORK_V168_OPERATIONS.md`.
+
+## Retained implementation details (v165 foundation)
 
 This is a reproducible patch for the retained decoded Android application, not a
 standalone Gradle project. Preserve the package/provider names and existing public

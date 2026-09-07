@@ -1,4 +1,6 @@
 import { createConsultSync, CONSULT_KEYS } from './consult-sync-v167.js';
+import {decodeArchive,encodeArchive,encodeStoredPayload} from './archive-codec-v168.js';
+const storageStampV168=()=>({storageVersion:168,formatWrittenAt:serverTimestamp()});
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js';
 import {
   browserLocalPersistence,
@@ -926,7 +928,7 @@ async function markDirectLetterRead(letterId) {
 
 async function readAppData() {
   const snapshot = await getDoc(scopedDoc('app'));
-  return snapshot.exists() ? snapshot.data().payload || null : null;
+  return snapshot.exists() ? decodeArchive(snapshot.data().payload) || null : null;
 }
 
 const copyJson = value => JSON.parse(JSON.stringify(value ?? null));
@@ -1038,16 +1040,16 @@ async function migrateEventWorkspace() {
   const soloRef = doc(db, 'users', user.uid, 'app', 'main');
   const pairRef = doc(db, 'pairs', state.pair.id, 'app', 'main');
   const [soloSnapshot, pairSnapshot] = await Promise.all([getDoc(soloRef), getDoc(pairRef)]);
-  const soloPayload = soloSnapshot.exists() ? soloSnapshot.data().payload || {} : {};
-  let pairPayload = pairSnapshot.exists() ? pairSnapshot.data().payload || {} : {};
+  const soloPayload = soloSnapshot.exists() ? decodeArchive(soloSnapshot.data().payload) || {} : {};
+  let pairPayload = pairSnapshot.exists() ? decodeArchive(pairSnapshot.data().payload) || {} : {};
   if (!pairPayload.eventMigrationByUid?.[user.uid]) {
     pairPayload = await runTransaction(db, async transaction => {
       const currentPairSnapshot = await transaction.get(pairRef);
-      const currentPairPayload = currentPairSnapshot.exists() ? currentPairSnapshot.data().payload || {} : {};
+      const currentPairPayload = currentPairSnapshot.exists() ? decodeArchive(currentPairSnapshot.data().payload) || {} : {};
       if (currentPairPayload.eventMigrationByUid?.[user.uid]) return currentPairPayload;
       const merged = mergeSoloEventPayload(currentPairPayload, soloPayload);
       transaction.set(pairRef, {
-        payload: merged,
+        payload: encodeStoredPayload(merged), ...storageStampV168(),
         updatedAt: serverTimestamp(),
         updatedBy: user.uid,
       });
@@ -1063,10 +1065,10 @@ async function migrateEventWorkspace() {
     if (complete) {
       pairPayload = await runTransaction(db, async transaction => {
         const currentPairSnapshot = await transaction.get(pairRef);
-        const current = currentPairSnapshot.exists() ? currentPairSnapshot.data().payload || {} : {};
+        const current = currentPairSnapshot.exists() ? decodeArchive(currentPairSnapshot.data().payload) || {} : {};
         current.eventMediaMigrationByUid = current.eventMediaMigrationByUid && typeof current.eventMediaMigrationByUid === 'object' ? current.eventMediaMigrationByUid : {};
         current.eventMediaMigrationByUid[user.uid] = Date.now();
-        transaction.set(pairRef, { payload: current, updatedAt: serverTimestamp(), updatedBy: user.uid });
+        transaction.set(pairRef, { payload: encodeStoredPayload(current), ...storageStampV168(), updatedAt: serverTimestamp(), updatedBy: user.uid });
         return current;
       });
     }
@@ -1077,7 +1079,7 @@ async function migrateEventWorkspace() {
 async function writeAppData(payload) {
   const user = requireUser();
   await setDoc(scopedDoc('app'), {
-    payload: JSON.parse(JSON.stringify(payload)),
+    payload: encodeStoredPayload(JSON.parse(JSON.stringify(payload))), ...storageStampV168(),
     updatedAt: serverTimestamp(),
     updatedBy: user.uid,
   });
@@ -1107,17 +1109,17 @@ function cleanScheduleRows(rows, ownerUid = '') {
       shareWithCouple: !!row.shareWithCouple || row.owner === 'shared',
       pairKey: (row.owner === 'shared' || row.shareWithCouple) && state.pair ? state.pair.id : '',
     }))
-    .slice(-1200);
+    ;
 }
 
 async function readScheduleData() {
   const user = requireUser();
   const ownSnapshot = await getDoc(ownScheduleRef());
-  const own = ownSnapshot.exists() ? ownSnapshot.data().payload || [] : [];
+  const own = ownSnapshot.exists() ? decodeArchive(ownSnapshot.data().payload) || [] : [];
   let shared = [];
   if (state.pair && state.partner?.uid) {
     const partnerSnapshot = await getDoc(pairScheduleRef(state.partner.uid));
-    shared = partnerSnapshot.exists() ? partnerSnapshot.data().payload || [] : [];
+    shared = partnerSnapshot.exists() ? decodeArchive(partnerSnapshot.data().payload) || [] : [];
   }
   return {
     own: Array.isArray(own) ? own : [],
@@ -1129,7 +1131,7 @@ async function writeScheduleData(rows) {
   const user = requireUser();
   const own = cleanScheduleRows(rows, user.uid);
   const writes = [setDoc(ownScheduleRef(), {
-    payload: own,
+    payload: encodeStoredPayload(own), ...storageStampV168(),
     updatedAt: serverTimestamp(),
     updatedBy: user.uid,
   })];
@@ -1137,7 +1139,7 @@ async function writeScheduleData(rows) {
   if (pairRef) {
     const shared = own.filter(row => row.owner === 'shared' || row.shareWithCouple);
     writes.push(setDoc(pairRef, {
-      payload: shared,
+      payload: encodeStoredPayload(shared), ...storageStampV168(),
       ownerUid: user.uid,
       ownerEmail: user.email,
       updatedAt: serverTimestamp(),
@@ -1160,7 +1162,7 @@ function watchScheduleData(callback) {
   unsubscribeOwnSchedule = onSnapshot(
     ownScheduleRef(),
     snapshot => {
-      own = snapshot.exists() && Array.isArray(snapshot.data().payload) ? snapshot.data().payload : [];
+      own = snapshot.exists() ? decodeArchive(snapshot.data().payload) || [] : [];
       ownReady = true;
       emitRows();
     },
@@ -1170,7 +1172,7 @@ function watchScheduleData(callback) {
     unsubscribePartnerSchedule = onSnapshot(
       pairScheduleRef(state.partner.uid),
       snapshot => {
-        shared = snapshot.exists() && Array.isArray(snapshot.data().payload) ? snapshot.data().payload : [];
+        shared = snapshot.exists() ? decodeArchive(snapshot.data().payload) || [] : [];
         sharedReady = true;
         emitRows();
       },
@@ -1195,12 +1197,12 @@ async function getFirebaseIdToken(forceRefresh = false) {
 async function readPrivateData() {
   const user = requireUser();
   const snapshot = await getDoc(doc(db, 'users', user.uid, 'private', 'main'));
-  return consultSyncV167.remember(user.uid, snapshot.exists() ? snapshot.data().payload || null : null);
+  return consultSyncV167.remember(user.uid, snapshot.exists() ? decodeArchive(snapshot.data().payload) || null : null);
 }
 
 const consultSyncV167 = createConsultSync({
   currentUid:()=>auth.currentUser?.uid,
-  readCurrent:async uid=>(await getDoc(doc(db,'users',uid,'private','main'))).data()?.payload||{},
+  readCurrent:async uid=>decodeArchive((await getDoc(doc(db,'users',uid,'private','main'))).data()?.payload)||{},
   commitRecord:async(uid,input)=>{
     if(auth.currentUser?.uid!==uid)throw Error('계정이 변경되었습니다.');
     const token=await auth.currentUser.getIdToken();
@@ -1213,15 +1215,15 @@ const consultSyncV167 = createConsultSync({
   writeRemaining:async(uid,incoming)=>{
     const ref=doc(db,'users',uid,'private','main');
     return runTransaction(db,async transaction=>{
-      const snap=await transaction.get(ref),current=snap.data()?.payload||{},next=JSON.parse(JSON.stringify(incoming));
+      const snap=await transaction.get(ref),rawCurrent=snap.data()?.payload||{},current=decodeArchive(rawCurrent),next=JSON.parse(JSON.stringify(incoming));
       if(auth.currentUser?.uid!==uid)throw Error('계정이 변경되었습니다.');
       for(const key of CONSULT_KEYS){if(Object.hasOwn(current,key))next[key]=current[key];else delete next[key];}
       if(snap.exists()){
-        const fields=[new FieldPath('updatedAt'),serverTimestamp()];
-        for(const [key,value] of Object.entries(incoming))if(!CONSULT_KEYS.includes(key))fields.push(new FieldPath('payload',key),value);
+        const fields=[new FieldPath('updatedAt'),serverTimestamp(),new FieldPath('storageVersion'),168,new FieldPath('formatWrittenAt'),serverTimestamp()];
+        for(const [key,value] of Object.entries(incoming))if(!CONSULT_KEYS.includes(key))fields.push(new FieldPath('payload',key),encodeArchive(value));
         for(const key of Object.keys(current))if(!CONSULT_KEYS.includes(key)&&!Object.prototype.hasOwnProperty.call(incoming,key))fields.push(new FieldPath('payload',key),deleteField());
         transaction.update(ref,...fields);
-      }else transaction.set(ref,{payload:next,updatedAt:serverTimestamp()});
+      }else transaction.set(ref,{payload:encodeStoredPayload(next),...storageStampV168(),updatedAt:serverTimestamp()});
       return next;
     });
   }
@@ -1283,7 +1285,7 @@ async function applyWidgetActionV165(input = {}) {
     assertOwner();
     const [main, receipt] = await Promise.all([transaction.get(mainRef), transaction.get(receiptRef)]);
     assertOwner();
-    const stored = main.exists() ? main.data().payload : null;
+    const stored = main.exists() ? decodeArchive(main.data().payload) : null;
     if (stored != null && (typeof stored !== 'object' || Array.isArray(stored))) {
       fail('widget/invalid-data', '기존 기록 형식을 확인해주세요. 위젯에서는 덮어쓰지 않았습니다.');
     }
@@ -1322,6 +1324,7 @@ async function applyWidgetActionV165(input = {}) {
         if ((row.doneDates != null && !Array.isArray(row.doneDates)) || (row.dailyLevels != null && (typeof row.dailyLevels !== 'object' || Array.isArray(row.dailyLevels)))) {
           fail('widget/invalid-data', '기존 루틴 기록 형식을 확인해주세요.');
         }
+        if (Object.keys(row.goalDerivedDates||{}).length || Object.values(row.goalTracking||{}).some(days=>Object.keys(days||{}).length)) fail('widget/goal-linked','목표와 연결된 루틴입니다. 앱에서 목표별 수행을 수정해주세요.');
         const oldDates = row.doneDates || [], oldLevels = row.dailyLevels || {};
         const doneDates = oldDates.filter(day => day !== date), dailyLevels = {...oldLevels};
         if (value && value !== 'SKIP') {
@@ -1330,7 +1333,7 @@ async function applyWidgetActionV165(input = {}) {
           dailyLevels[date] = sample && sample === sample.toLowerCase() ? value.toLowerCase() : value;
           if (oldDates.includes(date)) doneDates.splice(Math.min(oldDates.indexOf(date), doneDates.length), 0, date);
           else doneDates.push(date);
-        } else delete dailyLevels[date];
+        } else if(value==='SKIP') dailyLevels[date]='SKIP'; else delete dailyLevels[date];
         changed = JSON.stringify(doneDates) !== JSON.stringify(oldDates) || JSON.stringify(dailyLevels) !== JSON.stringify(oldLevels);
         nextRow = {...row, doneDates, dailyLevels, updatedAt: stamp};
       }
@@ -1341,8 +1344,8 @@ async function applyWidgetActionV165(input = {}) {
       if (adding) nextRows.push(nextRow); else nextRows[index] = nextRow;
       nextPayload = {...payload, [collectionKey]: nextRows};
       assertOwner();
-      if (main.exists()) transaction.update(mainRef, new FieldPath('payload',collectionKey),nextRows,new FieldPath('updatedAt'),serverTimestamp());
-      else transaction.set(mainRef, {payload: nextPayload, updatedAt: serverTimestamp()});
+      if (main.exists()) transaction.update(mainRef, new FieldPath('payload',collectionKey),encodeArchive(nextRows),new FieldPath('updatedAt'),serverTimestamp(),new FieldPath('storageVersion'),168,new FieldPath('formatWrittenAt'),serverTimestamp());
+      else transaction.set(mainRef, {payload: encodeStoredPayload(nextPayload), ...storageStampV168(), updatedAt: serverTimestamp()});
     }
     assertOwner();
     transaction.set(receiptRef, {schema: 165, uid, key, fingerprint, applied: changed, createdAt: serverTimestamp()});
@@ -1361,13 +1364,13 @@ async function writePrivateData(payload) {
 
 async function readPaperTaskData() {
   const snapshot = await getDoc(paperTaskWorkspaceRef());
-  return snapshot.exists() ? snapshot.data().payload || null : null;
+  return snapshot.exists() ? decodeArchive(snapshot.data().payload) || null : null;
 }
 
 async function writePaperTaskData(payload) {
   const user = requirePaperTaskMember();
   await setDoc(paperTaskWorkspaceRef(), {
-    payload: JSON.parse(JSON.stringify(payload || {})),
+    payload: encodeStoredPayload(JSON.parse(JSON.stringify(payload || {}))), ...storageStampV168(),
     updatedAt: serverTimestamp(),
     updatedBy: user.uid,
     updatedByEmail: user.email,
@@ -1378,7 +1381,7 @@ function watchPaperTaskData(callback) {
   paperTaskWorkspaceRef();
   return onSnapshot(
     doc(db, 'sharedWorkspaces', PAPER_TASK_WORKSPACE_ID),
-    snapshot => callback(snapshot.exists() ? snapshot.data().payload || null : null),
+    snapshot => callback(snapshot.exists() ? decodeArchive(snapshot.data().payload) || null : null),
     error => console.warn('PAPER · TASK workspace listener stopped', error),
   );
 }
@@ -1387,7 +1390,7 @@ async function readPaperAnalysis(paperId) {
   const snapshot = await getDoc(paperAnalysisRef(paperId));
   if (!snapshot.exists()) return null;
   const row = snapshot.data() || {};
-  return row.payload || null;
+  return decodeArchive(row.payload) || null;
 }
 
 async function writePaperAnalysis(paperId, payload) {
@@ -1398,7 +1401,7 @@ async function writePaperAnalysis(paperId, payload) {
   await setDoc(paperAnalysisRef(paperId), {
     paperId: String(paperId),
     schema: String(cleanPayload.schema || ''),
-    payload: cleanPayload,
+    payload: encodeStoredPayload(cleanPayload), ...storageStampV168(),
     byteSize: bytes,
     updatedAt: serverTimestamp(),
     updatedBy: user.uid,
@@ -1421,17 +1424,17 @@ function emotionRef(uid) {
 
 async function readEmotionData(uid) {
   const snapshot = await getDoc(emotionRef(uid));
-  return snapshot.exists() ? snapshot.data().payload || null : null;
+  return snapshot.exists() ? decodeArchive(snapshot.data().payload) || null : null;
 }
 
 async function writeEmotionData(payload) {
   const user = requireUser();
-  const safePayload = JSON.parse(JSON.stringify(payload));
+  const safePayload = encodeStoredPayload(JSON.parse(JSON.stringify(payload)));
   const ownSoloRef = doc(db, 'users', user.uid, 'emotion', 'main');
   const ownPairRef = emotionRef(user.uid);
-  const writes = [setDoc(ownSoloRef, { payload: safePayload, updatedAt: serverTimestamp() })];
+  const writes = [setDoc(ownSoloRef, { payload: safePayload, ...storageStampV168(), updatedAt: serverTimestamp() })];
   if (ownPairRef.path !== ownSoloRef.path) {
-    writes.push(setDoc(ownPairRef, { payload: safePayload, updatedAt: serverTimestamp() }));
+    writes.push(setDoc(ownPairRef, { payload: safePayload, ...storageStampV168(), updatedAt: serverTimestamp() }));
   }
   await Promise.all(writes);
 }
@@ -2037,7 +2040,7 @@ function watchClientIntakeSubmissions(token, callback) {
 async function markClientIntakeImported(token, submissionId) {
   requireUser();
   if (!/^[A-Za-z0-9_-]{8,100}$/.test(String(submissionId || ''))) return;
-  await deleteDoc(doc(clientIntakeRef(token), 'submissions', String(submissionId)));
+  await updateDoc(doc(clientIntakeRef(token), 'submissions', String(submissionId)),{status:'imported',importedAt:serverTimestamp()});
 }
 
 const LAB_NOTEBOOK_TOKEN = /^[A-Za-z0-9_-]{32,100}$/;
@@ -2138,7 +2141,28 @@ async function readLabNotebookMedia(token, submissionId, mediaId) {
   return new Blob(parts,{type:meta.type||'application/octet-stream'});
 }
 
+// Archives are made only while signed in and in the foreground. A failed or
+// interrupted run resumes from server cursors; it never deletes source records.
+let archiveBusyV168=false;
+async function compactQuarterly(){
+  const user=auth.currentUser;if(!user||archiveBusyV168||document.visibilityState==='hidden'||navigator.onLine===false)return false;
+  const uid=user.uid,quarter=new Date().getFullYear()+'-Q'+(1+Math.floor(new Date().getMonth()/3)),key='aiderlog-archive168:'+uid;
+  try{if(localStorage.getItem(key)===quarter)return true}catch{}
+  archiveBusyV168=true;
+  try{
+    const token=await user.getIdToken();if(auth.currentUser?.uid!==uid)return false;
+    const response=await fetch('/api/storage',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+token},body:JSON.stringify({action:'compact',storageVersion:168}),signal:AbortSignal.timeout(25000)});
+    const result=await response.json();if(!response.ok)throw Error(result.error||'압축을 완료하지 못했습니다.');
+    if(auth.currentUser?.uid!==uid)return false;
+    if(result.done||result.alreadyComplete){try{localStorage.setItem(key,quarter)}catch{}}
+    window.dispatchEvent(new CustomEvent('aiderlog-storage-v168',{detail:{...result,uid}}));
+    if(!result.done&&!result.alreadyComplete)setTimeout(()=>{if(auth.currentUser?.uid===uid)compactQuarterly().catch(error=>console.warn('Archive deferred',error))},15000);
+    return result;
+  }finally{archiveBusyV168=false}
+}
+
 const api = {
+  compactQuarterly,
   config: { projectId: firebaseConfig.projectId, authDomain: firebaseConfig.authDomain },
   getState: () => ({ ...state }),
   subscribe(callback) {

@@ -26,7 +26,7 @@
   const previewMode = () => /^(?:localhost|127\.0\.0\.1)$/.test(location.hostname) && (new URLSearchParams(location.search).has('preview') || new URLSearchParams(location.search).get('android-preview') === '1');
   const currentEmail = () => String((typeof authState !== 'undefined' && authState?.user?.email) || window.AiderDearFirebase?.getState?.().user?.email || '').trim().toLowerCase();
   const currentUid = () => String((typeof authState !== 'undefined' && authState?.user?.uid) || window.AiderDearFirebase?.getState?.().user?.uid || '').trim();
-  const canUsePaper = () => previewMode() || ['qhals5060@gmail.com','aidway55@gmail.com'].includes(currentEmail());
+  const canUsePaper = () => previewMode() || currentEmail()==='qhals5060@gmail.com';
   const canUseWork = () => previewMode() || ['qhals5060@gmail.com','aidway55@gmail.com'].includes(currentEmail());
   const canUseTraining = () => previewMode() || currentEmail() !== 'aidway55@gmail.com';
   const canUseStudy = () => previewMode() || currentEmail() !== 'aidway55@gmail.com';
@@ -418,6 +418,10 @@
     if ((mode === 'speech' || mode === 'brain') && !canUseTraining()) mode = 'hub';
     if (mode === 'study' && !canUseStudy()) mode = 'hub';
     if (mode !== 'paper') window.AiderMobilePaperV159?.close?.();
+    if ((mode === 'task' || mode === 'work') && window.AiderAppConsultWorkV168) {
+      window.AiderAppConsultWorkV168.render(mode,host,()=>{mode='hub';modal=null;renderMy();});
+      return;
+    }
     if (mode === 'paper' && window.AiderMobilePaperV159) {
       window.AiderMobilePaperV159.render(host, () => { mode='hub'; modal=null; renderMy(); });
       return;

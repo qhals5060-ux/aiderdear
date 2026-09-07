@@ -74,16 +74,16 @@
 
     move-result v4
 
-    const-string v5, "-1"
+    const-string v5, "widget_date_"
 
-    const-string v6, "widget_date_"
+    const-string v6, "-1"
 
     const/4 v7, 0x0
 
     if-eqz v4, :cond_4
 
     .line 13
-    invoke-virtual {v5, p2}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+    invoke-virtual {v6, p2}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result p2
 
@@ -132,7 +132,7 @@
 
     new-instance v3, Ljava/lang/StringBuilder;
 
-    invoke-direct {v3, v6}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+    invoke-direct {v3, v5}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
 
     invoke-virtual {v3, v0}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
 
@@ -167,21 +167,21 @@
 
     move-result-object p2
 
-    new-instance v5, Ljava/lang/StringBuilder;
+    new-instance v6, Ljava/lang/StringBuilder;
 
     const-string v8, "widget_month_"
 
-    invoke-direct {v5, v8}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+    invoke-direct {v6, v8}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
 
-    invoke-virtual {v5, v0}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+    invoke-virtual {v6, v0}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
 
-    move-result-object v5
+    move-result-object v6
 
-    invoke-virtual {v5}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+    invoke-virtual {v6}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
-    move-result-object v5
+    move-result-object v6
 
-    invoke-interface {p2, v5, v7}, Landroid/content/SharedPreferences;->getInt(Ljava/lang/String;I)I
+    invoke-interface {p2, v6, v7}, Landroid/content/SharedPreferences;->getInt(Ljava/lang/String;I)I
 
     move-result p2
 
@@ -225,7 +225,7 @@
 
     new-instance v3, Ljava/lang/StringBuilder;
 
-    invoke-direct {v3, v6}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+    invoke-direct {v3, v5}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
 
     invoke-virtual {v3, v0}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
 
@@ -246,7 +246,7 @@
     invoke-interface {p2}, Landroid/content/SharedPreferences$Editor;->apply()V
 
     .line 22
-    goto/16 :goto_3
+    goto/16 :goto_6
 
     :cond_4
     const-string v1, "bullet"
@@ -279,7 +279,7 @@
 
     move-result v1
 
-    invoke-virtual {v5, p2}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+    invoke-virtual {v6, p2}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result p2
 
@@ -330,19 +330,167 @@
 
     invoke-interface {p2}, Landroid/content/SharedPreferences$Editor;->apply()V
 
-    goto :goto_3
+    goto/16 :goto_6
 
     .line 23
     :cond_8
+    const-string v1, "challenge"
+
+    invoke-virtual {v1, v3}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v1
+
+    if-eqz v1, :cond_c
+
+    invoke-static {p1}, Lcom/aiderlog/v22app/WidgetNativeV164;->snapshot(Landroid/content/Context;)Lorg/json/JSONObject;
+
+    move-result-object v1
+
+    invoke-static {v1}, Lcom/aiderlog/v22app/WidgetDesignV165;->model(Lorg/json/JSONObject;)Lorg/json/JSONObject;
+
+    move-result-object v1
+
+    const-string v3, "challenges"
+
+    invoke-static {v1, v3}, Lcom/aiderlog/v22app/WidgetDesignV165;->a(Lorg/json/JSONObject;Ljava/lang/String;)Lorg/json/JSONArray;
+
+    move-result-object v1
+
+    invoke-static {p1, v0}, Lcom/aiderlog/v22app/WidgetDesignV165;->options(Landroid/content/Context;I)Lorg/json/JSONObject;
+
+    move-result-object v3
+
+    const-string v4, "id"
+
+    invoke-virtual {v3, v4}, Lorg/json/JSONObject;->optString(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v3
+
+    invoke-static {v1, v3}, Lcom/aiderlog/v22app/WidgetDesignV165;->choose(Lorg/json/JSONArray;Ljava/lang/String;)Lorg/json/JSONObject;
+
+    move-result-object v1
+
+    if-nez v1, :cond_9
+
+    move v1, v7
+
+    goto :goto_3
+
+    :cond_9
+    const-string v3, "nodes"
+
+    invoke-static {v1, v3}, Lcom/aiderlog/v22app/WidgetDesignV165;->a(Lorg/json/JSONObject;Ljava/lang/String;)Lorg/json/JSONArray;
+
+    move-result-object v1
+
+    invoke-virtual {v1}, Lorg/json/JSONArray;->length()I
+
+    move-result v1
+
+    add-int/lit8 v1, v1, -0x7
+
+    invoke-static {v7, v1}, Ljava/lang/Math;->max(II)I
+
+    move-result v1
+
+    :goto_3
+    invoke-static {p1}, Lcom/aiderlog/v22app/WidgetNativeV164;->prefs(Landroid/content/Context;)Landroid/content/SharedPreferences;
+
+    move-result-object v3
+
+    new-instance v4, Ljava/lang/StringBuilder;
+
+    const-string v5, "widget_challenge_page_"
+
+    invoke-direct {v4, v5}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+
+    invoke-virtual {v4, v0}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    move-result-object v4
+
+    invoke-virtual {v4}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v4
+
+    invoke-interface {v3, v4, v7}, Landroid/content/SharedPreferences;->getInt(Ljava/lang/String;I)I
+
+    move-result v3
+
+    invoke-static {v1, v3}, Ljava/lang/Math;->min(II)I
+
+    move-result v3
+
+    invoke-virtual {v6, p2}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result p2
+
+    if-eqz p2, :cond_b
+
+    rem-int/lit8 p2, v3, 0x7
+
+    if-nez p2, :cond_a
+
+    add-int/lit8 v3, v3, -0x7
+
+    goto :goto_4
+
+    :cond_a
+    sub-int/2addr v3, p2
+
+    :goto_4
+    invoke-static {v7, v3}, Ljava/lang/Math;->max(II)I
+
+    move-result p2
+
+    goto :goto_5
+
+    :cond_b
+    add-int/lit8 v3, v3, 0x7
+
+    invoke-static {v1, v3}, Ljava/lang/Math;->min(II)I
+
+    move-result p2
+
+    :goto_5
+    invoke-static {p1}, Lcom/aiderlog/v22app/WidgetNativeV164;->prefs(Landroid/content/Context;)Landroid/content/SharedPreferences;
+
+    move-result-object v1
+
+    invoke-interface {v1}, Landroid/content/SharedPreferences;->edit()Landroid/content/SharedPreferences$Editor;
+
+    move-result-object v1
+
+    new-instance v3, Ljava/lang/StringBuilder;
+
+    invoke-direct {v3, v5}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+
+    invoke-virtual {v3, v0}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    move-result-object v3
+
+    invoke-virtual {v3}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v3
+
+    invoke-interface {v1, v3, p2}, Landroid/content/SharedPreferences$Editor;->putInt(Ljava/lang/String;I)Landroid/content/SharedPreferences$Editor;
+
+    move-result-object p2
+
+    invoke-interface {p2}, Landroid/content/SharedPreferences$Editor;->apply()V
+
+    goto :goto_6
+
+    .line 24
+    :cond_c
     const-string v1, "date"
 
     invoke-virtual {v1, v3}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result v1
 
-    if-eqz v1, :cond_9
+    if-eqz v1, :cond_d
 
-    if-eqz p2, :cond_9
+    if-eqz p2, :cond_d
 
     const-string v1, "\\d{4}-\\d{2}-\\d{2}"
 
@@ -350,7 +498,7 @@
 
     move-result v1
 
-    if-eqz v1, :cond_9
+    if-eqz v1, :cond_d
 
     invoke-static {p1}, Lcom/aiderlog/v22app/WidgetNativeV164;->prefs(Landroid/content/Context;)Landroid/content/SharedPreferences;
 
@@ -362,7 +510,7 @@
 
     new-instance v3, Ljava/lang/StringBuilder;
 
-    invoke-direct {v3, v6}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+    invoke-direct {v3, v5}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
 
     invoke-virtual {v3, v0}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
 
@@ -378,15 +526,15 @@
 
     invoke-interface {p2}, Landroid/content/SharedPreferences$Editor;->apply()V
 
-    .line 24
-    :cond_9
-    :goto_3
+    .line 25
+    :cond_d
+    :goto_6
     invoke-static {p1}, Landroid/appwidget/AppWidgetManager;->getInstance(Landroid/content/Context;)Landroid/appwidget/AppWidgetManager;
 
     move-result-object p2
 
     invoke-static {p1, p2, v0, v2}, Lcom/aiderlog/v22app/WidgetNativeV164;->update(Landroid/content/Context;Landroid/appwidget/AppWidgetManager;ILjava/lang/String;)Z
 
-    .line 25
+    .line 26
     return-void
 .end method

@@ -64,7 +64,7 @@ test('common setters retain exclusion guards for templates intentionally lacking
   assert.match(java,/if\(!type\.equals\("todo"\)\)\{text\(c,v,"w165_body"/);
   assert.match(java,/if\(!type\.equals\("workout"\)&&!type\.equals\("day"\)\)\{color\(c,v,"w165_meta"/);
   assert.match(java,/if\(type\.equals\("meal"\)\)\{bitmap[\s\S]*?return v;\}\s*text\(c,v,"w165_title"/);
-  assert.match(java,/if\(type\.equals\("group"\)\)\{RemoteViews group=[\s\S]*?return group;\}/);
+  assert.match(java,/if\(type\.equals\("group"\)\|\|type\.equals\("stack"\)\)\{[\s\S]*?return group;\}/);
 });
 
 test('all XML widgets use supported RemoteViews view classes, without custom/unsupported UI tags',()=>{
@@ -85,7 +85,9 @@ test('reflective setInt calls only use audited @RemotableViewMethod methods on c
       for(const target of matches)assert(signatures[method].includes('View')||signatures[method].includes(target.tag),`${file} ${method} is not compatible with ${target.name}/${target.tag}`);
       checked++;
     }
-    const allCalls=[...text.matchAll(/\.set(?:Int|Float|Boolean|String|CharSequence|Long|Double)\(/g)];assert.equal(reflects.length,allCalls.length,`${file}: dynamic reflection target must be manually audited`);
+    const dynamic=[...text.matchAll(/\.setInt\(id\(c,"w165_level_"\+i\),"setBackgroundResource"/g)];
+    for(const match of dynamic)for(let i=0;i<4;i++)assert.equal(parse('widget_routine_v165').ids.get('w165_level_'+i).tag,'TextView','stage setter targets audited View.setBackgroundResource');
+    const allCalls=[...text.matchAll(/\.set(?:Int|Float|Boolean|String|CharSequence|Long|Double)\(/g)];assert.equal(reflects.length+dynamic.length,allCalls.length,`${file}: dynamic reflection target must be manually audited`);
   }
   assert(checked>=7,'Expected the audited background, paint and date-height calls');
 });
@@ -118,6 +120,6 @@ test('native image reapplication explicitly clears old photo/cover before an abs
 
 test('every generated launcher progress attribute is an integer in the native 0–100 range',()=>{
   const files=fs.readdirSync(path.join(res,'layout')).filter(name=>/^widget_picker_.*\.xml$/.test(name));
-  assert.equal(files.length,29);
+  assert.equal(files.length,30); // Retained 29 types plus the 1x1 Consult link.
   for(const file of files){const xml=fs.readFileSync(path.join(res,'layout',file),'utf8');for(const match of xml.matchAll(/android:progress="([^"]*)"/g)){assert.match(match[1],/^\d+$/,`${file}: ${match[1]} is not an integer`);assert(Number(match[1])<=100,`${file}: progress above 100`);}}
 });

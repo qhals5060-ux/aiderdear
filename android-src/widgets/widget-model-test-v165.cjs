@@ -7,7 +7,7 @@ new Function('module', require('node:fs').readFileSync(require('node:path').join
 const M = moduleBox.exports;
 const NOW = new Date('2026-09-06T12:00:00');
 const TODAY = '2026-09-06';
-const make = personal => M.build({uid:'fixture-owner', personal, now:NOW, photo:r=>r.localImage || `image:${r.id}`});
+const make = personal => M.build({uid:'fixture-owner', personal, now:NOW, courses:[{language:'en'},{language:'ja'}], photo:r=>r.localImage || `image:${r.id}`});
 const freeze = obj => { if(obj && typeof obj==='object') { Object.freeze(obj); Object.values(obj).forEach(freeze); } return obj; };
 const reading = (id,date,createdAt,details={},extra={}) => ({id,category:'reading',title:'A Book',date,createdAt,details:{author:'Author',readingStatus:'read',...details},...extra});
 const health = (id,date,details,extra={}) => ({id,category:'health',title:id,date,createdAt:1,details,...extra});
@@ -16,7 +16,7 @@ test('empty account is genuinely empty: no fabricated counts, photos, minutes or
   const m=make({});
   assert.equal(m.schema,165); assert.equal(m.uid,'fixture-owner'); assert.equal(m.today,TODAY);
   for(const key of ['notes','todos','routines','workouts','challenges','inbody','books','workflows'])assert.equal(m[key].length,0,key);
-  assert.deepEqual(m.meals,Array.from({length:4},()=>({id:'',image:'',time:'',rating:null})));
+  assert.deepEqual(m.meals,['breakfast','lunch','dinner','snack'].map(slot=>({id:'',slot,recordIds:[],image:'',time:'',rating:null})));
   assert.deepEqual(m.language.map(r=>[r.id,r.minutes,r.weekCount,r.streak]),[['en',null,0,0],['ja',null,0,0]]);
   assert.equal(m.routineStats.weekPercent,null); assert.deepEqual(m.dates,{});
 });
@@ -88,7 +88,7 @@ test('meal four slots retain only today, latest own image, real time and rating'
   const m=make({personalItems:[health('old','2026-09-05',{healthType:'meal',mealType:'dinner',time:'20:00',rating:5}),health('breakfast',TODAY,{healthType:'meal',mealType:'breakfast',time:'08:15',mealTime:'11:00',rating:4}),health('lunch-old',TODAY,{healthType:'meal',mealType:'lunch',time:'12:00',rating:2},{createdAt:2}),health('lunch-new',TODAY,{healthType:'meal',mealType:'lunch',mealTime:'13:10',rating:0},{updatedAt:3}),health('snack',TODAY,{healthType:'meal',mealType:'snack'})]});
   assert.equal(m.meals.length,4);assert.deepEqual(m.meals.map(r=>r.id),['breakfast','lunch-new','','snack']);
   assert.equal(m.meals[0].time,'08:15');assert.equal(m.meals[1].time,'13:10');assert.equal(m.meals[1].rating,0);assert.equal(m.meals[3].rating,null);
-  for(const r of m.meals)assert.deepEqual(Object.keys(r).sort(),['id','image','rating','time']);
+  for(const r of m.meals)assert.deepEqual(Object.keys(r).sort(),['id','image','rating','recordIds','slot','time']);
 });
 
 test('exercise minutes come from top-level minutes; set weight/reps/seconds are preserved',()=>{

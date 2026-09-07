@@ -1,3 +1,5 @@
+import {decodeWorkRow,encodeWorkRow} from '../server/storage-v168.mjs';
+import {decodeArchive} from '../archive-codec-v168.js';
 import crypto from 'node:crypto';
 import {FieldPath} from 'firebase-admin/firestore';
 import {services} from '../server/firebase-admin.mjs';
@@ -6,7 +8,7 @@ import {OWNER_EMAILS,COLLECTIONS,TASK_PUBLIC,fail,id,text,pick,record,entity,rev
 const hash=s=>crypto.createHash('sha256').update(s).digest('hex');
 const MAX_FILE=25*1024*1024, CHUNK=384*1024;
 const MIME=new Set(['image/jpeg','image/png','image/webp','application/pdf','video/mp4','video/webm','text/plain','text/csv']);
-const get=async(r,ref)=>{const s=await (typeof r.get==='function'?r.get(ref):ref.get());return s.exists?{...s.data(),id:s.id}:null;};
+const get=async(r,ref)=>{const s=await (typeof r.get==='function'?r.get(ref):ref.get());return s.exists?{...decodeWorkRow(s.data()),id:s.id}:null;};
 const cleanUser=u=>({uid:id(u.uid),email:String(u.email||'').toLowerCase(),verified:u.email_verified===true});
 
 export async function dispatch(db,rawUser,input){
@@ -38,11 +40,17 @@ export async function dispatch(db,rawUser,input){
     else if(!space||!member?.active||member.role!=='employee')fail(403,'소속 권한이 없거나 회수되었습니다.');
     return {space,member};
   };
-  if(action==='bootstrap'){
-    if(!owner||input.confirm!==true)fail(403,'대표가 업무 공간 생성을 확인해주세요.');
-    return db.runTransaction(async tx=>{const old=await get(tx,workspaceRef);if(old&&old.ownerUid!==user.uid)fail(403,'접근할 수 없습니다.');
-      if(!old){tx.set(workspaceRef,{ownerUid:user.uid,title:'Work',createdAt:now,schemaVersion:167,revokedRetention:'retain-no-access'});tx.set(memberRef,{uid:user.uid,role:'owner',active:true,joinedAt:now});}
-      return {workspaceId};});
+  if(action==='bootstrap'||(['context','calendar'].includes(action)&&owner)){
+    if(!owner||(action==='bootstrap'&&input.confirm!==true))fail(403,'대표 계정이 필요합니다.');
+    const initialized=await db.runTransaction(async tx=>{
+      const [old,member]=await Promise.all([get(tx,workspaceRef),get(tx,memberRef)]);
+      if(old&&old.ownerUid!==user.uid)fail(403,'접근할 수 없습니다.');
+      if(member&&(member.role!=='owner'||member.uid!==user.uid))fail(403,'기존 소속을 확인해주세요.');
+      if(!old)tx.set(workspaceRef,{ownerUid:user.uid,title:'Work',createdAt:now,schemaVersion:167,revokedRetention:'retain-no-access'});
+      if(!member)tx.set(memberRef,{uid:user.uid,role:'owner',active:true,joinedAt:now});
+      return {workspaceId};
+    });
+    if(action==='bootstrap')return initialized;
   }
   const ctx=await check(db);
   if(action==='context'){
@@ -52,6 +60,20 @@ export async function dispatch(db,rawUser,input){
   }
   const requireOwner=()=>{if(!owner)fail(403,'대표에게 허용된 작업입니다.');};
   const collection=name=>{if(!COLLECTIONS.includes(name))fail(400,'자료 유형을 확인해주세요.');return db.collection(`${w}/${name}`);};
+  if(action==='calendar'){
+    requireOwner();
+    const cursor=input.cursor==null?'tasks:':String(input.cursor),match=/^(tasks|projects):(.*)$/.exec(cursor);
+    if(!match)fail(400,'일정 조회 위치를 확인해주세요.');
+    const [,kind,after]=match;let query=collection(kind).orderBy(FieldPath.documentId()).limit(100);if(after)query=query.startAfter(id(after));
+    const snapshot=await query.get();await check(db);
+    const date=value=>typeof value==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(value)?value:'';
+    const inactive=new Set(['cancelled','rejected','archived','deleted']);
+    const records=snapshot.docs.map(doc=>({...doc.data(),id:doc.id})).filter(row=>!row.archived&&!row.deleted&&!row.archivedAt&&!row.deletedAt&&!inactive.has(row.status)).flatMap(row=>{
+      const startDate=date(row.startDate)||date(row.dueDate),endDate=date(row.endDate)||date(row.dueDate);if(!startDate)return [];
+      return [{id:row.id,source:kind==='tasks'?'work-task':'work-project',title:String(row.title||''),startDate,...(endDate&&endDate>=startDate?{endDate}:{}),status:String(row.status||''),...(kind==='tasks'&&row.projectId?{projectId:String(row.projectId)}:{})}];
+    });
+    return {records,cursor:snapshot.docs.length===100?`${kind}:${snapshot.docs.at(-1).id}`:kind==='tasks'?'projects:':null,updatedAt:now};
+  }
   async function visible(reader,kind,row){
     if(!row)fail(404,'기록을 찾을 수 없습니다.');
     if(owner)return row;
@@ -65,14 +87,14 @@ export async function dispatch(db,rawUser,input){
     const kind=action==='reviewHistory'?'reviews':String(input.collection||'');const ref=collection(kind).doc(id(input.id));
     await visible(db,kind,await get(db,ref));if(!owner&&kind!=='reviews')fail(403,'공개된 검토 이력만 조회할 수 있습니다.');
     let q=ref.collection('history').orderBy(FieldPath.documentId()).limit(100);if(input.cursor)q=q.startAfter(id(input.cursor));const snap=await q.get();await check(db);
-    return {rows:snap.docs.map(d=>({...d.data(),historyId:d.id})),cursor:snap.size===100?snap.docs.at(-1).id:null};
+    return {rows:snap.docs.map(d=>({...decodeWorkRow(d.data()),historyId:d.id})),cursor:snap.size===100?snap.docs.at(-1).id:null};
   }
   if(action==='legacyList'){
-    requireOwner();const privateDoc=await get(db,db.doc(`users/${user.uid}/private/main`)),payload=privateDoc?.payload||{};
+    requireOwner();const privateDoc=await get(db,db.doc(`users/${user.uid}/private/main`)),payload=decodeArchive(privateDoc?.payload)||{};
     if(!input.token)return {rows:(payload.workRecords||[]).filter(r=>r&&!r.demo),links:payload.labNotebookLinks||[],cursor:null};
     const link=await get(db,db.doc(`labNotebookLinks/${id(input.token)}`));if(link?.ownerUid!==user.uid)fail(403,'본인의 기존 노트 링크만 조회할 수 있습니다.');
     let q=db.collection(`labNotebookLinks/${id(input.token)}/submissions`).orderBy(FieldPath.documentId()).limit(100);if(input.cursor)q=q.startAfter(id(input.cursor));const snap=await q.get();
-    return {rows:snap.docs.map(d=>({...d.data(),id:d.id})),cursor:snap.size===100?snap.docs.at(-1).id:null};
+    return {rows:snap.docs.map(d=>({...decodeWorkRow(d.data()),id:d.id})),cursor:snap.size===100?snap.docs.at(-1).id:null};
   }
   if(action==='list'||action==='get'){
     const kind=String(input.collection||'');const ref=collection(kind);
@@ -80,14 +102,14 @@ export async function dispatch(db,rawUser,input){
     let q=ref;if(!owner){if(kind==='tasks')q=q.where('assigneeUid','==',user.uid);else if(kind==='submissions'||kind==='reviews')q=q.where('authorUid','==',user.uid);else if(kind==='resources')q=q.where('allowedUids','array-contains',user.uid);else fail(403,'직원에게 허용되지 않은 목록입니다.');}
     q=q.orderBy(FieldPath.documentId()).limit(100);if(input.cursor)q=q.startAfter(id(input.cursor));
     const snap=await q.get();await check(db);
-    return {rows:await Promise.all(snap.docs.map(d=>visible(db,kind,{...d.data(),id:d.id}))),cursor:snap.docs.length===100?snap.docs.at(-1).id:null};
+    return {rows:await Promise.all(snap.docs.map(d=>visible(db,kind,{...decodeWorkRow(d.data()),id:d.id}))),cursor:snap.docs.length===100?snap.docs.at(-1).id:null};
   }
   if(action==='draftList'||action==='draftGet'){
     if(owner)fail(403,'대표는 직원 개인 저장소를 조회할 수 없습니다.');
     const ref=db.collection(`employeePrivate/${user.uid}/drafts`);
     if(action==='draftGet'){const row=await get(db,ref.doc(id(input.id)));if(!row||row.workspaceId!==workspaceId)fail(404,'초안을 찾을 수 없습니다.');await check(db);return {row};}
     let q=ref.orderBy(FieldPath.documentId()).limit(100);if(input.cursor)q=q.startAfter(id(input.cursor));const snap=await q.get();await check(db);
-    return {rows:snap.docs.map(d=>({...d.data(),id:d.id})).filter(r=>r.workspaceId===workspaceId),cursor:snap.size===100?snap.docs.at(-1).id:null};
+    return {rows:snap.docs.map(d=>({...decodeWorkRow(d.data()),id:d.id})).filter(r=>r.workspaceId===workspaceId),cursor:snap.size===100?snap.docs.at(-1).id:null};
   }
   if(action==='preview'){
     if(owner)fail(403,'직원 개인 기록입니다.');const draft=await get(db,db.doc(`employeePrivate/${user.uid}/drafts/${id(input.id)}`));
@@ -112,7 +134,7 @@ export async function dispatch(db,rawUser,input){
   const requestId=id(input.requestId),fingerprint=hash(JSON.stringify(input)),receiptRef=db.doc(`${w}/receipts/${hash(user.uid+':'+requestId)}`);
   return db.runTransaction(async tx=>{
     await check(tx);const receipt=await get(tx,receiptRef);if(receipt){if(receipt.fingerprint!==fingerprint)fail(409,'다른 작업에 사용된 요청 ID입니다.');return receipt.result;}
-    let result;const writes=[];const set=(ref,data)=>writes.push(()=>tx.set(ref,data));const update=(ref,data)=>writes.push(()=>tx.update(ref,data));
+    let result;const writes=[];const set=(ref,data)=>writes.push(()=>tx.set(ref,encodeWorkRow(data,now)));const update=(ref,data)=>writes.push(()=>tx.update(ref,data));
     const refFor=(kind,value)=>collection(kind).doc(id(value));
     const metadata=old=>({schemaVersion:167,workspaceId,createdBy:old?.createdBy||user.uid,createdAt:old?.createdAt||now,updatedBy:user.uid,updatedAt:now,revision:Number(old?.revision||0)+1});
     if(action==='legacyClose'){
@@ -123,7 +145,7 @@ export async function dispatch(db,rawUser,input){
       let original,source;if(input.token){
         const link=await get(tx,db.doc(`labNotebookLinks/${id(input.token)}`));if(link?.ownerUid!==user.uid)fail(403,'다른 소유자의 노트입니다.');
         original=await get(tx,db.doc(`labNotebookLinks/${id(input.token)}/submissions/${id(input.id)}`));source=`labNotebookLinks/${input.token}/submissions/${input.id}`;
-      }else{const p=await get(tx,db.doc(`users/${user.uid}/private/main`));original=(p?.payload?.workRecords||[]).find(r=>String(r.id)===String(input.id)&&!r.demo);source=`users/${user.uid}/private/main#workRecords:${input.id}`;}
+      }else{const p=await get(tx,db.doc(`users/${user.uid}/private/main`));original=(decodeArchive(p?.payload)?.workRecords||[]).find(r=>String(r.id)===String(input.id)&&!r.demo);source=`users/${user.uid}/private/main#workRecords:${input.id}`;}
       if(!original)fail(404,'이전할 원본을 찾을 수 없습니다.');const migrationId=hash(source),ref=db.doc(`${w}/legacyRecords/${migrationId}`),existing=await get(tx,ref);
       if(existing&&existing.sourceHash!==hash(JSON.stringify(original)))fail(409,'원본이 변경되었습니다. 기존 이전본은 보존했으며 변경본 검토가 필요합니다.');
       if(existing&&(!input.target||existing.target)){

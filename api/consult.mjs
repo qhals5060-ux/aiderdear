@@ -1,4 +1,7 @@
 import crypto from 'node:crypto';
+import {decodeArchive,encodeStoredPayload} from '../archive-codec-v168.js';
+import {FieldValue} from 'firebase-admin/firestore';
+import {syncIntakes} from '../server/intake-v168.mjs';
 import {services} from '../server/firebase-admin.mjs';
 import {OWNER_EMAILS,fail,id,jsonSafe,revision} from '../server/work-model.mjs';
 import '../consult-model-v167.js';
@@ -12,7 +15,7 @@ export async function commitConsult(db,user,input){
   return db.runTransaction(async tx=>{
     const [snap,replay,identity]=await Promise.all([tx.get(main),tx.get(receipt),tx.get(db.doc(`workIdentities/${uid}`))]);
     if(identity.data()?.kind==='employee')fail(403,'직원 계정은 Consult를 사용할 수 없습니다.');
-    const payload=snap.data()?.payload||{},data=M.normalize(payload);
+    const payload=decodeArchive(snap.data()?.payload)||{},data=M.normalize(payload);
     if(replay.exists){if(replay.data().fingerprint!==fingerprint)fail(409,'요청 ID가 다른 변경에 사용되었습니다.');return {payload,replayed:true};}
     const rows=data[key],old=rows.find(r=>r.id===input.id);revision(old,input.expectedRevision);
     if(old&&!old.revision&&Number(input.expectedUpdatedAt||0)!==Number(old.updatedAt||old.createdAt||0))fail(409,'기존 기록이 변경되었습니다. 다시 불러와주세요.');
@@ -48,9 +51,10 @@ export async function commitConsult(db,user,input){
     }
     const next={...payload,[key]:[...rows.filter(r=>r.id!==row.id),row]};
     // Never silently truncate legacy arrays to satisfy Firestore's document limit.
-    if(Buffer.byteLength(JSON.stringify(next))>850000)fail(413,'개인 데이터 용량이 큽니다. 원본을 보존했으며 분할 이전이 필요합니다.');
+    const packed=encodeStoredPayload(next);
+    if(Buffer.byteLength(JSON.stringify(packed))>850000)fail(413,'개인 데이터 용량이 큽니다. 원본을 보존했으며 분할 이전이 필요합니다.');
     if(mediaLock)tx.update(mediaLock.ref,mediaLock.data);
-    tx.set(main,{...snap.data(),payload:next,updatedAt:new Date()});tx.set(receipt,{fingerprint,createdAt:Date.now()});
+    tx.set(main,{...snap.data(),payload:packed,storageVersion:168,formatWrittenAt:FieldValue.serverTimestamp(),updatedAt:new Date()});tx.set(receipt,{fingerprint,createdAt:Date.now()});
     return {payload:next,row};
   });
 }
@@ -59,6 +63,6 @@ export default async function handler(req,res){
   try{
     if(req.method!=='POST')fail(405,'POST 요청만 지원합니다.');const origin=req.headers.origin;if(origin&&origin!==process.env.PUBLIC_APP_URL?.replace(/\/$/,''))fail(403,'요청 출처를 확인해주세요.');
     const token=String(req.headers.authorization||'').match(/^Bearer (.+)$/)?.[1];if(!token)fail(401,'로그인이 필요합니다.');const {db,auth}=services();const user=await auth.verifyIdToken(token,true);
-    const body=typeof req.body==='string'?JSON.parse(req.body):req.body;const result=await commitConsult(db,user,jsonSafe(body));res.statusCode=200;res.end(JSON.stringify(result));
+    const body=jsonSafe(typeof req.body==='string'?JSON.parse(req.body):req.body);const result=body.action==='syncIntakes'?await syncIntakes(db,user,body):await commitConsult(db,user,body);res.statusCode=200;res.end(JSON.stringify(result));
   }catch(e){res.statusCode=e.status||503;res.end(JSON.stringify({error:e.status?e.message:'Consult 서버 연결을 확인해주세요. 변경사항이 저장되지 않았습니다.'}));}
 }

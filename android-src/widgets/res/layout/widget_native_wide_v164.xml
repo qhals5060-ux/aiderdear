@@ -6,15 +6,15 @@
 <TextView android:id="@id/widget_title" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="" android:textColor="#171A3A" android:textSize="16sp" android:textStyle="bold" android:maxLines="1" android:ellipsize="end"/>
 <TextView android:id="@+id/widget_previous" android:layout_width="40dp" android:layout_height="38dp" android:gravity="center" android:text="‹" android:textSize="24sp" android:contentDescription="이전 달"/>
 <TextView android:id="@+id/widget_next" android:layout_width="40dp" android:layout_height="38dp" android:gravity="center" android:text="›" android:textSize="24sp" android:contentDescription="다음 달"/>
-<TextView android:id="@+id/widget_add" android:layout_width="40dp" android:layout_height="38dp" android:gravity="center" android:text="+" android:textSize="25sp" android:contentDescription="추가"/>
+<TextView android:id="@+id/widget_add" android:layout_width="32dp" android:layout_height="32dp" android:gravity="center" android:text="+" android:textSize="25sp" android:contentDescription="추가" android:background="@drawable/widget_button_v165" android:textColor="#171A3A"/>
 </LinearLayout>
 <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:orientation="horizontal">
 <LinearLayout android:id="@+id/widget_calendar_v164" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1.5" android:orientation="vertical"/>
 <LinearLayout android:id="@+id/widget_list_panel_v164" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:orientation="vertical" android:paddingTop="5dp" android:layout_marginLeft="10dp">
-<TextView android:id="@id/widget_subtitle" android:layout_width="match_parent" android:layout_height="20dp" android:text="" android:textColor="#6B6D83" android:textSize="11sp" android:maxLines="1"/>
+<TextView android:id="@id/widget_subtitle" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="" android:textColor="#171A3A" android:textSize="12sp" android:maxLines="1" android:layout_marginBottom="10dp"/>
 <FrameLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1">
-<ListView android:id="@+id/widget_items_v164" android:layout_width="match_parent" android:layout_height="match_parent" android:divider="@android:color/transparent" android:dividerHeight="1dp" android:scrollbars="none"/>
-<TextView android:id="@+id/widget_empty" android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="center" android:text="저장된 기록이 없습니다." android:textColor="#6B6D83" android:textSize="13sp"/>
+<ListView android:id="@+id/widget_items_v164" android:layout_width="match_parent" android:layout_height="match_parent" android:divider="#DED9FF" android:dividerHeight="1dp" android:scrollbars="vertical" android:paddingBottom="12dp" android:clipToPadding="false"/>
+<TextView android:id="@+id/widget_empty" android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="left|top" android:text="기록 없음" android:textColor="#171A3A" android:textSize="13sp"/>
 <LinearLayout android:id="@+id/widget_preview_rows_v164" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:visibility="gone"/>
 </FrameLayout></LinearLayout>
 <LinearLayout android:id="@+id/widget_meals_v164" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="horizontal" android:visibility="gone">
