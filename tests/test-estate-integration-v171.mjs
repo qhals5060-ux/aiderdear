@@ -6,6 +6,7 @@ import fs from 'node:fs';
 import vm from 'node:vm';
 import {webcrypto} from 'node:crypto';
 import {calendarRows} from '../estate-domain-v171.js';
+import {installEstateCalendar} from '../estate-calendar-view-v172.js';
 
 const read=name=>fs.readFileSync(new URL('../'+name,import.meta.url),'utf8');
 const controller=read('estate-v171.js'),calendar=read('estate-calendar-v171.js'),index=read('index.html');
@@ -45,7 +46,7 @@ function controllerFixture(){
  win.AiderDearFirebase={getFirebaseIdToken:async()=> 'fake-test-token'};
  const fakeFetch=async(url,options)=>{const action=new URL(url,'https://example.test').searchParams.get('action');googleRequests.push({action,payload:JSON.parse(options.body)});return {ok:true,json:async()=>action==='status'?{google:{connected:true,writeEnabled:true}}:action==='calendars'?{selectedCalendarIds:['owned-calendar'],calendars:[{id:'owned-calendar',accessRole:'owner',summary:'본인 캘린더'}]}:{ok:true}};};
  const api={identity(){if(actor!==uid){actor=uid;onIdentity(actor);}return actor;},call:(action,payload)=>handler(action,payload)};
- const context=vm.createContext({window:win,document:doc,location:{search:'',href:'https://example.test/'},URL,URLSearchParams,crypto:webcrypto,AbortController,CustomEvent:class{constructor(type){this.type=type;}},MutationObserver:class{observe(){}},FormData:FormDataDouble,Node:Element,fetch:fakeFetch,confirm:()=>{confirms++;return true;},createEstateClient:fn=>{onIdentity=fn;return api;},installDirectory:value=>{app=value;},installWorkflow:value=>value.registerView('today',async()=>{}),calendarRows,matchProperty:()=>({criteria:[],score:null,eligible:true}),estateLabels:{},console});
+ const context=vm.createContext({window:win,document:doc,location:{search:'',href:'https://example.test/'},URL,URLSearchParams,crypto:webcrypto,AbortController,CustomEvent:class{constructor(type){this.type=type;}},MutationObserver:class{observe(){}},FormData:FormDataDouble,Node:Element,fetch:fakeFetch,confirm:()=>{confirms++;return true;},createEstateClient:fn=>{onIdentity=fn;return api;},installDirectory:value=>{app=value;},installEstateCalendar,installWorkflow:value=>value.registerView('today',async()=>{}),installEstateCalendar:value=>value.registerView('calendar',async()=>{}),calendarRows,matchProperty:()=>({criteria:[],score:null,eligible:true}),estateLabels:{},console});
  vm.runInContext(stripImports(controller),context,{filename:'estate-v171.js'});
  return {app,api,root,win,doc,googleRequests,get confirms(){return confirms;},setUid:value=>uid=value,setHandler:fn=>handler=fn};
 }
@@ -61,8 +62,11 @@ function calendarFixture({native=false}={}){
 }
 test('site assets mount ESTATE separately and route projection clicks to source records',()=>{
  assert.match(index,/id="estateStage"/);
- assert.match(index,/type="module" src="\.\/estate-v171\.js\?v=171"/);
- assert.match(index,/type="module" src="\.\/estate-calendar-v171\.js\?v=171"/);
+ const siteBuild=index.match(/<meta name="aiderlog-build" content="v(\d+)"\s*\/?>/)?.[1];
+ assert.ok(siteBuild,'site release meta exists');
+ for(const asset of ['estate-v171.js','estate-calendar-v171.js']){
+  assert.ok(index.includes(`type="module" src="./${asset}?v=${siteBuild}"`),`${asset} query matches the current site release`);
+ }
  const display=index.slice(index.indexOf('function calendarDisplayEvents('),index.indexOf('\n',index.indexOf('function calendarDisplayEvents(')));
  assert.match(display,/AiderEstateCalendarV171\?\.rows/);
  const open=index.slice(index.indexOf('function openEvent(e)'),index.indexOf('function openEvent(e)')+450);

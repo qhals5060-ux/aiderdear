@@ -60,7 +60,10 @@ export function installDirectory(app){
   const on=(node,event,handler,signal)=>node?.addEventListener(event,handler,signal?{signal}:undefined);
   const money=value=>value==null||value===''?'미확인':app.money(Number(value));
   const field=(name,title,type,value,attrs)=>app.field(name,title,type,value,attrs);
-  const select=(name,title,value,rows)=>field(name,title,'select',value,options(text(value)&&!rows.some(row=>row[0]===value)?[...rows,[value,value]]:rows));
+  const select=(name,title,value,rows)=>{
+    if(name==='directorySort')rows=rows.map(([key,label])=>[key,label==='매물명'?'매물명 가나다순':label]);
+    return field(name,title,'select',value,options(text(value)&&!rows.some(row=>row[0]===value)?[...rows,[value,value]]:rows));
+  };
   const note=message=>`<p class="estate-directory-note">${esc(message)}</p>`;
   const section=(title,content,extra='')=>`<details class="estate-directory-section" open ${extra}><summary>${esc(title)}</summary><div class="estate-directory-fields">${content}</div></details>`;
   function checks(name,title,rows,selected=[]){return `<fieldset class="estate-directory-checks"><legend>${esc(title)}</legend>${rows.map(([value,item])=>`<label><input type="checkbox" name="${esc(name)}" value="${esc(value)}" ${selected.includes(value)?'checked':''}><span>${esc(item)}</span></label>`).join('')}</fieldset>`;}
@@ -109,10 +112,13 @@ export function installDirectory(app){
       if(collection==='properties')return (!state.status||row.status===state.status)&&(!state.type||row.propertyType===state.type)&&(!state.deal||row.dealType===state.deal)&&(!region||[row.region,row.address].some(value=>text(value).toLocaleLowerCase().includes(region)))&&matchesPropertyDetails(row,state,today);
       return (!state.role||array(row.roles).includes(state.role))&&(!region||array(row.regions).some(value=>text(value).toLocaleLowerCase().includes(region)));
     });
+    // Property name pages already have a global title + ID order. A per-page
+    // localeCompare would disagree with Firestore for mixed-script titles.
+    if(collection==='properties'&&state.sort==='name')return rows;
     return rows.sort((a,b)=>state.sort==='name'?rowTitle(collection,a).localeCompare(rowTitle(collection,b),'ko'):state.sort==='next'?text(a.nextCheckDate||a.nextContactDate||'9999').localeCompare(text(b.nextCheckDate||b.nextContactDate||'9999')):Number(b.updatedAt||b.createdAt||0)-Number(a.updatedAt||a.createdAt||0));
   }
   async function directoryView(collection,{container,signal}){
-    const state=stateFor(collection),property=collection==='properties',title=property?'매물 관리':'고객 관리';let busy=false,loadError=false;
+    const state=stateFor(collection),property=collection==='properties',title=property?'매물 관리':'고객 관리';let busy=false,loadError=false,requestSequence=0;
     const advancedFilters=property?`<details class="estate-directory-advanced" data-directory-advanced ${state.detailsOpen?'open':''}><summary>상세 조건 <span data-directory-detail-count>가격 · 면적 · 입주 · 확인일</span></summary><div class="estate-directory-filter-grid">${field('directoryPriceMin','최소 가격 · 매매가/보증금 (원)','number',state.priceMin,{min:0,step:1})}${field('directoryPriceMax','최대 가격 · 매매가/보증금 (원)','number',state.priceMax,{min:0,step:1})}${field('directoryRentMax','월세 상한 · 월세 매물만 (원)','number',state.rentMax,{min:0,step:1})}${field('directoryAreaMin','최소 전용/대지 면적 (㎡)','number',state.areaMin,{min:0,step:'any'})}${field('directoryAvailableBy','입주 가능일 상한','date',state.availableBy)}${select('directoryAvailability','입주일 정보',state.availability,[['','전체'],['confirmed','날짜 확인 · 협의 아님'],['negotiable','협의 가능'],['unknown','날짜 미확인']])}${select('directoryConfirmed','최근 확인',state.confirmed,[['','전체'],['week','7일 이내'],['stale','30일 초과 · 미확인']])}</div>${note('금액·면적 미확인 값은 0이 아니며 수치 조건에서 제외됩니다. 입주일 상한은 입력된 날짜만 비교합니다. 협의가 더 이른 입주를 보장하지 않으며, 날짜 없는 매물은 상한 검색에서 제외됩니다.')}</details>`:'';
     container.innerHTML=`<div class="estate-directory"><header class="estate-directory-heading"><div><span class="estate-directory-eyebrow">${property?'PROPERTY DIRECTORY':'CUSTOMER DIRECTORY'}</span><h2>${title}</h2><p>${property?'매물의 조건과 확인 이력을 한곳에서 관리합니다.':'연락처, 희망 조건과 상담 흐름을 이어서 기록합니다.'}</p></div><button type="button" class="estate-directory-primary" data-directory-new>+ ${property?'매물':'고객'} 등록</button></header><div class="estate-directory-toolbar"><label class="estate-directory-search"><span>${property?'번호·주소·제목':'이름·연락처'} 검색</span><input type="search" data-directory-query value="${esc(state.q)}" placeholder="불러온 자료에서 검색"><button type="button" data-directory-global>전체 자료 검색</button></label><div class="estate-directory-filter-grid">${property?select('directoryStatus','상태',state.status,[['','모든 상태'],...PROPERTY_STATUS])+select('directoryType','매물 유형',state.type,[['','모든 유형'],...PROPERTY_TYPES])+select('directoryDeal','거래 유형',state.deal,[['','모든 거래'],...DEAL_TYPES]):select('directoryRole','고객 역할',state.role,[['','모든 역할'],...CUSTOMER_ROLES])}${field('directoryRegion',property?'지역 / 주소':'희망 지역','text',state.region)}${select('directorySort','정렬',state.sort,[['recent','최근 수정'],['name',property?'매물명':'고객명'],['next',property?'다음 확인일':'다음 연락일']])}</div>${advancedFilters}<div class="estate-directory-list-meta"><p data-directory-range aria-live="polite"></p><div class="estate-directory-view-buttons" role="group" aria-label="목록 표시 방식"><button type="button" data-directory-mode="cards" aria-pressed="${state.mode==='cards'}">카드</button><button type="button" data-directory-mode="list" aria-pressed="${state.mode==='list'}">목록</button><button type="button" data-directory-reset>필터 초기화</button></div></div></div><div data-directory-results></div><div class="estate-directory-pagination"><button type="button" data-directory-more>50개 더 불러오기</button><span data-directory-load-status role="status"></span></div></div>`;
     const result=container.querySelector('[data-directory-results]'),range=container.querySelector('[data-directory-range]'),more=container.querySelector('[data-directory-more]'),loadStatus=container.querySelector('[data-directory-load-status]');
@@ -120,6 +126,7 @@ export function installDirectory(app){
       if(!alive(container,signal))return;
       const rows=filteredRows(state,collection),global=state.global;
       range.textContent=global?`전체 자료 검색 · 현재까지 ${global.items.length}개 일치${global.cursor?' · 다음 검색 범위가 남아 있습니다.':' · 검색 완료'}`:`불러온 ${localRows(state.rows).length}개 중 ${rows.length}개 표시${state.cursor?' · 아직 불러오지 않은 자료가 있습니다.':state.loaded?' · 전체 페이지를 불러왔습니다.':''}`;
+      if(property&&state.sort==='name')range.textContent+=' · 한글 가나다순, 숫자·영문 포함 시 문자순';
       if(property){const count=Object.keys(DETAIL_FILTERS).filter(key=>text(state[key])!=='').length;container.querySelector('[data-directory-detail-count]').textContent=count?`· ${count}개 ${global?'(불러온 목록용)':'적용'}`:'가격 · 면적 · 입주 · 확인일';if(!global&&detailFilterWarning(state))range.textContent+=' · '+detailFilterWarning(state);}
       more.hidden=global?!global.cursor:!state.cursor&&!loadError;more.disabled=busy;more.textContent=global?'다음 검색 범위 불러오기':loadError?'다시 불러오기':'50개 더 불러오기';
       container.querySelectorAll('[data-directory-mode]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.directoryMode===state.mode)));
@@ -133,30 +140,35 @@ export function installDirectory(app){
       if(!global)hydrateImages(result,signal);
     }
     async function load(next=false){
-      if(busy)return;busy=true;loadError=false;loadStatus.textContent='자료 불러오는 중…';render();
-      try{const page=await app.list(collection,{limit:50,...(next&&state.cursor?{cursor:state.cursor}:{})});if(!alive(container,signal))return;state.rows=mergedRows(state.rows,array(page.rows));state.cursor=page.cursor||null;state.loaded=true;loadStatus.textContent='';}
-      catch(error){if(alive(container,signal)){loadError=true;loadStatus.textContent=error.message||'자료를 불러오지 못했습니다.';app.notice(loadStatus.textContent,true);}}
-      finally{busy=false;render();}
+      if(busy)return;busy=true;const operation=++requestSequence,byName=property&&state.sort==='name';loadError=false;loadStatus.textContent='자료 불러오는 중…';render();
+      try{const page=await app.list(collection,{limit:50,...(byName?{sort:'name'}:{}),...(next&&state.cursor?{cursor:state.cursor}:{})});if(!alive(container,signal)||operation!==requestSequence)return;state.rows=mergedRows(byName&&!next?[]:state.rows,array(page.rows));state.cursor=page.cursor||null;state.loaded=true;loadStatus.textContent='';}
+      catch(error){if(alive(container,signal)&&operation===requestSequence){loadError=true;loadStatus.textContent=error.message||'자료를 불러오지 못했습니다.';app.notice(loadStatus.textContent,true);}}
+      finally{if(operation===requestSequence){busy=false;render();}}
+    }
+    function reloadOrder(){
+      requestSequence++;state.sequence++;busy=false;loadError=false;
+      state.rows=[];state.cursor=null;state.loaded=false;state.global=null;
+      return load();
     }
     async function search(next=false){
       const q=text(state.q);if(!q){app.notice('전체 검색어를 입력해주세요.');return}if(busy)return;
-      busy=true;const sequence=++state.sequence;loadStatus.textContent='전체 자료 검색 중…';render();
-      try{const page=await app.api.call('search',{q,...(next&&state.global?.cursor?{cursor:state.global.cursor}:{})});if(!alive(container,signal)||sequence!==state.sequence)return;const found=array(page.results).filter(item=>item.collection===collection);state.global={items:mergedRows(next?state.global?.items||[]:[],found),cursor:page.cursor||null};loadStatus.textContent='';}
-      catch(error){if(alive(container,signal)){loadStatus.textContent=error.message||'전체 검색에 실패했습니다.';app.notice(loadStatus.textContent,true);}}
-      finally{busy=false;if(sequence!==state.sequence)loadStatus.textContent='';render();}
+      busy=true;const sequence=++state.sequence,operation=++requestSequence;loadStatus.textContent='전체 자료 검색 중…';render();
+      try{const page=await app.api.call('search',{q,...(property&&state.sort==='name'?{collection,sort:'name'}:{}),...(next&&state.global?.cursor?{cursor:state.global.cursor}:{})});if(!alive(container,signal)||sequence!==state.sequence||operation!==requestSequence)return;const found=array(page.results).filter(item=>item.collection===collection);state.global={items:mergedRows(next?state.global?.items||[]:[],found),cursor:page.cursor||null};loadStatus.textContent='';}
+      catch(error){if(alive(container,signal)&&operation===requestSequence){loadStatus.textContent=error.message||'전체 검색에 실패했습니다.';app.notice(loadStatus.textContent,true);}}
+      finally{if(operation===requestSequence){busy=false;if(sequence!==state.sequence)loadStatus.textContent='';render();}}
     }
     on(container.querySelector('[data-directory-new]'),'click',()=>app.open(collection),signal);
     on(container.querySelector('[data-directory-query]'),'input',event=>{state.q=event.target.value;state.global=null;state.sequence++;render();},signal);
     on(container.querySelector('[data-directory-query]'),'keydown',event=>{if(event.key==='Enter'){event.preventDefault();search();}},signal);
     on(container.querySelector('[data-directory-global]'),'click',()=>search(),signal);
     const filterNames={directoryStatus:'status',directoryType:'type',directoryDeal:'deal',directoryRole:'role',directoryRegion:'region',directorySort:'sort',directoryPriceMin:'priceMin',directoryPriceMax:'priceMax',directoryRentMax:'rentMax',directoryAreaMin:'areaMin',directoryAvailableBy:'availableBy',directoryAvailability:'availability',directoryConfirmed:'confirmed'};
-    Object.entries(filterNames).forEach(([name,key])=>on(container.querySelector(`[name="${name}"]`),['region','priceMin','priceMax','rentMax','areaMin'].includes(key)?'input':'change',event=>{state[key]=event.target.value;state.global=null;state.sequence++;render();},signal));
+    Object.entries(filterNames).forEach(([name,key])=>on(container.querySelector(`[name="${name}"]`),['region','priceMin','priceMax','rentMax','areaMin'].includes(key)?'input':'change',event=>{const previous=state[key];state[key]=event.target.value;state.global=null;state.sequence++;if(property&&key==='sort'&&previous!==state.sort&&(previous==='name'||state.sort==='name'))return reloadOrder();render();},signal));
     on(container.querySelector('[data-directory-advanced]'),'toggle',event=>{state.detailsOpen=event.target.open;},signal);
-    on(container.querySelector('[data-directory-reset]'),'click',()=>{Object.assign(state,{q:'',status:'',type:'',deal:'',role:'',region:'',sort:'recent',...DETAIL_FILTERS,global:null});state.sequence++;container.querySelector('[data-directory-query]').value='';Object.entries(filterNames).forEach(([name,key])=>{const input=container.querySelector(`[name="${name}"]`);if(input)input.value=state[key];});render();},signal);
+    on(container.querySelector('[data-directory-reset]'),'click',()=>{const wasName=property&&state.sort==='name';Object.assign(state,{q:'',status:'',type:'',deal:'',role:'',region:'',sort:'recent',...DETAIL_FILTERS,global:null});state.sequence++;container.querySelector('[data-directory-query]').value='';Object.entries(filterNames).forEach(([name,key])=>{const input=container.querySelector(`[name="${name}"]`);if(input)input.value=state[key];});if(wasName)return reloadOrder();render();},signal);
     container.querySelectorAll('[data-directory-mode]').forEach(button=>on(button,'click',()=>{state.mode=button.dataset.directoryMode;render();},signal));
     on(result,'click',event=>{const button=event.target.closest('[data-directory-open]');if(button)app.open(collection,button.dataset.directoryOpen);},signal);
     on(more,'click',()=>state.global?search(true):load(true),signal);
-    state.rows=mergedRows(state.rows,localRows(app.options(collection)));render();await load();
+    if(!(property&&state.sort==='name'))state.rows=mergedRows(state.rows,localRows(app.options(collection)));render();await load();
   }
 
   function relationField(name,title,collection,id='',required=false){

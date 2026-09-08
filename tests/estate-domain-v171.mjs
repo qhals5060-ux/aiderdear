@@ -54,7 +54,7 @@ test('public property projection only contains explicit fields, selected photo i
 });
 
 async function clientFixture(t,fetcher){
- const priorWindow=globalThis.window,priorFetch=globalThis.fetch;let uid='first-owner';globalThis.window={AiderDearFirebase:{getState:()=>({user:uid?{uid}:null}),getFirebaseIdToken:async()=>`token-${uid}`}};globalThis.fetch=fetcher;
+ const priorWindow=globalThis.window,priorFetch=globalThis.fetch;let uid='first-owner';globalThis.window={AiderDearFirebase:{getState:()=>({user:uid?{uid,email:'qhals5060@gmail.com'}:null}),getFirebaseIdToken:async()=>`token-${uid}`}};globalThis.fetch=fetcher;
  t.after(()=>{globalThis.window=priorWindow;globalThis.fetch=priorFetch;});return {client:createEstateClient(),setUser(value){uid=value;}};
 }
 test('client retry uses identical operation ID and rejects account change during network response',async t=>{

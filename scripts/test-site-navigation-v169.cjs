@@ -64,7 +64,7 @@ async function serviceWorker(source){
   const cache={addAll:async()=>{},put:async(request,response)=>entries.set(typeof request==='string'?request:request.url,response.clone()),match:async request=>entries.get(typeof request==='string'?request:request.url)?.clone()};
   const context={URL,Response,Promise,self:{location:{origin:'https://fixture.invalid'},clients:{claim:async()=>{}},skipWaiting(){},addEventListener:(type,fn)=>listeners[type]=fn},caches:{open:async()=>cache,match:cache.match,keys:async()=>[],delete:async()=>true},fetch:async(request,options)=>{calls.push(options);if(mode==='offline')throw Error('isolated offline');return new Response(body,{status:mode==='error'?503:200})}};
   vm.createContext(context);vm.runInContext(source,context);
-  return {entries,calls,set(value,text='fresh'){mode=value;body=text},async request(pathname,mode='cors',method='GET'){let response=null;const waits=[];listeners.fetch({request:{url:'https://fixture.invalid'+pathname,mode,method},respondWith:p=>response=p,waitUntil:p=>waits.push(p)});const result=response?await response:null;await Promise.allSettled(waits);return result}};
+  return {entries,calls,set(value,text='fresh'){mode=value;body=text},async request(pathname,mode='cors',method='GET',headers={}){let response=null;const waits=[];listeners.fetch({request:{url:'https://fixture.invalid'+pathname,mode,method,headers:new Headers(headers)},respondWith:p=>response=p,waitUntil:p=>waits.push(p)});const result=response?await response:null;await Promise.allSettled(waits);return result}};
 }
 async function swTests(){
   const source=fs.readFileSync(path.join(root,'sw.js'),'utf8');
@@ -85,5 +85,7 @@ async function swTests(){
   passed.push('Transient HTTP failure retains previously working cached shell');
   assert.equal(await worker.request('/api/work'),null);assert.equal(await worker.request('/api/storage','cors','POST'),null);assert.equal(await worker.request('/AiderLog-v169.apk'),null);
   passed.push('API mutations and release downloads never pass through shell cache');
+  assert.equal(await worker.request('/site-modern-v165.css','cors','GET',{'Authorization':'Bearer isolated-test-token'}),null);
+  passed.push('Authenticated GET requests never pass through shell cache');
 }
 (async()=>{navigationTests();await swTests();console.log(JSON.stringify({ok:true,passed},null,2))})().catch(error=>{console.error(error);process.exitCode=1});

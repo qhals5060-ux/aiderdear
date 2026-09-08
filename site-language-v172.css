@@ -1,0 +1,50 @@
+/* Shadow DOM / Modern website only. No application or learning-state rules. */
+:host([data-site-language-v172]) .app-shell.site-language-v172.modern-language-layout .app-header{display:none!important}
+:host([data-site-language-v172]) .site-language-v172.modern-language-layout .single-page{height:auto!important;min-height:0!important;flex:1 1 auto!important}
+:host([data-site-language-v172]) .site-language-v172.modern-language-layout .modern-language-courses,
+:host([data-site-language-v172]) .site-language-v172.modern-language-layout .course-panel{background:transparent!important;box-shadow:none!important;border:0!important;border-radius:0!important;min-height:0!important;height:auto!important}
+:host([data-site-language-v172]) .site-language-v172.modern-language-layout .course-panel>.section-heading-row,
+:host([data-site-language-v172]) .site-language-v172.modern-language-layout #main-page #category-tabs:has(>.category-tab:only-child),
+:host([data-site-language-v172]) .site-language-v172.modern-language-layout #main-page #category-tabs:empty{display:none!important}
+:host([data-site-language-v172]) .site-language-v172.modern-language-layout .site-language-controls-v172{display:grid!important;grid-template-columns:minmax(0,1fr)!important;grid-template-rows:auto!important;grid-auto-flow:row!important;gap:12px!important;margin:0 0 12px!important;padding:0 10px 12px!important;border-bottom:1px solid var(--line,#dde2e0)!important;background:transparent!important;min-width:0!important}
+:host([data-site-language-v172]) .site-language-v172 .site-language-controls-v172 .header-course{display:block!important;order:0!important;flex:none!important;width:100%!important;min-width:0!important;margin:0!important;padding:0!important}
+:host([data-site-language-v172]) .site-language-v172 .site-language-controls-v172 .course-selectors{display:grid!important;grid-template-columns:minmax(0,1fr)!important;width:100%!important;gap:9px!important;margin:0!important}
+:host([data-site-language-v172]) .site-language-v172 .site-language-controls-v172 .course-selectors label{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:4px!important;min-width:0!important;width:100%!important;max-width:none!important;padding:0!important;flex:none!important;color:var(--muted,#626b70)!important;line-height:1.4!important}
+:host([data-site-language-v172]) .site-language-v172 .site-language-controls-v172 .course-selectors select{display:block!important;width:100%!important;min-width:0!important;max-width:100%!important;height:38px!important;min-height:38px!important;margin:0!important;background:#fff!important;color:var(--ink,#252d31)!important;border:1px solid var(--line-dark,#cbd4d0)!important;padding:6px 8px!important}
+:host([data-site-language-v172]) .site-language-v172 .site-language-controls-v172 .header-stats{display:grid!important;grid-template-columns:minmax(0,1fr)!important;width:100%!important;min-width:0!important;gap:7px!important;align-items:stretch!important;margin:0!important}
+:host([data-site-language-v172]) .site-language-v172 .site-language-controls-v172 :is(.header-course,.header-stats){grid-area:auto!important;grid-column:1!important;grid-row:auto!important;justify-self:stretch!important;align-self:start!important}
+:host([data-site-language-v172]) .site-language-v172 .site-language-controls-v172 .course-selectors :is(.language-select,.level-select){grid-area:auto!important;grid-column:auto!important;grid-row:auto!important;justify-self:stretch!important}
+:host([data-site-language-v172]) .site-language-v172 .site-language-controls-v172 #language-select,
+:host([data-site-language-v172]) .site-language-v172 .site-language-controls-v172 #level-select{width:100%!important;max-width:100%!important;min-width:0!important;box-sizing:border-box!important;grid-area:auto!important;justify-self:stretch!important}
+:host([data-site-language-v172]) .site-language-v172 .site-language-controls-v172 .streak-chip{display:flex!important;justify-content:flex-start!important;align-items:center!important;gap:4px!important;min-width:0!important;width:auto!important;height:auto!important;min-height:24px!important;padding:0!important;background:transparent!important;border:0!important;color:var(--ink,#252d31)!important}
+:host([data-site-language-v172]) .site-language-v172 .site-language-controls-v172 :is(.records-button,.language-partner-share){display:flex!important;align-items:center!important;justify-content:space-between!important;gap:7px!important;min-width:0!important;width:100%!important;height:auto!important;min-height:38px!important;padding:8px 10px!important;white-space:normal!important;line-height:1.4!important;background:#fff!important;color:var(--ink,#252d31)!important;border:1px solid var(--line-dark,#cbd4d0)!important}
+:host([data-site-language-v172]) .site-language-v172 .site-language-controls-v172 .records-button::before{display:none!important}
+:host([data-site-language-v172]) .site-language-v172 .site-language-controls-v172 button:disabled{opacity:.55!important;cursor:not-allowed!important}
+:host([data-site-language-v172]) .site-language-v172 .site-language-controls-v172 :is(select,.records-button,.language-partner-share){font-size:var(--site-type-control,13px)!important}
+:host([data-site-language-v172]) .site-language-v172 .site-language-controls-v172 .course-selectors label{font-size:var(--site-type-meta,12px)!important}
+
+/* Keep engine-owned text and progress nodes in the DOM. Hide duplicate overview
+   labels only; lesson prompts, paging controls, actions and review are untouched. */
+:host([data-site-language-v172]) .site-language-v172.modern-language-layout #course-section .scenario-summary{display:block!important;flex:0 0 auto!important;height:auto!important;min-height:0!important;background:transparent!important;padding:0 0 14px!important;margin:0 0 12px!important;border:0!important;border-bottom:1px solid var(--line,#dde2e0)!important;border-radius:0!important}
+:host([data-site-language-v172]) .site-language-v172.modern-language-layout #course-section .scenario-main{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:7px!important;padding:0!important;min-width:0!important}
+:host([data-site-language-v172]) .site-language-v172.modern-language-layout #course-section #scenario-number{display:block!important;grid-column:auto!important;grid-row:auto!important;width:auto!important;height:auto!important;min-width:0!important;padding:0!important;margin:0!important;background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;color:var(--muted,#626b70)!important;font-size:12px!important;font-weight:700!important;line-height:1.4!important;letter-spacing:.08em!important}
+:host([data-site-language-v172]) .site-language-v172.modern-language-layout #course-section #scenario-number::before{content:none}
+:host([data-site-language-v172]):not([hidden]) .site-language-v172.modern-language-layout:not(.lesson-active) #course-section:not([hidden]) #scenario-number:not(:empty)::before{content:'UNIT '}
+:host([data-site-language-v172]) .site-language-v172.modern-language-layout #course-section .scenario-line{display:block!important;grid-column:auto!important;grid-row:auto!important;min-width:0!important;margin:0!important}
+:host([data-site-language-v172]) .site-language-v172.modern-language-layout #course-section #scenario-title{margin:0!important;white-space:normal!important;overflow:visible!important;text-overflow:clip!important;line-height:1.4!important}
+:host([data-site-language-v172]) .site-language-v172.modern-language-layout #course-section #scenario-description{grid-column:auto!important;grid-row:auto!important;margin:0!important;white-space:normal!important;overflow:visible!important;text-overflow:clip!important;line-height:1.6!important}
+:host([data-site-language-v172]) .site-language-v172.modern-language-layout #course-section #scenario-place,
+:host([data-site-language-v172]) .site-language-v172.modern-language-layout #course-section .scenario-progress-box,
+:host([data-site-language-v172]) .site-language-v172.modern-language-layout #course-section .day-list-heading>div:first-child{display:none!important}
+:host([data-site-language-v172]) .site-language-v172.modern-language-layout #course-section .day-list-heading{height:auto!important;min-height:0!important;flex:0 0 auto!important;padding:0!important;margin:0 0 8px!important;border:0!important;background:transparent!important}
+:host([data-site-language-v172]) .site-language-v172.modern-language-layout #course-section .day-list-heading:not(:has(#day-page-controls button)){display:none!important}
+:host([data-site-language-v172]) .site-language-v172.modern-language-layout #course-section .day-page-controls{max-width:100%!important;min-width:0!important;flex-wrap:wrap!important;overflow:visible!important}
+
+@media(max-width:767px){
+  :host([data-site-language-v172]) .site-language-v172.modern-language-layout .site-language-controls-v172{padding:0 0 12px!important}
+  :host([data-site-language-v172]) .site-language-v172 .site-language-controls-v172 .course-selectors{grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr)!important;gap:8px!important}
+  :host([data-site-language-v172]) .site-language-v172 .site-language-controls-v172 .header-stats{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  :host([data-site-language-v172]) .site-language-v172 .site-language-controls-v172 .streak-chip{grid-column:1/-1!important}
+  :host([data-site-language-v172]) .site-language-v172 .site-language-controls-v172 :is(select,.records-button,.language-partner-share){min-height:44px!important;height:auto!important}
+  :host([data-site-language-v172]) .site-language-v172.modern-language-layout #course-section .scenario-summary{padding:0 0 12px!important}
+}

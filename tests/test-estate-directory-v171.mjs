@@ -128,4 +128,42 @@ await paged.querySelector('[data-directory-more]').fire('click');pass(paged.quer
 let finishSearch;app.api.call=async(action)=>action==='search'?await new Promise(resolve=>finishSearch=resolve):{rows:[]};
 await paged.querySelector('[data-directory-query]').fire('input',{target:{value:'old-query'}});const pendingSearch=paged.querySelector('[data-directory-global]').fire('click');await paged.querySelector('[data-directory-reset]').fire('click');finishSearch({results:[{id:'stale-search',collection:'properties',label:'Must stay cleared'}],cursor:null});await pendingSearch;
 pass(!paged.querySelector('[data-directory-results]').innerHTML.includes('stale-search')&&paged.querySelector('[data-directory-range]').textContent.includes('불러온'));
+
+// Name order comes from the full server query, not an independently sorted
+// 50-document client page. Unrelated app.options cache rows must not leak in.
+app.uid=()=> 'qa-property-name';records=[{id:'cache-only',title:'가가 캐시 전용',updatedAt:999999}];calls=[];
+const nameRows=Array.from({length:137},(_,i)=>({id:'name-'+String(136-i).padStart(3,'0'),title:['다온','가람','나무','가람','Alpha','10번'][i%6],dealType:'sale',price:10})).sort((a,b)=>Buffer.compare(Buffer.from(a.title),Buffer.from(b.title))||a.id.localeCompare(b.id));
+app.list=async(k,o)=>{calls.push(['list',k,o]);if(o.sort==='name'){const offset=o.cursor?Number(o.cursor.split('-').at(-1)):0;return {rows:nameRows.slice(offset,offset+50),cursor:offset+50<nameRows.length?'names-'+(offset+50):null};}return {rows:[{id:'recent-only',title:'최근 기본 매물',updatedAt:100}],cursor:null};};
+const named=new El;await views.get('properties')({container:named});
+const sortTo=(value,el=named)=>el.querySelector('[name="directorySort"]').fire('change',{target:{value}});
+const listed=(el=named)=>[...(el.querySelector('[data-directory-results]').innerHTML||'').matchAll(/data-directory-open="([^"]+)"/g)].map(match=>match[1]);
+pass(named.innerHTML.includes('매물명 가나다순')&&calls.at(-1)[2].sort===undefined);
+await sortTo('name');pass(calls.at(-1)[2].sort==='name'&&calls.at(-1)[2].cursor===undefined);
+pass(JSON.stringify(listed())===JSON.stringify(nameRows.slice(0,50).map(r=>r.id))&&!listed().includes('cache-only'));
+pass(named.querySelector('[data-directory-range]').textContent.includes('한글 가나다순, 숫자·영문 포함 시 문자순'));
+await named.querySelector('[data-directory-more]').fire('click');pass(calls.at(-1)[2].cursor==='names-50'&&listed().length===100);
+await named.querySelector('[data-directory-more]').fire('click');pass(JSON.stringify(listed())===JSON.stringify(nameRows.map(r=>r.id))&&new Set(listed()).size===137);
+await named.querySelector('[data-directory-query]').fire('input',{target:{value:'가람'}});pass(JSON.stringify(listed())===JSON.stringify(nameRows.filter(r=>r.title==='가람').map(r=>r.id)));
+await named.querySelector('[data-directory-query]').fire('input',{target:{value:''}});
+const reopenedNames=new El;await views.get('properties')({container:reopenedNames});pass(JSON.stringify(listed(reopenedNames))===JSON.stringify(nameRows.slice(0,50).map(r=>r.id))&&!listed(reopenedNames).includes('cache-only'));
+app.api.call=async(action,payload)=>{calls.push([action,payload]);return {results:[{collection:'properties',id:'global-name',label:'가람 검색'}],cursor:'name-search-2'};};
+await reopenedNames.querySelector('[data-directory-query]').fire('input',{target:{value:'가람'}});await reopenedNames.querySelector('[data-directory-global]').fire('click');
+pass(calls.at(-1)[0]==='search'&&calls.at(-1)[1].collection==='properties'&&calls.at(-1)[1].sort==='name');
+await reopenedNames.querySelector('[data-directory-more]').fire('click');pass(calls.at(-1)[1].cursor==='name-search-2');
+await reopenedNames.querySelector('[data-directory-reset]').fire('click');pass(calls.at(-1)[0]==='list'&&calls.at(-1)[2].sort===undefined&&calls.at(-1)[2].cursor===undefined&&listed(reopenedNames).join(',')==='recent-only');
+
+// A late name response must not overwrite a newer default-order request.
+app.uid=()=> 'qa-property-name-race';records=[];let finishNames;
+app.list=async(k,o)=>o.sort==='name'?await new Promise(resolve=>finishNames=resolve):{rows:[{id:'fresh-recent',title:'최근 기본값',updatedAt:100}],cursor:null};
+const race=new El;await views.get('properties')({container:race});
+const oldNames=sortTo('name',race);await sortTo('recent',race);finishNames({rows:[{id:'stale-name',title:'가나다 옛 응답'}],cursor:'old-name-cursor'});await oldNames;
+pass(listed(race).join(',')==='fresh-recent'&&race.querySelector('[data-directory-more]').hidden);
+// A late sorted global search also cannot reset the busy state or visible rows
+// after a sort change starts the next name-list request.
+app.list=async()=>({rows:nameRows.slice(0,50),cursor:'names-50'});await sortTo('name',race);
+let finishNamedSearch;app.api.call=async()=>await new Promise(resolve=>finishNamedSearch=resolve);
+await race.querySelector('[data-directory-query]').fire('input',{target:{value:'가람'}});const oldSearch=race.querySelector('[data-directory-global]').fire('click');
+app.list=async()=>({rows:[{id:'after-search-default',title:'가람 새 기본값',updatedAt:100}],cursor:null});await sortTo('recent',race);
+finishNamedSearch({results:[{collection:'properties',id:'stale-search-name',label:'가람 옛 검색'}],cursor:null});await oldSearch;
+pass(listed(race).join(',')==='after-search-default'&&!race.querySelector('[data-directory-range]').textContent.includes('전체 자료 검색'));
 console.log(JSON.stringify({passed:checks,scope:'Real directory module + real controller field helper + real backend entity validation; lightweight DOM contract harness, not browser/production API'},null,2));

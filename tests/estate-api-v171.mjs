@@ -15,7 +15,16 @@ const forbidden='()=>{throw new Error("Live Firebase is forbidden in isolated ES
 const hook=registerHooks({resolve(specifier,context,next){return stubs[specifier]?{url:'data:text/javascript,'+encodeURIComponent(stubs[specifier]),shortCircuit:true}:next(specifier,context);}});
 const {dispatch,makeHandler,assertSameOrigin}=await import('../api/estate.mjs');hook.deregister();
 
-const user={uid:'owner-a',email:'ordinary@example.com'},other={uid:'owner-b',email:'another@example.com'};
+const user={uid:'owner-a',email:'qhals5060@gmail.com',email_verified:true},other={uid:'owner-b',email:'abckms5698@naver.com',email_verified:true};
+
+test('v172 private ESTATE API enforces both verified email allowlist entries before all data actions',async()=>{
+ const db=new MemoryFirestore();
+ for(const email of ['qhals5060@gmail.com',' ABCKMS5698@NAVER.COM '])assert.equal((await dispatch(db,{uid:'allowed',email,email_verified:true},{action:'context'})).uid,'allowed');
+ for(const actor of [{uid:'denied',email:'someone@example.com',email_verified:true},{uid:'denied',email:'qhals5060@gmail.com',email_verified:false},{uid:'denied',email:'qhals5060@gmail.com'},{uid:'denied'}]){
+  for(const action of ['context','list','get','search','calendar','save','archive','shareCreate','mediaInfo','mediaBegin','cleanup'])await assert.rejects(dispatch(db,actor,{action,email:'qhals5060@gmail.com',email_verified:true,ownerUid:'allowed',collection:'properties',row:{email:'qhals5060@gmail.com'}}),{status:403});
+ }
+ assert.equal(db.rows.size,0,'denied calls must never write or migrate existing data');
+});
 const call=(db,action,payload={},who=user)=>dispatch(db,who,{action,...payload,requestId:payload.requestId||crypto.randomUUID()},{ip:'test-address'});
 const save=(db,collection,id,row={},expectedRevision=0)=>call(db,'save',{collection,id,row,expectedRevision});
 const makeProperty=(db,id='p1',extra={})=>save(db,'properties',id,{title:'햇빛 매물',address:'서울 중구 1',region:'서울',propertyType:'apartment',dealType:'sale',price:500000000,area:60,...extra});
@@ -26,12 +35,12 @@ async function media(db,id='photo1',entityId='p1'){
 }
 function response(){return {headers:{},setHeader(k,v){this.headers[k]=v;},end(value){this.body=JSON.parse(value);}};}
 
-test('owner isolation, verified ordinary account access, Work employee rejection and traversal',async()=>{
+test('owner isolation, allowed verified account access, Work employee rejection and traversal',async()=>{
  const db=new MemoryFirestore();await makeProperty(db);assert.equal((await call(db,'context')).uid,user.uid);
  assert.equal((await call(db,'list',{collection:'properties'},other)).rows.length,0);
  await assert.rejects(call(db,'get',{collection:'properties',id:'p1',ownerUid:user.uid},other),{status:404});
  await assert.rejects(call(db,'get',{collection:'properties',id:'../../owner-a'}),{status:400});
- db.rows.set('workIdentities/employee-1',{kind:'employee'});await assert.rejects(call(db,'context',{}, {uid:'employee-1'}),{status:403});
+ db.rows.set('workIdentities/employee-1',{kind:'employee'});await assert.rejects(call(db,'context',{}, {...user,uid:'employee-1'}),{status:403});
  await assert.rejects(call(db,'context',{},null),{status:401});
 });
 test('CRUD persists, immutable generated number, exact request retry, stale revisions and distinct customer namespace',async()=>{
@@ -81,6 +90,42 @@ test('pagination and search expose bounded continuation rather than claiming par
  let page=await call(db,'list',{collection:'properties',limit:999});assert.equal(page.rows.length,50);assert.ok(page.cursor);assert.equal((await call(db,'list',{collection:'properties',cursor:page.cursor})).rows.length,3);
  const search=await call(db,'search',{q:'검색'});assert.equal(search.results.length,50);assert.equal(search.partial,true);assert.equal(search.scanned,50);
  const next=await call(db,'search',{q:'검색',cursor:search.cursor});assert.equal(next.results.length,3);assert.equal(next.cursor,'customers:');
+});
+
+test('property 가나다 sorting spans 137 rows, duplicate titles and 50-row boundaries in stable title/ID order',async()=>{
+ const db=new MemoryFirestore(),rows=Array.from({length:137},(_,i)=>({id:'p-'+String(136-i).padStart(3,'0'),ownerUid:user.uid,title:['하늘 아파트','가람 빌라','다온 상가','나무 주택','가람 빌라'][i%5],number:'E-'+i}));
+ for(const row of rows)db.rows.set(`estateWorkspaces/${user.uid}/properties/${row.id}`,row);
+ db.rows.set('estateWorkspaces/owner-b/properties/private',{id:'private',ownerUid:'owner-b',title:'가가 비공개'});
+ const expected=[...rows].sort((a,b)=>a.title.localeCompare(b.title,'ko')||a.id.localeCompare(b.id)),received=[];let cursor=null;
+ do{const page=await call(db,'list',{collection:'properties',sort:'name',cursor});assert(page.rows.length<=50);received.push(...page.rows);cursor=page.cursor;assert.equal(page.sortBasis,'title-utf8');}while(cursor);
+ assert.deepEqual(received.map(r=>r.id),expected.map(r=>r.id));assert.equal(new Set(received.map(r=>r.id)).size,137);
+ assert.deepEqual(db.queryMetrics.map(q=>q.returned),[50,50,37]);
+ for(const query of db.queryMetrics){assert.deepEqual(query.orders,[{key:'title',direction:'asc'},{key:'__name__',direction:'asc'}]);assert.equal(query.limit,50);}
+ const defaults=await call(db,'list',{collection:'properties'});assert.deepEqual(defaults.rows.map(r=>r.id),[...rows].sort((a,b)=>a.id.localeCompare(b.id)).slice(0,50).map(r=>r.id));
+});
+
+test('name cursor resumes at byte-limit boundary and rejects owner/mode/malformed cursor reuse',async()=>{
+ const db=new MemoryFirestore(),rows=Array.from({length:70},(_,i)=>({id:'s-'+String(i).padStart(3,'0'),ownerUid:user.uid,title:'동명 매물',publicDescription:'x'.repeat(12000),internalMemo:'x'.repeat(12000),conditions:'x'.repeat(12000),advantages:'x'.repeat(2000),disadvantages:'x'.repeat(2000)}));
+ for(const row of rows)db.rows.set(`estateWorkspaces/${user.uid}/properties/${row.id}`,row);
+ const first=await call(db,'list',{collection:'properties',sort:'name'});assert(first.rows.length<50);assert(first.cursor);
+ const rest=await call(db,'list',{collection:'properties',sort:'name',cursor:first.cursor});assert.deepEqual([...first.rows,...rest.rows].map(r=>r.id),rows.map(r=>r.id));
+ const decoded=JSON.parse(Buffer.from(first.cursor.slice(11),'base64url'));assert.equal(decoded.id,first.rows.at(-1).id);assert.equal(decoded.title,'동명 매물');
+ await assert.rejects(call(db,'list',{collection:'properties',sort:'name',cursor:first.cursor},other),{status:400});
+ await assert.rejects(call(db,'search',{collection:'properties',sort:'name',q:'매물',cursor:first.cursor}),{status:400});
+ for(const cursor of ['p-001','title-v172:invalid','title-v172:'+Buffer.from(JSON.stringify({scope:user.uid+':list',title:'동명 매물',id:'../private'})).toString('base64url')])await assert.rejects(call(db,'list',{collection:'properties',sort:'name',cursor}),{status:400});
+ await assert.rejects(call(db,'list',{collection:'customers',sort:'name'}),{status:400});
+});
+
+test('name-sorted property search preserves global order, query scope and explicit partial scanning',async()=>{
+ const db=new MemoryFirestore(),rows=Array.from({length:123},(_,i)=>({id:'search-'+String(122-i).padStart(3,'0'),ownerUid:user.uid,title:['다온 매물','가람 매물','나무 매물'][i%3],address:i%2?'찾을 주소':'다른 주소'}));
+ for(const row of rows)db.rows.set(`estateWorkspaces/${user.uid}/properties/${row.id}`,row);
+ const expected=rows.filter(r=>r.address==='찾을 주소').sort((a,b)=>a.title.localeCompare(b.title,'ko')||a.id.localeCompare(b.id)),results=[];let cursor=null,firstCursor;
+ do{const page=await call(db,'search',{collection:'properties',sort:'name',q:'찾을 주소',cursor});results.push(...page.results);assert.equal(page.partial,!!page.cursor);assert(page.scanned<=50);cursor=page.cursor;firstCursor||=cursor;}while(cursor);
+ assert.deepEqual(results.map(r=>r.id),expected.map(r=>r.id));assert.equal(db.queryMetrics.length,3);
+ await assert.rejects(call(db,'search',{collection:'properties',sort:'name',q:'다른 주소',cursor:firstCursor}),{status:400});
+ await assert.rejects(call(db,'list',{collection:'properties',sort:'name',cursor:firstCursor}),{status:400});
+ const mixed=[{id:'m1',ownerUid:user.uid,title:'나무'},{id:'m2',ownerUid:user.uid,title:'Alpha'},{id:'m3',ownerUid:user.uid,title:'10번'},{id:'m4',ownerUid:user.uid,title:'가람'}];db.rows.clear();for(const row of mixed)db.rows.set(`estateWorkspaces/${user.uid}/properties/${row.id}`,row);
+ const page=await call(db,'list',{collection:'properties',sort:'name'});assert.deepEqual(page.rows.map(r=>r.title),mixed.map(r=>r.title).sort((a,b)=>Buffer.compare(Buffer.from(a),Buffer.from(b))));
 });
 test('media upload hashes and validates bytes; cross-owner, wrong entity, missing chunks, unsupported content rejected',async()=>{
  const db=new MemoryFirestore();await media(db);const info=await call(db,'mediaInfo',{id:'photo1'});assert.equal(info.chunkBytes,CHUNK_BYTES);assert.match(info.sha256,/^[a-f0-9]{64}$/);

@@ -79,7 +79,7 @@ if(process.argv[2]==='--timezone-fixture'){
     assert(projection&&occurs,'actual calendar projection and date membership helpers exist');
     const rows=[fixture('past','2026-09-07'),fixture('ongoing','2026-09-06','2026-09-09')];
     const h=harness({rows});assert.deepEqual(h.render(),['ongoing']);
-    const context=vm.createContext({events:h.data,restrictedCalendarEvents:()=>[fixture('work-past','2026-09-07')],connectionBirthdayEvents:()=>[]});
+    const context=vm.createContext({window:{},events:h.data,restrictedCalendarEvents:()=>[fixture('work-past','2026-09-07')],connectionBirthdayEvents:()=>[]});
     vm.runInContext(projection+'\n'+occurs,context);
     const ids=vm.runInContext('calendarDisplayEvents(2026).filter(row=>eventOccursOnDate(row,"2026-09-07")).map(row=>row.id)',context);
     assert.deepEqual(Array.from(ids),['past','ongoing','work-past']);

@@ -1,9 +1,10 @@
+import {canUseEstateAccount} from './estate-domain-v171.js';
 /* No private ESTATE records in localStorage, pair payloads, or service-worker caches. */
 export function createEstateClient(onIdentityChange=()=>{}) {
   let actor='',generation=0;const urls=new Map();
-  const identity=()=>{const next=window.AiderDearFirebase?.getState?.().user?.uid||'';if(actor!==next){actor=next;generation++;urls.forEach(URL.revokeObjectURL);urls.clear();onIdentityChange(next);}return actor;};
+  const identity=()=>{const user=window.AiderDearFirebase?.getState?.().user,next=canUseEstateAccount(user)?user.uid:'';if(actor!==next){actor=next;generation++;urls.forEach(URL.revokeObjectURL);urls.clear();onIdentityChange(next);}return actor;};
   async function call(action,payload={}) {
-    const uid=identity(),epoch=generation;if(!uid)throw Error('AiderLog에 로그인한 뒤 사용할 수 있습니다.');
+    const uid=identity(),epoch=generation;if(!uid)throw Error('ESTATE는 지정된 두 계정에서만 사용할 수 있습니다.');
     const body=JSON.stringify({...payload,action,requestId:payload.requestId||crypto.randomUUID()});
     for(let attempt=0;attempt<2;attempt++) {
       try {

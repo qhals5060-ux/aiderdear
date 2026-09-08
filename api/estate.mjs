@@ -3,7 +3,7 @@ import {FieldPath} from 'firebase-admin/firestore';
 import {services} from '../server/firebase-admin.mjs';
 import {COLLECTIONS,EDITABLE,fail,safeId,text,date,time,entity,mediaIds,references,checkRevision,normalizedAddress} from '../server/estate-model.mjs';
 import {CHUNK_BYTES,hash,beginMedia,chunkData,finishMedia,mediaInfo} from '../server/estate-media.mjs';
-import {calendarRows,publicProperty} from '../estate-domain-v171.js';
+import {calendarRows,publicProperty,canUseEstateAccount} from '../estate-domain-v171.js';
 
 const get=async(reader,ref)=>{const snap=await(typeof reader.get==='function'?reader.get(ref):ref.get());return snap.exists?{...snap.data(),id:snap.id}:null;};
 const docs=snap=>snap.docs.map(d=>({...d.data(),id:d.id}));
@@ -16,6 +16,21 @@ const PUBLIC_PROPERTY_KEYS=['id','number','title','region','address','detailAddr
 function publicSnapshot(row){return {...Object.fromEntries(PUBLIC_PROPERTY_KEYS.filter(k=>row[k]!==undefined).map(k=>[k,row[k]])),photos:(row.photos||[]).map(p=>({mediaId:safeId(p.mediaId)}))};}
 
 function pageQuery(db,path,cursor,limit=50){let q=db.collection(path).orderBy(FieldPath.documentId()).limit(limit);if(cursor)q=q.startAfter(safeId(cursor));return q;}
+// Firestore title ASC uses its existing single-field index (with the default
+// document-ID suffix). Keep this DB order across pages, never sort each page
+// with a different browser locale. Ordinary Hangul follows 가나다 order;
+// mixed numbers/Latin/punctuation follow Firestore UTF-8 string order.
+function propertyNameQuery(db,path,cursor,limit,scope){
+ let q=db.collection(path).orderBy('title').orderBy(FieldPath.documentId()).limit(limit);
+ if(cursor){
+  if(typeof cursor!=='string'||cursor.length>12000||!/^title-v172:[A-Za-z0-9_-]+$/.test(cursor))fail(400,'매물명 정렬 위치를 확인해주세요.');
+  let decoded;try{decoded=JSON.parse(Buffer.from(cursor.slice(11),'base64url').toString('utf8'));}catch{fail(400,'매물명 정렬 위치를 확인해주세요.');}
+  if(!decoded||decoded.scope!==scope||typeof decoded.title!=='string'||decoded.title.length>2000)fail(400,'정렬 또는 검색 조건이 바뀌었습니다. 처음부터 조회해주세요.');
+  q=q.startAfter(decoded.title,safeId(decoded.id));
+ }
+ return q;
+}
+function propertyNameCursor(row,scope){return row?'title-v172:'+Buffer.from(JSON.stringify({scope,title:row.title,id:row.id})).toString('base64url'):null;}
 function stageCursor(value,kinds){const raw=value==null?kinds[0]+':':String(value),i=raw.indexOf(':'),kind=raw.slice(0,i),after=raw.slice(i+1);if(i<0||!kinds.includes(kind))fail(400,'목록 조회 위치를 확인해주세요.');if(after)safeId(after);return {kind,after};}
 function nextCursor(kind,snapshot,kinds,limit){return snapshot.docs.length===limit?kind+':'+snapshot.docs.at(-1).id:kinds.indexOf(kind)<kinds.length-1?kinds[kinds.indexOf(kind)+1]+':':null;}
 function stamp(row,uid,now,old){return {...row,ownerUid:uid,createdAt:old?.createdAt||now,updatedAt:now,revision:(old?.revision||0)+1};}
@@ -39,6 +54,7 @@ export async function dispatch(db,rawUser,input,requestMeta={}){
  const action=String(input.action||''),now=Date.now();
  if(PUBLIC_ACTIONS.has(action))return dispatchPublic(db,input,requestMeta,now);
  if(!rawUser?.uid)fail(401,'로그인이 필요합니다.');
+ if(!canUseEstateAccount(rawUser,{verified:true}))fail(403,'ESTATE는 이메일 인증이 완료된 지정 계정에서만 사용할 수 있습니다.');
  const uid=safeId(rawUser.uid),w=`estateWorkspaces/${uid}`;
  // Employees may only use explicitly granted Work data, never create/access this private workspace.
  if((await get(db,db.doc(`workIdentities/${uid}`)))?.kind==='employee')fail(403,'직원 전용 계정에서는 ESTATE를 사용할 수 없습니다.');
@@ -48,14 +64,23 @@ export async function dispatch(db,rawUser,input,requestMeta={}){
  if(action==='context')return {uid};
  if(action==='list'){
   if(input.limit!=null&&(!Number.isInteger(Number(input.limit))||Number(input.limit)<1))fail(400,'조회 개수를 확인해주세요.');
-  const limit=Math.min(50,Number(input.limit)||50),snapshot=await pageQuery(db,col(input.collection),input.cursor,limit).get(),all=docs(snapshot).filter(r=>r.ownerUid===uid),rows=[];let bytes=0;
+  const byName=input.sort==='name';if(input.sort!=null&&!byName||byName&&input.collection!=='properties')fail(400,'지원하지 않는 정렬입니다.');
+  const limit=Math.min(50,Number(input.limit)||50),scope=uid+':list',snapshot=await (byName?propertyNameQuery(db,col(input.collection),input.cursor,limit,scope):pageQuery(db,col(input.collection),input.cursor,limit)).get(),all=docs(snapshot).filter(r=>r.ownerUid===uid),rows=[];let bytes=0;
   for(const row of all){const size=Buffer.byteLength(JSON.stringify(row));if(rows.length&&bytes+size>1500000)break;rows.push(row);bytes+=size;}
-  return {rows,cursor:rows.length<all.length?rows.at(-1).id:snapshot.docs.length===limit?snapshot.docs.at(-1).id:null};
+  const last=rows.length<all.length?rows.at(-1):snapshot.docs.length===limit?{...snapshot.docs.at(-1).data(),id:snapshot.docs.at(-1).id}:null;
+  return {rows,cursor:byName?propertyNameCursor(last,scope):last?.id||null,...(byName?{sort:'name',sortBasis:'title-utf8'}:{})};
  }
  if(action==='get')return {row:await owned(db,input.collection,input.id)};
  if(action==='history'){if(input.collection!=='properties')fail(400,'매물 가격과 상태 이력만 조회할 수 있습니다.');await owned(db,'properties',input.id);const snapshot=await pageQuery(db,`${col('properties')}/${safeId(input.id)}/history`,input.cursor,50).get();return {rows:docs(snapshot),cursor:snapshot.docs.length===50?snapshot.docs.at(-1).id:null};}
  if(action==='search'){
   const q=text(input.q,150).normalize('NFKC').toLowerCase().replace(/[\s-]/g,''),kinds=['properties','customers'];if(!q)return {results:[],cursor:null,scanned:0,partial:false};
+  if(input.sort!=null){
+   if(input.sort!=='name'||input.collection!=='properties')fail(400,'지원하지 않는 검색 정렬입니다.');
+   const scope=uid+':search:'+hash(q),snapshot=await propertyNameQuery(db,col('properties'),input.cursor,50,scope).get();
+   const results=docs(snapshot).filter(r=>r.ownerUid===uid&&[r.title,r.address,r.detailAddress,r.number].some(v=>String(v||'').normalize('NFKC').toLowerCase().replace(/[\s-]/g,'').includes(q))).map(r=>({collection:'properties',id:r.id,label:r.title,subtitle:[r.number,r.address].filter(Boolean).join(' · ')}));
+   const last=snapshot.docs.length===50?snapshot.docs.at(-1):null,cursor=last?propertyNameCursor({...last.data(),id:last.id},scope):null;
+   return {results,cursor,scanned:snapshot.docs.length,partial:cursor!==null,searchMode:'owner-bounded-continuation',sort:'name',sortBasis:'title-utf8'};
+  }
   const {kind,after}=stageCursor(input.cursor,kinds),snapshot=await pageQuery(db,col(kind),after,50).get(),cursor=nextCursor(kind,snapshot,kinds,50);
   const results=docs(snapshot).filter(r=>r.ownerUid===uid&&[r.title,r.address,r.detailAddress,r.number,r.name,r.phone].some(v=>String(v||'').normalize('NFKC').toLowerCase().replace(/[\s-]/g,'').includes(q))).map(r=>({collection:kind,id:r.id,label:r.title||r.name,subtitle:kind==='properties'?[r.number,r.address].filter(Boolean).join(' · '):r.phone}));
   return {results,cursor,scanned:snapshot.docs.length,partial:cursor!==null,searchMode:'owner-bounded-continuation'};

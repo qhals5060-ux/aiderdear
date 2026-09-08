@@ -70,3 +70,66 @@
 @media(max-width:700px){#estateStage:has(.estate-panel:not([hidden])){z-index:20000;overflow:visible}#estateStage .estate-panel-body{background:#fff}}
 @media(max-width:1100px){#estateStage .estate-header{padding:16px}#estateStage .estate-shell{grid-template-columns:140px minmax(0,1fr)}#estateStage .estate-main{padding:16px}#estateStage .estate-panel{width:78%}}
 @media(max-width:700px){#estateStage{min-height:calc(100dvh - 130px)}#estateStage .estate-header{gap:10px}#estateStage .estate-brand{flex:1 0 100%}#estateStage .estate-search{max-width:none}#estateStage .estate-actions{width:100%}#estateStage .estate-actions button{flex:1}#estateStage .estate-shell{display:flex;flex-direction:column;min-height:0}#estateStage .estate-nav{flex:none;flex-direction:row;overflow-x:auto;border-right:0;border-bottom:1px solid var(--estate-line);padding:8px}#estateStage .estate-nav button{padding:8px 12px}#estateStage .estate-main{padding:12px;flex:1;min-height:0}#estateStage .estate-panel{position:fixed;inset:0;width:100%;height:100dvh;z-index:10001;border:0}#estateStage .estate-panel-header{padding:12px 16px;padding-top:max(12px,env(safe-area-inset-top))}#estateStage .estate-panel-body{padding:14px}#estateStage .estate-form-actions{padding-bottom:max(12px,env(safe-area-inset-bottom));bottom:-14px}#estateStage .estate-grid{grid-template-columns:1fr}}
+
+/* v172: a compact header and an in-flow left search/creation rail. Its live
+   controls are emitted here by the controller once, not moved on refresh. */
+#estateStage .estate-header{padding:12px 18px;gap:8px;flex:none}
+#estateStage .estate-brand{display:flex;align-items:baseline;flex-wrap:wrap;gap:5px 12px;min-width:0}
+#estateStage .estate-brand h1{order:-1;margin:0}
+#estateStage .estate-shell{grid-template-columns:214px minmax(0,1fr)}
+#estateStage .estate-nav{display:flex;flex-direction:column;gap:16px;min-width:0;min-height:0;padding:14px 12px;overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}
+#estateStage .estate-nav-tools{display:grid;gap:12px;min-width:0;flex:none}
+#estateStage .estate-nav-links{display:flex;flex-direction:column;gap:5px;min-width:0;flex:none}
+#estateStage .estate-nav-links>[data-estate-view]{width:100%;min-height:42px;padding:10px 12px}
+#estateStage .estate-nav .estate-search{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:7px;flex:none;width:100%;min-width:0;max-width:none;margin:0}
+#estateStage .estate-nav .estate-search input{min-width:0;width:100%;padding:8px;min-height:40px}
+#estateStage .estate-nav .estate-search>button{padding:8px 10px;border:1px solid var(--estate-accent);background:var(--estate-accent);color:#fff;text-align:center}
+#estateStage .estate-nav .estate-actions{display:grid;grid-template-columns:minmax(0,1fr);gap:6px;width:100%;min-width:0}
+#estateStage .estate-nav .estate-actions button{padding:8px 10px;min-height:38px;border:1px solid var(--estate-line);background:#fff;white-space:normal;overflow-wrap:anywhere;text-align:left}
+#estateStage .estate-nav .estate-actions button:hover{background:var(--estate-soft);border-color:var(--estate-accent)}
+/* Static results cannot be clipped by a narrow scroll rail or cover the editor.
+   Result pagination and outside-click closing keep the original form handlers. */
+#estateStage .estate-nav .estate-search-results{position:static;grid-column:1/-1;width:100%;min-width:0;max-height:min(38dvh,320px);overflow:auto;overscroll-behavior:contain;padding:6px;box-shadow:none;scrollbar-width:thin}
+#estateStage .estate-nav .estate-search-results button{min-width:0;max-width:100%;padding:8px 6px;white-space:normal;overflow-wrap:anywhere;word-break:normal;border:0;border-bottom:1px solid var(--estate-line);border-radius:0;line-height:1.5}
+#estateStage .estate-nav .estate-search-results :is(b,small,p){white-space:normal;overflow-wrap:anywhere}
+
+/* A directory table intentionally stays at least 650 px wide, but its grid
+   item must not pass that min-content width to the toolbar or the main pane. */
+#estateStage .estate-shell,#estateStage .estate-main,#estateStage .estate-main>section{min-width:0;max-width:100%}
+#estateStage .estate-main>section{width:100%}
+#estateStage .estate-main .estate-directory{grid-template-columns:minmax(0,1fr);width:100%;min-width:0;max-width:100%}
+#estateStage .estate-main .estate-directory>*{min-width:0;max-width:100%}
+#estateStage .estate-main .estate-directory-toolbar{grid-template-columns:minmax(0,1fr);min-width:0;max-width:100%;width:100%}
+#estateStage .estate-main .estate-directory :is(.estate-directory-search,.estate-directory-advanced,.estate-directory-filter-grid,.estate-directory-filter-grid>label,[data-directory-results],.estate-directory-pagination){min-width:0;max-width:100%}
+#estateStage .estate-main .estate-directory [data-directory-results]{width:100%}
+#estateStage .estate-main .estate-directory-table-wrap{min-width:0;max-width:100%;width:100%;overflow-x:auto;overscroll-behavior-x:contain}
+
+/* Slightly larger than the shared site: body 15 / controls 14 / metadata 13.
+   Use local tokens plus sufficient specificity to beat site-typography-v169,
+   without scaling other pages, icons or any Android view. */
+html:not(.aiderlog-android) body #app#app #estateStage{--site-type-body:15px;--site-type-control:14px;--site-type-meta:13px;--site-type-section:22px;--site-type-subhead:18px;--site-type-page:28px;--site-type-metric:22px;font-size:15px!important;line-height:1.55!important}
+html:not(.aiderlog-android) body #app#app #estateStage :is(button,input,select,textarea){font-size:14px!important;line-height:1.45!important}
+html:not(.aiderlog-android) body #app#app #estateStage :is(p,li,dd,td){font-size:15px!important;line-height:1.55!important}
+html:not(.aiderlog-android) body #app#app #estateStage :is(small,time,dt,label,legend,th,.estate-directory-eyebrow,.estate-directory-note,.estate-wf-meta,.estate-wf-chip,.estate-wf-sample){font-size:13px!important;line-height:1.5!important}
+html:not(.aiderlog-android) body #app#app #estateStage h1{font-size:28px!important;line-height:1.3!important}
+html:not(.aiderlog-android) body #app#app #estateStage h2{font-size:22px!important;line-height:1.35!important}
+html:not(.aiderlog-android) body #app#app #estateStage :is(h3,h4){font-size:18px!important;line-height:1.4!important}
+html:not(.aiderlog-android) body #app#app #estateStage .estate-panel-header h2{font-size:22px!important}
+
+@media(max-width:700px){
+  #estateStage .estate-header{padding:10px 12px}
+  #estateStage .estate-shell{display:flex;flex-direction:column}
+  #estateStage .estate-nav{display:flex;flex-direction:column;gap:10px;max-height:min(52dvh,350px);padding:10px 12px;overflow-x:hidden;overflow-y:auto}
+  #estateStage .estate-nav-tools{gap:8px}
+  #estateStage .estate-nav .estate-actions{grid-template-columns:repeat(3,minmax(0,1fr))}
+  #estateStage .estate-nav .estate-actions button{text-align:center;padding:8px 5px;min-height:40px}
+  #estateStage .estate-nav-links{flex-direction:row;overflow-x:auto;overflow-y:hidden;padding:2px 0 5px;scrollbar-width:thin}
+  #estateStage .estate-nav-links>[data-estate-view]{flex:0 0 auto;width:auto;min-height:40px;padding:8px 12px}
+  #estateStage .estate-nav .estate-search-results{max-height:200px}
+  #estateStage .estate-main{flex:1;min-height:0}
+  #estateStage .estate-main .estate-directory .estate-directory-filter-grid{grid-template-columns:minmax(0,1fr)!important}
+  #estateStage .estate-main .estate-directory-filter-grid :is(input,select){width:100%;min-width:0;max-width:100%}
+  #estateStage .estate-main .estate-directory-heading{flex-wrap:wrap}
+  #estateStage .estate-main .estate-directory-heading>div{min-width:0;max-width:100%}
+  html:not(.aiderlog-android) body #app#app #estateStage h1{font-size:25px!important}
+}

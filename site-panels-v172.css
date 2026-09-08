@@ -1,0 +1,340 @@
+/* v172 website panel refinements. Modern only; no native/Editorial matches.
+   Repeated #app intentionally outranks the historical inline typography layer.
+   Existing controls, folders, dates, timer state and renderers stay in place. */
+
+/* Routine: keep the real cycle range beside its title, a larger chart and a
+   compact one-row summary. Equal grid stretching aligns both card bottoms. */
+html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #privateRoutinePanel .modern-routine-current {
+  grid-template-columns:minmax(0,1.65fr) minmax(300px,1fr);
+  align-items:stretch;
+}
+html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #privateRoutinePanel .modern-routine-current > .routine-stat-card {
+  display:flex!important;
+  flex-direction:column;
+  gap:12px;
+  height:auto!important;
+  align-self:stretch;
+  padding:12px!important;
+  min-width:0;
+}
+html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #privateRoutinePanel .modern-routine-current .routine-card-head {
+  flex-direction:row!important;
+  align-items:baseline!important;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:4px 8px!important;
+  padding:0!important;
+}
+html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #privateRoutinePanel .modern-routine-current .routine-card-head > b {
+  font-size:14px!important;
+  line-height:1.4!important;
+}
+html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #privateRoutinePanel .modern-routine-current .routine-card-head > span {
+  font-size:11px!important;
+  line-height:1.4!important;
+  color:var(--modern-muted,#626b70);
+  white-space:nowrap;
+}
+html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #privateRoutinePanel .modern-routine-current .routine-stat-main {
+  display:flex!important;
+  align-items:center;
+  justify-content:center;
+  gap:12px!important;
+  padding:0!important;
+  margin-block:auto;
+  min-width:0;
+}
+html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #privateRoutinePanel .modern-routine-current .routine-donut {
+  width:112px!important;
+  height:112px!important;
+  min-width:112px!important;
+  flex:0 0 112px;
+  margin:0;
+}
+html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #privateRoutinePanel .modern-routine-current .routine-donut strong {
+  font-size:22px!important;
+  line-height:1.15!important;
+}
+html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #privateRoutinePanel .modern-routine-current .routine-donut :is(span,small,em) {
+  font-size:12px!important;
+  line-height:1.25!important;
+}
+html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #privateRoutinePanel .modern-routine-current .routine-stat-legend {
+  flex:1 1 0;
+  min-width:0;
+  max-width:180px;
+  gap:8px;
+}
+html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #privateRoutinePanel .modern-routine-current .routine-stat-legend > div {
+  grid-template-columns:8px 35px minmax(25px,1fr) 31px;
+  gap:4px;
+}
+html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #privateRoutinePanel .modern-routine-current .routine-stat-legend :is(b,span,em) {
+  font-size:11px!important;
+  line-height:1.35!important;
+  white-space:nowrap;
+}
+html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #privateRoutinePanel .modern-routine-current .routine-stat-summary {
+  display:grid!important;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:5px;
+  padding:0!important;
+  margin-top:auto;
+}
+html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #privateRoutinePanel .modern-routine-current .routine-stat-summary > div {
+  min-width:0;
+  padding:7px 3px;
+  border-radius:6px;
+  background:var(--modern-soft,#f7f9f8);
+}
+html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #privateRoutinePanel .modern-routine-current .routine-stat-summary :is(span,small) {
+  font-size:11px!important;
+  line-height:1.35!important;
+  margin-bottom:3px;
+}
+html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #privateRoutinePanel .modern-routine-current .routine-stat-summary b {
+  font-size:17px!important;
+  line-height:1.2!important;
+  white-space:nowrap;
+}
+
+/* Event titles stay visible even at the old 1200 px heading-hide breakpoint. */
+html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #recordStage :is(.record-heading,.album-heading,.event-title-group) {
+  display:block!important;
+}
+html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #recordStage :is(.record-heading h2,#albumHeading,.event-heading) {
+  font-size:24px!important;
+  font-weight:600!important;
+  line-height:1.3!important;
+  letter-spacing:-.025em;
+  margin:0!important;
+}
+html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #recordStage :is(.record-toolbar,.album-toolbar,.event-toolbar) {
+  flex-wrap:wrap!important;
+  row-gap:8px!important;
+}
+
+/* Travel's real folder rail becomes the right column, like Record's Album.
+   No cloning/reparenting: delegated select/delete and + Folder remain intact. */
+html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #travelFrame > .travel-content {
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) 220px!important;
+  grid-template-rows:minmax(0,1fr)!important;
+  gap:14px!important;
+  min-height:0!important;
+  overflow:hidden!important;
+}
+html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #travelReviewGrid {
+  grid-column:1;
+  grid-row:1;
+  height:100%!important;
+  min-height:0!important;
+  overflow:auto!important;
+  overscroll-behavior:contain;
+  padding:0 4px 8px 0;
+}
+html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #travelFrame .travel-bottom-dock {
+  display:block!important;
+  grid-column:2;
+  grid-row:1;
+  padding:0 0 0 12px!important;
+  margin:0!important;
+  min-width:0;
+  min-height:0!important;
+  overflow:auto!important;
+  border-left:1px solid var(--modern-border,#dde2e0);
+  overscroll-behavior:contain;
+}
+html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #travelFrame .travel-folder-dock {
+  position:static!important;
+  min-height:0!important;
+  padding:0!important;
+}
+html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #travelFrame .travel-folder-head {
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:space-between;
+  gap:6px;
+  margin:0 0 10px!important;
+  padding:0!important;
+}
+html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #travelFrame .travel-folder-head b {
+  font-size:13px!important;
+  line-height:1.4!important;
+  color:var(--modern-ink,#252d31)!important;
+}
+html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #travelFolderAdd {
+  font-size:12px!important;
+  min-height:36px!important;
+  height:auto!important;
+  padding:5px 8px!important;
+  border-color:var(--modern-border,#dde2e0)!important;
+}
+html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #travelFolderTabs {
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr);
+  gap:15px!important;
+  overflow:visible!important;
+  padding:8px 2px 8px!important;
+}
+html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #travelFolderTabs .travel-folder-tab {
+  min-width:0!important;
+  width:100%!important;
+  height:auto!important;
+}
+html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #travelFolderTabs [data-travel-folder] {
+  width:100%!important;
+  min-width:0!important;
+  height:auto!important;
+  min-height:80px!important;
+  padding:12px 11px 10px!important;
+  grid-template-columns:minmax(0,1fr) 24px!important;
+}
+html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #travelFolderTabs [data-travel-folder] span {
+  max-width:none!important;
+  padding-right:12px;
+  font-size:13px!important;
+  line-height:1.4!important;
+  white-space:normal!important;
+  overflow-wrap:anywhere;
+}
+html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #travelFolderTabs [data-travel-folder] small {
+  font-size:11px!important;
+  line-height:1.4!important;
+  white-space:normal!important;
+}
+html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #travelFolderTabs [data-travel-folder] b {
+  font-size:17px!important;
+  line-height:1.2!important;
+}
+html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #travelFolderTabs .travel-folder-delete {
+  min-height:26px!important;
+  min-width:26px!important;
+  width:26px!important;
+  height:26px!important;
+  font-size:16px!important;
+}
+
+/* Only the Pomodoro box opts down from the website's shared 13–14 px type. */
+html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #personalStage .pomodoro-mini-card {
+  --site-type-body:12px;
+  --site-type-control:12px;
+  --site-type-meta:11px;
+  font-size:12px!important;
+  padding:10px!important;
+  gap:7px!important;
+}
+html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #personalStage .pomodoro-mini-card :is(button,input,select) {
+  font-size:12px!important;
+  line-height:1.4!important;
+}
+html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #personalStage .pomodoro-mini-card :is(span,b,label) {
+  font-size:11px!important;
+  line-height:1.4!important;
+}
+html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #personalStage .pomodoro-mini-card #pomodoroClock {
+  font-size:16px!important;
+  line-height:1.2!important;
+  font-variant-numeric:tabular-nums;
+}
+
+/* Consult uses the same Modern teal/neutral tokens, including body dialogs.
+   Red errors and amber warnings keep their semantic, non-decorative colors. */
+html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #consultV167,
+html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body .c167-dialog {
+  --task-accent:var(--modern-primary,#335d5b);
+  --c167-bg:var(--modern-surface,#fff);
+  --c167-ink:var(--modern-ink,#252d31);
+  --c167-line:var(--modern-border,#dde2e0);
+  --c167-accent:var(--modern-primary,#335d5b);
+  background:var(--c167-bg)!important;
+  color:var(--c167-ink)!important;
+  border-color:var(--c167-line)!important;
+}
+html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #consultV167 .c167-nav {
+  background:var(--modern-soft,#f7f9f8);
+}
+html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #consultV167 .c167-client-row.selected {
+  background:var(--modern-selected,#e8f0ee)!important;
+}
+html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #consultV167 :focus-visible,
+html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body .c167-dialog :focus-visible {
+  outline:3px solid var(--modern-primary,#335d5b)!important;
+  outline-offset:2px;
+}
+html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #consultV167 .c167-calendar .outside,
+html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body .c167-dialog form > :is(header,footer) {
+  background:var(--modern-soft,#f7f9f8)!important;
+  border-color:var(--modern-border,#dde2e0)!important;
+}
+html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body .c167-dialog form > footer button[type=submit] {
+  background:var(--modern-primary,#335d5b)!important;
+  border-color:var(--modern-primary,#335d5b)!important;
+  color:#fff!important;
+}
+html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #consultV167 .c167-values > div,
+html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body .c167-dialog :is(fieldset,.c167-values > div) {
+  border-color:var(--modern-border,#dde2e0)!important;
+}
+
+@media (max-width:1200px) {
+  html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #privateRoutinePanel .modern-routine-current {
+    grid-template-columns:minmax(0,1fr) 300px;
+  }
+  html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #travelReviewGrid {
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+}
+@media (max-width:900px) {
+  html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #privateRoutinePanel .modern-routine-current {
+    grid-template-columns:minmax(0,1fr);
+  }
+  html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #privateRoutinePanel .modern-routine-current .routine-stat-main {
+    width:100%;
+    max-width:400px;
+    align-self:center;
+  }
+}
+@media (max-width:767px) {
+  html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #recordStage :is(.record-heading h2,#albumHeading,.event-heading) {
+    font-size:22px!important;
+  }
+  html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #travelFrame > .travel-content {
+    grid-template-columns:minmax(0,1fr)!important;
+    grid-template-rows:auto auto!important;
+    height:auto!important;
+    overflow:visible!important;
+  }
+  html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #travelFrame .travel-bottom-dock {
+    grid-column:1;
+    grid-row:1;
+    padding:0 0 10px!important;
+    border-left:0;
+    border-bottom:1px solid var(--modern-border,#dde2e0);
+    overflow:visible!important;
+  }
+  html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #travelFolderTabs {
+    display:flex!important;
+    overflow-x:auto!important;
+    overflow-y:hidden!important;
+    padding-top:10px!important;
+    padding-bottom:10px!important;
+  }
+  html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #travelFolderTabs > * {
+    flex:0 0 175px!important;
+    width:175px!important;
+  }
+  html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #travelReviewGrid {
+    grid-column:1;
+    grid-row:2;
+    height:auto!important;
+    overflow:visible!important;
+    padding:0;
+  }
+}
+@media (max-width:420px) {
+  html.modern-site[data-site-panels-v172]:not(.aiderlog-android) body #app#app #travelReviewGrid {
+    grid-template-columns:minmax(0,1fr)!important;
+  }
+}

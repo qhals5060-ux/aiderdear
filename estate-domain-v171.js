@@ -76,3 +76,8 @@ export function publicProperty(property={}, options={}) {
   result.photos=array(property.photos).filter(p=>selected.has(p.mediaId)).map(p=>({mediaId:p.mediaId}));
   return result;
 }
+// Private ESTATE workspace access. Public comparison snapshots retain their explicit token scope.
+export function canUseEstateAccount(user,{verified=false}={}){
+  const email=String(user?.email||'').trim().toLowerCase();
+  return !!user?.uid&&['qhals5060@gmail.com','abckms5698@naver.com'].includes(email)&&(!verified||user.email_verified===true);
+}
