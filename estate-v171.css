@@ -1,0 +1,72 @@
+/* Site-only ESTATE boundaries. Never target existing stage descendants. */
+.tab[data-tab="estate"]{--tab:#14645f!important;background:#14645f!important;color:#fff!important}
+.tabs:has([data-tab="estate"]){overflow-x:auto!important;flex-wrap:nowrap!important;scrollbar-width:thin;max-width:100%}
+.tabs:has([data-tab="estate"])>.tab{flex:0 0 auto!important;min-width:max-content!important}
+#estateStage{--estate-ink:#173c38;--estate-accent:#14645f;--estate-line:#d2dfdc;--estate-soft:#edf5f2;--estate-muted:#58716c;display:flex;flex-direction:column;position:relative;background:#f8fbf9;color:var(--estate-ink);margin:0;width:100%;min-width:0;min-height:calc(100dvh - 160px);font:400 14px/1.5 Arial,'Noto Sans KR',sans-serif;overflow:clip;isolation:isolate}
+#estateStage[hidden],#estateStage [hidden]{display:none!important}
+#estateStage{height:calc(100dvh - var(--estate-top,100px));min-height:0!important}
+#estateStage .estate-shell{min-height:0;grid-template-rows:minmax(0,1fr)}
+#estateStage .estate-main{min-height:0}
+#estateStage .estate-search>button{flex:none;white-space:nowrap}
+#estateStage *,#estateStage *:before,#estateStage *:after{box-sizing:border-box}
+#estateStage :is(button,input,select,textarea){font:inherit;font-size:14px!important;letter-spacing:normal;line-height:1.45;min-width:0;color:inherit}
+#estateStage button,#estateStage .estate-button{min-height:38px;padding:8px 12px;border:1px solid var(--estate-line);border-radius:7px;background:#fff;cursor:pointer;white-space:normal;text-decoration:none}
+#estateStage button:hover{border-color:var(--estate-accent);background:var(--estate-soft)}
+#estateStage button:focus-visible,#estateStage a:focus-visible{outline:3px solid #44a99e;outline-offset:2px}
+#estateStage button:disabled{opacity:.55;cursor:wait}
+#estateStage button.estate-primary,#estateStage button[type=submit]{background:var(--estate-accent);color:#fff;border-color:var(--estate-accent)}
+#estateStage :is(h1,h2,h3,h4,p){margin:0 0 10px;letter-spacing:normal;overflow-wrap:anywhere}
+#estateStage h1{font:700 25px/1.3 Arial,sans-serif!important}#estateStage h2{font-size:20px!important}#estateStage h3{font-size:17px!important}#estateStage small{font-size:12px!important;line-height:1.5}
+#estateStage .estate-header{padding:20px 24px 14px;border-bottom:1px solid var(--estate-line);display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+#estateStage .estate-brand{margin-right:auto}#estateStage .estate-brand small{color:var(--estate-muted);letter-spacing:.12em}
+#estateStage .estate-search{display:flex;position:relative;gap:6px;flex:1 1 280px;max-width:560px}
+#estateStage .estate-search input{width:100%;min-height:40px;border:1px solid var(--estate-line);border-radius:7px;padding:8px 12px;background:white}
+#estateStage .estate-search-results{position:absolute;top:calc(100% + 5px);left:0;right:0;z-index:5;background:#fff;border:1px solid var(--estate-line);border-radius:9px;box-shadow:0 12px 28px #173c3822;max-height:50dvh;overflow:auto;padding:10px}
+#estateStage .estate-search-results button{display:block;width:100%;text-align:left;margin-bottom:5px}
+#estateStage .estate-actions{display:flex;gap:6px;flex-wrap:wrap}
+#estateStage .estate-shell{display:grid;grid-template-columns:170px minmax(0,1fr);align-items:stretch;flex:1}
+#estateStage .estate-nav{border-right:1px solid var(--estate-line);padding:18px 12px;display:flex;flex-direction:column;gap:5px;background:#f0f6f3}
+#estateStage .estate-nav button{border:0;background:transparent;text-align:left;padding:12px;flex:none;white-space:nowrap}
+#estateStage .estate-nav button[aria-current=page]{color:#fff;background:var(--estate-accent);font-weight:700}
+#estateStage .estate-main{min-width:0;padding:22px;overflow:auto;overscroll-behavior:contain}
+#estateStage .estate-notice{margin:0;padding:10px 24px;background:#e5f4ed;border-bottom:1px solid var(--estate-line);overflow-wrap:anywhere}
+#estateStage .estate-notice[data-error=true],#estateStage .estate-form-error{background:#fff0e9;color:#943a27}
+#estateStage .estate-panel{position:absolute;z-index:10;inset:0 0 0 auto;width:min(720px,65%);background:#fff;border-left:1px solid var(--estate-line);box-shadow:-12px 0 40px #173c381c;display:flex;flex-direction:column;overflow:hidden}
+#estateStage .estate-panel-header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 20px;border-bottom:1px solid var(--estate-line);flex:none;background:#f1f7f4}
+#estateStage .estate-panel-header h2{margin:0;font-size:18px!important}
+#estateStage .estate-panel-body{padding:18px 20px;overflow:auto;min-height:0;flex:1;overscroll-behavior:contain}
+#estateStage .estate-form{display:block;margin:0;min-width:0}
+#estateStage .estate-field{display:grid;gap:5px;min-width:0;font-weight:600;margin:0 0 12px}
+#estateStage .estate-field input:not([type=checkbox]):not([type=radio]),#estateStage .estate-field select,#estateStage .estate-field textarea{width:100%;padding:9px 10px;min-height:40px;border:1px solid var(--estate-line);border-radius:5px;background:#fff;font-weight:400}
+#estateStage .estate-field textarea{min-height:84px;resize:vertical}
+#estateStage input[type=checkbox],#estateStage input[type=radio]{width:18px;height:18px;accent-color:var(--estate-accent);vertical-align:middle}
+#estateStage .estate-field:has(input[type=checkbox]){display:flex;align-items:center;font-weight:400}
+#estateStage .estate-form-actions{position:sticky;bottom:-18px;display:flex;justify-content:flex-end;gap:8px;padding:12px 0;background:#fff;border-top:1px solid var(--estate-line);z-index:2;flex-wrap:wrap}
+#estateStage .estate-form-error{padding:10px;border-radius:6px;white-space:pre-wrap;margin:8px 0}
+#estateStage .estate-muted{color:var(--estate-muted)}
+#estateStage .estate-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+#estateStage .estate-full{grid-column:1/-1}
+#estateStage .estate-section{border:1px solid var(--estate-line);padding:15px;border-radius:9px;margin-bottom:15px;background:#fff}
+#estateStage .estate-table-wrap{overflow-x:auto;max-width:100%;overscroll-behavior:contain}
+#estateStage table{border-collapse:collapse;width:100%;font-size:14px;background:#fff;table-layout:auto}
+#estateStage th,#estateStage td{padding:11px 12px;text-align:left;border-bottom:1px solid var(--estate-line);vertical-align:top;max-width:400px;overflow-wrap:anywhere}
+#estateStage th{font-size:12px!important;background:#edf4f1;color:#4b6860;font-weight:700;white-space:nowrap}
+#estateStage td button{padding:3px 6px;min-height:32px}
+#estateStage .estate-empty{padding:24px;border:1px dashed var(--estate-line);border-radius:9px;background:#fff}
+#estateStage .estate-toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
+#estateStage .estate-match-card{background:#fff;border:1px solid var(--estate-line);padding:16px;border-radius:9px;margin:12px 0}
+#estateStage .estate-criteria{display:flex;flex-wrap:wrap;gap:7px;margin:10px 0}
+#estateStage .estate-criterion{padding:5px 8px;background:#f2f4f3;border-radius:5px;font-size:12px!important;color:#50625d}
+#estateStage .estate-criterion[data-state=fulfilled]{background:#e3f4eb;color:#175e43}
+#estateStage .estate-criterion[data-state=unfulfilled]{background:#fbe9e4;color:#953c29}
+#estateStage .estate-criterion[data-state=negotiable]{background:#fff1d5;color:#77561c}
+#estateStage .estate-compare{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+#estateStage .estate-compare article{padding:14px;border:1px solid var(--estate-line);border-radius:8px;background:#fff}
+#estateStage .estate-compare img{width:100%;height:130px;object-fit:cover;border-radius:6px}
+#estateStage .estate-compare dl{margin:8px 0}#estateStage .estate-compare dt{font-size:12px!important;color:var(--estate-muted)}#estateStage .estate-compare dd{margin:0 0 8px;overflow-wrap:anywhere}
+#estateStage .estate-share-photo-options{display:flex;gap:8px;flex-wrap:wrap}#estateStage .estate-share-photo-options img{width:72px;height:55px;object-fit:cover}
+#estateStage .estate-google{margin-top:20px;border-top:1px solid var(--estate-line);padding-top:16px}
+/* Lift the full-screen mobile panel above the site's sticky global header. */
+@media(max-width:700px){#estateStage:has(.estate-panel:not([hidden])){z-index:20000;overflow:visible}#estateStage .estate-panel-body{background:#fff}}
+@media(max-width:1100px){#estateStage .estate-header{padding:16px}#estateStage .estate-shell{grid-template-columns:140px minmax(0,1fr)}#estateStage .estate-main{padding:16px}#estateStage .estate-panel{width:78%}}
+@media(max-width:700px){#estateStage{min-height:calc(100dvh - 130px)}#estateStage .estate-header{gap:10px}#estateStage .estate-brand{flex:1 0 100%}#estateStage .estate-search{max-width:none}#estateStage .estate-actions{width:100%}#estateStage .estate-actions button{flex:1}#estateStage .estate-shell{display:flex;flex-direction:column;min-height:0}#estateStage .estate-nav{flex:none;flex-direction:row;overflow-x:auto;border-right:0;border-bottom:1px solid var(--estate-line);padding:8px}#estateStage .estate-nav button{padding:8px 12px}#estateStage .estate-main{padding:12px;flex:1;min-height:0}#estateStage .estate-panel{position:fixed;inset:0;width:100%;height:100dvh;z-index:10001;border:0}#estateStage .estate-panel-header{padding:12px 16px;padding-top:max(12px,env(safe-area-inset-top))}#estateStage .estate-panel-body{padding:14px}#estateStage .estate-form-actions{padding-bottom:max(12px,env(safe-area-inset-bottom));bottom:-14px}#estateStage .estate-grid{grid-template-columns:1fr}}

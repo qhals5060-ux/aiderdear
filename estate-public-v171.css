@@ -1,0 +1,49 @@
+.estate-public{margin:0;background:#f4f6f3;color:#243b33;font:15px/1.6 system-ui,-apple-system,"Noto Sans KR",sans-serif}
+.estate-public *{box-sizing:border-box}
+.estate-public [hidden]{display:none!important}
+.estate-public main{width:min(1140px,100% - 40px);margin:0 auto;padding:50px 0 25px}
+.estate-public-header{padding-bottom:30px;border-bottom:1px solid #d8e0d9;margin-bottom:28px}
+.estate-public-header>span,.estate-public-kicker{font-size:11px;letter-spacing:.15em;color:#728479;font-weight:700}
+.estate-public h1{font-size:32px;letter-spacing:-.05em;line-height:1.25;margin:14px 0 9px;font-weight:650}
+.estate-public h2{font-size:21px;line-height:1.4;letter-spacing:-.035em;margin:8px 0}
+.estate-public-header p{font-size:12px;color:#7a887e;margin:8px 0 0}
+.estate-public-properties{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;align-items:start}
+.estate-public-card{background:#fff;border:1px solid #d9e2da;border-radius:15px;overflow:hidden;min-width:0}
+.estate-public-card>header{padding:24px 24px 18px;border-bottom:1px solid #e5ebe5}
+.estate-public-card>header small{font-size:11px;color:#738078}
+.estate-public-card h2{font-size:20px;margin:6px 0 7px;overflow-wrap:anywhere}
+.estate-public-address{font-size:13px;color:#6b7a70;margin:5px 0 0;overflow-wrap:anywhere}
+.estate-public-price{font-size:22px;font-weight:700;margin-top:16px;letter-spacing:-.02em;color:#2b6450}
+.estate-public-specs{margin:0;padding:16px 24px;display:grid;grid-template-columns:1fr 1fr;gap:0 17px}
+.estate-public-specs>div{padding:9px 0;border-bottom:1px solid #eef1ed;min-width:0}
+.estate-public-specs dt{font-size:11px;color:#7e8a80;margin-bottom:3px}
+.estate-public-specs dd{font-size:13px;margin:0;overflow-wrap:anywhere;white-space:pre-wrap}
+.estate-public-description{padding:0 24px 18px}
+.estate-public-description h3{font-size:12px;color:#6e8074;margin:13px 0 5px}
+.estate-public-description p{font-size:13px;margin:0;white-space:pre-wrap;overflow-wrap:anywhere}
+.estate-public-photos{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 24px 20px}
+.estate-public-photo-button{grid-column:1/-1}
+.estate-public-photos img{width:100%;height:175px;object-fit:cover;border-radius:9px;background:#edf0eb}
+.estate-public-photos p{grid-column:1/-1;font-size:12px;color:#7c827b;margin:0}
+.estate-public-request{display:grid;grid-template-columns:minmax(200px,1fr) minmax(0,2fr);gap:35px;background:#eaf0e9;border:1px solid #d5e0d4;border-radius:15px;padding:28px;margin-top:35px}
+.estate-public-request p{color:#667a6c;font-size:13px;margin:0 0 15px}
+.estate-public fieldset{margin:0 0 17px;padding:0;border:0}
+.estate-public legend{font-size:12px;font-weight:650;padding:0;margin-bottom:9px}
+.estate-public #estateRequestProperties{display:flex;flex-direction:column;gap:7px}
+.estate-public #estateRequestProperties label{display:flex;gap:9px;align-items:start;font-size:13px;padding:10px 12px;background:#f7faf6;border:1px solid #d7e1d4;border-radius:8px}
+.estate-public-fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.estate-public-fields label{display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:600;min-width:0}
+.estate-public-full{grid-column:1/-1}
+.estate-public-fields input,.estate-public textarea{min-width:0;width:100%;font:inherit;font-size:14px;color:inherit;background:#fff;border:1px solid #ccdacc;border-radius:8px;padding:10px;min-height:42px}
+.estate-public textarea{resize:vertical;line-height:1.6}
+.estate-public-consent{display:flex;align-items:start;gap:10px;margin:20px 0;font-size:12px;color:#4f6658}
+.estate-public input[type=checkbox]{flex:0 0 17px;width:17px;height:17px;accent-color:#35735a;margin-top:2px}
+.estate-public button{border:1px solid #33654f;border-radius:8px;background:#33654f;color:#fff;padding:10px 17px;font:inherit;font-size:13px;font-weight:600;cursor:pointer;min-height:42px}
+.estate-public button:hover{background:#28533f}
+.estate-public button:disabled{opacity:.6;cursor:default}
+.estate-public :is(button,input,textarea):focus-visible{outline:2px solid #287d54;outline-offset:3px}
+.estate-public-status{font-size:14px;padding:16px 0;color:#65796c}
+.estate-public [data-error=true]{color:#a04739}
+.estate-public-footer{font-size:11px;color:#7b877e;margin:26px 0 0;padding-top:15px;border-top:1px solid #d9e2d8}
+@media(max-width:750px){.estate-public main{width:calc(100% - 28px);padding-top:28px}.estate-public h1{font-size:27px}.estate-public-properties,.estate-public-request{grid-template-columns:1fr}.estate-public-request{padding:21px;gap:14px}.estate-public-card>header{padding:20px}.estate-public-specs{padding:12px 20px}.estate-public-description{padding-inline:20px}.estate-public-photos{padding-inline:20px}}
+@media(max-width:390px){.estate-public-fields{grid-template-columns:1fr}.estate-public-specs{gap:0 10px}.estate-public-price{font-size:20px}}

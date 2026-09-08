@@ -1,0 +1,143 @@
+/* Directory styles are deliberately confined to the ESTATE stage. */
+#estateStage .estate-directory{display:grid;gap:20px;min-width:0;padding-bottom:24px}
+#estateStage .estate-directory-heading{display:flex;align-items:center;justify-content:space-between;gap:18px}
+#estateStage .estate-directory-heading h2,#estateStage .estate-directory-panel-intro h2{margin:5px 0 7px;font-size:25px;line-height:1.25;letter-spacing:-.045em}
+#estateStage .estate-directory-heading p,#estateStage .estate-directory-panel-intro>p{margin:0;color:#69716e;font-size:13px;line-height:1.65}
+#estateStage .estate-directory-eyebrow{font-size:10px;font-weight:750;letter-spacing:.13em;color:#687c71}
+#estateStage .estate-directory-primary{flex:none;background:#244c3d;color:#fff;border:1px solid #244c3d;border-radius:10px;padding:11px 17px;font-weight:700;cursor:pointer}
+#estateStage .estate-directory-toolbar{display:grid;gap:14px;padding:17px;background:#f6f8f5;border:1px solid #e1e7e0;border-radius:14px}
+#estateStage .estate-directory-search{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:7px 9px;align-items:end}
+#estateStage .estate-directory-search>span{grid-column:1/-1;color:#48584f;font-size:12px;font-weight:700}
+#estateStage .estate-directory-search input{min-width:0;border:1px solid #d4ded5;border-radius:8px;background:#fff;padding:10px 12px;font:inherit}
+#estateStage .estate-directory-search button,#estateStage .estate-directory-view-buttons button,#estateStage .estate-directory-pagination button,#estateStage .estate-directory-related header button,#estateStage .estate-directory-relation button,#estateStage .estate-directory-document button,#estateStage .estate-directory-photo button,#estateStage .estate-directory-related>[data-related-collection]>button{border:1px solid #cfdad1;border-radius:7px;background:#fff;color:#2c4c3e;padding:8px 11px;font:inherit;font-size:12px;cursor:pointer}
+#estateStage .estate-directory-search button:hover,#estateStage .estate-directory-view-buttons button:hover,#estateStage .estate-directory-pagination button:hover,#estateStage .estate-directory-related header button:hover,#estateStage .estate-directory-relation button:hover{background:#eaf0e8}
+#estateStage .estate-directory button:disabled,#estateStage .estate-directory-panel button:disabled{opacity:.48;cursor:default}
+#estateStage .estate-directory-filter-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+#estateStage .estate-directory-filter-grid label{display:grid;gap:6px;min-width:0;font-size:11px;color:#647069}
+#estateStage .estate-directory-filter-grid :is(input,select){width:100%;min-width:0;box-sizing:border-box;border:1px solid #d8e0d7;border-radius:7px;padding:8px 9px;font:inherit;font-size:12px;background:#fff;color:#263b30}
+#estateStage .estate-directory-advanced{border-top:1px solid #dce5dc;padding-top:10px}
+#estateStage .estate-directory-advanced summary{cursor:pointer;color:#355842;font-size:12px;font-weight:650;line-height:1.6}
+#estateStage .estate-directory-advanced summary span{margin-left:8px;font-size:11px;font-weight:400;color:#6c7b6e}
+#estateStage .estate-directory-advanced[open] summary{margin-bottom:12px}
+#estateStage .estate-directory-advanced .estate-directory-filter-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr))}
+#estateStage .estate-directory-advanced>.estate-directory-note{margin:12px 0 0;font-size:11px}
+#estateStage .estate-directory-list-meta{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+#estateStage .estate-directory-list-meta p{margin:0;font-size:11px;line-height:1.6;color:#6a756e}
+#estateStage .estate-directory-view-buttons{display:flex;gap:5px;flex-wrap:wrap}
+#estateStage .estate-directory-view-buttons button[aria-pressed="true"]{background:#294d3d;border-color:#294d3d;color:#fff}
+#estateStage .estate-directory-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+#estateStage .estate-directory-property-card,#estateStage .estate-directory-customer-card{overflow:hidden;display:block;text-align:left;min-width:0;padding:0;background:#fff;border:1px solid #dce4db;border-radius:13px;color:#26382e;font:inherit;cursor:pointer;transition:border-color .15s,box-shadow .15s}
+#estateStage .estate-directory-property-card:hover,#estateStage .estate-directory-customer-card:hover{border-color:#8aa795;box-shadow:0 7px 18px #213d3010}
+#estateStage .estate-directory-cover{position:relative;aspect-ratio:4/3;background:#eef1eb;display:grid;place-items:center;overflow:hidden}
+#estateStage .estate-directory-cover>span{color:#859082;font-size:11px}
+#estateStage .estate-directory-cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+#estateStage .estate-directory-cover.estate-directory-photo-ready>span{display:none}
+#estateStage .estate-directory-photo-unavailable>span{font-size:0}
+#estateStage .estate-directory-photo-unavailable>span:after{content:"사진을 불러오지 못했습니다";font-size:11px}
+#estateStage .estate-directory-card-content{display:grid;gap:9px;padding:15px}
+#estateStage .estate-directory-card-top{display:flex;justify-content:space-between;align-items:center;gap:8px;min-width:0}
+#estateStage .estate-directory-card-top>small{font-size:10px;color:#758178;overflow-wrap:anywhere}
+#estateStage .estate-directory-card-content h3,#estateStage .estate-directory-customer-card h3{margin:0;font-size:16px;font-weight:750;line-height:1.4;letter-spacing:-.03em;overflow-wrap:anywhere}
+#estateStage .estate-directory-card-content p,#estateStage .estate-directory-customer-card p{margin:0;font-size:12px;color:#68756b;line-height:1.65;overflow-wrap:anywhere}
+#estateStage .estate-directory-card-content>strong{font-size:14px;color:#294f3e;line-height:1.5}
+#estateStage .estate-directory-card-content>small,#estateStage .estate-directory-customer-card>small{font-size:11px;color:#718175}
+#estateStage .estate-directory-card-facts{display:flex;gap:7px;flex-wrap:wrap;padding-top:8px;border-top:1px solid #edf0ea;font-size:11px;color:#6d7e70}
+#estateStage .estate-directory-card-facts>span+span:before{content:"·";margin-right:7px;color:#adb8aa}
+#estateStage .estate-directory-badge{display:inline-block;border-radius:6px;padding:4px 7px;white-space:nowrap;font-size:10px;font-weight:700;background:#edf2eb;color:#4d6b4d}
+#estateStage .estate-directory-status-negotiating{background:#fff2d7;color:#7a601e}
+#estateStage .estate-directory-status-hold{background:#f4edf8;color:#715185}
+#estateStage .estate-directory-status-closed,#estateStage .estate-directory-status-ended{background:#eceeed;color:#65716a}
+#estateStage .estate-directory-customer-card{display:grid;gap:10px;padding:19px}
+#estateStage .estate-directory-avatar{display:grid;place-items:center;width:34px;height:34px;border-radius:11px;background:#eaf0e5;color:#53704f;font-size:15px;font-weight:700}
+#estateStage .estate-directory-tags{display:flex;flex-wrap:wrap;gap:5px}
+#estateStage .estate-directory-tags span{padding:4px 7px;border-radius:5px;background:#f3f5ef;color:#5e755e;font-size:10px}
+#estateStage .estate-directory-table-wrap{overflow:auto;border:1px solid #dce4db;border-radius:12px;background:#fff}
+#estateStage .estate-directory-table{border-collapse:collapse;width:100%;min-width:650px;text-align:left;font-size:12px;line-height:1.6}
+#estateStage .estate-directory-table th{background:#f3f6f0;padding:11px 14px;color:#63715f;font-size:10px;font-weight:750;white-space:nowrap}
+#estateStage .estate-directory-table td{padding:13px 14px;border-top:1px solid #edf0e9;vertical-align:middle}
+#estateStage .estate-directory-table td:first-child{width:37%}
+#estateStage .estate-directory-table td button{display:block;width:100%;padding:0;border:0;background:transparent;color:inherit;font:inherit;text-align:left;cursor:pointer}
+#estateStage .estate-directory-table :is(small,b){display:block}
+#estateStage .estate-directory-table small{font-size:10px;color:#7b847a}
+#estateStage .estate-directory-table td button.estate-directory-table-property{display:grid;grid-template-columns:70px minmax(130px,1fr);align-items:center;gap:11px}
+#estateStage .estate-directory-table-property .estate-directory-cover{width:70px;border-radius:6px}
+#estateStage .estate-directory-table-property .estate-directory-cover>span{padding:4px;font-size:9px;text-align:center}
+#estateStage .estate-directory-saved{padding:14px;border:1px solid #cbdccc;border-radius:8px;background:#f0f7ed;color:#395e40}
+#estateStage .estate-directory-empty{display:grid;place-items:center;min-height:180px;padding:25px;text-align:center;background:#fafbf8;border:1px dashed #d6dfd2;border-radius:12px;color:#7b887a;font-size:13px;line-height:1.8}
+#estateStage .estate-directory-empty-small{min-height:74px;padding:16px;font-size:12px}
+#estateStage .estate-directory-pagination{display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap}
+#estateStage .estate-directory-pagination span{font-size:12px;color:#74816f}
+#estateStage .estate-directory-global-results{display:grid;gap:8px}
+#estateStage .estate-directory-search-result{display:grid;gap:5px;width:100%;padding:15px;border:1px solid #dce4d9;border-radius:9px;background:#fff;color:#304634;text-align:left;cursor:pointer}
+#estateStage .estate-directory-search-result span{font-size:12px;color:#7a8377}
+#estateStage .estate-directory-panel{min-width:0}
+#estateStage .estate-directory-references{padding:13px 15px;margin-bottom:14px;border:1px solid #dce4d9;border-radius:8px;background:#f5f8f1}
+#estateStage .estate-directory-references summary{cursor:pointer;font-weight:650}
+#estateStage .estate-directory-references nav{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+#estateStage .estate-directory-references a{padding:7px 10px;background:#fff;border:1px solid #d3dfcf;border-radius:6px;color:#31593b;font-size:12px;text-decoration:none}
+#estateStage .estate-directory-references a:hover{text-decoration:underline}
+#estateStage .estate-directory-panel-intro{padding:4px 0 16px}
+#estateStage .estate-directory-form{display:grid;gap:13px;min-width:0}
+#estateStage .estate-directory-section{border:1px solid #dee5da;border-radius:11px;background:#fff;min-width:0}
+#estateStage .estate-directory-section[hidden]{display:none!important}
+#estateStage .estate-directory-section>summary{padding:14px 16px;color:#344a36;font-size:13px;font-weight:750;cursor:pointer;background:#f7f9f3;border-radius:11px;list-style-position:inside}
+#estateStage .estate-directory-section[open]>summary{border-radius:11px 11px 0 0;border-bottom:1px solid #e7ede0}
+#estateStage .estate-directory-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;padding:16px;min-width:0}
+#estateStage .estate-directory-fields>label{display:grid;gap:7px;min-width:0;font-size:11px;color:#657460}
+#estateStage .estate-directory-fields>label:has(textarea){grid-column:1/-1}
+#estateStage .estate-directory-fields :is(input:not([type="checkbox"]):not([type="hidden"]):not([type="file"]),select,textarea){box-sizing:border-box;width:100%;min-width:0;border:1px solid #d9e1d3;border-radius:7px;padding:10px 11px;background:#fff;color:#304130;font:inherit;font-size:12px;line-height:1.5}
+#estateStage .estate-directory-fields textarea{min-height:88px;resize:vertical}
+#estateStage .estate-directory-fields input[type="checkbox"]{width:16px;height:16px;accent-color:#3c6547}
+#estateStage .estate-directory-checks{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px 16px;margin:0;padding:10px 0 2px;border:0;font-size:12px;color:#56654f}
+#estateStage .estate-directory-checks legend{margin-bottom:9px;font-size:11px;color:#72816a}
+#estateStage .estate-directory-checks label,#estateStage .estate-directory-fields>.estate-directory-boolean{display:flex;align-items:center;gap:7px}
+#estateStage .estate-directory-fields>.estate-directory-boolean{align-self:center;min-height:40px}
+#estateStage .estate-directory-note{grid-column:1/-1;margin:0;font-size:11px;line-height:1.8;color:#7c8873;white-space:pre-wrap;overflow-wrap:anywhere}
+#estateStage .estate-directory-relation{grid-column:1/-1;display:grid;gap:9px;padding:12px;background:#fafbf7;border:1px solid #e1e7db;border-radius:9px}
+#estateStage .estate-directory-relation>label{font-size:11px;font-weight:700;color:#69755f}
+#estateStage .estate-directory-relation-current{font-size:12px;color:#344a35;line-height:1.6;overflow-wrap:anywhere}
+#estateStage .estate-directory-relation-actions{display:flex;gap:7px;flex-wrap:wrap}
+#estateStage .estate-directory-relation-search{display:flex;gap:7px;margin:4px 0 9px}
+#estateStage .estate-directory-relation-search input{flex:1;min-width:0}
+#estateStage .estate-directory-relation-results{display:grid;gap:5px;max-height:240px;overflow:auto;margin:9px 0}
+#estateStage .estate-directory-relation-results button{display:grid;gap:3px;text-align:left;background:#fff}
+#estateStage .estate-directory-relation-results span{font-size:10px;color:#7b8772;overflow-wrap:anywhere}
+#estateStage .estate-directory-attachment-block{grid-column:1/-1;display:grid;gap:11px;min-width:0}
+#estateStage .estate-directory-attachment-block h4{margin:0;font-size:12px;color:#455b3e}
+#estateStage .estate-directory-attachment-block h4 small{font-size:10px;font-weight:400;margin-left:7px;color:#8c9681}
+#estateStage .estate-directory-upload{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:11px;border:1px dashed #cbd8c2;border-radius:8px;color:#5b774f;font-size:12px;background:#f8fbf3}
+#estateStage .estate-directory-upload input{font-size:11px;max-width:100%}
+#estateStage .estate-directory-photo-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;min-width:0}
+#estateStage .estate-directory-photo{min-width:0;border:1px solid #e0e7d8;border-radius:8px;overflow:hidden;background:#fff}
+#estateStage .estate-directory-photo-preview{position:relative;aspect-ratio:4/3;background:#f0f4eb;overflow:hidden}
+#estateStage .estate-directory-photo-preview img{width:100%;height:100%;object-fit:cover}
+#estateStage .estate-directory-photo-preview>span{position:absolute;top:6px;left:6px;border-radius:4px;background:#ffffffed;color:#48643e;padding:4px 6px;font-size:9px}
+#estateStage .estate-directory-photo>p{margin:7px 8px;font-size:10px;color:#748169;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#estateStage .estate-directory-photo>div:last-child{display:flex;gap:3px;flex-wrap:wrap;padding:0 6px 7px}
+#estateStage .estate-directory-photo button{padding:4px 6px;font-size:9px;border-radius:4px}
+#estateStage .estate-directory-document{display:grid;grid-template-columns:minmax(0,1fr) auto auto;align-items:center;gap:7px;padding:10px 0;border-bottom:1px solid #e8eddf;font-size:12px}
+#estateStage .estate-directory-document>span{overflow-wrap:anywhere}
+#estateStage .estate-directory-download-ready{display:grid;gap:7px;padding:12px;margin-top:8px;border:1px solid #bfd5c0;border-radius:7px;background:#eff7ed}
+#estateStage .estate-directory-download-ready span{font-size:12px;color:#536f55;overflow-wrap:anywhere}
+#estateStage .estate-directory-download-ready a{display:block;padding:9px 12px;border:1px solid #9ebfa2;border-radius:6px;background:#fff;color:#285b36;font-weight:650;text-decoration:underline;overflow-wrap:anywhere}
+#estateStage .estate-directory-upload-status{grid-column:1/-1;margin:0;color:#6d7d61;font-size:12px;line-height:1.6}
+#estateStage .estate-directory-criteria{grid-column:1/-1}
+#estateStage .estate-directory-criteria-head,#estateStage .estate-directory-criterion{display:grid;grid-template-columns:minmax(0,1fr) 60px 78px;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #edf0e6;font-size:12px;color:#5f7153}
+#estateStage .estate-directory-criteria-head{font-size:10px;color:#8b967f;margin-top:8px}
+#estateStage .estate-directory-criterion>label{display:grid;place-items:center}
+#estateStage .estate-directory-sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+#estateStage .estate-directory-related,#estateStage .estate-directory-history{margin-top:22px;display:grid;gap:12px}
+#estateStage .estate-directory-related>header{display:flex;align-items:center;justify-content:space-between;gap:10px}
+#estateStage .estate-directory-related h3,#estateStage .estate-directory-history h3{margin:0;font-size:14px;color:#405337}
+#estateStage .estate-directory-related-items{display:grid;gap:8px;margin-bottom:8px}
+#estateStage .estate-directory-timeline-item{display:grid;grid-template-columns:118px minmax(0,1fr);gap:6px 12px;width:100%;text-align:left;padding:14px;border:1px solid #dfe7d8;border-left:3px solid #aebf9d;border-radius:8px;background:#fbfcf8;color:#435537;cursor:pointer}
+#estateStage .estate-directory-timeline-item>time{font-size:10px;color:#859276}
+#estateStage .estate-directory-timeline-item>b{font-size:12px}
+#estateStage .estate-directory-timeline-item>p,#estateStage .estate-directory-timeline-item>small,#estateStage .estate-directory-followup{grid-column:2;margin:0;font-size:11px;line-height:1.7;white-space:pre-wrap;overflow-wrap:anywhere}
+#estateStage .estate-directory-followup{margin-top:5px!important;padding:6px 8px;border-radius:5px;background:#eef3e6;color:#607847}
+#estateStage .estate-directory-history ol{margin:0;padding:0;list-style:none;font-size:11px;color:#7b8870}
+#estateStage .estate-directory-history li{display:flex;gap:12px;padding:8px 0;border-bottom:1px solid #edf0e6}
+#estateStage :is(.estate-directory,.estate-directory-panel) :is(button,input,select,textarea):focus-visible{outline:2px solid #7e9c67;outline-offset:3px}
+@media(max-width:1100px){#estateStage .estate-directory-cards{grid-template-columns:repeat(2,minmax(0,1fr))}#estateStage .estate-directory-filter-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:680px){#estateStage .estate-directory-heading{align-items:flex-start;gap:12px}#estateStage .estate-directory-heading h2,#estateStage .estate-directory-panel-intro h2{font-size:21px}#estateStage .estate-directory-heading p{font-size:11px}#estateStage .estate-directory-primary{padding:10px 12px;font-size:12px}#estateStage .estate-directory-toolbar{padding:12px}#estateStage .estate-directory-filter-grid{grid-template-columns:repeat(2,minmax(0,1fr))}#estateStage .estate-directory-list-meta{align-items:flex-start;flex-direction:column}#estateStage .estate-directory-cards{gap:11px}#estateStage .estate-directory-card-content{padding:12px;gap:7px}#estateStage .estate-directory-card-content h3{font-size:14px}#estateStage .estate-directory-card-content>strong{font-size:12px}#estateStage .estate-directory-card-top{flex-wrap:wrap}#estateStage .estate-directory-fields{padding:13px;gap:12px}#estateStage .estate-directory-photo-grid{grid-template-columns:repeat(2,minmax(0,1fr))}#estateStage .estate-directory-timeline-item{grid-template-columns:1fr}#estateStage .estate-directory-timeline-item>p,#estateStage .estate-directory-timeline-item>small,#estateStage .estate-directory-followup{grid-column:1}#estateStage .estate-directory-document{grid-template-columns:minmax(0,1fr) auto}#estateStage .estate-directory-document>span{grid-column:1/-1}}
+@media(max-width:440px){#estateStage .estate-directory-cards{grid-template-columns:1fr}#estateStage .estate-directory-fields{grid-template-columns:1fr}#estateStage .estate-directory-search{grid-template-columns:1fr}#estateStage .estate-directory-search button{justify-self:start}#estateStage .estate-directory-heading{flex-wrap:wrap}}

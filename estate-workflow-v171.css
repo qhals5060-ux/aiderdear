@@ -1,0 +1,117 @@
+/* Workflow styles are isolated from the existing site and Android UI. */
+#estateStage .estate-wf,#estateStage .estate-wf-panel{color:var(--estate-ink,#24343d);font-size:14px;line-height:1.5;min-width:0}
+#estateStage .estate-wf [hidden],#estateStage .estate-wf-panel [hidden]{display:none!important}
+#estateStage .estate-wf-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:20px}
+#estateStage .estate-wf-heading h2{font-size:23px;line-height:1.2;margin:0 0 5px;font-weight:700;letter-spacing:-.04em}
+#estateStage .estate-wf h3,#estateStage .estate-wf-panel h3{font-size:15px;margin:0 0 12px;line-height:1.45}
+#estateStage .estate-wf-meta{font-size:12px;line-height:1.55;color:var(--estate-muted,#657680);margin:5px 0;overflow-wrap:anywhere}
+#estateStage .estate-wf-toolbar{display:flex;align-items:flex-end;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+#estateStage .estate-wf-heading .estate-wf-toolbar{margin:0}
+#estateStage .estate-wf-toolbar>.estate-wf-field{flex:0 1 220px}
+#estateStage .estate-wf-button,#estateStage .estate-wf-panel button{border:1px solid var(--estate-line,#d9e1e4);background:var(--estate-surface,#fff);color:inherit;border-radius:8px;font:inherit;font-size:12px;font-weight:600;padding:8px 11px;min-height:36px;cursor:pointer;white-space:nowrap}
+#estateStage .estate-wf-button:hover,#estateStage .estate-wf-panel button:hover{background:#edf4f2;border-color:#a9bfb7}
+#estateStage .estate-wf button:disabled,#estateStage .estate-wf-panel button:disabled{cursor:wait;opacity:.55}
+#estateStage .estate-wf :is(button,input,select,textarea):focus-visible,#estateStage .estate-wf-panel :is(button,input,select,textarea):focus-visible{outline:2px solid #337b68;outline-offset:2px}
+#estateStage .estate-wf-field{display:flex;flex-direction:column;gap:6px;min-width:0;font-size:12px;font-weight:600}
+#estateStage .estate-wf-field :is(input,select,textarea),#estateStage .estate-wf-panel .estate-wf-find input,#estateStage .estate-wf-check-row input[type=text],#estateStage .estate-wf-reschedule input{min-width:0;width:100%;box-sizing:border-box;border:1px solid var(--estate-line,#d9e1e4);background:var(--estate-surface,#fff);color:inherit;border-radius:8px;font:inherit;font-size:13px;padding:9px 10px;min-height:38px}
+#estateStage .estate-wf-field textarea{resize:vertical;line-height:1.55}
+#estateStage .estate-wf-chip{display:inline-flex;align-items:center;gap:4px;border-radius:5px;background:#edf3f1;color:#486259;font-size:11px;padding:2px 6px;margin-right:7px}
+#estateStage .estate-wf-chip.estate-wf-high{color:#a14535;background:#fff0eb}
+#estateStage .estate-wf-today-grid{display:grid;grid-template-columns:minmax(0,65fr) minmax(240px,35fr);gap:22px;align-items:start}
+#estateStage .estate-wf-top-summary{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px;margin-bottom:18px}
+#estateStage .estate-wf-top-summary article{display:flex;flex-direction:column;justify-content:space-between;gap:7px;padding:12px 14px;min-width:0;border:1px solid #dce5df;border-radius:10px;background:#f5f8f5}
+#estateStage .estate-wf-top-summary span{font-size:11px;color:#6a7e70;line-height:1.35}
+#estateStage .estate-wf-top-summary strong{font-size:18px;line-height:1.2;overflow-wrap:anywhere;font-weight:650}
+#estateStage .estate-wf-onboarding{display:flex;align-items:center;justify-content:space-between;gap:18px;border:1px dashed #b9cec0;border-radius:11px;padding:16px;margin-bottom:20px;background:#f7faf6}
+#estateStage .estate-wf-onboarding h3{margin-bottom:4px}
+#estateStage .estate-wf-onboarding p{font-size:12px;margin:0;color:#6b7e70}
+#estateStage .estate-wf-onboarding>div:last-child{display:flex;gap:7px;flex-wrap:wrap}
+#estateStage .estate-wf-section-title{padding-top:8px;margin:14px 0 10px!important}
+#estateStage .estate-wf-action-row{display:flex;align-items:center;flex-wrap:wrap;gap:12px;border:1px solid var(--estate-line,#d9e1e4);border-radius:11px;padding:14px;margin-bottom:9px;background:var(--estate-surface,#fff)}
+#estateStage .estate-wf-row-main{flex:1 1 200px;min-width:0}
+#estateStage .estate-wf-row-main h3{font-size:14px;margin:5px 0 0!important;overflow-wrap:anywhere}
+#estateStage .estate-wf-row-actions{display:flex;gap:6px;flex-wrap:wrap}
+#estateStage .estate-wf-reschedule{display:flex;align-items:flex-end;gap:8px;flex-basis:100%;padding-top:10px;border-top:1px solid #e6ecee}
+#estateStage .estate-wf-reschedule label{font-size:12px;display:grid;gap:5px}
+#estateStage .estate-wf-overdue{background:#fff8f4;border:1px solid #ead7c9;border-radius:12px;padding:15px;margin-bottom:20px}
+#estateStage .estate-wf-overdue>h3{color:#9b5138}
+#estateStage .estate-wf-overdue .estate-wf-action-row:last-child{margin-bottom:0}
+#estateStage .estate-wf-summary{padding:18px;background:#f2f6f5;border-radius:12px;border:1px solid var(--estate-line,#d9e1e4)}
+#estateStage .estate-wf-summary>section+section{margin-top:20px;border-top:1px solid #dce6e1;padding-top:16px}
+#estateStage .estate-wf-agenda-item{display:grid;grid-template-columns:1fr auto;gap:3px 7px;padding:10px 0;border-bottom:1px solid #e0e7e3;align-items:center}
+#estateStage .estate-wf-agenda-item time{grid-column:1;font-size:11px;color:#718277}
+#estateStage .estate-wf-agenda-item strong{grid-column:1;font-size:12px;font-weight:600;overflow-wrap:anywhere}
+#estateStage .estate-wf-agenda-item button{grid-column:2;grid-row:1/3;min-height:30px;padding:5px 8px}
+#estateStage .estate-wf-summary dl,#estateStage .estate-wf-statistics dl,#estateStage .estate-wf-request-summary dl{margin:0 0 20px}
+#estateStage .estate-wf-summary dl>div,#estateStage .estate-wf-statistics dl>div,#estateStage .estate-wf-request-summary dl>div{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #dce6e1}
+#estateStage .estate-wf-summary dt,#estateStage .estate-wf-statistics dt,#estateStage .estate-wf-request-summary dt{font-size:12px;color:#657680}
+#estateStage .estate-wf-summary dd{margin:0;font-size:20px;font-weight:700;line-height:1.1}
+#estateStage .estate-wf-summary dd.estate-wf-summary-money{font-size:16px;overflow-wrap:anywhere;text-align:right}
+#estateStage .estate-wf-request{display:grid;grid-template-columns:1fr auto;gap:3px 8px;padding:12px 0;border-top:1px solid #dce6e1}
+#estateStage .estate-wf-request span{grid-column:1;font-size:12px;color:#657680}
+#estateStage .estate-wf-request button{grid-column:2;grid-row:1/3}
+#estateStage .estate-wf-empty{padding:22px 12px;margin:0;color:#74838a;font-size:13px;text-align:left;line-height:1.55}
+#estateStage .estate-wf-sample{margin-top:20px;padding-top:12px;border-top:1px solid var(--estate-line,#d9e1e4);font-size:11px;color:#6c7a80;line-height:1.7}
+#estateStage .estate-wf-pagination{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 20px}
+#estateStage .estate-wf-segment{display:flex;border:1px solid #d7e0dc;border-radius:9px;padding:2px;gap:2px}
+#estateStage .estate-wf-segment button{border-color:transparent;min-height:30px;padding:5px 12px}
+#estateStage .estate-wf-segment button[aria-pressed=true]{background:#deece5;color:#2a604e}
+#estateStage .estate-wf-board{display:flex;gap:12px;overflow-x:auto;align-items:flex-start;padding-bottom:15px;scrollbar-width:thin;overscroll-behavior-x:contain}
+#estateStage .estate-wf-board-column{flex:0 0 262px;background:#f1f5f4;border:1px solid #e3e9e6;border-radius:12px;padding:12px;min-height:180px;box-sizing:border-box}
+#estateStage .estate-wf-board-column>h3{display:flex;justify-content:space-between;margin-bottom:12px;color:#52685e;font-size:13px}
+#estateStage .estate-wf-board-column>h3 span{font-weight:400}
+#estateStage .estate-wf-deal-card{padding:13px;border:1px solid #dce4df;background:#fff;border-radius:9px;margin-bottom:10px;min-width:0}
+#estateStage .estate-wf-card-title{display:flex;align-items:start;justify-content:space-between;gap:8px}
+#estateStage .estate-wf-card-title h3{font-size:14px;margin:0 0 10px;overflow-wrap:anywhere}
+#estateStage .estate-wf-compact-dl{margin:0 0 12px;font-size:12px}
+#estateStage .estate-wf-compact-dl>div{display:flex;align-items:baseline;gap:10px;margin:5px 0}
+#estateStage .estate-wf-compact-dl dt{flex:0 0 67px;color:#748079}
+#estateStage .estate-wf-compact-dl dd{margin:0;overflow-wrap:anywhere}
+#estateStage .estate-wf-stage-controls{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+#estateStage .estate-wf-stage-controls>.estate-wf-field,#estateStage .estate-wf-hold-reason{grid-column:1/-1}
+#estateStage .estate-wf-stage-controls .estate-wf-field select{font-size:12px;min-height:32px;padding:6px 8px}
+#estateStage .estate-wf-deal-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:15px}
+#estateStage .estate-wf-stage-label{display:block;font-size:11px;font-weight:600;color:#658070;margin-bottom:7px}
+#estateStage .estate-wf-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:22px}
+#estateStage .estate-wf-metrics article{border:1px solid #dce4df;border-radius:11px;padding:17px;background:#fff;min-width:0}
+#estateStage .estate-wf-metrics span{display:block;font-size:12px;color:#728177}
+#estateStage .estate-wf-metrics strong{display:block;font-size:23px;line-height:1.3;font-weight:700;margin-top:7px;overflow-wrap:anywhere}
+#estateStage .estate-wf-settlement-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+#estateStage .estate-wf-settlement-grid>section{min-width:0}
+#estateStage .estate-wf-payment{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #e0e7e3;font-size:13px;flex-wrap:wrap}
+#estateStage .estate-wf-payment>div{flex:1;min-width:150px;display:flex;flex-direction:column;gap:4px}
+#estateStage .estate-wf-payment span{font-size:12px;color:#657680;overflow-wrap:anywhere}
+#estateStage .estate-wf-statistics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;border-top:1px solid #e0e7e3;margin-top:25px;padding-top:20px}
+#estateStage .estate-wf-statistics dd,#estateStage .estate-wf-request-summary dd{margin:0;text-align:right;overflow-wrap:anywhere}
+#estateStage .estate-wf-chart{display:grid;gap:13px;padding:7px 0}
+#estateStage .estate-wf-chart-row{display:grid;grid-template-columns:minmax(44px,auto) minmax(20px,1fr) auto;align-items:center;gap:9px;font-size:12px}
+#estateStage .estate-wf-chart-row>span{color:#677e70;max-width:90px;overflow-wrap:anywhere}
+#estateStage .estate-wf-chart-row>strong{font-size:12px;font-weight:650}
+#estateStage .estate-wf-chart-track{height:7px;overflow:hidden;border-radius:4px;background:#e5eee7}
+#estateStage .estate-wf-chart-track i{display:block;height:100%;border-radius:4px;background:#729f84}
+#estateStage .estate-wf-form-content{display:grid;gap:16px;min-width:0}
+#estateStage .estate-wf-fieldset{border:1px solid #dce4df;border-radius:11px;padding:14px;margin:0;min-width:0}
+#estateStage .estate-wf-fieldset legend{font-size:13px;font-weight:700;padding:0 6px;color:#40594d}
+#estateStage .estate-wf-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+#estateStage .estate-wf-form-grid>.estate-wf-chooser,#estateStage .estate-wf-deal-reason{grid-column:1/-1;min-width:0}
+#estateStage .estate-wf-required .estate-wf-field>span{color:#a3503c}
+#estateStage .estate-wf-find{display:flex;gap:6px;margin-top:7px}
+#estateStage .estate-wf-find input{flex:1;min-width:0}
+#estateStage .estate-wf-find-results{display:flex;flex-direction:column;gap:5px;margin-top:6px;font-size:12px;color:#6a7b72;max-height:220px;overflow:auto}
+#estateStage .estate-wf-panel .estate-wf-search-result{text-align:left;white-space:normal;font-weight:400}
+#estateStage .estate-wf-checklist{display:grid;gap:8px;margin:0 0 10px}
+#estateStage .estate-wf-check-row{display:flex;align-items:center;gap:8px}
+#estateStage .estate-wf-check-row input[type=checkbox]{flex:0 0 18px;width:18px;height:18px;accent-color:#337b68}
+#estateStage .estate-wf-check-row input[type=text]{flex:1}
+#estateStage .estate-wf-files{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+#estateStage .estate-wf-file-row{display:flex;align-items:center;flex-wrap:wrap;gap:6px;width:100%}
+#estateStage .estate-wf-file-row small{font-size:11px;color:#9b5138;flex-basis:100%}
+#estateStage .estate-wf-download-ready{display:grid;gap:7px;padding:12px;margin:8px 0;border:1px solid #bfd5c0;border-radius:7px;background:#eff7ed}
+#estateStage .estate-wf-download-ready span{font-size:12px;color:#536f55;overflow-wrap:anywhere}
+#estateStage .estate-wf-download-ready a{display:block;padding:9px 12px;border:1px solid #9ebfa2;border-radius:6px;background:#fff;color:#285b36;font-weight:650;text-decoration:underline;overflow-wrap:anywhere}
+#estateStage .estate-wf-request-summary{background:#f3f7f5;border-radius:11px;padding:15px}
+#estateStage .estate-wf-request-summary dl{margin:0}
+#estateStage .estate-wf-error{background:#fff1ed;color:#9b4031;border-radius:10px;padding:15px}
+@media(max-width:1050px){#estateStage .estate-wf-heading{flex-direction:column}#estateStage .estate-wf-today-grid{grid-template-columns:minmax(0,3fr) minmax(220px,2fr)}#estateStage .estate-wf-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}#estateStage .estate-wf-top-summary article{padding:10px}#estateStage .estate-wf-top-summary strong{font-size:16px}}
+@media(max-width:720px){#estateStage .estate-wf-today-grid,#estateStage .estate-wf-settlement-grid,#estateStage .estate-wf-statistics{grid-template-columns:1fr}#estateStage .estate-wf-form-grid{grid-template-columns:1fr}#estateStage .estate-wf-row-actions{width:100%}#estateStage .estate-wf-row-actions button{flex:1}#estateStage .estate-wf-board-column{flex-basis:min(82vw,280px)}#estateStage .estate-wf-summary{padding:14px}#estateStage .estate-wf-metrics strong{font-size:20px}#estateStage .estate-wf-toolbar>.estate-wf-field{flex:1 1 135px}#estateStage .estate-wf-deal-list{grid-template-columns:1fr}}
+@media(max-width:720px){#estateStage .estate-wf-top-summary{grid-template-columns:repeat(3,minmax(0,1fr))}#estateStage .estate-wf-onboarding{align-items:flex-start;flex-direction:column}}

@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self' blob:; base-uri 'none'; form-action 'none'; object-src 'none'">
+  <title>매물 비교 · AiderLog ESTATE</title>
+  <link rel="stylesheet" href="./estate-public-v171.css?v=171">
+  <script type="module" src="./estate-public-v171.js?v=171"></script>
+</head>
+<body class="estate-public">
+  <main>
+    <header class="estate-public-header"><span>AIDERLOG / ESTATE</span><h1>함께 살펴볼 매물</h1><p id="estateShareExpiry"></p></header>
+    <p id="estateShareStatus" class="estate-public-status" role="status">공유된 매물을 불러오는 중입니다.</p>
+    <section id="estateSharedProperties" class="estate-public-properties" aria-label="공유된 매물"></section>
+    <section id="estateVisitRequest" class="estate-public-request" hidden>
+      <div><span class="estate-public-kicker">VISIT REQUEST</span><h2>방문 희망 남기기</h2><p>담당자가 확인한 뒤 일정을 조율합니다. 제출만으로 방문이 확정되지는 않습니다.</p></div>
+      <form id="estatePublicRequestForm">
+        <fieldset><legend>방문하고 싶은 매물 (복수 선택)</legend><div id="estateRequestProperties"></div></fieldset>
+        <div class="estate-public-fields">
+          <label><span>이름</span><input name="name" autocomplete="name" required maxlength="80"></label>
+          <label><span>연락처</span><input name="phone" type="tel" autocomplete="tel" required maxlength="40"></label>
+          <label><span>희망 날짜</span><input name="preferredDate" type="date"></label>
+          <label><span>희망 시간</span><input name="preferredTime" type="time"></label>
+          <label class="estate-public-full"><span>전하고 싶은 내용</span><textarea name="message" rows="3" maxlength="1500"></textarea></label>
+        </div>
+        <label class="estate-public-consent"><input type="checkbox" name="consent" required><span>방문 일정 조율을 위해 이름·연락처·희망 일정·메시지가 이 공유 링크의 담당자에게 전달되고 보관되는 데 동의합니다. 삭제를 원하면 담당자에게 요청할 수 있습니다.</span></label>
+        <p id="estateRequestStatus" role="status"></p>
+        <button type="submit">방문 희망 제출</button>
+      </form>
+    </section>
+    <footer class="estate-public-footer">공유 시점에 선택된 매물 정보입니다. 가격·입주일·조건은 담당자에게 다시 확인해주세요.</footer>
+  </main>
+</body>
+</html>
