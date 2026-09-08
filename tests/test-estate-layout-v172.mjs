@@ -67,8 +67,9 @@ test('actual shell puts one search and all three original creation controls insi
   const f = fixture(), nav = f.root.querySelector('.estate-nav'), header = f.root.querySelector('.estate-header');
   assert(nav.contains(f.search));
   assert(nav.contains(f.results));
-  assert.equal(header.querySelector('.estate-search'), null);
-  assert.equal(header.querySelector('.estate-actions'), null);
+  assert.equal(header, null, 'no redundant branding header occupies the workspace');
+  assert(!f.root.textContent.includes('AIDERLOG / REAL ESTATE'));
+  assert(!f.root.querySelector('.estate-brand'));
   assert.equal(f.root.querySelectorAll('.estate-search').length, 1);
   assert.equal(f.root.querySelectorAll('.estate-search-results').length, 1);
   assert.deepEqual(nav.querySelectorAll('[data-add]').map(node => node.dataset.add), ['properties','customers','tasks']);
@@ -148,13 +149,14 @@ test('mobile retains horizontal view navigation and all three visible creation c
   assert.match(mobile, /\.estate-main\{flex:1;min-height:0\}/);
   assert(!/\.estate-(?:search|actions|nav-links)[^{]*\{[^}]*display:none/.test(mobile));
 });
-test('larger typography is limited to ESTATE with 15 body, 14 controls and clear 28/22/18 headings', () => {
+test('ESTATE follows the shared Work-derived site typography without larger local tokens', () => {
   const scope = 'html:not(.aiderlog-android) body #app#app #estateStage';
-  assert(css.includes(scope + '{--site-type-body:15px;--site-type-control:14px;--site-type-meta:13px;--site-type-section:22px;--site-type-subhead:18px;--site-type-page:28px;'));
-  assert(css.includes(scope + ' :is(button,input,select,textarea){font-size:14px!important'));
-  assert(css.includes(scope + ' h1{font-size:28px!important'));
-  assert(css.includes(scope + ' h2{font-size:22px!important'));
-  assert(css.includes(scope + ' :is(h3,h4){font-size:18px!important'));
+  assert(css.includes(scope + '{font-size:var(--site-type-body,14px)!important'));
+  assert(css.includes(scope + ' :is(button,input,select,textarea){font-size:var(--site-type-control,13px)!important'));
+  assert(css.includes(scope + ' h1{font-size:var(--site-type-page,20px)!important'));
+  assert(css.includes(scope + ' h2{font-size:var(--site-type-section,16px)!important'));
+  assert(css.includes(scope + ' :is(h3,h4){font-size:var(--site-type-subhead,14px)!important'));
+  assert(!/--site-type-[a-z]+\s*:/.test(css), 'inherit the shared tokens instead of redefining larger values');
   assert(!/\b(?:zoom|scale)\s*:/.test(css));
 });
 test('table min-content cannot widen main section, directory grid or filter toolbar', () => {

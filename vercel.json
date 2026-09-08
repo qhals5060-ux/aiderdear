@@ -7,33 +7,43 @@
   ],
   "redirects": [
     {
+      "source": "/AiderLog-Modern-v172-site-files.zip",
+      "destination": "/AiderLog-Modern-v173-site-files.zip",
+      "permanent": false
+    },
+    {
+      "source": "/AiderLog-Editorial-v172-site-files.zip",
+      "destination": "/AiderLog-Editorial-v173-site-files.zip",
+      "permanent": false
+    },
+    {
       "source": "/AiderLog-Modern-v171-site-files.zip",
-      "destination": "/AiderLog-Modern-v172-site-files.zip",
+      "destination": "/AiderLog-Modern-v173-site-files.zip",
       "permanent": false
     },
     {
       "source": "/AiderLog-Editorial-v171-site-files.zip",
-      "destination": "/AiderLog-Editorial-v172-site-files.zip",
+      "destination": "/AiderLog-Editorial-v173-site-files.zip",
       "permanent": false
     },
     {
       "source": "/AiderLog-Modern-v170-site-files.zip",
-      "destination": "/AiderLog-Modern-v172-site-files.zip",
+      "destination": "/AiderLog-Modern-v173-site-files.zip",
       "permanent": false
     },
     {
       "source": "/AiderLog-Editorial-v170-site-files.zip",
-      "destination": "/AiderLog-Editorial-v172-site-files.zip",
+      "destination": "/AiderLog-Editorial-v173-site-files.zip",
       "permanent": false
     },
     {
       "source": "/AiderLog-Modern-v169-site-files.zip",
-      "destination": "/AiderLog-Modern-v172-site-files.zip",
+      "destination": "/AiderLog-Modern-v173-site-files.zip",
       "permanent": false
     },
     {
       "source": "/AiderLog-Editorial-v169-site-files.zip",
-      "destination": "/AiderLog-Editorial-v172-site-files.zip",
+      "destination": "/AiderLog-Editorial-v173-site-files.zip",
       "permanent": false
     },
     {
@@ -43,12 +53,12 @@
     },
     {
       "source": "/AiderLog-Modern-v165-site-files.zip",
-      "destination": "/AiderLog-Modern-v172-site-files.zip",
+      "destination": "/AiderLog-Modern-v173-site-files.zip",
       "permanent": false
     },
     {
       "source": "/AiderLog-Editorial-v165-site-files.zip",
-      "destination": "/AiderLog-Editorial-v172-site-files.zip",
+      "destination": "/AiderLog-Editorial-v173-site-files.zip",
       "permanent": false
     },
     {
@@ -68,12 +78,12 @@
     },
     {
       "source": "/AiderLog-Modern-v167-site-files.zip",
-      "destination": "/AiderLog-Modern-v172-site-files.zip",
+      "destination": "/AiderLog-Modern-v173-site-files.zip",
       "permanent": false
     },
     {
       "source": "/AiderLog-Editorial-v167-site-files.zip",
-      "destination": "/AiderLog-Editorial-v172-site-files.zip",
+      "destination": "/AiderLog-Editorial-v173-site-files.zip",
       "permanent": false
     },
     {
@@ -83,12 +93,12 @@
     },
     {
       "source": "/AiderLog-Modern-v168-site-files.zip",
-      "destination": "/AiderLog-Modern-v172-site-files.zip",
+      "destination": "/AiderLog-Modern-v173-site-files.zip",
       "permanent": false
     },
     {
       "source": "/AiderLog-Editorial-v168-site-files.zip",
-      "destination": "/AiderLog-Editorial-v172-site-files.zip",
+      "destination": "/AiderLog-Editorial-v173-site-files.zip",
       "permanent": false
     }
   ],
@@ -193,7 +203,7 @@
       ]
     },
     {
-      "source": "/AiderLog-Modern-v172-site-files.zip",
+      "source": "/AiderLog-Modern-v173-site-files.zip",
       "headers": [
         {
           "key": "Content-Type",
@@ -201,7 +211,7 @@
         },
         {
           "key": "Content-Disposition",
-          "value": "attachment; filename=\"AiderLog-Modern-v172-site-files.zip\""
+          "value": "attachment; filename=\"AiderLog-Modern-v173-site-files.zip\""
         },
         {
           "key": "Cache-Control",
@@ -210,7 +220,7 @@
       ]
     },
     {
-      "source": "/AiderLog-Editorial-v172-site-files.zip",
+      "source": "/AiderLog-Editorial-v173-site-files.zip",
       "headers": [
         {
           "key": "Content-Type",
@@ -218,7 +228,7 @@
         },
         {
           "key": "Content-Disposition",
-          "value": "attachment; filename=\"AiderLog-Editorial-v172-site-files.zip\""
+          "value": "attachment; filename=\"AiderLog-Editorial-v173-site-files.zip\""
         },
         {
           "key": "Cache-Control",

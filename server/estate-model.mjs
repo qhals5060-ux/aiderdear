@@ -9,7 +9,7 @@ export function time(value) { const s=text(value,5);if(s&&!/^([01]\d|2[0-3]):[0-
 export function number(value,max=1e15) { if(value===''||value==null)return null;if(typeof value==='boolean'||!Number.isFinite(Number(value))||Number(value)<0||Number(value)>max)fail(400,'금액과 수량은 0 이상의 숫자로 입력해주세요.');return Number(value); }
 function list(value,fn,max=50) { if(value==null)return [];if(!Array.isArray(value)||value.length>max)fail(400,'선택 항목의 개수를 확인해주세요.');return [...new Set(value.map(fn))]; }
 const fields={
- properties:'title address detailAddress region building buildingUnit unit propertyType dealType area supplyArea floor totalFloors rooms bathrooms direction parking elevator approvalDate price deposit rent managementFee managementIncludes negotiable availableDate availableNegotiable occupancy pets conditions viewingTimes keyMemo ownerCustomerId receivedDate confirmedDate nextCheckDate status coBroker coBrokerInfo internalMemo publicDescription advantages disadvantages premium recommendedBusiness facilities landCategory zoning road photos mediaIds',
+ properties:'title address detailAddress region building buildingUnit unit propertyType dealType area supplyArea floor totalFloors rooms bathrooms direction parking elevator approvalDate price deposit rent managementFee managementIncludes negotiable availableDate availableNegotiable occupancy pets conditions viewingTimes keyMemo ownerCustomerId receivedDate confirmedDate nextCheckDate status coBroker coBrokerInfo coBrokerSource coBrokerStage coBrokers internalMemo publicDescription advantages disadvantages premium recommendedBusiness facilities landCategory zoning road photos mediaIds',
  customers:'name phone email roles source contactMethod contactTime firstContactDate lastContactDate nextContactDate memo regions excludedRegions dealTypes propertyTypes priceMax depositMax rentMax monthlyCostMax areaMin roomsMin moveInFrom moveInTo parking elevator pets required flexible excludedConditions',
  consultations:'customerId propertyId dealId date time method content nextAction dueDate dueTime priority',
  visits:'customerIds propertyId dealId date time endTime status reaction positives exclusionReason followUpDate followUpAction',
@@ -20,7 +20,7 @@ const fields={
 };
 const dates=new Set('approvalDate availableDate receivedDate confirmedDate nextCheckDate firstContactDate lastContactDate nextContactDate moveInFrom moveInTo date dueDate followUpDate contractDate interimDate balanceDate handoverDate feeDueDate'.split(' '));
 const nums=new Set('area supplyArea totalFloors rooms bathrooms price deposit rent managementFee premium priceMax depositMax rentMax monthlyCostMax areaMin roomsMin agreedPrice agreedDeposit agreedRent expectedFee confirmedFee coBrokerAmount amount'.split(' '));
-const enums={propertyType:['apartment','officetel','house','commercial','land','other'],dealType:['sale','jeonse','rent'],parking:['yes','no','unknown'],elevator:['yes','no','unknown'],pets:['yes','no','negotiable','unknown'],priority:['high','normal','low'],stage:['inquiry','consultation','proposal','visit','negotiation','preparation','contract','settled','hold','stopped'],kind:['contact','followup','documents','payment','handover','property-check','other']};
+const enums={propertyType:['apartment','officetel','house','commercial','land','other'],dealType:['sale','jeonse','rent'],parking:['yes','no','unknown'],elevator:['yes','no','unknown'],pets:['yes','no','negotiable','unknown'],coBrokerSource:['own','partner'],coBrokerStage:['available','active','finished'],priority:['high','normal','low'],stage:['inquiry','consultation','proposal','visit','negotiation','preparation','contract','settled','hold','stopped'],kind:['contact','followup','documents','payment','handover','property-check','other']};
 const statuses={properties:['active','negotiating','closed','hold','ended'],visits:['scheduled','done','cancelled'],tasks:['open','done','cancelled'],proposals:['suggested','interested','declined']};
 const defaults={properties:{status:'active',propertyType:'other',dealType:'sale'},customers:{roles:[]},consultations:{priority:'normal'},visits:{status:'scheduled',customerIds:[]},deals:{stage:'inquiry',priority:'normal'},tasks:{status:'open',priority:'normal',kind:'other'},proposals:{status:'suggested'}};
 export function entity(kind,input,old={}) {
@@ -32,6 +32,12 @@ export function entity(kind,input,old={}) {
   else if(['time','endTime','dueTime'].includes(key))v=time(v);
   else if(nums.has(key))v=number(v);
   else if(['negotiable','availableNegotiable','coBroker'].includes(key)){if(typeof v!=='boolean')fail(400,'선택 항목을 확인해주세요.');}
+  else if(key==='coBrokers')v=list(v,p=>{
+   if(!p||typeof p!=='object'||Array.isArray(p))fail(400,'공동중개사 입력 형식을 확인해주세요.');
+   const role=text(p.role,20);if(role&&!['listing','customer','both'].includes(role))fail(400,'공동중개사의 역할을 확인해주세요.');
+   // Private, optional contact details; never infer missing information or copy into public descriptions.
+   return {id:safeId(text(p.id,128)),office:text(p.office,120),name:text(p.name,80),phone:text(p.phone,80),role,terms:text(p.terms,2000)};
+  },5);
   else if(key==='photos')v=list(v,p=>{if(!p||typeof p!=='object')fail(400,'사진 형식을 확인해주세요.');return {mediaId:safeId(p.mediaId),thumbId:p.thumbId?safeId(p.thumbId):'',name:text(p.name,180)};},20);
   else if(key==='checklist')v=list(v,p=>({id:safeId(p.id),text:text(p.text,300),done:p.done===true}),60);
   else if(['mediaIds','customerIds','sellerIds','buyerIds'].includes(key))v=list(v,safeId,30);
@@ -49,6 +55,7 @@ export function entity(kind,input,old={}) {
  if(kind==='receipts'&&!(out.amount>0))fail(400,'수납액은 0보다 커야 합니다.');
  if(kind==='deals'&&['hold','stopped'].includes(out.stage)&&!out.reason)fail(400,'보류 또는 중단 사유를 입력해주세요.');
  if(out.photos&&new Set(out.photos.map(p=>p.mediaId)).size!==out.photos.length)fail(400,'동일한 사진을 중복 등록할 수 없습니다.');
+ if(out.coBrokers&&new Set(out.coBrokers.map(p=>p.id)).size!==out.coBrokers.length)fail(400,'공동중개사 식별자가 중복되었습니다.');
  if(out.checklist&&(out.checklist.some(c=>!c.text)||new Set(out.checklist.map(c=>c.id)).size!==out.checklist.length))fail(400,'체크리스트 내용과 중복 식별자를 확인해주세요.');
  if(out.moveInFrom&&out.moveInTo&&out.moveInTo<out.moveInFrom)fail(400,'입주 희망 기간을 확인해주세요.');
  if(out.email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(out.email))fail(400,'이메일 형식을 확인해주세요.');

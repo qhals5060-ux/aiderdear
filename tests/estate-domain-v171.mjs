@@ -53,6 +53,15 @@ test('public property projection only contains explicit fields, selected photo i
  result=publicProperty(raw,{showAddress:true,showUnit:true,photos:{}});assert.equal(result.address,'EXACT-ADDRESS');assert.equal(result.unit,'EXACT-UNIT');assert.deepEqual(result.photos,[]);
 });
 
+test('co-broker source, progress, legacy memo and structured contacts are private for every public projection mode',()=>{
+ const privateFields={coBroker:true,coBrokerInfo:'PRIVATE-LEGACY',coBrokerSource:'partner',coBrokerStage:'active',coBrokers:[{id:'PRIVATE-ID',office:'PRIVATE-OFFICE',name:'PRIVATE-NAME',phone:'PRIVATE-PHONE',role:'both',terms:'PRIVATE-TERMS'}]};
+ for(const showAddress of [false,true])for(const showUnit of [false,true]){
+  const result=publicProperty({...property,...privateFields},{showAddress,showUnit});
+  for(const key of Object.keys(privateFields))assert.equal(Object.hasOwn(result,key),false,key);
+  assert.ok(!JSON.stringify(result).includes('PRIVATE-'));
+ }
+});
+
 async function clientFixture(t,fetcher){
  const priorWindow=globalThis.window,priorFetch=globalThis.fetch;let uid='first-owner';globalThis.window={AiderDearFirebase:{getState:()=>({user:uid?{uid,email:'qhals5060@gmail.com'}:null}),getFirebaseIdToken:async()=>`token-${uid}`}};globalThis.fetch=fetcher;
  t.after(()=>{globalThis.window=priorWindow;globalThis.fetch=priorFetch;});return {client:createEstateClient(),setUser(value){uid=value;}};

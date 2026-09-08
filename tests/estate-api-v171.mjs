@@ -63,6 +63,48 @@ test('validation leaves unknowns unknown, dates/enums/amounts validated and cros
 test('same-address warning does not merge distinct units or records',async()=>{
  const db=new MemoryFirestore();await makeProperty(db,'p1',{unit:'101'});const second=await makeProperty(db,'p2',{unit:'102'});assert.equal(second.warnings.length,1);assert.equal((await call(db,'list',{collection:'properties'})).rows.length,2);
 });
+
+test('structured co-brokers save and reload with trimmed optional values; partial edits preserve legacy fields',async()=>{
+ const db=new MemoryFirestore(),legacy=await makeProperty(db,'co-property',{coBroker:true,coBrokerInfo:'기존 중개사 메모'});
+ const original={coBrokerSource:'partner',coBrokerStage:'available',coBrokers:[{id:' broker-1 ',office:' 새봄 공인중개사 ',name:' 김담당 ',phone:' 02-123-4567 ',role:'listing',terms:' 공동 중개 조건 ',ignored:'not-stored'},{id:'broker-2'}]};
+ const updated=await save(db,'properties','co-property',original,legacy.row.revision);
+ const expected=[{id:'broker-1',office:'새봄 공인중개사',name:'김담당',phone:'02-123-4567',role:'listing',terms:'공동 중개 조건'},{id:'broker-2',office:'',name:'',phone:'',role:'',terms:''}];
+ assert.deepEqual(updated.row.coBrokers,expected);assert.equal(updated.row.coBroker,true);assert.equal(updated.row.coBrokerInfo,'기존 중개사 메모');
+ const reloaded=(await call(db,'get',{collection:'properties',id:'co-property'})).row;assert.deepEqual(reloaded.coBrokers,expected);assert.equal(reloaded.coBrokerSource,'partner');assert.equal(reloaded.coBrokerStage,'available');
+ const partial=await save(db,'properties','co-property',{title:'제목만 수정',coBrokerStage:'active'},2);assert.deepEqual(partial.row.coBrokers,expected);assert.equal(partial.row.coBrokerSource,'partner');assert.equal(partial.row.coBroker,true);assert.equal(partial.row.coBrokerInfo,'기존 중개사 메모');
+ assert.equal(partial.row.revision,3);await assert.rejects(save(db,'properties','co-property',{coBrokerStage:'finished'},2),{status:409});
+ const clear=await save(db,'properties','co-property',{coBrokerSource:'',coBrokerStage:'',coBrokers:[]},3);assert.deepEqual(clear.row.coBrokers,[]);assert.equal(clear.row.coBroker,true);assert.equal(clear.row.coBrokerInfo,'기존 중개사 메모');
+});
+
+test('co-broker validation enforces five safe unique IDs, bounded strings and explicit source/stage/role enums',async()=>{
+ const db=new MemoryFirestore(),p=await makeProperty(db,'co-validation',{coBroker:true,coBrokerInfo:'보존 메모'}),broker={id:'b1',office:'o'.repeat(120),name:'n'.repeat(80),phone:'p'.repeat(80),terms:'t'.repeat(2000),role:'both'};
+ const valid=entity('properties',{title:'경계값',coBrokerSource:'own',coBrokerStage:'finished',coBrokers:Array.from({length:5},(_,i)=>({...broker,id:'b'+i}))});assert.equal(valid.coBrokers.length,5);
+ for(const role of ['','listing','customer','both'])assert.equal(entity('properties',{title:'선택',coBrokers:[{id:'b',role}]}).coBrokers[0].role,role);
+ assert.deepEqual(entity('properties',{title:'미확인',coBrokerSource:null,coBrokerStage:null,coBrokers:null}),{status:'active',title:'미확인',propertyType:'other',dealType:'sale',coBrokerSource:'',coBrokerStage:'',coBrokers:[]});
+ const invalid=[{coBrokers:Array.from({length:6},(_,i)=>({id:'b'+i}))},{coBrokers:[{id:'duplicate'},{id:' duplicate '}]},{coBrokers:[{}]},{coBrokers:[{id:'../other-owner'}]},{coBrokers:[{id:23}]},{coBrokers:[{id:'b'.repeat(129)}]},{coBrokers:[null]},{coBrokers:[[]]},{coBrokers:{}},{coBrokers:[{id:'b',role:'agent'}]},{coBrokerSource:'customer'},{coBrokerStage:'contract'},{coBrokers:[{id:'b',office:'o'.repeat(121)}]},{coBrokers:[{id:'b',name:'n'.repeat(81)}]},{coBrokers:[{id:'b',phone:'p'.repeat(81)}]},{coBrokers:[{id:'b',terms:'t'.repeat(2001)}]},{coBrokers:[{id:'b',phone:101}]}];
+ for(const row of invalid)await assert.rejects(save(db,'properties','co-validation',row,1),{status:400});
+ assert.deepEqual((await call(db,'get',{collection:'properties',id:'co-validation'})).row,p.row,'validation failures must not mutate a record or its revision');
+});
+
+test('co-broker contact details and revisions remain isolated to the verified owner namespace',async()=>{
+ const db=new MemoryFirestore();await makeProperty(db,'co-private',{coBroker:true,coBrokerInfo:'비공개 기존 메모',coBrokerSource:'partner',coBrokerStage:'active',coBrokers:[{id:'b1',office:'비공개 사무소',name:'비공개 이름',phone:'010-9999-8888',role:'both',terms:'비공개 배분 조건'}]});
+ await assert.rejects(call(db,'get',{collection:'properties',id:'co-private',ownerUid:user.uid},other),{status:404});
+ await assert.rejects(call(db,'save',{collection:'properties',id:'co-private',ownerUid:user.uid,expectedRevision:1,row:{coBrokerInfo:'덮어쓰기',coBrokers:[]}},other),{status:409});
+ assert.equal((await call(db,'list',{collection:'properties'},other)).rows.length,0);
+ await call(db,'save',{collection:'properties',id:'co-private',expectedRevision:0,row:{title:'다른 계정의 독립 기록',coBrokers:[{id:'b1',name:'다른 이름'}]}},other);
+ const own=(await call(db,'get',{collection:'properties',id:'co-private'})).row;assert.equal(own.coBrokers[0].name,'비공개 이름');assert.equal(own.revision,1);assert.equal((await call(db,'get',{collection:'properties',id:'co-private'},other)).row.coBrokers[0].name,'다른 이름');
+});
+
+test('public comparison preview, snapshot and public reads never expose any co-broker field',async()=>{
+ const db=new MemoryFirestore(),privateFields={coBroker:true,coBrokerInfo:'PRIVATE-LEGACY',coBrokerSource:'partner',coBrokerStage:'active',coBrokers:[{id:'PRIVATE-BROKER-ID',office:'PRIVATE-OFFICE',name:'PRIVATE-NAME',phone:'PRIVATE-PHONE',role:'both',terms:'PRIVATE-TERMS'}]};
+ await makeProperty(db,'co-public',privateFields);await makeProperty(db,'co-public-2',privateFields);
+ for(const publicOptions of [{},{showAddress:true,showUnit:true}]){
+  const payload={propertyIds:['co-public','co-public-2'],publicOptions,expiresAt:Date.now()+86400000},preview=await call(db,'sharePreview',payload),share=await call(db,'shareCreate',payload),pub=await call(db,'publicGet',{token:share.token},null);
+  for(const rows of [preview.properties,share.row.properties,pub.properties])for(const row of rows){for(const key of Object.keys(privateFields))assert.equal(Object.hasOwn(row,key),false,key);assert.ok(!JSON.stringify(row).includes('PRIVATE-'));}
+  const stored=db.rows.get('estateShares/'+crypto.createHash('sha256').update(share.token).digest('hex'));stored.properties[0]={...stored.properties[0],...privateFields};
+  const hardened=await call(db,'publicGet',{token:share.token},null);for(const key of Object.keys(privateFields))assert.equal(Object.hasOwn(hardened.properties[0],key),false,'public read must allowlist even an old snapshot: '+key);
+ }
+});
 test('consultation creates, reschedules and cancels one atomic follow-up task without personal sharing',async()=>{
  const db=new MemoryFirestore();await makeCustomer(db);const row={customerId:'c1',date:'2026-09-08',content:'상담',nextAction:'내일 연락',dueDate:'2026-09-09'};
  await save(db,'consultations','note1',row);assert.equal(db.rows.get('estateWorkspaces/owner-a/tasks/consultation-note1').date,'2026-09-09');

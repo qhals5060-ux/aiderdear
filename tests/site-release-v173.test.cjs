@@ -6,26 +6,27 @@ const vm = require('node:vm');
 const root = path.resolve(__dirname, '..');
 const read = name => fs.readFileSync(path.join(root, name), 'utf8');
 const index = read('index.html'), sw = read('sw.js'), config = JSON.parse(read('vercel.json'));
-const packaging = read('../../tools/package-pc-v172.ps1');
+const packaging = read('../../tools/package-pc-v173.ps1');
 const checks = [];
 function test(name, run) { run(); checks.push(name); }
 const files = [...['calendar','language','panels'].flatMap(name => ['js','css'].map(ext => `site-${name}-v172.${ext}`)), 'estate-calendar-view-v172.js', 'estate-calendar-view-v172.css'];
+files.push("estate-cobroker-v173.css");
 const events = new Map();
 const context = vm.createContext({self:{addEventListener:(name, handler) => events.set(name, handler),location:{origin:'https://aiderdear1.vercel.app'}},URL});
 vm.runInContext(sw, context);
 const shell = Array.from(vm.runInContext('APP_SHELL', context));
 
-test('site build is v172 and Android build/download stays v169', () => {
-  assert(index.includes('<meta name="aiderlog-build" content="v172">'));
+test('site build is v173 and Android build/download stays v169', () => {
+  assert(index.includes('<meta name="aiderlog-build" content="v173">'));
   assert(index.includes('<meta name="aiderlog-android-build" content="v169">'));
   assert(index.includes('href="./AiderLog-v169.apk"'));
   assert(!/AiderLog-v(?!169\b)\d+\.apk/.test(index));
 });
-test('PC links/download names are v172 and old asset queries are absent', () => {
+test('PC links/download names are v173 and old asset queries are absent', () => {
   for (const edition of ['Modern','Editorial']) {
-    assert(index.includes(`href="./AiderLog-${edition}-v172-site-files.zip" download="AiderLog-${edition}-v172-site-files.zip"`));
+    assert(index.includes(`href="./AiderLog-${edition}-v173-site-files.zip" download="AiderLog-${edition}-v173-site-files.zip"`));
   }
-  assert(!/\?v=171\b|AiderLog-(?:Modern|Editorial)-v171-site-files\.zip/.test(index));
+  assert(!/\?v=(?:171|172)\b|AiderLog-(?:Modern|Editorial)-v(?:171|172)-site-files\.zip/.test(index));
 });
 test('all current local index JavaScript/CSS dependencies exist', () => {
   for (const match of index.matchAll(/\b(?:src|href)\s*=\s*["']([^"'<>]+\.(?:m?js|css)(?:[?#][^"'<>]*)?)["']/g)) {
@@ -35,26 +36,28 @@ test('all current local index JavaScript/CSS dependencies exist', () => {
     assert(fs.existsSync(path.join(root, file)), value);
   }
 });
-test('ESTATE filenames remain v171, served through v172 entry queries', () => {
+test('ESTATE filenames remain v171, served through v173 entry queries', () => {
   for (const name of ['estate-v171.js','estate-v171.css','estate-calendar-v171.js','estate-directory-v171.css','estate-workflow-v171.css']) {
-    assert(index.includes(`./${name}?v=172`));
-    assert(shell.includes(`./${name}?v=172`));
+    assert(index.includes(`./${name}?v=173`));
+    assert(shell.includes(`./${name}?v=173`));
   }
-  assert(!/estate(?:-(?:client|domain|directory|workflow|calendar|public))?-v172/.test(index + sw + packaging));
+  assert(!/estate(?:-(?:client|domain|directory|workflow|calendar|public))?-v173/.test(index + sw + packaging));
 });
-test('all eight v172 layout assets are packaged and pre-cached with/without query', () => {
+test('retained eight layout assets and new v173 co-broker CSS are packaged and pre-cached with/without query', () => {
   for (const file of files) {
     assert(fs.existsSync(path.join(root, file)), file);
     assert(shell.includes(`./${file}`), file);
-    assert(shell.includes(`./${file}?v=172`), file + ' query');
+    assert(shell.includes(`./${file}?v=173`), file + ' query');
     assert(packaging.includes(`'${file}'`), file + ' package requirement');
   }
   assert(read('site-language-v172.js').includes('site-language-v172.css?v=172'));
-  assert(index.includes('estate-calendar-view-v172.css?v=172'));
+  for (const file of files.filter(file => file.includes('-v172.'))) assert(shell.includes(`./${file}?v=172`), 'retained module query: ' + file);
+  assert(index.includes('estate-cobroker-v173.css?v=173'));
+  assert(index.includes('estate-calendar-view-v172.css?v=173'));
   assert(read('estate-v171.js').includes("from './estate-calendar-view-v172.js'"));
 });
 test('service worker uses new version key and every pre-cache path exists', () => {
-  assert.equal(vm.runInContext('CACHE', context), 'aiderlog-v172-site-layout');
+  assert.equal(vm.runInContext('CACHE', context), 'aiderlog-v173-estate-cobroker');
   assert(!/\?v=171\b/.test(sw));
   assert.equal(new Set(shell).size, shell.length, 'pre-cache has no duplicate entries');
   for (const url of shell) {
@@ -70,7 +73,7 @@ test('service worker bypasses API/authenticated/binary/cross-origin/non-GET requ
   for (const options of [
     {url:'https://aiderdear1.vercel.app/api/estate'},
     {url:'https://aiderdear1.vercel.app/estate-v171.js',auth:true},
-    {url:'https://aiderdear1.vercel.app/AiderLog-Modern-v172-site-files.zip'},
+    {url:'https://aiderdear1.vercel.app/AiderLog-Modern-v173-site-files.zip'},
     {url:'https://aiderdear1.vercel.app/AiderLog-v169.apk'},
     {url:'https://other.invalid/site-panels-v172.js'},
     {url:'https://aiderdear1.vercel.app/index.html',method:'POST'}
@@ -82,21 +85,21 @@ test('service worker bypasses API/authenticated/binary/cross-origin/non-GET requ
   assert(sw.includes("fetch(request,{cache:'no-store',referrerPolicy:'no-referrer'})"));
   assert(sw.includes("fetch(request,{cache:'no-store'})"));
 });
-test('all old PC ZIP redirects go directly to v172; APK redirects still target v169', () => {
+test('all old PC ZIP redirects go directly to v173; APK redirects still target v169', () => {
   for (const edition of ['Modern','Editorial']) {
-    for (const version of [165,167,168,169,170,171]) {
+    for (const version of [165,167,168,169,170,171,172]) {
       const row = config.redirects.find(row => row.source === `/AiderLog-${edition}-v${version}-site-files.zip`);
       assert(row, `${edition} ${version}`);
-      assert.equal(row.destination, `/AiderLog-${edition}-v172-site-files.zip`);
+      assert.equal(row.destination, `/AiderLog-${edition}-v173-site-files.zip`);
       assert.equal(row.permanent, false);
     }
   }
   for (const row of config.redirects.filter(row => row.source.endsWith('.apk'))) assert.equal(row.destination, '/AiderLog-v169.apk');
   assert(!config.redirects.some(row => row.source === row.destination));
 });
-test('ZIP headers identify v172 attachments, APK169 and private share headers preserved', () => {
+test('ZIP headers identify v173 attachments, APK169 and private share headers preserved', () => {
   for (const edition of ['Modern','Editorial']) {
-    const name = `AiderLog-${edition}-v172-site-files.zip`;
+    const name = `AiderLog-${edition}-v173-site-files.zip`;
     const row = config.headers.find(row => row.source === '/' + name);
     assert(row);
     const headers = Object.fromEntries(row.headers.map(header => [header.key,header.value]));
@@ -107,10 +110,10 @@ test('ZIP headers identify v172 attachments, APK169 and private share headers pr
   assert(config.headers.some(row => row.source === '/AiderLog-v169.apk'));
   const share = config.headers.find(row => row.source === '/estate-share.html');
   assert(share.headers.some(row => row.key === 'Cache-Control' && row.value === 'private, no-store'));
-  assert(!config.headers.some(row => /AiderLog-(?:Modern|Editorial)-v171-site-files/.test(row.source)));
+  assert(!config.headers.some(row => /AiderLog-(?:Modern|Editorial)-v(?:171|172)-site-files/.test(row.source)));
 });
 test('packaging retains byte hashes, launcher-only index changes and source-race guards', () => {
-  assert(packaging.includes('release=172&site-edition='));
+  assert(packaging.includes('release=173&site-edition='));
   assert(packaging.includes('$pcIndexText -cne $pcExpectedIndex'));
   assert(packaging.includes('$pcHtml -cne $pcSourceIndex'));
   assert(packaging.includes('Browser source bytes changed:'));
