@@ -10,7 +10,7 @@
   let eventView='record';
   const drafts=new Map();let scheduled=0,applying=false;
   function move(node,parent,before=null){
-    if(!node||!parent)return;
+    if(!node||!parent||node===before)return;
     if(!moves.has(node)){const marker=document.createComment('modern-v165-original-position');node.before(marker);moves.set(node,marker);}
     if(node.parentNode!==parent||(before&&node.nextSibling!==before))parent.insertBefore(node,before);
   }
@@ -27,7 +27,13 @@
     const tools=$('.nav-tools',app);if(tools&&tools.parentNode!==head)head.append(tools);
     if(head.lastElementChild!==dock)head.append(dock);
     const active=groups.find(row=>row.tab===app.dataset.activeTab);
-    for(const group of groups){move(group.node,dock,choice);group.node.hidden=group!==active||group.tab==='record';}
+    // Keep the live buttons attached between pointerdown and pointerup. Moving
+    // every group directly before choice cycled all five nodes on every frame:
+    // the observer scheduled apply again, and native mouse clicks were lost.
+    // Place from right to left so an already-correct order does no DOM work.
+    let anchor=choice;
+    for(const group of [...groups].reverse()){move(group.node,dock,anchor);anchor=group.node;}
+    for(const group of groups)group.node.hidden=group!==active||group.tab==='record';
     dock.classList.toggle('modern-event-pages',active?.tab==='record');
     dock.hidden=!active;
     if(active){
@@ -146,7 +152,7 @@
   }
   function restore(){
     document.querySelectorAll('.site-display-dialog[open]').forEach(dialog=>dialog.close());
-    for(const [node,marker]of [...moves].reverse()){if(marker.isConnected&&node.isConnected)marker.after(node);}
+    for(const [node,marker]of [...moves].reverse()){if(marker.isConnected&&node.isConnected&&marker.nextSibling!==node)marker.after(node);}
     for(const node of created)node.hidden=true;
     for(const group of groups)group.node.hidden=false;
     for(const id of ['recordShell','albumShell','eventArchiveShell','travelArchiveShell'])$('#'+id).hidden=false;
