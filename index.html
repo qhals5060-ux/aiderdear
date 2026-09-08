@@ -11,7 +11,7 @@
 <meta name="description" content="">
 <meta name="format-detection" content="telephone=no">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="aiderlog-build" content="v173">
+<meta name="aiderlog-build" content="v174">
 <meta name="aiderlog-android-build" content="v169">
 <link rel="canonical" href="https://aiderdear1.vercel.app/">
 <script>
@@ -4122,11 +4122,11 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   html body #stage .calendar{min-height:488px!important}
 }
 </style>
-<link rel="stylesheet" href="./site-work-v167.css?v=173">
-<link rel="stylesheet" href="./site-polish-v158.css?v=173">
+<link rel="stylesheet" href="./site-work-v167.css?v=174">
+<link rel="stylesheet" href="./site-polish-v158.css?v=174">
 <script>(()=>{const h=document.documentElement;if(window.AiderLogNative){h.classList.add('aiderlog-android');return}let e=h.dataset.siteDefaultEdition==='editorial'?'editorial':'modern';try{const s=localStorage.getItem('aiderlog.site.edition');if(s==='modern'||s==='editorial')e=s}catch{}h.dataset.siteEdition=e;h.classList.toggle('modern-site',e==='modern')})();</script>
-<link rel="stylesheet" href="./site-modern-v165.css?v=173">
-<link rel="stylesheet" href="./site-editions-v164.css?v=173">
+<link rel="stylesheet" href="./site-modern-v165.css?v=174">
+<link rel="stylesheet" href="./site-editions-v164.css?v=174">
 </head>
 <body>
 <a class="skip-link" href="#app">본문으로 건너뛰기</a>
@@ -4183,8 +4183,8 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
       <aside class="box side">
         <section class="side-half">
           <button class="dday-panel" id="ddayManageBtn" type="button" aria-label="D-day 관리">
-            <strong id="dday">D+296</strong>
-            <span class="since-date" id="ddayMeta">우리 · 2025.11.01</span>
+            <strong id="dday">D-DAY</strong>
+            <span class="since-date" id="ddayMeta"></span>
           </button>
         </section>
         <section class="side-half">
@@ -4833,11 +4833,11 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
 <div class="app-install-grid app-install-v137 site-edition-downloads">
   <article class="app-install-card windows">
     <i>Windows PC · 사이트 파일</i><b>모던</b><p>간결한 구조와 차분한 색상의 사이트 디자인입니다.</p>
-    <a class="app-download-link app-download-v164" href="./AiderLog-Modern-v173-site-files.zip" download="AiderLog-Modern-v173-site-files.zip">모던 사이트 파일 다운로드</a>
+    <a class="app-download-link app-download-v164" href="./AiderLog-Modern-v174-site-files.zip" download="AiderLog-Modern-v174-site-files.zip">모던 사이트 파일 다운로드</a>
   </article>
   <article class="app-install-card windows">
     <i>Windows PC · 사이트 파일</i><b>에디토리얼</b><p>기존의 잡지형 구성과 탭 디자인을 유지합니다.</p>
-    <a class="app-download-link app-download-v164" href="./AiderLog-Editorial-v173-site-files.zip" download="AiderLog-Editorial-v173-site-files.zip">에디토리얼 사이트 파일 다운로드</a>
+    <a class="app-download-link app-download-v164" href="./AiderLog-Editorial-v174-site-files.zip" download="AiderLog-Editorial-v174-site-files.zip">에디토리얼 사이트 파일 다운로드</a>
   </article>
   <article class="app-install-card android">
     <i>Android APK</i><b>Android 앱</b><p>Galaxy Fold·Flip 3–8 및 Android 8.0 이상용 최신 설치 파일입니다.</p>
@@ -4909,6 +4909,8 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   <div class="modal">
     <div class="modal-head"><b id="ddayModalTitle">D-day</b><button class="x" data-close="ddayModal">×</button></div>
     <div class="modal-body">
+      <p id="ddayStatus" role="status" aria-live="polite"></p>
+      <button id="ddayRetry" class="secondary" type="button" hidden>다시 불러오기</button>
       <div class="dday-list" id="ddayList"></div>
       <form id="ddayForm" class="dday-form">
         <div class="form">
@@ -5356,11 +5358,11 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script type="module" src="./firebase-app.js?v=173"></script>
-<script src="./brain-3d.js?v=173"></script>
-<script src="./language-lab-v18-engine.js?v=173"></script>
-<script src="./language-content-v149.js?v=173"></script>
-<script src="./language-lab-v18.js?v=173"></script>
+<script type="module" src="./firebase-app.js?v=174"></script>
+<script src="./brain-3d.js?v=174"></script>
+<script src="./language-lab-v18-engine.js?v=174"></script>
+<script src="./language-content-v149.js?v=174"></script>
+<script src="./language-lab-v18.js?v=174"></script>
 <script>
 (()=>{
   const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
@@ -6228,6 +6230,7 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
 
   async function bootstrapGoogleData(){
     setGoogleStatus('AiderLog 데이터를 불러오는 중입니다…');
+    await refreshDdayData();
     const optionalErrors=[];cloudData={version:CLOUD_VERSION,calendarId:'',userCalendars:{},albumsBySpace:{},travelFoldersBySpace:{},records:[],coupleMediaBySpace:{},ddays:[],activeDdayBySpace:{},letters:[],bucketItems:[],eventReviews:[],partnerChoices:{},scheduleEvents:[]};try{await ensureCloudDrive();normalizeCloudData()}catch(error){optionalErrors.push(error);console.warn('Shared app data load skipped',error);normalizeCloudData()}
     // Private records are essential. Load them before optional calendar/media
     // integrations so a failed OAuth or sync request can never blank routines.
@@ -6301,29 +6304,76 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
     });
     if(rows.length<=3)compact.innerHTML='';
   }
-  function getDdays(){normalizeCloudData();return (cloudData.ddays||[]).filter(x=>pairVisible(x,'createdBy'))}
-  function activeDdayId(){return String(cloudData.activeDdayBySpace?.[currentPairKey()]||'')}
-  function setActiveDdayId(id=''){cloudData.activeDdayBySpace=cloudData.activeDdayBySpace||{};if(id)cloudData.activeDdayBySpace[currentPairKey()]=id;else delete cloudData.activeDdayBySpace[currentPairKey()]}
+  // D-day is independent of the whole EVENT payload. Failed reads never become empty writes.
+  let ddayView={identity:'',data:null,loading:false,busy:false,error:'',loadedAt:0},ddayLoadPromise=null,ddayPendingAdd=null;
+  function ddayIdentity(){return currentUser&&firebaseState.user?.uid?`${firebaseState.user.uid}:${firebaseState.pair?.id||'solo'}`:''}
+  function resetDdayView(){ddayView={identity:ddayIdentity(),data:null,loading:false,busy:false,error:'',loadedAt:0};ddayLoadPromise=null;ddayPendingAdd=null;if($('#ddayTitle'))$('#ddayTitle').value='';setDday();renderDdayList()}
+  function ensureDdayIdentity(){if(ddayView.identity!==ddayIdentity())resetDdayView();return ddayView.identity}
+  function getDdays(){ensureDdayIdentity();return ddayView.data?.items||[]}
+  function activeDdayId(){return String(ddayView.data?.activeId||'')}
+  function isActiveDday(item){return item.id===activeDdayId()&&item.sourceScope===ddayView.data?.activeScope}
+  function updateDdayStatus(){
+    const status=$('#ddayStatus'),retry=$('#ddayRetry'),form=$('#ddayForm');
+    if(status)status.textContent=!ddayIdentity()?'로그인 후 저장한 디데이를 확인할 수 있습니다.':ddayView.busy?'저장 결과를 확인하는 중입니다…':ddayView.error||(ddayView.loading?'디데이를 불러오는 중입니다…':ddayView.data?(ddayView.data.items.length?`저장된 디데이 ${ddayView.data.items.length}개 · 표시를 누르면 대표 디데이로 고정됩니다.`:'저장된 디데이가 없습니다.'):'디데이를 불러와주세요.');
+    if(retry){retry.hidden=!ddayView.error;retry.disabled=ddayView.busy||ddayView.loading}
+    form?.querySelectorAll('input,select,button').forEach(node=>node.disabled=ddayView.busy);
+    if(form)form.setAttribute('aria-busy',String(ddayView.busy));
+  }
+  async function refreshDdayData(){
+    const identity=ensureDdayIdentity();if(!identity||ddayView.busy)return;
+    if(ddayLoadPromise)return ddayLoadPromise;
+    const view=ddayView;view.loading=true;view.error='';setDday();updateDdayStatus();
+    const request=Promise.resolve().then(async()=>{
+      try{
+        if(!window.AiderDearFirebase?.readDdayData)throw new Error('최신 사이트로 새로고침해주세요.');
+        const result=await window.AiderDearFirebase.readDdayData();
+        if(ddayIdentity()!==identity||ddayView!==view)return;
+        if(!result||!Array.isArray(result.items))throw new Error('디데이 응답을 확인하지 못했습니다.');
+        view.data=result;view.loadedAt=Date.now();
+      }catch(error){if(ddayIdentity()===identity&&ddayView===view){view.error='디데이를 불러오지 못했습니다. 기존 기록은 변경하지 않았습니다. 다시 불러오기를 눌러주세요.';console.warn('[dday] read failed',error?.code||error?.name||'error')}}
+      finally{if(ddayView===view){view.loading=false;ddayLoadPromise=null;setDday();renderDdayList()}}
+    });ddayLoadPromise=request;await request;
+  }
+  async function changeDday(action){
+    const identity=ensureDdayIdentity();if(!identity||ddayView.busy||ddayView.loading)return false;
+    const view=ddayView;view.busy=true;view.error='';renderDdayList();
+    try{
+      const result=await window.AiderDearFirebase.mutateDday(action);
+      if(ddayIdentity()!==identity||ddayView!==view)return false;
+      if(!result||!Array.isArray(result.items))throw new Error('디데이 저장 결과를 확인하지 못했습니다.');
+      view.data=result;view.loadedAt=Date.now();setDday();return true;
+    }catch(error){if(ddayIdentity()===identity&&ddayView===view){view.error=`디데이 저장 결과를 확인하지 못했습니다. 입력은 그대로 두었습니다. 연결을 확인한 뒤 다시 시도해주세요.${error?.message?' '+String(error.message).slice(0,180):''}`;console.warn('[dday] mutation failed',error?.code||error?.name||'error')}return false}
+    finally{if(ddayView===view){view.busy=false;renderDdayList();setDday()}}
+  }
   function ddayText(item){
-    if(!item)return 'D-DAY';const now=new Date();now.setHours(0,0,0,0);const target=new Date(`${item.date}T00:00:00`);target.setHours(0,0,0,0);const diff=Math.round((target-now)/86400000);
-    if(item.mode==='since'){const passed=-diff;return passed>=0?`D+${passed+1}`:`D${diff}`}
+    if(!item)return 'D-DAY';const todaySeoul=new Date(Date.now()+9*3600000).toISOString().slice(0,10),diff=Math.round((Date.parse(`${item.date}T00:00:00Z`)-Date.parse(`${todaySeoul}T00:00:00Z`))/86400000);
+    if(item.mode==='since'){const passed=-diff;return passed>=0?`D+${passed+1}`:`D-${diff}`}
     if(diff===0)return 'D-DAY';return diff>0?`D-${diff}`:`D+${Math.abs(diff)}`;
   }
   function setDday(){
-    const list=getDdays();const item=list.find(x=>x.id===activeDdayId())||list[0];if(!item){$('#dday').textContent='D-DAY';$('#ddayMeta').textContent='';return}
+    const list=getDdays();const item=list.find(isActiveDday)||list[0];if(!item){$('#dday').textContent='D-DAY';$('#ddayMeta').textContent=ddayView.loading?'불러오는 중…':ddayView.error?'불러오기 확인 필요':'';return}
     $('#dday').textContent=ddayText(item);$('#ddayMeta').textContent=`${item.title} · ${item.date.replaceAll('-','.')}`;
   }
   function renderDdayList(){
     const box=$('#ddayList');if(!box)return;box.innerHTML='';getDdays().forEach(item=>{
-      const row=document.createElement('div');row.className='dday-row'+(item.id===activeDdayId()?' active':'');
-      const main=document.createElement('button');main.type='button';main.className='dday-row-main';main.innerHTML=`<b>${escapeHtml(item.title)} · ${ddayText(item)}</b><span>${item.date.replaceAll('-','.')} · ${item.mode==='since'?'함께한 날':'기념일 / 예정일'}</span>`;main.addEventListener('click',async()=>{setActiveDdayId(item.id);setDday();renderDdayList();await saveCloudData();toast('대표 D-day를 바꿨습니다.')});
-      const show=document.createElement('button');show.type='button';show.className='secondary';show.textContent=item.id===activeDdayId()?'표시 중':'표시';show.disabled=item.id===activeDdayId();show.addEventListener('click',()=>main.click());
-      const del=document.createElement('button');del.type='button';del.className='secondary';del.textContent='삭제';del.addEventListener('click',async()=>{if(!confirm(`“${item.title}” D-day를 삭제할까요?`))return;cloudData.ddays=(cloudData.ddays||[]).filter(x=>x.id!==item.id);if(activeDdayId()===item.id)setActiveDdayId(getDdays()[0]?.id||'');setDday();renderDdayList();await saveCloudData()});
+      const row=document.createElement('div');row.className='dday-row'+(isActiveDday(item)?' active':'');
+      const main=document.createElement('button');main.type='button';main.className='dday-row-main';main.disabled=ddayView.busy||ddayView.loading;main.innerHTML=`<b>${escapeHtml(item.title)} · ${ddayText(item)}</b><span>${escapeHtml(item.date.replaceAll('-','.'))} · ${item.mode==='since'?'함께한 날':'기념일 / 예정일'} · ${item.sourceScope?.startsWith('pair:')?'커플':'개인'}</span>`;main.addEventListener('click',async()=>{if(await changeDday({type:'select',id:item.id,sourceScope:item.sourceScope}))toast('대표 D-day를 고정했습니다.')});
+      const show=document.createElement('button');show.type='button';show.className='secondary';show.textContent=isActiveDday(item)?'표시 중':'표시';show.disabled=isActiveDday(item)||ddayView.busy||ddayView.loading;show.addEventListener('click',()=>main.click());
+      const del=document.createElement('button');del.type='button';del.className='secondary';del.textContent='삭제';del.disabled=ddayView.busy||ddayView.loading;del.addEventListener('click',async()=>{if(!confirm(`“${item.title}” D-day를 삭제할까요?`))return;if(await changeDday({type:'delete',id:item.id,sourceScope:item.sourceScope}))toast('D-day를 삭제했습니다.')});
       row.append(main,show,del);box.appendChild(row);
-    });
+    });updateDdayStatus();
   }
-  $('#ddayManageBtn').addEventListener('click',()=>{if(!currentUser){requireLogin(()=>$('#ddayManageBtn').click());return}renderDdayList();$('#ddayTitle').value='';$('#ddayDate').value=iso(today.getFullYear(),today.getMonth(),today.getDate());$('#ddayMode').value='countdown';openModal('ddayModal')});
-  $('#ddayForm').addEventListener('submit',async e=>{e.preventDefault();if(!currentUser||!googleToken)return;const title=$('#ddayTitle').value.trim(),date=$('#ddayDate').value;if(!title||!date)return;const item={id:'dday-'+Date.now(),title,date,mode:$('#ddayMode').value==='since'?'since':'countdown',createdAt:Date.now(),createdBy:currentUserEmail,pairKey:currentPairKey()};cloudData.ddays.push(item);setActiveDdayId(item.id);await saveCloudData();setDday();renderDdayList();$('#ddayTitle').value='';toast('D-day를 추가했습니다.')});
+  $('#ddayManageBtn').addEventListener('click',()=>{if(!currentUser){requireLogin(()=>$('#ddayManageBtn').click());return}ensureDdayIdentity();renderDdayList();if(!$('#ddayDate').value)$('#ddayDate').value=new Date(Date.now()+9*3600000).toISOString().slice(0,10);openModal('ddayModal');refreshDdayData()});
+  $('#ddayRetry').addEventListener('click',()=>refreshDdayData());
+  $('#ddayForm').addEventListener('submit',async e=>{
+    e.preventDefault();if(!ddayIdentity()||ddayView.busy||ddayView.loading)return;
+    const title=$('#ddayTitle').value.trim(),date=$('#ddayDate').value,mode=$('#ddayMode').value==='since'?'since':'countdown';if(!title||!date)return;
+    const fingerprint=JSON.stringify([ddayIdentity(),title,date,mode]);if(ddayPendingAdd?.fingerprint!==fingerprint)ddayPendingAdd={fingerprint,item:{id:'dday-'+crypto.randomUUID(),title,date,mode}};
+    if(await changeDday({type:'add',item:ddayPendingAdd.item})){ddayPendingAdd=null;$('#ddayTitle').value='';toast('D-day를 저장하고 대표로 고정했습니다.')}
+  });
+  function refreshDdayOnReturn(){if(ddayIdentity()&&document.visibilityState!=='hidden'&&Date.now()-ddayView.loadedAt>30000)refreshDdayData();else setDday()}
+  window.addEventListener('focus',refreshDdayOnReturn);window.addEventListener('online',()=>refreshDdayData());document.addEventListener('visibilitychange',refreshDdayOnReturn);
+  let ddayClockDate='';setInterval(()=>{const date=new Date(Date.now()+9*3600000).toISOString().slice(0,10);if(date!==ddayClockDate){ddayClockDate=date;setDday();renderDdayList()}},60000);
 
   // 24-hour photo / video stories shared with selected connections
   let activeMediaUrl='',ephemeralMediaRows=[],ephemeralMediaIndex=0,ephemeralMediaWatchStop=null,ephemeralCurrentBlob=null,ephemeralRenderToken=0,ephemeralExpiryTimer=null,pendingEphemeralFile=null;
@@ -6646,7 +6696,7 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
     cloudData={version:CLOUD_VERSION,calendarId:'',userCalendars:{},albumsBySpace:{},travelFoldersBySpace:{},records:[],coupleMediaBySpace:{},ddays:[],activeDdayBySpace:{},letters:[],bucketItems:[],eventReviews:[],partnerChoices:{},scheduleEvents:[]};activeCalendarId='';calendarSources=[];calendarImportSources=[];selectedCalendarIds=new Set();driveLooseMedia=[];
     for(const url of recordMediaUrlCache.values())URL.revokeObjectURL(url);recordMediaUrlCache.clear();
     clearActiveMediaUrl();const v=$('#coupleVideo2');v.pause();v.hidden=true;v.removeAttribute('src');const img=$('#couplePhoto2');img.hidden=true;img.removeAttribute('src');$('#mediaPlaceholder2').style.display='flex';
-    applyLoginUI();updateMailBadge();renderCalendar();renderAlbumFolders();renderRecordFeed();renderPrivate();renderPersonal();renderEmotion();setGoogleStatus('Google 계정으로 로그인해주세요.');
+    resetDdayView();applyLoginUI();updateMailBadge();renderCalendar();renderAlbumFolders();renderRecordFeed();renderPrivate();renderPersonal();renderEmotion();setGoogleStatus('Google 계정으로 로그인해주세요.');
   }
   let queuedPairGuide=false;
   function showPairGuideOnce(){
@@ -8677,23 +8727,23 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
     normalizeCloudData();selectAlbumFolderColor(ALBUM_PASTELS[0]);getAlbumFolders();refreshRecordAlbumSelect(DEFAULT_ALBUM_ID);renderAlbumFolders();renderEventArchive();renderTravelArchive();renderPrivate();renderPersonal();renderPaper();renderConsultingWorkspace();renderEmotion();applyLoginUI();setDday();renderDdayList();renderCalendar();if(location.hash==='#search')setTimeout(openSearchFromQuick,0);if('serviceWorker' in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'}).then(registration=>registration.update()).catch(()=>{}));
 })();
 </script>
-<script src="./paper-workspace-v121.js?v=173"></script>
-<script src="./paper-v159.js?v=173"></script>
-<link rel="stylesheet" href="./consult-v167.css?v=173">
-<script src="./consult-model-v167.js?v=173"></script>
-<script src="./work-calendar-v168.js?v=173"></script>
-<script src="./storage-maintenance-v168.js?v=173"></script>
-<script src="./consult-intake-v168.js?v=173"></script>
-<script src="./consult-deeplink-v168.js?v=173"></script>
-<script src="./consult-v167.js?v=173"></script>
-<script src="./work-client-v167.js?v=173"></script>
-<script src="./site-work-v167.js?v=173"></script>
-<script src="./site-polish-v158.js?v=173"></script>
-<script src="./site-editions-v164.js?v=173"></script>
-<script src="./site-layout-v165.js?v=173"></script>
-<link rel="stylesheet" href="./site-ui-v167.css?v=173">
-<script src="./site-ui-v167.js?v=173"></script>
-<script src="./widget-sync-v162.js?v=173"></script>
+<script src="./paper-workspace-v121.js?v=174"></script>
+<script src="./paper-v159.js?v=174"></script>
+<link rel="stylesheet" href="./consult-v167.css?v=174">
+<script src="./consult-model-v167.js?v=174"></script>
+<script src="./work-calendar-v168.js?v=174"></script>
+<script src="./storage-maintenance-v168.js?v=174"></script>
+<script src="./consult-intake-v168.js?v=174"></script>
+<script src="./consult-deeplink-v168.js?v=174"></script>
+<script src="./consult-v167.js?v=174"></script>
+<script src="./work-client-v167.js?v=174"></script>
+<script src="./site-work-v167.js?v=174"></script>
+<script src="./site-polish-v158.js?v=174"></script>
+<script src="./site-editions-v164.js?v=174"></script>
+<script src="./site-layout-v165.js?v=174"></script>
+<link rel="stylesheet" href="./site-ui-v167.css?v=174">
+<script src="./site-ui-v167.js?v=174"></script>
+<script src="./widget-sync-v162.js?v=174"></script>
 <script>
 (() => {
   const FALLBACK_FLOOR = 11;
@@ -8743,19 +8793,19 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   window.addEventListener('aiderlog-site-editionchange', () => applyFontFloor());
 })();
 </script>
-<link rel="stylesheet" href="./site-typography-v169.css?v=173">
-<script src="./site-typography-v169.js?v=173"></script>
-<link rel="stylesheet" href="./estate-v171.css?v=173">
-<link rel="stylesheet" href="./estate-directory-v171.css?v=173">
-<link rel="stylesheet" href="./estate-workflow-v171.css?v=173">
-<link rel="stylesheet" href="./estate-calendar-view-v172.css?v=173">
-<link rel="stylesheet" href="./estate-cobroker-v173.css?v=173">
-<script type="module" src="./estate-v171.js?v=173"></script>
-<script type="module" src="./estate-calendar-v171.js?v=173"></script>
-<link rel="stylesheet" href="./site-calendar-v172.css?v=173">
-<script src="./site-calendar-v172.js?v=173"></script>
-<script src="./site-language-v172.js?v=173"></script>
-<link rel="stylesheet" href="./site-panels-v172.css?v=173">
-<script src="./site-panels-v172.js?v=173"></script>
+<link rel="stylesheet" href="./site-typography-v169.css?v=174">
+<script src="./site-typography-v169.js?v=174"></script>
+<link rel="stylesheet" href="./estate-v171.css?v=174">
+<link rel="stylesheet" href="./estate-directory-v171.css?v=174">
+<link rel="stylesheet" href="./estate-workflow-v171.css?v=174">
+<link rel="stylesheet" href="./estate-calendar-view-v172.css?v=174">
+<link rel="stylesheet" href="./estate-cobroker-v173.css?v=174">
+<script type="module" src="./estate-v171.js?v=174"></script>
+<script type="module" src="./estate-calendar-v171.js?v=174"></script>
+<link rel="stylesheet" href="./site-calendar-v172.css?v=174">
+<script src="./site-calendar-v172.js?v=174"></script>
+<script src="./site-language-v172.js?v=174"></script>
+<link rel="stylesheet" href="./site-panels-v172.css?v=174">
+<script src="./site-panels-v172.js?v=174"></script>
 </body>
 </html>

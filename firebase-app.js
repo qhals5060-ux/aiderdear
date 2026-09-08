@@ -1,5 +1,6 @@
 import { createConsultSync, CONSULT_KEYS } from './consult-sync-v167.js';
 import {decodeArchive,encodeArchive,encodeStoredPayload} from './archive-codec-v168.js';
+import {ddayFailure,ddayId,ddayScope,mergeDdaySources,resolveDdaySelection,preserveDdayRows,mutateDdayStore} from './dday-store-v174.js';
 const storageStampV168=()=>({storageVersion:168,formatWrittenAt:serverTimestamp()});
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js';
 import {
@@ -929,6 +930,86 @@ async function markDirectLetterRead(letterId) {
 async function readAppData() {
   const snapshot = await getDoc(scopedDoc('app'));
   return snapshot.exists() ? decodeArchive(snapshot.data().payload) || null : null;
+}
+
+// D-days have their own documents: a stale full app/main save cannot erase them.
+// Only the signed-in user's and their currently active pair's legacy data is read.
+function captureDdayContext() {
+  const user = requireUser(), uid = String(user.uid), pairId = String(state.pair?.id || '');
+  ddayId(uid); if (pairId) ddayId(pairId);
+  const context = {uid, pairId, email: cleanEmail(user.email), partnerEmail: cleanEmail(state.partner?.email), pairKey: eventPairKey()};
+  assertDdayContext(context); return context;
+}
+function assertDdayContext(context) {
+  if (state.user?.uid !== context.uid || auth.currentUser?.uid !== context.uid || String(state.pair?.id || '') !== context.pairId) ddayFailure('로그인 계정 또는 커플 연결이 변경되어 D-day 작업을 중단했습니다.', 409);
+}
+function ddayReferences(context) {
+  const sources = [{sourceScope: `user:${context.uid}`, base: ['users', context.uid]}];
+  if (context.pairId) sources.push({sourceScope: `pair:${context.pairId}`, base: ['pairs', context.pairId]});
+  return {sources: sources.map(source => ({...source, legacyRef: doc(db, ...source.base, 'app', 'main'), storedRef: doc(db, ...source.base, 'app', 'ddays')})), settingsRef: doc(db, 'users', context.uid, 'app', 'dday-settings')};
+}
+function ddaySnapshotPayload(snapshot) {
+  if (!snapshot.exists()) return null;
+  if (snapshot.data()?.payload == null) ddayFailure('D-day 저장 문서의 내용을 확인할 수 없습니다. 원본을 변경하지 않았습니다.');
+  return decodeArchive(snapshot.data().payload);
+}
+async function loadDdaySources(context, refs, read = getDoc) {
+  const results = await Promise.all([...refs.sources.flatMap(source => [read(source.legacyRef), read(source.storedRef)]), read(refs.settingsRef)]);
+  assertDdayContext(context);
+  return {sources: refs.sources.map((source, index) => ({sourceScope: source.sourceScope, legacy: ddaySnapshotPayload(results[index * 2]), stored: ddaySnapshotPayload(results[index * 2 + 1])})), settings: ddaySnapshotPayload(results.at(-1))};
+}
+async function readDdayDataForContext(context) {
+  const refs = ddayReferences(context);
+  // One-time, add-only protection within the original scope. Neither app/main
+  // nor another scope is changed. Existing rows and deletion markers win.
+  const result = await runTransaction(db, async transaction => {
+    assertDdayContext(context);
+    const data = await loadDdaySources(context, refs, ref => transaction.get(ref));
+    const items = mergeDdaySources(data.sources, context), active = resolveDdaySelection(items, data.settings, data.sources, context);
+    for (let index = 0; index < data.sources.length; index++) {
+      const source = data.sources[index], protectedData = preserveDdayRows(source.stored, items, source.sourceScope);
+      if (protectedData.changed) transaction.set(refs.sources[index].storedRef, ddayDocument(protectedData.store, context));
+    }
+    if (data.settings == null && active) transaction.set(refs.settingsRef, ddayDocument({version:174,activeId:active.id,activeScope:active.sourceScope}, context));
+    assertDdayContext(context);
+    return {items, activeId: active?.id || '', activeScope: active?.sourceScope || ''};
+  });
+  assertDdayContext(context);
+  return result;
+}
+async function readDdayData() { return readDdayDataForContext(captureDdayContext()); }
+function ddayDocument(payload, context) {
+  const packed = encodeStoredPayload(payload);
+  if (new TextEncoder().encode(JSON.stringify(packed)).length > 850000) ddayFailure('D-day 저장 공간이 커서 저장하지 못했습니다. 원본은 유지됩니다.');
+  return {payload: packed, ...storageStampV168(), updatedAt: serverTimestamp(), updatedBy: context.uid};
+}
+async function mutateDday(input) {
+  const context = captureDdayContext(), refs = ddayReferences(context);
+  if (!input || typeof input !== 'object' || Array.isArray(input)) ddayFailure('D-day 작업을 확인해주세요.');
+  const action = JSON.parse(JSON.stringify(input)), currentScope = context.pairId ? `pair:${context.pairId}` : `user:${context.uid}`;
+  if (!['add', 'select', 'delete'].includes(action.type)) ddayFailure('지원하지 않는 D-day 작업입니다.');
+  const sourceScope = action.sourceScope ? ddayScope(action.sourceScope) : currentScope;
+  if (!refs.sources.some(source => source.sourceScope === sourceScope) || action.type === 'add' && sourceScope !== currentScope) ddayFailure('현재 사용 가능한 D-day 저장 공간이 아닙니다.', 403);
+  await runTransaction(db, async transaction => {
+    assertDdayContext(context);
+    const data = await loadDdaySources(context, refs, ref => transaction.get(ref)), visibleItems = mergeDdaySources(data.sources, context);
+    resolveDdaySelection(visibleItems, data.settings, data.sources, context);
+    const target = data.sources.find(source => source.sourceScope === sourceScope);
+    const result = mutateDdayStore(target.stored, action, {context, sourceScope, visibleItems});
+    assertDdayContext(context);
+    if (result.changed) transaction.set(refs.sources.find(source => source.sourceScope === sourceScope).storedRef, ddayDocument(result.store, context));
+    const selected = data.settings || {};
+    if (action.type === 'select' || action.type === 'add' && result.added) {
+      if (selected.activeId !== result.id || selected.activeScope !== sourceScope) transaction.set(refs.settingsRef, ddayDocument({version:174, activeId: result.id, activeScope: sourceScope}, context));
+    } else if (action.type === 'delete' && selected.activeId === result.id && selected.activeScope === sourceScope) {
+      transaction.set(refs.settingsRef, ddayDocument({version:174, activeId:'', activeScope:''}, context));
+    }
+  });
+  assertDdayContext(context);
+  const result = await readDdayDataForContext(context);
+  assertDdayContext(context);
+  window.dispatchEvent(new CustomEvent('aiderdear-dday-data', {detail:{uid:context.uid,pairId:context.pairId}}));
+  return result;
 }
 
 const copyJson = value => JSON.parse(JSON.stringify(value ?? null));
@@ -2186,6 +2267,8 @@ const api = {
   sendDirectLetter,
   markDirectLetterRead,
   readAppData,
+  readDdayData,
+  mutateDday,
   migrateEventWorkspace,
   writeAppData,
   readScheduleData,
