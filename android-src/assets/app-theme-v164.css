@@ -131,8 +131,9 @@
 :root[data-app-palette="peach"] {--app-wheel-colour-filter:hue-rotate(138deg) saturate(.32) contrast(1.04)}
 :root[data-app-palette="slate"] {--app-wheel-colour-filter:hue-rotate(-45deg) saturate(.32) contrast(1.04)}
 :root[data-app-palette="charcoal"] {--app-wheel-colour-filter:grayscale(1) contrast(1.04)}
-@media (prefers-color-scheme:dark) {
-:root[data-app-palette="system"] {
+/* Native Configuration.uiMode wins over the WebView Activity's fixed theme.
+   Browser preview derives this same non-persistent attribute from matchMedia. */
+:root[data-app-palette="system"][data-system-scheme="dark"] {
   --app-canvas:#292433;
   --app-space-base:#1D1928;
   --app-space-glow:#695584;
@@ -150,11 +151,10 @@
   --app-focus:#E2CDF6;
   --app-rating:#EDCB83;
 }
-  :root[data-app-palette="system"] {--app-input:#282232;--app-holiday:#F3A0B2;--app-weekend:#A5C7F1;color-scheme:dark!important}
-  :is([data-profile-theme-v137="system"],[data-theme-choice-v125="system"]) {--swatch:#C4A6DF!important}
-}
+  :root[data-app-palette="system"][data-system-scheme="dark"] {--app-input:#282232;--app-holiday:#F3A0B2;--app-weekend:#A5C7F1;color-scheme:dark!important}
+  :root[data-system-scheme="dark"] :is([data-profile-theme-v137="system"],[data-theme-choice-v125="system"]) {--swatch:#C4A6DF!important}
 :root[data-app-palette]:not([data-app-palette="system"]) {color-scheme:light!important}
-@media (prefers-color-scheme:light) {:root[data-app-palette="system"] {color-scheme:light!important}}
+:root[data-app-palette="system"]:not([data-system-scheme="dark"]) {color-scheme:light!important}
 /* Keep the one existing independent background preference; dark system/light
    means a solid dark canvas, not the space photograph. */
 html[data-app-palette][data-background-mode="light"] {
@@ -176,6 +176,8 @@ body > :not(#wheel):not(script):not(style):not(link) {
   --theme-glow:color-mix(in srgb,var(--app-primary) 22%,transparent);
   --theme-atmosphere:color-mix(in srgb,var(--app-space-glow) 15%,transparent);
   --theme-orbit:color-mix(in srgb,var(--app-space-glow) 20%,transparent);
+  --theme-constellation:color-mix(in srgb,var(--app-space-glow) 15%,transparent);
+  --planet-tint:var(--app-primary);--planet-shadow:var(--app-space-base);
   --cosmic-primary:var(--app-primary);--cosmic-secondary:var(--app-space-glow);
   --cosmic-blue:var(--app-primary);--cosmic-violet:var(--app-space-glow);
   --cosmic-bg:var(--app-surface);--cosmic-surface:var(--app-surface);
@@ -226,7 +228,7 @@ html[data-app-palette][data-background-mode="light"] body::after {background:tra
   #app .top .brand {color:var(--app-brand-text)!important;-webkit-text-fill-color:currentColor!important}
   #app .top .brandmark {background:linear-gradient(145deg,var(--app-logo-start),var(--app-logo-end))!important}
   #app .top .brandmark::after {border-color:var(--app-logo-symbol)!important}
-  #app :is(.barebar>.page-title,.r165-header>.page-title,.my166-head h1,.mp159-head h1),
+  #app :is(.barebar .page-title,.personal-title .page-title,.r165-header>.page-title,.my166-head h1,.mp159-head h1),
   #event :is(.archive-v111 h2,.travel-v111 h2,.travel-head h3),
   #routine .r165-section-heading h2,#personal :is(.daylog-toolbar-v165 h2,.reading-hero-v113 h2) {
     color:var(--app-on-space)!important;-webkit-text-fill-color:currentColor!important;

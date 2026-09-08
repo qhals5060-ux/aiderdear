@@ -205,6 +205,15 @@
 
     move-result-object v0
 
+    # AiderLog owns its seven exact palettes. Do not algorithmically invert
+    # photos or author colours on target 29 when the Activity is dark.
+    sget v1, Landroid/os/Build$VERSION;->SDK_INT:I
+    const/16 v2, 0x1d
+    if-lt v1, v2, :theme_force_dark_ready_v169
+    const/4 v1, 0x0
+    invoke-virtual {v0, v1}, Landroid/webkit/WebSettings;->setForceDark(I)V
+    :theme_force_dark_ready_v169
+
     const/4 v1, 0x1
 
     .line 65
@@ -926,7 +935,7 @@
 
     if-eqz p1, :cond_0
 
-    const-string v0, "window.dispatchEvent(new Event(\'resize\'));window.AiderLogAppShell&&window.AiderLogAppShell.deviceChanged();"
+    const-string v0, "window.AiderLogThemeV125&&window.AiderLogThemeV125.refreshSystemScheme();window.dispatchEvent(new Event(\'resize\'));window.AiderLogAppShell&&window.AiderLogAppShell.deviceChanged();"
 
     const/4 v1, 0x0
 

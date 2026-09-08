@@ -6,9 +6,20 @@ const source=fs.readFileSync(path.join(repo,'firebase-app.js'),'utf8');
 const start='// BEGIN WIDGET ACTION TRANSACTION V165',end='// END WIDGET ACTION TRANSACTION V165';
 const block=source.slice(source.indexOf(start),source.indexOf(end)+end.length);
 assert(block.includes('async function applyWidgetActionV165'));
+// v168 introduced an imported lossless storage codec. Use its real local code,
+// not an identity mock, so the focused callback still tests current production dependencies.
+const pakoModule={exports:{}};
+new Function('module','exports',fs.readFileSync(path.join(repo,'vendor/pako-2.1.0.min.js'),'utf8'))(pakoModule,pakoModule.exports);
+globalThis.pako=pakoModule.exports;
+const codecSource=fs.readFileSync(path.join(repo,'archive-codec-v168.js'),'utf8').replace(/^import [^\n]+\n/,'').replace(/^export /gm,'');
+const codec=new Function(codecSource+'\nreturn {decodeArchive,encodeArchive,encodeStoredPayload};')();
+const storageStamp=source.match(/^const storageStampV168=[^\n]+/m)?.[0];assert(storageStamp,'storage stamp dependency must remain covered');
 const copy=x=>x===undefined?undefined:structuredClone(x);
 const mainPath='users/A/private/main';
 const initial=()=>({routines:[{id:'r',title:'Read',color:'pv3',icon:'legacy',goalDays:30,cycleDays:30,miniText:'5 minutes',bigGoals:['goal'],goalTracking:{a:{x:1}},goalDerivedDates:{a:'2026-09-01'},doneDates:['2026-09-01'],dailyLevels:{'2026-09-01':'MORE'},createdAt:100,updatedAt:200}],checklists:[{id:'t',text:'Task',date:'',done:false,createdAt:100,updatedAt:200,custom:{keep:true}},{id:'other',text:'Other',createdAt:100}],personalItems:[{id:'read',category:'reading',title:'Keep me'}],paper:{unknown:true},unknown:{nested:[1,2,3]}});
+// v168 linked-goal completion belongs to the app goal flow. Editable routine
+// cases retain declared goals/metadata, but have no derived completion to bypass.
+const editableRoutineInitial=()=>{const p=initial();p.routines[0].goalTracking={a:{}};p.routines[0].goalDerivedDates={};return p;};
 const command=(op='todo',overrides={})=>({uid:'A',key:`A:${op}:fixture`,op,id:op==='routine'?'r':'t',date:'2026-09-06',value:op==='routine'?'MINI':true,expectedUpdatedAt:200,...overrides});
 function harness(payload=initial()){
   const auth={currentUser:{uid:'A'}},state={user:{uid:'A'}},docs=new Map(),versions=new Map();
@@ -31,8 +42,8 @@ function harness(payload=initial()){
     }
     throw Error('transaction retry limit');
   };
-  h.api=new Function('auth','state','doc','db','runTransaction','serverTimestamp','TextEncoder','Date','FieldPath',block+'\nreturn applyWidgetActionV165;')(auth,state,(_,...parts)=>parts.join('/'),{},runTransaction,()=> 'SERVER_TIME',TextEncoder,Clock,FieldPath);
-  h.payload=()=>copy(docs.get(mainPath)?.payload);
+  h.api=new Function('auth','state','doc','db','runTransaction','serverTimestamp','TextEncoder','Date','FieldPath','decodeArchive','encodeArchive','encodeStoredPayload',storageStamp+'\n'+block+'\nreturn applyWidgetActionV165;')(auth,state,(_,...parts)=>parts.join('/'),{},runTransaction,()=> 'SERVER_TIME',TextEncoder,Clock,FieldPath,codec.decodeArchive,codec.encodeArchive,codec.encodeStoredPayload);
+  h.payload=()=>copy(codec.decodeArchive(docs.get(mainPath)?.payload));
   h.replace=(payload)=>set(mainPath,{...docs.get(mainPath),payload:copy(payload)});
   h.switch=uid=>{auth.currentUser=uid?{uid}:null;state.user=uid?{uid}:null};
   h.stats=()=>({attempts,reads,commits,receipts:[...docs.keys()].filter(k=>k.includes('/widget-action-v165-')).length});
@@ -49,6 +60,21 @@ test('todo writes desired state atomically and preserves all unrelated record/do
   const before=initial(),h=harness(before),r=await h.api(command());assert(r.applied);assert.equal(r.payload.checklists[0].done,true);assert(r.payload.checklists[0].completedAt>200);assert.equal(r.payload.checklists[0].updatedAt,r.payload.checklists[0].completedAt);
   for(const key of ['routines','personalItems','paper','unknown'])assert.deepEqual(r.payload[key],before[key]);
   assert.deepEqual(r.payload.checklists[0].custom,{keep:true});assert.deepEqual(r.payload.checklists[1],before.checklists[1]);assert.equal(h.docs.get(mainPath).unrelatedDocumentField,'keep');assert.equal(h.stats().receipts,1);
+});
+
+test('real v168 compressed collections decode before mutation and preserve unrelated stored archives',async()=>{
+  const before=initial(),oldStamp=Date.parse('2024-01-15T12:00:00Z');
+  before.checklists=Array.from({length:12},(_,i)=>({id:i===0?'t':'old-'+i,text:'Archived task '+i,date:'2024-01-15',done:false,createdAt:oldStamp,updatedAt:oldStamp,custom:{notes:'Preserve original archive details. '.repeat(40)}}));
+  before.personalItems=Array.from({length:8},(_,i)=>({id:'book-'+i,category:'reading',date:'2024-02-01',notes:'Unrelated original reading notes. '.repeat(40)}));
+  const stored=codec.encodeStoredPayload(before,{now:Date.parse('2026-09-06T12:00:00Z')});
+  assert(JSON.stringify(stored.checklists).includes('__aiderlogQuarterArchive168'),'todo fixture must exercise actual gzip decoding');
+  assert(JSON.stringify(stored.personalItems).includes('__aiderlogQuarterArchive168'),'unrelated collection must remain archived');
+  const h=harness(stored),r=await h.api(command('todo',{expectedUpdatedAt:oldStamp}));
+  assert.equal(r.payload.checklists[0].done,true);assert.deepEqual(r.payload.checklists.slice(1),before.checklists.slice(1));
+  assert.deepEqual(r.payload.checklists[0].custom,before.checklists[0].custom);
+  assert.deepEqual(h.docs.get(mainPath).payload.personalItems,stored.personalItems);
+  for(const key of ['routines','personalItems','paper','unknown'])assert.deepEqual(r.payload[key],before[key],key);
+  assert.equal(h.docs.get(mainPath).storageVersion,168);assert.equal(h.docs.get(mainPath).formatWrittenAt,'SERVER_TIME');
 });
 
 test('same-key retry returns latest data without applying twice, even after legacy main replacement',async()=>{
@@ -71,18 +97,26 @@ test('todo can explicitly unset completion; reusing stale expected timestamp is 
 });
 
 test('routine modifies exactly one date while preserving color/goals/unknown fields',async()=>{
-  const h=harness(),before=h.payload().routines[0],r=await h.api(command('routine'));const after=r.payload.routines[0];assert.deepEqual(after.doneDates,['2026-09-01','2026-09-06']);assert.deepEqual(after.dailyLevels,{'2026-09-01':'MORE','2026-09-06':'MINI'});
+  const h=harness(editableRoutineInitial()),before=h.payload().routines[0],r=await h.api(command('routine'));const after=r.payload.routines[0];assert.deepEqual(after.doneDates,['2026-09-01','2026-09-06']);assert.deepEqual(after.dailyLevels,{'2026-09-01':'MORE','2026-09-06':'MINI'});
   for(const key of ['color','icon','goalDays','cycleDays','miniText','bigGoals','goalTracking','goalDerivedDates'])assert.deepEqual(after[key],before[key],key);
 });
 
-test('routine existing legacy lower-case storage remains lower-case',async()=>{
-  const p=initial();p.routines[0].dailyLevels={'2026-09-01':'more'};const h=harness(p),r=await h.api(command('routine'));assert.equal(r.payload.routines[0].dailyLevels['2026-09-06'],'mini');assert.equal(r.payload.routines[0].dailyLevels['2026-09-01'],'more');
+test('goal-derived or goal-tracked completion rejects widget changes without writes or receipts',async()=>{
+  for(const linked of [{goalDerivedDates:{a:'2026-09-01'}},{goalTracking:{a:{'2026-09-01':1}}},{goalDerivedDates:{a:'2026-09-01'},goalTracking:{a:{'2026-09-01':1}}}]){
+    const p=editableRoutineInitial();Object.assign(p.routines[0],linked);
+    for(const value of ['MINI','SKIP','']){const h=harness(p);await assert.rejects(h.api(command('routine',{value})),{code:'widget/goal-linked'});assert.deepEqual(h.payload(),p);assert.equal(h.stats().commits,0);assert.equal(h.stats().receipts,0);}
+  }
 });
 
-test('routine done date is added only once and SKIP removes both selected date and key',async()=>{
-  const p=initial();p.routines[0].doneDates=['2026-09-01','2026-09-06','2026-09-06'];p.routines[0].dailyLevels['2026-09-06']='MAX';const h=harness(p);
+test('routine existing legacy lower-case storage remains lower-case',async()=>{
+  const p=editableRoutineInitial();p.routines[0].dailyLevels={'2026-09-01':'more'};const h=harness(p),r=await h.api(command('routine'));assert.equal(r.payload.routines[0].dailyLevels['2026-09-06'],'mini');assert.equal(r.payload.routines[0].dailyLevels['2026-09-01'],'more');
+});
+
+test('routine completion is unique; SKIP records an explicit skip and clear removes the date key',async()=>{
+  const p=editableRoutineInitial();p.routines[0].doneDates=['2026-09-01','2026-09-06','2026-09-06'];p.routines[0].dailyLevels['2026-09-06']='MAX';const h=harness(p);
   const r=await h.api(command('routine'));assert.equal(r.payload.routines[0].doneDates.filter(d=>d==='2026-09-06').length,1);
-  const skip=await h.api(command('routine',{key:'skip',value:'SKIP',expectedUpdatedAt:r.payload.routines[0].updatedAt}));assert.deepEqual(skip.payload.routines[0].doneDates,['2026-09-01']);assert.deepEqual(skip.payload.routines[0].dailyLevels,{'2026-09-01':'MORE'});
+  const skip=await h.api(command('routine',{key:'skip',value:'SKIP',expectedUpdatedAt:r.payload.routines[0].updatedAt}));assert.deepEqual(skip.payload.routines[0].doneDates,['2026-09-01']);assert.deepEqual(skip.payload.routines[0].dailyLevels,{'2026-09-01':'MORE','2026-09-06':'SKIP'});
+  const clear=await h.api(command('routine',{key:'clear',value:'',expectedUpdatedAt:skip.payload.routines[0].updatedAt}));assert.deepEqual(clear.payload.routines[0].doneDates,['2026-09-01']);assert.deepEqual(clear.payload.routines[0].dailyLevels,{'2026-09-01':'MORE'});
 });
 
 test('cross UID, signed-out, and inconsistent auth/state never read private data',async()=>{

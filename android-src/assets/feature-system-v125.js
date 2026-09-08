@@ -121,8 +121,9 @@
     const id = themeId(value);
     document.documentElement.dataset.theme = id;
     document.documentElement.dataset.appPalette = paletteId(id);
+    refreshSystemScheme();
     const meta = $('meta[name="theme-color"]');
-    if (meta) meta.content = getComputedStyle(document.documentElement).getPropertyValue('--app-space-base').trim() || '#382A49';
+    if (meta) meta.content = getComputedStyle(document.documentElement).getPropertyValue(document.documentElement.dataset.backgroundMode === 'light' ? '--app-canvas' : '--app-space-base').trim() || '#231E35';
     applyLanguageTheme();
     refreshThemeCards();
     if (!persist) return;
@@ -134,6 +135,23 @@
         try { await savePrivate(); } catch (error) { console.warn('Theme preference sync skipped',error); }
       }
     }
+  }
+
+  // WebView's prefers-color-scheme can reflect the Activity theme, not the
+  // device setting. Read Configuration.uiMode through the existing bridge.
+  // This is derived state only: the user's one stored theme stays untouched.
+  function refreshSystemScheme() {
+    const root = document.documentElement;
+    let nativeScheme = '';
+    try { nativeScheme = window.AiderLogNative?.getSystemScheme?.() || ''; } catch (_) {}
+    if ((nativeScheme === 'light' || nativeScheme === 'dark') && root.dataset.nativeScheme !== nativeScheme) root.dataset.nativeScheme = nativeScheme;
+    const scheme = root.dataset.nativeScheme || (window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    if (root.dataset.systemScheme !== scheme) {
+      root.dataset.systemScheme = scheme;
+      applyLanguageTheme();
+      refreshThemeCards();
+    }
+    return scheme;
   }
 
   function themeCardsMarkup() {
@@ -459,7 +477,7 @@
   function maybeAnalyseCurrentShortV125(){const store=shortsStoreV125(),current=store.current,sentences=Array.isArray(current?.sentences)?current.sentences:[];if(current?.id&&!sentences.length&&!current.transcriptError&&analysingVideoV125!==current.id)analyseShortsV125(current.url||`https://www.youtube.com/watch?v=${current.id}`)}
 
   window.AiderLogTranscriptV125=Object.freeze({youtubeId:youtubeIdV125,parseCaptionPayload:parseCaptionPayloadV125,splitSentences:splitSentencesV125,extract:fetchTranscriptV125});
-  window.AiderLogThemeV125=Object.freeze({themes:Object.keys(THEMES),palettes:THEMES,resolvePalette:paletteId,apply:applyTheme,applyFontSize,openSettings});
+  window.AiderLogThemeV125=Object.freeze({themes:Object.keys(THEMES),palettes:THEMES,resolvePalette:paletteId,apply:applyTheme,refreshSystemScheme,applyFontSize,openSettings});
   window.AiderLogCalendarV125=Object.freeze({parseIcs,openSettings:()=>openSettings('calendar'),openSchedule:openScheduleV125});
 
   const previousOpenIntro = typeof openIntro === 'function' ? openIntro : null;
@@ -469,7 +487,7 @@
 
   document.addEventListener('language-lab-ready',()=>{applyLanguageTheme();ensureTranscriptPanelV125();[80,320,900].forEach(delay=>setTimeout(applyLanguageTheme,delay))});
   const systemSchemeV164=window.matchMedia?.('(prefers-color-scheme: dark)');
-  const refreshSystemSchemeV164=()=>{if(paletteId(currentTheme())==='system')applyTheme(currentTheme(),false)};
+  const refreshSystemSchemeV164=()=>{refreshSystemScheme();if(paletteId(currentTheme())==='system')applyTheme(currentTheme(),false)};
   if(systemSchemeV164?.addEventListener)systemSchemeV164.addEventListener('change',refreshSystemSchemeV164);
   else systemSchemeV164?.addListener?.(refreshSystemSchemeV164);
   document.addEventListener('click',event=>{const close=event.target.closest('#introClose');if(close)$('#intro')?.classList.remove('on')});

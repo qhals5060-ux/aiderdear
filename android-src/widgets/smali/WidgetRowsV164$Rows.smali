@@ -18,6 +18,8 @@
 
 
 # instance fields
+.field final bounds:Landroid/util/SizeF;
+
 .field final context:Landroid/content/Context;
 
 .field items:Ljava/util/List;
@@ -37,7 +39,7 @@
 
 # direct methods
 .method constructor <init>(Landroid/content/Context;Landroid/content/Intent;)V
-    .locals 1
+    .locals 3
 
     .line 13
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -69,6 +71,28 @@
     move-result-object p1
 
     iput-object p1, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->kind:Ljava/lang/String;
+
+    new-instance p1, Landroid/util/SizeF;
+
+    const-string v0, "widthDp"
+
+    const/high16 v1, 0x43a80000    # 336.0f
+
+    invoke-virtual {p2, v0, v1}, Landroid/content/Intent;->getFloatExtra(Ljava/lang/String;F)F
+
+    move-result v0
+
+    const-string v1, "heightDp"
+
+    const/high16 v2, 0x43a00000    # 320.0f
+
+    invoke-virtual {p2, v1, v2}, Landroid/content/Intent;->getFloatExtra(Ljava/lang/String;F)F
+
+    move-result p2
+
+    invoke-direct {p1, v0, p2}, Landroid/util/SizeF;-><init>(FF)V
+
+    iput-object p1, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->bounds:Landroid/util/SizeF;
 
     return-void
 .end method
@@ -120,8 +144,15 @@
     .locals 8
 
     .line 18
+    sget-object v0, Lcom/aiderlog/v22app/WidgetSizeV169;->active:Ljava/lang/ThreadLocal;
+
+    iget-object v1, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->bounds:Landroid/util/SizeF;
+
+    invoke-virtual {v0, v1}, Ljava/lang/ThreadLocal;->set(Ljava/lang/Object;)V
+
     if-ltz p1, :cond_1
 
+    :try_start_0
     iget-object v0, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->items:Ljava/util/List;
 
     invoke-interface {v0}, Ljava/util/List;->size()I
@@ -158,14 +189,29 @@
     invoke-static/range {v1 .. v7}, Lcom/aiderlog/v22app/WidgetNativeV164;->row(Landroid/content/Context;ILjava/lang/String;Ljava/lang/String;ILjava/lang/String;I)Landroid/widget/RemoteViews;
 
     move-result-object p1
+    :try_end_0
+    .catchall {:try_start_0 .. :try_end_0} :catchall_0
 
     goto :goto_1
+
+    :catchall_0
+    move-exception p1
+
+    sget-object v0, Lcom/aiderlog/v22app/WidgetSizeV169;->active:Ljava/lang/ThreadLocal;
+
+    invoke-virtual {v0}, Ljava/lang/ThreadLocal;->remove()V
+
+    throw p1
 
     :cond_1
     :goto_0
     const/4 p1, 0x0
 
     :goto_1
+    sget-object v0, Lcom/aiderlog/v22app/WidgetSizeV169;->active:Ljava/lang/ThreadLocal;
+
+    invoke-virtual {v0}, Ljava/lang/ThreadLocal;->remove()V
+
     return-object p1
 .end method
 
@@ -200,13 +246,22 @@
     .locals 4
 
     .line 15
+    sget-object v0, Lcom/aiderlog/v22app/WidgetSizeV169;->active:Ljava/lang/ThreadLocal;
+
+    iget-object v1, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->bounds:Landroid/util/SizeF;
+
+    invoke-virtual {v0, v1}, Ljava/lang/ThreadLocal;->set(Ljava/lang/Object;)V
+
+    :try_start_0
     iget-object v0, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->context:Landroid/content/Context;
 
     iget v1, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->widget:I
 
     iget-object v2, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->kind:Ljava/lang/String;
 
-    invoke-static {v0}, Lcom/aiderlog/v22app/WidgetNativeV164;->snapshot(Landroid/content/Context;)Lorg/json/JSONObject;
+    iget-object v3, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->context:Landroid/content/Context;
+
+    invoke-static {v3}, Lcom/aiderlog/v22app/WidgetNativeV164;->snapshot(Landroid/content/Context;)Lorg/json/JSONObject;
 
     move-result-object v3
 
@@ -215,8 +270,23 @@
     move-result-object v0
 
     iput-object v0, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->items:Ljava/util/List;
+    :try_end_0
+    .catchall {:try_start_0 .. :try_end_0} :catchall_0
+
+    sget-object v0, Lcom/aiderlog/v22app/WidgetSizeV169;->active:Ljava/lang/ThreadLocal;
+
+    invoke-virtual {v0}, Ljava/lang/ThreadLocal;->remove()V
 
     return-void
+
+    :catchall_0
+    move-exception v0
+
+    sget-object v1, Lcom/aiderlog/v22app/WidgetSizeV169;->active:Ljava/lang/ThreadLocal;
+
+    invoke-virtual {v1}, Ljava/lang/ThreadLocal;->remove()V
+
+    throw v0
 .end method
 
 .method public onDestroy()V

@@ -55,6 +55,8 @@ public final class WidgetNativeV164 {
         v.setInt(id(c,"widget_background"),"setImageAlpha",Math.round(255*Math.max(0,Math.min(1,opacity))));
         int foreground=ink(c,selectedTheme);
         for(String key:new String[]{"widget_title","widget_subtitle","widget_empty","widget_previous","widget_next","widget_add"})color(c,v,key,foreground);
+        // This button retains a pale lavender surface in both widget modes.
+        color(c,v,"widget_add",INK);
         float size=overrideFont<0?font(c,widget):11.5f+Math.max(1,Math.min(5,overrideFont))*.8f;
         v.setTextViewTextSize(id(c,"widget_title"),2,size+1.2f);
         v.setTextViewTextSize(id(c,"widget_subtitle"),2,Math.max(10,size-2));
@@ -78,12 +80,21 @@ public final class WidgetNativeV164 {
         String kind=type(name);
         if(kind.startsWith("Task")&&!kind.equals("TaskClientLink"))return false;
         try{
-            RemoteViews v=render(c,widget,kind,false,null,-1,-1);
+            RemoteViews v=WidgetSizeV169.render(c,widget,kind);
             manager.updateAppWidget(widget,v);
+            prefs(c).edit().remove("widget_render_error_"+widget).apply();
             manager.notifyAppWidgetViewDataChanged(widget,id(c,"widget_items_v164"));
             manager.notifyAppWidgetViewDataChanged(widget,id(c,"w165_secondary_list"));
             return true;
-        }catch(Throwable error){Log.e("AiderLogWidget","native-render failed type="+kind+" id="+widget,error);return false;}
+        }catch(Throwable error){
+            Log.e("AiderLogWidget","native-render failed type="+kind+" id="+widget,error);
+            // Do not silently substitute the retired, flat-text design for a supported widget.
+            prefs(c).edit().putString("widget_render_error_"+widget,error.getClass().getSimpleName()).apply();
+            RemoteViews recovery=view(c,"widget_client_link_v168");
+            text(c,recovery,"widget_title","위젯 다시 연결");text(c,recovery,"widget_subtitle","앱을 열어 새로고침");
+            recovery.setOnClickPendingIntent(id(c,"widget_root"),open(c,widget,kind,""));
+            manager.updateAppWidget(widget,recovery);return false;
+        }
     }
     public static RemoteViews render(Context c,int widget,String kind,boolean preview,String selectedTheme,int opacity,int selectedFont){
         if(kind.equals("TaskClientLink")){
@@ -100,8 +111,8 @@ public final class WidgetNativeV164 {
         if(!kind.startsWith("Calendar"))return WidgetDesignV165.render(c,widget,kind,preview,selectedTheme,opacity,selectedFont);
         JSONObject data=snapshot(c);
         Bundle options=AppWidgetManager.getInstance(c).getAppWidgetOptions(widget);
-        int width=options==null?320:options.getInt("appWidgetMinWidth",320);
-        int height=options==null?320:options.getInt("appWidgetMinHeight",320);
+        int width=Math.round(WidgetSizeV169.current(c,widget).getWidth());
+        int height=Math.round(WidgetSizeV169.current(c,widget).getHeight());
         boolean calendar=kind.startsWith("Calendar"),agenda="CalendarAgenda".equals(kind),onlyMonth="CalendarMonth".equals(kind)||"CalendarSplit".equals(kind),meal="PersonalMeal".equals(kind);
         boolean split=calendar&&!onlyMonth&&!agenda&&WidgetDesignV165.wide(c,widget);
         RemoteViews v=view(c,split?"widget_native_wide_v164":"widget_native_v164");
@@ -153,7 +164,7 @@ public final class WidgetNativeV164 {
         String selected=selected(c,widget),today=day(Calendar.getInstance());
         int rowCount=fortnight?2:monthRows;
         Bundle dimensions=AppWidgetManager.getInstance(c).getAppWidgetOptions(widget);
-        int available=dimensions==null?260:dimensions.getInt("appWidgetMinHeight",260);
+        int available=Math.round(WidgetSizeV169.current(c,widget).getHeight());
         float cellHeight=((available-62f)*(kind.equals("CalendarMonth")||kind.equals("CalendarSplit")||split?1f:.6f)-20f)/rowCount-6f;
         for(int row=0;row<rowCount;row++){
             RemoteViews week=view(c,"widget_week_v164");
@@ -163,7 +174,7 @@ public final class WidgetNativeV164 {
                 String holiday=holidays==null?"":holidays.optString(key,"");
                 text(c,cell,"widget_day_label_v164",holiday);
                 List<String> dated=eventsOn(events,key);
-                int visibleEvents=kind.equals("CalendarSplit")&&dimensions!=null&&dimensions.getInt("appWidgetMinWidth",320)>=560?2:1;
+                int visibleEvents=kind.equals("CalendarSplit")&&WidgetDesignV165.wide(c,widget)?2:1;
                 String eventText=dated.isEmpty()?"":dated.get(0);if(visibleEvents==2&&dated.size()>1)eventText+="\n"+dated.get(1);
                 text(c,cell,"widget_day_events_v164",eventText);
                 text(c,cell,"widget_day_more_v164",kind.equals("CalendarSplit")&&dated.size()>visibleEvents?"+"+(dated.size()-visibleEvents):dated.size()>0?"●":"");
@@ -171,9 +182,10 @@ public final class WidgetNativeV164 {
                 show(c,cell,"widget_day_label_v164",visibleHoliday);
                 show(c,cell,"widget_day_events_v164",kind.equals("CalendarSplit")&&cellHeight>=40);
                 show(c,cell,"widget_day_more_v164",cellHeight>=(visibleHoliday?38:28));
-                cell.setInt(id(c,"widget_day_number_v164"),"setHeight",Math.round(c.getResources().getDisplayMetrics().density*Math.max(12,Math.min(18,cellHeight-(visibleHoliday?10:0)))));
+                // TextView wraps its scaled font; a fixed 12–18dp height clips Korean/system-large text.
                 boolean chosen=key.equals(selected),outside=!fortnight&&start.get(Calendar.MONTH)!=shownMonth;
-                color(c,cell,"widget_day_number_v164",foreground);
+                // The selected oval is a light surface even in midnight mode.
+                color(c,cell,"widget_day_number_v164",chosen?INK:foreground);
                 color(c,cell,"widget_day_label_v164",foreground);
                 color(c,cell,"widget_day_events_v164",foreground);color(c,cell,"widget_day_more_v164",dark(c,chosenTheme)?0xffc1baff:PRIMARY);
                 cell.setTextViewTextSize(id(c,"widget_day_number_v164"),2,Math.max(10,size-1.5f));
@@ -218,8 +230,10 @@ public final class WidgetNativeV164 {
         RemoteViews row=view(c,"widget_item_v164");boolean timed=record.optString("time").matches("^[0-9]{2}:[0-9]{2}.*");text(c,row,"widget_item_text_v164",record.optString("title"));text(c,row,"widget_item_time_v165",timed?record.optString("time"):"");show(c,row,"widget_item_time_v165",true);
         String rowTheme=overrideTheme==null?theme(c,widget):overrideTheme;row.setImageViewResource(id(c,"widget_item_background_v165"),drawable(c,dark(c,rowTheme)?"widget_card_dark_v165":"widget_card_v165"));Integer previewOpacity=WidgetDesignV165.previewOpacity.get();row.setInt(id(c,"widget_item_background_v165"),"setImageAlpha",Math.round(255*(previewOpacity==null?prefs(c).getInt("widget_opacity_"+widget,100):previewOpacity)/100f));
         color(c,row,"widget_item_text_v164",ink(c,overrideTheme==null?theme(c,widget):overrideTheme));
+        color(c,row,"widget_item_time_v165",ink(c,rowTheme));
         float size=selectedFont<0?font(c,widget):11.5f+selectedFont*.8f;
         row.setTextViewTextSize(id(c,"widget_item_text_v164"),2,size);
+        row.setTextViewTextSize(id(c,"widget_item_time_v165"),2,Math.max(10,size-1.5f));
         show(c,row,"widget_item_dot_v164",kind.startsWith("Calendar"));
         WidgetDesignV165.put(record,"selectedDate",selected(c,widget));WidgetDesignV165.put(record,"uid",snapshot(c).optString("uid"));
         row.setOnClickFillInIntent(id(c,"widget_item_row_v164"),new Intent().putExtra("widgetRow",index).putExtra("action","open-schedule-item-v168:"+Uri.encode(record.toString())));
@@ -241,7 +255,9 @@ public final class WidgetNativeV164 {
             RemoteViews.class.getMethod("setRemoteAdapter",int.class,items.getClass()).invoke(v,list,items);prefs(c).edit().putBoolean("widget_service_"+widget,false).apply();return;
         }catch(Exception error){Log.w("AiderLogWidget","Collection API unavailable; using RemoteViewsService",error);}}
         Intent service=new Intent().setClassName(c,c.getPackageName()+".WidgetRowsV164").putExtra("appWidgetId",widget).putExtra("kind",kind);
-        service.setData(Uri.parse("aiderlog-widget-rows://"+widget+"/"+kind+"/"+selected(c,widget)));
+        android.util.SizeF bounds=WidgetSizeV169.current(c,widget);
+        service.putExtra("widthDp",bounds.getWidth()).putExtra("heightDp",bounds.getHeight());
+        service.setData(Uri.parse("aiderlog-widget-rows://"+widget+"/"+kind+"/"+selected(c,widget)+"/"+bounds.getWidth()+"x"+bounds.getHeight()));
         v.setRemoteAdapter(list,service);
         prefs(c).edit().putBoolean("widget_service_"+widget,true).apply();
     }

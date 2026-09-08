@@ -30,7 +30,7 @@
 .method constructor <init>()V
     .locals 0
 
-    .line 204
+    .line 216
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -56,7 +56,7 @@
 .method public compare(Ljava/lang/String;Ljava/lang/String;)I
     .locals 2
 
-    .line 204
+    .line 216
     const-string v0, "time"
 
     :try_start_0

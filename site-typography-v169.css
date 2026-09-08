@@ -1,0 +1,202 @@
+/* Website typography only. Work v167 is the reference: body 14, controls 13,
+   metadata 12, section heading 16, subheading 14 and primary metric 20 px.
+   The same stylesheet is attached to the two website Shadow DOMs. Android
+   never receives data-site-typography-v169 and cannot match the document scope.
+   Repeated #app raises specificity above historical embedded page styles; this
+   is deliberate, not an extra layout wrapper or a zoom/text scaling system. */
+html:not(.aiderlog-android),
+:host([data-site-typography-v169]) {
+  --site-type-body:14px;
+  --site-type-control:13px;
+  --site-type-meta:12px;
+  --site-type-section:16px;
+  --site-type-subhead:14px;
+  --site-type-page:20px;
+  --site-type-metric:20px;
+  --site-type-month:24px;
+}
+
+/* Reset the inherited 5–9 px legacy text at its container, not with a zoom.
+   Brand artwork, icon glyphs, original media and SVG diagrams are excluded. */
+:is(html:not(.aiderlog-android) body #app#app,
+    html:not(.aiderlog-android) body :is(.modal,.c167-dialog,.site-display-dialog),
+    :host([data-site-typography-v169])) {
+  font-size:var(--site-type-body)!important;
+  line-height:1.5!important;
+}
+:is(html:not(.aiderlog-android) body #app#app,
+    html:not(.aiderlog-android) body :is(.modal,.c167-dialog,.site-display-dialog),
+    :host([data-site-typography-v169]))
+  :where(div,section,article,aside,header,footer,nav,main,fieldset,ul,ol,dl,p,span,b,strong,em,label,li,dd,summary,a,table,thead,tbody,tr,td,th):not(:where(.logo,.logo *,svg,svg *,[aria-hidden="true"],[class$="-icon"],[class*="-icon-"],.post-avatar,.media-arrow,.plusmark,.close,.close-btn,.emotion-mood-emoji,.routine-create-icons button)) {
+  font-size:inherit!important;
+}
+
+/* Form controls and navigation retain one size in every selected state. */
+:is(html:not(.aiderlog-android) body #app#app,
+    html:not(.aiderlog-android) body :is(.modal,.c167-dialog,.site-display-dialog),
+    :host([data-site-typography-v169]))
+  :is(button,input,select,textarea) {
+  font-size:var(--site-type-control)!important;
+  line-height:1.45!important;
+}
+:is(html:not(.aiderlog-android) body #app#app,
+    html:not(.aiderlog-android) body :is(.modal,.c167-dialog,.site-display-dialog),
+    :host([data-site-typography-v169]))
+  :is(p,li,dd) {
+  font-size:var(--site-type-body)!important;
+  line-height:1.5!important;
+}
+:is(html:not(.aiderlog-android) body #app#app,
+    html:not(.aiderlog-android) body :is(.modal,.c167-dialog,.site-display-dialog),
+    :host([data-site-typography-v169]))
+  :is(small,time,dt,label,legend,figcaption,.eyebrow,.badge,.state-pill,.c167-badge) {
+  font-size:var(--site-type-meta)!important;
+  line-height:1.45!important;
+}
+:is(html:not(.aiderlog-android) body #app#app,
+    html:not(.aiderlog-android) body :is(.modal,.c167-dialog,.site-display-dialog),
+    :host([data-site-typography-v169])) :is(h1,.page-title,.page-heading h1,.v159-heading h1) {
+  font-size:var(--site-type-page)!important;
+  line-height:1.35!important;
+}
+:is(html:not(.aiderlog-android) body #app#app,
+    html:not(.aiderlog-android) body :is(.modal,.c167-dialog,.site-display-dialog),
+    :host([data-site-typography-v169])) :is(h2,.modal-title,.dialog-title) {
+  font-size:var(--site-type-section)!important;
+  line-height:1.4!important;
+}
+:is(html:not(.aiderlog-android) body #app#app,
+    html:not(.aiderlog-android) body :is(.modal,.c167-dialog,.site-display-dialog),
+    :host([data-site-typography-v169])) :is(h3,h4,h5,h6) {
+  font-size:var(--site-type-subhead)!important;
+  line-height:1.4!important;
+}
+html:not(.aiderlog-android) body .c167-dialog form>header h3 {
+  font-size:var(--site-type-section)!important;
+}
+
+/* Text-specific roles used by the original seven page modules. */
+html:not(.aiderlog-android) body #app#app
+  :is(.shared-line,.emotion-line,.emotion-entry-lines,.post-body,.travel-one-line,.travel-place,
+      .event-index-card,.personal-review-card,.postit-click p,.routine-brief-rule,
+      .routine-progress-ruleline span,.routine-create-form,.matrix-task,.planner-copy,
+      .c167-list-row,.c167-values dd,.work-fields-v167 dd) {
+  font-size:var(--site-type-body)!important;
+  line-height:1.5!important;
+}
+html:not(.aiderlog-android) body #app#app
+  :is(.post-title,.album-folder-copy b,.record-aside-title,.month-list-kicker,
+      .emotion-insight-head b,.emotion-card-head b,.private-card-title,
+      .planner-section-title b,.routine-card-head b,.routine-mandala-v106>header b,
+      .routine-create-title b,.consulting-panel-title,.task-admissions-head h2) {
+  font-size:var(--site-type-section)!important;
+  line-height:1.4!important;
+}
+html:not(.aiderlog-android) body #app#app
+  :is(.post-meta,.post-meta span,.post-meta b,.post-tag,.post-actions,.media-count,
+      .album-folder-copy span,.record-stat span,.record-month b,.travel-bottom,
+      .emotion-card-head span,.emotion-mood,.emotion-mood-row,.emotion-mood-row span,
+      .emotion-day-label,.emotion-entry-date span,.emotion-mini-stat span,.emotion-flag,
+      .planner-date,.planner-copy span,.planner-priority,.matrix-task span,
+      .routine-section-head b,.routine-create-form label span,.routine-create-icons>span,
+      .routine-progress-metrics,.routine-progress-round span,.routine-progress-round em,
+      .routine-stat-legend,.routine-goal-table,.routine-round-stamp small,
+      .challenge-bar-wrap span,.challenge-graph-head span,.personal-card-meta,
+      .work-row-meta-v167,.work-fields-v167 dt,.work-pager-v167,.work-table-wrap-v167,
+      .task-admissions-week span,.task-admissions-day>span,.task-admissions-day>small,
+      .task-admissions-calendar-panel>header span) {
+  font-size:var(--site-type-meta)!important;
+  line-height:1.45!important;
+}
+html:not(.aiderlog-android) body #app#app
+  :is(.tab,.modern-section-nav button,.modern-header-page-select,.personal-category-tabs button,
+      .personal-category-tabs button span,.modern-routine-nav nav button,
+      .modern-routine-nav nav button span,.c167-nav button,.work-nav-v167 button,
+      .work-row-title-v167,.work-rows-v167>button,.task-admissions-list>a,.shared-row) {
+  font-size:var(--site-type-control)!important;
+  line-height:1.45!important;
+}
+html:not(.aiderlog-android) body #app#app
+  :is(.routine-stat-summary b,.routine-progress-round strong,.emotion-mini-stat strong,
+      .record-stat b,.dday-panel strong,.c167-counts b,.work-summary-v167 b) {
+  font-size:var(--site-type-metric)!important;
+  line-height:1.2!important;
+  font-variant-numeric:tabular-nums;
+}
+html:not(.aiderlog-android) body #app#app
+  :is(#monthTitle,#monthTitle b,.task-admissions-calendar-panel>header b) {
+  font-size:var(--site-type-month)!important;
+  line-height:1.25!important;
+}
+html:not(.aiderlog-android) body #app#app :is(.daynum,.task-admissions-day>time) {
+  font-size:var(--site-type-control)!important;
+  line-height:1.3!important;
+}
+html:not(.aiderlog-android) body #app#app :is(#calendar .week,#calendar .ev,.holiday-label,.day-holiday,.holiday-name) {
+  font-size:var(--site-type-meta)!important;
+  line-height:1.35!important;
+}
+/* Editorial's original agenda line was hard-coded to 13 px tall. Let the new
+   body line fit its box without changing the two-column calendar composition. */
+html:not(.aiderlog-android) body #app#app .shared-line {height:auto!important;min-height:1.5em!important}
+
+/* Shadow modules have their own earlier style tags. These are typography only,
+   so Editorial colours/layouts remain intact and Modern keeps its structure. */
+:host([data-site-typography-v169]) :is(#site-type-v169#site-type-v169,.paper-app,.app-shell) {
+  font-size:var(--site-type-body)!important;
+}
+:host([data-site-typography-v169]) :is(#site-type-v169#site-type-v169,.paper-app,.app-shell)
+  :is(.paper-nav button>b,.paper-cell button b,.day-info b,.word-card strong,.word-item strong,
+      .scenario-tab strong,.scenario-tab b,.category-tab,.detail-tabs button,.reading-tabs button) {
+  font-size:var(--site-type-control)!important;
+  line-height:1.45!important;
+}
+:host([data-site-typography-v169]) :is(#site-type-v169#site-type-v169,.paper-app,.app-shell)
+  :is(.paper-meta,.paper-cell small,.eyebrow,.unit-code,.day-index b,.day-info p,
+      .scenario-tab small,.scenario-tab span,.streak-chip,.sidebar-lab em,.sidebar-project small,
+      .v159-import-steps li,.scenario-progress-box span,.scenario-progress-box b,th,td) {
+  font-size:var(--site-type-meta)!important;
+  line-height:1.45!important;
+}
+:host([data-site-typography-v169]) :is(#site-type-v169#site-type-v169,.paper-app,.app-shell)
+  :is(.sidebar-lab strong,.scenario-progress-box strong,.stat-card strong,.stat-card b) {
+  font-size:var(--site-type-metric)!important;
+  line-height:1.3!important;
+}
+:host([data-site-typography-v169]) :is(#site-type-v169#site-type-v169,.paper-app,.app-shell) :is(#scenario-title,.lesson-stage .expression,.lesson-stage .target-text) {
+  font-size:var(--site-type-page)!important;
+  line-height:1.4!important;
+}
+:host([data-site-typography-v169]) :is(#site-type-v169#site-type-v169,.paper-app,.app-shell) :is(#evidenceBadge,.paper-app i:not([aria-hidden="true"]),.status-pill) {
+  font-size:var(--site-type-meta)!important;
+  line-height:1.45!important;
+}
+:host([data-site-typography-v169]) :is(#site-type-v169#site-type-v169,.paper-app) .library-toolbar {flex-wrap:wrap;gap:6px}
+:host([data-site-typography-v169]) :is(#site-type-v169#site-type-v169,.paper-app) .library-toolbar button {flex:none;white-space:nowrap}
+:host([data-site-typography-v169]) :is(#site-type-v169#site-type-v169,.paper-app) :is(.status-pill,th) {word-break:keep-all;letter-spacing:0}
+
+/* A handful of legacy rules include both the app and pane IDs. These exact
+   exceptions need a stronger scope than the general two-ID reset above. */
+html:not(.aiderlog-android) body #app#app#app :is(.month-controls button,.routine-progress-intro h3,
+    .routine-progress-metrics span,.routine-progress-metrics b,.routine-progress-ruleline b,
+    .routine-round-stamp b,.routine-round-stamp span,.routine-round-stamp small) {
+  font-size:var(--site-type-meta)!important;
+  line-height:1.45!important;
+}
+html:not(.aiderlog-android) body #app#app#app .routine-progress-intro h3 {
+  font-size:var(--site-type-subhead)!important;
+}
+html:not(.aiderlog-android) body #app#app#app .routine-progress-ruleline b {white-space:nowrap}
+html:not(.aiderlog-android) body #app#app#app .routine-progress-ruleline span {grid-template-columns:52px minmax(0,1fr)}
+
+/* Keep graphical controls/brand marks out of the typography hierarchy. */
+html:not(.aiderlog-android) body #app#app .nav-tools .masthead-date{font-size:0!important}
+html:not(.aiderlog-android) body #app#app :is(.close,.close-btn,.media-arrow){font-size:20px!important}
+html:not(.aiderlog-android) body #app#app .routine-create-icons button{font-size:18px!important}
+
+/* Small web screens retain the same text scale; use the existing responsive
+   layout rather than shrinking body copy. This does not style the Android app. */
+@media(max-width:767px){
+  html:not(.aiderlog-android) body #app#app :is(.tab,.modern-header-page-select){font-size:12px!important}
+  html:not(.aiderlog-android) body #app#app :is(.emotion-mood-row){grid-template-columns:minmax(78px,auto) minmax(0,1fr) 36px}
+}

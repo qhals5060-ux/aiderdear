@@ -11,8 +11,8 @@
 <meta name="description" content="">
 <meta name="format-detection" content="telephone=no">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="aiderlog-build" content="v168">
-<meta name="aiderlog-android-build" content="v168">
+<meta name="aiderlog-build" content="v169">
+<meta name="aiderlog-android-build" content="v169">
 <link rel="canonical" href="https://aiderdear1.vercel.app/">
 <script>
 (() => {
@@ -4122,11 +4122,11 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   html body #stage .calendar{min-height:488px!important}
 }
 </style>
-<link rel="stylesheet" href="./site-work-v167.css?v=168">
-<link rel="stylesheet" href="./site-polish-v158.css?v=160">
+<link rel="stylesheet" href="./site-work-v167.css?v=169">
+<link rel="stylesheet" href="./site-polish-v158.css?v=169">
 <script>(()=>{const h=document.documentElement;if(window.AiderLogNative){h.classList.add('aiderlog-android');return}let e=h.dataset.siteDefaultEdition==='editorial'?'editorial':'modern';try{const s=localStorage.getItem('aiderlog.site.edition');if(s==='modern'||s==='editorial')e=s}catch{}h.dataset.siteEdition=e;h.classList.toggle('modern-site',e==='modern')})();</script>
-<link rel="stylesheet" href="./site-modern-v165.css?v=167">
-<link rel="stylesheet" href="./site-editions-v164.css?v=164">
+<link rel="stylesheet" href="./site-modern-v165.css?v=169">
+<link rel="stylesheet" href="./site-editions-v164.css?v=169">
 </head>
 <body>
 <a class="skip-link" href="#app">본문으로 건너뛰기</a>
@@ -4831,15 +4831,15 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
 <div class="app-install-grid app-install-v137 site-edition-downloads">
   <article class="app-install-card windows">
     <i>Windows PC · 사이트 파일</i><b>모던</b><p>간결한 구조와 차분한 색상의 사이트 디자인입니다.</p>
-    <a class="app-download-link app-download-v164" href="./AiderLog-Modern-v168-site-files.zip" download="AiderLog-Modern-v168-site-files.zip">모던 사이트 파일 다운로드</a>
+    <a class="app-download-link app-download-v164" href="./AiderLog-Modern-v169-site-files.zip" download="AiderLog-Modern-v169-site-files.zip">모던 사이트 파일 다운로드</a>
   </article>
   <article class="app-install-card windows">
     <i>Windows PC · 사이트 파일</i><b>에디토리얼</b><p>기존의 잡지형 구성과 탭 디자인을 유지합니다.</p>
-    <a class="app-download-link app-download-v164" href="./AiderLog-Editorial-v168-site-files.zip" download="AiderLog-Editorial-v168-site-files.zip">에디토리얼 사이트 파일 다운로드</a>
+    <a class="app-download-link app-download-v164" href="./AiderLog-Editorial-v169-site-files.zip" download="AiderLog-Editorial-v169-site-files.zip">에디토리얼 사이트 파일 다운로드</a>
   </article>
   <article class="app-install-card android">
     <i>Android APK</i><b>Android 앱</b><p>Galaxy Fold·Flip 3–8 및 Android 8.0 이상용 최신 설치 파일입니다.</p>
-    <a class="app-download-link app-download-v164" href="./AiderLog-v168.apk" download="AiderLog-v168.apk">Android APK 다운로드</a>
+    <a class="app-download-link app-download-v164" href="./AiderLog-v169.apk" download="AiderLog-v169.apk">Android APK 다운로드</a>
   </article>
 </div>
           <div class="login-data-summary"><b>기록 저장 안내</b><span>일정은 본인 공간에 저장되며 ‘커플과 공유’를 선택한 일정만 상대 캘린더에 표시됩니다.</span><span>EVENT는 커플 연결 시 함께 보고, 루틴·어학·PERSONAL·메모는 본인만 확인합니다.</span><span>PAPER·CONSULTING·WORK는 허용된 두 계정만 열 수 있으며, 각 계정의 연구·컨설팅·운영 기록은 서로 분리해 저장합니다.</span><span>사진·영상은 압축 저장되며, 오래된 일반 기록은 삭제 전에 반드시 확인을 요청합니다.</span></div>
@@ -5354,11 +5354,11 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script type="module" src="./firebase-app.js?v=168"></script>
-<script src="./brain-3d.js"></script>
-<script src="./language-lab-v18-engine.js?v=160"></script>
-<script src="./language-content-v149.js?v=160"></script>
-<script src="./language-lab-v18.js?v=149"></script>
+<script type="module" src="./firebase-app.js?v=169"></script>
+<script src="./brain-3d.js?v=169"></script>
+<script src="./language-lab-v18-engine.js?v=169"></script>
+<script src="./language-content-v149.js?v=169"></script>
+<script src="./language-lab-v18.js?v=169"></script>
 <script>
 (()=>{
   const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
@@ -6365,6 +6365,24 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   // fixed viewport page flip
   // Detailed pages change only through their explicit navigation buttons.
   let pageIndex=0, locked=false;
+  function setSitePaneVisibilityV169(page,active){
+    if(!page||window.AiderLogNative||document.documentElement.classList.contains('aiderlog-android'))return;
+    // Visibility is navigation state, not an animation/CSS side effect. In
+    // particular, an older cached calendar display:grid!important must not
+    // cover the newly selected Insights page.
+    page.dataset.sitePaneActive=String(active);page.hidden=!active;page.inert=!active;
+    if(!active){
+      if(!page.hasAttribute('data-site-pane-display')){
+        page.dataset.sitePaneDisplay=page.style.getPropertyValue('display');
+        page.dataset.sitePaneDisplayPriority=page.style.getPropertyPriority('display');
+      }
+      page.style.setProperty('display','none','important');
+    }else if(page.hasAttribute('data-site-pane-display')){
+      const value=page.dataset.sitePaneDisplay,priority=page.dataset.sitePaneDisplayPriority||'';
+      if(value)page.style.setProperty('display',value,priority);else page.style.removeProperty('display');
+      delete page.dataset.sitePaneDisplay;delete page.dataset.sitePaneDisplayPriority;
+    }
+  }
   function animateLines(page){
     if(!page)return;
     page.classList.remove('line-active');
@@ -6372,7 +6390,7 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
     page.classList.add('line-active');
   }
   function goPage(next,force=false){next=Math.max(0,Math.min(1,next));if((next===pageIndex&&!force)||(locked&&!force))return;if(force)locked=false;locked=true;
-    [0,1].forEach(i=>{const p=$(`#page${i}`);p.className=p.className.replace(/\b(current|next|prev)\b/g,'').replace(/\s+/g,' ').trim();p.classList.add(i===next?'current':(i<next?'prev':'next'));p.setAttribute('aria-hidden',i===next?'false':'true')});
+    [0,1].forEach(i=>{const p=$(`#page${i}`);p.className=p.className.replace(/\b(current|next|prev)\b/g,'').replace(/\s+/g,' ').trim();p.classList.add(i===next?'current':(i<next?'prev':'next'));p.setAttribute('aria-hidden',i===next?'false':'true');setSitePaneVisibilityV169(p,i===next)});
     $$('.dotnav').forEach((d,i)=>d.classList.toggle('active',i===next));pageIndex=next;animateLines($(`#page${next}`));const mediaVideo=$('#coupleVideo2');if(mediaVideo&&!mediaVideo.hidden){if(next===0)mediaVideo.play().catch(()=>{});else mediaVideo.pause()}setTimeout(()=>locked=false,760)
   }
   $$('.dotnav').forEach(b=>b.addEventListener('click',()=>goPage(Number(b.dataset.page),true)));
@@ -7080,7 +7098,7 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   let recordPageIndex=0,recordFlipLocked=false;
   function goRecordPage(next,force=false){
     next=Math.max(0,Math.min(1,next));if((next===recordPageIndex&&!force)||(recordFlipLocked&&!force))return;if(force)recordFlipLocked=false;recordFlipLocked=true;
-    [$('#recordHubShell'),$('#eventStage')].forEach((p,i)=>{p.classList.remove('current','next','prev');p.classList.add(i===next?'current':(i<next?'prev':'next'));p.setAttribute('aria-hidden',i===next?'false':'true')});
+    [$('#recordHubShell'),$('#eventStage')].forEach((p,i)=>{p.classList.remove('current','next','prev');p.classList.add(i===next?'current':(i<next?'prev':'next'));p.setAttribute('aria-hidden',i===next?'false':'true');setSitePaneVisibilityV169(p,i===next)});
     $$('.record-dot').forEach((d,i)=>d.classList.toggle('active',i===next));recordPageIndex=next;if(next===0){renderRecordFeed();renderAlbumFolders();$('#recordShell').classList.remove('line-active');$('#albumShell').classList.remove('line-active');void $('#recordShell').offsetWidth;$('#recordShell').classList.add('line-active');$('#albumShell').classList.add('line-active')}else{renderEventArchive();renderTravelArchive();animateStandaloneFrame('#eventFrame');animateStandaloneFrame('#travelFrame')}setTimeout(()=>recordFlipLocked=false,760);
   }
   $$('.record-dot').forEach(b=>b.addEventListener('click',()=>goRecordPage(Number(b.dataset.recordPage),true)));
@@ -7638,7 +7656,7 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   $('#privateStage').addEventListener('change',async e=>{if(!privateCanWrite())return;const d=privateData[privateOwner];if(e.target.matches('[data-check-toggle]')){const c=d.checklists.find(x=>x.id===e.target.dataset.checkToggle);if(c)c.done=e.target.checked;try{await savePrivateData(privateOwner);renderPrivate()}catch(err){toast(googleErrorMessage(err))}}});
   $('#privateStage').addEventListener('click',async e=>{if(!currentUserEmail)return;const d=privateData[privateOwner];const bigGoal=e.target.closest('[data-big-goal-select]');if(bigGoal){selectedBigGoalIndex=Math.max(0,Math.min(2,Number(bigGoal.dataset.bigGoalSelect)||0));renderPrivate();return}if(e.target.closest('[data-routine-collapse]')){routineExpandedId='';renderPrivate();return}const expand=e.target.closest('[data-routine-expand]');if(expand){routineExpandedId=expand.dataset.routineExpand||'';selectedRoutineId=routineExpandedId||selectedRoutineId;renderPrivate();return}const share=e.target.closest('[data-routine-share-complete]');if(share){const r=d?.routines?.find(row=>row.id===share.dataset.routineShareComplete),level=String(r?.dailyLevels?.[dateKeyOffset(0)]||'').toUpperCase();if(!r||!level||level==='SKIP'){toast('오늘 루틴을 MINI, MORE 또는 MAX로 기록한 뒤 보낼 수 있습니다.');return}await sendPartnerCompletion('routine',r.text||'Routine',level,`${r.id}:${dateKeyOffset(0)}`);return}const memo=e.target.closest('[data-memo-slot]');if(memo&&!e.target.closest('.postit-remove')){if(privateCanWrite()){editingMemoSlot=Number(memo.dataset.memoSlot);renderPrivate();setTimeout(()=>$('#privateMemoSlotText')?.focus(),20)}return}if(e.target.closest('[data-memo-cancel]')){editingMemoSlot=-1;renderPrivate();return}const tab=e.target.closest('[data-routine-tab]');if(tab){routinePanelMode=tab.dataset.routineTab==='create'?'create':'routines';if(routinePanelMode==='create'){editingRoutineId='';routineCreateIcon='✨'}renderPrivate();return}const iconBtn=e.target.closest('[data-routine-icon]');if(iconBtn){routineCreateIcon=iconBtn.dataset.routineIcon||'✨';const hidden=$('#privateRoutineIcon');if(hidden)hidden.value=routineCreateIcon;$$('[data-routine-icon]').forEach(b=>b.classList.toggle('active',b===iconBtn));return}const editRoutine=e.target.closest('[data-routine-edit]');if(editRoutine){const r=d.routines.find(x=>x.id===editRoutine.dataset.routineEdit);if(r){editingRoutineId=r.id;routineCreateIcon=r.icon||'✨';routinePanelMode='create';renderPrivate()}return}const select=e.target.closest('[data-routine-select]');if(select){selectedRoutineId=select.dataset.routineSelect||'';routineExpandedId=routineExpandedId?selectedRoutineId:'';routinePanelMode='routines';editingRoutineId='';renderPrivate();return}if(!privateCanWrite())return;const dayStatus=e.target.closest('[data-routine-date-status]');if(dayStatus){openRoutineStatusSelector(dayStatus.dataset.routineDateStatus,dayStatus.dataset.date,null);return}const goalStatus=e.target.closest('[data-goal-status]');if(goalStatus){openRoutineStatusSelector(goalStatus.dataset.goalStatus,goalStatus.dataset.date,Number(goalStatus.dataset.goalIndex));return}const levelBtn=e.target.closest('[data-routine-level]');if(levelBtn){openRoutineStatusSelector(levelBtn.dataset.id,dateKeyOffset(0),null);return}const b=e.target.closest('[data-private-delete]');if(!b)return;const id=b.dataset.id;if(b.dataset.privateDelete==='memo'){d.memos=d.memos.filter(x=>x.id!==id);editingMemoSlot=-1}if(b.dataset.privateDelete==='routine'){d.routines=d.routines.filter(x=>x.id!==id);if(selectedRoutineId===id)selectedRoutineId=d.routines[0]?.id||''}if(b.dataset.privateDelete==='checklist')d.checklists=d.checklists.filter(x=>x.id!==id);try{await savePrivateData(privateOwner);renderPrivate()}catch(err){toast(googleErrorMessage(err))}});
   let privatePageIndex=0,privateFlipLocked=false;
-  function goPrivatePage(next,force=false){next=Math.max(0,Math.min(1,next));if((next===privatePageIndex&&!force)||(privateFlipLocked&&!force))return;if(force)privateFlipLocked=false;privateFlipLocked=true;[$('#privateShell'),$('#privateLanguageShell')].forEach((page,i)=>{page.classList.remove('current','next','prev');page.classList.add(i===next?'current':(i<next?'prev':'next'));page.setAttribute('aria-hidden',i===next?'false':'true')});$$('.private-dot').forEach((d,i)=>d.classList.toggle('active',i===next));privatePageIndex=next;renderPrivate();animateStandaloneFrame(next===0?'#privateFrame':'#privateLanguageFrame');setTimeout(()=>privateFlipLocked=false,760)}
+  function goPrivatePage(next,force=false){next=Math.max(0,Math.min(1,next));if((next===privatePageIndex&&!force)||(privateFlipLocked&&!force))return;if(force)privateFlipLocked=false;privateFlipLocked=true;[$('#privateShell'),$('#privateLanguageShell')].forEach((page,i)=>{page.classList.remove('current','next','prev');page.classList.add(i===next?'current':(i<next?'prev':'next'));page.setAttribute('aria-hidden',i===next?'false':'true');setSitePaneVisibilityV169(page,i===next)});$$('.private-dot').forEach((d,i)=>d.classList.toggle('active',i===next));privatePageIndex=next;renderPrivate();animateStandaloneFrame(next===0?'#privateFrame':'#privateLanguageFrame');setTimeout(()=>privateFlipLocked=false,760)}
   $$('.private-dot').forEach(b=>b.addEventListener('click',()=>goPrivatePage(Number(b.dataset.privatePage),true)));
 
   $('#languageLearningBlank').addEventListener('click',async e=>{
@@ -7882,7 +7900,7 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   $('#personalInbodyForm').addEventListener('submit',async e=>{e.preventDefault();if(!currentUserEmail)return;const data=personalStore(),id=$('#personalInbodyId').value,date=$('#personalInbodyDate').value,weight=personalNumber('#personalInbodyWeight');if(!date||!weight){toast('측정 날짜와 체중을 입력해주세요.');return}data.personalItems=Array.isArray(data.personalItems)?data.personalItems:[];const existingIndex=id?data.personalItems.findIndex(row=>row.id===id):-1,existing=existingIndex>=0?data.personalItems[existingIndex]:null,details={healthType:'inbody',inbodyWeight:weight,inbodyMuscle:personalNumber('#personalInbodyMuscle'),inbodyFatMass:personalNumber('#personalInbodyFatMass'),inbodyFatPercent:personalNumber('#personalInbodyFatPercent'),inbodyBmi:personalNumber('#personalInbodyBmi'),inbodyVisceral:personalNumber('#personalInbodyVisceral')},row={id:existing?.id||`personal-inbody-${Date.now()}`,category:'health',date,title:'InBody 측정',note:$('#personalInbodyNote').value.trim(),status:'done',minutes:0,amount:0,details,media:null,createdAt:existing?.createdAt||Date.now()};if(existingIndex>=0)data.personalItems.splice(existingIndex,1,row);else data.personalItems.push(row);try{await savePrivateData(currentUserEmail);resetPersonalInbodyForm();renderPersonalInbodyHistory();renderPersonal();toast(`InBody 기록을 ${existing?'수정':'저장'}했습니다.`)}catch(err){toast(googleErrorMessage(err))}});
   $('#personalDashboard').addEventListener('click',async e=>{const remove=e.target.closest('[data-personal-delete]');if(remove){e.preventDefault();e.stopPropagation();deletePersonalEntry(remove.dataset.personalDelete);return}const workflowEdit=e.target.closest('[data-workflow-edit]');if(workflowEdit){e.preventDefault();e.stopPropagation();openPersonalEntry('workflow',{existingId:workflowEdit.dataset.workflowEdit});return}const workflowStep=e.target.closest('[data-workflow-step]');if(workflowStep){e.preventDefault();e.stopPropagation();const [id,indexText]=workflowStep.dataset.workflowStep.split('|'),index=Number(indexText),data=personalStore(),row=(data.personalItems||[]).find(item=>item.id===id);if(!row)return;row.details=row.details||{};row.details.completedSteps={...(row.details.completedSteps||{})};if(row.details.completedSteps[index])delete row.details.completedSteps[index];else row.details.completedSteps[index]=Date.now();const steps=row.details.steps||[],done=steps.filter((_,stepIndex)=>row.details.completedSteps[stepIndex]).length;row.details.progress=steps.length?Math.round(done/steps.length*100):row.details.progress||0;if(steps.length&&done===steps.length)row.status='done';else if(done&&row.status==='planned')row.status='ongoing';else if(done<steps.length&&row.status==='done')row.status='ongoing';try{await savePrivateData(currentUserEmail);renderPersonal()}catch(err){toast(googleErrorMessage(err))}return}const edit=e.target.closest('[data-personal-edit]');if(edit){e.preventDefault();e.stopPropagation();const row=(personalStore().personalItems||[]).find(item=>item.id===edit.dataset.personalEdit);if(!row)return;if(row.details?.challengeId){openPersonalChallenge();personalChallengeSelectedDay[row.details.challengeId]=Number(row.details.challengeDay)||1;personalChallengeVariant[row.details.challengeId]=row.details.challengeVariantId||PERSONAL_CHALLENGES[row.details.challengeId]?.variants?.[0]?.id;personalChallengeEditingId[row.details.challengeId]=row.id;$('#personalChallengeDate').value=row.date;renderPersonalChallenge()}else openPersonalEntry('health',{existingId:row.id,healthType:'exercise'});return}if(e.target.closest('[data-inbody-open]')){openPersonalInbody();return}if(e.target.closest('[data-challenge-open]')){openPersonalChallenge();return}const button=e.target.closest('[data-personal-add]');if(!button)return;openPersonalEntry(button.dataset.personalAdd,{healthType:button.dataset.healthType||'',mealType:button.dataset.mealType||'',financeType:button.dataset.financeType||''})});
   let personalPageIndex=0,personalFlipLocked=false;
-  function goPersonalPage(next,force=false){next=Math.max(0,Math.min(1,next));if((next===personalPageIndex&&!force)||(personalFlipLocked&&!force))return;if(force)personalFlipLocked=false;personalFlipLocked=true;[$('#personalMainShell'),$('#personalOverviewShell')].forEach((page,i)=>{page.classList.remove('current','next','prev');page.classList.add(i===next?'current':(i<next?'prev':'next'));page.setAttribute('aria-hidden',i===next?'false':'true')});$$('.personal-dot').forEach((dot,i)=>dot.classList.toggle('active',i===next));personalPageIndex=next;renderPersonal();animateStandaloneFrame(next===0?'#personalMainShell .personal-frame':'#personalOverviewFrame');setTimeout(()=>personalFlipLocked=false,760)}
+  function goPersonalPage(next,force=false){next=Math.max(0,Math.min(1,next));if((next===personalPageIndex&&!force)||(personalFlipLocked&&!force))return;if(force)personalFlipLocked=false;personalFlipLocked=true;[$('#personalMainShell'),$('#personalOverviewShell')].forEach((page,i)=>{page.classList.remove('current','next','prev');page.classList.add(i===next?'current':(i<next?'prev':'next'));page.setAttribute('aria-hidden',i===next?'false':'true');setSitePaneVisibilityV169(page,i===next)});$$('.personal-dot').forEach((dot,i)=>dot.classList.toggle('active',i===next));personalPageIndex=next;renderPersonal();animateStandaloneFrame(next===0?'#personalMainShell .personal-frame':'#personalOverviewFrame');setTimeout(()=>personalFlipLocked=false,760)}
   $$('.personal-dot').forEach(button=>button.addEventListener('click',()=>goPersonalPage(Number(button.dataset.personalPage),true)));
   $('#personalOverviewDashboard').addEventListener('click',e=>{if(e.target.closest('[data-inbody-open]')){openPersonalInbody();return}const button=e.target.closest('[data-overview-category]');if(!button)return;personalCategory=button.dataset.overviewCategory;goPersonalPage(0,true);renderPersonal()});
   $('#personalOverviewDashboard').addEventListener('change',async e=>{
@@ -8539,7 +8557,7 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
     if(clientDelete){const client=data.consultingClients.find(row=>row.id===clientDelete.dataset.consultingDelete);if(!client||!confirm(`“${client.name}” 고객과 연결된 상담·과업·파일을 모두 삭제할까요?`))return;const mediaRows=(data.consultingFiles||[]).filter(row=>row.clientId===client.id);data.consultingClients=data.consultingClients.filter(row=>row.id!==client.id);data.consultingTasks=data.consultingTasks.filter(row=>row.clientId!==client.id);data.consultingSessions=data.consultingSessions.filter(row=>row.clientId!==client.id);data.consultingFiles=(data.consultingFiles||[]).filter(row=>row.clientId!==client.id);selectedConsultingClientId=data.consultingClients[0]?.id||'';await persistConsulting('상담 고객을 삭제했습니다.');await Promise.allSettled(mediaRows.map(row=>row.storageScope==='paper-task'?window.AiderDearFirebase.deletePaperTaskMedia(row.fileId):window.AiderDearFirebase.deletePrivateMedia(row.fileId)))}
   });
   $('#consultingFileInput').addEventListener('change',async e=>{const clientId=consultingFileClientId,files=[...(e.target.files||[])].slice(0,10);consultingFileClientId='';e.target.value='';if(!clientId||!files.length)return;const data=consultingStore();if(!(data.consultingClients||[]).some(row=>row.id===clientId))return;data.consultingFiles=Array.isArray(data.consultingFiles)?data.consultingFiles:[];const uploaded=[];try{for(const file of files){toast(`${file.name} 저장 중…`);const result=await window.AiderDearFirebase.uploadPaperTaskMedia(file,'consulting-client-file');uploaded.push(result.id);data.consultingFiles.push({id:`consult-file-${Date.now()}-${crypto.randomUUID().slice(0,6)}`,clientId,fileId:result.id,name:result.name||file.name,type:result.mimeType||file.type||'application/octet-stream',size:result.size||file.size,storageScope:'paper-task',ownerEmail:currentUserEmail,createdAt:Date.now()})}await savePrivateData(currentUserEmail);renderConsultingWorkspace();toast(`${uploaded.length}개 고객 파일을 추가했습니다.`)}catch(err){const failed=new Set(uploaded);data.consultingFiles=data.consultingFiles.filter(row=>!failed.has(row.fileId));await Promise.allSettled(uploaded.map(id=>window.AiderDearFirebase.deletePaperTaskMedia(id)));toast(googleErrorMessage(err))}});
-  function goTaskPage(next,instant=false){next=Math.max(0,Math.min(1,next));taskPageIndex=next;$$('#taskStage .task-page').forEach((page,index)=>{page.classList.remove('current','next','prev');page.classList.add(index===next?'current':index<next?'prev':'next');page.setAttribute('aria-hidden',String(index!==next));if(instant){page.style.transition='none';requestAnimationFrame(()=>page.style.transition='')}});$$('[data-task-page]').forEach(button=>button.classList.toggle('active',Number(button.dataset.taskPage)===next));if(next===0)animateStandaloneFrame('#taskStage .task-frame');else renderGraduateConsultingCalendar()}
+  function goTaskPage(next,instant=false){next=Math.max(0,Math.min(1,next));taskPageIndex=next;$$('#taskStage .task-page').forEach((page,index)=>{page.classList.remove('current','next','prev');page.classList.add(index===next?'current':index<next?'prev':'next');page.setAttribute('aria-hidden',String(index!==next));setSitePaneVisibilityV169(page,index===next);if(instant){page.style.transition='none';requestAnimationFrame(()=>page.style.transition='')}});$$('[data-task-page]').forEach(button=>button.classList.toggle('active',Number(button.dataset.taskPage)===next));if(next===0)animateStandaloneFrame('#taskStage .task-frame');else renderGraduateConsultingCalendar()}
   $$('[data-task-page]').forEach(button=>button.addEventListener('click',()=>goTaskPage(Number(button.dataset.taskPage),true)));
   document.addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'&&!$('#paperStage').hidden){e.preventDefault();window.AiderPaperWorkspace?.focusSearch?.()}if(e.key!=='Escape')return;if(!$('#personalEntryOverlay').hidden)closePersonalEntry();if(!$('#personalChallengeOverlay').hidden)closePersonalChallenge();if(!$('#personalInbodyOverlay').hidden)closePersonalInbody();if(!$('#graduateFitOverlay').hidden)closeGraduateFit();$$('.research-modal').forEach(modal=>modal.hidden=true)});
 
@@ -8652,23 +8670,23 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
     normalizeCloudData();selectAlbumFolderColor(ALBUM_PASTELS[0]);getAlbumFolders();refreshRecordAlbumSelect(DEFAULT_ALBUM_ID);renderAlbumFolders();renderEventArchive();renderTravelArchive();renderPrivate();renderPersonal();renderPaper();renderConsultingWorkspace();renderEmotion();applyLoginUI();setDday();renderDdayList();renderCalendar();if(location.hash==='#search')setTimeout(openSearchFromQuick,0);if('serviceWorker' in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'}).then(registration=>registration.update()).catch(()=>{}));
 })();
 </script>
-<script src="./paper-workspace-v121.js?v=167"></script>
-<script src="./paper-v159.js?v=167"></script>
-<link rel="stylesheet" href="./consult-v167.css?v=168">
-<script src="./consult-model-v167.js?v=168"></script>
-<script src="./work-calendar-v168.js?v=168"></script>
-<script src="./storage-maintenance-v168.js?v=168"></script>
-<script src="./consult-intake-v168.js?v=168"></script>
-<script src="./consult-deeplink-v168.js?v=168"></script>
-<script src="./consult-v167.js?v=168"></script>
-<script src="./work-client-v167.js?v=167"></script>
-<script src="./site-work-v167.js?v=168"></script>
-<script src="./site-polish-v158.js?v=160"></script>
-<script src="./site-editions-v164.js?v=167"></script>
-<script src="./site-layout-v165.js?v=167"></script>
-<link rel="stylesheet" href="./site-ui-v167.css?v=168">
-<script src="./site-ui-v167.js?v=168"></script>
-<script src="./widget-sync-v162.js?v=162"></script>
+<script src="./paper-workspace-v121.js?v=169"></script>
+<script src="./paper-v159.js?v=169"></script>
+<link rel="stylesheet" href="./consult-v167.css?v=169">
+<script src="./consult-model-v167.js?v=169"></script>
+<script src="./work-calendar-v168.js?v=169"></script>
+<script src="./storage-maintenance-v168.js?v=169"></script>
+<script src="./consult-intake-v168.js?v=169"></script>
+<script src="./consult-deeplink-v168.js?v=169"></script>
+<script src="./consult-v167.js?v=169"></script>
+<script src="./work-client-v167.js?v=169"></script>
+<script src="./site-work-v167.js?v=169"></script>
+<script src="./site-polish-v158.js?v=169"></script>
+<script src="./site-editions-v164.js?v=169"></script>
+<script src="./site-layout-v165.js?v=169"></script>
+<link rel="stylesheet" href="./site-ui-v167.css?v=169">
+<script src="./site-ui-v167.js?v=169"></script>
+<script src="./widget-sync-v162.js?v=169"></script>
 <script>
 (() => {
   const FALLBACK_FLOOR = 11;
@@ -8718,5 +8736,7 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   window.addEventListener('aiderlog-site-editionchange', () => applyFontFloor());
 })();
 </script>
+<link rel="stylesheet" href="./site-typography-v169.css?v=169">
+<script src="./site-typography-v169.js?v=169"></script>
 </body>
 </html>

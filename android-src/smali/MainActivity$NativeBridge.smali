@@ -41,6 +41,27 @@
 
 
 # virtual methods
+.method public getSystemScheme()Ljava/lang/String;
+    .locals 2
+    .annotation runtime Landroid/webkit/JavascriptInterface;
+    .end annotation
+
+    iget-object v0, p0, Lcom/aiderlog/v22app/MainActivity$NativeBridge;->this$0:Lcom/aiderlog/v22app/MainActivity;
+    invoke-virtual {v0}, Landroid/content/Context;->getResources()Landroid/content/res/Resources;
+    move-result-object v0
+    invoke-virtual {v0}, Landroid/content/res/Resources;->getConfiguration()Landroid/content/res/Configuration;
+    move-result-object v0
+    iget v0, v0, Landroid/content/res/Configuration;->uiMode:I
+    and-int/lit8 v0, v0, 0x30
+    const/16 v1, 0x20
+    if-ne v0, v1, :scheme_light_v169
+    const-string v0, "dark"
+    return-object v0
+    :scheme_light_v169
+    const-string v0, "light"
+    return-object v0
+.end method
+
 .method public cancelEventNotification(Ljava/lang/String;)V
     .locals 1
     .annotation runtime Landroid/webkit/JavascriptInterface;

@@ -27,6 +27,7 @@ const branches={
   routine:{...common,...body,...meta,...progress,...graph,...Object.fromEntries(Array.from({length:4},(_,i)=>['w165_level_'+i,'TextView']))},
   language:{...common,...body,...meta,...graph,w165_action:'TextView'},
   stats:{...common,...body,...meta,...graph,w165_foot:'TextView'},
+  trend:{...common,...body,...meta,...graph,w165_foot:'TextView',w169_row_divider:'ImageView'},
   challenge:{...common,...body,...meta,...progress,...graph},
   workout:{...common,...body},
   book:{...common,...body,...meta,...progress,w165_cover:'ImageView'},
@@ -35,13 +36,14 @@ const branches={
   day:{...common,...body},
   meal_slot:{w165_card:'LinearLayout',w165_photo:'ImageView',w165_time:'TextView',w165_rating:'TextView'},
 };
-const componentLayouts=Object.keys(branches).flatMap(type=>['','_cell'].map(suffix=>parse(`widget_${type}_v165${suffix}`)));
+const componentName=(type,suffix='')=>`widget_${type}_${type==='trend'?'v169':'v165'}${suffix}`;
+const componentLayouts=Object.keys(branches).flatMap(type=>['','_cell'].map(suffix=>parse(componentName(type,suffix))));
 const outerKeys={widget_root:'FrameLayout',widget_background:'ImageView',w165_header:'LinearLayout',widget_title:'TextView',widget_subtitle:'TextView',widget_previous:'TextView',widget_next:'TextView',widget_add:'TextView',widget_empty:'TextView',widget_items_v164:'ListView',widget_preview_rows_v164:'LinearLayout',w165_secondary:'FrameLayout',w165_secondary_list:'ListView',w165_secondary_preview:'LinearLayout'};
 const outerLayouts=['widget_design_v165','widget_design_v165_wide'].map(parse);
 
-test('all 24 regular/cell layouts have exact conditional-branch target IDs and compatible view classes',()=>{
+test('all 26 regular/cell layouts have exact conditional-branch target IDs and compatible view classes',()=>{
   for(const [type,targets]of Object.entries(branches))for(const suffix of ['','_cell']){
-    const {name,ids}=parse(`widget_${type}_v165${suffix}`);
+    const {name,ids}=parse(componentName(type,suffix));
     for(const [id,tag]of Object.entries(targets))assert.equal(ids.get(id)?.tag,tag,`${name}: ${id} must be ${tag}`);
   }
 });
@@ -63,7 +65,7 @@ test('common setters retain exclusion guards for templates intentionally lacking
   assert.match(java,/if\(!type\.equals\("meal"\)\)\{v\.setImageViewResource\(id\(c,"w165_card_background"\)/);
   assert.match(java,/if\(!type\.equals\("todo"\)\)\{text\(c,v,"w165_body"/);
   assert.match(java,/if\(!type\.equals\("workout"\)&&!type\.equals\("day"\)\)\{color\(c,v,"w165_meta"/);
-  assert.match(java,/if\(type\.equals\("meal"\)\)\{bitmap[\s\S]*?return v;\}\s*text\(c,v,"w165_title"/);
+  assert.match(java,/if\(type\.equals\("meal"\)\)\{bitmap[\s\S]*?return v;\}\s*(?:float titleSize=[^;]+;\s*)?text\(c,v,"w165_title"/);
   assert.match(java,/if\(type\.equals\("group"\)\|\|type\.equals\("stack"\)\)\{[\s\S]*?return group;\}/);
 });
 
@@ -92,15 +94,17 @@ test('reflective setInt calls only use audited @RemotableViewMethod methods on c
   assert(checked>=7,'Expected the audited background, paint and date-height calls');
 });
 
-test('dynamic template aliases exist, including stats/YouTube/meal and cell variants',()=>{
-  assert.match(java,/type\.equals\("routineStats"\)\|\|type\.equals\("workoutStats"\)\|\|type\.equals\("trend"\)\?"stats":type\.equals\("youtube"\)\?"note":type\.equals\("meal"\)\?"meal_slot":type/);
+test('dynamic template aliases exist, including compact trend/YouTube/meal and cell variants',()=>{
+  assert.match(java,/type\.equals\("routineStats"\)\|\|type\.equals\("workoutStats"\)\?"stats":type\.equals\("youtube"\)\?"note":type\.equals\("meal"\)\?"meal_slot":type/);
+  assert.match(java,/type\.equals\("trend"\)\?"widget_trend_v169"/);
+  for(const suffix of ['','_cell'])assert(parse(componentName('trend',suffix)).ids.size>0);
   for(const name of ['stats','note','meal_slot'])for(const suffix of ['','_cell'])assert(parse(`widget_${name}_v165${suffix}`).ids.size>0);
 });
 
 test('inline and service collection type counts cover all possible top-level layouts',()=>{
   const count=Number(service.match(/getViewTypeCount\(\)\{return (\d+);/)?.[1]);
   const inline=Number(native.match(/getMethod\("setViewTypeCount",int\.class\)\.invoke\(builder,(\d+)\)/)?.[1]);
-  const required=Object.keys(branches).length+1; // all component kinds + grouped row; cell templates are nested.
+  const required=Object.keys(branches).length+3; // 13 components + detail book + group + stack; cells are nested.
   assert(count>=required,`service ${count} < ${required}`);assert(inline>=required,`inline ${inline} < ${required}`);
   assert.match(native,/VERSION\.SDK_INT>=31&&[^\{]*rows\.size\(\)<=40/);
   assert.match(native,/Collection API unavailable; using RemoteViewsService/);

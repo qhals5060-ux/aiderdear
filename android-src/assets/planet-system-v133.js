@@ -64,9 +64,8 @@
   }
 
   function syncSystemTheme(){
-    if(document.documentElement.dataset.theme!=='system')return;
     const meta=$('meta[name="theme-color"]');
-    if(meta)meta.content=getComputedStyle(document.documentElement).getPropertyValue('--theme-background').trim()||'#f8f7fc';
+    if(meta)meta.content=getComputedStyle(document.documentElement).getPropertyValue(document.documentElement.dataset.backgroundMode==='light'?'--app-canvas':'--app-space-base').trim()||'#231E35';
   }
 
   function decorate(){detectLayout();bindWheel();ensureDisplaySettingsButton();syncSystemTheme();queueType()}
