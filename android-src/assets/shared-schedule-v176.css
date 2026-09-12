@@ -1,0 +1,31 @@
+/* Forsythia yellow is reserved for incoming personal schedules, not my shares. */
+html body #app #calendar .ev.schedule-received-v176,
+html body #app #page0 .agenda-row.schedule-received-v176,
+html body .calendar-event-tooltip>span.schedule-received-v176,
+html body #home .schedule-event-name-v119.schedule-received-v176,
+html body #home .schedule-upcoming-line-v126.schedule-received-v176,
+html body .schedule-day-list-v125 .schedule-received-v176 {
+  background:#FFF2B3!important;color:#594600!important;border-color:#DDB93B!important;
+  --owner-color:#B58B00;--event-color:#B58B00;
+}
+html body #page0 .agenda-row.schedule-received-v176 {border-left:3px solid #DDB93B!important;border-radius:6px;padding-inline:7px!important}
+html body #page0 .agenda-row.schedule-received-v176 .agenda-owner-dot,
+html body #home .schedule-received-v176 .schedule-owner-dot-v127 {background:#D9AC12!important;border-color:#B58B00!important}
+html body #home .schedule-event-name-v119.schedule-received-v176 {border-left:2px solid #DDB93B;border-radius:3px;padding-inline:3px}
+html body .calendar-event-tooltip>span.schedule-received-v176 {border-radius:4px;padding:3px 5px}
+html body .schedule-received-v176 :is(b,time,.shared-date,.shared-line,.shared-line>span) {color:inherit!important}
+html body #home .schedule-event-dots-v119 i.schedule-received-v176 {background:#D9AC12!important}
+
+/* The app's theme uses important declarations in this layer. Keep the incoming
+   provenance colour here too, so a dark/planet palette cannot hide it. */
+@layer appColour164 {
+  html body #home .schedule-event-name-v119.schedule-received-v176,
+  html body #home .schedule-upcoming-line-v126.schedule-received-v176,
+  html body .schedule-day-list-v125 .schedule-received-v176 {
+    background:#FFF2B3!important;color:#594600!important;border-color:#DDB93B!important;
+  }
+  html body #home .schedule-received-v176 :is(b,time),
+  html body .schedule-day-list-v125 .schedule-received-v176 :is(b,time) {color:#594600!important}
+  html body #home .schedule-event-dots-v119 i.schedule-received-v176,
+  html body #home .schedule-received-v176 .schedule-owner-dot-v127 {background:#D9AC12!important;border-color:#B58B00!important}
+}

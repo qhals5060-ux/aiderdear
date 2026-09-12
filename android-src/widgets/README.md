@@ -1,4 +1,33 @@
-# v168 native widgets (v13 designs)
+# v176 native widget colour layers
+
+The installed RemoteViews renderer now selects semantic surfaces in
+`WidgetDesignV165.surface`: near-white outer default, lavender note/stat/quote
+panels, white bordered routine/challenge/workflow/day cards, transparent plain
+rows. Selected dates/checks are violet with white text. Per-widget background
+colour, opacity, font settings and action targets remain unchanged.
+
+Rebuild from the repository root (use the configured Node executable):
+
+1. `node android-src/widgets/generate-components-v176.cjs ../AiderLog-v145-decoded/res`
+2. Set `WIDGET_V169_QA` to the workspace `outputs/widget-v176` directory, then run
+   `node android-src/widgets/generate-picker-v169.cjs ../AiderLog-v145-decoded/res --xml-only`.
+3. `node android-src/widgets/render-picker-xml-v176.cjs` creates all 30 portrait
+   launcher PNGs and 29 wide comparison PNGs from those exact XML/drawable trees.
+   The local SVG/Pango measurement adapter is not an Android screenshot. It does
+   not approximate colours by resource names or introduce production demo data.
+4. `./android-src/widgets/build-native-v176.ps1` builds the Java/D8 helper and
+   mirrors its smali into both canonical decoded sources and this directory.
+   For another build use a fresh workspace `-OutputRoot`; old helpers are kept.
+5. Run `widget-surfaces-v176.test.cjs`, the native/size/action/privacy regression
+   gates and `run-native-model-test-v169.ps1` with a fresh workspace OutputPath.
+
+Do not finish a rebuild with the historical v169 component generator: its v168
+predecessor paints every content surface the same light violet. Always finish
+with v176, then regenerate picker layouts/PNGs. Settings preview calls the same
+native renderer as installation. Physical Flip/Fold launcher, resize and touch
+verification remains a separate device gate.
+
+## Historical v168 architecture (v13 designs)
 
 The notes below retain historical architecture details. For v168 use
 `generate-components-v168.cjs` and then `generate-picker-v168.cjs` against the

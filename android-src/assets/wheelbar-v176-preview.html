@@ -1,0 +1,69 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AiderLog · 휠바 디자인 확인</title>
+<link rel="stylesheet" href="./app-theme-primary-v176.css">
+<link rel="stylesheet" href="./wheelbar-v176.css">
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f4f3f8;color:#28233a;font:15px/1.5 system-ui,sans-serif;--app-primary:#6255e8;--app-surface:#fff}
+main{max-width:1100px;margin:auto;padding:28px 24px 48px}h1{font-size:26px;margin:0 0 5px}h2{font-size:17px;margin:0 0 20px}p{margin:0 0 18px;color:#706a7d}
+.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:24px 0}.toolbar select{font:inherit;padding:9px 12px;border:1px solid #d6d2e2;border-radius:8px;background:white;color:#28233a}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.panel{background:#fff;border:1px solid #e2deeb;border-radius:14px;padding:24px;min-width:0}.panel.dark{background:#242035;color:#f9f8fd;border-color:#242035}.panel.dark p{color:#c9c4d7}
+.row{display:flex;gap:20px;align-items:center;justify-content:space-evenly}.item{display:flex;flex-direction:column;align-items:center;gap:8px;min-width:58px}.label{font-size:12px;color:inherit}
+.sample{position:relative;width:48px;height:48px;padding:0;border:0;background:none;color:white;display:grid;place-items:center}
+.sample:before{content:"";position:absolute;inset:2px;border:1px solid var(--app-primary);border-radius:50%;background:var(--app-primary)}.sample svg{position:relative;width:var(--preview-icon-size,24px);height:var(--preview-icon-size,24px);z-index:1;stroke:currentColor;fill:none;pointer-events:none}
+.sample svg[data-wheelbar-icon-v176=personal]{fill:currentColor;stroke:none}.sample.selected{color:white}.sample.selected:before{background:var(--app-primary);border-color:var(--app-primary)}.sample:focus-visible{outline:2px solid var(--app-primary);outline-offset:2px;border-radius:50%}
+.small-group+.small-group{margin-top:22px}.small-group h3{font-size:13px;font-weight:500;margin:0 0 6px;color:#706a7d}
+.wide{grid-column:1/-1}.integration{display:grid;grid-template-columns:minmax(250px,360px) 1fr;gap:28px;align-items:center}
+.phone{position:relative;overflow:hidden;min-height:330px;border-radius:22px;background:#29223b;border:1px solid #494058;color:#fff}
+.phone .views{padding:20px}.phone .view{display:none}.phone .view.on{display:block}.phone .view h3{margin:0;font-size:20px}.phone .view p{font-size:12px;margin-top:4px;color:#c4bbd4}
+#wheel{position:absolute;width:190px;height:190px;right:-8px;bottom:23.5px;pointer-events:none}
+#wheel.open{right:2px;bottom:-18px;pointer-events:auto}
+#wheelFan{position:absolute;inset:-38px -22px -18px -38px;opacity:0;visibility:hidden;pointer-events:none}
+#wheel.open #wheelFan{opacity:1;visibility:visible;pointer-events:auto}
+.global-wheel-item-v126{position:absolute;opacity:0;pointer-events:none}
+#wheel.open .global-wheel-item-v126{opacity:1;pointer-events:auto}
+#wheelCore{position:absolute;width:112px;height:112px;right:-6px;bottom:-6px;border:0;background:none;pointer-events:auto;touch-action:none}
+#wheel.open #wheelCore{transform:scale(.92)}
+#wheelCore img{position:absolute;left:50%;top:50%;width:138px;height:124px;max-width:none;transform:translate(-50%,-50%);pointer-events:none}
+#wheel.open #wheelCore img{transform:translate(-50%,-50%) scale(1.045)}
+.open-demo{font:inherit;padding:10px 16px;border:1px solid var(--app-primary);border-radius:8px;background:#fff;color:var(--app-primary);cursor:pointer}
+.notes{font-size:14px}.notes p{margin-bottom:12px}.notes strong{color:#28233a}
+@media(max-width:680px){main{padding:20px 14px}.grid{grid-template-columns:1fr}.panel{padding:20px 14px}.row{gap:8px}.wide{grid-column:auto}.integration{grid-template-columns:1fr}.phone{max-width:360px;width:100%;margin:auto}h1{font-size:23px}}
+</style></head><body>
+<main><h1>AiderLog 휠바</h1><p>사진 프레임 · 뚫린 마름모 · 원과 체크 · 열린 상자</p>
+<div class="toolbar"><label for="themeChoice">테마 Primary</label><select id="themeChoice"></select><span id="themeValue"></span></div>
+<div class="grid">
+ <section class="panel"><h2>기본 상태</h2><div class="row" data-sample-row="normal"></div></section>
+ <section class="panel"><h2>선택 상태 · 동일한 디자인</h2><div class="row" data-sample-row="selected"></div></section>
+ <section class="panel"><h2>실제 크기 비교 · 버튼 44px</h2><div id="smallSamples"></div></section>
+ <section class="panel dark"><h2>어두운 배경</h2><div class="row" data-sample-row="mixed"></div><p style="margin:22px 0 0;font-size:13px">눌러도 아이콘과 색상 형태를 유지합니다.</p></section>
+ <section class="panel wide"><h2>기존 휠 안의 배치</h2><div class="integration">
+  <div class="phone"><div id="app"><div class="views">
+   <section id="home" class="view"><h3>홈</h3><p>행성 탭 → 홈 · 길게 눌러 펼치기</p></section>
+   <section id="event" class="view on"><h3>이벤트</h3><p>사진 프레임</p></section>
+   <section id="personal" class="view"><h3>펄스널</h3><p>중앙이 뚫린 마름모</p></section>
+   <section id="routine" class="view"><h3>루틴</h3><p>열린 원과 체크</p></section>
+   <section id="fifth" class="view"><h3>MY 공간</h3><p>도구가 모인 열린 상자</p></section>
+  </div></div>
+  <div id="wheel" class="global-wheel-v126 open" aria-label="AiderLog 행성 휠">
+   <div id="wheelFan" class="global-wheel-field-v126">
+    <button type="button" class="global-wheel-item-v126 slot-0" data-index="0" data-page="fifth"></button>
+    <button type="button" class="global-wheel-item-v126 slot-1" data-index="1" data-page="personal"></button>
+    <button type="button" class="global-wheel-item-v126 slot-2" data-index="2" data-page="routine"></button>
+    <button type="button" class="global-wheel-item-v126 slot-3" data-index="3" data-page="event"></button>
+   </div>
+   <button type="button" id="wheelCore" class="global-wheel-planet-v126" aria-label="홈으로 이동 · 길게 눌러 휠 메뉴 열기"><img src="./wheel-planet-v140.png" alt="" draggable="false"></button>
+  </div></div>
+  <div class="notes"><p><strong>아이콘 24px · 보이는 원 44px · 터치 영역 48px</strong></p><p>기존 메뉴 중심 위치와 순서입니다. 네 터치 영역은 서로 겹치지 않습니다.</p><p>행성 이미지는 원본입니다. 이 확인 화면은 기존 탐색 코드를 사용하며 기록을 저장하지 않습니다.</p><button type="button" class="open-demo" id="openDemo">휠바 다시 펼치기</button></div>
+ </div></section>
+</div></main>
+<script src="./wheel-navigation-v151.js"></script><script src="./wheelbar-v176.js"></script>
+<script>
+const palettes=[['시스템 · Cosmic Violet','#6255E8'],['태양 · Solar Flare','#D86428'],['수성 · Mercury Alloy','#626873'],['금성 · Venus Veil','#A97846'],['지구 · Living Orbit','#2D748E'],['화성 · Mars Ember','#A84C3B'],['목성 · Jovian Cloud','#9B704E'],['토성 · Saturn Halo','#8E7A4A'],['천왕성 · Uranus Mist','#4D8790'],['해왕성 · Neptune Deep','#3F5FA7'],['명왕성 · Pluto Shadow','#554C43']];
+const order=['event','personal','routine','fifth'],api=window.AiderWheelbarV176;
+function samples(mode,size=24){return order.map((page,i)=>'<div class="item"><button type="button" aria-label="'+api.names[page]+' 디자인 예시" class="sample '+(mode==='selected'||mode==='mixed'&&i===1?'selected':'')+'" style="--preview-icon-size:'+size+'px">'+api.icon(page)+'</button><span class="label">'+api.names[page]+'</span></div>').join('');}
+document.querySelectorAll('[data-sample-row]').forEach(row=>row.innerHTML=samples(row.dataset.sampleRow));
+document.getElementById('smallSamples').innerHTML=[20,24,28].map(size=>'<div class="small-group"><h3>'+size+'px 아이콘</h3><div class="row">'+samples('normal',size)+'</div></div>').join('');
+const themeIds=['system','sun','mercury','venus','earth','mars','jupiter','saturn','uranus','neptune','pluto'];
+const select=document.getElementById('themeChoice');palettes.forEach(([name,color],index)=>{const option=document.createElement('option');option.value=themeIds[index];option.textContent=name;select.append(option)});
+select.addEventListener('change',()=>{const color=palettes[themeIds.indexOf(select.value)][1];document.documentElement.dataset.theme=select.value;document.body.style.setProperty('--app-primary',color);document.getElementById('themeValue').textContent=color;});document.documentElement.dataset.theme='system';document.getElementById('themeValue').textContent=palettes[0][1];
+document.getElementById('openDemo').addEventListener('click',()=>window.AiderLogWheelV151.setOpen(true));
+</script></body></html>

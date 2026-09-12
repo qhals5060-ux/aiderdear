@@ -1,0 +1,61 @@
+/* System-only information surfaces. Keep the operating-system scheme and the
+   existing space/canvas, planet artwork, navigation and widget palettes intact.
+   Colour aliases are local to content siblings, never inherited by #wheel. */
+:root[data-app-palette="system"] {
+  --system-content-surface:#FCFBFF;
+  --system-content-card:#F0ECF9;
+  --system-content-control:#E2D9F1;
+  --system-content-input:#FFFFFF;
+  --system-content-text:#292338;
+  --system-content-body:#443A53;
+  --system-content-muted:#65586F;
+  --system-content-border:#CEC2DE;
+  --system-content-control-border:#91809F;
+  --system-content-primary:#6255E8;
+  --system-content-on-primary:#FFFFFF;
+  --system-content-focus:#4C3BB7;
+  --system-content-holiday:#AD3450;
+  --system-content-weekend:#345B8D;
+  --system-content-rating:#795715;
+}
+:root[data-app-palette="system"][data-system-scheme="dark"] {
+  /* Pale lavender information panels against the unchanged dark canvas.
+     Nested cards and inputs are lighter; text uses the paired dark ink. */
+  --system-content-surface:#F0EAF8;
+  --system-content-card:#F8F4FC;
+  --system-content-control:#DACBE8;
+  --system-content-input:#FFFBFF;
+  --system-content-text:#2A2034;
+  --system-content-body:#44364F;
+  --system-content-muted:#594863;
+  --system-content-border:#BAA8CB;
+  --system-content-control-border:#846D99;
+}
+html[data-app-palette="system"] body > :not(#wheel):not(script):not(style):not(link) {
+  --app-surface:var(--system-content-surface);
+  --app-card:var(--system-content-card);
+  --app-control:var(--system-content-control);
+  --app-input:var(--system-content-input);
+  --app-text:var(--system-content-text);
+  --app-body:var(--system-content-body);
+  --app-text-muted:var(--system-content-muted);
+  --app-border:var(--system-content-border);
+  --app-control-border:var(--system-content-control-border);
+  --app-primary:var(--system-content-primary);
+  --app-on-primary:var(--system-content-on-primary);
+  --app-primary-border:var(--system-content-primary);
+  --app-focus:var(--system-content-focus);
+  --app-holiday:var(--system-content-holiday);
+  --app-weekend:var(--system-content-weekend);
+  --app-rating:var(--system-content-rating);
+  --app-editor:var(--system-content-surface);
+  --app-editor-head:var(--system-content-card);
+  --app-editor-foot:var(--system-content-control);
+  --app-ink:var(--system-content-text);
+  --app-muted:var(--system-content-muted);
+  --app-selected:var(--system-content-control);
+  --app-progress:var(--system-content-primary);
+  --app-progress-track:var(--system-content-control);
+  /* Native form indicators must match the bright control they sit inside. */
+  color-scheme:light;
+}

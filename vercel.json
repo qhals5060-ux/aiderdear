@@ -8,67 +8,67 @@
   "redirects": [
     {
       "source": "/AiderLog-Modern-v173-site-files.zip",
-      "destination": "/AiderLog-Modern-v175-site-files.zip",
+      "destination": "/AiderLog-Modern-v176-site-files.zip",
       "permanent": false
     },
     {
       "source": "/AiderLog-Editorial-v173-site-files.zip",
-      "destination": "/AiderLog-Editorial-v175-site-files.zip",
+      "destination": "/AiderLog-Editorial-v176-site-files.zip",
       "permanent": false
     },
     {
       "source": "/AiderLog-Modern-v172-site-files.zip",
-      "destination": "/AiderLog-Modern-v175-site-files.zip",
+      "destination": "/AiderLog-Modern-v176-site-files.zip",
       "permanent": false
     },
     {
       "source": "/AiderLog-Editorial-v172-site-files.zip",
-      "destination": "/AiderLog-Editorial-v175-site-files.zip",
+      "destination": "/AiderLog-Editorial-v176-site-files.zip",
       "permanent": false
     },
     {
       "source": "/AiderLog-Modern-v171-site-files.zip",
-      "destination": "/AiderLog-Modern-v175-site-files.zip",
+      "destination": "/AiderLog-Modern-v176-site-files.zip",
       "permanent": false
     },
     {
       "source": "/AiderLog-Editorial-v171-site-files.zip",
-      "destination": "/AiderLog-Editorial-v175-site-files.zip",
+      "destination": "/AiderLog-Editorial-v176-site-files.zip",
       "permanent": false
     },
     {
       "source": "/AiderLog-Modern-v170-site-files.zip",
-      "destination": "/AiderLog-Modern-v175-site-files.zip",
+      "destination": "/AiderLog-Modern-v176-site-files.zip",
       "permanent": false
     },
     {
       "source": "/AiderLog-Editorial-v170-site-files.zip",
-      "destination": "/AiderLog-Editorial-v175-site-files.zip",
+      "destination": "/AiderLog-Editorial-v176-site-files.zip",
       "permanent": false
     },
     {
       "source": "/AiderLog-Modern-v169-site-files.zip",
-      "destination": "/AiderLog-Modern-v175-site-files.zip",
+      "destination": "/AiderLog-Modern-v176-site-files.zip",
       "permanent": false
     },
     {
       "source": "/AiderLog-Editorial-v169-site-files.zip",
-      "destination": "/AiderLog-Editorial-v175-site-files.zip",
+      "destination": "/AiderLog-Editorial-v176-site-files.zip",
       "permanent": false
     },
     {
       "source": "/AiderLog-v165.apk",
-      "destination": "/AiderLog-v175.apk",
+      "destination": "/AiderLog-v176.apk",
       "permanent": false
     },
     {
       "source": "/AiderLog-Modern-v165-site-files.zip",
-      "destination": "/AiderLog-Modern-v175-site-files.zip",
+      "destination": "/AiderLog-Modern-v176-site-files.zip",
       "permanent": false
     },
     {
       "source": "/AiderLog-Editorial-v165-site-files.zip",
-      "destination": "/AiderLog-Editorial-v175-site-files.zip",
+      "destination": "/AiderLog-Editorial-v176-site-files.zip",
       "permanent": false
     },
     {
@@ -83,47 +83,62 @@
     },
     {
       "source": "/AiderLog-v167.apk",
-      "destination": "/AiderLog-v175.apk",
+      "destination": "/AiderLog-v176.apk",
       "permanent": false
     },
     {
       "source": "/AiderLog-Modern-v167-site-files.zip",
-      "destination": "/AiderLog-Modern-v175-site-files.zip",
+      "destination": "/AiderLog-Modern-v176-site-files.zip",
       "permanent": false
     },
     {
       "source": "/AiderLog-Editorial-v167-site-files.zip",
-      "destination": "/AiderLog-Editorial-v175-site-files.zip",
+      "destination": "/AiderLog-Editorial-v176-site-files.zip",
       "permanent": false
     },
     {
       "source": "/AiderLog-v168.apk",
-      "destination": "/AiderLog-v175.apk",
+      "destination": "/AiderLog-v176.apk",
       "permanent": false
     },
     {
       "source": "/AiderLog-Modern-v168-site-files.zip",
-      "destination": "/AiderLog-Modern-v175-site-files.zip",
+      "destination": "/AiderLog-Modern-v176-site-files.zip",
       "permanent": false
     },
     {
       "source": "/AiderLog-Editorial-v168-site-files.zip",
-      "destination": "/AiderLog-Editorial-v175-site-files.zip",
+      "destination": "/AiderLog-Editorial-v176-site-files.zip",
       "permanent": false
     },
     {
       "source": "/AiderLog-v169.apk",
-      "destination": "/AiderLog-v175.apk",
+      "destination": "/AiderLog-v176.apk",
       "permanent": false
     },
     {
       "source": "/AiderLog-Modern-v174-site-files.zip",
-      "destination": "/AiderLog-Modern-v175-site-files.zip",
+      "destination": "/AiderLog-Modern-v176-site-files.zip",
       "permanent": false
     },
     {
       "source": "/AiderLog-Editorial-v174-site-files.zip",
-      "destination": "/AiderLog-Editorial-v175-site-files.zip",
+      "destination": "/AiderLog-Editorial-v176-site-files.zip",
+      "permanent": false
+    },
+    {
+      "source": "/AiderLog-v175.apk",
+      "destination": "/AiderLog-v176.apk",
+      "permanent": false
+    },
+    {
+      "source": "/AiderLog-Modern-v175-site-files.zip",
+      "destination": "/AiderLog-Modern-v176-site-files.zip",
+      "permanent": false
+    },
+    {
+      "source": "/AiderLog-Editorial-v175-site-files.zip",
+      "destination": "/AiderLog-Editorial-v176-site-files.zip",
       "permanent": false
     }
   ],
@@ -211,7 +226,7 @@
       ]
     },
     {
-      "source": "/AiderLog-v175.apk",
+      "source": "/AiderLog-v176.apk",
       "headers": [
         {
           "key": "Content-Type",
@@ -219,7 +234,7 @@
         },
         {
           "key": "Content-Disposition",
-          "value": "attachment; filename=\"AiderLog-v175.apk\""
+          "value": "attachment; filename=\"AiderLog-v176.apk\""
         },
         {
           "key": "Cache-Control",
@@ -228,7 +243,7 @@
       ]
     },
     {
-      "source": "/AiderLog-Modern-v175-site-files.zip",
+      "source": "/AiderLog-Modern-v176-site-files.zip",
       "headers": [
         {
           "key": "Content-Type",
@@ -236,7 +251,7 @@
         },
         {
           "key": "Content-Disposition",
-          "value": "attachment; filename=\"AiderLog-Modern-v175-site-files.zip\""
+          "value": "attachment; filename=\"AiderLog-Modern-v176-site-files.zip\""
         },
         {
           "key": "Cache-Control",
@@ -245,7 +260,7 @@
       ]
     },
     {
-      "source": "/AiderLog-Editorial-v175-site-files.zip",
+      "source": "/AiderLog-Editorial-v176-site-files.zip",
       "headers": [
         {
           "key": "Content-Type",
@@ -253,7 +268,7 @@
         },
         {
           "key": "Content-Disposition",
-          "value": "attachment; filename=\"AiderLog-Editorial-v175-site-files.zip\""
+          "value": "attachment; filename=\"AiderLog-Editorial-v176-site-files.zip\""
         },
         {
           "key": "Cache-Control",

@@ -38,6 +38,7 @@ html,body{margin:0;background:transparent;width:100%;height:100%;overflow:hidden
     if(get(el,'layout_width')==='match_parent'&&marginX)s.width=`calc(100% - ${marginX}px)`;
     if(get(el,'layout_height')==='match_parent'&&marginY)s.height=`calc(100% - ${marginY}px)`;
     const weight=get(el,'layout_weight');
+    if(get(el,'layout_gravity')==='center_horizontal')s.alignSelf='center';
     if(weight&&parent?.tagName!=='FrameLayout'){s.flexGrow=weight;s.flexBasis='0';s.flexShrink='1';if(get(parent,'orientation')==='horizontal')s.width='0';else s.height='0';}
     // Only full-frame backgrounds/photos overlap. Small covers in horizontal
     // LinearLayouts keep their actual native 67/83dp dimensions.
@@ -48,8 +49,8 @@ html,body{margin:0;background:transparent;width:100%;height:100%;overflow:hidden
       if(get(el,'scaleType')==='fitCenter')s.backgroundSize='contain';
     }
     if(el.tagName==='ProgressBar'){
-      s.background='#DED9FF';s.borderRadius='4px';s.overflow='hidden';
-      const bar=document.createElement('i');bar.style.cssText=`display:block;flex-shrink:0;background:#6255E8;height:100%;width:${Number(get(el,'progress'))||0}%;border-radius:4px`;div.append(bar);
+      s.background=get(el,'progressBackgroundTint')||'#DED9FF';s.borderRadius='4px';s.overflow='hidden';
+      const bar=document.createElement('i');bar.style.cssText=`display:block;flex-shrink:0;background:${get(el,'progressTint')||'#6255E8'};height:100%;width:${Number(get(el,'progress'))||0}%;border-radius:4px`;div.append(bar);
     }
     if(el.tagName==='TextView'){
       s.fontSize=unit(get(el,'textSize')||'14sp');s.color=color(get(el,'textColor')||'#171A3A');s.fontWeight=get(el,'textStyle')==='bold'?'700':'400';

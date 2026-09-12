@@ -210,7 +210,7 @@
     if-lt v1, p4, :cond_6
 
     .line 59
-    const p3, -0xe8e5c6
+    const p3, -0x9daa18
 
     const-string p4, "widget_add"
 
@@ -1008,7 +1008,7 @@
     :cond_14
     if-eqz v2, :cond_15
 
-    const v14, -0xe8e5c6
+    const/4 v14, -0x1
 
     goto :goto_12
 

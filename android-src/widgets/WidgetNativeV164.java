@@ -56,7 +56,7 @@ public final class WidgetNativeV164 {
         int foreground=ink(c,selectedTheme);
         for(String key:new String[]{"widget_title","widget_subtitle","widget_empty","widget_previous","widget_next","widget_add"})color(c,v,key,foreground);
         // This button retains a pale lavender surface in both widget modes.
-        color(c,v,"widget_add",INK);
+        color(c,v,"widget_add",PRIMARY);
         float size=overrideFont<0?font(c,widget):11.5f+Math.max(1,Math.min(5,overrideFont))*.8f;
         v.setTextViewTextSize(id(c,"widget_title"),2,size+1.2f);
         v.setTextViewTextSize(id(c,"widget_subtitle"),2,Math.max(10,size-2));
@@ -184,8 +184,8 @@ public final class WidgetNativeV164 {
                 show(c,cell,"widget_day_more_v164",cellHeight>=(visibleHoliday?38:28));
                 // TextView wraps its scaled font; a fixed 12–18dp height clips Korean/system-large text.
                 boolean chosen=key.equals(selected),outside=!fortnight&&start.get(Calendar.MONTH)!=shownMonth;
-                // The selected oval is a light surface even in midnight mode.
-                color(c,cell,"widget_day_number_v164",chosen?INK:foreground);
+                // Selected dates use the same primary/white contrast in every theme.
+                color(c,cell,"widget_day_number_v164",chosen?0xffffffff:foreground);
                 color(c,cell,"widget_day_label_v164",foreground);
                 color(c,cell,"widget_day_events_v164",foreground);color(c,cell,"widget_day_more_v164",dark(c,chosenTheme)?0xffc1baff:PRIMARY);
                 cell.setTextViewTextSize(id(c,"widget_day_number_v164"),2,Math.max(10,size-1.5f));

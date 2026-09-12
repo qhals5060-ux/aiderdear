@@ -36,7 +36,7 @@
   }
   function profileMarkup(){
     const person=user(),name=displayName(person),initial=name.trim().charAt(0).toUpperCase()||'A';
-    return `<section class="profile-sheet-v137 profile-compact-v164" role="dialog" aria-modal="true" aria-label="개인 페이지"><header class="profile-head-v137"><h1>개인 페이지</h1><button class="profile-close-v137" type="button" data-profile-close-v137 aria-label="개인 페이지 닫기">×</button></header><div class="profile-identity-v137"><div class="profile-avatar-v137" aria-hidden="true">${safe(initial)}</div><div><b>${safe(name)}</b>${person?.email?`<p>${safe(person.email)}</p>`:''}</div></div>${person?`<form class="profile-birth-v175" data-profile-birth-v175 data-profile-user-v175="${safe(person.uid)}"><label><span>생일${person.birthCalendar==='lunar'?' · 음력':''}</span><input id="loginBirthDate" name="birthDate" type="date" required value="${safe(person.birthDate||'')}"></label><button type="submit">저장</button><label ${person.gender?'hidden':''}>성별<select name="gender" required><option value="">선택</option><option value="female" ${person.gender==='female'?'selected':''}>여성</option><option value="male" ${person.gender==='male'?'selected':''}>남성</option></select></label><p role="status" aria-live="polite"></p></form>`:''}<section class="profile-section-v137"><header><h2>시스템 테마</h2></header><div class="profile-theme-grid-v137">${themeButtons()}</div></section><section class="profile-section-v137"><header><h2>글자 크기</h2></header><div class="profile-font-v137">${fontButtons()}</div></section><footer class="profile-foot-v137"><button type="button" data-profile-tutorial-v137>사용 방법</button>${person?'<button class="logout" type="button" data-profile-logout-v137>로그아웃</button>':'<button type="button" data-profile-login-v137>Google 로그인</button>'}</footer></section>`;
+    return `<section class="profile-sheet-v137 profile-compact-v164" role="dialog" aria-modal="true" aria-label="개인 페이지"><header class="profile-head-v137"><h1>개인 페이지</h1><button class="profile-close-v137" type="button" data-profile-close-v137 aria-label="개인 페이지 닫기">×</button></header><div class="profile-identity-v137"><div class="profile-avatar-v137" aria-hidden="true">${safe(initial)}</div><div><b>${safe(name)}</b>${person?.email?`<p>${safe(person.email)}</p>`:''}</div></div>${person?`<form class="profile-birth-v175" data-profile-birth-v175 data-profile-user-v175="${safe(person.uid)}"><label><span>생일${person.birthCalendar==='lunar'?' · 음력':''}</span><input id="loginBirthDate" name="birthDate" type="date" required value="${safe(person.birthDate||'')}"></label><button type="submit">저장</button><label ${person.gender?'hidden':''}>성별<select name="gender" required><option value="">선택</option><option value="female" ${person.gender==='female'?'selected':''}>여성</option><option value="male" ${person.gender==='male'?'selected':''}>남성</option></select></label><p role="status" aria-live="polite"></p></form>`:''}<section class="profile-section-v137"><header><h2>시스템 테마</h2></header><div class="profile-theme-grid-v137">${themeButtons()}</div></section><section class="profile-section-v137"><header><h2>글자 크기</h2></header><div class="profile-font-v137">${fontButtons()}</div></section><footer class="profile-foot-v137">${person?'<button class="logout" type="button" data-profile-logout-v137>로그아웃</button>':'<button type="button" data-profile-login-v137>Google 로그인</button>'}</footer></section>`;
   }
   function ensureProfile(){
     let overlay=$('.profile-overlay-v137');if(overlay)return overlay;
@@ -47,7 +47,6 @@
       if(theme){await window.AiderLogThemeV125?.apply?.(theme.dataset.profileThemeV137,true);return}
       const font=event.target.closest('[data-profile-font-v137]');
       if(font){await window.AiderLogThemeV125?.applyFontSize?.(font.dataset.profileFontV137,true);$$('[data-profile-font-v137]',overlay).forEach(button=>{const active=button.dataset.profileFontV137===font.dataset.profileFontV137;button.classList.toggle('active',active);button.setAttribute('aria-pressed',String(active))});return}
-      if(event.target.closest('[data-profile-tutorial-v137]')){overlay.classList.remove('on');try{localStorage.removeItem('aiderlog-tutorial-dismissed-v136')}catch{}$('.tutorial-v136')?.classList.add('on');return}
       if(event.target.closest('[data-profile-login-v137]')){await startLogin();return}
       if(event.target.closest('[data-profile-logout-v137]')){await firebase()?.logout?.();overlay.classList.remove('on')}
     });
@@ -94,16 +93,13 @@
     const modal=$('#intro');modal?.classList.remove('on','closing-v136','letter-exit-v135');
     if(typeof window.go==='function')window.go('insights',false);else location.hash='insights';
   }
-  function updateTutorialCopy(){
-    const steps=window.tutorialSteps;if(Array.isArray(steps)&&steps[2])steps[2][2]='감정 기록을 바탕으로 움직이는 행성 엽서가 열립니다. 테마와 글자 크기는 오른쪽 위 프로필 버튼에서 바꿀 수 있어요.';
-  }
   function removeInAppWidgetPreviews(){$$('.widget-settings-v135,.widget-config-v136,.widget-preview-v136').forEach(node=>{node.hidden=true;node.setAttribute('aria-hidden','true')})}
   function decorateInsight(){
     const hero=$('#insights .ins-hero-v126');if(hero)hero.dataset.atlasV137='1';
     $$('#insights .insight-site-card-v126').forEach((card,index)=>card.dataset.orbitCardV137=String(index+1));
   }
   function refresh(){
-    queued=false;bindProfileButton();restoreMy();buildWheelLayers();animatePostcard();removeInAppWidgetPreviews();decorateInsight();updateTutorialCopy();
+    queued=false;bindProfileButton();restoreMy();buildWheelLayers();animatePostcard();removeInAppWidgetPreviews();decorateInsight();
   }
   function queue(){if(queued)return;queued=true;requestAnimationFrame(refresh)}
 

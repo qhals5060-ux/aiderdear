@@ -10,6 +10,7 @@ const begin=index.indexOf('  // D-day is independent of the whole EVENT payload.
 const end=index.indexOf('  // 24-hour photo / video stories',begin);
 assert(begin>=0&&end>begin,'actual D-day controller boundaries must remain discoverable');
 const source=index.slice(begin,end);
+const displaySource=await readFile(new URL('../dday-display-v176.js',import.meta.url),'utf8');
 const plain=value=>JSON.parse(JSON.stringify(value));
 const deferred=()=>{let resolve,reject;const promise=new Promise((yes,no)=>{resolve=yes;reject=no;});return {promise,resolve,reject};};
 const settle=async()=>{for(let turn=0;turn<12;turn++)await Promise.resolve();};
@@ -34,7 +35,7 @@ class El {
 
 function harness({uid='owner-a',pair='',now='2026-09-08T18:00:00.000Z',read,mutate}={}){
   let clock=Date.parse(now),uuid=0;
-  const ids=['dday','ddayMeta','ddayStatus','ddayRetry','ddayForm','ddayTitle','ddayDate','ddayMode','ddayList','ddayManageBtn'];
+  const ids=['dday','ddayMeta','ddayStatus','ddayRetry','ddayForm','ddayTitle','ddayDate','ddayMode','ddayList','ddayManageBtn','ddayUpcomingV176'];
   const nodes=new Map(ids.map(id=>[id,new El(id==='ddayForm'?'form':'div')]));
   const form=nodes.get('ddayForm');form.fields=['ddayTitle','ddayDate','ddayMode'].map(id=>nodes.get(id));form.fields.push(new El('button'));nodes.get('ddayMode').value='countdown';
   const events=new El(),document=new El(),calls=[],warnings=[],messages=[],modals=[],timers=[];
@@ -46,6 +47,7 @@ function harness({uid='owner-a',pair='',now='2026-09-08T18:00:00.000Z',read,muta
     currentUser:uid?{uid}:null,firebaseState:{user:uid?{uid}:null,pair:pair?{id:pair}:null},cloudData:{ddays:[],activeDdayBySpace:{}},
     $:selector=>nodes.get(selector.replace(/^#/,''))||null,escapeHtml:value=>String(value).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])),
     console:{warn:(...args)=>warnings.push(args)},toast:message=>messages.push(message),openModal:id=>modals.push(id),requireLogin:()=>calls.push({kind:'login'}),confirm:()=>true});
+  vm.runInContext(displaySource,context);
   vm.runInContext(source+`\nglobalThis.controller={refreshDdayData,changeDday,resetDdayView,setDday,renderDdayList,ddayText,refreshDdayOnReturn,getDdays,ensureDdayIdentity,snapshot:()=>({view:ddayView,pending:ddayPendingAdd,loadPending:!!ddayLoadPromise})};`,context);
   context.controller.resetDdayView();
   return {context,api,window,document,events,nodes,calls,warnings,messages,modals,timers,controller:context.controller,
@@ -193,4 +195,27 @@ test('focus/visibility refresh respects visibility and freshness and online can 
   const h=harness({read:()=>result()});await h.controller.refreshDdayData();assert.equal(h.calls.length,1);
   await h.events.fire('focus');assert.equal(h.calls.length,1);h.time('2026-09-08T18:00:31Z');h.document.visibilityState='hidden';await h.document.fire('visibilitychange');assert.equal(h.calls.length,1);
   h.document.visibilityState='visible';await h.document.fire('visibilitychange');await settle();assert.equal(h.calls.length,2);await h.events.fire('online');await settle();assert.equal(h.calls.length,3);
+});
+
+test('site shows the saved representative with every other date ordered by nearness',async()=>{
+  const rows=[item('future','user:owner-a',{title:'가까운 미래',date:'2026-09-10'}),item('hero','user:owner-a',{title:'선택한 먼 날짜',date:'2027-01-01'}),item('past','user:owner-a',{title:'지난 날짜',date:'2026-09-08'}),item('today','user:owner-a',{title:'오늘',date:'2026-09-09'})];
+  const h=harness({read:()=>result(rows,'hero','user:owner-a')});await h.controller.refreshDdayData();
+  assert.match(h.node('ddayMeta').textContent,/선택한 먼 날짜/);assert.equal(h.node('ddayUpcomingV176').hidden,false);
+  assert.deepEqual(h.node('ddayUpcomingV176').children.map(el=>el.getAttribute('aria-label').split(' ')[0]),['오늘','가까운','지난']);
+  assert.equal(h.node('ddayList').children.length,4);assert.equal(h.calls.filter(c=>c.kind==='mutate').length,0);
+});
+
+test('site compact selection stores the exact scope, disables duplicates, and retains data on failure',async()=>{
+  const rows=[item('same','user:owner-a',{title:'개인'}),item('same','pair:couple-a',{title:'커플'})],job=deferred();
+  const h=harness({pair:'couple-a',read:()=>result(rows),mutate:()=>job.promise});await h.controller.refreshDdayData();
+  const click=h.node('ddayUpcomingV176').children[0].click();assert.equal(h.node('ddayUpcomingV176').children[0].disabled,true);await h.node('ddayUpcomingV176').children[0].click();
+  assert.deepEqual(h.calls.filter(c=>c.kind==='mutate').map(c=>c.action),[{type:'select',id:'same',sourceScope:'pair:couple-a'}]);
+  job.reject(Error('offline'));await click;assert.match(h.node('ddayMeta').textContent,/개인/);assert.equal(h.node('ddayUpcomingV176').children[0].disabled,false);assert.match(h.messages.at(-1),/저장 결과/);
+  h.api.mutateDday=async()=>result(rows,'same','pair:couple-a');await h.node('ddayUpcomingV176').children[0].click();assert.match(h.node('ddayMeta').textContent,/커플/);assert.match(h.node('ddayUpcomingV176').children[0].innerHTML,/개인/);
+});
+
+test('site compact markup is escaped and clears immediately on logout',async()=>{
+  const h=harness({read:()=>result([item('hero'),item('unsafe','user:owner-a',{title:'<img src=x onerror=alert(1)>'})])});await h.controller.refreshDdayData();
+  assert.match(h.node('ddayUpcomingV176').children[0].innerHTML,/&lt;img/);assert.doesNotMatch(h.node('ddayUpcomingV176').children[0].innerHTML,/<img/);
+  h.identity('');assert.equal(h.node('ddayUpcomingV176').hidden,true);assert.equal(h.node('ddayUpcomingV176').children.length,0);
 });

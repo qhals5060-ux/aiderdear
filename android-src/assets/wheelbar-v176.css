@@ -1,0 +1,63 @@
+/* Scope is menu buttons and their guide orbit. No root/core/artwork/gesture changes. */
+@layer appColour164 {
+html body #wheel.open #wheelFan.global-wheel-field-v126{transform:none!important;transition:opacity .1s ease!important}
+/* The four preserved button centers sit on radius 110 around (176,177).
+   The old guide circle was centered at (123,122), above and left of that arc. */
+html body #wheel.open #wheelFan.global-wheel-field-v126::after,
+html body #wheel.open #wheelFan .global-wheel-orbits-v126{
+  left:66px!important;top:67px!important;right:auto!important;bottom:auto!important;
+  width:220px!important;height:220px!important;transform:none!important;pointer-events:none!important;
+}
+/* The separate diffuse disc keeps its existing 206px size, but must share the
+   guide orbit's center instead of retaining the legacy inset-based offset. */
+html body #wheel.open #wheelFan.global-wheel-field-v126::before{
+  left:73px!important;top:74px!important;right:auto!important;bottom:auto!important;
+  width:206px!important;height:206px!important;transform:none!important;pointer-events:none!important;
+}
+html body #wheel .global-wheel-item-v126[data-wheelbar-menu-v176]{
+  --app-primary:var(--app-navigation-primary,#6255E8);
+  width:48px!important;height:48px!important;min-width:48px!important;min-height:48px!important;
+  padding:0!important;border:0!important;border-radius:50%!important;
+  display:grid!important;place-items:center!important;background:transparent!important;
+  color:#fff!important;
+  box-shadow:none!important;filter:none!important;text-shadow:none!important;
+  transition:opacity .1s ease!important;transform:none!important;
+}
+/* Preserve the old 64px targets' centers when reducing their boxes to 48px. */
+html body #wheel.open .global-wheel-item-v126.slot-0[data-wheelbar-menu-v176]{left:42px!important;top:153px!important}
+html body #wheel.open .global-wheel-item-v126.slot-1[data-wheelbar-menu-v176]{left:62px!important;top:90px!important}
+html body #wheel.open .global-wheel-item-v126.slot-2[data-wheelbar-menu-v176]{left:114px!important;top:50px!important}
+html body #wheel.open .global-wheel-item-v126.slot-3[data-wheelbar-menu-v176]{left:180px!important;top:47px!important}
+html body #wheel .global-wheel-item-v126[data-wheelbar-menu-v176]::before{
+  content:""!important;position:absolute!important;inset:2px!important;box-sizing:border-box!important;
+  width:44px!important;height:44px!important;border-radius:50%!important;
+  border:1px solid var(--app-primary,var(--theme-primary,#6255E8))!important;
+  background:var(--app-primary,var(--theme-primary,#6255E8))!important;box-shadow:none!important;filter:none!important;
+  pointer-events:none!important;transform:none!important;transition:none!important;
+}
+html body #wheel .global-wheel-item-v126[data-wheelbar-menu-v176]::after{content:none!important}
+html body #wheel .global-wheel-item-v126[data-wheelbar-menu-v176]>i{
+  position:relative!important;z-index:2!important;width:24px!important;height:24px!important;
+  display:grid!important;place-items:center!important;pointer-events:none!important;
+  color:inherit!important;transform:none!important;background:none!important;box-shadow:none!important;filter:none!important;
+}
+html body #wheel .global-wheel-item-v126[data-wheelbar-menu-v176] .wheelbar-icon-v176{
+  width:24px!important;height:24px!important;min-width:24px!important;min-height:24px!important;
+  color:inherit!important;stroke:currentColor!important;stroke-width:2!important;fill:none!important;
+  transform:none!important;filter:none!important;box-shadow:none!important;pointer-events:none!important;
+  -webkit-text-fill-color:currentColor!important;
+}
+html body #wheel .global-wheel-item-v126[data-wheelbar-menu-v176] .wheelbar-icon-v176[data-wheelbar-icon-v176="personal"]{fill:currentColor!important;stroke:none!important}
+/* Keep the filled/white silhouette in every pointer/selection state. The real
+   current page remains exposed through aria-current, not a glyph recolour. */
+html body #wheel .global-wheel-item-v126[data-wheelbar-menu-v176]:focus-visible::after{
+  content:""!important;position:absolute!important;inset:-2px!important;
+  border:2px solid var(--app-primary,var(--theme-primary,#6255E8))!important;border-radius:50%!important;
+  box-shadow:none!important;pointer-events:none!important;background:none!important;
+}
+html body #wheel .global-wheel-item-v126[data-wheelbar-menu-v176] .wheelbar-name-v176{
+  position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;
+  overflow:hidden!important;clip-path:inset(50%)!important;white-space:nowrap!important;border:0!important;pointer-events:none!important;
+}
+@media(prefers-reduced-motion:reduce){html body #wheel .global-wheel-item-v126[data-wheelbar-menu-v176],html body #wheel .global-wheel-item-v126[data-wheelbar-menu-v176]::before{transition:none!important}}
+}

@@ -32,6 +32,17 @@ public final class WidgetNativeContractTest {
         long initial=WidgetDesignV165.stableId("{\"kind\":\"todo\",\"id\":\"A\",\"done\":false}",0);
         require(initial==WidgetDesignV165.stableId("{\"kind\":\"todo\",\"id\":\"A\",\"done\":true}",5),"stable collection ID survives update/reorder");
         require(initial!=WidgetDesignV165.stableId("{\"kind\":\"todo\",\"id\":\"B\"}",0),"different record IDs remain distinct");
+        for(String kind:new String[]{"note","youtube","routineStats","workoutStats","workout","quote"}){
+            require("widget_panel_v176".equals(WidgetDesignV165.surface(kind,false,false)),kind+" uses a lavender information panel, not the outer fill");
+            require("widget_panel_dark_v176".equals(WidgetDesignV165.surface(kind,false,true)),kind+" preserves the dark colour preference");
+        }
+        for(String kind:new String[]{"routine","challenge","workflow","trend"}){
+            require("widget_framed_v176".equals(WidgetDesignV165.surface(kind,false,false)),kind+" uses a separate white framed card");
+            require("widget_card_dark_v165".equals(WidgetDesignV165.surface(kind,false,true)),kind+" remains readable in dark theme");
+        }
+        for(String kind:new String[]{"todo","language","book"})require("widget_card_v165".equals(WidgetDesignV165.surface(kind,false,false)),kind+" leaves the base visible");
+        require("widget_panel_v176".equals(WidgetDesignV165.surface("book",true,false)),"selected reading detail uses a lavender panel");
+        require("widget_bullet_card_v168".equals(WidgetDesignV165.surface("day",false,false)),"bullet days retain their own bordered surface");
         System.out.println("PASS: "+checks+" native model assertions.");
     }
 }

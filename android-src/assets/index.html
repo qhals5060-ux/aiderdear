@@ -2,16 +2,17 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<script src="./file-transfer-v163.js?v=175"></script>
+<meta name="aiderlog-android-build" content="v176">
+<script src="./file-transfer-v163.js?v=176"></script>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <meta name="theme-color" content="#231E35">
 <meta name="color-scheme" content="light dark">
 <link rel="icon" href="./aiderdear-icon.svg" type="image/svg+xml">
 <script>(function(){var root=document.documentElement;try{var id=localStorage.getItem('aiderlogTheme'),legacy={sun:'terracotta',mercury:'charcoal',venus:'peach',earth:'slate',mars:'terracotta',jupiter:'apricot',saturn:'peach',uranus:'slate',neptune:'slate',pluto:'charcoal','cosmic-violet':'system','nebula-blue':'slate','solar-dust':'terracotta','aurora-pink':'peach','eclipse-mono':'charcoal',aurora:'system',lavender:'system',ocean:'slate',mint:'slate',rose:'peach',sunset:'apricot',midnight:'charcoal',mono:'charcoal'};if(!/^(system|terracotta|apricot|peach|slate|charcoal)$/.test(id||'')&&!legacy[id])id='system';root.dataset.theme=id;root.dataset.appPalette=legacy[id]||id;var size=localStorage.getItem('aiderlogFontSize');root.dataset.appFontSize=/^(small|normal|large)$/.test(size||'')?size:'normal';root.dataset.backgroundMode=localStorage.getItem('aiderlog-background-mode-v143')==='light'?'light':'cosmic'}catch(_){root.dataset.theme='system';root.dataset.appPalette='system';root.dataset.appFontSize='normal'}var nativeScheme='';try{nativeScheme=window.AiderLogNative&&window.AiderLogNative.getSystemScheme?window.AiderLogNative.getSystemScheme():''}catch(_){}if(/^(light|dark)$/.test(nativeScheme))root.dataset.nativeScheme=nativeScheme;root.dataset.systemScheme=root.dataset.nativeScheme||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light')})();</script>
 <title>AiderLog</title>
-<link rel="stylesheet" href="./enhancements-v118.css?v=175">
-<link rel="stylesheet" href="./schedule-v119.css?v=175">
-<link rel="stylesheet" href="./event-cosmic-v120.css?v=175">
+<link rel="stylesheet" href="./enhancements-v118.css?v=176">
+<link rel="stylesheet" href="./schedule-v119.css?v=176">
+<link rel="stylesheet" href="./event-cosmic-v120.css?v=176">
 <style>
 :root{--ink:#171a28;--muted:#858b99;--line:#e8ebf2;--blue:#3159e8;--violet:#7a61ef;--bg:#f5f7fb;--white:#fff;--shadow:0 16px 42px rgba(31,45,92,.09)}
 *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;-webkit-tap-highlight-color:transparent}button,input,textarea,select{font:inherit}button{cursor:pointer}.app{height:100%;max-width:1120px;margin:auto;padding:env(safe-area-inset-top) 12px 0}.top{height:62px;display:flex;align-items:center;justify-content:space-between}.brand{display:flex;align-items:center;gap:10px;font-weight:850;font-size:21px;letter-spacing:-.04em}.brandmark{width:42px;height:42px;border-radius:15px;background:linear-gradient(145deg,#3158e8,#8c69ff);position:relative;box-shadow:0 10px 22px rgba(70,78,224,.24)}.brandmark:after{content:"";position:absolute;inset:10px;border:2px solid white;border-radius:50%}.tools{display:flex;gap:6px}.iconbtn{width:40px;height:40px;border:1px solid var(--line);border-radius:14px;background:#fff;display:grid;place-items:center}.iconbtn svg{width:19px;height:19px;stroke:#202431;fill:none;stroke-width:1.8}.views{height:calc(100% - 62px);position:relative}.view{display:none;height:100%;overflow:auto;padding:4px 2px calc(96px + env(safe-area-inset-bottom));scrollbar-width:none}.view::-webkit-scrollbar{display:none}.view.on{display:block;animation:pagein .28s ease both}
@@ -660,25 +661,25 @@ aiderlog-language-lab{min-height:720px!important}.language-lab-loading{min-heigh
 }
 
 </style>
-<link rel="stylesheet" href="./cosmic-final-v121.css?v=175">
-<link rel="stylesheet" href="./routine-cosmic-v122.css?v=175">
-<link rel="stylesheet" href="./language-lab-v124.css?v=175">
-<link rel="stylesheet" href="./feature-system-v125.css?v=175">
-<link rel="stylesheet" href="./global-cosmic-v126.css?v=175">
-<link rel="stylesheet" href="./feature-fixes-v126.css?v=175">
-<link rel="stylesheet" href="./feature-polish-v127.css?v=175">
-<link rel="stylesheet" href="./paper-workspace-v128.css?v=175">
-<link rel="stylesheet" href="./feature-polish-v128.css?v=175">
-<link rel="stylesheet" href="./offline-training-v129.css?v=175">
-<link rel="stylesheet" href="./design-polish-v129.css?v=175">
-<link rel="stylesheet" href="./space-ui-v131.css?v=175">
-<link rel="stylesheet" href="./planet-system-v133.css?v=175">
-<link rel="stylesheet" href="./solar-material-v134.css?v=175">
-<link rel="stylesheet" href="./holographic-editorial-v135.css?v=175">
-<link rel="stylesheet" href="./experience-v136.css?v=175">
-<link rel="stylesheet" href="./experience-v137.css?v=175">
-<link rel="stylesheet" href="./experience-v138.css?v=175">
-<link rel="stylesheet" href="./experience-v139.css?v=175">
+<link rel="stylesheet" href="./cosmic-final-v121.css?v=176">
+<link rel="stylesheet" href="./routine-cosmic-v122.css?v=176">
+<link rel="stylesheet" href="./language-lab-v124.css?v=176">
+<link rel="stylesheet" href="./feature-system-v125.css?v=176">
+<link rel="stylesheet" href="./global-cosmic-v126.css?v=176">
+<link rel="stylesheet" href="./feature-fixes-v126.css?v=176">
+<link rel="stylesheet" href="./feature-polish-v127.css?v=176">
+<link rel="stylesheet" href="./paper-workspace-v128.css?v=176">
+<link rel="stylesheet" href="./feature-polish-v128.css?v=176">
+<link rel="stylesheet" href="./offline-training-v129.css?v=176">
+<link rel="stylesheet" href="./design-polish-v129.css?v=176">
+<link rel="stylesheet" href="./space-ui-v131.css?v=176">
+<link rel="stylesheet" href="./planet-system-v133.css?v=176">
+<link rel="stylesheet" href="./solar-material-v134.css?v=176">
+<link rel="stylesheet" href="./holographic-editorial-v135.css?v=176">
+<link rel="stylesheet" href="./experience-v136.css?v=176">
+<link rel="stylesheet" href="./experience-v137.css?v=176">
+<link rel="stylesheet" href="./experience-v138.css?v=176">
+<link rel="stylesheet" href="./experience-v139.css?v=176">
 </head>
 <body>
 <div class="app home-mode" id="app">
@@ -710,7 +711,7 @@ aiderlog-language-lab{min-height:720px!important}.language-lab-loading{min-heigh
     <div class="personal-common"><input id="personalDate" type="date" required><input id="personalTitle" maxlength="100" placeholder="기록 제목" required></div>
     <div id="personalFields"></div>
     <textarea id="personalNote" maxlength="1200" placeholder="기억할 내용을 적어주세요."></textarea>
-    <div class="personal-photo-line"><label class="photo-pick">▧ 사진<input id="personalPhoto" type="file" accept="image/*" hidden></label><div id="personalPhotoPreview"></div></div>
+    <div class="personal-photo-line"><label class="photo-pick">▧ 사진<input id="personalPhoto" type="file" accept="image/*" multiple hidden></label><div id="personalPhotoPreview"></div></div>
     <footer><button type="button" id="personalCancel">취소</button><button class="primary" type="submit">저장</button></footer>
   </form>
 </div></div>
@@ -736,6 +737,7 @@ aiderlog-language-lab{min-height:720px!important}.language-lab-loading{min-heigh
     </div>
   </div>
 </div>
+<script src="./photo-attachments-v176.js?v=176"></script>
 <script>
 const $=q=>document.querySelector(q),$$=q=>[...document.querySelectorAll(q)];
 let fb=null,authState=null,A={scheduleEvents:[],ddays:[],records:[],albums:[],travelFolders:[],eventReviews:[]},P={routines:[],languageStudy:{}},E={entries:[]};let eventMode='record',selectedAlbum='';
@@ -832,9 +834,9 @@ $('#loginBtn').onclick=async()=>{try{await fb?.login?.()}catch(error){console.er
 function personalFieldHTML(cat,p={}){if(cat==='health'){let ht=p.healthType||'meal';return `<label>기록 종류<select id="pHealthType"><option value="meal" ${ht==='meal'?'selected':''}>식사</option><option value="exercise" ${ht==='exercise'?'selected':''}>운동</option></select></label><div id="pHealthSpecific"></div>`}if(cat==='reading')return `<div class="field-grid"><label>서재 구분<select id="pReadingStatus"><option value="read">읽은 책</option><option value="want">읽고 싶은 책</option></select></label><label>저자<input id="pAuthor" maxlength="80"></label><label>현재 페이지<input id="pCurrent" type="number" min="0"></label><label>전체 페이지<input id="pTotal" type="number" min="0"></label><label>문장 페이지<input id="pQuotePage" type="number" min="0"></label></div><label>기억하고 싶은 문장<textarea id="pQuote" maxlength="500"></textarea></label>`;if(cat==='workflow')return `<div class="field-grid"><label>프로젝트<input id="pProject"></label><label>상태<select id="pStatus"><option value="planned">예정</option><option value="ongoing">진행 중</option><option value="done">완료</option></select></label><label>진행률<input id="pProgress" type="number" min="0" max="100"></label><label>마감일<input id="pDue" type="date"></label></div><label>다음 행동<input id="pNext"></label><label>업무 흐름<textarea id="pSteps" placeholder="한 줄에 한 단계씩"></textarea></label>`;return `<div class="field-grid"><label>금융 종류<select id="pFinanceType"><option value="saving">적금</option><option value="deposit">예금</option><option value="flexible">유동 지출</option><option value="income">수익</option><option value="expense">고정 지출</option></select></label><label>금액<input id="pAmount" type="number" min="0"></label><label>카드·계좌<input id="pSource"></label><label>납부 주기<select id="pCycle"><option value="monthly">매월</option><option value="weekly">매주</option><option value="yearly">매년</option><option value="once">한 번</option></select></label><label>납부일<input id="pDueDay" type="number" min="1" max="31"></label><label>목표 금액<input id="pGoal" type="number" min="0"></label><label>만기일<input id="pMaturity" type="date"></label><label>상대·입금 예정처<input id="pDestination"></label><label>정산 예정일<input id="pExpected" type="date"></label><label>진행 상태<select id="pFlow"><option value="planned">예정</option><option value="ongoing">진행 중</option><option value="done">완료</option></select></label></div>`}
 function renderHealthFields(){let ht=$('#pHealthType')?.value||personalPreset.healthType||'meal',host=$('#pHealthSpecific');if(!host)return;if(ht==='meal')host.innerHTML=`<div class="field-grid"><label>끼니<select id="pMeal"><option value="breakfast">아침</option><option value="lunch">점심</option><option value="dinner">저녁</option><option value="snack">간식</option></select></label><label>식사 시간<input id="pMealTime" type="time"></label><label>평점<select id="pRating"><option value="5">★★★★★</option><option value="4">★★★★☆</option><option value="3">★★★☆☆</option><option value="2">★★☆☆☆</option><option value="1">★☆☆☆☆</option></select></label><label>장소<input id="pLocation"></label></div>`;else host.innerHTML=`<label>운동 시간(분)<input id="pMinutes" type="number" min="0" max="1440"></label><div class="exercise-builder"><header><b>운동 종목과 세트</b><button type="button" id="addExercise">＋ 종목</button></header><div id="exerciseDraft"></div></div>`;if(ht==='meal'&&personalPreset.mealType){$('#pMeal').value=personalPreset.mealType}if(ht==='exercise')renderExerciseDraft()}
 let exerciseDraft=[];function renderExerciseDraft(){if(!exerciseDraft.length)exerciseDraft=[{name:'',sets:[{weight:'',reps:''}]}];let host=$('#exerciseDraft');if(!host)return;host.innerHTML=exerciseDraft.map((e,ei)=>`<article class="exercise-edit"><header><input data-exname="${ei}" placeholder="운동 종목" value="${esc(e.name)}"><button type="button" data-exremove="${ei}">×</button></header>${e.sets.map((st,si)=>`<div class="set-edit"><span>${si+1} SET</span><label><input data-weight="${ei},${si}" type="number" step="0.1" min="0" value="${st.weight}"><small>kg</small></label><label><input data-reps="${ei},${si}" type="number" min="0" value="${st.reps}"><small>회</small></label><button type="button" data-setremove="${ei},${si}">×</button></div>`).join('')}<button type="button" data-setadd="${ei}">＋ 세트</button></article>`).join('');host.querySelectorAll('input').forEach(inp=>inp.oninput=e=>{let k=e.target.dataset.exname;if(k!=null)exerciseDraft[+k].name=e.target.value;let w=e.target.dataset.weight;if(w){let[a,b]=w.split(',').map(Number);exerciseDraft[a].sets[b].weight=e.target.value}let r=e.target.dataset.reps;if(r){let[a,b]=r.split(',').map(Number);exerciseDraft[a].sets[b].reps=e.target.value}});host.onclick=e=>{let b=e.target.closest('button');if(!b)return;if(b.dataset.exremove!=null){exerciseDraft.splice(+b.dataset.exremove,1);renderExerciseDraft()}else if(b.dataset.setadd!=null){exerciseDraft[+b.dataset.setadd].sets.push({weight:'',reps:''});renderExerciseDraft()}else if(b.dataset.setremove){let[a,c]=b.dataset.setremove.split(',').map(Number);exerciseDraft[a].sets.splice(c,1);if(!exerciseDraft[a].sets.length)exerciseDraft[a].sets.push({weight:'',reps:''});renderExerciseDraft()}}}
-function openPersonal(cat,p={}){personalOverview=false;personalPomodoro=false;personalCategory=cat;personalPreset=p;exerciseDraft=[];personalPhotoFile=null;personalPhotoData='';$('#personalModalTitle').textContent=cat==='health'?(p.healthType==='exercise'?'운동 기록 추가':'건강 기록 추가'):cat==='reading'?'독서 기록 추가':cat==='workflow'?'워크플로우 기록 추가':'금융 기록 추가';$('#personalDate').value=today();$('#personalTitle').value='';$('#personalNote').value='';$('#personalFields').innerHTML=personalFieldHTML(cat,p);$('#personalPhotoPreview').innerHTML='';$('#personalModal').classList.add('on');if(cat==='health'){renderHealthFields();$('#pHealthType').onchange=renderHealthFields}}
-async function savePersonalForm(e){e.preventDefault();let cat=personalCategory,title=$('#personalTitle').value.trim();if(!title)return;let row={id:'pi-'+Date.now(),category:cat,date:$('#personalDate').value||today(),title,note:$('#personalNote').value.trim(),createdAt:Date.now(),details:{}};if(cat==='health'){let ht=$('#pHealthType').value;row.details.healthType=ht;if(ht==='meal')Object.assign(row.details,{mealType:$('#pMeal').value,time:$('#pMealTime').value,rating:+$('#pRating').value,location:$('#pLocation').value.trim()});else{row.minutes=+$('#pMinutes').value||0;row.details.exercises=exerciseDraft.map(ex=>({name:ex.name.trim(),sets:ex.sets.map(st=>({weight:+st.weight||0,reps:+st.reps||0})).filter(st=>st.weight||st.reps)})).filter(ex=>ex.name);if(!row.details.exercises.length)return alert('운동 종목을 하나 이상 입력해주세요.')}}else if(cat==='reading')Object.assign(row.details,{readingStatus:$('#pReadingStatus').value,author:$('#pAuthor').value.trim(),currentPage:+$('#pCurrent').value||0,totalPages:+$('#pTotal').value||0,quotePage:+$('#pQuotePage').value||0,quote:$('#pQuote').value.trim()});else if(cat==='workflow'){row.status=$('#pStatus').value;Object.assign(row.details,{project:$('#pProject').value.trim(),progress:+$('#pProgress').value||0,dueDate:$('#pDue').value,next:$('#pNext').value.trim(),steps:$('#pSteps').value.split('\n').map(x=>x.trim()).filter(Boolean)})}else{row.amount=+$('#pAmount').value||0;Object.assign(row.details,{financeType:$('#pFinanceType').value,source:$('#pSource').value.trim(),cycle:$('#pCycle').value,dueDay:+$('#pDueDay').value||0,goal:+$('#pGoal').value||0,maturityDate:$('#pMaturity').value,destination:$('#pDestination').value.trim(),expectedDate:$('#pExpected').value,flowStatus:$('#pFlow').value,paymentChecks:{}})}if(personalPhotoFile){if(fb?.uploadPrivateMedia&&authState?.user)try{let media=await fb.uploadPrivateMedia(personalPhotoFile,'personal');row.media={fileId:media.id,name:media.name,mimeType:media.mimeType,size:media.size}}catch(err){console.warn(err);if(personalPhotoData)row.localImage=personalPhotoData}else if(personalPhotoData)row.localImage=personalPhotoData}personalItems().push(row);$('#personalModal').classList.remove('on');await savePrivate();renderPersonal()}
-function bindPersonal(){$$('[data-pcat]').forEach(b=>b.onclick=()=>{personalOverview=false;personalPomodoro=false;personalCategory=b.dataset.pcat;renderPersonal()});$('[data-poverview]')&&($('[data-poverview]').onclick=()=>{personalOverview=true;personalPomodoro=false;renderPersonal()});$('[data-ppomodoro]')&&($('[data-ppomodoro]').onclick=()=>{personalOverview=false;personalPomodoro=true;renderPersonal()});$$('[data-padd]').forEach(b=>b.onclick=()=>openPersonal(b.dataset.padd,{healthType:b.dataset.health||'',mealType:b.dataset.meal||''}));$$('[data-pdelete]').forEach(b=>b.onclick=async()=>{if(!confirm('이 기록을 삭제할까요?'))return;let row=personalItems().find(x=>x.id===b.dataset.pdelete);P.personalItems=personalItems().filter(x=>x.id!==b.dataset.pdelete);if(row?.media?.fileId&&fb?.deletePrivateMedia)try{await fb.deletePrivateMedia(row.media.fileId)}catch{}await savePrivate();renderPersonal()});$$('[data-odays]').forEach(b=>b.onclick=()=>{personalOverviewDays=+b.dataset.odays;renderPersonal()});$$('[data-fcheck]').forEach(c=>c.onchange=async()=>{let r=personalItems().find(x=>x.id===c.dataset.fcheck);if(!r)return;let k=financeCheckKey(r);r.details.paymentChecks=r.details.paymentChecks||{};if(c.checked)r.details.paymentChecks[k]=Date.now();else delete r.details.paymentChecks[k];await savePrivate()});$$('[data-pomo]').forEach(b=>b.onclick=()=>{let[min,mode]=b.dataset.pomo.split(',');setPomo(+min,mode)});$('#pomoStart')&&($('#pomoStart').onclick=togglePomo);$('#pomoReset')&&($('#pomoReset').onclick=()=>setPomo(Math.round(pomoInitial/60),pomoMode));$('#pomoTask')&&($('#pomoTask').onchange=async e=>{P.pomodoroTask=e.target.value;await savePrivate()})}
+function openPersonal(cat,p={}){personalOverview=false;personalPomodoro=false;personalCategory=cat;personalPreset=p;exerciseDraft=[];personalPhotoFile=null;personalPhotoData='';window.AiderLogAppPhotosV176?.resetPersonal();$('#personalModalTitle').textContent=cat==='health'?(p.healthType==='exercise'?'운동 기록 추가':'건강 기록 추가'):cat==='reading'?'독서 기록 추가':cat==='workflow'?'워크플로우 기록 추가':'금융 기록 추가';$('#personalDate').value=today();$('#personalTitle').value='';$('#personalNote').value='';$('#personalFields').innerHTML=personalFieldHTML(cat,p);$('#personalPhotoPreview').innerHTML='';$('#personalModal').classList.add('on');if(cat==='health'){renderHealthFields();$('#pHealthType').onchange=renderHealthFields}}
+async function savePersonalForm(e){e.preventDefault();let cat=personalCategory,title=$('#personalTitle').value.trim();if(!title)return;let row={id:'pi-'+Date.now(),category:cat,date:$('#personalDate').value||today(),title,note:$('#personalNote').value.trim(),createdAt:Date.now(),details:{}};if(cat==='health'){let ht=$('#pHealthType').value;row.details.healthType=ht;if(ht==='meal')Object.assign(row.details,{mealType:$('#pMeal').value,time:$('#pMealTime').value,rating:+$('#pRating').value,location:$('#pLocation').value.trim()});else{row.minutes=+$('#pMinutes').value||0;row.details.exercises=exerciseDraft.map(ex=>({name:ex.name.trim(),sets:ex.sets.map(st=>({weight:+st.weight||0,reps:+st.reps||0})).filter(st=>st.weight||st.reps)})).filter(ex=>ex.name);if(!row.details.exercises.length)return alert('운동 종목을 하나 이상 입력해주세요.')}}else if(cat==='reading')Object.assign(row.details,{readingStatus:$('#pReadingStatus').value,author:$('#pAuthor').value.trim(),currentPage:+$('#pCurrent').value||0,totalPages:+$('#pTotal').value||0,quotePage:+$('#pQuotePage').value||0,quote:$('#pQuote').value.trim()});else if(cat==='workflow'){row.status=$('#pStatus').value;Object.assign(row.details,{project:$('#pProject').value.trim(),progress:+$('#pProgress').value||0,dueDate:$('#pDue').value,next:$('#pNext').value.trim(),steps:$('#pSteps').value.split('\n').map(x=>x.trim()).filter(Boolean)})}else{row.amount=+$('#pAmount').value||0;Object.assign(row.details,{financeType:$('#pFinanceType').value,source:$('#pSource').value.trim(),cycle:$('#pCycle').value,dueDay:+$('#pDueDay').value||0,goal:+$('#pGoal').value||0,maturityDate:$('#pMaturity').value,destination:$('#pDestination').value.trim(),expectedDate:$('#pExpected').value,flowStatus:$('#pFlow').value,paymentChecks:{}})}await window.AiderLogAppPhotosV176.savePersonal(row)}
+function bindPersonal(){$$('[data-pcat]').forEach(b=>b.onclick=()=>{personalOverview=false;personalPomodoro=false;personalCategory=b.dataset.pcat;renderPersonal()});$('[data-poverview]')&&($('[data-poverview]').onclick=()=>{personalOverview=true;personalPomodoro=false;renderPersonal()});$('[data-ppomodoro]')&&($('[data-ppomodoro]').onclick=()=>{personalOverview=false;personalPomodoro=true;renderPersonal()});$$('[data-padd]').forEach(b=>b.onclick=()=>openPersonal(b.dataset.padd,{healthType:b.dataset.health||'',mealType:b.dataset.meal||''}));$$('[data-pdelete]').forEach(b=>b.onclick=async()=>{if(!confirm('이 기록을 삭제할까요?'))return;await window.AiderLogAppPhotosV176.deletePersonal(b.dataset.pdelete)});$$('[data-odays]').forEach(b=>b.onclick=()=>{personalOverviewDays=+b.dataset.odays;renderPersonal()});$$('[data-fcheck]').forEach(c=>c.onchange=async()=>{let r=personalItems().find(x=>x.id===c.dataset.fcheck);if(!r)return;let k=financeCheckKey(r);r.details.paymentChecks=r.details.paymentChecks||{};if(c.checked)r.details.paymentChecks[k]=Date.now();else delete r.details.paymentChecks[k];await savePrivate()});$$('[data-pomo]').forEach(b=>b.onclick=()=>{let[min,mode]=b.dataset.pomo.split(',');setPomo(+min,mode)});$('#pomoStart')&&($('#pomoStart').onclick=togglePomo);$('#pomoReset')&&($('#pomoReset').onclick=()=>setPomo(Math.round(pomoInitial/60),pomoMode));$('#pomoTask')&&($('#pomoTask').onchange=async e=>{P.pomodoroTask=e.target.value;await savePrivate()})}
 function setPomo(min,mode){clearInterval(pomoTimer);pomoRunning=false;pomoMode=mode;pomoInitial=pomoRemaining=min*60;renderPersonal()}
 function togglePomo(){if(pomoRunning){clearInterval(pomoTimer);pomoRunning=false;renderPersonal();return}pomoRunning=true;pomoTimer=setInterval(async()=>{pomoRemaining--;let c=$('#pomoClock');if(c)c.textContent=`${String(Math.floor(pomoRemaining/60)).padStart(2,'0')}:${String(pomoRemaining%60).padStart(2,'0')}`;if(pomoRemaining<=0){clearInterval(pomoTimer);pomoRunning=false;if(pomoMode==='focus'){P.pomodoroSessions=P.pomodoroSessions||[];P.pomodoroSessions.push({id:'pomo-'+Date.now(),date:today(),minutes:Math.round(pomoInitial/60),task:P.pomodoroTask||'집중 세션',completedAt:Date.now()});await savePrivate()}navigator.vibrate?.([80,60,80]);pomoRemaining=pomoInitial;renderPersonal()}},1000);renderPersonal()}
 $('#personalForm').addEventListener('submit',savePersonalForm);$('#personalClose').onclick=$('#personalCancel').onclick=()=>$('#personalModal').classList.remove('on');$('#personalPhoto').onchange=e=>{let f=e.target.files?.[0];if(!f)return;personalPhotoFile=f;let r=new FileReader();r.onload=()=>{personalPhotoData=String(r.result||'');$('#personalPhotoPreview').innerHTML=`<img src="${personalPhotoData}" alt="선택한 사진">`};r.readAsDataURL(f)};
@@ -848,9 +850,9 @@ $('#searchBtn').onclick=()=>{$('#searchSheet').classList.add('on');$('#globalSea
 loadLocal();let h=location.hash.slice(1);if(h==='course-section')h='language';try{if(!h)h=sessionStorage.getItem('aiderlog-active-page-v157')||sessionStorage.getItem('aiderlog-active-page-v154')||''}catch{}go(document.getElementById(h)?h:'home',false);
 </script>
 
-<script src="./language-lab-v18-engine.js?v=175"></script>
-<script src="./language-content-v149.js?v=175"></script>
-<script src="./language-lab-v18.js?v=175"></script>
+<script src="./language-lab-v18-engine.js?v=176"></script>
+<script src="./language-content-v149.js?v=176"></script>
+<script src="./language-lab-v18.js?v=176"></script>
 <script>
 window.initAiderLogLanguageLabLegacy = function initAiderLogLanguageLab(root, labShell) {
 const japaneseScenarios = [
@@ -4237,100 +4239,113 @@ const AIDERLOG_LANG_STYLE=":host {\n  --blue: #0969da;\n  --blue-dark: #0757b7;\
  if(!customElements.get('aiderlog-language-lab'))customElements.define('aiderlog-language-lab',AiderLogLanguageLab);
 })();
 </script>
-<script src="./routine-v110.js?v=175"></script>
-<script src="./event-v111.js?v=175"></script>
-<script src="./polish-v112.js?v=175"></script>
-<script src="./routine-v111.js?v=175"></script>
-<script src="./features-v113.js?v=175"></script>
-<script src="./language-v114.js?v=175"></script>
-<script src="./my-v115.js?v=175"></script>
-<script src="./enhancements-v118.js?v=175"></script>
-<script src="./schedule-v119.js?v=175"></script>
-<script src="./event-cosmic-v120.js?v=175"></script>
-<script src="./event-support-v126.js?v=175"></script>
-<script src="./language-lab-v124.js?v=175"></script>
-<script src="./global-icons-v126.js?v=175"></script>
-<script src="./insight-range-v175.js?v=175"></script>
-<script src="./business-calendar-v175.js?v=175"></script>
-<script src="./app-dday-v175.js?v=175"></script>
-<script src="./feature-system-v125.js?v=175"></script>
-<script src="./global-cosmic-v126.js?v=175"></script>
-<script src="./feature-fixes-v126.js?v=175"></script>
-<script src="./feature-polish-v127.js?v=175"></script>
-<script src="./paper-workspace-v128.js?v=175"></script>
-<script src="./offline-training-v129.js?v=175"></script>
-<script src="./mobile-paper-v159.js?v=175"></script>
-<script src="./my-workspaces-v128.js?v=175"></script>
-<script src="./feature-polish-v128.js?v=175"></script>
-<script src="./insight-motion-v132.js?v=175"></script>
-<script src="./planet-system-v133.js?v=175"></script>
-<script src="./solar-material-v134.js?v=175"></script>
-<script src="./holographic-editorial-v135.js?v=175"></script>
-<script src="./experience-v136.js?v=175"></script>
-<script src="./experience-v137.js?v=175"></script>
-<script src="./experience-v138.js?v=175"></script>
-<script src="./experience-v139.js?v=175"></script>
-<link rel="stylesheet" href="./experience-v140.css?v=175">
-<script src="./experience-v140.js?v=175"></script>
-<link rel="stylesheet" href="./experience-v141.css?v=175">
-<script src="./experience-v141.js?v=175"></script>
-<link rel="stylesheet" href="./experience-v142.css?v=175">
-<script src="./wheel-owner-v154.js?v=175"></script>
-<script src="./experience-v142.js?v=175"></script>
-<link rel="stylesheet" href="./experience-v143.css?v=175">
-<link rel="stylesheet" href="./experience-v145.css?v=175">
-<link rel="stylesheet" href="./study-card-v1.css?v=175">
-<link rel="stylesheet" href="./app-polish-v147.css?v=175">
-<link rel="stylesheet" href="./app-feature-v148.css?v=175">
-<link rel="stylesheet" href="./app-polish-v149.css?v=175">
-<link rel="stylesheet" href="./app-polish-v150.css?v=175">
-<link rel="stylesheet" href="./app-polish-v152.css?v=175">
-<link rel="stylesheet" href="./app-polish-v153.css?v=175">
-<link rel="stylesheet" href="./app-polish-v154.css?v=175">
-<link rel="stylesheet" href="./app-polish-v155.css?v=175">
-<link rel="stylesheet" href="./app-feature-v156.css?v=175">
-<link rel="stylesheet" href="./app-polish-v157.css?v=175">
-<link rel="stylesheet" href="./app-polish-v158.css?v=175">
-<link rel="stylesheet" href="./app-polish-v159.css?v=175">
-<link rel="stylesheet" href="./app-polish-v160.css?v=175">
-<link rel="stylesheet" href="./app-polish-v161.css?v=175">
-<link rel="stylesheet" href="./app-files-v163.css?v=175">
-<link rel="stylesheet" href="./app-theme-v164.css?v=175">
-<link rel="stylesheet" href="./event-ui-v164.css?v=175">
-<link rel="stylesheet" href="./routine-ui-v165.css?v=175">
-<link rel="stylesheet" href="./daylog-ui-v165.css?v=175">
-<link rel="stylesheet" href="./training-presentation-v166.css?v=175">
-<link rel="stylesheet" href="./my-paper-v166.css?v=175">
-<script src="./experience-v143.js?v=175"></script>
-<script src="./my-suite-v145.js?v=175"></script>
-<script src="./world-lab-year1-data.js?v=175"></script>
-<script src="./study-card-v1.js?v=175"></script>
-<script src="./language-presentation-v166.js?v=175"></script>
-<script src="./experience-v145.js?v=175"></script>
-<script src="./app-feature-v152b.js?v=175"></script>
-<script src="./wheel-navigation-v151.js?v=175"></script>
-<script src="./app-polish-v157.js?v=175"></script>
-<script src="./app-polish-v160.js?v=175"></script>
-<script src="./app-polish-v161.js?v=175"></script>
-<script src="./event-ui-v164.js?v=175"></script>
-<script src="./routine-ui-v165.js?v=175"></script>
-<script src="./daylog-ui-v165.js?v=175"></script>
-<script src="./storage-maintenance-v168.js?v=175"></script>
-<script src="./consult-intake-v168.js?v=175"></script>
-<script src="./work-calendar-v168.js?v=175"></script>
-<script src="./consult-model-v167.js?v=175"></script>
-<script src="./work-client-v167.js?v=175"></script>
-<link rel="stylesheet" href="./app-consult-work-v168.css?v=175">
-<script src="./app-consult-work-v168.js?v=175"></script>
-<script src="./widget-models-v165.js?v=175"></script>
-<script src="./widget-ui-v165.js?v=175"></script>
-<script src="./widget-sync-v164.js?v=175"></script>
-<link rel="stylesheet" href="./private-calendar-v175.css?v=175">
-<link rel="stylesheet" href="./business-calendar-v175.css?v=175">
-<link rel="stylesheet" href="./insight-range-v175.css?v=175">
-<link rel="stylesheet" href="./app-calendar-v175.css?v=175">
-<script type="module" src="./private-calendar-ui-v175.js?v=175"></script>
-<script type="module" src="./estate-calendar-v171.js?v=175"></script>
-<script type="module" src="./firebase-app.js?v=175"></script>
+<script src="./routine-v110.js?v=176"></script>
+<script src="./event-v111.js?v=176"></script>
+<script src="./polish-v112.js?v=176"></script>
+<script src="./routine-v111.js?v=176"></script>
+<script src="./features-v113.js?v=176"></script>
+<script src="./language-v114.js?v=176"></script>
+<script src="./my-v115.js?v=176"></script>
+<script src="./enhancements-v118.js?v=176"></script>
+<script src="./schedule-v119.js?v=176"></script>
+<script src="./event-cosmic-v120.js?v=176"></script>
+<script src="./event-support-v126.js?v=176"></script>
+<script src="./language-lab-v124.js?v=176"></script>
+<script src="./global-icons-v126.js?v=176"></script>
+<script src="./insight-range-v175.js?v=176"></script>
+<script src="./business-calendar-v175.js?v=176"></script>
+<script src="./shared-schedule-v176.js?v=176"></script>
+<script src="./dday-display-v176.js?v=176"></script>
+<script src="./app-dday-v175.js?v=176"></script>
+<script src="./app-calendar-view-v176.js?v=176"></script>
+<script src="./feature-system-v125.js?v=176"></script>
+<script src="./global-cosmic-v126.js?v=176"></script>
+<script src="./feature-fixes-v126.js?v=176"></script>
+<script src="./feature-polish-v127.js?v=176"></script>
+<script src="./paper-workspace-v128.js?v=176"></script>
+<script src="./offline-training-v129.js?v=176"></script>
+<script src="./mobile-paper-v159.js?v=176"></script>
+<script src="./my-workspaces-v128.js?v=176"></script>
+<script src="./feature-polish-v128.js?v=176"></script>
+<script src="./insight-motion-v132.js?v=176"></script>
+<script src="./planet-system-v133.js?v=176"></script>
+<script src="./solar-material-v134.js?v=176"></script>
+<script src="./holographic-editorial-v135.js?v=176"></script>
+<script src="./experience-v136.js?v=176"></script>
+<script src="./experience-v137.js?v=176"></script>
+<script src="./experience-v138.js?v=176"></script>
+<script src="./experience-v139.js?v=176"></script>
+<link rel="stylesheet" href="./experience-v140.css?v=176">
+<script src="./experience-v140.js?v=176"></script>
+<link rel="stylesheet" href="./experience-v141.css?v=176">
+<script src="./experience-v141.js?v=176"></script>
+<link rel="stylesheet" href="./experience-v142.css?v=176">
+<script src="./wheel-owner-v154.js?v=176"></script>
+<script src="./experience-v142.js?v=176"></script>
+<link rel="stylesheet" href="./experience-v143.css?v=176">
+<link rel="stylesheet" href="./experience-v145.css?v=176">
+<link rel="stylesheet" href="./study-card-v1.css?v=176">
+<link rel="stylesheet" href="./app-polish-v147.css?v=176">
+<link rel="stylesheet" href="./app-feature-v148.css?v=176">
+<link rel="stylesheet" href="./app-polish-v149.css?v=176">
+<link rel="stylesheet" href="./app-polish-v150.css?v=176">
+<link rel="stylesheet" href="./app-polish-v152.css?v=176">
+<link rel="stylesheet" href="./app-polish-v153.css?v=176">
+<link rel="stylesheet" href="./app-polish-v154.css?v=176">
+<link rel="stylesheet" href="./app-polish-v155.css?v=176">
+<link rel="stylesheet" href="./app-feature-v156.css?v=176">
+<link rel="stylesheet" href="./app-polish-v157.css?v=176">
+<link rel="stylesheet" href="./app-polish-v158.css?v=176">
+<link rel="stylesheet" href="./app-polish-v159.css?v=176">
+<link rel="stylesheet" href="./app-polish-v160.css?v=176">
+<link rel="stylesheet" href="./app-polish-v161.css?v=176">
+<link rel="stylesheet" href="./app-files-v163.css?v=176">
+<link rel="stylesheet" href="./app-theme-v164.css?v=176">
+<link rel="stylesheet" href="./event-ui-v164.css?v=176">
+<link rel="stylesheet" href="./routine-ui-v165.css?v=176">
+<link rel="stylesheet" href="./daylog-ui-v165.css?v=176">
+<link rel="stylesheet" href="./training-presentation-v166.css?v=176">
+<link rel="stylesheet" href="./my-paper-v166.css?v=176">
+<script src="./experience-v143.js?v=176"></script>
+<script src="./my-suite-v145.js?v=176"></script>
+<script src="./world-lab-year1-data.js?v=176"></script>
+<script src="./study-card-v1.js?v=176"></script>
+<script src="./language-presentation-v166.js?v=176"></script>
+<script src="./experience-v145.js?v=176"></script>
+<script src="./app-feature-v152b.js?v=176"></script>
+<script src="./wheel-navigation-v151.js?v=176"></script>
+<script src="./app-polish-v157.js?v=176"></script>
+<script src="./app-polish-v160.js?v=176"></script>
+<script src="./app-polish-v161.js?v=176"></script>
+<script src="./event-ui-v164.js?v=176"></script>
+<script src="./routine-ui-v165.js?v=176"></script>
+<script src="./daylog-ui-v165.js?v=176"></script>
+<script src="./storage-maintenance-v168.js?v=176"></script>
+<script src="./consult-intake-v168.js?v=176"></script>
+<script src="./work-calendar-v168.js?v=176"></script>
+<script src="./consult-model-v167.js?v=176"></script>
+<script src="./work-client-v167.js?v=176"></script>
+<link rel="stylesheet" href="./app-consult-work-v168.css?v=176">
+<script src="./app-consult-work-v168.js?v=176"></script>
+<script src="./widget-models-v165.js?v=176"></script>
+<script src="./widget-ui-v165.js?v=176"></script>
+<script src="./widget-sync-v164.js?v=176"></script>
+<link rel="stylesheet" href="./private-calendar-v175.css?v=176">
+<link rel="stylesheet" href="./business-calendar-v175.css?v=176">
+<link rel="stylesheet" href="./insight-range-v175.css?v=176">
+<link rel="stylesheet" href="./shared-schedule-v176.css?v=176">
+<link rel="stylesheet" href="./dday-display-v176.css?v=176">
+<link rel="stylesheet" href="./app-calendar-v175.css?v=176">
+<link rel="stylesheet" href="./app-record-footers-v176.css?v=176">
+<script type="module" src="./private-calendar-ui-v175.js?v=176"></script>
+<script type="module" src="./estate-calendar-v171.js?v=176"></script>
+<script type="module" src="./firebase-app.js?v=176"></script>
+<link rel="stylesheet" href="./app-theme-primary-v176.css?v=176">
+<link rel="stylesheet" href="./wheelbar-v176.css?v=176">
+<script src="./wheelbar-v176.js?v=176"></script>
+<link rel="stylesheet" href="./app-system-surfaces-v176.css?v=176">
+<link rel="stylesheet" href="./photo-attachments-v176.css?v=176">
+<script src="./app-photo-attachments-v176.js?v=176"></script>
+<script src="./app-back-gesture-v176.js?v=176"></script>
 </body>
 </html>

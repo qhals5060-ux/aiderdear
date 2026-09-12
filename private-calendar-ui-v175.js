@@ -5,9 +5,9 @@ import {canUsePrivateIntimacy, privateCalendarMarkers, PRIVATE_CALENDAR_NOTICE} 
 const $=id=>document.getElementById(id), api=()=>window.AiderDearFirebase;
 const user=()=>api()?.getState?.().user||null;
 let actor='',epoch=0,data=null,rangeKey='',pending=null,busy=false,retryAt=0,error='',draft=null;
-let dialog,profileButton,toolbar,formKind='period',editing=null,entryDirty=false,settingsDirty=false;
+let dialog,profileButton,formKind='period',editing=null,entryDirty=false,settingsDirty=false,entryDate='',scheduleReturn=null;
 const dateNow=()=>new Date(Date.now()+9*3600000).toISOString().slice(0,10);
-function identity(){const u=user(),key=u?.uid?`${u.uid}:${u.email}:${u.emailVerified===true}`:'';if(key!==actor){actor=key;epoch++;data=null;pending=null;rangeKey='';retryAt=0;error='';draft=null;editing=null;entryDirty=false;settingsDirty=false;busy=false;dialog?.close();clearMarkers();if(dialog)dialog.remove();dialog=null;}return key;}
+function identity(){const u=user(),key=u?.uid?`${u.uid}:${u.email}:${u.emailVerified===true}`:'';if(key!==actor){actor=key;epoch++;data=null;pending=null;rangeKey='';retryAt=0;error='';draft=null;editing=null;entryDirty=false;settingsDirty=false;entryDate='';scheduleReturn=null;busy=false;dialog?.close();clearMarkers();if(dialog)dialog.remove();dialog=null;}return key;}
 function canIntimacy(){return !!identity()&&canUsePrivateIntimacy(user())&&data?.canUseIntimacy===true;}
 const calendarCellSelector='#calendar .day[data-date], #home [data-schedule-date-v125][data-date]';
 function calendarCells(){const native=!!window.AiderLogNative||document.documentElement.classList.contains('aiderlog-android')||new URLSearchParams(location.search).has('android-preview');const preferred=[...document.querySelectorAll(native?'#home [data-schedule-date-v125][data-date]':'#calendar .day[data-date]')];return preferred.length?preferred:[...document.querySelectorAll(calendarCellSelector)];}
@@ -51,14 +51,76 @@ function install(){
   compactProfile();
   const birth=$('loginBirthDate')?.closest('label');if(birth&&!profileButton?.isConnected){profileButton=document.createElement('button');profileButton.id='privateCalendarProfileV175';profileButton.type='button';profileButton.className='private-calendar-profile-v175';profileButton.textContent='생리 일정';profileButton.addEventListener('click',()=>open());birth.appendChild(profileButton);}
   if(profileButton){profileButton.hidden=!identity();profileButton.textContent=data?.settings?.menstrualEnabled?'생리 일정 · 사용 중':'생리 일정';}
-  const calendarTools=document.querySelector('#home .schedule-calctl-v119')||$('addEmotionTop')?.parentElement||$('addScheduleTop')?.parentElement;
-  if(calendarTools&&!toolbar?.isConnected){toolbar=document.createElement('span');toolbar.className='private-calendar-actions-v175';calendarTools.appendChild(toolbar);}
-  if(toolbar){toolbar.replaceChildren();if(identity()&&data?.settings?.menstrualEnabled){const add=document.createElement('button');add.type='button';add.textContent='+ 생리일';add.addEventListener('click',()=>open('period'));toolbar.appendChild(add);}if(canIntimacy()){const add=document.createElement('button');add.type='button';add.textContent='+ 관계일';add.addEventListener('click',()=>open('intimacy'));toolbar.appendChild(add);}}
+  // These dates belong to Schedule, never to an emotion form or its toolbar.
+  document.querySelectorAll('.private-calendar-actions-v175').forEach(node=>node.remove());
+  const legacy=$('emotionCycleSection');if(legacy)legacy.hidden=true;
+  const legacyInput=$('emotionPeriod');if(legacyInput)legacyInput.disabled=true;
+  installScheduleEntries();
 }
+function scheduleContext(host){
+  const native=host.classList.contains('schedule-dialog-v125'),form=host.querySelector(native?'[data-schedule-form-v125]':'#scheduleForm');
+  const date=form?.querySelector(native?'[name="date"]':'#eventDate'),save=form?.querySelector(native?'button[type="submit"]':'#saveEvent');
+  const footer=form?.querySelector(native?'.schedule-dialog-actions-v125':'.modal-actions');
+  return{native,form,date,footer,editable:!!form&&!!date&&!!save&&!save.hidden&&!save.disabled&&!date.disabled};
+}
+function installScheduleEntries(){
+  for(const host of document.querySelectorAll('#scheduleModal, .schedule-dialog-v125')){
+    const context=scheduleContext(host);let strip=host.querySelector('[data-private-schedule-v176]');
+    if(!context.form||!context.footer){strip?.remove();continue;}
+    context.footer.dataset.scheduleFooterV176='';
+    let actions=context.footer.querySelector('[data-schedule-secondary-v176]');
+    if(!actions){actions=document.createElement('div');actions.dataset.scheduleSecondaryV176='';context.footer.insertBefore(actions,context.footer.firstChild);}
+    if(!strip){strip=document.createElement('nav');strip.dataset.privateScheduleV176='';strip.className='private-schedule-actions-v176';strip.setAttribute('aria-label','개인 날짜 기록');}
+    if(strip.parentElement!==actions)actions.appendChild(strip);
+    if(context.native){
+      let emotion=actions.querySelector('[data-schedule-emotion-footer-v176]');
+      if(!emotion){emotion=document.createElement('button');emotion.type='button';emotion.dataset.scheduleEmotionFooterV176='';emotion.textContent='감정';emotion.addEventListener('click',()=>openEmotionFromSchedule(host));actions.insertBefore(emotion,strip);}
+      emotion.hidden=!context.editable;
+    }
+    strip.replaceChildren();strip.hidden=!identity()||!context.editable;if(strip.hidden)continue;
+    for(const kind of ['period',...(canIntimacy()?['intimacy']:[])]){
+      const button=document.createElement('button');button.type='button';button.dataset.privateScheduleKind=kind;
+      button.textContent=kind==='period'?'생리':'관계';
+      button.title=kind==='period'?(data?.settings?.menstrualEnabled?'생리일 추가':'생리 일정 설정'):'관계일 추가';
+      button.addEventListener('click',()=>openFromSchedule(host,kind));strip.appendChild(button);
+    }
+  }
+}
+async function openFromSchedule(host,kind){
+  const context=scheduleContext(host);if(!identity()||!context.editable||(kind==='intimacy'&&!canIntimacy()))return;
+  const date=context.date.value;editing=null;draft=null;entryDirty=false;
+  suspendScheduleDraft(host);
+  await open(kind,{date,fromSchedule:true});
+}
+function suspendScheduleDraft(host){
+  scheduleReturn={host,actor,epoch,hash:location.hash||'',activeClass:host.classList.contains('schedule-dialog-v125')?'on':'open',bodyModal:document.body.classList.contains('modal-open'),appInert:!!$('app')?.inert,scroll:[host,...host.querySelectorAll('.modal-body,.schedule-dialog-body-v125')].map(node=>({node,top:node.scrollTop||0,left:node.scrollLeft||0}))};
+  // Keep the personal schedule draft untouched. Never submit it when switching
+  // to the separate owner-only date editor and never stack two modal surfaces.
+  host.querySelector('[data-close="scheduleModal"], [data-schedule-dialog-close-v125]')?.click();
+}
+function openEmotionFromSchedule(host){
+  const context=scheduleContext(host);identity();
+  if(!context.native||!context.editable||typeof window.AiderAppEmotionV176?.open!=='function')return;
+  suspendScheduleDraft(host);
+  window.AiderAppEmotionV176.open(context.date.value,{onClose:restoreScheduleDraft});
+}
+function restoreScheduleDraft(){
+  const previous=scheduleReturn;scheduleReturn=null;
+  // Wait until all close handlers finish before showing the previous sheet.
+  // Never call newEvent/openSchedule here: those functions reset the draft.
+  Promise.resolve().then(()=>{
+    if(!previous||previous.actor!==identity()||previous.epoch!==epoch||previous.hash!==(location.hash||'')||dialog?.open||!previous.host.isConnected||!scheduleContext(previous.host).editable)return;
+    previous.host.classList.add(previous.activeClass);previous.host.setAttribute('aria-hidden','false');
+    if(previous.activeClass==='open'){if(previous.bodyModal)document.body.classList.add('modal-open');if($('app'))$('app').inert=previous.appInert;}
+    previous.scroll.forEach(({node,top,left})=>{if(node.isConnected){node.scrollTop=top;node.scrollLeft=left;}});
+    installScheduleEntries();previous.host.querySelector('[data-close="scheduleModal"], [data-schedule-dialog-close-v125]')?.focus({preventScroll:true});
+  });
+}
+function scheduleOpened(){install();refresh();}
 function build(){if(dialog)return;dialog=document.createElement('dialog');dialog.id='privateCalendarDialogV175';dialog.setAttribute('aria-labelledby','privateCalendarTitleV175');
   dialog.innerHTML='<header><h2 id="privateCalendarTitleV175">개인 캘린더</h2><button type="button" data-private-close aria-label="닫기" autofocus>×</button></header><div class="private-calendar-body-v175"><p id="privateCalendarStatusV175" role="status" aria-live="polite"></p><form id="privateCalendarSettingsV175"><label class="private-calendar-enabled"><input type="checkbox" name="menstrualEnabled">생리 일정 사용</label><div class="private-calendar-grid-v175"><label>평균 주기 · 일<input name="cycleLength" type="number" min="15" max="90" required></label><label>예상 기간 · 일<input name="periodLength" type="number" min="1" max="30" required></label></div><button type="submit">설정 저장</button></form><p class="private-calendar-notice-v175"></p><nav id="privateCalendarTabsV175" aria-label="개인 날짜 기록"></nav><form id="privateCalendarEntryV175"><div class="private-calendar-grid-v175"><label>시작일<input name="startDate" type="date" required></label><label>종료일<input name="endDate" type="date" required></label></div><div class="private-calendar-entry-actions"><button type="submit">기록 저장</button><button type="button" data-private-reset>새 기록</button></div></form><section id="privateCalendarListV175" aria-label="선택한 달의 개인 기록"></section><button type="button" data-private-retry>다시 불러오기</button></div>';
   document.body.appendChild(dialog);dialog.querySelector('.private-calendar-notice-v175').textContent=PRIVATE_CALENDAR_NOTICE;
-  dialog.querySelector('[data-private-close]').addEventListener('click',()=>dialog.close());dialog.addEventListener('cancel',e=>{if(busy)e.preventDefault();});
+  dialog.querySelector('[data-private-close]').addEventListener('click',()=>{if(!busy)dialog.close();});dialog.addEventListener('close',restoreScheduleDraft);dialog.addEventListener('cancel',e=>{e.preventDefault();if(!busy)dialog.close();});
   dialog.querySelector('[data-private-retry]').addEventListener('click',()=>refresh(true));dialog.querySelector('[data-private-reset]').addEventListener('click',()=>{editing=null;draft=null;entryDirty=false;renderEntry();});
   $('privateCalendarEntryV175').addEventListener('input',()=>{entryDirty=true;});$('privateCalendarSettingsV175').addEventListener('input',()=>{settingsDirty=true;});
   $('privateCalendarSettingsV175').addEventListener('submit',async e=>{e.preventDefault();if(!data)return;const f=e.currentTarget;await save({type:'settings',expectedRevision:data.settings.revision,item:{menstrualEnabled:f.elements.menstrualEnabled.checked,cycleLength:Number(f.elements.cycleLength.value),periodLength:Number(f.elements.periodLength.value)}});});
@@ -71,7 +133,7 @@ function build(){if(dialog)return;dialog=document.createElement('dialog');dialog
 function renderStatus(){if(!dialog)return;const counts=data?.hasMore?.periods||data?.hasMore?.intimacy;$('privateCalendarStatusV175').textContent=error||(counts?'기록이 많아 일부만 표시됩니다. 달을 좁혀서 확인해주세요.':data?'내 계정에서만 표시됩니다. 친구·커플 일정에 자동 공유되지 않습니다.':'개인 기록을 불러오는 중입니다…');dialog.querySelectorAll('input,button').forEach(el=>el.disabled=busy);}
 function renderEntry(){if(!dialog)return;const form=$('privateCalendarEntryV175'),isPeriod=formKind==='period';form.hidden=!data||(isPeriod?!data.settings.menstrualEnabled:!canIntimacy());
   form.elements.startDate.parentElement.firstChild.textContent=isPeriod?'시작일':'관계일';form.elements.endDate.parentElement.hidden=!isPeriod;form.elements.endDate.required=isPeriod;
-  if(!entryDirty){form.elements.startDate.value=editing?(editing.startDate||editing.date):dateNow();form.elements.endDate.value=editing?.endDate||dateNow();}
+  if(!entryDirty){form.elements.startDate.value=editing?(editing.startDate||editing.date):(entryDate||dateNow());form.elements.endDate.value=editing?.endDate||entryDate||dateNow();}
 }
 function render(){install();if(!dialog)return;const settings=$('privateCalendarSettingsV175');if(data&&!busy&&!settingsDirty){settings.elements.menstrualEnabled.checked=data.settings.menstrualEnabled;settings.elements.cycleLength.value=data.settings.cycleLength;settings.elements.periodLength.value=data.settings.periodLength;}
   const nav=$('privateCalendarTabsV175');nav.replaceChildren();for(const kind of ['period',...(canIntimacy()?['intimacy']:[])]){const b=document.createElement('button');b.type='button';b.textContent=kind==='period'?'생리일 추가':'관계일 추가';b.setAttribute('aria-pressed',String(formKind===kind));b.addEventListener('click',()=>{formKind=kind;editing=null;draft=null;entryDirty=false;render();});nav.appendChild(b);}
@@ -88,10 +150,10 @@ async function save(action){const key=identity(),version=epoch;if(!key||busy||!d
   finally{if(epoch===version){busy=false;renderStatus();}}
   if(success){if(action.type==='settings')settingsDirty=false;await refresh(true);if(error)return false;}return success;
 }
-async function open(kind='period'){if(!identity())return;const nextKind=kind==='intimacy'&&canIntimacy()?'intimacy':'period';if(formKind!==nextKind){editing=null;draft=null;entryDirty=false;}formKind=nextKind;build();
+async function open(kind='period',options={}){if(!identity())return;if(!options.fromSchedule)scheduleReturn=null;const nextKind=kind==='intimacy'&&canIntimacy()?'intimacy':'period';if(formKind!==nextKind){editing=null;draft=null;entryDirty=false;}entryDate=/^\d{4}-\d{2}-\d{2}$/.test(options.date||'')?options.date:'';formKind=nextKind;build();
   const closeProfile=document.querySelector('#loginModal.open [data-close="loginModal"], .profile-overlay-v137.on [data-profile-close-v137]');closeProfile?.click();render();if(!dialog.open)dialog.showModal();dialog.querySelector('[data-private-close]').focus();await refresh(true);
 }
 function calendarChanged(){install();decorateCalendar();refresh();}
-window.AiderPrivateCalendarUIV175=Object.freeze({calendarChanged,decorateCalendar,refresh,open,syncProfile:install});
+window.AiderPrivateCalendarUIV175=Object.freeze({calendarChanged,decorateCalendar,refresh,open,scheduleOpened,syncProfile:install});
 ['aiderdear-firebase-ready','aiderdear-firebase-state'].forEach(name=>addEventListener(name,()=>{identity();install();refresh();}));
 if(api()?.subscribe)api().subscribe(()=>{identity();install();refresh();});calendarChanged();

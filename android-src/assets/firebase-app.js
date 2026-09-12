@@ -3,16 +3,19 @@ import {decodeArchive,encodeArchive,encodeStoredPayload} from './archive-codec-v
 import {ddayFailure,ddayId,ddayScope,mergeDdaySources,resolveDdaySelection,preserveDdayRows,mutateDdayStore} from './dday-store-v174.js';
 import {PRIVATE_CALENDAR_VERSION,canUsePrivateIntimacy,privateCalendarFailure,privateCalendarError,privateCalendarId,privateCalendarRange,privateCalendarRevision,normalizePrivateCalendarSettings,normalizePrivateCalendarEntry,privateCalendarMutation,withoutPrivateEmotionFlags} from './private-calendar-v175.js';
 import {createFriendScheduleAdapter} from './friend-schedule-firebase-v175.js';
+import {createAndroidSession} from './android-session-v176.js';
 const storageStampV168=()=>({storageVersion:168,formatWrittenAt:serverTimestamp()});
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js';
 import {
   browserLocalPersistence,
+  indexedDBLocalPersistence,
   getAuth,
   GoogleAuthProvider,
   onAuthStateChanged,
   reauthenticateWithPopup,
   setPersistence,
   signInWithPopup,
+  signInWithCredential,
   signInWithRedirect,
   signOut,
   updateProfile,
@@ -54,6 +57,17 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 auth.languageCode = 'ko';
+
+let persistenceSetupV176=null;
+function prepareLoginPersistenceV176(){
+  if(!persistenceSetupV176)persistenceSetupV176=(async()=>{
+    try{await setPersistence(auth,browserLocalPersistence)}
+    catch{try{await setPersistence(auth,indexedDBLocalPersistence)}catch{throw Object.assign(new Error('로그인 상태를 저장할 수 없습니다. 앱 또는 브라우저 저장 공간을 확인해주세요.'),{code:'auth/storage-unavailable'})}}
+  })().catch(error=>{persistenceSetupV176=null;throw error});
+  return persistenceSetupV176;
+}
+const androidSessionV176=createAndroidSession({auth,provider:GoogleAuthProvider,signInWithCredential,preparePersistence:prepareLoginPersistenceV176,bridge:()=>window.AiderLogNative,storage:{getItem:key=>window.localStorage.getItem(key),setItem:(key,value)=>window.localStorage.setItem(key,value),removeItem:key=>window.localStorage.removeItem(key)},crypto:window.crypto,
+  diagnostic:detail=>console.warn('[AiderLog authentication]',detail.stage,detail.code)});
 
 const state = {
   ready: false,
@@ -363,7 +377,8 @@ function startListeners(user) {
         const row = plainDoc(item) || {};
         let photoDataUrl = '';
         try { if (row.photoBytes?.toBase64) photoDataUrl = `data:${row.photoMimeType || 'image/jpeg'};base64,${row.photoBytes.toBase64()}`; } catch {}
-        return { ...row, transport: 'direct', photoDataUrl, createdAt: timestampValue(row.createdAt) };
+        const photoDataUrls = [photoDataUrl, ...(Array.isArray(row.additionalPhotos) ? row.additionalPhotos.slice(0, 5).map(photo => { try { return photo.photoBytes?.toBase64 ? `data:${photo.photoMimeType || 'image/jpeg'};base64,${photo.photoBytes.toBase64()}` : ''; } catch { return ''; } }) : [])].filter(Boolean);
+        return { ...row, transport: 'direct', photoDataUrl, photoDataUrls, createdAt: timestampValue(row.createdAt) };
       });
       recomputeState();
       if (expired.length) cleanupExpiredDirectLetters(expired).catch(error => console.warn('Expired letter cleanup failed', error));
@@ -418,6 +433,8 @@ function scopedDoc(section, id = 'main') {
 
 async function login() {
   state.error = '';
+  if(androidSessionV176.enabled())return androidSessionV176.begin();
+  await prepareLoginPersistenceV176();
   const provider = new GoogleAuthProvider();
   provider.setCustomParameters({ prompt: 'select_account' });
   try {
@@ -438,6 +455,7 @@ async function login() {
 }
 
 async function logout() {
+  await androidSessionV176.cancel();
   googleDriveAccessToken = '';
   googleCalendarAccessToken = '';
   await signOut(auth);
@@ -895,7 +913,14 @@ function directPhotoPayload(dataUrl) {
   return { photoMimeType: match[1], photoBytes: Bytes.fromBase64String(match[2]) };
 }
 
-async function sendDirectLetter({ toUid, toEmail, toName, body, photoDataUrl = '' } = {}) {
+function directPhotosPayload(photoDataUrls, photoDataUrl) {
+  const urls = Array.isArray(photoDataUrls) ? photoDataUrls : (photoDataUrl ? [photoDataUrl] : []);
+  if (urls.length > 6 || urls.reduce((sum, url) => sum + String(url).length, 0) > 900000) throw new Error('편지에는 압축된 사진을 최대 6장까지 첨부할 수 있습니다.');
+  const photos = urls.map(url => { const photo = directPhotoPayload(url); if (!photo.photoBytes) throw new Error('사진 형식을 확인해주세요.'); return photo; });
+  return photos.length ? { ...photos[0], ...(photos.length > 1 ? { additionalPhotos: photos.slice(1) } : {}) } : {};
+}
+
+async function sendDirectLetter({ toUid, toEmail, toName, body, photoDataUrl = '', photoDataUrls } = {}) {
   const user = requireUser();
   const friend = state.friends.find(row => row.uid === toUid && row.email === cleanEmail(toEmail));
   const partner = state.partner?.uid === toUid && state.partner?.email === cleanEmail(toEmail);
@@ -916,7 +941,7 @@ async function sendDirectLetter({ toUid, toEmail, toName, body, photoDataUrl = '
     readBy: [user.uid],
     createdAt: serverTimestamp(),
     updatedAt: serverTimestamp(),
-    ...directPhotoPayload(photoDataUrl),
+    ...directPhotosPayload(photoDataUrls, photoDataUrl),
   };
   return (await addDoc(collection(db, 'directLetters'), payload)).id;
 }
@@ -1638,23 +1663,50 @@ async function videoDurationSeconds(file) {
   }
 }
 
+// An upload must never retarget another account/pair after compression awaits.
+function captureMediaUploadContextV176(privateOnly = false) {
+  const user = requireUser(), principal = auth.currentUser, uid = user.uid;
+  if (!uid || principal?.uid !== uid) throw Object.assign(new Error('계정 상태가 변경되었습니다. 다시 로그인해주세요.'), { code: 'auth/context-changed' });
+  const base = privateOnly ? ['users', uid, 'privateMedia'] : [...pairScope().base, 'media'];
+  const scopeKey = JSON.stringify(base);
+  return { uid, base, assertCurrent() {
+    const sameUser = auth.currentUser === principal && auth.currentUser?.uid === uid && state.user?.uid === uid;
+    const sameScope = sameUser && (privateOnly || JSON.stringify([...pairScope().base, 'media']) === scopeKey);
+    if (!sameScope) throw Object.assign(new Error('계정 또는 공유 공간이 변경되었습니다. 원래 계정에서 기록창을 다시 열어주세요.'), { code: 'auth/context-changed' });
+  } };
+}
+
 async function uploadMedia(originalFile, label = 'media') {
-  requireUser();
+  const context = captureMediaUploadContextV176();
   const file = await compressImage(originalFile);
+  context.assertCurrent();
   const isVideo = String(file.type || '').startsWith('video/');
   if (isVideo) {
     const duration = await videoDurationSeconds(file);
+    context.assertCurrent();
     if (duration > 310) throw new Error('영상은 5분 이내로 선택해주세요.');
     if (file.size > 120 * 1024 * 1024) throw new Error('5분 영상은 120MB 이하로 선택해주세요. 화질을 낮추면 더 오래 보관할 수 있습니다.');
   } else if (file.size > 25 * 1024 * 1024) {
     throw new Error('무료 저장공간 보호를 위해 사진은 25MB 이하만 올릴 수 있습니다.');
   }
   const mediaId = `m-${Date.now()}-${crypto.randomUUID().slice(0, 8)}`;
-  const ref = mediaRef(mediaId);
+  const ref = doc(db, ...context.base, mediaId);
   const bytes = new Uint8Array(await file.arrayBuffer());
+  context.assertCurrent();
   const chunkSize = 700 * 1024;
   const chunkCount = Math.ceil(bytes.length / chunkSize);
   const chunks = collection(ref, 'chunks');
+  if (String(file.type || '').startsWith('image/') && chunkCount === 1) {
+    // One-chunk photos and their metadata succeed/fail together; document
+    // write count is unchanged, but a failed metadata request cannot orphan bytes.
+    const atomic = writeBatch(db);
+    atomic.set(doc(chunks, '00000'), { data: Bytes.fromUint8Array(bytes) });
+    atomic.set(ref, { name: file.name, type: file.type || 'application/octet-stream', size: file.size, chunkCount, label, createdAt: serverTimestamp(), createdBy: context.uid });
+    context.assertCurrent();
+    await atomic.commit();
+    context.assertCurrent();
+    return { id: mediaId, name: file.name, mimeType: file.type, size: file.size };
+  }
   let batch = writeBatch(db);
   let operations = 0;
   for (let index = 0; index < chunkCount; index += 1) {
@@ -1665,12 +1717,19 @@ async function uploadMedia(originalFile, label = 'media') {
     });
     operations += 1;
     if (operations === 400) {
+      context.assertCurrent();
       await batch.commit();
+      context.assertCurrent();
       batch = writeBatch(db);
       operations = 0;
     }
   }
-  if (operations) await batch.commit();
+  if (operations) {
+    context.assertCurrent();
+    await batch.commit();
+    context.assertCurrent();
+  }
+  context.assertCurrent();
   await setDoc(ref, {
     name: file.name,
     type: file.type || 'application/octet-stream',
@@ -1678,8 +1737,9 @@ async function uploadMedia(originalFile, label = 'media') {
     chunkCount,
     label,
     createdAt: serverTimestamp(),
-    createdBy: state.user.uid,
+    createdBy: context.uid,
   });
+  context.assertCurrent();
   return { id: mediaId, name: file.name, mimeType: file.type, size: file.size };
 }
 
@@ -1958,16 +2018,27 @@ function privateMediaRef(mediaId) {
 }
 
 async function uploadPrivateMedia(originalFile, label = 'personal') {
-  requireUser();
+  const context = captureMediaUploadContextV176(true);
   const file = await compressImage(originalFile);
+  context.assertCurrent();
   const maxSize = 25 * 1024 * 1024;
   if (file.size > maxSize) throw new Error('무료 저장공간 보호를 위해 파일은 25MB 이하만 올릴 수 있습니다.');
   const mediaId = `pm-${Date.now()}-${crypto.randomUUID().slice(0, 8)}`;
-  const ref = privateMediaRef(mediaId);
+  const ref = doc(db, ...context.base, mediaId);
   const bytes = new Uint8Array(await file.arrayBuffer());
+  context.assertCurrent();
   const chunkSize = 700 * 1024;
   const chunkCount = Math.ceil(bytes.length / chunkSize);
   const chunks = collection(ref, 'chunks');
+  if (String(file.type || '').startsWith('image/') && chunkCount === 1) {
+    const atomic = writeBatch(db);
+    atomic.set(doc(chunks, '00000'), { data: Bytes.fromUint8Array(bytes) });
+    atomic.set(ref, { name: file.name, type: file.type || 'application/octet-stream', size: file.size, chunkCount, label, createdAt: serverTimestamp(), createdBy: context.uid });
+    context.assertCurrent();
+    await atomic.commit();
+    context.assertCurrent();
+    return { id: mediaId, name: file.name, mimeType: file.type, size: file.size };
+  }
   let batch = writeBatch(db);
   let operations = 0;
   for (let index = 0; index < chunkCount; index += 1) {
@@ -1976,12 +2047,19 @@ async function uploadPrivateMedia(originalFile, label = 'personal') {
     batch.set(doc(chunks, String(index).padStart(5, '0')), { data: Bytes.fromUint8Array(bytes.slice(start, end)) });
     operations += 1;
     if (operations === 400) {
+      context.assertCurrent();
       await batch.commit();
+      context.assertCurrent();
       batch = writeBatch(db);
       operations = 0;
     }
   }
-  if (operations) await batch.commit();
+  if (operations) {
+    context.assertCurrent();
+    await batch.commit();
+    context.assertCurrent();
+  }
+  context.assertCurrent();
   await setDoc(ref, {
     name: file.name,
     type: file.type || 'application/octet-stream',
@@ -1989,8 +2067,9 @@ async function uploadPrivateMedia(originalFile, label = 'personal') {
     chunkCount,
     label,
     createdAt: serverTimestamp(),
-    createdBy: state.user.uid,
+    createdBy: context.uid,
   });
+  context.assertCurrent();
   return { id: mediaId, name: file.name, mimeType: file.type, size: file.size };
 }
 
@@ -2331,6 +2410,7 @@ const api = {
     return () => subscribers.delete(callback);
   },
   login,
+  completeAndroidGoogleSignIn: androidSessionV176.complete,
   logout,
   createInvite,
   acceptInvite,
@@ -2410,8 +2490,11 @@ const api = {
 window.AiderDearFirebase = api;
 window.dispatchEvent(new CustomEvent('aiderdear-firebase-ready'));
 
-await setPersistence(auth, browserLocalPersistence);
+await prepareLoginPersistenceV176().catch(error=>{state.error=error.message;console.warn('[AiderLog authentication] persistence',error.code);});
+let authObserverGenerationV176=0;
 onAuthStateChanged(auth, async user => {
+  const generation=++authObserverGenerationV176;
+  const stillCurrent=()=>generation===authObserverGenerationV176&&(auth.currentUser?.uid||null)===(user?.uid||null);
   stopListeners();
   state.user = null;
   state.pair = null;
@@ -2430,21 +2513,25 @@ onAuthStateChanged(auth, async user => {
       // Employee accounts never enter the general site's profile/listener boot.
       // This self-only lookup contains no employee private records.
       const workIdentity=await getDoc(doc(db,'workIdentities',user.uid));
-      if(auth.currentUser?.uid!==user.uid)return;
+      if(!stillCurrent())return;
       if(workIdentity.data()?.kind==='employee'){
         state.ready=true;state.error='직원 개인 페이지로 이동합니다.';emit();
         location.replace(new URL('./employee.html',location.href).href);return;
       }
-      state.user = await ensureUserProfile(user);
+      const profile=await ensureUserProfile(user);
+      if(!stillCurrent())return;
+      state.user = profile;
       startListeners(user);
       propagateMemberProfile(state.user).catch(error => console.warn('Connected profile sync skipped', error));
       setTimeout(() => repairPairConnection().catch(error => {
         console.warn('Pair connection repair skipped', error);
       }), 700);
     } catch (error) {
+      if(!stillCurrent())return;
       state.error = error.message;
     }
   }
+  if(!stillCurrent())return;
   state.ready = true;
   emit();
 });

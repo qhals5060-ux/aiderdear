@@ -4,6 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#6255e8">
+  <meta name="referrer" content="no-referrer">
+  <meta name="robots" content="noindex,nofollow">
   <title>AiderLog Google 로그인</title>
   <style>
     :root{font-family:system-ui,-apple-system,"Noto Sans KR",sans-serif;color:#15172d;background:#f7f6ff}
@@ -22,12 +24,12 @@
     <div class="planet" aria-hidden="true"></div>
     <h1>AiderLog 로그인</h1>
     <p>Google 인증은 안전한 시스템 브라우저에서 진행됩니다.<br>완료되면 AiderLog 앱으로 자동으로 돌아갑니다.</p>
-    <button id="loginButton" type="button">Google 계정으로 계속</button>
+    <button id="loginButton" type="button" disabled>로그인 준비 중…</button>
     <div id="status" class="status" role="status" aria-live="polite"></div>
   </main>
   <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js';
-    import { getAuth, GoogleAuthProvider, signInWithPopup } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js';
+    import { getAuth, GoogleAuthProvider, signInWithPopup, setPersistence, inMemoryPersistence } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js';
 
     const firebaseConfig = {
       apiKey: 'AIzaSyALzfkvB9MscSFBxz6I4mtHtCmx1G5bdaw',
@@ -40,30 +42,34 @@
     const state = new URLSearchParams(location.search).get('state') || '';
     const button = document.getElementById('loginButton');
     const status = document.getElementById('status');
+    let auth, busy = false, returnCallback = '';
+    const validState = /^[a-f0-9]{64}$/.test(state);
 
     function returnToApp(params) {
       params.set('state', state);
       const callback = `aiderlog://auth?${params.toString()}`;
-      const open = () => { location.href = callback; };
+      returnCallback = callback;
       status.classList.remove('error');
       status.textContent = '인증 완료 · AiderLog로 돌아가는 중…';
       button.disabled = false;
       button.textContent = 'AiderLog로 돌아가기';
-      button.onclick = open;
-      open();
+      // One handler only: retrying the app handoff must not start Google again.
+      location.href = returnCallback;
     }
 
     button.addEventListener('click', async () => {
-      if (!state) {
+      if (returnCallback) { location.href = returnCallback; return; }
+      if (busy) return;
+      if (!validState || !auth) {
         status.classList.add('error');
         status.textContent = '로그인 요청 정보가 없습니다. 앱에서 다시 시작해주세요.';
         return;
       }
+      busy = true;
       button.disabled = true;
       status.classList.remove('error');
       status.textContent = 'Google 계정을 확인하고 있습니다…';
       try {
-        const auth = getAuth(initializeApp(firebaseConfig));
         const provider = new GoogleAuthProvider();
         provider.setCustomParameters({ prompt: 'select_account' });
         const result = await signInWithPopup(auth, provider);
@@ -77,9 +83,29 @@
         button.disabled = false;
         status.classList.add('error');
         if (error?.code === 'auth/popup-closed-by-user') status.textContent = '로그인 창이 닫혔습니다. 다시 시도해주세요.';
-        else status.textContent = error?.message || 'Google 로그인을 완료하지 못했습니다.';
+        else if (error?.code === 'auth/popup-blocked') status.textContent = '브라우저가 로그인 창을 차단했습니다. 이 사이트의 팝업을 허용한 뒤 다시 눌러주세요.';
+        else status.textContent = 'Google 로그인을 완료하지 못했습니다. 앱에서 다시 시작해주세요.' + (/^auth\/[a-z-]+$/.test(error?.code || '') ? ` (${error.code})` : '');
+      } finally {
+        busy = false;
       }
     });
+    if (!validState) {
+      status.classList.add('error');
+      status.textContent = '로그인 요청 정보가 없거나 올바르지 않습니다. AiderLog 앱에서 다시 시작해주세요.';
+      button.textContent = '앱에서 로그인 시작';
+    } else {
+      try {
+        // Keep this short-lived browser handoff separate from the website login.
+        auth = getAuth(initializeApp(firebaseConfig, 'android-handoff-v176'));
+        auth.languageCode = 'ko';
+        await setPersistence(auth, inMemoryPersistence);
+        button.textContent = 'Google 계정으로 계속';
+        button.disabled = false;
+      } catch {
+        status.classList.add('error');
+        status.textContent = '로그인을 준비하지 못했습니다. 인터넷 연결을 확인하고 새로고침해주세요.';
+      }
+    }
   </script>
 </body>
 </html>

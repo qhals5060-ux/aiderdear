@@ -21,6 +21,8 @@
   let owner='',ownerState={},epoch=0,source={app:{},personal:{}},verified=false;
   let apiBound=null,refreshTimer=0,refreshRun=0,logoutPending=false,logoutOwner='';
   const photoCache=new Map();let photoRun=0;
+  let activeCourses=[],manifestLoaded=false;
+  async function loadWidgetCourses(){if(manifestLoaded)return;try{const response=await fetch('./language-data-v2/data/manifest.json',{cache:'force-cache'});if(!response.ok)return;const manifest=await response.json();activeCourses=array(manifest.courses).filter(row=>['en','ja'].includes(row.language));manifestLoaded=true;sync();}catch{}}
   // A/P and the v20 local keys are legacy, unscoped data. They can still contain
   // another user's fields while the app merges a new cloud response. Never read
   // them here: only atomically owner-tagged, scoped Firebase responses are used.
@@ -95,7 +97,7 @@
         try{
           const image=await new Promise((resolve,reject)=>{const image=new Image();image.onload=()=>resolve(image);image.onerror=reject;image.src=url});
           if(!stillCurrent(expectedEpoch,expectedOwner)||run!==photoRun)return;
-          const canvas=document.createElement('canvas'),cover=row.category==='reading',width=cover?80:180,height=cover?110:140;canvas.width=width;canvas.height=height;const scale=(cover?Math.min:Math.max)(width/image.width,height/image.height),context=canvas.getContext('2d');if(cover){context.fillStyle='#F7F6FF';context.fillRect(0,0,width,height)}context.drawImage(image,(width-image.width*scale)/2,(height-image.height*scale)/2,image.width*scale,image.height*scale);
+          const canvas=document.createElement('canvas'),cover=row.category==='reading',width=cover?100:180,height=cover?140:180;canvas.width=width;canvas.height=height;const scale=(cover?Math.min:Math.max)(width/image.width,height/image.height),context=canvas.getContext('2d');if(cover){context.fillStyle='#F7F6FF';context.fillRect(0,0,width,height)}context.drawImage(image,(width-image.width*scale)/2,(height-image.height*scale)/2,image.width*scale,image.height*scale);
           photoCache.set(cacheKey,canvas.toDataURL('image/jpeg',cover?.4:.5));
         }catch{}finally{if(revoke)URL.revokeObjectURL(url)}
       }
@@ -105,9 +107,11 @@
     if(!checkOwner()||!verified)return blankSnapshot();
     const {app,personal}=source,state=ownerState;
     const email=str(state?.user?.email).toLowerCase(),now=new Date(),today=key(now);
-    const consulting=allowed.has(email)?array(personal.consultingTasks).filter(row=>row.dueDate&&!row.demo).map(row=>({...row,id:`consulting:${row.id}`,date:row.dueDate,time:row.dueTime||row.time||''})):[];
-    const work=allowed.has(email)?array(personal.workRecords).filter(row=>(row.dueDate||row.date)&&!row.demo).map(row=>({...row,id:`work:${row.id}`,date:row.dueDate||row.date,time:row.dueTime||row.time||''})):[];
-    const scheduleItems=[...array(app.scheduleEvents),...consulting,...work].filter(row=>row?.date&&row?.title&&!row.demo).map(row=>({id:str(row.id),date:date(row.date),endDate:date(row.endDate||row.date),time:str(row.time),title:str(row.title)})).sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
+    const calendar=window.AiderWorkCalendarV168;
+    // Reuse the current owner's API projection; legacy workRecords are no longer
+    // authoritative. Never join another account's cached Work rows to a widget.
+    const projected=allowed.has(email)&&calendar?.status?.().uid===state.user.uid?array(calendar.rows(personal)):[];
+    const scheduleItems=[...new Map([...array(app.scheduleEvents),...projected].filter(row=>row?.date&&row?.title&&!row.demo).map(row=>[str(row.id),{id:str(row.id),date:date(row.date),endDate:date(row.endDate||row.date),time:str(row.time),title:str(row.title)}])).values()].sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
     const holidays={};
     for(let year=now.getFullYear()-1;year<=now.getFullYear()+2;year++)for(let day=new Date(year,0,1);day.getFullYear()===year;day.setDate(day.getDate()+1)){
       const k=key(day),label=window.AiderLogHolidayTitleV164?.(k);if(label)holidays[k]=label;
@@ -153,13 +157,34 @@
         result.push(...items.filter(row=>date(row.date)===d&&row.category!=='emotion').map(row=>`${d.slice(5)} · ${text(row)}`));
       }return [...result,...memos,...todos];
     };
-    return {version:165,uid,v165:window.AiderWidgetModelsV165?.build({app,personal,uid,now,photo:row=>photoCache.get(`${uid}:${row.id}:${row.media?.fileId||row.updatedAt||row.createdAt||''}`)||''})||{},email,theme:themeMap[document.documentElement.dataset.theme]||'aurora',today:new Intl.DateTimeFormat('ko-KR',{month:'long',day:'numeric',weekday:'short'}).format(now),month:new Intl.DateTimeFormat('ko-KR',{year:'numeric',month:'long'}).format(now),scheduleItems,holidays,schedule:scheduleItems.map(row=>`${row.date} ${row.time} ${row.title}`),routines,routineStats:routines,languageRows,language:languageRows.join('\n'),youtubeNotes:youtube,memos,todos,memoTodos:[...memos,...todos],readingBooks:reading,readingCurrent:[...reading,...quotes],quote:quotes[0]||'',workouts,workoutStats,workoutStatsInbody:[...workoutStats,...inbody],challengeSelected:challenges,challengeAll:challenges,challengeCombined:challenges,workoutChallenges:[...workouts,...challenges],mealWorkouts:workouts,mealPhotos,mealTimes,mealRatings,meals:[],workflows,bullet3:bullet(3),bullet7:bullet(7),bullet3Workflow:[...bullet(3),...workflows],bullet7Workflow:[...bullet(7),...workflows]};
+    return {version:165,uid,v165:window.AiderWidgetModelsV165?.build({app,personal,uid,now,courses:activeCourses,photo:row=>photoCache.get(`${uid}:${row.id}:${row.media?.fileId||row.updatedAt||row.createdAt||''}`)||''})||{},email,theme:themeMap[document.documentElement.dataset.theme]||'aurora',today:new Intl.DateTimeFormat('ko-KR',{month:'long',day:'numeric',weekday:'short'}).format(now),month:new Intl.DateTimeFormat('ko-KR',{year:'numeric',month:'long'}).format(now),scheduleItems,holidays,schedule:scheduleItems.map(row=>`${row.date} ${row.time} ${row.title}`),routines,routineStats:routines,languageRows,language:languageRows.join('\n'),youtubeNotes:youtube,memos,todos,memoTodos:[...memos,...todos],readingBooks:reading,readingCurrent:[...reading,...quotes],quote:quotes[0]||'',workouts,workoutStats,workoutStatsInbody:[...workoutStats,...inbody],challengeSelected:challenges,challengeAll:challenges,challengeCombined:challenges,workoutChallenges:[...workouts,...challenges],mealWorkouts:workouts,mealPhotos,mealTimes,mealRatings,meals:[],workflows,bullet3:bullet(3),bullet7:bullet(7),bullet3Workflow:[...bullet(3),...workflows],bullet7Workflow:[...bullet(7),...workflows]};
   }
   let timer=0,last='';
   const commandQueueKey=uid=>`aiderlog.widget-actions.v165:${encodeURIComponent(uid)}`;
   let executing=false;
   function enqueue(command){const name=commandQueueKey(command.uid),rows=array(read(name)),remaining=rows.filter(row=>row.key!==command.key&&!(row.id===command.id&&row.op===command.op));remaining.push(command);localStorage.setItem(name,JSON.stringify(remaining));}
   function notify(message){if(typeof window.toast==='function')window.toast(message);else if(typeof window.AiderLogAppShell?.toast==='function')window.AiderLogAppShell.toast(message);}
+  let linkTail=Promise.resolve();
+  function createIntakeFromWidget(raw){
+    const [,widgetId,expectedUid]=String(raw).split(':');
+    const run=async()=>{
+      const state=auth(),uid=str(state?.user?.uid),email=str(state?.user?.email).toLowerCase();
+      if(!uid||!allowed.has(email)||!expectedUid||uid!==expectedUid){notify('컨설트 계정으로 로그인하고 위젯을 다시 눌러주세요.');return;}
+      const captured=identity(state),api=window.AiderDearFirebase;if(typeof api?.createClientIntakeLink!=='function'){notify('고객정보 링크를 준비 중입니다. 잠시 후 다시 눌러주세요.');return;}
+      try{
+        await window.AiderConsultIntakeV168.createAndCopy(uid);
+        if(identity(auth())!==captured)return;
+        window.dispatchEvent(new CustomEvent('aiderlog:widget-intake-created',{detail:{widgetId:Number(widgetId),uid}}));
+      }catch(error){if(identity(auth())===captured)notify('링크 생성 또는 복사에 실패했습니다. 연결을 확인한 뒤 다시 눌러주세요.');}
+    };
+    linkTail=linkTail.then(run,run);return linkTail;
+  }
+  function openScheduleWidget(raw){
+    let record;try{record=JSON.parse(decodeURIComponent(raw));}catch{return;}
+    if(str(record.uid)!==str(auth()?.user?.uid))return;
+    if(typeof go==='function')go('home',false);else location.hash='home';
+    setTimeout(()=>window.AiderLogCalendarV125?.openSchedule?.(date(record.selectedDate||record.date),str(record.id)),250);
+  }
   async function flushCommands(){
     if(executing||!checkOwner()||!verified||typeof window.AiderDearFirebase?.applyWidgetActionV165!=='function')return;
     executing=true;const uid=ownerState.user.uid,expectedEpoch=epoch,expectedOwner=owner,name=commandQueueKey(uid);
@@ -169,7 +194,7 @@
       localStorage.setItem(name,JSON.stringify(array(read(name)).filter(row=>row.key!==command.key)));
       if(object(result?.payload)){source.personal=copy(result.payload);try{localStorage.setItem(cacheKey(owner),JSON.stringify({owner,...source}))}catch{}}
       sync();requestRefresh(50);window.dispatchEvent(new CustomEvent('aiderlog:widget-private-changed',{detail:{uid,payload:result?.payload,command,localBefore}}));
-    }catch(error){if(!stillCurrent(expectedEpoch,expectedOwner))break;const code=String(error?.code||error?.message||''),terminal=['stale-action','invalid-action','not-found','replay-mismatch','invalid-data','permission-denied','unauthenticated'].some(value=>code.includes(value));if(terminal){localStorage.setItem(name,JSON.stringify(array(read(name)).filter(row=>row.key!==command.key)));const draftsKey=`${name}:failed`;localStorage.setItem(draftsKey,JSON.stringify([...array(read(draftsKey)),{command,error:code,at:Date.now()}]));notify(code.includes('stale-action')?'기록이 변경되어 다시 불러왔습니다. 위젯에서 다시 선택해주세요.':'저장할 수 없는 작업입니다. 입력 내용은 기기에 보관했습니다. 앱에서 확인해주세요.');requestRefresh(0);continue;}notify('기기에 저장했습니다. 연결되면 동기화합니다.');break;}}}finally{executing=false;}
+    }catch(error){if(!stillCurrent(expectedEpoch,expectedOwner))break;const code=String(error?.code||error?.message||''),terminal=['stale-action','invalid-action','not-found','replay-mismatch','invalid-data','goal-linked','permission-denied','unauthenticated'].some(value=>code.includes(value));if(code.includes('goal-linked')){window.AiderLogAppShell?.openTarget?.('routine','');notify('목표 연동 루틴은 앱에서 목표별 수행을 수정해주세요.');}if(terminal){localStorage.setItem(name,JSON.stringify(array(read(name)).filter(row=>row.key!==command.key)));const draftsKey=`${name}:failed`;localStorage.setItem(draftsKey,JSON.stringify([...array(read(draftsKey)),{command,error:code,at:Date.now()}]));notify(code.includes('stale-action')?'기록이 변경되어 다시 불러왔습니다. 위젯에서 다시 선택해주세요.':'저장할 수 없는 작업입니다. 입력 내용은 기기에 보관했습니다. 앱에서 확인해주세요.');requestRefresh(0);continue;}notify('기기에 저장했습니다. 연결되면 동기화합니다.');break;}}}finally{executing=false;}
   }
   function quickAdd(command){
     const dialog=document.createElement('dialog');dialog.style.cssText='width:min(92vw,480px);max-height:60dvh;padding:20px;border:1px solid var(--line,#ded9ff);border-radius:20px;background:var(--card,#f7f6ff);color:var(--ink,#171a3a)';
@@ -192,6 +217,9 @@
     const shell=window.AiderLogAppShell;if(!shell||shell.widgetV164)return;
     shell.widgetV164=true;shell.syncWidgets=sync;const open=shell.openTarget;
     shell.openTarget=function(target,action){
+      if(String(action||'').startsWith('create-client-intake-v168:')){open?.call(this,'task','');createIntakeFromWidget(action);return;}
+      if(String(action||'').startsWith('open-schedule-item-v168:')){openScheduleWidget(String(action).slice(24));return;}
+      if(String(action||'').startsWith('open-schedule-date-v168:')){const requested=String(action).slice(24);if(typeof go==='function')go('home',false);setTimeout(()=>window.AiderLogCalendarV125?.openSchedule?.(requested),250);return;}
       if(String(action||'').startsWith('widget-v165:')){commandAction(action);return;}
       if(String(action||'').startsWith('add-schedule:')){
         if(typeof go==='function')go('home',false);else location.hash='home';
@@ -204,11 +232,12 @@
       return open?.call(this,target,action);
     };
   }
-  window.AiderWidgetSyncV164={snapshot,sync,refresh,prepareMealPhotos,commandAction,flushCommands};
+  window.AiderWidgetSyncV164={snapshot,sync,refresh,prepareMealPhotos,commandAction,flushCommands,createIntakeFromWidget,loadWidgetCourses};
   addEventListener('online',()=>{requestRefresh(0);flushCommands()});
+  addEventListener('aiderlog-calendar-projection-v168',()=>sync());
   document.addEventListener('click',sync,{passive:true});document.addEventListener('change',sync,{passive:true});
   document.addEventListener('visibilitychange',()=>{if(!document.hidden){checkOwner();sync();requestRefresh();prepareMealPhotos()}});
   addEventListener('aiderlog:data-changed',()=>{sync();requestRefresh()});addEventListener('aiderdear-firebase-ready',()=>{bindAuth();sync()});addEventListener('pageshow',()=>{bindAuth();sync();requestRefresh()});
   new MutationObserver(()=>{hook();sync()}).observe(document.body,{childList:true,subtree:true,characterData:true});
-  sendBlank();bindAuth();hook();sync();setTimeout(()=>{bindAuth();hook();sync();prepareMealPhotos()},1000);document.addEventListener('change',()=>{requestRefresh(700)}, {passive:true});
+  sendBlank();loadWidgetCourses();bindAuth();hook();sync();setTimeout(()=>{bindAuth();hook();sync();prepareMealPhotos()},1000);document.addEventListener('change',()=>{requestRefresh(700)}, {passive:true});
 })();

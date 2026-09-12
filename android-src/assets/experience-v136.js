@@ -10,7 +10,6 @@
     neptune:['해왕성','#6f87b2','#52647f'],pluto:['명왕성','#d7cbb9','#49301f']
   };
   const FONT_META={small:'작게',normal:'보통',large:'크게'};
-  const TUTORIAL_KEY='aiderlog-tutorial-dismissed-v136';
   let accountState=window.AiderDearFirebase?.getState?.()||{};
   let wheelSparkTimer=0;
   let queued=false;
@@ -23,14 +22,14 @@
     const shell=window.AiderLogAppShell||{};if(typeof shell.openTarget==='function'){document.documentElement.dataset.nativeShellV136='existing';return}
     shell.openTarget=(target,action)=>{
       if(String(action||'').startsWith('aiderlog://auth')){
-        const finish=()=>window.AiderDearFirebase?.completeAndroidGoogleSignIn?.(action).catch(error=>{console.error('[v136-android-auth]',error);alert(error?.message||'Google 로그인을 완료하지 못했습니다.')});
+        const finish=()=>window.AiderDearFirebase?.completeAndroidGoogleSignIn?.(action).catch(error=>{console.error('[android-auth]',/^auth\/[a-z-]+$/.test(error?.code||'')?error.code:'auth/unknown');alert('Google 로그인을 완료하지 못했습니다. 앱에서 다시 시도해주세요.'+(/^auth\/[a-z-]+$/.test(error?.code||'')?' ('+error.code+')':''))});
         if(typeof window.AiderDearFirebase?.completeAndroidGoogleSignIn==='function')finish();else addEventListener('aiderdear-firebase-ready',finish,{once:true});return;
       }
       if(!String(target||'').trim()&&!String(action||'').trim())return;
       const page={schedule:'home',private:'routine',record:'event',personal:'personal',language:'language',fifth:'fifth'}[target]||'home';
       if(typeof go==='function')go(page,false);else location.hash=page;
     };
-    shell.handleBack=()=>{const open=$('.tutorial-v136.on,.intro.on,.schedule-dialog-v125.on,.emotion-dialog-v119.on,.event-editor-overlay-v111');if(!open)return false;const close=$('[aria-label="닫기"],[data-schedule-dialog-close-v125],[data-tutorial-dismiss-v136]',open);close?.click?.();return true};
+    shell.handleBack=()=>{const open=$$('.intro.on,.schedule-dialog-v125.on,.emotion-dialog-v119.on,.event-editor-overlay-v111').reverse().find(node=>{const style=getComputedStyle(node);return node.getClientRects().length&&style.display!=='none'&&style.visibility!=='hidden'});if(!open)return false;const close=$('[aria-label="닫기"],[data-schedule-dialog-close-v125]',open);if(!close)return false;close.click();return true};
     shell.deviceChanged=()=>dispatchEvent(new Event('resize'));window.AiderLogAppShell=shell;document.documentElement.dataset.nativeShellV136='installed';
   }
 
@@ -53,30 +52,6 @@
     const finish=()=>setTimeout(()=>{splash.classList.add('is-hidden');setTimeout(()=>{splash.remove();window.dispatchEvent(new CustomEvent('aiderlog-splash-complete'))},560)},Math.max(0,5600-(performance.now()-shownAt)));
     document.readyState==='complete'?finish():addEventListener('load',finish,{once:true});
   }
-
-  const tutorialSteps=[
-    ['01 · PLANET WHEEL','휠을 누른 채 움직여 보세요','오른쪽 아래 행성을 길게 누른 뒤 손가락을 움직이면 선택 중인 메뉴가 빛납니다. 손을 놓으면 해당 화면으로 이동해요.'],
-    ['02 · CALENDAR','날짜를 눌러 일정을 기록해요','날짜를 누르면 아래에서 일정 창이 올라옵니다. 알림 시간도 함께 정할 수 있어요.'],
-    ['03 · INSIGHT LETTER','오늘의 마음은 한 장의 엽서로','감정 기록을 바탕으로 움직이는 행성 엽서가 열립니다. 테마와 글자 크기는 오른쪽 위 프로필 버튼에서 바꿀 수 있어요.']
-  ];
-  function ensureTutorial(){
-    let overlay=$('.tutorial-v136');if(overlay)return overlay;
-    overlay=document.createElement('div');overlay.className='tutorial-v136';overlay.setAttribute('role','dialog');overlay.setAttribute('aria-modal','true');
-    overlay.innerHTML='<section class="tutorial-card-v136"><div class="tutorial-visual-v136"></div><div class="tutorial-step-v136"><small data-tutorial-kicker-v136></small><h2 data-tutorial-title-v136></h2><p data-tutorial-copy-v136></p><div class="tutorial-dots-v136" aria-hidden="true"></div><div class="tutorial-actions-v136"><button type="button" data-tutorial-dismiss-v136>다시 보지 않기</button><button type="button" data-tutorial-next-v136>다음</button></div></div></section>';
-    document.body.append(overlay);
-    overlay.addEventListener('click',event=>{
-      if(event.target.closest('[data-tutorial-dismiss-v136]')){try{localStorage.setItem(TUTORIAL_KEY,'1')}catch{}overlay.classList.remove('on');return}
-      if(event.target.closest('[data-tutorial-next-v136]')){const current=Number(overlay.dataset.step||0);if(current>=tutorialSteps.length-1){overlay.classList.remove('on');return}renderTutorial(current+1)}
-    });
-    return overlay;
-  }
-  function renderTutorial(index=0){
-    const overlay=ensureTutorial(),step=tutorialSteps[index]||tutorialSteps[0];overlay.dataset.step=String(index);
-    $('[data-tutorial-kicker-v136]',overlay).textContent=step[0];$('[data-tutorial-title-v136]',overlay).textContent=step[1];$('[data-tutorial-copy-v136]',overlay).textContent=step[2];
-    $('.tutorial-dots-v136',overlay).innerHTML=tutorialSteps.map((_,i)=>`<i class="${i===index?'active':''}"></i>`).join('');
-    $('[data-tutorial-next-v136]',overlay).textContent=index===tutorialSteps.length-1?'시작하기':'다음';overlay.classList.add('on');
-  }
-  function maybeShowTutorial(){let dismissed=false;try{dismissed=localStorage.getItem(TUTORIAL_KEY)==='1'}catch{}if(!dismissed)setTimeout(()=>renderTutorial(0),180)}
 
   function loginReady(){
     if(window.AiderDearFirebase?.login)return Promise.resolve(window.AiderDearFirebase);
@@ -120,7 +95,7 @@
     return `<div class="page account-page-v136">
       <section class="account-hero-v136"><div class="account-identity-v136"><div class="account-avatar-v136">${safe(initial)}</div><div><small>MY AIDERLOG UNIVERSE</small><h1>${safe(name)}</h1><p>${safe(user?.email||'로그인하면 설정을 기기와 동기화할 수 있어요.')}</p></div></div>${user?'<button type="button" data-account-logout-v136>로그아웃</button>':'<button type="button" data-account-login-v136>Google 로그인</button>'}</section>
       <div class="account-grid-v136">
-        <section class="account-panel-v136"><header><div><small>APPEARANCE</small><h2>테마와 글자</h2></div></header><div class="account-theme-strip-v136">${themeMarkup()}</div><div class="account-font-v136">${fontMarkup()}</div><div class="account-actions-v136"><button type="button" data-tutorial-replay-v136>사용 방법 다시 보기</button></div></section>
+        <section class="account-panel-v136"><header><div><small>APPEARANCE</small><h2>테마와 글자</h2></div></header><div class="account-theme-strip-v136">${themeMarkup()}</div><div class="account-font-v136">${fontMarkup()}</div></section>
         <section class="account-panel-v136"><header><div><small>HOME WIDGET</small><h2>캘린더 위젯 미리보기</h2></div></header><div class="widget-config-v136"><div class="widget-choice-v136"><label>구성<select data-widget-layout-v136><option value="split">달력 + 일정</option><option value="month">월간 달력</option><option value="agenda">일정 스트립</option></select></label><label>크기<select data-widget-size-v136><option value="small">작게</option><option value="medium" selected>보통</option><option value="large">넓게</option></select></label><button type="button" data-widget-pin-v136>이 구성으로 홈 화면에 추가</button></div><article class="widget-preview-v136" data-layout="split" data-size="medium"><header><h3>${safe(month)}</h3><small>오늘의 일정</small></header><div class="widget-month-v136">${widgetDays()}</div><div class="widget-agenda-v136"><p>09:30 · 오늘의 계획 정리</p><p>18:00 · 마음 기록</p></div></article></div><p class="widget-help-v136" data-widget-help-v136>설정을 바꾸면 이 자리에서 실제 색상과 구성을 미리 볼 수 있어요.</p></section>
       </div>
     </div>`;
@@ -139,7 +114,6 @@
     const font=event.target.closest('[data-account-font-v136]');if(font){await window.AiderLogThemeV125?.applyFontSize?.(font.dataset.accountFontV136,true);renderAccountPage();return}
     if(event.target.closest('[data-account-login-v136]'))return startLogin();
     if(event.target.closest('[data-account-logout-v136]'))return window.AiderDearFirebase?.logout?.();
-    if(event.target.closest('[data-tutorial-replay-v136]')){try{localStorage.removeItem(TUTORIAL_KEY)}catch{}renderTutorial(0);return}
     if(event.target.closest('[data-widget-pin-v136]')){
       const layout=$('[data-widget-layout-v136]')?.value||'split',size=$('[data-widget-size-v136]')?.value||'medium',help=$('[data-widget-help-v136]');
       try{const accepted=window.AiderLogNative?.pinCalendarWidget?.(`${layout}:${size}`);if(help)help.textContent=accepted?'홈 화면의 위젯 추가 확인창을 열었어요.':'홈 화면의 AiderLog 위젯 목록에서 같은 구성을 선택해주세요.'}catch{if(help)help.textContent='홈 화면의 위젯 목록에서 AiderLog를 선택해주세요.'}

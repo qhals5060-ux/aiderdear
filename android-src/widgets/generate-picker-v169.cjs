@@ -36,6 +36,8 @@ function legacyFixtureConstructors(){
   const componentRead="let xml=read('layout',`widget_${type}_v165${cell?'_cell':''}`);";
   if(!source.includes(componentRead))throw Error('Review preview component resource routing before regenerating.');
   source=source.replace(componentRead,"const template=type==='stats'&&fields.graph?.[0]==='trend'?'trend_v169':type+'_v165';let xml=read('layout',`widget_${template}${cell?'_cell':''}`);");
+  // Keep build-only fixture colours aligned with the native state setters.
+  source=source.replace("text:fields.done?'✓':'',background:","text:fields.done?'✓':'',textColor:fields.done?'#FFFFFF':'#171A3A',background:");
   // Seven numbered nodes match the current native challengeNodes renderer.
   source=source.replace("meta:`DAY ${done} / 30`,percent:done/30*100,body:detail?'60초 · 4일 연속':'',...(detail?{graph:['nodes',Array.from({length:30},(_,i)=>i<done)]}:{})",
     "meta:`DAY ${done} / ${detail?7:30}`,percent:done/(detail?7:30)*100,body:detail?'오늘 목표 60초 · 4일 연속':'',...(detail?{graph:['challengeNodes',Array.from({length:7},(_,i)=>i<done)]}:{})");
@@ -57,6 +59,7 @@ function graphSvg(type,values,dash=0){
 function header(title,{add=false,pager=false}={}){
   if(!title&&!add&&!pager)return '';
   const button=(label,background=false)=>text(label,25,`android:layout_width="30dp" android:layout_height="30dp" android:gravity="center" ${background?'android:background="@drawable/widget_button_v165"':''}`)
+    .replace('android:textColor="#171A3A"',`android:textColor="${background?'#6255E8':'#171A3A'}"`)
     .replace('android:layout_width="match_parent" ','').replace('android:layout_height="wrap_content" ','');
   const heading=text(title,14,'android:layout_width="0dp" android:layout_weight="1" android:textStyle="bold"').replace('android:layout_width="match_parent" ','');
   return horizontal([heading,...(pager?[button('‹'),button('›')]:[]),...(add?[button('+',true)]:[])],'android:gravity="center_vertical" android:layout_marginBottom="14dp"');
@@ -78,7 +81,7 @@ function calendarPreview(kind,width){
     for(let day=0;day<7;day++){
       const key=`${dates.getFullYear()}-${String(dates.getMonth()+1).padStart(2,'0')}-${String(dates.getDate()).padStart(2,'0')}`,entries=events[key]||[],selected=key==='2026-09-06',visible=large?(wide?2:1):0;
       let xml=read('layout','widget_day_v164');
-      xml=el(xml,'widget_day_number_v164',{text:dates.getDate(),textColor:'#171A3A',layout_height:'22dp',background:'@drawable/'+(selected?'widget_day_selected_v164':'widget_day_clear_v164')});
+      xml=el(xml,'widget_day_number_v164',{text:dates.getDate(),textColor:selected?'#FFFFFF':'#171A3A',layout_height:'28dp',background:'@drawable/'+(selected?'widget_day_selected_v164':'widget_day_clear_v164')});
       xml=el(xml,'widget_day_label_v164',{text:holidays[key]||'',visibility:holidays[key]?'visible':'gone',layout_height:'14dp'});
       xml=el(xml,'widget_day_events_v164',{text:entries.slice(0,visible).join('\n'),visibility:large?'visible':'gone'});
       xml=el(xml,'widget_day_more_v164',{text:large&&entries.length>visible?'+'+(entries.length-visible):entries.length&&!large?'●':'',visibility:entries.length?'visible':'gone'});

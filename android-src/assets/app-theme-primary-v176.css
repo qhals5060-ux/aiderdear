@@ -1,0 +1,14 @@
+/* Shared navigation Primary tokens. The existing content palette and planet
+   artwork keep their own tokens; these do not mutate the selected theme ID. */
+:root{--app-navigation-primary:var(--app-primary,#6255E8)}
+:root[data-theme="system"]{--app-navigation-primary:#6255E8}
+:root[data-theme="sun"]{--app-navigation-primary:#D86428}
+:root[data-theme="mercury"]{--app-navigation-primary:#626873}
+:root[data-theme="venus"]{--app-navigation-primary:#A97846}
+:root[data-theme="earth"]{--app-navigation-primary:#2D748E}
+:root[data-theme="mars"]{--app-navigation-primary:#A84C3B}
+:root[data-theme="jupiter"]{--app-navigation-primary:#9B704E}
+:root[data-theme="saturn"]{--app-navigation-primary:#8E7A4A}
+:root[data-theme="uranus"]{--app-navigation-primary:#4D8790}
+:root[data-theme="neptune"]{--app-navigation-primary:#3F5FA7}
+:root[data-theme="pluto"]{--app-navigation-primary:#554C43}

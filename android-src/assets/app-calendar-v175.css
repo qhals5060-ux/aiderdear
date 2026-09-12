@@ -1,21 +1,62 @@
 /* Calendar-specific additions retain the app's existing theme and font scales. */
+@layer appColour164 {
+  /* Date/holiday header and bottom-right status markers have separate reserved
+     areas. Event titles always begin immediately below the 20px header. */
+  html body #home.schedule-feature-v125 [data-schedule-date-v125]{
+    display:flex!important;flex-direction:column!important;justify-content:flex-start!important;
+    align-items:stretch!important;padding:20px 3px 26px!important;text-align:left!important;
+  }
+  html body #home.schedule-feature-v125 [data-schedule-date-v125]>.schedule-event-name-v119{
+    margin:0!important;flex:0 1 auto!important;min-height:0!important;overflow:hidden!important;align-self:stretch!important;order:1!important;
+  }
+  html body #home.schedule-feature-v125 [data-schedule-date-v125]>.calendar-status-icons{
+    position:absolute!important;top:auto!important;left:auto!important;right:3px!important;bottom:3px!important;
+    display:flex!important;flex-wrap:wrap!important;align-items:center!important;justify-content:flex-end!important;
+    gap:1px!important;width:calc(100% - 6px)!important;max-width:calc(100% - 6px)!important;min-width:0!important;
+    max-height:21px!important;overflow:hidden!important;margin:0!important;padding:0!important;z-index:2;
+  }
+  html body #home.schedule-feature-v125 [data-schedule-date-v125]>.calendar-status-icons:empty{display:none!important}
+  html body #home.schedule-feature-v125 .calendar-status-icons :is(.calendar-status-icon,.schedule-emotion-v145){
+    position:relative!important;inset:auto!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;
+    flex:0 0 10px!important;width:10px!important;height:10px!important;min-width:10px!important;min-height:10px!important;
+    margin:0!important;padding:1px!important;box-sizing:border-box!important;font-size:9px!important;line-height:1!important;
+  }
+  html body #home.schedule-feature-v125 .calendar-status-icons .schedule-emotion-v145 img{width:8px!important;height:8px!important;object-fit:contain!important}
+  html body #home.schedule-feature-v125 .calendar-status-icons .calendar-period-drop{width:6px!important;height:6px!important}
+  html body #home.schedule-feature-v125 .schedule-upcoming-v119>.schedule-upcoming-line-v126{
+    min-height:32px!important;height:auto!important;margin:0!important;padding:2px 0!important;row-gap:0!important;line-height:1.25!important;
+  }
+  html body #home.schedule-feature-v125 [data-calendar-view-v176]{font-weight:800!important;font-size:13px!important}
+  html body #home.schedule-feature-v125 [data-calendar-view-v176][aria-pressed="true"]{background:var(--app-primary,#6255e8)!important;color:var(--app-on-primary,#fff)!important;-webkit-text-fill-color:currentColor!important}
+  html body #home.schedule-feature-v125[data-calendar-view-v176="fortnight"] .schedule-days-v119{grid-template-rows:repeat(2,minmax(0,1fr))!important}
+  html body #home.schedule-feature-v125[data-calendar-view-v176="fortnight"] [data-schedule-date-v125]{min-height:0!important;height:auto!important;gap:2px!important}
+  html body #home.schedule-feature-v125[data-calendar-view-v176="fortnight"] .schedule-event-name-v119{
+    display:-webkit-box!important;-webkit-line-clamp:3!important;-webkit-box-orient:vertical!important;white-space:normal!important;
+    width:100%!important;max-width:100%!important;box-sizing:border-box!important;padding:2px!important;
+    font-size:var(--type-xs,9px)!important;line-height:1.22!important;text-overflow:ellipsis!important;
+  }
+  html body #home.schedule-feature-v125[data-calendar-view-v176="fortnight"] .schedule-day-v119.outside{opacity:1!important}
+  html body #home.schedule-feature-v125 .schedule-event-time-v176:not(:empty)::after{content:" "}
+  html body #home.schedule-feature-v125[data-calendar-view-v176="fortnight"] .schedule-event-time-v176,
+  html body #home.schedule-feature-v125[data-calendar-view-v176="fortnight"] .schedule-event-title-v176{display:block!important}
+  html body #home.schedule-feature-v125[data-calendar-view-v176="fortnight"] .schedule-event-time-v176{white-space:nowrap!important;line-height:1.2!important}
+  html body #home.schedule-feature-v125[data-calendar-view-v176="fortnight"] .schedule-event-time-v176:empty{display:none!important}
+  html body #home.schedule-feature-v125[data-calendar-view-v176="fortnight"] .schedule-event-time-v176::after{content:none}
+  html body #home.schedule-feature-v125 .schedule-more-v176{font-size:9px!important;line-height:1.2;order:2;text-align:right}
+  html body .schedule-dialog-v125 .schedule-form-grid-v125>.schedule-check-v125:has([name="shareWithCouple"]){
+    grid-column:2!important;align-self:end!important;min-width:0!important;min-height:40px!important;
+    margin:0!important;padding:6px 8px!important;box-sizing:border-box!important;gap:6px!important;
+  }
+  html body .schedule-dialog-v125 .schedule-check-v125:has([name="shareWithCouple"]) span{min-width:0!important;white-space:normal!important;line-height:1.3!important}
+}
 #home [data-schedule-date-v125] {position:relative}
-#home .calendar-status-icons {position:absolute;right:3px;top:3px;display:flex;align-items:center;justify-content:flex-end;gap:2px;max-width:calc(100% - 20px);z-index:2}
-#home .calendar-status-icon,#home .calendar-status-icons .schedule-emotion-v145 {position:relative!important;inset:auto!important;display:inline-flex;align-items:center;justify-content:center;flex:0 0 14px;width:14px!important;height:14px!important;margin:0!important;padding:1px;border-radius:50%;box-sizing:border-box;line-height:1}
-#home .calendar-status-icons .schedule-emotion-v145 img {width:12px;height:12px;object-fit:contain}
+#home .calendar-status-icon,#home .calendar-status-icons .schedule-emotion-v145 {border-radius:50%}
 #home .calendar-status-icons .schedule-emotion-v145.is-own {background:var(--theme-primary,#6255e8)}
 #home .calendar-status-icons .schedule-emotion-v145.is-partner {background:#ef9cae}
 #home .calendar-status-icon.period,#home .calendar-status-icon.period-estimate {background:transparent}
 #home .calendar-period-drop {display:block;width:8px;height:10px;background:#d84650;border-radius:70% 35% 65% 55%;transform:rotate(35deg)}
 #home .period-estimate .calendar-period-drop {background:#eab0b5;opacity:.65}
 #home .calendar-status-icon.intimacy {color:#ec6b97;background:transparent;font-size:13px}
-#home .private-calendar-actions-v175 {display:flex!important;gap:4px;flex-wrap:wrap;justify-content:flex-end;grid-column:1/-1!important;width:100%!important;max-width:none!important;flex:1 0 100%!important}
-#home .private-calendar-actions-v175:empty {display:none}
-#home.schedule-cosmic-v119 .schedule-calhead-v119:has(.private-calendar-actions-v175) {align-items:flex-start!important}
-#home.schedule-cosmic-v119 .schedule-calctl-v119:has(.private-calendar-actions-v175) {flex-wrap:wrap!important;min-width:0!important;max-width:100%!important;row-gap:5px!important}
-#home.schedule-cosmic-v119 .schedule-calctl-v119>.private-calendar-actions-v175 {flex-basis:100%!important;width:100%!important;min-width:0!important;margin:0!important;padding:0!important;justify-content:flex-end!important}
-html body #home.schedule-cosmic-v119 .schedule-calctl-v119>.private-calendar-actions-v175>button {width:auto!important;min-width:76px!important;max-width:none!important;min-height:36px!important;height:auto!important;padding:6px 9px!important;flex:0 0 auto!important;white-space:nowrap!important}
-#home .private-calendar-actions-v175 button {min-width:70px!important;width:auto!important;min-height:36px!important;height:auto!important;padding:6px 9px!important;flex:0 0 auto!important;font:inherit!important;font-size:.8em!important;white-space:nowrap}
 .schedule-dialog-v125 .schedule-source-grid-v148 {display:none!important}
 .profile-overlay-v137 .profile-sheet-v137 {max-height:calc(100dvh - 24px);height:auto;padding:14px!important;gap:10px!important;overflow:auto}
 .profile-overlay-v137 .profile-head-v137 {margin:0 0 8px!important;padding:0!important}

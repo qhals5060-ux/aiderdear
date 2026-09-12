@@ -29,7 +29,7 @@
 .method constructor <init>(Ljava/lang/reflect/Field;Landroid/app/Activity;Ljava/util/List;)V
     .locals 0
 
-    .line 166
+    .line 178
     iput-object p1, p0, Lcom/aiderlog/v22app/WidgetDesignV165$2;->val$selected:Ljava/lang/reflect/Field;
 
     iput-object p2, p0, Lcom/aiderlog/v22app/WidgetDesignV165$2;->val$activity:Landroid/app/Activity;
@@ -46,7 +46,7 @@
 .method public onClick(Landroid/content/DialogInterface;I)V
     .locals 2
 
-    .line 166
+    .line 178
     :try_start_0
     iget-object p1, p0, Lcom/aiderlog/v22app/WidgetDesignV165$2;->val$selected:Ljava/lang/reflect/Field;
 

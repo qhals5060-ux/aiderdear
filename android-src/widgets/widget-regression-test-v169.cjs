@@ -51,11 +51,11 @@ test('card spacing/scrolling stays compact and content is not clipped to a singl
   }
   for(const name of ['widget_design_v165','widget_design_v165_wide','widget_native_v164','widget_native_wide_v164'])assert.match(xml(name),/paddingBottom="12dp" android:clipToPadding="false"/);
 });
-test('dark widgets theme agenda time but keep dark ink on pale chips/date/add surfaces',()=>{
+test('dark widgets theme agenda time while v176 selected dates and actions retain intended contrast',()=>{
   assert.match(native,/color\(c,row,"widget_item_time_v165",ink\(c,rowTheme\)\)/);
-  assert.match(native,/color\(c,cell,"widget_day_number_v164",chosen\?INK:foreground\)/);
-  assert.match(native,/color\(c,v,"widget_add",INK\)/);
-  assert.match(design,/color\(c,v,"w165_level_"\+i,INK\)/);
+  assert.match(native,/color\(c,cell,"widget_day_number_v164",chosen\?0xffffffff:foreground\)/);
+  assert.match(native,/color\(c,v,"widget_add",PRIMARY\)/);
+  assert.match(design,/color\(c,v,"w165_level_"\+i,label\.equals\(r\.optString\("level"\)\)\?PRIMARY:INK\)/);
   assert.match(native,/"setImageAlpha"/);assert.doesNotMatch(native,/"setAlpha"/);
 });
 test('source foreground/surface contrast exceeds 4.5:1 for corrected native controls',()=>{

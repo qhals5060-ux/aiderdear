@@ -8,24 +8,27 @@ const source=fs.readFileSync(path.join(__dirname,'../index.html'),'utf8');
 const start=source.indexOf('  function renderShared(){'),end=source.indexOf('  function getDdays()',start);
 assert(start>=0&&end>start,'actual site month agenda renderer exists');
 const renderer=source.slice(start,end);
+const receivedHelper=source.match(/^  function scheduleReceivedV176\(event\)\{[^\r\n]+/m)?.[0];
+assert(receivedHelper,'actual site shared-event ownership helper exists');
 function freeze(value){if(value&&typeof value==='object'){Object.values(value).forEach(freeze);Object.freeze(value)}return value}
 function fixture(id,date,endDate='',extra={}){return {id,title:id,date,endDate,time:'12:00',owner:'mine',authorEmail:'fixture@example.invalid',custom:{preserve:true},...extra}}
 function harness({rows,month='2026-09',at='2026-09-08T16:00:00'}={}){
   const original=JSON.stringify(rows),data=freeze(rows),opened=[];let current=at;
   class Clock extends Date{constructor(...args){super(...(args.length?args:[current]))}static now(){return new Date(current).getTime()}}
   function node(tag='div'){
-    let html='';const n={tag,children:[],listeners:{},textContent:'',hidden:false,
+    let html='';const n={tag,children:[],listeners:{},attributes:{},textContent:'',hidden:false,
+      setAttribute(name,value){this.attributes[name]=String(value)},
       appendChild(child){this.children.push(child)},addEventListener(type,handler){this.listeners[type]=handler},
       get innerHTML(){return html},set innerHTML(value){html=value;this.children=[]}};return n;
   }
   const top=node(),compact=node(),title=node(),toggle=node('button');
   const nodes={'#sharedListTop':top,'#sharedList':compact,'#monthAgendaTitle':title,'#coupleAgendaToggle':toggle};
-  const context={Date:Clock,shown:new Date(month+'-01T12:00:00'),$:selector=>nodes[selector],
+  const context={window:{},firebaseState:{user:{uid:'fixture-owner',email:'fixture@example.invalid'}},Date:Clock,shown:new Date(month+'-01T12:00:00'),$:selector=>nodes[selector],
     calendarDisplayEvents:()=>data,mutualPartner:()=>null,normalizeEmail:value=>String(value||''),
     scheduleOwnerKind:row=>row.owner,escapeHtml:value=>String(value||''),document:{createElement:node},
     openEvent:row=>opened.push(row),toast(){},persistOwnScheduleEvents(){throw Error('agenda must not write records')},
     saveCloudData(){throw Error('agenda must not save records')}};
-  vm.createContext(context);vm.runInContext(renderer,context);
+  vm.createContext(context);vm.runInContext(fs.readFileSync(path.join(__dirname,'../shared-schedule-v176.js'),'utf8'),context);vm.runInContext(receivedHelper+'\n'+renderer,context);
   return {data,opened,top,compact,advance(value){current=value},render(){
     vm.runInContext('renderShared()',context);
     assert.equal(JSON.stringify(data),original,'original dates/order/metadata remain unchanged');
@@ -71,6 +74,10 @@ if(process.argv[2]==='--timezone-fixture'){
     const rows=[fixture('past','2026-09-07'),...Array.from({length:5},(_,i)=>fixture('upcoming-'+i,'2026-09-'+String(8+i).padStart(2,'0')))];
     const h=harness({rows});assert.equal(h.render().length,5);assert.equal(h.data.length,6);assert.equal(h.top.children.length,3);assert.equal(h.compact.children.length,2);
     h.top.children[0].listeners.click({stopPropagation(){}});assert.equal(h.opened[0],h.data[1]);assert.deepEqual(h.data[0].custom,{preserve:true});
+  });
+  test('month agenda gives incoming shares the received class but preserves outgoing own event colour',()=>{
+    const h=harness({rows:[fixture('received','2026-09-08','',{owner:'shared',authorUid:'friend',authorEmail:'friend@example.invalid'}),fixture('outgoing','2026-09-08','',{owner:'shared',shareWithCouple:true,authorUid:'fixture-owner'})]});
+    assert.deepEqual(h.render(),['received','outgoing']);assert.match(h.top.children[0].className,/schedule-received-v176/);assert.match(h.top.children[0].attributes['aria-label'],/^상대가 공유한 일정 · /);assert.doesNotMatch(h.top.children[1].className,/schedule-received-v176/);assert.equal(h.top.children[1].attributes['aria-label'],undefined);
   });
   test('calendar projection retains historical dates while business rows expose only a read-only summary',()=>{
     const projection=source.match(/^  function calendarDisplayEvents\(year\)\{[^\r\n]+/m)?.[0];

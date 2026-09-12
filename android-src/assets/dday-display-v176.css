@@ -1,0 +1,30 @@
+/* D-day only: a selected hero, with the other dates compact and scrollable. */
+.dday-secondary-v176[hidden]{display:none!important}
+.dday-secondary-v176{display:grid;gap:3px;max-height:132px;overflow:auto;overscroll-behavior:contain;touch-action:pan-y;scrollbar-gutter:stable;margin-top:7px}
+.dday-secondary-v176>button{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:8px;width:100%;min-width:0;min-height:36px;padding:5px 7px;border:0;border-radius:5px;background:transparent;color:inherit;text-align:left;cursor:pointer;font:inherit}
+.dday-secondary-v176>button:hover{background:color-mix(in srgb,currentColor 7%,transparent)}
+.dday-secondary-v176>button:focus-visible{outline:2px solid currentColor;outline-offset:-2px}
+.dday-secondary-v176>button>span{display:grid;min-width:0;gap:1px}
+.dday-secondary-v176 .dday-small-title-v176{font-size:12px!important;line-height:1.35!important;font-weight:600!important;overflow-wrap:anywhere}
+.dday-secondary-v176 .dday-small-date-v176{font-size:10px!important;line-height:1.25!important;font-weight:400!important;opacity:.8}
+.dday-secondary-v176 .dday-small-count-v176{font-size:14px!important;line-height:1.2!important;font-weight:700!important;font-variant-numeric:tabular-nums;white-space:nowrap}
+html:not(.aiderlog-android) body #app#app #stage #ddayManageBtn#ddayManageBtn{display:grid!important;grid-template-columns:auto minmax(0,1fr)!important;grid-template-rows:auto auto!important;gap:2px 12px!important;align-items:center!important;min-height:54px!important;height:auto!important;overflow:visible!important}
+html:not(.aiderlog-android) body #app#app #stage #ddayManageBtn#ddayManageBtn::after{display:none!important}
+html:not(.aiderlog-android) body #app#app #stage #dday#dday{grid-row:1/3!important;font-size:32px!important;line-height:1.1!important;font-weight:650!important;letter-spacing:-.03em!important}
+html:not(.aiderlog-android) body #app#app #stage #ddayMeta#ddayMeta{grid-column:2!important;font-size:12px!important;line-height:1.4!important;text-align:left!important;overflow-wrap:anywhere}
+html:not(.aiderlog-android) body #app#app #stage .dday-feature-hint-v176{grid-column:2;font-size:11px!important;line-height:1.3!important;text-align:left;opacity:.8}
+html:not(.aiderlog-android) body #app#app #stage #ddayUpcomingV176{color:var(--modern-ink,inherit)}
+html:not(.aiderlog-android) body #app#app #stage #ddayUpcomingV176>button{font-size:12px!important;border:0!important;box-shadow:none!important}
+#home.schedule-cosmic-v119 .schedule-dday-v119.dday-display-v176{display:flex!important;flex-direction:column!important;justify-content:flex-start!important;gap:0!important;min-width:0!important;padding:10px!important;text-align:left;overflow:hidden!important}
+#home.schedule-cosmic-v119 .dday-display-v176>.dday-featured-v176{display:flex!important;flex-direction:column!important;align-items:flex-start!important;justify-content:flex-start!important;gap:3px!important;flex:none!important;width:100%!important;height:auto!important;min-height:44px!important;padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;color:inherit!important;text-align:left!important}
+#home.schedule-cosmic-v119 .dday-featured-v176>small{font-size:10px!important;line-height:1.3!important;letter-spacing:.08em!important}
+#home.schedule-cosmic-v119 .dday-featured-v176>h2{margin:0!important;font-size:14px!important;line-height:1.35!important;overflow-wrap:anywhere!important}
+#home.schedule-cosmic-v119 .dday-featured-v176>strong{margin:1px 0!important;font-size:29px!important;line-height:1.1!important;letter-spacing:-.02em!important}
+#home.schedule-cosmic-v119 .dday-featured-v176>span{font-size:10px!important;line-height:1.3!important}
+#home.schedule-cosmic-v119 .dday-display-v176>.dday-secondary-v176{width:100%;gap:0;max-height:60px;flex:0 1 auto;min-height:0;margin-top:6px;border-top:1px solid color-mix(in srgb,currentColor 25%,transparent)}
+#home.schedule-cosmic-v119 .dday-secondary-v176>.dday-compact-row-v176{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:4px;min-height:20px;padding:1px 0;box-sizing:border-box}
+#home.schedule-cosmic-v119 .dday-secondary-v176 .dday-small-title-v176{font-size:11px!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#home.schedule-cosmic-v119 .dday-secondary-v176 .dday-small-date-v176{display:none!important}
+#home.schedule-cosmic-v119 .dday-secondary-v176 .dday-small-count-v176{font-size:13px!important}
+#home.schedule-cosmic-v119 .dday-display-v176>.dday-status-v176{font-size:10px!important;line-height:1.4!important;margin-top:5px!important}
+@media(max-width:600px){#ddayUpcomingV176>button{min-height:44px}.dday-secondary-v176{max-height:132px}}

@@ -11,7 +11,6 @@
        installation flag untouched so installWheel() can bind this handler. */
     wheelEarly.dataset.controlV142='1';
   }
-  try{localStorage.setItem('aiderlog-tutorial-dismissed-v136','1')}catch{}
 
   const PALETTES={
     system:['#6255E8','#7B6CF2','#A89BFA','#DED9FF','#F7F6FF','#171A3A'],
@@ -27,7 +26,6 @@
     pluto:['#554C43','#7A7064','#AAA092','#E7E2DA','#F8F7F4','#2D2925']
   };
   const THEME_LABELS={system:'시스템 · Cosmic Violet',sun:'태양 · Solar Flare',mercury:'수성 · Mercury Alloy',venus:'금성 · Venus Veil',earth:'지구 · Living Orbit',mars:'화성 · Mars Ember',jupiter:'목성 · Jovian Cloud',saturn:'토성 · Saturn Halo',uranus:'천왕성 · Uranus Mist',neptune:'해왕성 · Neptune Deep',pluto:'명왕성 · Pluto Shadow'};
-  const TUTORIAL_KEY='aiderlog-tutorial-dismissed-v149';
   let wheelState=null,wheelHoldTimer=null,ignoreClickUntil=0,refreshQueued=false;
   const KOREA_HOLIDAY_SPECIAL={
     2024:[['02-09','설날 연휴'],['02-10','설날'],['02-11','설날 연휴'],['02-12','설날 대체공휴일'],['04-10','국회의원 선거일'],['05-06','어린이날 대체공휴일'],['05-15','부처님오신날'],['09-16','추석 연휴'],['09-17','추석'],['09-18','추석 연휴'],['10-01','국군의날 임시공휴일']],
@@ -155,49 +153,9 @@
     const view=$('#introView');if(view&&!view.dataset.directV143){view.dataset.directV143='1';view.addEventListener('click',event=>{event.preventDefault();event.stopPropagation();event.stopImmediatePropagation();$('#intro')?.classList.remove('on','closing-v136','letter-exit-v135');navigate('insights')},true)}
   }
 
-  const tutorialSteps=[
-    ['01 · HOME','오늘의 흐름을 한눈에','날짜를 누르면 그날의 일정과 기록이 열립니다. Consult·Work·Estate 일정은 캘린더에서 확인만 할 수 있으며, 등록과 수정은 해당 업무 페이지에서 할 수 있어요.','home'],
-    ['02 · PLANET WHEEL','행성이 모든 공간을 연결해요','짧게 누르면 홈으로 돌아갑니다. 길게 누른 채 나타난 아이콘으로 이동해 손을 놓으면 Event, Routine, Daylog, Language, Private Universe가 열려요.','wheel'],
-    ['03 · RECORD','순간과 여행을 기록해요','Event에서는 사진과 글을 피드로 남기고, Archive와 Travel에서는 문화 기록과 다녀온 장소를 다시 찾아볼 수 있어요.','event'],
-    ['04 · ROUTINE & DAYLOG','반복과 생활을 관리해요','Routine은 오늘의 실천과 흐름을, Daylog는 식사·운동·독서·집중 기록을 한곳에서 이어줍니다.','routine'],
-    ['05 · LANGUAGE & PRIVATE','배움과 나만의 도구','Language에서 80개 Lesson 코스를 학습하고, Private Universe에서는 계정에 맞는 연구·업무·Brain·Speech 도구를 사용할 수 있어요.','fifth']
-  ];
-  function tutorialScene(type){
-    const title={home:'Schedule',wheel:'Planet Wheel',event:'Record',routine:'Routine',personal:'Daylog',language:'Language',fifth:'Private Universe',insights:'마음 인사이트'}[type];
-    return `<div class="tutorial-live-stage-v143" data-tutorial-live-v143="${type}"><span class="tutorial-live-caption-v143">${title} · 실제 화면</span></div>`;
-  }
-  function hydrateTutorialScene(type){
-    const host=$('[data-tutorial-live-v143]');if(!host)return;
-    const source=document.getElementById(type==='wheel'?'home':type);if(!source)return;
-    const clone=source.cloneNode(true);clone.removeAttribute('id');clone.classList.remove('view');clone.classList.add('tutorial-live-page-v143','on');clone.setAttribute('aria-hidden','true');clone.inert=true;
-    clone.querySelectorAll('[id]').forEach(node=>node.removeAttribute('id'));clone.querySelectorAll('[onclick]').forEach(node=>node.removeAttribute('onclick'));
-    if(type==='wheel'){
-      const wheel=$('#wheel')?.cloneNode(true);if(wheel){wheel.removeAttribute('id');wheel.classList.add('open','tutorial-live-wheel-v143');wheel.querySelectorAll('[id]').forEach(node=>node.removeAttribute('id'));clone.append(wheel)}
-    }
-    host.append(clone);
-  }
-  function ensureTutorial(){
-    let overlay=$('.tutorial-v143');if(overlay)return overlay;
-    overlay=document.createElement('div');overlay.className='tutorial-v143';overlay.setAttribute('role','dialog');overlay.setAttribute('aria-modal','true');
-    overlay.innerHTML='<section class="tutorial-card-v143"><div class="tutorial-scene-v143"></div><div class="tutorial-copy-v143"><small data-tutorial-kicker-v143></small><h2 data-tutorial-title-v143></h2><p data-tutorial-copy-v143></p><div class="tutorial-dots-v143"></div><div class="tutorial-actions-v143"><button type="button" data-tutorial-dismiss-v143>다시 보지 않기</button><span><button type="button" data-tutorial-prev-v143>이전</button> <button type="button" data-tutorial-next-v143>다음</button></span></div></div></section>';
-    document.body.append(overlay);
-    overlay.addEventListener('click',event=>{
-      if(event.target.closest('[data-tutorial-dismiss-v143]')){try{localStorage.setItem(TUTORIAL_KEY,'1')}catch{}overlay.classList.remove('on');return}
-      const current=Number(overlay.dataset.step||0);
-      if(event.target.closest('[data-tutorial-prev-v143]'))renderTutorial(Math.max(0,current-1));
-      if(event.target.closest('[data-tutorial-next-v143]')){if(current>=tutorialSteps.length-1){overlay.classList.remove('on');return}renderTutorial(current+1)}
-    });return overlay;
-  }
-  function renderTutorial(index=0){
-    const overlay=ensureTutorial(),step=tutorialSteps[index]||tutorialSteps[0];overlay.dataset.step=String(index);
-    $('.tutorial-scene-v143',overlay).innerHTML=tutorialScene(step[3]);hydrateTutorialScene(step[3]);$('[data-tutorial-kicker-v143]',overlay).textContent=step[0];$('[data-tutorial-title-v143]',overlay).textContent=step[1];$('[data-tutorial-copy-v143]',overlay).textContent=step[2];
-    $('.tutorial-dots-v143',overlay).innerHTML=tutorialSteps.map((_,i)=>`<i class="${i===index?'active':''}"></i>`).join('');$('[data-tutorial-prev-v143]',overlay).disabled=index===0;$('[data-tutorial-next-v143]',overlay).textContent=index===tutorialSteps.length-1?'시작하기':'다음';overlay.classList.add('on');
-  }
-  function maybeTutorial(){let dismissed=false;try{dismissed=localStorage.getItem(TUTORIAL_KEY)==='1'}catch{}if(!dismissed)setTimeout(()=>renderTutorial(0),180)}
 
   function captureActions(event){
     const background=event.target.closest?.('[data-background-v143]');if(background){event.preventDefault();event.stopPropagation();event.stopImmediatePropagation();applyBackground(background.dataset.backgroundV143);return}
-    if(event.target.closest?.('[data-profile-tutorial-v137],[data-tutorial-replay-v136]')){event.preventDefault();event.stopPropagation();event.stopImmediatePropagation();$('.profile-overlay-v137')?.classList.remove('on');renderTutorial(0);return}
   }
   function refresh(){refreshQueued=false;installWheel();decorateThemes();decorateEventEditor();decoratePostcard();decorateKoreanHolidays();installInsightRenderer()}
   function queueRefresh(){if(refreshQueued)return;refreshQueued=true;requestAnimationFrame(refresh)}
@@ -206,7 +164,6 @@
   document.addEventListener('click',captureActions,true);
   window.addEventListener('hashchange',()=>{const page=location.hash.slice(1);if(page&&document.getElementById(page))navigate(page)});
   new MutationObserver(records=>{if(records.some(record=>record.addedNodes.length||record.type==='attributes'))queueRefresh()}).observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['data-theme','class']});
-  window.AiderLogV143={navigate,setWheelOpen,renderInsights:renderInsightsV143,renderTutorial,applyBackground,palettes:PALETTES};
-  window.addEventListener('aiderlog-splash-complete',maybeTutorial,{once:true});
+  window.AiderLogV143={navigate,setWheelOpen,renderInsights:renderInsightsV143,applyBackground,palettes:PALETTES};
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',refresh,{once:true});else refresh();
 })();

@@ -13,7 +13,7 @@ function ddayFixture(reader=async()=>({items:[],activeId:'',activeScope:''})){
   const state={user:{uid:'u1',email:'owner@example.test'},pair:null},handlers=new Map();let read=reader,homes=0;
   const window={AiderDearFirebase:{getState:()=>state,readDdayData:()=>read()},addEventListener:(type,fn)=>handlers.set(type,fn),renderHome:()=>homes++};
   const document={visibilityState:'visible',addEventListener(){}};
-  vm.runInNewContext(moduleSource,{window,document,Date:FixedDate,alert(){},console});
+  vm.runInNewContext(moduleSource,{window,document,Date:FixedDate,setInterval:()=>1,clearInterval(){},alert(){},console});
   return{api:window.AiderAppDdayV175,state,read:fn=>{read=fn},event:type=>handlers.get(type)?.(),homes:()=>homes};
 }
 test('Android reads dedicated selected D-day and distinguishes same IDs by source scope',async()=>{
@@ -86,9 +86,10 @@ test('Android calendar re-applies account emotion badges after each calendar ren
   assert.match(asset('experience-v145.js'),/addEventListener\('resize',scheduleRefresh\)/);
   assert.match(asset('experience-v145.js'),/addEventListener\('aiderlog-page-changed',scheduleRefresh\)/);
 });
-test('Android guide does not offer editing projected business records from Schedule',()=>{
+test('Android calendar keeps projected business records read-only after startup guide removal',()=>{
   assert.doesNotMatch(asset('experience-v143.js'),/Consulting과 Work 마감도 같은 캘린더에서 확인하고 수정/);
-  assert.match(asset('experience-v143.js'),/등록과 수정은 해당 업무 페이지에서/);
+  assert.match(asset('feature-system-v125.js'),/if\(existing\?\.readOnly\)return/);
+  assert.doesNotMatch(asset('experience-v143.js'),/renderTutorial|maybeTutorial/);
   assert.match(asset('index.html'),/<title>AiderLog<\/title>/);
 });
 test('Android routes live date clicks at window capture before legacy page handlers',()=>{
@@ -121,8 +122,9 @@ test('Android account decoration is idempotent after SVG serialization and still
   rendered=rendered.replace('account-name-v136','account-name-v136 font-decorated').replace('<svg>','<svg style="font-size:14px">');vm.runInNewContext('updateLoginButton();updateLoginButton()',context);assert.equal(writes,2);
   rendered='<span>removed required nodes</span>';vm.runInNewContext('updateLoginButton();updateLoginButton()',context);assert.equal(writes,3);
 });
-test('Android new private-calendar action row wraps without changing existing control widths',()=>{
-  const css=asset('app-calendar-v175.css');
-  assert.match(css,/\.schedule-calctl-v119:has\(\.private-calendar-actions-v175\)\s*\{[^}]*flex-wrap:wrap!important/);
-  assert.match(css,/\.schedule-calctl-v119>\.private-calendar-actions-v175>button\s*\{[^}]*min-width:76px!important/);
+test('Android private-date entries wrap inside Schedule, without expanding the home toolbar',()=>{
+  assert.doesNotMatch(asset('app-calendar-v175.css'),/private-calendar-actions-v175/);
+  const css=fs.readFileSync(path.join(root,'private-calendar-v175.css'),'utf8');
+  assert.match(css,/:is\(#scheduleModal,\.schedule-dialog-v125\) \.private-schedule-actions-v176\{[^}]*flex-wrap:wrap/);
+  assert.match(css,/\[data-schedule-secondary-v176\] button\{[^}]*min-height:40px/);
 });
