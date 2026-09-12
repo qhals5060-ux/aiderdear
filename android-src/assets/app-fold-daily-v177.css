@@ -1,0 +1,153 @@
+/* App-only unfolded layout. Use available space, not a device/model name.
+   This file does not move or duplicate controls, change typography/palettes,
+   or turn scrolling into navigation. Below the breakpoint v176 is unchanged. */
+@layer appColour164 {
+  @media (min-width:600px) and (min-height:480px) {
+    /* Event: the existing records retain their own edit/media actions. Albums
+       remain the existing picker, rather than a second copy of its controls. */
+    html body #app #event.event-ui-v164 :is(.record-grid,.archive-grid-v111,.travel-feed-v148) {
+      display:grid!important;
+      grid-template-columns:repeat(2,minmax(0,1fr))!important;
+      grid-template-rows:none!important;
+      grid-auto-rows:auto!important;
+      align-items:start!important;
+      gap:14px!important;
+    }
+    html body #app #event.event-ui-v164 :is(.record-grid,.archive-grid-v111,.travel-feed-v148) > .event-empty-v111 {
+      grid-column:1 / -1!important;
+    }
+    html body #app #event.event-ui-v164 .event-toolbar-v111 {
+      flex-direction:row!important;
+      align-items:center!important;
+      flex-wrap:wrap!important;
+      gap:10px!important;
+    }
+    html body #app #event.event-ui-v164 .event-toolbar-v111 > .event-tools-v111:last-child {
+      flex:1 1 320px!important;
+    }
+    html body #app #event.event-ui-v164 .event-filter-scroll-v111 {
+      grid-template-columns:repeat(6,minmax(0,1fr))!important;
+    }
+
+    /* Routine: keep the selected tab/state; unfold its existing contents. */
+    html body #app #routine.routine-ui-v165 :is(.r165-practice-list,.r165-mandalas) {
+      display:grid!important;
+      grid-template-columns:repeat(2,minmax(0,1fr))!important;
+      align-items:start!important;
+      gap:14px!important;
+    }
+    html body #app #routine.routine-ui-v165 .r165-practice-list > .r165-empty {
+      grid-column:1 / -1!important;
+    }
+    html body #app #routine.routine-ui-v165 .r165-content[data-tab="statistics"] {
+      display:grid!important;
+      grid-template-columns:repeat(2,minmax(0,1fr))!important;
+      grid-template-rows:auto auto auto!important;
+      align-content:start!important;
+      align-items:start!important;
+      gap:14px!important;
+    }
+    html body #app #routine.routine-ui-v165 .r165-content[data-tab="statistics"] > .r165-summary {
+      grid-column:1 / -1!important;
+      margin:0!important;
+    }
+    html body #app #routine.routine-ui-v165 .r165-content[data-tab="statistics"] > .r165-comparison {
+      grid-column:1!important;
+      grid-row:2 / 4!important;
+      margin:0!important;
+    }
+    html body #app #routine.routine-ui-v165 .r165-content[data-tab="statistics"] > .r165-stat-card:not(.r165-comparison) {
+      grid-column:2!important;
+      margin:0!important;
+    }
+
+    /* DayLog health: meals and their history on the left, exercise on the
+       right. Grid rows remain intrinsic so long records never disappear. */
+    html body #app #personal.daylog-ui-v165 .personal-health {
+      display:grid!important;
+      grid-template-columns:repeat(2,minmax(0,1fr))!important;
+      grid-template-rows:auto auto!important;
+      align-items:start!important;
+      gap:14px!important;
+    }
+    html body #app #personal.daylog-ui-v165 .personal-health > .personal-panel:first-child {
+      grid-column:1!important;
+      grid-row:1!important;
+      height:auto!important;
+    }
+    html body #app #personal.daylog-ui-v165 .personal-health > .personal-panel:nth-child(2) {
+      grid-column:2!important;
+      grid-row:1 / 3!important;
+      height:auto!important;
+    }
+    html body #app #personal.daylog-ui-v165 .personal-health > .daylog-meal-history-v165 {
+      grid-column:1!important;
+      grid-row:2!important;
+      height:auto!important;
+    }
+    html body #app #personal.daylog-ui-v165 .personal-health .meal-grid {
+      grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    }
+
+    /* Reading: current book/quotes beside the existing library. */
+    html body #app #personal.daylog-ui-v165 .reading-v113 {
+      display:grid!important;
+      grid-template-columns:repeat(2,minmax(0,1fr))!important;
+      grid-template-rows:auto auto auto auto!important;
+      grid-template-areas:"hero hero" "metrics metrics" "current library" "quotes library"!important;
+      align-items:start!important;
+      gap:14px!important;
+    }
+    html body #app #personal.daylog-ui-v165 .reading-hero-v113 {grid-area:hero!important;}
+    html body #app #personal.daylog-ui-v165 .reading-metrics-v113 {grid-area:metrics!important;}
+    html body #app #personal.daylog-ui-v165 .reading-current-v113 {grid-area:current!important;}
+    html body #app #personal.daylog-ui-v165 .reading-library-v113 {grid-area:library!important;}
+    html body #app #personal.daylog-ui-v165 .reading-quotes-v113 {grid-area:quotes!important;}
+    html body #app #personal.daylog-ui-v165 :is(.workflow-board,.finance-grid) {
+      display:grid!important;
+      grid-template-columns:repeat(2,minmax(0,1fr))!important;
+      grid-template-rows:none!important;
+      align-items:start!important;
+      gap:14px!important;
+    }
+    html body #app #personal.daylog-ui-v165 :is(.personal-health,.reading-v113,.workflow-board,.finance-grid) > * {
+      min-width:0!important;
+      max-width:100%!important;
+      box-sizing:border-box!important;
+    }
+
+    /* Keep the existing centred tool dialog and its scroll body, but give the
+       timer/session split the unfolded width instead of the old 520px cap. */
+    html body .daylog-tool-v165[data-tool="focus"] > section {
+      max-width:min(920px,calc(100vw - 32px))!important;
+    }
+    html body .daylog-tool-v165[data-tool="focus"] .daylog-focus-head-v165 {
+      width:100%!important;max-width:none!important;box-sizing:border-box!important;
+    }
+    html body .daylog-tool-v165 .pomo-workspace-v113 {
+      display:grid!important;
+      grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+      grid-template-rows:auto!important;
+      align-items:start!important;
+      gap:18px!important;
+      overscroll-behavior:contain!important;
+    }
+    html body .daylog-tool-v165 .pomo-workspace-v113 > :is(.pomo-timer-v113,.pomo-history-v113) {
+      min-width:0!important;
+      max-width:100%!important;
+      box-sizing:border-box!important;
+    }
+    html body .daylog-tool-v165 .overview-grid-v113 {
+      display:grid!important;
+      grid-template-columns:repeat(2,minmax(0,1fr))!important;
+      align-items:start!important;
+      gap:14px!important;
+    }
+  }
+  @media (min-width:840px) and (min-height:480px) {
+    /* A wider unfolded landscape can show all three existing work stages. */
+    html body #app #personal.daylog-ui-v165 :is(.workflow-board,.finance-grid) {
+      grid-template-columns:repeat(3,minmax(0,1fr))!important;
+    }
+  }
+}

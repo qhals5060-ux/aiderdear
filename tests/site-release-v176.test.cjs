@@ -20,10 +20,11 @@ vm.runInContext(sw, context);
 const shell = Array.from(vm.runInContext('APP_SHELL', context));
 const localDependencies = html => [...html.matchAll(/\b(?:src|href)\s*=\s*["']([^"'<>]+\.(?:m?js|css)(?:[?#][^"'<>]*)?)["']/g)].map(row=>row[1]).filter(value=>!/^(?:[a-z][a-z0-9+.-]*:|\/\/|#)/.test(value));
 
-test('v176 release: website and Android metadata/download target the same completed source version', () => {
-  for(const name of ['aiderlog-build','aiderlog-android-build'])assert(index.includes(`<meta name="${name}" content="v176">`));
-  assert(index.includes('href="./AiderLog-v176.apk"'));
-  assert(!/AiderLog-v(?!176\b)\d+\.apk/.test(index));
+test('app-only v177 release: website and PC remain v176 while Android metadata/download advance', () => {
+  assert(index.includes('<meta name="aiderlog-build" content="v176">'));
+  assert(index.includes('<meta name="aiderlog-android-build" content="v177">'));
+  assert(index.includes('href="./AiderLog-v177.apk" download="AiderLog-v177.apk"'));
+  assert(!/AiderLog-v(?!177\b)\d+\.apk/.test(index));
   for (const edition of ['Modern','Editorial']) assert(index.includes(`href="./AiderLog-${edition}-v176-site-files.zip" download="AiderLog-${edition}-v176-site-files.zip"`));
   assert(!/AiderLog-(?:Modern|Editorial)-v(?!176\b)\d+-site-files\.zip/.test(index));
 });
@@ -78,6 +79,7 @@ test('v176 release: service worker bypasses API, authenticated, cross-origin, bi
     {url:'https://aiderdear1.vercel.app/private-calendar-v175.js',auth:true},
     {url:'https://aiderdear1.vercel.app/AiderLog-Modern-v176-site-files.zip'},
     {url:'https://aiderdear1.vercel.app/AiderLog-v176.apk'},
+    {url:'https://aiderdear1.vercel.app/AiderLog-v177.apk'},
     {url:'https://firestore.googleapis.com/v1/projects/fixture/documents/privateCalendar/a'},
     {url:'https://aiderdear1.vercel.app/index.html',method:'POST'}
   ]){
@@ -92,19 +94,21 @@ test('v176 release: old PC/APK download URLs redirect directly without loops or 
     const row=config.redirects.find(row=>row.source===`/AiderLog-${edition}-v${version}-site-files.zip`);
     assert(row,`${edition} ${version}`);assert.equal(row.destination,`/AiderLog-${edition}-v176-site-files.zip`);assert.equal(row.permanent,false);
   }
-  for(const version of [165,167,168,169])assert(config.redirects.some(row=>row.source===`/AiderLog-v${version}.apk`),String(version));
-  for(const row of config.redirects.filter(row=>row.source.endsWith('.apk'))){assert.equal(row.destination,'/AiderLog-v176.apk');assert.equal(row.permanent,false);}
+  for(const version of [165,166,167,168,169,170,171,172,173,174,175,176])assert(config.redirects.some(row=>row.source===`/AiderLog-v${version}.apk`),String(version));
+  for(const row of config.redirects.filter(row=>row.source.endsWith('.apk'))){assert.equal(row.destination,'/AiderLog-v177.apk');assert.equal(row.permanent,false);}
   assert(!config.redirects.some(row=>row.source===row.destination));
+  assert.equal(new Set(config.redirects.map(row=>row.source)).size,config.redirects.length,'No duplicate redirect sources');
 });
 
 test('v176 release: correct ZIP/APK attachment headers and private customer-share policy survive', () => {
-  for(const [name,type] of [['AiderLog-Modern-v176-site-files.zip','application/zip'],['AiderLog-Editorial-v176-site-files.zip','application/zip'],['AiderLog-v176.apk','application/vnd.android.package-archive']]){
+  for(const [name,type] of [['AiderLog-Modern-v176-site-files.zip','application/zip'],['AiderLog-Editorial-v176-site-files.zip','application/zip'],['AiderLog-v177.apk','application/vnd.android.package-archive']]){
     const row=config.headers.find(row=>row.source==='/'+name);assert(row,name);
     const headers=Object.fromEntries(row.headers.map(item=>[item.key,item.value]));assert.equal(headers['Content-Type'],type);
     assert.equal(headers['Content-Disposition'],`attachment; filename="${name}"`);assert.equal(headers['Cache-Control'],'public, max-age=31536000, immutable');
   }
   const share=config.headers.find(row=>row.source==='/estate-share.html');assert(share.headers.some(row=>row.key==='Cache-Control'&&row.value==='private, no-store'));
   assert(!config.headers.some(row=>/AiderLog-(?:Modern|Editorial)-v(?!176\b)\d+-site-files/.test(row.source)));
+  assert(!config.headers.some(row=>/AiderLog-v(?!177\b)\d+\.apk/.test(row.source)),'Old APK redirects must not retain immutable artifact headers');
 });
 
 test('v176 release: PC packaging preserves source bytes, edition boundaries and recoverable previous archives', () => {

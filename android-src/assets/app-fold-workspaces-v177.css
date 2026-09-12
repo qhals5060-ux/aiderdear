@@ -1,0 +1,225 @@
+/* v177 app-only expanded-window layouts. The same authorized DOM, theme and
+   font preferences are retained when a Fold is opened or closed. No model-name
+   detection: a narrow cover display keeps the original single-column view. */
+@layer appColour164 {
+  @media (min-width:600px) and (min-height:480px) {
+    /* My: research/work and learning/training occupy the two screen halves. */
+    html body #fifth .my166-scroll {
+      display:grid!important;
+      grid-template-columns:repeat(2,minmax(0,1fr))!important;
+      align-content:start!important;
+      align-items:start!important;
+      gap:20px!important;
+      padding:8px 16px 80px!important;
+    }
+    html body #fifth .my166-group {
+      min-width:0!important;
+      width:auto!important;
+      max-width:none!important;
+      margin:0!important;
+    }
+    html body #fifth .my166-group:only-child {
+      grid-column:1/-1!important;
+    }
+    html body #fifth .my166-group:only-child .my166-tools {
+      display:grid!important;
+      grid-template-columns:repeat(2,minmax(0,1fr))!important;
+      gap:0 16px!important;
+    }
+
+    /* Paper stays a mobile reading companion, not the desktop authoring UI. */
+    html body #fifth .mp166-page .mp159-scroll {
+      padding:14px 16px 80px!important;
+    }
+    html body #fifth .mp166-page .mp159-main {
+      max-width:none!important;
+      min-width:0!important;
+      width:100%!important;
+    }
+    html body #fifth .mp166-page .mp159-main:has(>.mp159-actions) {
+      grid-template-columns:repeat(2,minmax(0,1fr))!important;
+      align-items:start!important;
+      gap:16px!important;
+    }
+    html body #fifth .mp166-page .mp159-main:has(>.mp159-actions)>.mp159-status {
+      grid-column:1/-1!important;
+    }
+    html body #fifth .mp166-page .mp159-main:has(>.mp159-actions)>:is(.mp159-hero,.mp159-empty) {
+      grid-column:1!important;
+      grid-row:2 / span 2!important;
+      align-self:start!important;
+    }
+    html body #fifth .mp166-page .mp159-main:has(>.mp159-actions)>.mp159-actions {
+      grid-column:2!important;
+      grid-row:2!important;
+    }
+    html body #fifth .mp166-page .mp159-main:has(>.mp159-actions)>.mp159-feed {
+      grid-column:2!important;
+      grid-row:3!important;
+    }
+    html body #fifth .mp166-page .mp159-paper-list {
+      grid-template-columns:repeat(2,minmax(0,1fr))!important;
+      align-items:start!important;
+      gap:16px!important;
+    }
+    html body #fifth .mp166-page .mp159-paper-list>.mp159-empty {
+      grid-column:1/-1!important;
+    }
+    html body #fifth .mp166-page .mp159-queue {
+      display:grid!important;
+      grid-template-columns:repeat(2,minmax(0,1fr))!important;
+      align-items:start!important;
+      gap:0 16px!important;
+    }
+    html body #fifth .mp166-page .mp159-queue>:is(header,.mp159-muted) {
+      grid-column:1/-1!important;
+    }
+
+    /* Consult: existing filters alongside results; no duplicated client data. */
+    html body #fifth .cw168 .cw168-scroll {
+      padding:14px 16px 80px!important;
+      overflow:auto!important;
+      overscroll-behavior:contain!important;
+    }
+    html body #fifth #consultAppV168 .c167-content:has(>.c167-client-list) {
+      display:grid!important;
+      grid-template-columns:minmax(190px,.72fr) minmax(0,1.28fr)!important;
+      align-content:start!important;
+      align-items:start!important;
+      gap:16px!important;
+    }
+    html body #fifth #consultAppV168 .c167-content:has(>.c167-client-list)>.c167-filters {
+      grid-column:1!important;
+      margin:0!important;
+    }
+    html body #fifth #consultAppV168 .c167-client-list {
+      grid-template-columns:minmax(0,1fr)!important;
+      min-width:0!important;
+      gap:12px!important;
+    }
+    html body #fifth #consultAppV168 .c167-content:has(>.c167-detail-head) {
+      display:grid!important;
+      grid-template-columns:minmax(205px,.82fr) minmax(0,1.18fr)!important;
+      align-content:start!important;
+      align-items:start!important;
+      gap:0 16px!important;
+    }
+    html body #fifth #consultAppV168 .c167-content>.c167-detail-head {
+      grid-column:1!important;
+      grid-row:1!important;
+    }
+    html body #fifth #consultAppV168 .c167-content>.c167-stages {
+      grid-column:1!important;
+      grid-row:2!important;
+      flex-wrap:wrap!important;
+      gap:8px 0!important;
+    }
+    html body #fifth #consultAppV168 .c167-stages>button {
+      flex:1 0 30%!important;
+    }
+    html body #fifth #consultAppV168 .c167-stages>button:nth-child(3n)::after {
+      display:none!important;
+    }
+    html body #fifth #consultAppV168 .c167-content>.c167-warning {
+      grid-column:1!important;
+      grid-row:3!important;
+    }
+    html body #fifth #consultAppV168 .c167-content>.c167-detail-tabs {
+      grid-column:1!important;
+      grid-row:4!important;
+      display:grid!important;
+      grid-template-columns:repeat(2,minmax(0,1fr))!important;
+      overflow:visible!important;
+      margin-top:0!important;
+    }
+    html body #fifth #consultAppV168 .c167-content>.c167-detail-body {
+      grid-column:2!important;
+      grid-row:1 / span 5!important;
+      min-width:0!important;
+    }
+
+    /* Work already renders both panes. Only its narrow-view visibility gates
+       are lifted here. Other hidden controls and authorization gates stay so. */
+    html body #fifth .cw168 .cw168-list-tools[hidden] {
+      display:block!important;
+    }
+    html body #fifth .cw168 .work-split-v167 {
+      display:grid!important;
+      grid-template-columns:minmax(210px,.82fr) minmax(0,1.18fr)!important;
+      gap:16px!important;
+      align-items:start!important;
+      min-width:0!important;
+    }
+    html body #fifth .cw168 .work-split-v167.is-detail>.work-list-v167,
+    html body #fifth .cw168 .work-split-v167:not(.is-detail)>.work-detail-v167 {
+      display:block!important;
+    }
+    html body #fifth .cw168 .work-split-v167>:is(.work-list-v167,.work-detail-v167) {
+      min-width:0!important;
+      width:auto!important;
+      max-width:none!important;
+      margin:0!important;
+    }
+    html body #fifth .cw168 .work-split-v167 .work-rows-v167 {
+      grid-template-columns:minmax(0,1fr)!important;
+      gap:12px!important;
+    }
+    html body #fifth .cw168 .work-split-v167 .work-pager-v167 {
+      flex-wrap:wrap!important;
+      margin-top:12px!important;
+    }
+  }
+
+  /* Longer reading needs a little more width before placing text and evidence
+     side by side. Smaller unfolded windows keep the original readable flow. */
+  @media (min-width:680px) and (min-height:480px) {
+    html body #fifth .mp166-page .mp159-main.mp159-detail {
+      grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr)!important;
+      align-items:start!important;
+      gap:12px 16px!important;
+    }
+    html body #fifth .mp166-page .mp159-detail>.mp159-inline-back {
+      grid-column:1/-1!important;
+      grid-row:1!important;
+    }
+    html body #fifth .mp166-page .mp159-detail>.mp159-paper-title {
+      grid-column:1!important;
+      grid-row:2!important;
+    }
+    html body #fifth .mp166-page .mp159-detail>[data-mp166-section^="summary-"] {
+      grid-column:1!important;
+    }
+    html body #fifth .mp166-page .mp159-detail>.mp159-concepts {
+      grid-column:2!important;
+      grid-row:2!important;
+    }
+    html body #fifth .mp166-page .mp159-detail>[data-mp166-section="evidence"] {
+      grid-column:2!important;
+      grid-row:3 / span 5!important;
+      align-self:start!important;
+    }
+    html body #fifth .mp166-page .mp159-detail>.mp159-progress {
+      grid-column:1/-1!important;
+      grid-row:8!important;
+    }
+    html body #fifth .mp166-page .mp159-review-card {
+      display:grid!important;
+      grid-template-columns:repeat(2,minmax(0,1fr))!important;
+      align-items:start!important;
+      gap:0 18px!important;
+    }
+    html body #fifth .mp166-page .mp159-review-card>header {
+      grid-column:1!important;
+      grid-row:1!important;
+    }
+    html body #fifth .mp166-page .mp159-review-card>.mp159-review-actions {
+      grid-column:1!important;
+      grid-row:2!important;
+      grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    }
+    html body #fifth .mp166-page .mp159-review-card>details {
+      grid-column:2!important;
+      grid-row:1 / span 3!important;
+    }
+  }
+}

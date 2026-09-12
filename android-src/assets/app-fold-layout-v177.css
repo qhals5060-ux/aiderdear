@@ -1,0 +1,75 @@
+/* App-only adaptive layout. Use the current window, not a model/UA guess.
+   No DOM replacement on folding: the same inputs, calendar and scroll panes
+   remain mounted. Compact cover/Flip windows keep their existing rules. */
+@layer appColour164 {
+  @media (min-width:600px) and (min-height:480px) {
+    html body .app#app {width:100%!important;max-width:none!important;min-width:0!important}
+    html body #home.schedule-feature-v125.on {display:block!important;min-width:0!important;min-height:0!important;overflow:hidden!important}
+    html body #home.schedule-feature-v125 .schedule-home-v119 {
+      display:grid!important;grid-template-columns:minmax(0,1.6fr) minmax(220px,.9fr)!important;
+      grid-template-rows:minmax(0,1fr)!important;gap:14px!important;
+      width:100%!important;height:100%!important;min-width:0!important;min-height:0!important;
+      margin:0!important;overflow:hidden!important;align-items:stretch!important;
+    }
+    html body #home.schedule-feature-v125 .schedule-calendar-v119 {
+      display:grid!important;grid-template-columns:minmax(0,1fr)!important;
+      grid-template-rows:auto 24px minmax(0,1fr)!important;
+      min-width:0!important;min-height:0!important;width:100%!important;height:100%!important;
+      max-height:none!important;flex:none!important;padding:12px!important;box-sizing:border-box!important;
+    }
+    html body #home.schedule-feature-v125 .schedule-calhead-v119 {
+      display:flex!important;flex-wrap:wrap!important;gap:8px!important;align-items:center!important;
+      height:auto!important;min-height:42px!important;flex:none!important;padding:0 0 8px!important;
+    }
+    html body #home.schedule-feature-v125 .schedule-calctl-v119 {display:flex!important;flex-wrap:wrap!important;max-width:100%!important;gap:5px!important}
+    html body #home.schedule-feature-v125 .schedule-week-v119 {margin:0!important;min-height:0!important;height:24px!important;align-items:center!important}
+    html body #home.schedule-feature-v125 .schedule-days-v119 {min-width:0!important;min-height:0!important;height:100%!important;gap:3px!important}
+    html body #home.schedule-feature-v125 .schedule-homeside-v119 {
+      display:grid!important;grid-template-columns:minmax(0,1fr)!important;
+      grid-template-rows:minmax(0,1.25fr) minmax(180px,.85fr)!important;gap:14px!important;
+      width:100%!important;height:100%!important;min-width:0!important;min-height:0!important;
+      max-height:none!important;overflow:hidden!important;align-self:stretch!important;
+    }
+    html body #home.schedule-feature-v125 .schedule-upcoming-v119 {
+      height:100%!important;min-height:0!important;max-height:none!important;padding:14px!important;
+      overflow-x:hidden!important;overflow-y:auto!important;overscroll-behavior:contain!important;box-sizing:border-box!important;
+    }
+    html body #home.schedule-feature-v125 .schedule-upcoming-v119>.schedule-upcoming-line-v126 {
+      display:grid!important;grid-template-columns:8px 52px minmax(0,1fr)!important;
+      min-height:44px!important;gap:6px!important;padding:8px 0!important;
+    }
+    html body #home.schedule-feature-v125 .schedule-upcoming-v119>.schedule-upcoming-line-v126 b {white-space:normal!important;overflow-wrap:anywhere;line-height:1.35!important}
+    html body #home.schedule-feature-v125 .schedule-dday-v119 {
+      height:100%!important;min-height:0!important;max-height:none!important;
+      width:100%!important;min-width:0!important;box-sizing:border-box!important;padding:16px!important;
+    }
+    html body #home.schedule-feature-v125 .dday-secondary-v176 {max-height:96px!important;overflow-y:auto!important;overscroll-behavior:contain!important}
+    html body .schedule-dialog-v125 .schedule-form-v125 {
+      display:flex!important;flex-direction:column!important;min-height:100%!important;
+    }
+    html body .schedule-dialog-v125 .schedule-dialog-actions-v125 {margin-top:auto!important;flex-shrink:0!important}
+
+    /* An editor occupies the right pane on wide windows. Keep the familiar
+       full-width action footer inside that pane and the source page visible. */
+    html body :is(.schedule-dialog-v125,.emotion-dialog-v119,.dday-dialog-v125).on,
+    html body #event .event-editor-overlay-v111,
+    html body #routine .routine-editor-v111,
+    html body .daylog-editor-v165.on {
+      display:flex!important;justify-content:flex-end!important;align-items:stretch!important;
+      inset:0!important;width:100%!important;height:100dvh!important;padding:0!important;
+    }
+    html body :is(.schedule-dialog-v125,.emotion-dialog-v119,.dday-dialog-v125)>section,
+    html body #event .event-editor-overlay-v111>.event-editor-sheet-v111,
+    html body #routine .routine-editor-v111>.routine-detail-sheet,
+    html body .daylog-editor-v165.on>:is(.box,section) {
+      width:max(340px,50%)!important;max-width:620px!important;min-width:0!important;
+      height:100%!important;max-height:100%!important;min-height:0!important;
+      margin:0 0 0 auto!important;border-radius:24px 0 0 24px!important;
+      transform:none!important;translate:none!important;box-sizing:border-box!important;
+      flex-shrink:0!important;
+    }
+    html body .schedule-dialog-v125>section {display:flex!important;flex-direction:column!important;overflow:hidden!important;border-width:0!important}
+    html body .schedule-dialog-v125 .feature-dialog-head-v125 {flex-shrink:0!important}
+    html body .schedule-dialog-v125 .schedule-dialog-body-v125 {flex:1 1 auto!important;min-height:0!important;overflow-y:auto!important}
+  }
+}
