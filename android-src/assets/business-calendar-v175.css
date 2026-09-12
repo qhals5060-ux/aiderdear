@@ -1,0 +1,6 @@
+#businessCalendarViewV175{width:min(420px,calc(100vw - 24px));max-height:calc(100dvh - 24px);box-sizing:border-box;padding:18px;border:1px solid #d2ced8;border-radius:16px;background:var(--card,#fff);color:var(--ink,#20212a)}
+#businessCalendarViewV175::backdrop{background:#15122366}
+#businessCalendarViewV175 header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+#businessCalendarViewV175 button{width:40px;height:40px;border:1px solid #d2ced8;background:transparent;color:inherit;border-radius:9px;font-size:24px}
+#businessCalendarViewV175 h2{font-size:19px;line-height:1.5;overflow-wrap:anywhere}
+#businessCalendarViewV175 p{font-size:14px;line-height:1.5}

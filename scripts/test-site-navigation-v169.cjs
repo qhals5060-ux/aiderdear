@@ -1,7 +1,7 @@
 /* No browser credentials or network: exercise the actual page switchers and SW. */
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),assert=require('node:assert/strict');
-const {execFileSync}=require('node:child_process');
+const {staleWorker}=require('../tests/fixtures/historical-navigation-v169.cjs');
 const root=path.resolve(__dirname,'..'),html=fs.readFileSync(path.join(root,'index.html'),'utf8');
 const passed=[];
 function fn(name){
@@ -68,9 +68,9 @@ async function serviceWorker(source){
 }
 async function swTests(){
   const source=fs.readFileSync(path.join(root,'sw.js'),'utf8');
-  // Pin the faulty release: HEAD advances after the fix is committed.
-  const previous=execFileSync('git',['show','f847af6340459c25e07e69654b007f9cc872817b:sw.js'],{cwd:root,encoding:'utf8'});
-  const old=await serviceWorker(previous);old.entries.set('https://fixture.invalid/site-modern-v165.css?v=167',new Response('stale'));
+  // The pinned faulty fetch tail is retained as a test-only fixture, so this
+  // negative control needs neither a Git checkout nor a subprocess permission.
+  const old=await serviceWorker(staleWorker);old.entries.set('https://fixture.invalid/site-modern-v165.css?v=167',new Response('stale'));
   assert.equal(await (await old.request('/site-modern-v165.css?v=167')).text(),'stale');
   passed.push('Regression reproduced: v168 SW returns stale cached CSS to an online v168 document');
   const worker=await serviceWorker(source);

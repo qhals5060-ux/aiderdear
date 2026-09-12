@@ -1,0 +1,146 @@
+/* Calendar/photo layout is site-only; only the marker-line rules below are shared. */
+html.site-calendar-v175:not(.aiderlog-android) body #app#app #stage #calendar {
+  grid-template-rows:28px repeat(6,minmax(88px,1fr))!important;
+}
+html.site-calendar-v175:not(.aiderlog-android) body #app#app #stage #calendar .day {
+  gap:2px!important;padding:4px!important;justify-content:flex-start!important;
+}
+html.site-calendar-v175:not(.aiderlog-android) body #app#app #stage #calendar .daynum-row {
+  flex:none!important;min-height:20px!important;height:20px!important;margin:0!important;
+}
+html.site-calendar-v175:not(.aiderlog-android) body #app#app #stage #calendar .day .ev {
+  flex:0 0 18px!important;height:18px!important;min-height:18px!important;max-height:18px!important;
+  margin:0!important;padding:1px 3px!important;font-size:11px!important;line-height:14px!important;
+  white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;
+  box-sizing:border-box!important;letter-spacing:0!important;
+}
+html.site-calendar-v175:not(.aiderlog-android) body #app#app #stage #calendar .day:is(:hover,:focus-within) .ev {
+  font-size:11px!important;line-height:14px!important;
+}
+html.site-calendar-v175:not(.aiderlog-android) body #app#app #stage #calendar .calendar-more-count {
+  position:absolute!important;right:4px!important;bottom:3px!important;
+  flex:none!important;font-size:10px!important;line-height:12px!important;margin:0!important;padding:0 3px!important;
+}
+
+/* Existing public mood + private period/intimacy markers use one upper-right
+   line in both clients. No private fields, content, or author IDs are invented. */
+html body #app#app #stage #calendar .day .calendar-status-icons {
+  position:absolute!important;top:3px!important;right:3px!important;bottom:auto!important;left:auto!important;
+  display:flex!important;align-items:center!important;justify-content:flex-end!important;flex-wrap:nowrap!important;
+  gap:2px!important;height:18px!important;min-height:0!important;min-width:0!important;margin:0!important;padding:0!important;
+  background:transparent!important;border:0!important;box-shadow:none!important;
+}
+html body #app#app #stage #calendar .day.has-calendar-status {padding-bottom:4px!important}
+html body #app#app #stage #calendar .calendar-status-icon.mood {
+  box-sizing:border-box!important;flex:0 0 18px!important;width:18px!important;height:18px!important;
+  font-size:11px!important;line-height:1!important;border-radius:50%!important;filter:none!important;
+}
+html body #app#app #stage #calendar .calendar-status-icon.mood.mine {
+  background:var(--calendar-mine-soft,#f5e9c8)!important;border:1px solid var(--calendar-mine,#c69a2f)!important;
+}
+html body #app#app #stage #calendar .calendar-status-icon.mood.partner {
+  background:var(--calendar-partner-soft,#e9ecd2)!important;border:1px solid var(--calendar-partner,#7d8743)!important;
+}
+html body #app#app #stage #calendar .calendar-status-icon.mood.shared {
+  background:#eceef2!important;border:1px solid #778294!important;
+}
+
+/* One upper-half scroll area contains both existing agenda lists; lower half
+   belongs to media. The wrapper is installed once without replacing handlers. */
+html.site-calendar-v175:not(.aiderlog-android) body #app#app #stage #friendScheduleStatusV175 {
+  display:block!important;font-size:11px!important;line-height:1.4!important;font-weight:400!important;
+  color:var(--modern-muted,#665e68)!important;white-space:normal!important;max-width:100%!important;
+}
+html.site-calendar-v175:not(.aiderlog-android) body #app#app #stage #friendScheduleStatusV175[hidden] {display:none!important}
+html.site-calendar-v175:not(.aiderlog-android) body #app#app #stage #page0 .month-agenda {
+  display:grid!important;grid-template-columns:minmax(0,1fr)!important;
+  grid-template-rows:minmax(0,1fr) minmax(0,1fr)!important;gap:8px!important;
+  flex:1 1 0!important;height:0!important;min-height:0!important;max-height:none!important;
+  overflow:hidden!important;padding:0!important;
+}
+html.site-calendar-v175:not(.aiderlog-android) body #app#app #stage .site-month-agenda-list-v175 {
+  grid-column:1!important;grid-row:1!important;min-height:0!important;min-width:0!important;
+  overflow:auto!important;overscroll-behavior:contain;scrollbar-width:thin;padding:0 3px 0 0!important;
+}
+html.site-calendar-v175:not(.aiderlog-android) body #app#app #stage .site-month-agenda-list-v175 :is(#sharedListTop,#sharedList) {
+  height:auto!important;min-height:0!important;max-height:none!important;overflow:visible!important;
+  margin:0!important;padding:0!important;border-top:0!important;
+}
+html.site-calendar-v175:not(.aiderlog-android) body #app#app #stage #page0 .agenda-lower {
+  grid-column:1!important;grid-row:2!important;display:block!important;position:relative!important;
+  height:100%!important;min-height:0!important;min-width:0!important;overflow:hidden!important;padding:0!important;
+}
+html.site-calendar-v175:not(.aiderlog-android) body #app#app #stage #storyMediaCard {
+  display:grid!important;grid-template-columns:minmax(0,1fr)!important;
+  grid-template-rows:30px minmax(0,1fr) 30px!important;gap:3px!important;
+  width:100%!important;height:100%!important;min-height:0!important;max-height:none!important;
+  margin:0!important;padding:0!important;border:0!important;border-radius:0!important;
+  overflow:hidden!important;background:transparent!important;
+}
+html.site-calendar-v175:not(.aiderlog-android) body #app#app #stage #storyMediaOpen {
+  grid-column:1!important;grid-row:2!important;width:100%!important;height:100%!important;min-height:0!important;
+  max-height:none!important;aspect-ratio:auto!important;border-radius:7px!important;
+}
+html.site-calendar-v175:not(.aiderlog-android) body #app#app #stage #storyMediaOpen :is(img,video) {
+  width:100%!important;height:100%!important;object-fit:contain!important;object-position:center!important;
+}
+html.site-calendar-v175:not(.aiderlog-android) body #app#app #stage #storyMediaControls {
+  display:contents!important;
+}
+html.site-calendar-v175:not(.aiderlog-android) body #app#app #stage #storyMediaControls[hidden] {display:none!important}
+html.site-calendar-v175:not(.aiderlog-android) body #app#app #stage :is(#storyMediaMinimize,#coupleMediaDelete,#storyMediaPrev,#storyMediaNext,#storyMediaDownload) {
+  grid-column:1!important;position:static!important;inset:auto!important;align-self:center!important;
+  width:28px!important;height:28px!important;min-width:28px!important;min-height:28px!important;
+  margin:0!important;padding:0!important;border:1px solid var(--modern-border,#c7c3b9)!important;
+  border-radius:6px!important;background:var(--modern-soft,#f4f3ef)!important;color:var(--modern-ink,#222)!important;
+  box-shadow:none!important;font:600 16px/1 Arial,sans-serif!important;
+}
+html.site-calendar-v175:not(.aiderlog-android) body #app#app #stage #storyMediaMinimize {
+  grid-row:1!important;justify-self:end!important;margin-right:34px!important;
+}
+html.site-calendar-v175:not(.aiderlog-android) body #app#app #stage #coupleMediaDelete {
+  grid-row:1!important;justify-self:end!important;
+}
+html.site-calendar-v175:not(.aiderlog-android) body #app#app #stage :is(#storyMediaPrev,#storyMediaNext,#storyMediaDownload,#storyMediaCounter) {grid-row:3!important}
+html.site-calendar-v175:not(.aiderlog-android) body #app#app #stage #storyMediaCounter {
+  grid-column:1!important;justify-self:center!important;align-self:center!important;
+  position:static!important;inset:auto!important;
+  min-width:44px!important;margin:0!important;font-size:12px!important;line-height:1.3!important;text-align:center!important;
+}
+html.site-calendar-v175:not(.aiderlog-android) body #app#app #stage #storyMediaPrev {justify-self:center!important;transform:translateX(-42px)!important}
+html.site-calendar-v175:not(.aiderlog-android) body #app#app #stage #storyMediaNext {justify-self:center!important;transform:translateX(42px)!important}
+html.site-calendar-v175:not(.aiderlog-android) body #app#app #stage #storyMediaDownload {justify-self:end!important}
+html.site-calendar-v175:not(.aiderlog-android) body #app#app #stage #storyMediaControls>[hidden] {display:none!important}
+html.site-calendar-v175:not(.aiderlog-android) body #app#app #stage #page0 .month-agenda:has(#storyMediaCard.is-collapsed) {
+  grid-template-rows:minmax(0,1fr) 32px!important;
+}
+html.site-calendar-v175:not(.aiderlog-android) body #app#app #stage #storyMediaCard.is-collapsed {
+  grid-template-columns:minmax(0,1fr)!important;grid-template-rows:32px!important;
+  height:32px!important;min-height:32px!important;width:32px!important;margin-left:auto!important;gap:0!important;
+}
+html.site-calendar-v175:not(.aiderlog-android) body #app#app #stage #storyMediaCard.is-collapsed :is(#storyMediaOpen,#storyMediaControls) {display:none!important}
+html.site-calendar-v175:not(.aiderlog-android) body #app#app #stage #storyMediaCard.is-collapsed #storyMediaMinimize {
+  grid-row:1!important;margin:0!important;justify-self:end!important;font-size:0!important;
+}
+@media(max-width:760px) {
+  html.site-calendar-v175:not(.aiderlog-android) body #app#app #stage #page0.current {
+    grid-template-rows:auto auto auto!important;
+  }
+  html.site-calendar-v175:not(.aiderlog-android) body #app#app #stage #calendar {height:auto!important;min-height:556px!important}
+  html.site-calendar-v175:not(.aiderlog-android) body #app#app #stage #page0 .month-agenda {
+    flex:none!important;height:480px!important;min-height:480px!important;
+  }
+  html.site-calendar-v175:not(.aiderlog-android) body #app#app #stage #storyMediaCard {grid-template-rows:36px minmax(0,1fr) 36px!important}
+  html.site-calendar-v175:not(.aiderlog-android) body #app#app #stage :is(#storyMediaMinimize,#coupleMediaDelete,#storyMediaPrev,#storyMediaNext,#storyMediaDownload) {
+    width:34px!important;height:34px!important;min-width:34px!important;min-height:34px!important;
+  }
+  html.site-calendar-v175:not(.aiderlog-android) body #app#app #stage #storyMediaMinimize {margin-right:40px!important}
+  html.site-calendar-v175:not(.aiderlog-android) body #app#app #stage #storyMediaCard.is-collapsed {height:36px!important;min-height:36px!important;width:36px!important;grid-template-rows:36px!important}
+  html.site-calendar-v175:not(.aiderlog-android) body #app#app #stage #page0 .month-agenda:has(#storyMediaCard.is-collapsed) {grid-template-rows:minmax(0,1fr) 36px!important}
+}
+@media(max-width:560px) {
+  html.site-calendar-v175:not(.aiderlog-android) body #app#app #stage #calendar {grid-template-rows:28px repeat(6,minmax(120px,1fr))!important;min-height:748px!important}
+  html body #app#app #stage #calendar .day .calendar-status-icons {top:20px!important;gap:1px!important;height:14px!important}
+  html body #app#app #stage #calendar .day.has-calendar-status .daynum-row {min-height:34px!important;height:34px!important}
+  html body #app#app #stage #calendar .calendar-status-icon.mood {width:14px!important;height:14px!important;flex-basis:14px!important;font-size:9px!important}
+}

@@ -88,10 +88,15 @@
   async function startLogin(){
     try{const api=await loginReady();await api.login()}catch(error){console.error('[v136-login]',error);alert(error?.message||'Google 로그인을 시작하지 못했습니다.')}
   }
+  const accountMarkupV175 = new WeakMap();
   function updateLoginButton(){
     const button=$('#loginBtn');if(!button)return;const user=currentUser();
     button.dataset.accountV136=String(!!user);button.setAttribute('aria-label',user?'개인 페이지':'Google 로그인');button.title=user?'개인 페이지':'Google 로그인';
-    button.innerHTML=user?`${iconUser()}<span class="account-name-v136">${safe(user.name||user.displayName||user.email?.split('@')[0]||'My')}</span>`:iconUser();
+    const markup=user?`${iconUser()}<span class="account-name-v136">${safe(user.name||user.displayName||user.email?.split('@')[0]||'My')}</span>`:iconUser();
+    const cached=accountMarkupV175.get(button);
+    // Typography decorators add style/class attributes. Comparing rendered HTML
+    // would replace a pressed label and cancel its native click on pointer-up.
+    if(!cached||cached.source!==markup||!button.querySelector('svg')||(user&&!button.querySelector('.account-name-v136'))){button.innerHTML=markup;accountMarkupV175.set(button,{source:markup});}
     if(button.dataset.loginV136==='1')return;
     button.dataset.loginV136='1';button.onclick=null;
     button.addEventListener('click',event=>{event.preventDefault();event.stopPropagation();event.stopImmediatePropagation();if(currentUser())window.AiderLogThemeV125?.openSettings?.();else startLogin()},true);

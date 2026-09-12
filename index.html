@@ -11,8 +11,8 @@
 <meta name="description" content="">
 <meta name="format-detection" content="telephone=no">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="aiderlog-build" content="v174">
-<meta name="aiderlog-android-build" content="v169">
+<meta name="aiderlog-build" content="v175">
+<meta name="aiderlog-android-build" content="v175">
 <link rel="canonical" href="https://aiderdear1.vercel.app/">
 <script>
 (() => {
@@ -4122,11 +4122,13 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   html body #stage .calendar{min-height:488px!important}
 }
 </style>
-<link rel="stylesheet" href="./site-work-v167.css?v=174">
-<link rel="stylesheet" href="./site-polish-v158.css?v=174">
+<link rel="stylesheet" href="./site-work-v167.css?v=175">
+<link rel="stylesheet" href="./site-polish-v158.css?v=175">
 <script>(()=>{const h=document.documentElement;if(window.AiderLogNative){h.classList.add('aiderlog-android');return}let e=h.dataset.siteDefaultEdition==='editorial'?'editorial':'modern';try{const s=localStorage.getItem('aiderlog.site.edition');if(s==='modern'||s==='editorial')e=s}catch{}h.dataset.siteEdition=e;h.classList.toggle('modern-site',e==='modern')})();</script>
-<link rel="stylesheet" href="./site-modern-v165.css?v=174">
-<link rel="stylesheet" href="./site-editions-v164.css?v=174">
+<link rel="stylesheet" href="./site-modern-v165.css?v=175">
+<link rel="stylesheet" href="./site-editions-v164.css?v=175">
+<script src="./insight-range-v175.js?v=175"></script>
+<script src="./business-calendar-v175.js?v=175"></script>
 </head>
 <body>
 <a class="skip-link" href="#app">본문으로 건너뛰기</a>
@@ -4833,15 +4835,15 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
 <div class="app-install-grid app-install-v137 site-edition-downloads">
   <article class="app-install-card windows">
     <i>Windows PC · 사이트 파일</i><b>모던</b><p>간결한 구조와 차분한 색상의 사이트 디자인입니다.</p>
-    <a class="app-download-link app-download-v164" href="./AiderLog-Modern-v174-site-files.zip" download="AiderLog-Modern-v174-site-files.zip">모던 사이트 파일 다운로드</a>
+    <a class="app-download-link app-download-v164" href="./AiderLog-Modern-v175-site-files.zip" download="AiderLog-Modern-v175-site-files.zip">모던 사이트 파일 다운로드</a>
   </article>
   <article class="app-install-card windows">
     <i>Windows PC · 사이트 파일</i><b>에디토리얼</b><p>기존의 잡지형 구성과 탭 디자인을 유지합니다.</p>
-    <a class="app-download-link app-download-v164" href="./AiderLog-Editorial-v174-site-files.zip" download="AiderLog-Editorial-v174-site-files.zip">에디토리얼 사이트 파일 다운로드</a>
+    <a class="app-download-link app-download-v164" href="./AiderLog-Editorial-v175-site-files.zip" download="AiderLog-Editorial-v175-site-files.zip">에디토리얼 사이트 파일 다운로드</a>
   </article>
   <article class="app-install-card android">
     <i>Android APK</i><b>Android 앱</b><p>Galaxy Fold·Flip 3–8 및 Android 8.0 이상용 최신 설치 파일입니다.</p>
-    <a class="app-download-link app-download-v164" href="./AiderLog-v169.apk" download="AiderLog-v169.apk">Android APK 다운로드</a>
+    <a class="app-download-link app-download-v164" href="./AiderLog-v175.apk" download="AiderLog-v175.apk">Android APK 다운로드</a>
   </article>
 </div>
           <div class="login-data-summary"><b>기록 저장 안내</b><span>일정은 본인 공간에 저장되며 ‘커플과 공유’를 선택한 일정만 상대 캘린더에 표시됩니다.</span><span>EVENT는 커플 연결 시 함께 보고, 루틴·어학·PERSONAL·메모는 본인만 확인합니다.</span><span>PAPER·CONSULTING·WORK는 허용된 두 계정만 열 수 있으며, 각 계정의 연구·컨설팅·운영 기록은 서로 분리해 저장합니다.</span><span>사진·영상은 압축 저장되며, 오래된 일반 기록은 삭제 전에 반드시 확인을 요청합니다.</span></div>
@@ -5358,11 +5360,11 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script type="module" src="./firebase-app.js?v=174"></script>
-<script src="./brain-3d.js?v=174"></script>
-<script src="./language-lab-v18-engine.js?v=174"></script>
-<script src="./language-content-v149.js?v=174"></script>
-<script src="./language-lab-v18.js?v=174"></script>
+<script type="module" src="./firebase-app.js?v=175"></script>
+<script src="./brain-3d.js?v=175"></script>
+<script src="./language-lab-v18-engine.js?v=175"></script>
+<script src="./language-content-v149.js?v=175"></script>
+<script src="./language-lab-v18.js?v=175"></script>
 <script>
 (()=>{
   const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
@@ -5415,11 +5417,12 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   window.addEventListener('aiderlog-site-work-updated',()=>renderCalendar());
   window.addEventListener('aiderlog-calendar-projection-v168',()=>renderCalendar());
   window.addEventListener('aiderlog-estate-calendar',()=>renderCalendar());
+  window.addEventListener('aiderlog-friend-schedule-data',()=>renderCalendar());
   function restrictedCalendarEvents(){
     if(!currentUserEmail||!canAccessRestrictedTab('task'))return[];
     return window.AiderWorkCalendarV168?.rows(privateData[currentUserEmail]||{})||[];
   }
-  function calendarDisplayEvents(year){return [...events,...restrictedCalendarEvents(),...(window.AiderEstateCalendarV171?.rows()||[]),...connectionBirthdayEvents(year-1),...connectionBirthdayEvents(year),...connectionBirthdayEvents(year+1)]}
+  function calendarDisplayEvents(year){const business=[...restrictedCalendarEvents(),...(window.AiderEstateCalendarV171?.rows()||[])].map(row=>window.AiderBusinessCalendarV175.minimal(row));return [...events,...business,...(window.AiderFriendScheduleUIV175?.events()||[]),...connectionBirthdayEvents(year-1),...connectionBirthdayEvents(year),...connectionBirthdayEvents(year+1)]}
   const SEOUL_OFFSET='+09:00';
   const DEFAULT_ALBUM_ID='album-default';
   const FAVORITES_ALBUM_ID='album-favorites';
@@ -6272,21 +6275,24 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
       if(i<first){day=prevDays-first+i+1;cm=m-1;out=true;if(cm<0){cm=11;cy--}}
       else if(i>=first+days){day=i-first-days+1;cm=m+1;out=true;if(cm>11){cm=0;cy++}}
       else day=i-first+1;
-      const date=iso(cy,cm,day); const cell=document.createElement('div'); cell.className='day'+(out?' out':'');cell.setAttribute('role','button');cell.tabIndex=0;cell.setAttribute('aria-label',`${cy}년 ${cm+1}월 ${day}일 일정 추가`);
+      const date=iso(cy,cm,day); const cell=document.createElement('div'); cell.className='day'+(out?' out':'');cell.dataset.date=date;cell.setAttribute('role','button');cell.tabIndex=0;cell.setAttribute('aria-label',`${cy}년 ${cm+1}월 ${day}일 일정 추가`);
       if(date===iso(today.getFullYear(),today.getMonth(),today.getDate())) cell.classList.add('today-cell');
       const dayEvents=calendarEvents.filter(e=>eventOccursOnDate(e,date) && (e.isHoliday||eventPassesPersonFilter(e))).sort((a,b)=>Number(!!b.isHoliday)-Number(!!a.isHoliday)||(a.date||'').localeCompare(b.date||'')||(a.time||'').localeCompare(b.time||''));const holidayEvents=dayEvents.filter(e=>e.isHoliday);if(holidayEvents.length)cell.classList.add('holiday-day');
       const moodRows=currentUser?emotionVisibleOwners().map(email=>entryForDate(email,date)).filter(Boolean):[],periodRows=moodRows.filter(row=>row.period);
       const numRow=document.createElement('div');numRow.className='daynum-row';const n=document.createElement('div');n.className='daynum';n.textContent=String(day).padStart(2,'0');numRow.appendChild(n);if(holidayEvents.length){const h=document.createElement('span');h.className='holiday-name';h.textContent=holidayEvents.map(e=>e.title).join(' · ');h.title=h.textContent;numRow.appendChild(h)}cell.appendChild(numRow);
-      const normalEvents=dayEvents.filter(e=>!e.isHoliday),visibleEvents=normalEvents.slice(0,2);
-      if(normalEvents.length>=3){cell.classList.add('has-more-events');attachCalendarEventTooltip(cell,normalEvents,date)}
+      const lineLimit=(window.AiderLogNative||document.documentElement.classList.contains('aiderlog-android')||new URLSearchParams(location.search).has('android-preview'))?2:3;
+      const normalEvents=dayEvents.filter(e=>!e.isHoliday),visibleEvents=normalEvents.slice(0,lineLimit);
+      if(normalEvents.length>lineLimit){cell.classList.add('has-more-events');attachCalendarEventTooltip(cell,normalEvents,date)}
       visibleEvents.forEach(e=>{
         const ownerKind=scheduleOwnerKind(e),ownImported=!!e.externalSource&&ownerKind==='mine',b=document.createElement('button');b.className=`ev ${ownerKind}${ownImported?' imported-calendar':''}${e.isBirthday?' birthday-event':''}`;b.type='button';if(ownImported&&e.sourceColor)b.style.setProperty('--source-color',safeCalendarColor(e.sourceColor)||'#B1A6D0');const range=(e.endDate&&e.endDate!==e.date)?` (${e.date.slice(5).replace('-','/')}~${e.endDate.slice(5).replace('-','/')})`:'';const author=normalizeEmail(e.authorEmail);const who=author?(author===currentUserEmail?(currentUserName||'나'):(emotionData[author]?.profile?.name||familyUser(author).name||author)):ownerLabel(ownerKind);b.title=`${who} · ${e.sourceTitle||'AiderLog'} · ${e.title}${range}`;b.textContent=`${e.time?e.time+' ':''}${e.title}`;b.addEventListener('click',ev=>{ev.stopPropagation();if(e.isBirthday)toast(e.memo||`${e.title}입니다.`);else openEvent(e)});cell.appendChild(b)
       });
-      if(normalEvents.length>2){const more=document.createElement('span');more.className='calendar-more-count';more.textContent=`+${normalEvents.length-2}`;more.setAttribute('aria-label',`일정 ${normalEvents.length-2}개 더 있음`);cell.appendChild(more)}
-      if(periodRows.length||moodRows.length){cell.classList.add('has-calendar-status');const status=document.createElement('button');status.type='button';status.className='calendar-status-icons';const statusLabels=[];moodRows.forEach(row=>{const owner=normalizeEmail(row.owner),ownerKind=owner===currentUserEmail?'mine':(mutualPartner()?.email===owner?'partner':'shared'),name=owner===currentUserEmail?'나':(emotionData[owner]?.profile?.name||familyUser(owner).name||'상대');if(row.period){const icon=document.createElement('span');icon.className=`calendar-status-icon period ${ownerKind}`;icon.innerHTML='<i class="calendar-period-drop" aria-hidden="true"></i>';icon.title=`${name} · 생리 중`;statusLabels.push(icon.title);status.appendChild(icon)}const mood=entryMoods(row)[0];if(mood){const icon=document.createElement('span'),ownerDot=document.createElement('i');icon.className=`calendar-status-icon mood ${ownerKind}`;icon.style.setProperty('--mood-color',emotionMoodColor(mood));icon.textContent=emotionMoodMeta(mood).emoji;ownerDot.className='calendar-status-owner-dot';ownerDot.setAttribute('aria-hidden','true');icon.appendChild(ownerDot);icon.title=`${name} · ${mood}`;statusLabels.push(icon.title);status.appendChild(icon)}});status.title=statusLabels.join(' / ');status.setAttribute('aria-label',`${date} · ${statusLabels.join(' / ')}`);status.addEventListener('click',ev=>{ev.stopPropagation();renderEmotionDayDetail(date)});cell.appendChild(status)}
+      if(normalEvents.length>lineLimit){const more=document.createElement('span');more.className='calendar-more-count';more.textContent=`+${normalEvents.length-lineLimit}`;more.setAttribute('aria-label',`일정 ${normalEvents.length-lineLimit}개 더 있음`);cell.appendChild(more)}
+      if(moodRows.length){cell.classList.add('has-calendar-status');const status=document.createElement('button');status.type='button';status.className='calendar-status-icons';const statusLabels=[];moodRows.forEach(row=>{const owner=normalizeEmail(row.owner),ownerKind=owner===currentUserEmail?'mine':(mutualPartner()?.email===owner?'partner':'shared'),name=owner===currentUserEmail?'나':(emotionData[owner]?.profile?.name||familyUser(owner).name||'상대');const mood=entryMoods(row)[0];if(mood){const icon=document.createElement('span'),ownerDot=document.createElement('i');icon.className=`calendar-status-icon mood ${ownerKind}`;icon.style.setProperty('--mood-color',emotionMoodColor(mood));icon.textContent=emotionMoodMeta(mood).emoji;ownerDot.className='calendar-status-owner-dot';ownerDot.setAttribute('aria-hidden','true');icon.appendChild(ownerDot);icon.title=`${name} · ${mood}`;statusLabels.push(icon.title);status.appendChild(icon)}});status.title=statusLabels.join(' / ');status.setAttribute('aria-label',`${date} · ${statusLabels.join(' / ')}`);status.addEventListener('click',ev=>{ev.stopPropagation();renderEmotionDayDetail(date)});cell.appendChild(status)}
       const addForDay=event=>{if(event?.target?.closest?.('.ev,.calendar-status-icons'))return;if(event?.type==='keydown'&&!['Enter',' '].includes(event.key))return;event?.preventDefault?.();newEvent('mine',date)};cell.addEventListener('click',addForDay);cell.addEventListener('keydown',addForDay);cal.appendChild(cell);
     }
     renderShared();
+    window.AiderPrivateCalendarUIV175?.calendarChanged();
+    window.AiderFriendScheduleUIV175?.refresh();
   }
   function renderShared(){
     const y=shown.getFullYear(),m=shown.getMonth(),top=$('#sharedListTop'),compact=$('#sharedList');
@@ -6305,9 +6311,10 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
     if(rows.length<=3)compact.innerHTML='';
   }
   // D-day is independent of the whole EVENT payload. Failed reads never become empty writes.
-  let ddayView={identity:'',data:null,loading:false,busy:false,error:'',loadedAt:0},ddayLoadPromise=null,ddayPendingAdd=null;
+  let ddayView={identity:'',data:null,loading:false,busy:false,error:'',loadedAt:0,retryAt:0},ddayLoadPromise=null,ddayPendingAdd=null;
   function ddayIdentity(){return currentUser&&firebaseState.user?.uid?`${firebaseState.user.uid}:${firebaseState.pair?.id||'solo'}`:''}
-  function resetDdayView(){ddayView={identity:ddayIdentity(),data:null,loading:false,busy:false,error:'',loadedAt:0};ddayLoadPromise=null;ddayPendingAdd=null;if($('#ddayTitle'))$('#ddayTitle').value='';setDday();renderDdayList()}
+  function resetDdayView(){ddayView={identity:ddayIdentity(),data:null,loading:false,busy:false,error:'',loadedAt:0,retryAt:0};ddayLoadPromise=null;ddayPendingAdd=null;if($('#ddayTitle'))$('#ddayTitle').value='';setDday();renderDdayList()}
+  function ddayQuotaFailure(error,view){if(String(error?.code||'').split('/').at(-1)!=='resource-exhausted')return false;view.retryAt=Date.now()+300000;view.error='저장소 사용량 또는 요청 한도에 도달했습니다. 기존 기록과 입력은 유지됩니다. 5분 뒤 다시 불러오기를 눌러주세요.';return true;}
   function ensureDdayIdentity(){if(ddayView.identity!==ddayIdentity())resetDdayView();return ddayView.identity}
   function getDdays(){ensureDdayIdentity();return ddayView.data?.items||[]}
   function activeDdayId(){return String(ddayView.data?.activeId||'')}
@@ -6320,7 +6327,7 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
     if(form)form.setAttribute('aria-busy',String(ddayView.busy));
   }
   async function refreshDdayData(){
-    const identity=ensureDdayIdentity();if(!identity||ddayView.busy)return;
+    const identity=ensureDdayIdentity();if(!identity||ddayView.busy||Date.now()<ddayView.retryAt)return;
     if(ddayLoadPromise)return ddayLoadPromise;
     const view=ddayView;view.loading=true;view.error='';setDday();updateDdayStatus();
     const request=Promise.resolve().then(async()=>{
@@ -6329,20 +6336,20 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
         const result=await window.AiderDearFirebase.readDdayData();
         if(ddayIdentity()!==identity||ddayView!==view)return;
         if(!result||!Array.isArray(result.items))throw new Error('디데이 응답을 확인하지 못했습니다.');
-        view.data=result;view.loadedAt=Date.now();
-      }catch(error){if(ddayIdentity()===identity&&ddayView===view){view.error='디데이를 불러오지 못했습니다. 기존 기록은 변경하지 않았습니다. 다시 불러오기를 눌러주세요.';console.warn('[dday] read failed',error?.code||error?.name||'error')}}
+        view.data=result;view.loadedAt=Date.now();view.retryAt=0;
+      }catch(error){if(ddayIdentity()===identity&&ddayView===view){if(!ddayQuotaFailure(error,view))view.error='디데이를 불러오지 못했습니다. 기존 기록은 변경하지 않았습니다. 다시 불러오기를 눌러주세요.';console.warn('[dday] read failed',error?.code||error?.name||'error')}}
       finally{if(ddayView===view){view.loading=false;ddayLoadPromise=null;setDday();renderDdayList()}}
     });ddayLoadPromise=request;await request;
   }
   async function changeDday(action){
-    const identity=ensureDdayIdentity();if(!identity||ddayView.busy||ddayView.loading)return false;
+    const identity=ensureDdayIdentity();if(!identity||ddayView.busy||ddayView.loading||Date.now()<ddayView.retryAt)return false;
     const view=ddayView;view.busy=true;view.error='';renderDdayList();
     try{
       const result=await window.AiderDearFirebase.mutateDday(action);
       if(ddayIdentity()!==identity||ddayView!==view)return false;
       if(!result||!Array.isArray(result.items))throw new Error('디데이 저장 결과를 확인하지 못했습니다.');
       view.data=result;view.loadedAt=Date.now();setDday();return true;
-    }catch(error){if(ddayIdentity()===identity&&ddayView===view){view.error=`디데이 저장 결과를 확인하지 못했습니다. 입력은 그대로 두었습니다. 연결을 확인한 뒤 다시 시도해주세요.${error?.message?' '+String(error.message).slice(0,180):''}`;console.warn('[dday] mutation failed',error?.code||error?.name||'error')}return false}
+    }catch(error){if(ddayIdentity()===identity&&ddayView===view){if(!ddayQuotaFailure(error,view))view.error=`디데이 저장 결과를 확인하지 못했습니다. 입력은 그대로 두었습니다. 연결을 확인한 뒤 다시 시도해주세요.${error?.message?' '+String(error.message).slice(0,180):''}`;console.warn('[dday] mutation failed',error?.code||error?.name||'error')}return false}
     finally{if(ddayView===view){view.busy=false;renderDdayList();setDday()}}
   }
   function ddayText(item){
@@ -6681,7 +6688,7 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
     if(currentUser&&googleProfile?.email)setGoogleStatus(`${googleProfile.email} · AiderLog 로그인 완료`,'ok');updateRestrictedTabVisibility();renderFirebasePairUI();renderSchedulePeopleFilters();renderPartnerMatchStatus();updateMailBadge();renderQuickTodo();if(currentUser)renderExternalCalendarStatus();
   }
   function canEdit(owner){if(!currentUser)return false;return owner===currentUser||owner==='shared'}
-  function canEditEvent(e){if(!currentUserEmail||!e?.isAiderDear)return false;if(normalizeEmail(e.authorEmail))return normalizeEmail(e.authorEmail)===currentUserEmail;return e.owner===currentUser}
+  function canEditEvent(e){if(!currentUserEmail||!e?.isAiderDear||e.readOnly||e.projectionSource)return false;if(normalizeEmail(e.authorEmail))return normalizeEmail(e.authorEmail)===currentUserEmail;return e.owner===currentUser}
   function configureOwnerOptions(selected){
     const sel=$('#eventOwner'),shared=$('#eventShared'),field=$('#eventOwnerField'),partner=sharedPartner();if(!sel||!shared)return;field.hidden=!partner;shared.checked=!!partner&&selected==='shared';sel.value=shared.checked?'shared':'mine';
   }
@@ -6781,11 +6788,12 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
     setScheduleReadOnly(false);
     syncEventAllDayFields(false);
     $('#deleteEvent').hidden=true;
+    window.AiderFriendScheduleUIV175?.open();
     openModal('scheduleModal');
   }
   function openEvent(e){
     if(!currentUser){requireLogin(()=>openEvent(e));return;}
-    if(e.projectionSource==='estate'){window.AiderEstateV171?.open(e.sourceKind,e.sourceId);return;}
+    if(e.projectionSource){window.AiderBusinessCalendarV175?.open(e);return;}
     const editable=canEditEvent(e);
     $('#scheduleModalTitle').textContent=editable?'일정 수정':'일정 보기';
     $('#eventId').value=e.id;
@@ -6804,6 +6812,7 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
     const canShareImported=!!e.externalSource&&!e.isHoliday&&normalizeEmail(e.authorEmail)===currentUserEmail&&!!sharedPartner();
     if(canShareImported){$('#eventOwnerField').hidden=false;$('#eventShared').disabled=false;$('#eventShared').checked=!!(e.shareWithCouple||e.owner==='shared')}
     $('#eventImportedShare').hidden=true;
+    window.AiderFriendScheduleUIV175?.open(e);
     openModal('scheduleModal');
   }
 
@@ -6821,14 +6830,16 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
     const data={title,date:$('#eventDate').value,endDate:$('#eventEndDate').value||$('#eventDate').value,time:$('#eventAllDay').checked?'':$('#eventTime').value,endTime:$('#eventAllDay').checked?'':($('#eventEndTime').value||$('#eventTime').value),allDay:$('#eventAllDay').checked,owner:sharedPartner()&&$('#eventShared').checked?'shared':'mine',memo:$('#eventMemo').value.trim()};
     try{
       $('#saveEvent').disabled=true;
-      if(id){const old=events.find(x=>x.id===id);if(old?.isAiderDear&&canEditEvent(old))await updateCalendarEvent(old.googleEventId||old.id,data)}else if($('#eventGoogleCalendar').value){await calendarSyncRequest('create',{provider:'google',calendarId:$('#eventGoogleCalendar').value,event:data,shareWithCouple:data.owner==='shared'});const snapshot=await window.AiderDearFirebase.readScheduleData();applyScheduleDataSnapshot(snapshot)}else await createCalendarEvent(data);
+      let saved=null;
+      if(id){const old=events.find(x=>x.id===id);if(!old||!canEditEvent(old))throw Error('이 일정은 원래 업무 페이지에서만 수정할 수 있습니다.');saved=await updateCalendarEvent(old.googleEventId||old.id,data)}else if($('#eventGoogleCalendar').value){await calendarSyncRequest('create',{provider:'google',calendarId:$('#eventGoogleCalendar').value,event:data,shareWithCouple:data.owner==='shared'});const snapshot=await window.AiderDearFirebase.readScheduleData();applyScheduleDataSnapshot(snapshot)}else saved=await createCalendarEvent(data);
+      if(saved){$('#eventId').value=saved.id;await window.AiderFriendScheduleUIV175?.share(saved);}
       await loadCalendarEvents();closeModal('scheduleModal');toast('일정을 저장했습니다.');
     }catch(err){toast(googleErrorMessage(err))}finally{$('#saveEvent').disabled=false}
   });
   $('#deleteEvent').addEventListener('click',async()=>{
     const id=$('#eventId').value;const old=events.find(x=>x.id===id);if(!old||!old.isAiderDear||!canEditEvent(old))return;
     if(!confirm(`“${old.title}” 일정을 삭제할까요?`))return;
-    try{await deleteCalendarEvent(old.googleEventId||old.id);await loadCalendarEvents();closeModal('scheduleModal');toast('일정을 삭제했습니다.')}catch(err){toast(googleErrorMessage(err))}
+    try{await window.AiderFriendScheduleUIV175?.remove(old.id);await deleteCalendarEvent(old.googleEventId||old.id);await loadCalendarEvents();closeModal('scheduleModal');toast('일정을 삭제했습니다.')}catch(err){toast(googleErrorMessage(err))}
   });
 
 
@@ -7451,7 +7462,7 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   let selectedInsightEmotion='';
   const INSIGHT_ACTIVITY_ICONS={'업무/작업':'▣','공부':'▤','혼자 있기':'○','대화':'◌','이동 중':'◇','식사':'□','휴식':'≈','기타':'·','산책':'♧','음악 듣기':'♫','대화하기':'◌','잠자기':'☾','운동':'↗','호흡':'≋','기록하기':'▧','대기':'◷','이동':'◇','관계/대화':'◌','혼자':'○'};
   function insightOwnRows(rows=[]){return (rows||[]).filter(r=>!currentUserEmail||normalizeEmail(r.owner)===currentUserEmail)}
-  function insightLast30(rows=[]){const floor=dateKeyOffset(-29);return insightOwnRows(rows).filter(r=>(r.date||'')>=floor)}
+  function insightLast30(rows=[]){return window.AiderLogInsightRangeV175.filterRows(insightOwnRows(rows))}
   function insightMoodStats(rows=[]){const counts={};let total=0;rows.forEach(r=>entryMoods(r).forEach(m=>{counts[m]=(counts[m]||0)+1;total++}));return {counts,total}}
   function insightMoodPct(count,total){return total?Math.round(count/total*100):0}
   function insightArrayCounts(rows,key){const counts={};rows.forEach(r=>(Array.isArray(r?.[key])?r[key]:[]).forEach(v=>{v=emotionTokenClean(v);if(v)counts[v]=(counts[v]||0)+1}));return Object.entries(counts).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0]))}
@@ -7492,12 +7503,13 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
         <div class="activity-v32-grid"><section class="activity-v32-panel"><h4>${escapeHtml(mood)}을 느낄 때 하고 있던 활동</h4>${insightActivityHtml(current)}</section><section class="activity-v32-panel"><h4>${escapeHtml(mood)}을 느낀 후 내가 한 행동</h4>${insightActivityHtml(after)}</section><aside class="pattern-v32"><div class="pattern-icon">⌁</div><h4>기록 기반 발견</h4><p>${escapeHtml(pattern)}</p></aside></div>
       </article>
       <aside class="insights-v32-card insight-summary-v46">
-        <section class="top-v32"><h3>최근 30일 동안 가장 많이 느낀 감정</h3><div class="top-v32-cards">${topCards}</div></section>
+        <section class="top-v32"><h3>최근 ${window.AiderLogInsightRangeV175.days()}일 동안 가장 많이 느낀 감정</h3><div class="top-v32-cards">${topCards}</div></section>
         <section class="analysis-v32"><b class="analysis-v32-title">${escapeHtml(mood)} 분석</b><div class="analysis-v32-list"><div class="analysis-v32-row"><span class="analysis-v32-icon">◷</span><div><b>언제 자주 느꼈나요?</b><p>${escapeHtml(timeText)}</p></div></div><div class="analysis-v32-row"><span class="analysis-v32-icon">⌖</span><div><b>어디서, 누구와 자주 느꼈나요?</b><p>${escapeHtml(contextText)}</p></div></div><div class="analysis-v32-row"><span class="analysis-v32-icon">⌁</span><div><b>감정 패턴</b><p>${escapeHtml(emotionPattern)}</p></div></div></div></section>
       </aside>
     </section>`
   }
   function renderEmotion(){const owners=currentUser?emotionVisibleOwners():[],allRows=currentUser?owners.flatMap(emotionEntries).sort((a,b)=>(b.date||'').localeCompare(a.date||'')||(b.updatedAt||b.createdAt||0)-(a.updatedAt||a.createdAt||0)):[];renderEmotionMoodCalendar(allRows,owners);renderBucketList();const insights=$('#emotionInsightsPage'),ownRows=currentUserEmail?emotionEntries(currentUserEmail):[];if(insights)insights.innerHTML=renderEmotionInsights(ownRows);renderCalendar()}
+  window.addEventListener('aiderlog-insight-range-change',()=>{const host=$('#emotionInsightsPage');if(host)host.innerHTML=renderEmotionInsights(currentUserEmail?emotionEntries(currentUserEmail):[])});
   function goEmotionPage(next,force=false){next=Math.max(0,Math.min(1,next));if((next===emotionPageIndex&&!force)||(emotionFlipLocked&&!force))return;emotionFlipLocked=true;[$('#emotionRecordPage'),$('#emotionInsightPage')].forEach((page,i)=>{page.classList.remove('current','next','prev');page.classList.add(i===next?'current':(i<next?'prev':'next'));page.setAttribute('aria-hidden',i===next?'false':'true')});$$('.emotion-dot').forEach((d,i)=>d.classList.toggle('active',i===next));emotionPageIndex=next;animateStandaloneFrame(next===0?'#emotionFrame':'#emotionInsightFrame');setTimeout(()=>emotionFlipLocked=false,760)}
   $$('.emotion-dot').forEach(b=>b.addEventListener('click',()=>goEmotionPage(Number(b.dataset.emotionPage),true)));
   $('#emotionPrevMonth').addEventListener('click',()=>{emotionShown=new Date(emotionShown.getFullYear(),emotionShown.getMonth()-1,1);renderEmotion()});
@@ -8727,23 +8739,23 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
     normalizeCloudData();selectAlbumFolderColor(ALBUM_PASTELS[0]);getAlbumFolders();refreshRecordAlbumSelect(DEFAULT_ALBUM_ID);renderAlbumFolders();renderEventArchive();renderTravelArchive();renderPrivate();renderPersonal();renderPaper();renderConsultingWorkspace();renderEmotion();applyLoginUI();setDday();renderDdayList();renderCalendar();if(location.hash==='#search')setTimeout(openSearchFromQuick,0);if('serviceWorker' in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'}).then(registration=>registration.update()).catch(()=>{}));
 })();
 </script>
-<script src="./paper-workspace-v121.js?v=174"></script>
-<script src="./paper-v159.js?v=174"></script>
-<link rel="stylesheet" href="./consult-v167.css?v=174">
-<script src="./consult-model-v167.js?v=174"></script>
-<script src="./work-calendar-v168.js?v=174"></script>
-<script src="./storage-maintenance-v168.js?v=174"></script>
-<script src="./consult-intake-v168.js?v=174"></script>
-<script src="./consult-deeplink-v168.js?v=174"></script>
-<script src="./consult-v167.js?v=174"></script>
-<script src="./work-client-v167.js?v=174"></script>
-<script src="./site-work-v167.js?v=174"></script>
-<script src="./site-polish-v158.js?v=174"></script>
-<script src="./site-editions-v164.js?v=174"></script>
-<script src="./site-layout-v165.js?v=174"></script>
-<link rel="stylesheet" href="./site-ui-v167.css?v=174">
-<script src="./site-ui-v167.js?v=174"></script>
-<script src="./widget-sync-v162.js?v=174"></script>
+<script src="./paper-workspace-v121.js?v=175"></script>
+<script src="./paper-v159.js?v=175"></script>
+<link rel="stylesheet" href="./consult-v167.css?v=175">
+<script src="./consult-model-v167.js?v=175"></script>
+<script src="./work-calendar-v168.js?v=175"></script>
+<script src="./storage-maintenance-v168.js?v=175"></script>
+<script src="./consult-intake-v168.js?v=175"></script>
+<script src="./consult-deeplink-v168.js?v=175"></script>
+<script src="./consult-v167.js?v=175"></script>
+<script src="./work-client-v167.js?v=175"></script>
+<script src="./site-work-v167.js?v=175"></script>
+<script src="./site-polish-v158.js?v=175"></script>
+<script src="./site-editions-v164.js?v=175"></script>
+<script src="./site-layout-v165.js?v=175"></script>
+<link rel="stylesheet" href="./site-ui-v167.css?v=175">
+<script src="./site-ui-v167.js?v=175"></script>
+<script src="./widget-sync-v162.js?v=175"></script>
 <script>
 (() => {
   const FALLBACK_FLOOR = 11;
@@ -8793,19 +8805,27 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   window.addEventListener('aiderlog-site-editionchange', () => applyFontFloor());
 })();
 </script>
-<link rel="stylesheet" href="./site-typography-v169.css?v=174">
-<script src="./site-typography-v169.js?v=174"></script>
-<link rel="stylesheet" href="./estate-v171.css?v=174">
-<link rel="stylesheet" href="./estate-directory-v171.css?v=174">
-<link rel="stylesheet" href="./estate-workflow-v171.css?v=174">
-<link rel="stylesheet" href="./estate-calendar-view-v172.css?v=174">
-<link rel="stylesheet" href="./estate-cobroker-v173.css?v=174">
-<script type="module" src="./estate-v171.js?v=174"></script>
-<script type="module" src="./estate-calendar-v171.js?v=174"></script>
-<link rel="stylesheet" href="./site-calendar-v172.css?v=174">
-<script src="./site-calendar-v172.js?v=174"></script>
-<script src="./site-language-v172.js?v=174"></script>
-<link rel="stylesheet" href="./site-panels-v172.css?v=174">
-<script src="./site-panels-v172.js?v=174"></script>
+<link rel="stylesheet" href="./site-typography-v169.css?v=175">
+<script src="./site-typography-v169.js?v=175"></script>
+<link rel="stylesheet" href="./estate-v171.css?v=175">
+<link rel="stylesheet" href="./estate-directory-v171.css?v=175">
+<link rel="stylesheet" href="./estate-workflow-v171.css?v=175">
+<link rel="stylesheet" href="./estate-calendar-view-v172.css?v=175">
+<link rel="stylesheet" href="./estate-cobroker-v173.css?v=175">
+<script type="module" src="./estate-v171.js?v=175"></script>
+<script type="module" src="./estate-calendar-v171.js?v=175"></script>
+<link rel="stylesheet" href="./site-calendar-v172.css?v=175">
+<script src="./site-calendar-v172.js?v=175"></script>
+<script src="./site-language-v172.js?v=175"></script>
+<link rel="stylesheet" href="./site-panels-v172.css?v=175">
+<script src="./site-panels-v172.js?v=175"></script>
+<link rel="stylesheet" href="./site-calendar-v175.css?v=175">
+<script src="./site-calendar-v175.js?v=175"></script>
+<link rel="stylesheet" href="./private-calendar-v175.css?v=175">
+<link rel="stylesheet" href="./business-calendar-v175.css?v=175">
+<link rel="stylesheet" href="./insight-range-v175.css?v=175">
+<script type="module" src="./private-calendar-ui-v175.js?v=175"></script>
+<link rel="stylesheet" href="./friend-schedule-v175.css?v=175">
+<script src="./friend-schedule-ui-v175.js?v=175"></script>
 </body>
 </html>

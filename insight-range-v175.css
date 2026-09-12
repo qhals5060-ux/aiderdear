@@ -1,0 +1,62 @@
+/* One period selector shared by the site and Android insight renderers. */
+.insight-range-v175[aria-label] {display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.insight-range-v175[aria-label] button {appearance:none;min-width:52px;min-height:40px;padding:6px 12px;border:1px solid var(--theme-border,#d8e2df);border-radius:10px;background:var(--theme-background,#f5f8f7);color:var(--theme-deep,#243c3b);font:inherit;font-size:14px;font-weight:700;cursor:pointer;line-height:1.2;box-sizing:border-box}
+.insight-range-v175[aria-label] button[aria-pressed="true"] {background:var(--theme-primary,var(--modern-primary,#345d5b));border-color:transparent;color:#fff}
+.insight-range-v175[aria-label] button:focus-visible {outline:2px solid var(--theme-primary,#345d5b);outline-offset:3px}
+
+/* Restore semantic card fills, not the large outer decorative frame. */
+html.insight-range-v175.site-calendar-v172:not(.aiderlog-android) body #app#app #stage #emotionInsightsPage .insights-v46 {grid-template-columns:minmax(195px,.7fr) minmax(0,1.2fr) minmax(0,1fr)!important;gap:12px!important}
+html.insight-range-v175.site-calendar-v172:not(.aiderlog-android) body #app#app #stage #emotionInsightsPage .insights-v46>.insights-v32-card {padding:12px!important;border:0!important;border-radius:14px!important;background:#f5f7f4!important;min-height:0!important;box-sizing:border-box!important}
+html.insight-range-v175.site-calendar-v172:not(.aiderlog-android) body #app#app #stage #emotionInsightsPage .insight-activity-v46 {background:var(--selected-tint,#edf4f1)!important}
+html.insight-range-v175.site-calendar-v172:not(.aiderlog-android) body #app#app #stage #emotionInsightsPage .insight-summary-v46 {background:#f1f4f3!important}
+html.insight-range-v175.site-calendar-v172:not(.aiderlog-android) body #app#app #stage #emotionInsightsPage :is(.activity-v32-panel,.pattern-v32,.analysis-v32) {padding:10px!important;border:0!important;border-radius:10px!important;background:rgba(255,255,255,.72)!important}
+html.insight-range-v175.site-calendar-v172:not(.aiderlog-android) body #app#app #stage #emotionInsightsPage .top-v32-card {border-radius:10px!important;background:var(--top-tint,#e8eeeb)!important}
+html.insight-range-v175.site-calendar-v172:not(.aiderlog-android) body #app#app #stage #emotionInsightsPage .mood-v32-item {border-radius:8px!important;background:#fff!important}
+html.insight-range-v175.site-calendar-v172:not(.aiderlog-android) body #app#app #stage #emotionInsightsPage .mood-v32-item.active {background:var(--mood-tint,#dfeae4)!important}
+html.insight-range-v175.site-calendar-v172:not(.aiderlog-android) body #app#app #stage #emotionInsightsPage .insight-balance-v46 {grid-template-rows:auto minmax(110px,.6fr) auto!important;gap:6px!important}
+html.insight-range-v175.site-calendar-v172:not(.aiderlog-android) body #app#app #stage #emotionInsightsPage .insight-balance-v46 .mood-v32-donut {width:min(168px,80%)!important}
+html.insight-range-v175.site-calendar-v172:not(.aiderlog-android) body #app#app #stage #emotionInsightsPage .insight-balance-v46 .mood-v32-item {min-height:32px!important}
+html.insight-range-v175.site-calendar-v172:not(.aiderlog-android) body #app#app #stage #emotionInsightFrame .emotion-toolbar {min-height:42px!important;align-items:center!important;margin:0!important}
+@media(max-width:1180px) {
+  html.insight-range-v175.site-calendar-v172:not(.aiderlog-android) body #app#app #stage #emotionInsightsPage .insights-v46 {grid-template-columns:minmax(190px,.7fr) minmax(0,1.3fr)!important;height:auto!important;overflow:visible!important}
+  html.insight-range-v175.site-calendar-v172:not(.aiderlog-android) body #app#app #stage #emotionInsightsPage .insight-summary-v46 {grid-column:1/-1!important}
+}
+@media(max-width:700px) {
+  html.insight-range-v175.site-calendar-v172:not(.aiderlog-android) body #app#app #stage #emotionInsightsPage .insights-v46 {grid-template-columns:minmax(0,1fr)!important}
+  html.insight-range-v175.site-calendar-v172:not(.aiderlog-android) body #app#app #stage #emotionInsightsPage .insight-summary-v46 {grid-column:auto!important}
+}
+
+/* Android keeps its existing card palette and typography scaling. */
+#insights .insights-v175 .insights-head-v143 {gap:10px;flex-wrap:wrap}
+#insights .insights-v175 .insights-head-v143 h1 {margin:0;color:var(--app-on-space,#fcf9ff)!important;-webkit-text-fill-color:currentColor!important}
+#insights .insights-v175 .insight-range-v175 button {font-size:inherit!important;min-height:44px;background:var(--app-control,#e4dceb)!important;color:var(--app-text,#2d2538)!important;-webkit-text-fill-color:currentColor!important;border-color:var(--app-control-border,#847294)!important}
+#insights .insights-v175 .insight-range-v175 button[aria-pressed="true"] {background:var(--app-primary,#6e4a8e)!important;color:var(--app-on-primary,#fff)!important}
+#insights .insights-v175 .ins-range-caption-v175 {margin:0 0 12px;color:var(--app-on-space,#fcf9ff)!important;-webkit-text-fill-color:currentColor!important;font-size:.86em;opacity:1}
+#insights .insights-v175 .ins-card-v143 {padding:14px;min-height:0;height:auto;background:#fbf9fd!important;color:#342c43!important}
+#insights .insights-v175 .ins-card-v143 :is(h2,h3,b,strong,p,small,time,summary,span) {color:inherit!important;-webkit-text-fill-color:currentColor!important}
+#insights .insights-v175 .ins-card-head-v143>span {background:var(--app-primary,#6e4a8e)!important;color:var(--app-on-primary,#fff)!important}
+#insights .insights-v175 .ins-card-v143 :is(.ins-score-v143 small,.ins-activity-v143 span,.ins-recent-v143 span,.ins-trend-v175 footer,.ins-empty-v175) {color:#655e70!important}
+#insights .insights-v175 :is(.ins-activity-v143 article,.ins-recent-v143 article) {background:#f0ebf8!important;color:#342c43!important;border-color:#d8cde6!important}
+#insights .insights-v175 .ins-score-v143 {background:conic-gradient(var(--app-primary,#6e4a8e) var(--score-v175,0%),#e7dff0 0)!important}
+#insights .insights-v175 .ins-score-v143>span {color:#342c43!important;background:#fff!important}
+#insights .insights-v175 .ins-card-v143::after {display:none}
+#insights .insights-v175 .ins-empty-v175 {margin:8px 0;color:var(--theme-deep);line-height:1.5}
+#insights .insights-v175 .ins-balance-v143 {grid-template-columns:minmax(80px,.55fr) 1px minmax(0,1.45fr);gap:12px}
+#insights .insights-v175 .ins-score-v143 {min-height:0}
+#insights .insights-v175 .ins-score-v143>span {width:90px;height:90px}
+#insights .insights-v175 .ins-context-v143 p {min-width:0;overflow-wrap:anywhere}
+#insights .insights-v175 .ins-activity-v143 {grid-template-columns:repeat(2,minmax(0,1fr))}
+#insights .insights-v175 .ins-trend-v175 {margin-top:8px}
+#insights .insights-v175 .ins-trend-v175>div {display:flex;align-items:end;gap:3px;height:110px;border-bottom:1px solid var(--theme-border)}
+#insights .insights-v175 .ins-trend-v175 i {position:relative;display:block;flex:1;min-width:0;height:max(1px,var(--height));background:var(--theme-primary);border-radius:4px 4px 0 0}
+#insights .insights-v175 .ins-trend-v175 i>span {position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+#insights .insights-v175 .ins-trend-v175 footer {display:flex;justify-content:space-between;font-size:.82em;padding-top:6px}
+#insights .insights-v175 .ins-trend-detail-v175 {margin-top:12px}
+#insights .insights-v175 .ins-trend-detail-v175 summary {min-height:44px;display:flex;align-items:center;color:var(--theme-primary);cursor:pointer}
+#insights .insights-v175 .ins-trend-detail-v175 ul {list-style:none;padding:0;margin:0}
+#insights .insights-v175 .ins-trend-detail-v175 li {display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:8px 0;border-bottom:1px solid var(--theme-border)}
+@media(max-width:380px) {
+  #insights .insights-v175 .ins-balance-v143 {grid-template-columns:minmax(0,1fr)}
+  #insights .insights-v175 .ins-divider-v143 {display:none}
+  #insights .insights-v175 .ins-activity-v143 {grid-template-columns:minmax(0,1fr)}
+}

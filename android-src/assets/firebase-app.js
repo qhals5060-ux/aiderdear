@@ -1,16 +1,17 @@
 import { createConsultSync, CONSULT_KEYS } from './consult-sync-v167.js';
 import {decodeArchive,encodeArchive,encodeStoredPayload} from './archive-codec-v168.js';
+import {ddayFailure,ddayId,ddayScope,mergeDdaySources,resolveDdaySelection,preserveDdayRows,mutateDdayStore} from './dday-store-v174.js';
+import {PRIVATE_CALENDAR_VERSION,canUsePrivateIntimacy,privateCalendarFailure,privateCalendarError,privateCalendarId,privateCalendarRange,privateCalendarRevision,normalizePrivateCalendarSettings,normalizePrivateCalendarEntry,privateCalendarMutation,withoutPrivateEmotionFlags} from './private-calendar-v175.js';
+import {createFriendScheduleAdapter} from './friend-schedule-firebase-v175.js';
 const storageStampV168=()=>({storageVersion:168,formatWrittenAt:serverTimestamp()});
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js';
 import {
   browserLocalPersistence,
   getAuth,
-  getRedirectResult,
   GoogleAuthProvider,
   onAuthStateChanged,
   reauthenticateWithPopup,
   setPersistence,
-  signInWithCredential,
   signInWithPopup,
   signInWithRedirect,
   signOut,
@@ -30,6 +31,7 @@ import {
   getFirestore,
   limit,
   onSnapshot,
+  orderBy,
   query,
   runTransaction,
   serverTimestamp,
@@ -108,11 +110,12 @@ const publicUser = (user, extras = {}) => user ? {
 } : null;
 const timestampValue = value => value?.toMillis?.() || Number(value || 0);
 const plainDoc = snapshot => snapshot.exists() ? { id: snapshot.id, ...snapshot.data() } : null;
+const publicStateUserV175 = () => state.user ? {...state.user,emailVerified:auth.currentUser?.uid === state.user.uid && auth.currentUser.emailVerified === true} : null;
 
 function emit() {
   const snapshot = {
     ready: state.ready,
-    user: state.user ? { ...state.user } : null,
+    user: publicStateUserV175(),
     pair: state.pair ? { ...state.pair } : null,
     partner: state.partner ? { ...state.partner } : null,
     incoming: state.incoming.map(row => ({ ...row })),
@@ -387,6 +390,20 @@ function paperTaskWorkspaceRef() {
   return doc(db, 'sharedWorkspaces', PAPER_TASK_WORKSPACE_ID);
 }
 
+function paperAnalysisDocumentId(paperId) {
+  const value = String(paperId || '').trim();
+  if (!value) throw new Error('논문 ID가 필요합니다.');
+  const bytes = new TextEncoder().encode(value);
+  let binary = '';
+  bytes.forEach(byte => { binary += String.fromCharCode(byte); });
+  return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/g, '').slice(0, 900);
+}
+
+function paperAnalysisRef(paperId) {
+  requirePaperTaskMember();
+  return doc(db, 'sharedWorkspaces', PAPER_TASK_WORKSPACE_ID, 'paperAnalyses', paperAnalysisDocumentId(paperId));
+}
+
 function pairScope() {
   const user = requireUser();
   return state.pair
@@ -403,21 +420,6 @@ async function login() {
   state.error = '';
   const provider = new GoogleAuthProvider();
   provider.setCustomParameters({ prompt: 'select_account' });
-  // Google blocks OAuth inside embedded WebViews, while a popup delegated to a
-  // browser loses Firebase's opener. Start the authorization in the system
-  // browser and return the verified Google credential through the app link.
-  if (/\bAiderLogAndroid\//.test(navigator.userAgent) || window.AiderLogNative) {
-    if (typeof window.AiderLogNative?.startGoogleLogin !== 'function') {
-      throw new Error('Android 로그인 연결을 시작할 수 없습니다. 앱을 최신 버전으로 업데이트해주세요.');
-    }
-    const bytes = crypto.getRandomValues(new Uint8Array(24));
-    const oauthState = Array.from(bytes, value => value.toString(16).padStart(2, '0')).join('');
-    localStorage.setItem('aiderlogAndroidOAuthState', oauthState);
-    const authUrl = new URL('/android-auth.html', location.origin);
-    authUrl.searchParams.set('state', oauthState);
-    window.AiderLogNative.startGoogleLogin(authUrl.href);
-    return null;
-  }
   try {
     return await signInWithPopup(auth, provider);
   } catch (error) {
@@ -433,26 +435,6 @@ async function login() {
     }
     throw error;
   }
-}
-
-async function completeAndroidGoogleSignIn(callbackUrl) {
-  const parsed = new URL(String(callbackUrl || ''));
-  if (parsed.protocol !== 'aiderlog:' || parsed.hostname !== 'auth') {
-    throw new Error('올바르지 않은 Android 로그인 응답입니다.');
-  }
-  const expectedState = localStorage.getItem('aiderlogAndroidOAuthState') || '';
-  const returnedState = parsed.searchParams.get('state') || '';
-  localStorage.removeItem('aiderlogAndroidOAuthState');
-  if (!expectedState || !returnedState || expectedState !== returnedState) {
-    throw new Error('로그인 보안 확인에 실패했습니다. 다시 로그인해주세요.');
-  }
-  const authError = parsed.searchParams.get('error') || '';
-  if (authError) throw new Error(decodeURIComponent(authError));
-  const idToken = parsed.searchParams.get('id_token') || '';
-  const accessToken = parsed.searchParams.get('access_token') || '';
-  if (!idToken && !accessToken) throw new Error('Google 로그인 인증 정보를 받지 못했습니다.');
-  const credential = GoogleAuthProvider.credential(idToken || null, accessToken || null);
-  return signInWithCredential(auth, credential);
 }
 
 async function logout() {
@@ -954,7 +936,156 @@ async function readAppData() {
   return snapshot.exists() ? decodeArchive(snapshot.data().payload) || null : null;
 }
 
+// D-days have their own documents: a stale full app/main save cannot erase them.
+// Only the signed-in user's and their currently active pair's legacy data is read.
+function captureDdayContext() {
+  const user = requireUser(), uid = String(user.uid), pairId = String(state.pair?.id || '');
+  ddayId(uid); if (pairId) ddayId(pairId);
+  const context = {uid, pairId, email: cleanEmail(user.email), partnerEmail: cleanEmail(state.partner?.email), pairKey: eventPairKey()};
+  assertDdayContext(context); return context;
+}
+function assertDdayContext(context) {
+  if (state.user?.uid !== context.uid || auth.currentUser?.uid !== context.uid || String(state.pair?.id || '') !== context.pairId) ddayFailure('로그인 계정 또는 커플 연결이 변경되어 D-day 작업을 중단했습니다.', 409);
+}
+function ddayReferences(context) {
+  const sources = [{sourceScope: `user:${context.uid}`, base: ['users', context.uid]}];
+  if (context.pairId) sources.push({sourceScope: `pair:${context.pairId}`, base: ['pairs', context.pairId]});
+  return {sources: sources.map(source => ({...source, legacyRef: doc(db, ...source.base, 'app', 'main'), storedRef: doc(db, ...source.base, 'app', 'ddays')})), settingsRef: doc(db, 'users', context.uid, 'app', 'dday-settings')};
+}
+function ddaySnapshotPayload(snapshot) {
+  if (!snapshot.exists()) return null;
+  if (snapshot.data()?.payload == null) ddayFailure('D-day 저장 문서의 내용을 확인할 수 없습니다. 원본을 변경하지 않았습니다.');
+  return decodeArchive(snapshot.data().payload);
+}
+async function loadDdaySources(context, refs, read = getDoc) {
+  const results = await Promise.all([...refs.sources.flatMap(source => [read(source.legacyRef), read(source.storedRef)]), read(refs.settingsRef)]);
+  assertDdayContext(context);
+  return {sources: refs.sources.map((source, index) => ({sourceScope: source.sourceScope, legacy: ddaySnapshotPayload(results[index * 2]), stored: ddaySnapshotPayload(results[index * 2 + 1])})), settings: ddaySnapshotPayload(results.at(-1))};
+}
+async function readDdayDataForContext(context) {
+  const refs = ddayReferences(context);
+  // One-time, add-only protection within the original scope. Neither app/main
+  // nor another scope is changed. Existing rows and deletion markers win.
+  const result = await runTransaction(db, async transaction => {
+    assertDdayContext(context);
+    const data = await loadDdaySources(context, refs, ref => transaction.get(ref));
+    const items = mergeDdaySources(data.sources, context), active = resolveDdaySelection(items, data.settings, data.sources, context);
+    for (let index = 0; index < data.sources.length; index++) {
+      const source = data.sources[index], protectedData = preserveDdayRows(source.stored, items, source.sourceScope);
+      if (protectedData.changed) transaction.set(refs.sources[index].storedRef, ddayDocument(protectedData.store, context));
+    }
+    if (data.settings == null && active) transaction.set(refs.settingsRef, ddayDocument({version:174,activeId:active.id,activeScope:active.sourceScope}, context));
+    assertDdayContext(context);
+    return {items, activeId: active?.id || '', activeScope: active?.sourceScope || ''};
+  }, {maxAttempts:1});
+  assertDdayContext(context);
+  return result;
+}
+async function readDdayData() { return readDdayDataForContext(captureDdayContext()); }
+function ddayDocument(payload, context) {
+  const packed = encodeStoredPayload(payload);
+  if (new TextEncoder().encode(JSON.stringify(packed)).length > 850000) ddayFailure('D-day 저장 공간이 커서 저장하지 못했습니다. 원본은 유지됩니다.');
+  return {payload: packed, ...storageStampV168(), updatedAt: serverTimestamp(), updatedBy: context.uid};
+}
+async function mutateDday(input) {
+  const context = captureDdayContext(), refs = ddayReferences(context);
+  if (!input || typeof input !== 'object' || Array.isArray(input)) ddayFailure('D-day 작업을 확인해주세요.');
+  const action = JSON.parse(JSON.stringify(input)), currentScope = context.pairId ? `pair:${context.pairId}` : `user:${context.uid}`;
+  if (!['add', 'select', 'delete'].includes(action.type)) ddayFailure('지원하지 않는 D-day 작업입니다.');
+  const sourceScope = action.sourceScope ? ddayScope(action.sourceScope) : currentScope;
+  if (!refs.sources.some(source => source.sourceScope === sourceScope) || action.type === 'add' && sourceScope !== currentScope) ddayFailure('현재 사용 가능한 D-day 저장 공간이 아닙니다.', 403);
+  await runTransaction(db, async transaction => {
+    assertDdayContext(context);
+    const data = await loadDdaySources(context, refs, ref => transaction.get(ref)), visibleItems = mergeDdaySources(data.sources, context);
+    resolveDdaySelection(visibleItems, data.settings, data.sources, context);
+    const target = data.sources.find(source => source.sourceScope === sourceScope);
+    const result = mutateDdayStore(target.stored, action, {context, sourceScope, visibleItems});
+    assertDdayContext(context);
+    if (result.changed) transaction.set(refs.sources.find(source => source.sourceScope === sourceScope).storedRef, ddayDocument(result.store, context));
+    const selected = data.settings || {};
+    if (action.type === 'select' || action.type === 'add' && result.added) {
+      if (selected.activeId !== result.id || selected.activeScope !== sourceScope) transaction.set(refs.settingsRef, ddayDocument({version:174, activeId: result.id, activeScope: sourceScope}, context));
+    } else if (action.type === 'delete' && selected.activeId === result.id && selected.activeScope === sourceScope) {
+      transaction.set(refs.settingsRef, ddayDocument({version:174, activeId:'', activeScope:''}, context));
+    }
+  }, {maxAttempts:1});
+  assertDdayContext(context);
+  const result = await readDdayDataForContext(context);
+  assertDdayContext(context);
+  window.dispatchEvent(new CustomEvent('aiderdear-dday-data', {detail:{uid:context.uid,pairId:context.pairId}}));
+  return result;
+}
+
 const copyJson = value => JSON.parse(JSON.stringify(value ?? null));
+
+// Private health calendar: never stored in app/main or any shared projection.
+// Queries are bounded; a truncated range explicitly disables period estimates.
+function assertPrivateCalendarContext(context) {
+  if (state.user?.uid !== context.uid || auth.currentUser !== context.principal || auth.currentUser?.uid !== context.uid) privateCalendarFailure('로그인 계정이 변경되어 개인 캘린더 작업을 중단했습니다.', 'unauthenticated');
+}
+async function capturePrivateCalendarContext() {
+  const user = requireUser(), principal = auth.currentUser;
+  const context = {uid:privateCalendarId(user.uid), principal, canUseIntimacy:false};
+  assertPrivateCalendarContext(context);
+  const token = await principal.getIdTokenResult();
+  assertPrivateCalendarContext(context);
+  if (token.claims?.sub !== context.uid) privateCalendarFailure('로그인 정보를 다시 확인해주세요.', 'unauthenticated');
+  context.canUseIntimacy = canUsePrivateIntimacy(principal)
+    && token.claims.email_verified === true && token.claims.email === principal.email;
+  return context;
+}
+function privateCalendarRef(context, collectionName, id) {
+  return doc(db, 'users', context.uid, collectionName, id);
+}
+function privateCalendarSnapshot(snapshot, context) {
+  if (!snapshot.exists()) return null;
+  const value = snapshot.data();
+  if (value.ownerUid !== context.uid || value.version !== PRIVATE_CALENDAR_VERSION) privateCalendarFailure('개인 캘린더 저장 형식을 확인할 수 없습니다. 원본은 유지됩니다.');
+  return value;
+}
+async function readPrivateCalendarData(input) {
+  try {
+    const range = privateCalendarRange(input), context = await capturePrivateCalendarContext();
+    const periodQuery = query(collection(db, 'users', context.uid, 'menstrualEntries'), where('startDate', '>=', range.historyFrom), where('startDate', '<=', range.to), orderBy('startDate', 'desc'), limit(201));
+    const reads = [getDoc(privateCalendarRef(context, 'healthCalendar', 'settings')), getDocs(periodQuery)];
+    if (context.canUseIntimacy) reads.push(getDocs(query(collection(db, 'users', context.uid, 'intimacyEntries'), where('date', '>=', range.from), where('date', '<=', range.to), orderBy('date', 'desc'), limit(201))));
+    const [settingsSnapshot, periodSnapshot, intimacySnapshot] = await Promise.all(reads);
+    assertPrivateCalendarContext(context);
+    const unpack = (snapshot, kind) => (snapshot?.docs || []).slice(0, 200).map(row => {
+      const value = privateCalendarSnapshot(row, context);
+      if (!value || value.id !== row.id || value.deleted === true) privateCalendarFailure('개인 기록 형식을 확인할 수 없습니다. 원본은 유지됩니다.');
+      return normalizePrivateCalendarEntry(kind, value, true);
+    });
+    return {settings:normalizePrivateCalendarSettings(privateCalendarSnapshot(settingsSnapshot, context)), periods:unpack(periodSnapshot, 'period'), intimacy:unpack(intimacySnapshot, 'intimacy'), canUseIntimacy:context.canUseIntimacy, hasMore:{periods:periodSnapshot.docs.length > 200, intimacy:(intimacySnapshot?.docs.length || 0) > 200}};
+  } catch (error) { throw privateCalendarError(error); }
+}
+async function mutatePrivateCalendar(input) {
+  try {
+    // Validate before network and preserve the caller's input through all awaits.
+    const action = JSON.parse(JSON.stringify(input || {}));
+    privateCalendarRevision(action.expectedRevision);
+    privateCalendarMutation({...action, expectedRevision:0}, null);
+    const context = await capturePrivateCalendarContext(), type = action.type;
+    if (type.startsWith('intimacy-') && !context.canUseIntimacy) privateCalendarFailure('이 계정에서는 관계일 기록을 사용할 수 없습니다.', 'permission-denied');
+    const collectionName = type === 'settings' ? 'healthCalendar' : type.startsWith('period-') ? 'menstrualEntries' : 'intimacyEntries';
+    const id = type === 'settings' ? 'settings' : privateCalendarId(action.item?.id || action.id);
+    const ref = privateCalendarRef(context, collectionName, id);
+    const result = await runTransaction(db, async transaction => {
+      assertPrivateCalendarContext(context);
+      const snapshot = await transaction.get(ref);
+      assertPrivateCalendarContext(context);
+      const previous = privateCalendarSnapshot(snapshot, context), result = privateCalendarMutation(action, previous);
+      if (result.changed) {
+        const row = result.settings || result.item || {id:result.id, revision:result.revision, deleted:true};
+        transaction.set(ref, {...row, ownerUid:context.uid, version:PRIVATE_CALENDAR_VERSION, createdAt:previous?.createdAt || serverTimestamp(), updatedAt:serverTimestamp()});
+      }
+      return result;
+    }, {maxAttempts:1});
+    assertPrivateCalendarContext(context);
+    window.dispatchEvent(new CustomEvent('aiderdear-private-calendar-data', {detail:{uid:context.uid}}));
+    return result;
+  } catch (error) { throw privateCalendarError(error); }
+}
 
 function eventPairKey() {
   const emails = (Array.isArray(state.pair?.memberEmails) ? state.pair.memberEmails : [])
@@ -1409,6 +1540,35 @@ function watchPaperTaskData(callback) {
   );
 }
 
+async function readPaperAnalysis(paperId) {
+  const snapshot = await getDoc(paperAnalysisRef(paperId));
+  if (!snapshot.exists()) return null;
+  const row = snapshot.data() || {};
+  return decodeArchive(row.payload) || null;
+}
+
+async function writePaperAnalysis(paperId, payload) {
+  const user = requirePaperTaskMember();
+  const cleanPayload = JSON.parse(JSON.stringify(payload || {}));
+  const bytes = new TextEncoder().encode(JSON.stringify(cleanPayload)).byteLength;
+  if (bytes > 850000) throw new Error('분석 결과가 너무 큽니다. 표·그림 원본 파일은 제외하고 JSON 설명만 저장해주세요.');
+  await setDoc(paperAnalysisRef(paperId), {
+    paperId: String(paperId),
+    schema: String(cleanPayload.schema || ''),
+    payload: encodeStoredPayload(cleanPayload), ...storageStampV168(),
+    byteSize: bytes,
+    updatedAt: serverTimestamp(),
+    updatedBy: user.uid,
+    updatedByEmail: user.email,
+  });
+  return { paperId: String(paperId), byteSize: bytes };
+}
+
+async function deletePaperAnalysis(paperId) {
+  requirePaperTaskMember();
+  await deleteDoc(paperAnalysisRef(paperId));
+}
+
 function emotionRef(uid) {
   const user = requireUser();
   if (state.pair) return doc(db, 'pairs', state.pair.id, 'emotions', uid);
@@ -1428,7 +1588,7 @@ async function writeEmotionData(payload) {
   const ownPairRef = emotionRef(user.uid);
   const writes = [setDoc(ownSoloRef, { payload: safePayload, ...storageStampV168(), updatedAt: serverTimestamp() })];
   if (ownPairRef.path !== ownSoloRef.path) {
-    writes.push(setDoc(ownPairRef, { payload: safePayload, ...storageStampV168(), updatedAt: serverTimestamp() }));
+    writes.push(setDoc(ownPairRef, { payload: encodeStoredPayload(withoutPrivateEmotionFlags(payload)), ...storageStampV168(), updatedAt: serverTimestamp() }));
   }
   await Promise.all(writes);
 }
@@ -2005,8 +2165,8 @@ async function submitClientIntake(token, payload = {}) {
     status: 'new',
     createdAt: serverTimestamp(),
   };
-  if (!data.name || !data.phone || !applicationYear || !applicationSemester) {
-    throw new Error('이름, 연락처, 진학 희망 학년도와 학기를 모두 입력해주세요.');
+  if (!data.name || !data.phone || !data.email || !data.birthYear || !data.gender || !applicationYear || !applicationSemester) {
+    throw new Error('개인 정보와 진학 희망 학년도·학기를 모두 입력해주세요.');
   }
   if ((data.gpa && !data.gpaScale) || (!data.gpa && data.gpaScale)) {
     throw new Error('학점과 학점 만점을 함께 입력해주세요.');
@@ -2059,10 +2219,18 @@ async function createLabNotebookLinks(existing = []) {
     catch (error) {
       console.info('[lab-notebook] creating a new fixed researcher link', index + 1);
     }
-    const payload = { ownerUid:user.uid, ownerEmail:intakeText(user.email,120).toLowerCase(), researcherName:intakeText(old.researcherName || `연구원 ${index + 1}`,60), label:intakeText(old.label || `LAB NOTE ${String(index + 1).padStart(2,'0')}`,80), slot:index + 1, active:true, updatedAt:serverTimestamp() };
-    if (snapshot?.exists()) await setDoc(ref, payload, { merge:true });
-    else await setDoc(ref, { ...payload, createdAt:serverTimestamp() });
-    rows.push({ token, researcherName:payload.researcherName, label:payload.label, slot:payload.slot });
+    const payload = {
+      ownerUid: user.uid,
+      ownerEmail: intakeText(user.email, 120).toLowerCase(),
+      researcherName: intakeText(old.researcherName || `연구원 ${index + 1}`, 60),
+      label: intakeText(old.label || `LAB NOTE ${String(index + 1).padStart(2, '0')}`, 80),
+      slot: index + 1,
+      active: true,
+      updatedAt: serverTimestamp(),
+    };
+    if (snapshot?.exists()) await setDoc(ref, payload, { merge: true });
+    else await setDoc(ref, { ...payload, createdAt: serverTimestamp() });
+    rows.push({ token, researcherName: payload.researcherName, label: payload.label, slot: payload.slot });
   }
   return rows;
 }
@@ -2075,23 +2243,31 @@ async function getLabNotebookLink(token) {
 async function submitLabNotebook(token, payload = {}, originalFiles = []) {
   const link = await getDoc(labNotebookRef(token));
   if (!link.exists() || link.data().active !== true) throw new Error('만료되었거나 비활성화된 실험노트 링크입니다.');
-  const files = Array.from(originalFiles || []).slice(0,3);
+  const files = Array.from(originalFiles || []).slice(0, 3);
   for (const file of files) {
     if (!/^(image|video)\//.test(file.type || '')) throw new Error('사진 또는 영상 파일만 첨부할 수 있습니다.');
     if (file.size > 25 * 1024 * 1024) throw new Error('첨부 파일은 각각 25MB 이하여야 합니다.');
   }
   const ref = doc(collection(labNotebookRef(token), 'submissions'));
-  const media = files.map((file,index) => ({ id:`labm-${Date.now()}-${index}-${crypto.randomUUID().slice(0,8)}`, name:intakeText(file.name,160), type:intakeText(file.type,100), size:file.size }));
-  const data = { researcher:intakeText(payload.researcher,60), performedAt:intakeText(payload.performedAt,30), title:intakeText(payload.title,160), project:intakeText(payload.project,120), code:intakeText(payload.code,80), protocol:intakeText(payload.protocol,80), batch:intakeText(payload.batch,100), purpose:intakeText(payload.purpose,2000), materials:intakeText(payload.materials,3000), procedure:intakeText(payload.procedure,5000), qcCriteria:intakeText(payload.qcCriteria,400), qcResult:['확인 전','통과','조건부 통과','재실험 필요'].includes(payload.qcResult)?payload.qcResult:'확인 전', result:intakeText(payload.result,5000), nextAction:intakeText(payload.nextAction,1200), media, source:'external-lab-notebook-v158', status:'new', createdAt:serverTimestamp() };
+  const media = files.map((file, index) => ({ id:`labm-${Date.now()}-${index}-${crypto.randomUUID().slice(0,8)}`, name:intakeText(file.name,160), type:intakeText(file.type,100), size:file.size }));
+  const data = {
+    researcher:intakeText(payload.researcher,60), performedAt:intakeText(payload.performedAt,30),
+    title:intakeText(payload.title,160), project:intakeText(payload.project,120), code:intakeText(payload.code,80),
+    protocol:intakeText(payload.protocol,80), batch:intakeText(payload.batch,100), purpose:intakeText(payload.purpose,2000),
+    materials:intakeText(payload.materials,3000), procedure:intakeText(payload.procedure,5000),
+    qcCriteria:intakeText(payload.qcCriteria,400), qcResult:['확인 전','통과','조건부 통과','재실험 필요'].includes(payload.qcResult)?payload.qcResult:'확인 전',
+    result:intakeText(payload.result,5000), nextAction:intakeText(payload.nextAction,1200), media,
+    source:'external-lab-notebook-v158', status:'new', createdAt:serverTimestamp(),
+  };
   if (!data.researcher || !data.performedAt || !data.title || !data.procedure || !data.result) throw new Error('연구원, 일시, 제목, 절차와 결과를 입력해주세요.');
   await setDoc(ref, data);
   for (let fileIndex = 0; fileIndex < files.length; fileIndex += 1) {
-    const file = files[fileIndex], descriptor = media[fileIndex], mediaRef = doc(ref,'media',descriptor.id);
+    const file = files[fileIndex], descriptor = media[fileIndex], mediaRef = doc(ref, 'media', descriptor.id);
     await setDoc(mediaRef, { ...descriptor, createdAt:serverTimestamp() });
-    const bytes = new Uint8Array(await file.arrayBuffer()), chunkSize = 700 * 1024, chunks = collection(mediaRef,'chunks');
+    const bytes = new Uint8Array(await file.arrayBuffer()), chunkSize = 700 * 1024, chunks = collection(mediaRef, 'chunks');
     let batch = writeBatch(db), operations = 0;
     for (let offset = 0, index = 0; offset < bytes.length; offset += chunkSize, index += 1) {
-      batch.set(doc(chunks,String(index).padStart(5,'0')), { data:Bytes.fromUint8Array(bytes.slice(offset,Math.min(bytes.length,offset + chunkSize))) });
+      batch.set(doc(chunks, String(index).padStart(5, '0')), { data:Bytes.fromUint8Array(bytes.slice(offset, Math.min(bytes.length, offset + chunkSize))) });
       operations += 1;
       if (operations === 400) { await batch.commit(); batch = writeBatch(db); operations = 0; }
     }
@@ -2102,19 +2278,19 @@ async function submitLabNotebook(token, payload = {}, originalFiles = []) {
 async function readLabNotebookSubmissions(links = []) {
   requirePaperTaskMember();
   const rows = [];
-  for (const link of (Array.isArray(links) ? links : []).slice(0,5)) {
+  for (const link of (Array.isArray(links) ? links : []).slice(0, 5)) {
     if (!LAB_NOTEBOOK_TOKEN.test(String(link?.token || ''))) continue;
-    const snapshot = await getDocs(query(collection(labNotebookRef(link.token),'submissions'),limit(200)));
+    const snapshot = await getDocs(query(collection(labNotebookRef(link.token), 'submissions'), limit(200)));
     snapshot.docs.forEach(item => rows.push({ id:item.id, token:link.token, slot:link.slot, linkLabel:link.label, ...item.data(), createdAt:timestampValue(item.data().createdAt) }));
   }
   return rows.sort((a,b)=>Number(b.createdAt||0)-Number(a.createdAt||0));
 }
 async function readLabNotebookMedia(token, submissionId, mediaId) {
   requirePaperTaskMember();
-  const ref = doc(labNotebookRef(token),'submissions',String(submissionId),'media',String(mediaId));
+  const ref = doc(labNotebookRef(token), 'submissions', String(submissionId), 'media', String(mediaId));
   const metaSnapshot = await getDoc(ref);
   if (!metaSnapshot.exists()) throw new Error('실험노트 첨부 파일을 찾을 수 없습니다.');
-  const meta = metaSnapshot.data(), chunkSnapshot = await getDocs(collection(ref,'chunks'));
+  const meta = metaSnapshot.data(), chunkSnapshot = await getDocs(collection(ref, 'chunks'));
   const parts = chunkSnapshot.docs.sort((a,b)=>a.id.localeCompare(b.id)).map(item=>item.data().data.toUint8Array());
   return new Blob(parts,{type:meta.type||'application/octet-stream'});
 }
@@ -2139,17 +2315,22 @@ async function compactQuarterly(){
   }finally{archiveBusyV168=false}
 }
 
+const friendScheduleAdapterV175 = createFriendScheduleAdapter({db,getContext:()=>{
+  const user=requireUser();
+  if(auth.currentUser?.uid!==user.uid)throw Object.assign(new Error('로그인 계정이 변경되었습니다.'),{code:'unauthenticated'});
+  return {user,friends:state.friends};
+}});
+
 const api = {
   compactQuarterly,
   config: { projectId: firebaseConfig.projectId, authDomain: firebaseConfig.authDomain },
-  getState: () => ({ ...state }),
+  getState: () => ({ ...state, user:publicStateUserV175() }),
   subscribe(callback) {
     subscribers.add(callback);
-    callback({ ...state });
+    callback({ ...state, user:publicStateUserV175() });
     return () => subscribers.delete(callback);
   },
   login,
-  completeAndroidGoogleSignIn,
   logout,
   createInvite,
   acceptInvite,
@@ -2165,11 +2346,19 @@ const api = {
   sendDirectLetter,
   markDirectLetterRead,
   readAppData,
+  readDdayData,
+  mutateDday,
+  readPrivateCalendarData,
+  mutatePrivateCalendar,
   migrateEventWorkspace,
   writeAppData,
   readScheduleData,
   writeScheduleData,
   watchScheduleData,
+  readFriendSchedule: friendScheduleAdapterV175.read,
+  friendScheduleTargets: friendScheduleAdapterV175.targets,
+  setFriendScheduleTargets: friendScheduleAdapterV175.setTargets,
+  removeFriendSchedule: friendScheduleAdapterV175.remove,
   getFirebaseIdToken,
   readPrivateData,
   writePrivateData,
@@ -2177,6 +2366,9 @@ const api = {
   readPaperTaskData,
   writePaperTaskData,
   watchPaperTaskData,
+  readPaperAnalysis,
+  writePaperAnalysis,
+  deletePaperAnalysis,
   readEmotionData,
   writeEmotionData,
   uploadMedia,
@@ -2219,15 +2411,6 @@ window.AiderDearFirebase = api;
 window.dispatchEvent(new CustomEvent('aiderdear-firebase-ready'));
 
 await setPersistence(auth, browserLocalPersistence);
-let pendingRedirectError = '';
-try {
-  await getRedirectResult(auth);
-} catch (error) {
-  console.error('[android-auth] redirect-result-failed', error?.code || error?.message || String(error));
-  pendingRedirectError = error?.code === 'auth/unauthorized-domain'
-    ? '현재 주소가 Firebase 승인 도메인에 등록되지 않았습니다.'
-    : (error?.message || 'Google 로그인 결과를 확인하지 못했습니다. 다시 로그인해주세요.');
-}
 onAuthStateChanged(auth, async user => {
   stopListeners();
   state.user = null;
@@ -2239,10 +2422,19 @@ onAuthStateChanged(auth, async user => {
   state.friendIncoming = [];
   state.friendOutgoing = [];
   state.directLetters = [];
-  state.error = pendingRedirectError;
-  pendingRedirectError = '';
+  state.error = '';
+  state.ready=false;
+  emit();
   if (user) {
     try {
+      // Employee accounts never enter the general site's profile/listener boot.
+      // This self-only lookup contains no employee private records.
+      const workIdentity=await getDoc(doc(db,'workIdentities',user.uid));
+      if(auth.currentUser?.uid!==user.uid)return;
+      if(workIdentity.data()?.kind==='employee'){
+        state.ready=true;state.error='직원 개인 페이지로 이동합니다.';emit();
+        location.replace(new URL('./employee.html',location.href).href);return;
+      }
       state.user = await ensureUserProfile(user);
       startListeners(user);
       propagateMemberProfile(state.user).catch(error => console.warn('Connected profile sync skipped', error));

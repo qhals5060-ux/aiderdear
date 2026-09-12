@@ -91,6 +91,71 @@ service cloud.firestore {
     }
 
     match /users/{userId} {
+      function privateCalendarOwner() {
+        return signedIn() && request.auth.uid == userId;
+      }
+      function privateIntimacyOwner() {
+        return privateCalendarOwner()
+          && request.auth.token.get('email_verified', false) == true
+          && request.auth.token.get('email', '') in ['qhals5060@gmail.com', 'aidway55@gmail.com'];
+      }
+      function privateCalendarStamp() {
+        return request.resource.data.ownerUid == userId
+          && request.resource.data.version == 175
+          && request.resource.data.revision is int
+          && request.resource.data.revision >= 1 && request.resource.data.revision <= 1000000000
+          && request.resource.data.updatedAt == request.time
+          && ((resource == null && request.resource.data.createdAt == request.time && request.resource.data.revision == 1)
+            || (resource != null && request.resource.data.createdAt == resource.data.createdAt
+              && request.resource.data.revision == resource.data.revision + 1));
+      }
+      function privateCalendarDate(value) {
+        return value is string && value.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
+          && value >= '1900-01-01' && value <= '2200-12-31';
+      }
+      function privateCalendarRecordBase(entryId) {
+        return privateCalendarStamp()
+          && entryId.matches('^[A-Za-z0-9_-]{1,128}$')
+          && request.resource.data.id == entryId
+          && (resource == null || resource.data.get('deleted', false) != true);
+      }
+      function privateCalendarTombstone(entryId) {
+        return resource != null && privateCalendarRecordBase(entryId)
+          && request.resource.data.keys().hasOnly(['id','revision','deleted','ownerUid','version','createdAt','updatedAt'])
+          && request.resource.data.deleted == true;
+      }
+      match /healthCalendar/{documentId} {
+        allow get: if privateCalendarOwner() && documentId == 'settings';
+        allow list, delete: if false;
+        allow create, update: if privateCalendarOwner() && documentId == 'settings'
+          && privateCalendarStamp()
+          && request.resource.data.keys().hasOnly(['menstrualEnabled','cycleLength','periodLength','revision','ownerUid','version','createdAt','updatedAt'])
+          && request.resource.data.menstrualEnabled is bool
+          && request.resource.data.cycleLength is int && request.resource.data.cycleLength >= 15 && request.resource.data.cycleLength <= 90
+          && request.resource.data.periodLength is int && request.resource.data.periodLength >= 1 && request.resource.data.periodLength <= 30;
+      }
+      match /menstrualEntries/{entryId} {
+        allow get: if privateCalendarOwner();
+        allow list: if privateCalendarOwner() && request.query.limit != null && request.query.limit <= 201;
+        allow create, update: if privateCalendarOwner() && (privateCalendarTombstone(entryId)
+          || (privateCalendarRecordBase(entryId)
+            && request.resource.data.keys().hasOnly(['id','startDate','endDate','note','revision','ownerUid','version','createdAt','updatedAt'])
+            && privateCalendarDate(request.resource.data.startDate) && privateCalendarDate(request.resource.data.endDate)
+            && request.resource.data.endDate >= request.resource.data.startDate
+            && request.resource.data.note is string && request.resource.data.note.size() <= 500));
+        allow delete: if false;
+      }
+      match /intimacyEntries/{entryId} {
+        allow get: if privateIntimacyOwner();
+        allow list: if privateIntimacyOwner() && request.query.limit != null && request.query.limit <= 201;
+        allow create, update: if privateIntimacyOwner() && (privateCalendarTombstone(entryId)
+          || (privateCalendarRecordBase(entryId)
+            && request.resource.data.keys().hasOnly(['id','date','note','revision','ownerUid','version','createdAt','updatedAt'])
+            && privateCalendarDate(request.resource.data.date)
+            && request.resource.data.note is string && request.resource.data.note.size() <= 500));
+        allow delete: if false;
+      }
+
       allow create: if signedIn()
         && request.auth.uid == userId
         && request.resource.data.uid == userId
@@ -339,6 +404,46 @@ service cloud.firestore {
     }
 
     match /friendships/{friendshipId} {
+      // An explicit per-friend, personal-schedule-only public projection.
+      // Private calendar dates and business originals are not stored here.
+      match /scheduleShares/{shareId} {
+        function activeScheduleFriend() {
+          return signedIn()
+            && exists(/databases/$(database)/documents/friendships/$(friendshipId))
+            && get(/databases/$(database)/documents/friendships/$(friendshipId)).data.status == 'active'
+            && get(/databases/$(database)/documents/friendships/$(friendshipId)).data.memberUids.size() == 2
+            && request.auth.uid in get(/databases/$(database)/documents/friendships/$(friendshipId)).data.memberUids;
+        }
+        function scheduleShareDate(value) {
+          return value is string && value.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
+            && value >= '1900-01-01' && value <= '2200-12-31';
+        }
+        function scheduleShareTime(value) {
+          return value is string && (value == '' || value.matches('^([01][0-9]|2[0-3]):[0-5][0-9]$'));
+        }
+        function validScheduleShare() {
+          return request.resource.data.keys().hasOnly(['source','sourceEventId','ownerUid','ownerEmail','friendshipId','title','date','endDate','time','endTime','allDay','updatedAt'])
+            && request.resource.data.source == 'personal'
+            && request.resource.data.ownerUid == request.auth.uid
+            && request.resource.data.ownerEmail == currentEmail()
+            && request.resource.data.friendshipId == friendshipId
+            && request.resource.data.sourceEventId is string && request.resource.data.sourceEventId.size() >= 1 && request.resource.data.sourceEventId.size() <= 300
+            && request.resource.data.title is string && request.resource.data.title.size() >= 1 && request.resource.data.title.size() <= 200
+            && scheduleShareDate(request.resource.data.date) && scheduleShareDate(request.resource.data.endDate)
+            && request.resource.data.endDate >= request.resource.data.date
+            && scheduleShareTime(request.resource.data.time) && scheduleShareTime(request.resource.data.endTime)
+            && request.resource.data.allDay is bool
+            && request.resource.data.updatedAt == request.time;
+        }
+        allow get: if activeScheduleFriend();
+        allow list: if activeScheduleFriend() && request.query.limit != null && request.query.limit <= 100;
+        allow create: if activeScheduleFriend() && validScheduleShare();
+        allow update: if activeScheduleFriend() && validScheduleShare()
+          && resource.data.ownerUid == request.auth.uid
+          && request.resource.data.sourceEventId == resource.data.sourceEventId;
+        allow delete: if activeScheduleFriend() && resource.data.ownerUid == request.auth.uid;
+      }
+
       allow create: if signedIn()
         && getAfter(/databases/$(database)/documents/friendInvites/$(friendshipId)).data.status == 'accepted'
         && getAfter(/databases/$(database)/documents/friendInvites/$(friendshipId)).data.friendshipId == friendshipId

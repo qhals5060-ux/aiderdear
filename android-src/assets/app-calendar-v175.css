@@ -1,0 +1,44 @@
+/* Calendar-specific additions retain the app's existing theme and font scales. */
+#home [data-schedule-date-v125] {position:relative}
+#home .calendar-status-icons {position:absolute;right:3px;top:3px;display:flex;align-items:center;justify-content:flex-end;gap:2px;max-width:calc(100% - 20px);z-index:2}
+#home .calendar-status-icon,#home .calendar-status-icons .schedule-emotion-v145 {position:relative!important;inset:auto!important;display:inline-flex;align-items:center;justify-content:center;flex:0 0 14px;width:14px!important;height:14px!important;margin:0!important;padding:1px;border-radius:50%;box-sizing:border-box;line-height:1}
+#home .calendar-status-icons .schedule-emotion-v145 img {width:12px;height:12px;object-fit:contain}
+#home .calendar-status-icons .schedule-emotion-v145.is-own {background:var(--theme-primary,#6255e8)}
+#home .calendar-status-icons .schedule-emotion-v145.is-partner {background:#ef9cae}
+#home .calendar-status-icon.period,#home .calendar-status-icon.period-estimate {background:transparent}
+#home .calendar-period-drop {display:block;width:8px;height:10px;background:#d84650;border-radius:70% 35% 65% 55%;transform:rotate(35deg)}
+#home .period-estimate .calendar-period-drop {background:#eab0b5;opacity:.65}
+#home .calendar-status-icon.intimacy {color:#ec6b97;background:transparent;font-size:13px}
+#home .private-calendar-actions-v175 {display:flex!important;gap:4px;flex-wrap:wrap;justify-content:flex-end;grid-column:1/-1!important;width:100%!important;max-width:none!important;flex:1 0 100%!important}
+#home .private-calendar-actions-v175:empty {display:none}
+#home.schedule-cosmic-v119 .schedule-calhead-v119:has(.private-calendar-actions-v175) {align-items:flex-start!important}
+#home.schedule-cosmic-v119 .schedule-calctl-v119:has(.private-calendar-actions-v175) {flex-wrap:wrap!important;min-width:0!important;max-width:100%!important;row-gap:5px!important}
+#home.schedule-cosmic-v119 .schedule-calctl-v119>.private-calendar-actions-v175 {flex-basis:100%!important;width:100%!important;min-width:0!important;margin:0!important;padding:0!important;justify-content:flex-end!important}
+html body #home.schedule-cosmic-v119 .schedule-calctl-v119>.private-calendar-actions-v175>button {width:auto!important;min-width:76px!important;max-width:none!important;min-height:36px!important;height:auto!important;padding:6px 9px!important;flex:0 0 auto!important;white-space:nowrap!important}
+#home .private-calendar-actions-v175 button {min-width:70px!important;width:auto!important;min-height:36px!important;height:auto!important;padding:6px 9px!important;flex:0 0 auto!important;font:inherit!important;font-size:.8em!important;white-space:nowrap}
+.schedule-dialog-v125 .schedule-source-grid-v148 {display:none!important}
+.profile-overlay-v137 .profile-sheet-v137 {max-height:calc(100dvh - 24px);height:auto;padding:14px!important;gap:10px!important;overflow:auto}
+.profile-overlay-v137 .profile-head-v137 {margin:0 0 8px!important;padding:0!important}
+.profile-overlay-v137 .profile-identity-v137 {padding:8px!important;margin-bottom:8px!important}
+.profile-overlay-v137 .profile-avatar-v137 {width:38px!important;height:38px!important;font-size:1.2em!important}
+.profile-overlay-v137 .profile-section-v137 {padding:9px 0!important;margin:0!important}
+.profile-overlay-v137 .profile-section-v137 header {margin-bottom:6px!important}
+.profile-overlay-v137 .profile-theme-grid-v137 {gap:7px!important}
+.profile-overlay-v137 .profile-theme-v137 {min-height:38px!important;padding:5px!important}
+.profile-overlay-v137 .profile-foot-v137 {padding-top:8px!important;margin-top:0!important}
+.profile-birth-v175 {display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 8px;align-items:end;margin:8px 0;color:var(--app-text,#2d2538);color-scheme:inherit}
+.profile-birth-v175>label {display:flex;gap:5px;align-items:center;flex-wrap:wrap;font-size:.85em}
+.profile-birth-v175 input,.profile-birth-v175 select {max-width:100%;min-width:0;min-height:36px;font:inherit;color:inherit!important;-webkit-text-fill-color:currentColor!important;color-scheme:inherit;background:var(--app-input,#fff)!important;border:1px solid var(--app-border,#c1b4cc);border-radius:8px;padding:6px}
+.profile-birth-v175 label:has(#loginBirthDate) {display:grid;grid-template-columns:minmax(0,1fr) auto;gap:5px;align-items:center}
+.profile-birth-v175 label:has(#loginBirthDate)>span {grid-column:1;grid-row:1}
+.profile-birth-v175 #privateCalendarProfileV175 {grid-column:2;grid-row:1;white-space:nowrap}
+.profile-birth-v175 input[type="date"] {grid-column:1/-1;grid-row:2;width:100%}
+.profile-birth-v175 button {min-height:36px;font:inherit;font-size:.85em;border:0;border-radius:8px;padding:6px 9px;background:var(--app-primary,#6e4a8e);color:var(--app-on-primary,#fff)}
+.profile-birth-v175 [role="status"] {grid-column:1/-1;margin:0;font-size:.8em;color:inherit}
+.profile-birth-v175 [role="status"]:empty {display:none}
+.profile-birth-v175 [hidden] {display:none!important}
+.dday-dialog-v125 [data-dday-status-v175] {padding:0 14px;margin:6px 0;white-space:pre-wrap;font-size:.9em}
+.dday-dialog-v125 [data-dday-status-v175]:empty {display:none}
+.dday-dialog-v125 [data-dday-retry-v175] {margin:5px 14px;min-height:40px}
+.dday-dialog-v125 .dday-form-v125 select {height:40px;font:inherit;border-radius:8px;border:1px solid var(--theme-border);padding:6px}
+@media(max-height:650px){.profile-overlay-v137 .profile-identity-v137 {display:none}.profile-overlay-v137 .profile-section-v137 {padding:5px 0!important}}

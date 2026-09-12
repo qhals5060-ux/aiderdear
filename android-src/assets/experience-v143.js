@@ -128,37 +128,12 @@
   }
 
   function insightRows(){try{return window.AiderLogInsightsV126?.rows?.()||[]}catch{return[]}}
-  function rowDate(row){return String(row?.date||row?.createdDate||row?.day||'').slice(0,10)}
-  function listValues(row,keys){for(const key of keys){const value=row?.[key];if(Array.isArray(value)&&value.length)return value.map(String);if(typeof value==='string'&&value.trim())return value.split(/[,·/]/).map(x=>x.trim()).filter(Boolean)}return[]}
-  function moods(row){return listValues(row,['emotions','emotion','moods','mood'])}
-  function count(rows,getter){const map=new Map();rows.forEach(row=>getter(row).forEach(value=>map.set(value,(map.get(value)||0)+1)));return [...map.entries()].sort((a,b)=>b[1]-a[1])}
-  function recentDayRows(rows){
-    return [2,1,0].map(offset=>{const date=new Date();date.setDate(date.getDate()-offset);const key=date.toISOString().slice(0,10),day=rows.filter(row=>rowDate(row)===key),rank=count(day,moods);return{label:['일','월','화','수','목','금','토'][date.getDay()],key,top:rank[0]?.[0]||'기록 없음',count:day.length}});
-  }
   function renderInsightsV143(){
-    const root=$('#insights');if(!root)return;
-    root.dataset.v143Rendered='1';
-    const all=insightRows(),cutoff=new Date();cutoff.setHours(0,0,0,0);cutoff.setDate(cutoff.getDate()-29);
-    const recent=all.filter(row=>{const value=new Date(`${rowDate(row)}T00:00:00`);return !Number.isNaN(value.valueOf())&&value>=cutoff});
-    const basis=recent.length?recent:all,moodRank=count(basis,moods),top=moodRank[0]?.[0]||'편안함',total=Math.max(1,moodRank.reduce((sum,row)=>sum+row[1],0));
-    const top3=(moodRank.length?moodRank:[['편안함',0],['행복',0],['피곤함',0]]).slice(0,3);while(top3.length<3)top3.push([['편안함','행복','피곤함'][top3.length],0]);
-    const activityRank=count(basis,row=>listValues(row,['currentActivities','activity','action'])),placeRank=count(basis,row=>listValues(row,['location','place'])),peopleRank=count(basis,row=>listValues(row,['people','companion']));
-    const intensity=basis.map(row=>Number(row.intensity||row.strength||row.score)).filter(Number.isFinite),avg=intensity.length?(intensity.reduce((a,b)=>a+b,0)/intensity.length).toFixed(1):'—';
-    const mainActivity=activityRank[0]?.[0]||'저녁 산책',mainPlace=placeRank[0]?.[0]||'집',mainPeople=peopleRank[0]?.[0]||'혼자';
-    const todayKey=new Date().toISOString().slice(0,10),today=basis.filter(row=>rowDate(row)===todayKey),todayTop=count(today,moods)[0]?.[0]||top;
-    const recent3=recentDayRows(all);
-    const barColors=['var(--theme-primary)','#4f7ef3','#f07872'];
-    root.innerHTML=`<div class="insights-v143">
-      <header class="insights-head-v143"><div><small>INSIGHTS</small><h1>마음 인사이트</h1></div><select class="insights-range-v143" aria-label="인사이트 기간"><option>최근 30일</option></select></header>
-      <div class="insights-stack-v143">
-        <article class="ins-card-v143"><header class="ins-card-head-v143"><span>1</span><h2>오늘 요약</h2></header><div class="ins-summary-v143"><div class="ins-summary-lines-v143"><p><b>TODAY · ONE LINE</b><span>${safe(today.length?`${todayTop}이 오늘의 중심을 잡아줬어요.`:'오늘의 마음을 한 줄로 기록해보세요.')}</span></p><p><b>TOP EMOTION</b><span>${safe(todayTop)} ${today.length?Math.round((count(today,moods)[0]?.[1]||1)/Math.max(1,count(today,moods).reduce((s,x)=>s+x[1],0))*100):0}%</span></p><p><b>ACTIVITY</b><span>${safe(mainActivity)} · 20분 추천</span></p></div><div class="ins-orb-v143" aria-hidden="true"></div></div></article>
-        <article class="ins-card-v143"><header class="ins-card-head-v143"><span>2</span><h2>감정 균형</h2></header><div class="ins-balance-v143"><div class="ins-score-v143"><span><span><strong>${avg}</strong><small>/ 5 · ${basis.length}회 기록</small></span></span></div><i class="ins-divider-v143"></i><div class="ins-bars-v143"><h3>자주 느낀 감정 TOP 3</h3>${top3.map(([label,value],index)=>`<div class="ins-bar-v143" style="--value:${Math.round(value/total*100)}%;--bar:${barColors[index]}"><span>${safe(label)}</span><i></i><b>${Math.round(value/total*100)}%</b></div>`).join('')}</div></div></article>
-        <article class="ins-card-v143"><header class="ins-card-head-v143"><span>3</span><h2>기록 환경 분석</h2></header><div class="ins-context-v143"><p><b>◷ 시간대</b><span>${safe(basis[0]?.time?`${basis[0].time} 전후`:'저녁 8–10시')}</span></p><p><b>⌂ 장소 · 함께한 사람</b><span>${safe(mainPlace)} · ${safe(mainPeople)}</span></p><p><b>↗ 상황</b><span>${safe(activityRank[0]?.[0]||'휴식 후 안정')}</span></p></div></article>
-        <article class="ins-card-v143"><header class="ins-card-head-v143"><span>4</span><h2>감정 흐름 분석</h2></header><div class="ins-chart-legend-v143"><span><i style="background:var(--theme-primary)"></i>${safe(top3[0][0])}</span><span><i style="background:#4f7ef3"></i>${safe(top3[1][0])}</span><span><i style="background:#f07872"></i>${safe(top3[2][0])}</span></div><svg class="ins-chart-v143" viewBox="0 0 700 190" preserveAspectRatio="none" aria-label="최근 30일 감정 흐름"><path class="grid" d="M10 30H690M10 90H690M10 150H690"/><path class="line" style="stroke:var(--theme-primary)" d="M10 145 C70 36 115 82 170 67 S275 116 335 47 S438 104 497 67 S600 101 690 76"/><path class="line" style="stroke:#4f7ef3" d="M10 155 C70 125 105 151 155 119 S251 158 310 128 S405 159 470 117 S590 153 690 130"/><path class="line" style="stroke:#f07872" d="M10 169 C77 165 95 124 150 154 S245 126 300 164 S388 119 455 157 S560 130 690 159"/></svg></article>
-        <article class="ins-card-v143"><header class="ins-card-head-v143"><span>5</span><h2>활동 전후 분석</h2></header><div class="ins-activity-v143"><article><b>감정과 함께한 활동</b><span>${safe(activityRank.slice(0,3).map(x=>x[0]).join(' · ')||'산책 · 휴식 · 독서')}</span></article><article><b>기록 후 한 활동</b><span>${safe(listValues(basis[0]||{},['afterActivities']).join(' · ')||'휴식 · 물 마시기')}</span></article><article><b>눈에 띄는 변화</b><span>${safe(mainActivity)} 후 긴장이 낮아지는 흐름</span></article></div></article>
-        <article class="ins-card-v143"><header class="ins-card-head-v143"><span>6</span><h2>최근 3일</h2></header><div class="ins-recent-v143">${recent3.map(day=>`<article><b>${safe(day.label)} · ${safe(day.key.slice(5).replace('-','.'))}</b><span>${day.count?`${day.count}개의 마음 기록`:'기록 없음'}</span><strong>${safe(day.top)}</strong></article>`).join('')}</div></article>
-      </div></div>`;
+    const host=$('#insights'),api=window.AiderLogInsightRangeV175;if(!host||!api)return;
+    host.dataset.v143Rendered='1';
+    host.innerHTML=api.mobileMarkup(insightRows());
   }
+  window.addEventListener('aiderlog-insight-range-change',renderInsightsV143);
   function installInsightRenderer(){
     try{if(typeof renderInsights==='function')renderInsights=renderInsightsV143;window.renderInsights=renderInsightsV143}catch{}
     const root=$('#insights');
@@ -181,7 +156,7 @@
   }
 
   const tutorialSteps=[
-    ['01 · HOME','오늘의 흐름을 한눈에','날짜를 누르면 그날의 일정과 기록이 열립니다. 일반 일정뿐 아니라 Consulting과 Work 마감도 같은 캘린더에서 확인하고 수정할 수 있어요.','home'],
+    ['01 · HOME','오늘의 흐름을 한눈에','날짜를 누르면 그날의 일정과 기록이 열립니다. Consult·Work·Estate 일정은 캘린더에서 확인만 할 수 있으며, 등록과 수정은 해당 업무 페이지에서 할 수 있어요.','home'],
     ['02 · PLANET WHEEL','행성이 모든 공간을 연결해요','짧게 누르면 홈으로 돌아갑니다. 길게 누른 채 나타난 아이콘으로 이동해 손을 놓으면 Event, Routine, Daylog, Language, Private Universe가 열려요.','wheel'],
     ['03 · RECORD','순간과 여행을 기록해요','Event에서는 사진과 글을 피드로 남기고, Archive와 Travel에서는 문화 기록과 다녀온 장소를 다시 찾아볼 수 있어요.','event'],
     ['04 · ROUTINE & DAYLOG','반복과 생활을 관리해요','Routine은 오늘의 실천과 흐름을, Daylog는 식사·운동·독서·집중 기록을 한곳에서 이어줍니다.','routine'],

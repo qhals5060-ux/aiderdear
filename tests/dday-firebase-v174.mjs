@@ -8,6 +8,11 @@ import {createDdayFirebaseFixture as harness} from './dday-firebase-fixture-v174
 const clone=value=>value==null?value:JSON.parse(JSON.stringify(value));
 const item=(id='d1',extra={})=>({id,title:'등록한 디데이',date:'2027-01-01',mode:'countdown',...extra});
 
+test('D-day adapter uses one transaction attempt and preserves quota error code for UI cooldown',async()=>{
+  const h=harness();await h.read();await h.mutate({type:'add',item:item()});assert(h.transactions.length>=3);assert(h.transactions.every(options=>options?.maxAttempts===1));
+  const quota=Object.assign(new Error('quota'),{code:'resource-exhausted'});h.setBeforeRead(()=>{throw quota;});await assert.rejects(h.read(),error=>error===quota);await assert.rejects(h.mutate({type:'select',id:'d1'}),error=>error===quota);
+});
+
 test('read combines only current owner and current pair and protects legacy in its original scope without editing main',async()=>{
   const h=harness();h.pair();h.seed('users/u1/app/main',{ddays:[item('same')],activeDdayBySpace:{'solo:owner@example.test':'same'},records:[{id:'untouched'}]});h.seed('pairs/p1/app/main',{ddays:[item('same',{title:'커플 디데이',createdBy:'partner@example.test'})]});h.seed('pairs/old/app/main',{ddays:[item('private-old')]});h.seed('users/u2/app/main',{ddays:[item('private-other')]});
   const originals=clone([...h.rows]);const result=await h.read();assert.deepEqual(Array.from(result.items,row=>row.sourceScope),['user:u1','pair:p1']);assert.equal(result.activeScope,'user:u1');assert(h.writes.every(path=>/app\/(ddays|dday-settings)$/.test(path)));assert(h.reads.every(path=>path.startsWith('users/u1/')||path.startsWith('pairs/p1/')));

@@ -36,7 +36,7 @@
   }
   function profileMarkup(){
     const person=user(),name=displayName(person),initial=name.trim().charAt(0).toUpperCase()||'A';
-    return `<section class="profile-sheet-v137 profile-compact-v164" role="dialog" aria-modal="true" aria-label="개인 페이지"><header class="profile-head-v137"><h1>개인 페이지</h1><button class="profile-close-v137" type="button" data-profile-close-v137 aria-label="개인 페이지 닫기">×</button></header><div class="profile-identity-v137"><div class="profile-avatar-v137" aria-hidden="true">${safe(initial)}</div><div><b>${safe(name)}</b>${person?.email?`<p>${safe(person.email)}</p>`:''}</div></div><section class="profile-section-v137"><header><h2>시스템 테마</h2></header><div class="profile-theme-grid-v137">${themeButtons()}</div></section><section class="profile-section-v137"><header><h2>글자 크기</h2></header><div class="profile-font-v137">${fontButtons()}</div></section><footer class="profile-foot-v137"><button type="button" data-profile-tutorial-v137>사용 방법</button>${person?'<button class="logout" type="button" data-profile-logout-v137>로그아웃</button>':'<button type="button" data-profile-login-v137>Google 로그인</button>'}</footer></section>`;
+    return `<section class="profile-sheet-v137 profile-compact-v164" role="dialog" aria-modal="true" aria-label="개인 페이지"><header class="profile-head-v137"><h1>개인 페이지</h1><button class="profile-close-v137" type="button" data-profile-close-v137 aria-label="개인 페이지 닫기">×</button></header><div class="profile-identity-v137"><div class="profile-avatar-v137" aria-hidden="true">${safe(initial)}</div><div><b>${safe(name)}</b>${person?.email?`<p>${safe(person.email)}</p>`:''}</div></div>${person?`<form class="profile-birth-v175" data-profile-birth-v175 data-profile-user-v175="${safe(person.uid)}"><label><span>생일${person.birthCalendar==='lunar'?' · 음력':''}</span><input id="loginBirthDate" name="birthDate" type="date" required value="${safe(person.birthDate||'')}"></label><button type="submit">저장</button><label ${person.gender?'hidden':''}>성별<select name="gender" required><option value="">선택</option><option value="female" ${person.gender==='female'?'selected':''}>여성</option><option value="male" ${person.gender==='male'?'selected':''}>남성</option></select></label><p role="status" aria-live="polite"></p></form>`:''}<section class="profile-section-v137"><header><h2>시스템 테마</h2></header><div class="profile-theme-grid-v137">${themeButtons()}</div></section><section class="profile-section-v137"><header><h2>글자 크기</h2></header><div class="profile-font-v137">${fontButtons()}</div></section><footer class="profile-foot-v137"><button type="button" data-profile-tutorial-v137>사용 방법</button>${person?'<button class="logout" type="button" data-profile-logout-v137>로그아웃</button>':'<button type="button" data-profile-login-v137>Google 로그인</button>'}</footer></section>`;
   }
   function ensureProfile(){
     let overlay=$('.profile-overlay-v137');if(overlay)return overlay;
@@ -51,9 +51,10 @@
       if(event.target.closest('[data-profile-login-v137]')){await startLogin();return}
       if(event.target.closest('[data-profile-logout-v137]')){await firebase()?.logout?.();overlay.classList.remove('on')}
     });
+    overlay.addEventListener('submit',async event=>{if(!event.target.matches('[data-profile-birth-v175]'))return;event.preventDefault();const form=event.target,person=user();if(!person||form.dataset.profileUserV175!==person.uid)return;const status=form.querySelector('[role="status"]'),button=form.querySelector('[type="submit"]');if(button.disabled)return;button.disabled=true;status.textContent='저장 중…';try{await firebase().updateProfileSettings({name:displayName(person),gender:form.elements.gender.value,birthDate:form.elements.birthDate.value,birthCalendar:person.birthCalendar||'solar',birthLeap:!!person.birthLeap});if(user()?.uid===person.uid){renderProfile();const message=$('[data-profile-birth-v175] [role="status"]',overlay);if(message)message.textContent='생일을 저장했습니다.';}}catch(error){status.textContent=error.message||'저장하지 못했습니다. 입력은 유지됩니다.';}finally{button.disabled=false;}});
     return overlay;
   }
-  function renderProfile(){const overlay=ensureProfile();overlay.innerHTML=profileMarkup();return overlay}
+  function renderProfile(){const overlay=ensureProfile();overlay.innerHTML=profileMarkup();window.AiderPrivateCalendarUIV175?.calendarChanged();return overlay}
   function openProfile(){renderProfile().classList.add('on')}
   async function startLogin(){
     try{
@@ -63,10 +64,12 @@
     }catch(error){console.error('[v137-login]',error);alert(error?.message||'Google 로그인을 시작하지 못했습니다.')}
   }
 
+  let profileBoundV175=false;
   function bindProfileButton(){
-    if(document.documentElement.dataset.profileButtonV137==='1')return;
+    if(profileBoundV175)return;
+    profileBoundV175=true;
     document.documentElement.dataset.profileButtonV137='1';
-    document.addEventListener('click',event=>{
+    window.addEventListener('click',event=>{
       if(!event.target.closest('#loginBtn'))return;
       event.preventDefault();event.stopPropagation();event.stopImmediatePropagation();
       openProfile();
@@ -100,10 +103,14 @@
     $$('#insights .insight-site-card-v126').forEach((card,index)=>card.dataset.orbitCardV137=String(index+1));
   }
   function refresh(){
-    queued=false;restoreMy();bindProfileButton();buildWheelLayers();animatePostcard();removeInAppWidgetPreviews();decorateInsight();updateTutorialCopy();
+    queued=false;bindProfileButton();restoreMy();buildWheelLayers();animatePostcard();removeInAppWidgetPreviews();decorateInsight();updateTutorialCopy();
   }
   function queue(){if(queued)return;queued=true;requestAnimationFrame(refresh)}
 
+  // The profile entry must work even while another workspace is still booting.
+  // Register it independently of render/MutationObserver initialization.
+  bindProfileButton();
+  window.AiderLogProfileV175=Object.freeze({open:openProfile});
   document.addEventListener('click',directInsightTransition,true);
   addEventListener('aiderdear-firebase-state',()=>{restoreMy();if($('.profile-overlay-v137.on'))renderProfile()});
   new MutationObserver(queue).observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['data-theme','data-app-font-size']});

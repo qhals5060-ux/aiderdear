@@ -105,6 +105,19 @@ test('failed add preserves every input and retries the exact same ID without dup
 });
 function formControlsDisabled(h){return h.node('ddayForm').fields.every(node=>node.disabled);}
 
+test('quota read cooldown suppresses focus and manual retry storms without erasing the representative',async()=>{
+  const h=harness({read:()=>result()});await h.controller.refreshDdayData();const before=h.node('ddayMeta').textContent;
+  let reads=0;h.api.readDdayData=async()=>{reads++;const e=Error('quota');e.code='resource-exhausted';throw e;};await h.controller.refreshDdayData();
+  await h.controller.refreshDdayData();await h.events.fire('focus');await h.events.fire('online');await h.node('ddayRetry').click();
+  assert.equal(reads,1);assert.equal(h.node('ddayMeta').textContent,before);assert.match(h.node('ddayStatus').textContent,/5분/);
+  h.time('2026-09-08T18:05:01Z');h.api.readDdayData=async()=>{reads++;return result();};await h.node('ddayRetry').click();assert.equal(reads,2);assert.equal(h.snapshot.view.error,'');
+});
+test('quota mutation retains draft and stable ID until retry cooldown expires',async()=>{
+  const h=harness({mutate:()=>{const e=Error('quota');e.code='firestore/resource-exhausted';throw e;}});h.draft('보존할 날짜');await h.submit();const id=h.snapshot.pending.item.id;await h.submit();
+  assert.equal(h.calls.filter(c=>c.kind==='mutate').length,1);assert.equal(h.node('ddayTitle').value,'보존할 날짜');
+  h.time('2026-09-08T18:05:01Z');h.api.mutateDday=async a=>result([{...a.item,sourceScope:'user:owner-a'}]);await h.submit();assert.equal(h.snapshot.view.data.items[0].id,id);
+});
+
 test('changed add content receives a new ID, but unchanged retries remain idempotent',async()=>{
   const h=harness({mutate:()=>{throw Error('retry later');}});h.draft('첫 입력');await h.submit();const first=h.snapshot.pending.item.id;
   await h.submit();assert.equal(h.snapshot.pending.item.id,first);h.draft('바뀐 입력');await h.submit();assert.notEqual(h.snapshot.pending.item.id,first);

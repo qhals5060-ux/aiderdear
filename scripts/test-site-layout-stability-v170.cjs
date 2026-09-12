@@ -3,7 +3,8 @@
  * small ordered DOM. Real mouse down/up is verified separately in the browser.
  */
 'use strict';
-const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),cp=require('node:child_process');
+const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),vm=require('node:vm');
+const {reattachingLayout}=require('../tests/fixtures/historical-navigation-v169.cjs');
 const repo=path.resolve(__dirname,'..');
 const source=fs.readFileSync(path.join(repo,'site-layout-v165.js'),'utf8');
 
@@ -122,10 +123,7 @@ test('APP native and Android-document guards still return before website DOM wor
 });
 
 test('negative control: v169 commit 3134bde repeats 500 nav reattachments in 100 refreshes',t=>{
-  let old;
-  try{old=cp.execFileSync('git',['show','3134bde:site-layout-v165.js'],{cwd:repo,encoding:'utf8',stdio:['ignore','pipe','pipe']});}
-  catch{t.skip('Historical Git fixture unavailable in this source-only archive');return;}
-  const h=harness(old);h.arrangeHeader();h.reset();for(let i=0;i<100;i++)h.arrangeHeader();
+  const h=harness(reattachingLayout);h.arrangeHeader();h.reset();for(let i=0;i<100;i++)h.arrangeHeader();
   assert.equal(h.stats.navReattaches,500);assert.throws(()=>assert.equal(h.stats.navReattaches,0));
   h.restore();h.reset();for(let i=0;i<100;i++)h.restore();assert(h.stats.reattaches>=500);
   t.diagnostic('Same production-function harness: 3134bde = 500 nav reattachments; current = 0. Browser pointer verification is separate.');

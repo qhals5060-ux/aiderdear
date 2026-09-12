@@ -4,7 +4,6 @@
  */
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),vm=require('node:vm');
-const {execFileSync}=require('node:child_process');
 const source=fs.readFileSync(path.join(__dirname,'../index.html'),'utf8');
 const start=source.indexOf('  function renderShared(){'),end=source.indexOf('  function getDdays()',start);
 assert(start>=0&&end>start,'actual site month agenda renderer exists');
@@ -73,23 +72,29 @@ if(process.argv[2]==='--timezone-fixture'){
     const h=harness({rows});assert.equal(h.render().length,5);assert.equal(h.data.length,6);assert.equal(h.top.children.length,3);assert.equal(h.compact.children.length,2);
     h.top.children[0].listeners.click({stopPropagation(){}});assert.equal(h.opened[0],h.data[1]);assert.deepEqual(h.data[0].custom,{preserve:true});
   });
-  test('the unchanged calendar projection still returns historical personal and Work rows for past cells',()=>{
+  test('calendar projection retains historical dates while business rows expose only a read-only summary',()=>{
     const projection=source.match(/^  function calendarDisplayEvents\(year\)\{[^\r\n]+/m)?.[0];
     const occurs=source.match(/^  function eventOccursOnDate\(e,date\)\{[^\r\n]+/m)?.[0];
     assert(projection&&occurs,'actual calendar projection and date membership helpers exist');
     const rows=[fixture('past','2026-09-07'),fixture('ongoing','2026-09-06','2026-09-09')];
     const h=harness({rows});assert.deepEqual(h.render(),['ongoing']);
-    const context=vm.createContext({window:{},events:h.data,restrictedCalendarEvents:()=>[fixture('work-past','2026-09-07')],connectionBirthdayEvents:()=>[]});
+    const context=vm.createContext({window:{},addEventListener(){},events:h.data,restrictedCalendarEvents:()=>[fixture('work-past','2026-09-07','',{projectionSource:'work-task',memo:'private task details'})],connectionBirthdayEvents:()=>[]});
+    vm.runInContext(fs.readFileSync(path.join(__dirname,'../business-calendar-v175.js'),'utf8'),context);
     vm.runInContext(projection+'\n'+occurs,context);
     const ids=vm.runInContext('calendarDisplayEvents(2026).filter(row=>eventOccursOnDate(row,"2026-09-07")).map(row=>row.id)',context);
     assert.deepEqual(Array.from(ids),['past','ongoing','work-past']);
+    const work=vm.runInContext('calendarDisplayEvents(2026).find(row=>row.id==="work-past")',context);assert.equal(work.readOnly,true);assert.equal(work.memo,undefined);
   });
+  function inTimezone(timezone,at){
+    const previous=process.env.TZ;try{
+      process.env.TZ=timezone;
+      return harness({at,rows:[fixture('sept-7','2026-09-07'),fixture('sept-8','2026-09-08')]}).render();
+    }finally{if(previous===undefined)delete process.env.TZ;else process.env.TZ=previous;}
+  }
   test('Asia/Seoul shortly after midnight uses September 8 despite a September 7 UTC date',()=>{
-    const result=execFileSync(process.execPath,[__filename,'--timezone-fixture','2026-09-07T15:30:00.000Z'],{encoding:'utf8',env:{...process.env,TZ:'Asia/Seoul'}});
-    assert.deepEqual(JSON.parse(result),['sept-8']);
+    assert.deepEqual(inTimezone('Asia/Seoul','2026-09-07T15:30:00.000Z'),['sept-8']);
   });
   test('America/Los_Angeles late evening keeps September 7 despite a September 8 UTC date',()=>{
-    const result=execFileSync(process.execPath,[__filename,'--timezone-fixture','2026-09-08T06:30:00.000Z'],{encoding:'utf8',env:{...process.env,TZ:'America/Los_Angeles'}});
-    assert.deepEqual(JSON.parse(result),['sept-7','sept-8']);
+    assert.deepEqual(inTimezone('America/Los_Angeles','2026-09-08T06:30:00.000Z'),['sept-7','sept-8']);
   });
 }

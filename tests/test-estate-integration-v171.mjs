@@ -60,7 +60,7 @@ function calendarFixture({native=false}={}){
  vm.runInContext(stripImports(calendar),context,{filename:'estate-calendar-v171.js'});
  return {calendar:win.AiderEstateCalendarV171,win,doc,appNode,api,calls,setUid:value=>uid=value,setHandler:fn=>handler=fn,show:()=>doc.visibilityState='visible'};
 }
-test('site assets mount ESTATE separately and route projection clicks to source records',()=>{
+test('site assets mount ESTATE separately and calendar projection clicks open the v175 read-only summary',()=>{
  assert.match(index,/id="estateStage"/);
  const siteBuild=index.match(/<meta name="aiderlog-build" content="v(\d+)"\s*\/?>/)?.[1];
  assert.ok(siteBuild,'site release meta exists');
@@ -70,8 +70,9 @@ test('site assets mount ESTATE separately and route projection clicks to source 
  const display=index.slice(index.indexOf('function calendarDisplayEvents('),index.indexOf('\n',index.indexOf('function calendarDisplayEvents(')));
  assert.match(display,/AiderEstateCalendarV171\?\.rows/);
  const open=index.slice(index.indexOf('function openEvent(e)'),index.indexOf('function openEvent(e)')+450);
- assert(open.indexOf("projectionSource==='estate'")<open.indexOf('canEditEvent'));
- assert.match(open,/AiderEstateV171\?\.open\(e.sourceKind,e.sourceId\);return/);
+ assert(open.indexOf('if(e.projectionSource)')<open.indexOf('canEditEvent'));
+ assert.match(open,/AiderBusinessCalendarV175\?\.open\(e\);return/);
+ assert.doesNotMatch(open,/AiderEstateV171\?\.open/,'SCHEDULE must not open business record editing');
 });
 test('projection integration has no personal/pair persistence or direct Firestore',()=>{
  assert.doesNotMatch(calendar,/localStorage\.setItem|indexedDB|\.firestore\(|persist\(|shareWithCouple:true/);
@@ -168,7 +169,7 @@ test('successful Google auxiliary form cannot resubmit the same export',async()=
  const f=await exportFixture(),form=await f.review();form.fixtureEntries=f.entries;await form.onsubmit({preventDefault(){}});await form.onsubmit({preventDefault(){}});
  assert.equal(f.googleRequests.filter(request=>request.action==='create').length,1);assert.match(form.querySelector('.estate-form-error').textContent,/이미 전송/);
 });
-test('calendar does not install in native application',()=>{assert.equal(calendarFixture({native:true}).calendar,undefined);});
+test('native application installs only private read-only ESTATE calendar projection, not its desktop editor',()=>{const f=calendarFixture({native:true});assert.equal(typeof f.calendar?.refresh,'function');assert.equal(typeof f.calendar?.rows,'function');assert.equal(f.win.AiderEstateV171,undefined);assert.equal(f.calls.length,0,'hidden native calendar stays idle');});
 test('calendar stays idle while page is hidden or unrelated',async()=>{
  const f=calendarFixture();await f.calendar.refresh(true);assert.equal(f.calls.length,0);
  f.show();f.appNode.dataset.activeTab='personal';await f.calendar.refresh(true);assert.equal(f.calls.length,0);

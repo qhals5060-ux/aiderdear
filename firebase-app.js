@@ -1,6 +1,8 @@
 import { createConsultSync, CONSULT_KEYS } from './consult-sync-v167.js';
 import {decodeArchive,encodeArchive,encodeStoredPayload} from './archive-codec-v168.js';
 import {ddayFailure,ddayId,ddayScope,mergeDdaySources,resolveDdaySelection,preserveDdayRows,mutateDdayStore} from './dday-store-v174.js';
+import {PRIVATE_CALENDAR_VERSION,canUsePrivateIntimacy,privateCalendarFailure,privateCalendarError,privateCalendarId,privateCalendarRange,privateCalendarRevision,normalizePrivateCalendarSettings,normalizePrivateCalendarEntry,privateCalendarMutation,withoutPrivateEmotionFlags} from './private-calendar-v175.js';
+import {createFriendScheduleAdapter} from './friend-schedule-firebase-v175.js';
 const storageStampV168=()=>({storageVersion:168,formatWrittenAt:serverTimestamp()});
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js';
 import {
@@ -29,6 +31,7 @@ import {
   getFirestore,
   limit,
   onSnapshot,
+  orderBy,
   query,
   runTransaction,
   serverTimestamp,
@@ -107,11 +110,12 @@ const publicUser = (user, extras = {}) => user ? {
 } : null;
 const timestampValue = value => value?.toMillis?.() || Number(value || 0);
 const plainDoc = snapshot => snapshot.exists() ? { id: snapshot.id, ...snapshot.data() } : null;
+const publicStateUserV175 = () => state.user ? {...state.user,emailVerified:auth.currentUser?.uid === state.user.uid && auth.currentUser.emailVerified === true} : null;
 
 function emit() {
   const snapshot = {
     ready: state.ready,
-    user: state.user ? { ...state.user } : null,
+    user: publicStateUserV175(),
     pair: state.pair ? { ...state.pair } : null,
     partner: state.partner ? { ...state.partner } : null,
     incoming: state.incoming.map(row => ({ ...row })),
@@ -973,7 +977,7 @@ async function readDdayDataForContext(context) {
     if (data.settings == null && active) transaction.set(refs.settingsRef, ddayDocument({version:174,activeId:active.id,activeScope:active.sourceScope}, context));
     assertDdayContext(context);
     return {items, activeId: active?.id || '', activeScope: active?.sourceScope || ''};
-  });
+  }, {maxAttempts:1});
   assertDdayContext(context);
   return result;
 }
@@ -1004,7 +1008,7 @@ async function mutateDday(input) {
     } else if (action.type === 'delete' && selected.activeId === result.id && selected.activeScope === sourceScope) {
       transaction.set(refs.settingsRef, ddayDocument({version:174, activeId:'', activeScope:''}, context));
     }
-  });
+  }, {maxAttempts:1});
   assertDdayContext(context);
   const result = await readDdayDataForContext(context);
   assertDdayContext(context);
@@ -1013,6 +1017,75 @@ async function mutateDday(input) {
 }
 
 const copyJson = value => JSON.parse(JSON.stringify(value ?? null));
+
+// Private health calendar: never stored in app/main or any shared projection.
+// Queries are bounded; a truncated range explicitly disables period estimates.
+function assertPrivateCalendarContext(context) {
+  if (state.user?.uid !== context.uid || auth.currentUser !== context.principal || auth.currentUser?.uid !== context.uid) privateCalendarFailure('로그인 계정이 변경되어 개인 캘린더 작업을 중단했습니다.', 'unauthenticated');
+}
+async function capturePrivateCalendarContext() {
+  const user = requireUser(), principal = auth.currentUser;
+  const context = {uid:privateCalendarId(user.uid), principal, canUseIntimacy:false};
+  assertPrivateCalendarContext(context);
+  const token = await principal.getIdTokenResult();
+  assertPrivateCalendarContext(context);
+  if (token.claims?.sub !== context.uid) privateCalendarFailure('로그인 정보를 다시 확인해주세요.', 'unauthenticated');
+  context.canUseIntimacy = canUsePrivateIntimacy(principal)
+    && token.claims.email_verified === true && token.claims.email === principal.email;
+  return context;
+}
+function privateCalendarRef(context, collectionName, id) {
+  return doc(db, 'users', context.uid, collectionName, id);
+}
+function privateCalendarSnapshot(snapshot, context) {
+  if (!snapshot.exists()) return null;
+  const value = snapshot.data();
+  if (value.ownerUid !== context.uid || value.version !== PRIVATE_CALENDAR_VERSION) privateCalendarFailure('개인 캘린더 저장 형식을 확인할 수 없습니다. 원본은 유지됩니다.');
+  return value;
+}
+async function readPrivateCalendarData(input) {
+  try {
+    const range = privateCalendarRange(input), context = await capturePrivateCalendarContext();
+    const periodQuery = query(collection(db, 'users', context.uid, 'menstrualEntries'), where('startDate', '>=', range.historyFrom), where('startDate', '<=', range.to), orderBy('startDate', 'desc'), limit(201));
+    const reads = [getDoc(privateCalendarRef(context, 'healthCalendar', 'settings')), getDocs(periodQuery)];
+    if (context.canUseIntimacy) reads.push(getDocs(query(collection(db, 'users', context.uid, 'intimacyEntries'), where('date', '>=', range.from), where('date', '<=', range.to), orderBy('date', 'desc'), limit(201))));
+    const [settingsSnapshot, periodSnapshot, intimacySnapshot] = await Promise.all(reads);
+    assertPrivateCalendarContext(context);
+    const unpack = (snapshot, kind) => (snapshot?.docs || []).slice(0, 200).map(row => {
+      const value = privateCalendarSnapshot(row, context);
+      if (!value || value.id !== row.id || value.deleted === true) privateCalendarFailure('개인 기록 형식을 확인할 수 없습니다. 원본은 유지됩니다.');
+      return normalizePrivateCalendarEntry(kind, value, true);
+    });
+    return {settings:normalizePrivateCalendarSettings(privateCalendarSnapshot(settingsSnapshot, context)), periods:unpack(periodSnapshot, 'period'), intimacy:unpack(intimacySnapshot, 'intimacy'), canUseIntimacy:context.canUseIntimacy, hasMore:{periods:periodSnapshot.docs.length > 200, intimacy:(intimacySnapshot?.docs.length || 0) > 200}};
+  } catch (error) { throw privateCalendarError(error); }
+}
+async function mutatePrivateCalendar(input) {
+  try {
+    // Validate before network and preserve the caller's input through all awaits.
+    const action = JSON.parse(JSON.stringify(input || {}));
+    privateCalendarRevision(action.expectedRevision);
+    privateCalendarMutation({...action, expectedRevision:0}, null);
+    const context = await capturePrivateCalendarContext(), type = action.type;
+    if (type.startsWith('intimacy-') && !context.canUseIntimacy) privateCalendarFailure('이 계정에서는 관계일 기록을 사용할 수 없습니다.', 'permission-denied');
+    const collectionName = type === 'settings' ? 'healthCalendar' : type.startsWith('period-') ? 'menstrualEntries' : 'intimacyEntries';
+    const id = type === 'settings' ? 'settings' : privateCalendarId(action.item?.id || action.id);
+    const ref = privateCalendarRef(context, collectionName, id);
+    const result = await runTransaction(db, async transaction => {
+      assertPrivateCalendarContext(context);
+      const snapshot = await transaction.get(ref);
+      assertPrivateCalendarContext(context);
+      const previous = privateCalendarSnapshot(snapshot, context), result = privateCalendarMutation(action, previous);
+      if (result.changed) {
+        const row = result.settings || result.item || {id:result.id, revision:result.revision, deleted:true};
+        transaction.set(ref, {...row, ownerUid:context.uid, version:PRIVATE_CALENDAR_VERSION, createdAt:previous?.createdAt || serverTimestamp(), updatedAt:serverTimestamp()});
+      }
+      return result;
+    }, {maxAttempts:1});
+    assertPrivateCalendarContext(context);
+    window.dispatchEvent(new CustomEvent('aiderdear-private-calendar-data', {detail:{uid:context.uid}}));
+    return result;
+  } catch (error) { throw privateCalendarError(error); }
+}
 
 function eventPairKey() {
   const emails = (Array.isArray(state.pair?.memberEmails) ? state.pair.memberEmails : [])
@@ -1515,7 +1588,7 @@ async function writeEmotionData(payload) {
   const ownPairRef = emotionRef(user.uid);
   const writes = [setDoc(ownSoloRef, { payload: safePayload, ...storageStampV168(), updatedAt: serverTimestamp() })];
   if (ownPairRef.path !== ownSoloRef.path) {
-    writes.push(setDoc(ownPairRef, { payload: safePayload, ...storageStampV168(), updatedAt: serverTimestamp() }));
+    writes.push(setDoc(ownPairRef, { payload: encodeStoredPayload(withoutPrivateEmotionFlags(payload)), ...storageStampV168(), updatedAt: serverTimestamp() }));
   }
   await Promise.all(writes);
 }
@@ -2242,13 +2315,19 @@ async function compactQuarterly(){
   }finally{archiveBusyV168=false}
 }
 
+const friendScheduleAdapterV175 = createFriendScheduleAdapter({db,getContext:()=>{
+  const user=requireUser();
+  if(auth.currentUser?.uid!==user.uid)throw Object.assign(new Error('로그인 계정이 변경되었습니다.'),{code:'unauthenticated'});
+  return {user,friends:state.friends};
+}});
+
 const api = {
   compactQuarterly,
   config: { projectId: firebaseConfig.projectId, authDomain: firebaseConfig.authDomain },
-  getState: () => ({ ...state }),
+  getState: () => ({ ...state, user:publicStateUserV175() }),
   subscribe(callback) {
     subscribers.add(callback);
-    callback({ ...state });
+    callback({ ...state, user:publicStateUserV175() });
     return () => subscribers.delete(callback);
   },
   login,
@@ -2269,11 +2348,17 @@ const api = {
   readAppData,
   readDdayData,
   mutateDday,
+  readPrivateCalendarData,
+  mutatePrivateCalendar,
   migrateEventWorkspace,
   writeAppData,
   readScheduleData,
   writeScheduleData,
   watchScheduleData,
+  readFriendSchedule: friendScheduleAdapterV175.read,
+  friendScheduleTargets: friendScheduleAdapterV175.targets,
+  setFriendScheduleTargets: friendScheduleAdapterV175.setTargets,
+  removeFriendSchedule: friendScheduleAdapterV175.remove,
   getFirebaseIdToken,
   readPrivateData,
   writePrivateData,
