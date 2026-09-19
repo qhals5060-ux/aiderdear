@@ -1,5 +1,5 @@
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),vm=require('node:vm');
-const source=fs.readFileSync(path.join(__dirname,'../schedule-ui-v184.js'),'utf8'),context={module:{exports:{}},Date};vm.runInNewContext(source,context);const model=context.module.exports,plain=value=>JSON.parse(JSON.stringify(value));
+const source=fs.readFileSync(path.join(__dirname,'../android-src/assets/schedule-ui-v184.js'),'utf8'),context={module:{exports:{}},Date};vm.runInNewContext(source,context);const model=context.module.exports,plain=value=>JSON.parse(JSON.stringify(value));
 test('weekly range starts at today and crosses month, year and leap-day boundaries',()=>{
   assert.deepEqual(plain(model.dates('2026-09-20')),['2026-09-20','2026-09-21','2026-09-22','2026-09-23','2026-09-24','2026-09-25','2026-09-26']);
   assert.equal(model.dates('2026-12-29').at(-1),'2027-01-04');

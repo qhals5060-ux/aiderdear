@@ -6003,7 +6003,7 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
       const d=Number(e.date.slice(8,10)),author=normalizeEmail(e.authorEmail),owner=scheduleOwnerKind(e);
       const row=document.createElement('button');row.type='button';row.className=`shared-row agenda-row ${index<3?'wide':'compact'}${scheduleReceivedV176(e)?' schedule-received-v176':''}`;if(scheduleReceivedV176(e))row.setAttribute('aria-label',`상대가 공유한 일정 · ${window.AiderScheduleTimeV179.format(e)} ${e.title}`);
       const when=e.endDate&&e.endDate!==e.date?`${e.date.slice(5).replace('-','/')}~${e.endDate.slice(5).replace('-','/')}`:window.AiderScheduleTimeV179.format(e);
-      row.innerHTML=`<div class="shared-date">${Number(e.date.slice(5,7))}/${d}</div><i class="agenda-owner-dot ${owner}" aria-hidden="true"></i><div class="agenda-copy"><span class="shared-line"><span>${escapeHtml(when)}</span><b>${escapeHtml(e.title)}</b>${e.memo?`<span> · ${escapeHtml(e.memo)}</span>`:''}</span></div>`;
+      row.innerHTML=`<div class="shared-date">${String(d).padStart(2,'0')}</div><i class="agenda-owner-dot ${owner}" aria-hidden="true"></i><div class="agenda-copy"><span class="shared-line"><span>${escapeHtml(when)}</span><b>${escapeHtml(e.title)}</b>${e.memo?`<span> · ${escapeHtml(e.memo)}</span>`:''}</span></div>`;
       const target=index<3?top:compact;if(separatorBefore){const divider=document.createElement('div');divider.className='schedule-halfday-v179';divider.textContent='-';divider.setAttribute('aria-label','오후 일정');target.appendChild(divider)}
       row.addEventListener('click',ev=>{ev.stopPropagation();if(e.isBirthday)toast(e.memo||`${e.title}입니다.`);else openEvent(e)});target.appendChild(row);
     });
@@ -8195,7 +8195,6 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
     notify:toast,
     errorMessage:googleErrorMessage,
   };
-    window.AiderScheduleUIBridgeV184=Object.freeze({snapshot:()=>({uid:firebaseState.user?.uid||'',events:calendarDisplayEvents(shown.getFullYear()),ddays:ddayView.data?structuredClone(ddayView.data):null,notes:currentUserEmail?structuredClone(privateData[currentUserEmail]||{}):{}}),openEvent:(date,id)=>{const row=calendarDisplayEvents(shown.getFullYear()).find(row=>String(row.id)===String(id));row?openEvent(row):newEvent('mine',date)},holiday:date=>koreaHolidayEvents(Number(date.slice(0,4))).filter(row=>eventOccursOnDate(row,date)).map(row=>row.title).join(' · '),openDdays:()=>$('#ddayManageBtn').click(),reloadNotes:async()=>{await loadPrivateData();renderQuickTodo();renderPrivate();},refresh:()=>{renderCalendar();setDday();}});
     normalizeCloudData();selectAlbumFolderColor(ALBUM_PASTELS[0]);getAlbumFolders();refreshRecordAlbumSelect(DEFAULT_ALBUM_ID);renderAlbumFolders();renderEventArchive();renderTravelArchive();renderPrivate();renderPersonal();renderPaper();renderConsultingWorkspace();renderEmotion();applyLoginUI();setDday();renderDdayList();renderCalendar();if(location.hash==='#search')setTimeout(openSearchFromQuick,0);if('serviceWorker' in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'}).then(registration=>registration.update()).catch(()=>{}));
 })();
 </script>
@@ -8294,7 +8293,5 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
 <style id="site-search-icon-v176">
 html:not(.aiderlog-android) #app #searchBtn .site-search-icon-v176{display:block;width:22px!important;height:22px!important;flex:none;margin:auto;pointer-events:none}
 </style>
-<link rel="stylesheet" href="./schedule-ui-v184.css?v=184">
-<script src="./schedule-ui-v184.js?v=184"></script>
 </body>
 </html>

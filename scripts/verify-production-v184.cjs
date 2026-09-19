@@ -47,17 +47,16 @@ async function verifyProduction(input, {fetchImpl = fetch, checkReleaseAssets = 
   await record('site build and module references', async () => {
     const {text} = await fetchText('/?verify=v184');
     if (!/<meta\b[^>]*name=["']aiderlog-build["'][^>]*content=["']v184["']/i.test(text)) throw new Error('aiderlog-build v184 metadata is missing');
-    for (const file of ['schedule-ui-v184.js?v=184', 'schedule-ui-v184.css?v=184', 'firebase-app.js?v=184']) {
+    for (const file of ['site-calendar-v179.css?v=184', 'site-typography-v169.css?v=184', 'firebase-app.js?v=184']) {
       if (!text.includes(file)) throw new Error(`Missing module reference: ${file}`);
     }
-    return {build: 'v184'};
+    if (/schedule-ui-v184|AiderScheduleUIBridgeV184/.test(text)) throw new Error('App-only layout must not be mounted on the site');
+    return {build: 'v184', siteDesign:'v183 restored'};
   });
   for (const [path, marker] of [
-    ['/schedule-ui-v184.js?v=184', 'AiderScheduleUIBridgeV184'],
-    ['/schedule-ui-v184.css?v=184', '.weekly-view-v184'],
     ['/calendar-sync-v184.js?v=184', 'createCalendarSyncClient'],
     ['/firebase-app.js?v=184', "from './calendar-sync-v184.js'"],
-    ['/sw.js?verify=v184', 'aiderlog-v184-site-calendar-todo'],
+    ['/sw.js?verify=v184', 'aiderlog-v184-site-original-design-r1'],
   ]) {
     await record(`module ${path.split('?')[0]}`, async () => {
       const {response, text} = await fetchText(path);

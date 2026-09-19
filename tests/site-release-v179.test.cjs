@@ -66,7 +66,7 @@ releaseTest('new shared UI modules are mounted once, model modules are staticall
 });
 
 releaseTest('service worker has new version key, unique existing pre-cache paths', () => {
-  assert.equal(vm.runInContext('CACHE',context),`aiderlog-v${release}-site-calendar-todo`);
+  assert.equal(vm.runInContext('CACHE',context),release===184?'aiderlog-v184-site-original-design-r1':`aiderlog-v${release}-site-calendar-todo`);
   assert.equal(new Set(shell).size,shell.length);
   for(const value of shell){const name=decodeURIComponent(new URL(value,'https://archive.invalid/').pathname.slice(1))||'index.html';assert(fs.existsSync(path.join(root,name)),name);}
 });
