@@ -42,7 +42,7 @@ test('calendar header has only previous, Today and next controls, with helper lo
   const calendar=feature.slice(feature.indexOf('  function renderScheduleV125'),feature.indexOf('  function ensureScheduleDialogV125'));
   assert.doesNotMatch(calendar,/data-calendar-view-v176 aria-label=|>W<\/button>|data-schedule-insights-v125|data-schedule-emotion-v125/);assert.equal((calendar.match(/data-calendar-shift-v125=/g)||[]).length,2);assert.equal((calendar.match(/data-calendar-today-v125/g)||[]).length,1);assert.match(feature,/scheduleViewV176.focus\(row.date\)/);
   assert.ok(html.indexOf('src="./app-calendar-view-v176.js')<html.indexOf('src="./feature-system-v125.js'));
-  assert.match(css,/grid-template-columns:repeat\(7,minmax\(0,1fr\)\)!important/);assert.match(css,/grid-template-rows:repeat\(2,minmax\(0,1fr\)\) 102px repeat\(4,minmax\(0,1fr\)\)!important/);
+  assert.match(css,/grid-template-columns:repeat\(7,minmax\(0,1fr\)\)!important/);assert.match(css,/grid-template-rows:var\(--calendar-grid-rows-v182,/);
   assert.doesNotMatch(fs.readFileSync(path.resolve(assets,'../../index.html'),'utf8'),/src="\.\/app-calendar-view-v176.js/);
   assert.equal(source,fs.readFileSync(path.resolve(assets,'../../../AiderLog-v145-decoded/assets/app-calendar-view-v176.js'),'utf8'));
 });

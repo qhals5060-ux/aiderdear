@@ -11,7 +11,7 @@ const read = name => fs.readFileSync(path.join(root, name), 'utf8');
 const index = read('index.html'), sw = read('sw.js'), config = JSON.parse(read('vercel.json'));
 const packaging = read('../../tools/package-pc-v179.ps1');
 const release=Number(process.env.AIDERLOG_RELEASE_VERSION||index.match(/name="aiderlog-build" content="v(\d+)"/)?.[1]);
-assert([179,180,181].includes(release),'Supported release metadata is required');
+assert([179,180,181,182,183].includes(release),'Supported release metadata is required');
 const releaseTest=(name,fn)=>test(`v${release} release: ${name}`,fn);
 const retained = [...['calendar','panels'].flatMap(name => ['js','css'].map(ext => `site-${name}-v172.${ext}`)), 'estate-calendar-view-v172.js', 'estate-calendar-view-v172.css', 'estate-cobroker-v173.css', 'dday-store-v174.js'];
 const added = ['shared-schedule-v176.js','shared-schedule-v176.css','private-calendar-v175.js','private-calendar-ui-v175.js','private-calendar-v175.css','friend-schedule-v175.js','friend-schedule-firebase-v175.js','friend-schedule-ui-v175.js','friend-schedule-v175.css','business-calendar-v175.js','business-calendar-v175.css','site-calendar-v175.js','site-calendar-v175.css','todo-domain-v179.js','schedule-time-v179.js','schedule-editor-v179.css','site-calendar-v179.css'];

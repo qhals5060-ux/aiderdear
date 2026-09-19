@@ -19,10 +19,10 @@ class Node{
   addEventListener(name,fn){this.listeners.set(name,fn);}emit(name){return this.listeners.get(name)?.({target:this,currentTarget:this});}
 }
 const event={id:'e1',title:'개인 일정',isAiderDear:true,authorEmail:'owner@example.test'};
-function fixture({guest=false,noFriends=false,native=false}={}){
+function fixture({guest=false,noFriends=false,native=false,compactSite=false}={}){
   let state={user:guest?null:{uid:'u1',email:'owner@example.test'},friends:noFriends?[]:[{uid:'u2',friendshipId:'f1',name:'친구 A'},{uid:'u3',friendshipId:'f2',name:'친구 B'}]},clock=1000000,reader=async()=>({events:[],ownTargetsByEventId:{}}),targetReader=async()=>[],shareWriter=async()=>({}),removeWriter=async()=>({});
   const body=new Node('body'),owner=body.appendChild(new Node()),google=body.appendChild(new Node('select')),header=body.appendChild(new Node()),dates=[new Node(),new Node()];owner.id='eventOwnerField';google.id='eventGoogleCalendar';dates[0].dataset.date='2026-09-01';dates[1].dataset.date='2026-10-12';const reads=[],targets=[],shares=[],removes=[],dispatched=[],warnings=[],events=new Map();
-  const toggle=native?owner.appendChild(new Node('input')):null;
+  const toggle=native||compactSite?owner.appendChild(new Node('input')):null;if(compactSite)toggle.id='eventShareFriends';
   const document={createElement:tag=>new Node(tag),createTextNode:text=>{const node=new Node('#text');node.text=text;return node},getElementById:id=>body.querySelector('#'+id),querySelector:selector=>selector==='#page0 .month-list-head'?header:native&&selector==='.schedule-dialog-v125 [data-app-friend-slot-v179]'?owner:native&&selector==='.schedule-dialog-v125 [name="shareWithFriends"]'?toggle:null,querySelectorAll:selector=>selector==='#calendar .day[data-date]'&&!native||selector==='#home [data-schedule-date-v125][data-date]'&&native?dates:[]};
   const api={getState:()=>state,readFriendSchedule:async range=>{reads.push(range);return reader(range)},friendScheduleTargets:async id=>{targets.push(id);return targetReader(id)},setFriendScheduleTargets:async(row,selected)=>{shares.push({row,selected:[...selected]});return shareWriter(row,selected)},removeFriendSchedule:async id=>{removes.push(id);return removeWriter(id)}};
   const window={AiderDearFirebase:api,dispatchEvent:e=>dispatched.push(e.type)};class DateDouble extends Date{static now(){return clock}}
@@ -93,4 +93,18 @@ test('app read-only, guest and friendless forms cannot select or mutate recipien
 
 test('app stale target load after opening another schedule cannot restore its friend checkbox',async()=>{
   const f=fixture({native:true});await settle();const old=deferred();f.targetRead=id=>id==='e1'?old.promise:Promise.resolve([]);const pending=f.ui.open(event);await settle();await f.ui.open({...event,id:'e2'});old.resolve(['f2']);await pending;assert(!f.toggle.checked);assert(f.box().hidden);assert.equal(f.ui.selected().length,0);
+});
+
+test('v182 site compact Friends restores and explicitly revokes saved recipients without changing sharing APIs',async()=>{
+  const f=fixture({compactSite:true});await settle();f.targetRead=async()=>['f2'];await f.ui.open(event);assert(f.toggle.checked);assert(!f.box().hidden);assert.match(f.box().textContent,/공유할 친구/);
+  await f.ui.share({...event,title:'다른 필드 수정'});assert.deepEqual(f.shares[0].selected,['f2']);
+  f.toggle.checked=false;f.toggle.emit('change');assert(f.box().hidden);assert.equal(f.ui.selected().length,0);await f.ui.share(event);assert.deepEqual(f.shares[1].selected,[]);
+  f.toggle.checked=true;f.toggle.emit('change');assert(!f.box().hidden);f.box().querySelectorAll('input')[0].checked=true;await f.ui.share(event);assert.deepEqual(f.shares[2].selected,['f1']);
+});
+
+test('v182 site compact Friends never bypasses readonly, failed lookup, stale identity or Google destination guards',async()=>{
+  const f=fixture({compactSite:true});await settle();f.targetRead=async()=>['f1'];await f.ui.open(event);f.google.value='google-calendar';f.google.emit('change');assert(f.toggle.disabled);assert(!f.toggle.checked);assert(f.box().hidden);assert.equal(f.ui.selected().length,0);f.google.value='';f.google.emit('change');assert(!f.toggle.disabled);assert(f.box().hidden);
+  for(const extra of [{friendShared:true},{readOnly:true},{projectionSource:'work'},{authorUid:'u2'}]){await f.ui.open({...event,...extra});assert(f.toggle.disabled);assert(f.box().hidden);}
+  f.targetRead=async()=>{throw Error('offline')};await f.ui.open(event);assert(f.toggle.disabled);await assert.rejects(f.ui.share(event),/공유 대상을 확인/);assert.equal(f.shares.length,0);
+  f.state={user:null,friends:[]};f.events.get('aiderdear-firebase-state')();assert(f.toggle.disabled);assert(!f.toggle.checked);assert(f.box().hidden);
 });

@@ -3,11 +3,12 @@ const root=path.resolve(__dirname,'..'),read=p=>fs.readFileSync(path.join(root,p
 const css=read('android-src/assets/app-calendar-v179.css');
 const frame=css.slice(css.indexOf('  html {'),css.indexOf('  html body #app .brand'));
 
-test('one .3 mm body frame owns safe-area insets exactly once',()=>{
+test('one equal .3 mm body frame does not turn a top cutout into asymmetric empty space',()=>{
   assert.match(frame,/--app-frame-v180:\.3mm/);
-  assert.match(frame,/padding:max\(var\(--app-frame-v180\),env\(safe-area-inset-top\)\) 0 max\(var\(--app-frame-v180\),env\(safe-area-inset-bottom\)\)!important/);
-  assert.equal((frame.match(/env\(safe-area-inset-top\)/g)||[]).length,1);
-  assert.equal((frame.match(/env\(safe-area-inset-bottom\)/g)||[]).length,1);
+  assert.match(frame,/padding:var\(--app-frame-v180\) 0!important/);
+  assert.equal((frame.match(/env\(safe-area-inset-top\)/g)||[]).length,0);
+  assert.equal((frame.match(/env\(safe-area-inset-bottom\)/g)||[]).length,0);
+  assert.match(frame,/padding-inline:max\(6px,env\(safe-area-inset-left\)\) max\(6px,env\(safe-area-inset-right\)\)!important/);
   assert.match(frame,/#app\.app \{[^}]*padding-top:0!important;padding-bottom:0!important/);
   assert.match(frame,/height:100dvh!important;min-height:0!important;box-sizing:border-box!important/);
 });
@@ -29,10 +30,10 @@ test('Flip, Fold and keyboard-resized content leave the same cosmetic edge on bo
     assert.ok(viewHeight>0,`${width}×${height}`);
     assert.ok(Math.abs((edge+header+viewHeight)-(height-edge))<1e-9);
   }
-  // A native cutout consumes only its physical area, not a second copy inside #app.
-  const top=Math.max(edge,24),bottom=Math.max(edge,0),appHeight=915-top-bottom;
+  // Native immersive viewport owns system bars; CSS does not duplicate its top inset.
+  const top=edge,bottom=edge,appHeight=915-top-bottom;
   assert.equal(top+appHeight+bottom,915);
-  assert.equal(top,24);
+  assert.equal(top,bottom);
 });
 
 test('native immersive WebView and keyboard resize are preserved without native inset mutations',()=>{

@@ -27,6 +27,35 @@
 #eventFriendShareV175 input,#appEventFriendShareV179 input{width:17px;height:17px;min-height:0;margin:0;accent-color:var(--theme-primary,#6255e8)}
 #eventFriendShareV175>small,#appEventFriendShareV179>small{flex-basis:100%;font-size:11px}
 .schedule-period-separator-v179{display:block;text-align:center;line-height:1;font-size:11px;opacity:.6}
+/* v182: private date toggles sit beside the date/title, not below Save/X. */
+:is(#scheduleModal,.schedule-dialog-v125) .schedule-editor-heading-v182{display:flex!important;align-items:center!important;gap:6px 10px!important;flex-wrap:wrap;min-width:0}
+:is(#scheduleModal,.schedule-dialog-v125) .schedule-editor-heading-v182 :is(h2,#scheduleModalTitle){margin:0!important;min-width:0;line-height:1.4!important}
+:is(#scheduleModal,.schedule-dialog-v125) .schedule-editor-heading-v182 [data-schedule-secondary-v176]{display:flex!important;align-items:center;gap:8px;margin:0!important;padding:0!important;flex:none}
+:is(#scheduleModal,.schedule-dialog-v125) .schedule-editor-heading-v182 .private-schedule-actions-v176{display:flex;gap:9px;margin:0!important;padding:0!important}
+:is(#scheduleModal,.schedule-dialog-v125) .schedule-editor-heading-v182 [data-private-schedule-kind]{background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;min-width:0!important;min-height:26px!important;height:auto!important;width:auto!important;padding:1px 0!important;font-size:11px!important;line-height:1.4!important;text-decoration:underline!important;text-underline-offset:3px}
+:is(#scheduleModal,.schedule-dialog-v125) .schedule-editor-heading-v182 [data-private-schedule-kind][aria-pressed="true"]{font-weight:800;color:var(--theme-primary,#6255e8)!important}
+:is(#scheduleModal,.schedule-dialog-v125) .schedule-editor-primary-v179 button[hidden],:is(#scheduleModal,.schedule-dialog-v125) .private-schedule-actions-v176[hidden]{display:none!important}
+#scheduleModal .modal-head{align-items:center!important;gap:6px 8px!important}
+#scheduleModal .schedule-editor-primary-v179{gap:4px!important}
+#scheduleModal .schedule-editor-primary-v179 button{height:30px!important;min-width:30px!important;min-height:30px!important;padding:3px 8px!important;font-size:12px!important;line-height:1.2!important;border-radius:9px!important}
+#scheduleModal .schedule-editor-primary-v179 .x{width:30px!important;padding:0!important;font-size:18px!important}
+#scheduleModal #eventOwnerField.schedule-share-options-v182{display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:flex-start!important;gap:14px!important;flex-wrap:nowrap!important;min-width:0!important;min-height:30px!important;height:auto!important;padding:0!important}
+#scheduleModal #eventOwnerField.schedule-share-options-v182[hidden]{display:none!important}
+#scheduleModal .schedule-share-options-v182 .schedule-share-check{display:flex!important;align-items:center!important;gap:5px!important;white-space:nowrap!important;width:auto!important;min-height:30px!important;margin:0!important;padding:0!important;border:0!important;background:none!important;box-shadow:none!important;font-size:12px!important}
+#scheduleModal .schedule-share-options-v182 .schedule-share-check span{display:inline!important;font-size:12px!important}
+#scheduleModal .schedule-share-options-v182 input{appearance:auto!important;flex:none!important;width:16px!important;height:16px!important;min-height:0!important;margin:0!important;padding:0!important;accent-color:var(--theme-primary,#6255e8)}
+#scheduleModal #eventFriendShareV175{display:flex!important;flex-direction:row!important;align-items:center!important;align-content:flex-start!important;justify-content:flex-start!important;flex-wrap:wrap!important;gap:3px 12px!important;min-width:0!important;min-height:0!important;height:auto!important;margin:0!important;padding:0!important;border:0!important;background:none!important;box-shadow:none!important}
+#scheduleModal #eventFriendShareV175[hidden]{display:none!important}
+#scheduleModal #eventFriendShareV175 legend{width:100%!important;padding:0!important;margin:0 0 2px!important;font-size:11px!important;line-height:1.3!important}
+#scheduleModal #eventFriendShareV175 label{display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:flex-start!important;gap:5px!important;min-width:0!important;width:auto!important;min-height:26px!important;height:26px!important;margin:0!important;padding:0!important;font-size:12px!important;line-height:1.4!important}
+#scheduleModal #eventFriendShareV175 input{appearance:auto!important;flex:none!important;width:16px!important;height:16px!important;min-height:0!important;margin:0!important;padding:0!important}
+#scheduleModal #eventFriendShareV175>small{margin:0!important;padding:0!important;min-height:0!important;line-height:1.4!important}
+#scheduleModal #eventFriendShareV175>small:empty{display:none!important}
+/* The overflow list is an interactive popover, including keyboard access. */
+html body>.calendar-event-tooltip{pointer-events:auto!important;max-height:min(70vh,540px)!important;overflow-y:auto!important;overscroll-behavior:contain;scrollbar-width:thin}
+html body>.calendar-event-tooltip>.calendar-tooltip-event-v182{display:grid!important;grid-template-columns:70px minmax(0,1fr)!important;gap:8px!important;align-items:start!important;width:100%!important;min-height:30px!important;padding:4px 5px!important;margin:0!important;border:0!important;border-radius:4px!important;background:transparent!important;box-shadow:none!important;color:inherit!important;font:inherit!important;font-size:14px!important;line-height:1.5!important;text-align:left!important;cursor:pointer}
+html body>.calendar-event-tooltip>.calendar-tooltip-event-v182:hover,html body>.calendar-event-tooltip>.calendar-tooltip-event-v182:focus-visible{background:rgba(255,255,255,.12)!important;outline:1px solid currentColor!important;outline-offset:-1px}
+html body>.calendar-event-tooltip>.calendar-tooltip-event-v182.schedule-received-v176{background:rgba(224,191,66,.12)!important}
 @layer appColour164 {
   html body .schedule-dialog-v125 .schedule-editor-primary-v179 {gap:4px!important}
   html body .schedule-dialog-v125 .schedule-editor-primary-v179 button {width:auto!important;height:30px!important;min-width:30px!important;min-height:30px!important;padding:3px 8px!important;font-size:12px!important;line-height:1.2!important;border-radius:9px!important}
@@ -42,4 +71,6 @@
   html body .schedule-dialog-v125 #appEventFriendShareV179 input {appearance:auto!important;width:16px!important;height:16px!important;min-height:0!important;padding:0!important;margin:0!important}
   html body .schedule-dialog-v125 .schedule-editor-tools-v179 [data-private-schedule-kind] {background:transparent!important;background-image:none!important;border:0!important;border-radius:0!important;box-shadow:none!important;padding:1px 0!important;width:auto!important;height:auto!important;min-width:0!important;min-height:26px!important;font-size:11px!important;text-decoration:underline!important;text-underline-offset:3px!important;color:var(--app-text)!important}
   html body .schedule-dialog-v125 .schedule-editor-tools-v179 [data-private-schedule-kind][aria-pressed="true"] {color:var(--app-primary)!important;font-weight:800!important}
+  html body .schedule-dialog-v125 .schedule-editor-heading-v182 [data-private-schedule-kind] {background:transparent!important;background-image:none!important;border:0!important;border-radius:0!important;box-shadow:none!important;padding:1px 0!important;width:auto!important;height:auto!important;min-width:0!important;min-height:26px!important;font-size:11px!important;text-decoration:underline!important;text-underline-offset:3px!important;color:var(--app-text)!important}
+  html body .schedule-dialog-v125 .schedule-editor-heading-v182 [data-private-schedule-kind][aria-pressed="true"] {color:var(--app-primary)!important;font-weight:800!important}
 }
