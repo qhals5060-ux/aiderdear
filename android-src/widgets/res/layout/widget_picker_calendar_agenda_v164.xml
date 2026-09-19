@@ -6,44 +6,44 @@
       <ListView android:id="@+id/widget_items_v164" android:layout_width="match_parent" android:layout_height="match_parent" android:divider="@null" android:dividerHeight="0dp" android:scrollbars="none" android:cacheColorHint="#00000000" android:contentDescription="현재 날짜의 일정 목록" android:visibility="gone"/>
       <LinearLayout android:id="@+id/widget_preview_rows_v164" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:visibility="visible"><FrameLayout android:id="@+id/w181_row" android:layout_width="match_parent" android:layout_height="26dp" android:forceDarkAllowed="false">
   <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="horizontal" android:gravity="center_vertical" android:paddingLeft="4dp" android:paddingRight="4dp">
-    <TextView android:id="@+id/w181_dot" android:layout_width="10dp" android:layout_height="wrap_content" android:text="●" android:textSize="7sp" android:textColor="#8E71DB" android:includeFontPadding="false"/>
-    <TextView android:id="@+id/w181_time" android:layout_width="34dp" android:layout_height="wrap_content" android:textSize="10.5sp" android:textColor="#171A3A" android:singleLine="true" android:includeFontPadding="false" android:fontFamily="sans-serif" android:text="09:30"/>
-    <TextView android:id="@+id/w181_title" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:textSize="11.5sp" android:textColor="#171A3A" android:singleLine="true" android:ellipsize="end" android:includeFontPadding="false" android:fontFamily="sans-serif" android:text="팀 미팅"/>
+    <TextView android:id="@+id/w181_dot" android:layout_width="8dp" android:layout_height="wrap_content" android:text="●" android:textSize="7sp" android:textColor="#8E71DB" android:includeFontPadding="false"/>
+    <TextView android:id="@+id/w181_time" android:layout_width="36dp" android:layout_height="wrap_content" android:textSize="11sp" android:textColor="#171A3A" android:singleLine="true" android:includeFontPadding="false" android:fontFamily="sans-serif" android:text="09:30"/>
+    <TextView android:id="@+id/w181_title" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:textSize="12.5sp" android:textColor="#171A3A" android:singleLine="true" android:ellipsize="end" android:includeFontPadding="false" android:fontFamily="sans-serif" android:text="팀 미팅"/>
   </LinearLayout>
   <ImageView android:layout_width="match_parent" android:layout_height="0.5dp" android:layout_gravity="bottom" android:background="#E4DFEE" android:contentDescription="@null"/>
 </FrameLayout><FrameLayout android:id="@+id/w181_row" android:layout_width="match_parent" android:layout_height="26dp" android:forceDarkAllowed="false">
   <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="horizontal" android:gravity="center_vertical" android:paddingLeft="4dp" android:paddingRight="4dp">
-    <TextView android:id="@+id/w181_dot" android:layout_width="10dp" android:layout_height="wrap_content" android:text="●" android:textSize="7sp" android:textColor="#557FC7" android:includeFontPadding="false"/>
-    <TextView android:id="@+id/w181_time" android:layout_width="34dp" android:layout_height="wrap_content" android:textSize="10.5sp" android:textColor="#171A3A" android:singleLine="true" android:includeFontPadding="false" android:fontFamily="sans-serif" android:text="11:00"/>
-    <TextView android:id="@+id/w181_title" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:textSize="11.5sp" android:textColor="#171A3A" android:singleLine="true" android:ellipsize="end" android:includeFontPadding="false" android:fontFamily="sans-serif" android:text="자료 검토"/>
+    <TextView android:id="@+id/w181_dot" android:layout_width="8dp" android:layout_height="wrap_content" android:text="●" android:textSize="7sp" android:textColor="#557FC7" android:includeFontPadding="false"/>
+    <TextView android:id="@+id/w181_time" android:layout_width="36dp" android:layout_height="wrap_content" android:textSize="11sp" android:textColor="#171A3A" android:singleLine="true" android:includeFontPadding="false" android:fontFamily="sans-serif" android:text="11:00"/>
+    <TextView android:id="@+id/w181_title" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:textSize="12.5sp" android:textColor="#171A3A" android:singleLine="true" android:ellipsize="end" android:includeFontPadding="false" android:fontFamily="sans-serif" android:text="자료 검토"/>
   </LinearLayout>
   <ImageView android:layout_width="match_parent" android:layout_height="0.5dp" android:layout_gravity="bottom" android:background="#E4DFEE" android:contentDescription="@null"/>
 </FrameLayout><FrameLayout android:id="@+id/w181_row" android:layout_width="match_parent" android:layout_height="26dp" android:forceDarkAllowed="false">
   <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="horizontal" android:gravity="center_vertical" android:paddingLeft="4dp" android:paddingRight="4dp">
-    <TextView android:id="@+id/w181_dot" android:layout_width="10dp" android:layout_height="wrap_content" android:text="●" android:textSize="7sp" android:textColor="#C66C9C" android:includeFontPadding="false"/>
-    <TextView android:id="@+id/w181_time" android:layout_width="34dp" android:layout_height="wrap_content" android:textSize="10.5sp" android:textColor="#171A3A" android:singleLine="true" android:includeFontPadding="false" android:fontFamily="sans-serif" android:text="14:00"/>
-    <TextView android:id="@+id/w181_title" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:textSize="11.5sp" android:textColor="#171A3A" android:singleLine="true" android:ellipsize="end" android:includeFontPadding="false" android:fontFamily="sans-serif" android:text="병원 예약"/>
+    <TextView android:id="@+id/w181_dot" android:layout_width="8dp" android:layout_height="wrap_content" android:text="●" android:textSize="7sp" android:textColor="#C66C9C" android:includeFontPadding="false"/>
+    <TextView android:id="@+id/w181_time" android:layout_width="36dp" android:layout_height="wrap_content" android:textSize="11sp" android:textColor="#171A3A" android:singleLine="true" android:includeFontPadding="false" android:fontFamily="sans-serif" android:text="14:00"/>
+    <TextView android:id="@+id/w181_title" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:textSize="12.5sp" android:textColor="#171A3A" android:singleLine="true" android:ellipsize="end" android:includeFontPadding="false" android:fontFamily="sans-serif" android:text="병원 예약"/>
   </LinearLayout>
   <ImageView android:layout_width="match_parent" android:layout_height="0.5dp" android:layout_gravity="bottom" android:background="#E4DFEE" android:contentDescription="@null"/>
 </FrameLayout><FrameLayout android:id="@+id/w181_row" android:layout_width="match_parent" android:layout_height="26dp" android:forceDarkAllowed="false">
   <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="horizontal" android:gravity="center_vertical" android:paddingLeft="4dp" android:paddingRight="4dp">
-    <TextView android:id="@+id/w181_dot" android:layout_width="10dp" android:layout_height="wrap_content" android:text="●" android:textSize="7sp" android:textColor="#7561DC" android:includeFontPadding="false"/>
-    <TextView android:id="@+id/w181_time" android:layout_width="34dp" android:layout_height="wrap_content" android:textSize="10.5sp" android:textColor="#171A3A" android:singleLine="true" android:includeFontPadding="false" android:fontFamily="sans-serif" android:text="16:00"/>
-    <TextView android:id="@+id/w181_title" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:textSize="11.5sp" android:textColor="#171A3A" android:singleLine="true" android:ellipsize="end" android:includeFontPadding="false" android:fontFamily="sans-serif" android:text="운동"/>
+    <TextView android:id="@+id/w181_dot" android:layout_width="8dp" android:layout_height="wrap_content" android:text="●" android:textSize="7sp" android:textColor="#7561DC" android:includeFontPadding="false"/>
+    <TextView android:id="@+id/w181_time" android:layout_width="36dp" android:layout_height="wrap_content" android:textSize="11sp" android:textColor="#171A3A" android:singleLine="true" android:includeFontPadding="false" android:fontFamily="sans-serif" android:text="16:00"/>
+    <TextView android:id="@+id/w181_title" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:textSize="12.5sp" android:textColor="#171A3A" android:singleLine="true" android:ellipsize="end" android:includeFontPadding="false" android:fontFamily="sans-serif" android:text="운동"/>
   </LinearLayout>
   <ImageView android:layout_width="match_parent" android:layout_height="0.5dp" android:layout_gravity="bottom" android:background="#E4DFEE" android:contentDescription="@null"/>
 </FrameLayout><FrameLayout android:id="@+id/w181_row" android:layout_width="match_parent" android:layout_height="26dp" android:forceDarkAllowed="false">
   <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="horizontal" android:gravity="center_vertical" android:paddingLeft="4dp" android:paddingRight="4dp">
-    <TextView android:id="@+id/w181_dot" android:layout_width="10dp" android:layout_height="wrap_content" android:text="●" android:textSize="7sp" android:textColor="#8E71DB" android:includeFontPadding="false"/>
-    <TextView android:id="@+id/w181_time" android:layout_width="34dp" android:layout_height="wrap_content" android:textSize="10.5sp" android:textColor="#171A3A" android:singleLine="true" android:includeFontPadding="false" android:fontFamily="sans-serif" android:text="18:30"/>
-    <TextView android:id="@+id/w181_title" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:textSize="11.5sp" android:textColor="#171A3A" android:singleLine="true" android:ellipsize="end" android:includeFontPadding="false" android:fontFamily="sans-serif" android:text="저녁 약속"/>
+    <TextView android:id="@+id/w181_dot" android:layout_width="8dp" android:layout_height="wrap_content" android:text="●" android:textSize="7sp" android:textColor="#8E71DB" android:includeFontPadding="false"/>
+    <TextView android:id="@+id/w181_time" android:layout_width="36dp" android:layout_height="wrap_content" android:textSize="11sp" android:textColor="#171A3A" android:singleLine="true" android:includeFontPadding="false" android:fontFamily="sans-serif" android:text="18:30"/>
+    <TextView android:id="@+id/w181_title" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:textSize="12.5sp" android:textColor="#171A3A" android:singleLine="true" android:ellipsize="end" android:includeFontPadding="false" android:fontFamily="sans-serif" android:text="저녁 약속"/>
   </LinearLayout>
   <ImageView android:layout_width="match_parent" android:layout_height="0.5dp" android:layout_gravity="bottom" android:background="#E4DFEE" android:contentDescription="@null"/>
 </FrameLayout><FrameLayout android:id="@+id/w181_row" android:layout_width="match_parent" android:layout_height="26dp" android:forceDarkAllowed="false">
   <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="horizontal" android:gravity="center_vertical" android:paddingLeft="4dp" android:paddingRight="4dp">
-    <TextView android:id="@+id/w181_dot" android:layout_width="10dp" android:layout_height="wrap_content" android:text="●" android:textSize="7sp" android:textColor="#557FC7" android:includeFontPadding="false"/>
-    <TextView android:id="@+id/w181_time" android:layout_width="34dp" android:layout_height="wrap_content" android:textSize="10.5sp" android:textColor="#171A3A" android:singleLine="true" android:includeFontPadding="false" android:fontFamily="sans-serif" android:text="20:00"/>
-    <TextView android:id="@+id/w181_title" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:textSize="11.5sp" android:textColor="#171A3A" android:singleLine="true" android:ellipsize="end" android:includeFontPadding="false" android:fontFamily="sans-serif" android:text="공부"/>
+    <TextView android:id="@+id/w181_dot" android:layout_width="8dp" android:layout_height="wrap_content" android:text="●" android:textSize="7sp" android:textColor="#557FC7" android:includeFontPadding="false"/>
+    <TextView android:id="@+id/w181_time" android:layout_width="36dp" android:layout_height="wrap_content" android:textSize="11sp" android:textColor="#171A3A" android:singleLine="true" android:includeFontPadding="false" android:fontFamily="sans-serif" android:text="20:00"/>
+    <TextView android:id="@+id/w181_title" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:textSize="12.5sp" android:textColor="#171A3A" android:singleLine="true" android:ellipsize="end" android:includeFontPadding="false" android:fontFamily="sans-serif" android:text="공부"/>
   </LinearLayout>
   <ImageView android:layout_width="match_parent" android:layout_height="0.5dp" android:layout_gravity="bottom" android:background="#E4DFEE" android:contentDescription="@null"/>
 </FrameLayout></LinearLayout>
@@ -56,7 +56,7 @@
     <FrameLayout android:id="@+id/w181_check_hit" android:layout_width="23dp" android:layout_height="match_parent">
       <TextView android:id="@+id/w181_check" android:layout_width="13dp" android:layout_height="13dp" android:layout_gravity="center_vertical|left" android:background="@drawable/widget_compact_check_v181"/>
     </FrameLayout>
-    <TextView android:id="@+id/w181_title" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center_vertical" android:textSize="11.5sp" android:textColor="#171A3A" android:singleLine="true" android:ellipsize="end" android:includeFontPadding="false" android:fontFamily="sans-serif" android:text="논문 초안 작성"/>
+    <TextView android:id="@+id/w181_title" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center_vertical" android:textSize="12.5sp" android:textColor="#171A3A" android:singleLine="true" android:ellipsize="end" android:includeFontPadding="false" android:fontFamily="sans-serif" android:text="논문 초안 작성"/>
   </LinearLayout>
   <ImageView android:layout_width="match_parent" android:layout_height="0.5dp" android:layout_gravity="bottom" android:background="#E4DFEE" android:contentDescription="@null"/>
 </FrameLayout><FrameLayout android:id="@+id/w181_row" android:layout_width="match_parent" android:layout_height="26dp" android:forceDarkAllowed="false">
@@ -64,7 +64,7 @@
     <FrameLayout android:id="@+id/w181_check_hit" android:layout_width="23dp" android:layout_height="match_parent">
       <TextView android:id="@+id/w181_check" android:layout_width="13dp" android:layout_height="13dp" android:layout_gravity="center_vertical|left" android:background="@drawable/widget_compact_check_v181"/>
     </FrameLayout>
-    <TextView android:id="@+id/w181_title" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center_vertical" android:textSize="11.5sp" android:textColor="#171A3A" android:singleLine="true" android:ellipsize="end" android:includeFontPadding="false" android:fontFamily="sans-serif" android:text="장비 점검 리스트"/>
+    <TextView android:id="@+id/w181_title" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center_vertical" android:textSize="12.5sp" android:textColor="#171A3A" android:singleLine="true" android:ellipsize="end" android:includeFontPadding="false" android:fontFamily="sans-serif" android:text="장비 점검 리스트"/>
   </LinearLayout>
   <ImageView android:layout_width="match_parent" android:layout_height="0.5dp" android:layout_gravity="bottom" android:background="#E4DFEE" android:contentDescription="@null"/>
 </FrameLayout><FrameLayout android:id="@+id/w181_row" android:layout_width="match_parent" android:layout_height="26dp" android:forceDarkAllowed="false">
@@ -72,7 +72,7 @@
     <FrameLayout android:id="@+id/w181_check_hit" android:layout_width="23dp" android:layout_height="match_parent">
       <TextView android:id="@+id/w181_check" android:layout_width="13dp" android:layout_height="13dp" android:layout_gravity="center_vertical|left" android:background="@drawable/widget_compact_check_v181"/>
     </FrameLayout>
-    <TextView android:id="@+id/w181_title" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center_vertical" android:textSize="11.5sp" android:textColor="#171A3A" android:singleLine="true" android:ellipsize="end" android:includeFontPadding="false" android:fontFamily="sans-serif" android:text="발표 자료 준비"/>
+    <TextView android:id="@+id/w181_title" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center_vertical" android:textSize="12.5sp" android:textColor="#171A3A" android:singleLine="true" android:ellipsize="end" android:includeFontPadding="false" android:fontFamily="sans-serif" android:text="발표 자료 준비"/>
   </LinearLayout>
   <ImageView android:layout_width="match_parent" android:layout_height="0.5dp" android:layout_gravity="bottom" android:background="#E4DFEE" android:contentDescription="@null"/>
 </FrameLayout><FrameLayout android:id="@+id/w181_row" android:layout_width="match_parent" android:layout_height="26dp" android:forceDarkAllowed="false">
@@ -80,7 +80,7 @@
     <FrameLayout android:id="@+id/w181_check_hit" android:layout_width="23dp" android:layout_height="match_parent">
       <TextView android:id="@+id/w181_check" android:layout_width="13dp" android:layout_height="13dp" android:layout_gravity="center_vertical|left" android:background="@drawable/widget_compact_check_v181"/>
     </FrameLayout>
-    <TextView android:id="@+id/w181_title" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center_vertical" android:textSize="11.5sp" android:textColor="#171A3A" android:singleLine="true" android:ellipsize="end" android:includeFontPadding="false" android:fontFamily="sans-serif" android:text="구매 견적 확인"/>
+    <TextView android:id="@+id/w181_title" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center_vertical" android:textSize="12.5sp" android:textColor="#171A3A" android:singleLine="true" android:ellipsize="end" android:includeFontPadding="false" android:fontFamily="sans-serif" android:text="구매 견적 확인"/>
   </LinearLayout>
   <ImageView android:layout_width="match_parent" android:layout_height="0.5dp" android:layout_gravity="bottom" android:background="#E4DFEE" android:contentDescription="@null"/>
 </FrameLayout><FrameLayout android:id="@+id/w181_row" android:layout_width="match_parent" android:layout_height="26dp" android:forceDarkAllowed="false">
@@ -88,7 +88,7 @@
     <FrameLayout android:id="@+id/w181_check_hit" android:layout_width="23dp" android:layout_height="match_parent">
       <TextView android:id="@+id/w181_check" android:layout_width="13dp" android:layout_height="13dp" android:layout_gravity="center_vertical|left" android:background="@drawable/widget_compact_check_v181"/>
     </FrameLayout>
-    <TextView android:id="@+id/w181_title" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center_vertical" android:textSize="11.5sp" android:textColor="#171A3A" android:singleLine="true" android:ellipsize="end" android:includeFontPadding="false" android:fontFamily="sans-serif" android:text="메일 회신"/>
+    <TextView android:id="@+id/w181_title" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center_vertical" android:textSize="12.5sp" android:textColor="#171A3A" android:singleLine="true" android:ellipsize="end" android:includeFontPadding="false" android:fontFamily="sans-serif" android:text="메일 회신"/>
   </LinearLayout>
   <ImageView android:layout_width="match_parent" android:layout_height="0.5dp" android:layout_gravity="bottom" android:background="#E4DFEE" android:contentDescription="@null"/>
 </FrameLayout><FrameLayout android:id="@+id/w181_row" android:layout_width="match_parent" android:layout_height="26dp" android:forceDarkAllowed="false">
@@ -96,7 +96,7 @@
     <FrameLayout android:id="@+id/w181_check_hit" android:layout_width="23dp" android:layout_height="match_parent">
       <TextView android:id="@+id/w181_check" android:layout_width="13dp" android:layout_height="13dp" android:layout_gravity="center_vertical|left" android:background="@drawable/widget_compact_check_v181"/>
     </FrameLayout>
-    <TextView android:id="@+id/w181_title" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center_vertical" android:textSize="11.5sp" android:textColor="#171A3A" android:singleLine="true" android:ellipsize="end" android:includeFontPadding="false" android:fontFamily="sans-serif" android:text="전시회 티켓 예매"/>
+    <TextView android:id="@+id/w181_title" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center_vertical" android:textSize="12.5sp" android:textColor="#171A3A" android:singleLine="true" android:ellipsize="end" android:includeFontPadding="false" android:fontFamily="sans-serif" android:text="전시회 티켓 예매"/>
   </LinearLayout>
   <ImageView android:layout_width="match_parent" android:layout_height="0.5dp" android:layout_gravity="bottom" android:background="#E4DFEE" android:contentDescription="@null"/>
 </FrameLayout></LinearLayout>

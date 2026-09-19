@@ -74,7 +74,8 @@ test('all XML widgets use supported RemoteViews view classes, without custom/uns
 });
 
 test('reflective setInt calls only use audited @RemotableViewMethod methods on compatible targets',()=>{
-  const signatures={setPaintFlags:['TextView'],setImageAlpha:['ImageView'],setBackgroundResource:['View'],setHeight:['TextView']};
+  // TextView.setMaxLines(int) is @RemotableViewMethod in AOSP android-8.0.0_r1 (minimum API26).
+  const signatures={setPaintFlags:['TextView'],setImageAlpha:['ImageView'],setBackgroundResource:['View'],setHeight:['TextView'],setMaxLines:['TextView']};
   // Picker illustrations flatten repeated sample cards; setters target runtime layouts only.
   const resources=fs.readdirSync(path.join(res,'layout')).filter(f=>/^widget_.*\.xml$/.test(f)&&!/^widget_(?:picker|preview)_/.test(f)).map(f=>parse(f.slice(0,-4)));
   let checked=0;

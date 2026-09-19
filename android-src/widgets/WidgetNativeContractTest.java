@@ -102,6 +102,14 @@ public final class WidgetNativeContractTest {
         require(WidgetCompactCalendarV181.fortnightStart("2026-10-01").equals("2026-09-28"),"fortnight rolls across month boundary");
         require(WidgetCompactCalendarV181.fortnightSelected("2026-10-01","2026-10-11").equals("2026-10-11"),"month-boundary fortnight retains in-range selection");
         require(WidgetCompactCalendarV181.fortnightSelected("2026-09-19",null).equals("2026-09-19"),"missing selection safely uses today");
+        require(WidgetCompactCalendarV181.cellTime(new JSONObject().put("time","09:30")).equals("9:30"),"narrow B time omits leading zero while A preserves HH:mm");
+        require(WidgetCompactCalendarV181.cellTime(new JSONObject().put("time","14:00")).equals("14:00"),"afternoon hour stays unambiguous");
+        require(WidgetCompactCalendarV181.cellTime(new JSONObject().put("allDay",true)).isEmpty(),"all-day title receives full cell width");
+        require(WidgetNativeV164.calendarEventCapacity(38)==1,"short month cell preserves one event");
+        require(WidgetNativeV164.calendarEventCapacity(72)==2,"medium month cell shows two events");
+        require(WidgetNativeV164.calendarEventCapacity(104)==3,"large month cell uses space for three events");
+        require(WidgetNativeV164.calendarEventSp(38)==9,"short cell has compact text");
+        require(WidgetNativeV164.calendarEventSp(104)==11.5f,"large month no longer keeps tiny event text");
         System.out.println("PASS: "+checks+" native model assertions.");
     }
 }

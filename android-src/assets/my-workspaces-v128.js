@@ -266,7 +266,7 @@
       ['work','calendar','Work',`업무 기록 ${data.workRecords.length}건`],
       ['lab','file','실험노트',`기록 ${data.labNotebookEntries.length}건 · 링크 ${data.labNotebookLinks.length}개`]
     );
-    if (canUseModeV180('estate')) research.push(['estate','estate','Estate','부동산 업무 · 사이트에서 열기']);
+    if (canUseModeV180('estate')) research.push(['estate','estate','Estate','매물 · 고객 · 거래 · 업무 일정']);
     if (canUseTraining()) learning.push(['speech','speech','Speech Training',`훈련 기록 ${speechCount}회`],['brain','brain','Brain Training',`훈련 기록 ${brainCount}회`]);
     if (canUseStudy()) learning.push(['study','star','Study Card',`완료 ${studyCounts.completed}/192 · 복습 ${studyCounts.due}개`]);
     const group = (title, rows) => rows.length ? `<section class="my166-group"><h2>${title}</h2><div class="my166-tools">${rows.map(([route,glyph,title,summary])=>`<button type="button" class="my166-tool" data-my128-open="${route}" aria-label="${safe(title)} 열기"><i>${icon(glyph,22)}</i><span><b>${safe(title)}</b><small>${safe(summary)}</small></span><em aria-hidden="true">›</em></button>`).join('')}</div></section>` : '';
@@ -440,13 +440,9 @@
     if (mode === 'paper') requestAnimationFrame(() => window.initAiderPaperWorkspaceV128?.());
   }
 
-  function openEstateSiteV180(){
+  function openEstateAppV183(){
     if(!canUseModeV180('estate'))return false;
-    try{
-      if(window.AiderLogNative?.openEstateSite){if(window.AiderLogNative.openEstateSite()===false)throw new Error('browser');return true;}
-      window.open('https://aiderdear1.vercel.app/?site-edition=modern&open=estate','_blank','noopener,noreferrer');
-      return true;
-    }catch(error){(typeof toast==='function'?toast:alert)('브라우저를 열지 못했습니다. 다시 시도해주세요.');return false;}
+    return window.AiderEstateAppV183?.open?.()===true;
   }
 
   function openLegacyBrain() {
@@ -460,7 +456,7 @@
 
   function bind() {
     qa('[data-my128-open]', q('#fifth')).forEach(button => {
-      const open=()=>{const next=button.dataset.my128Open;if(!canUseModeV180(next))return;if(next==='estate'){openEstateSiteV180();return;}mode=next;modal=null;renderMy()};
+      const open=()=>{const next=button.dataset.my128Open;if(!canUseModeV180(next))return;if(next==='estate'){openEstateAppV183();return;}mode=next;modal=null;renderMy()};
       button.onclick=open;
     });
     qa('[data-my128-back]', q('#fifth')).forEach(button => button.onclick=()=>{ mode='hub';modal=null;renderMy(); });
@@ -499,7 +495,7 @@
   window.AiderLogMyV128 = Object.freeze({
     render: renderMy,
     open(nextMode='hub') {
-      if(nextMode==='estate'){openEstateSiteV180();return;}
+      if(nextMode==='estate'){return openEstateAppV183();}
       mode = nextMode==='hub'||canUseModeV180(nextMode) ? nextMode : 'hub';
       modal = null;
       renderMy();

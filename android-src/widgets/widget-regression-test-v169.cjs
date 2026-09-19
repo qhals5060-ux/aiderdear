@@ -40,16 +40,16 @@ test('routine chips keep separate 34dp surfaces and 48dp row without gigantic em
     const x=xml('widget_routine_v165'+suffix);
     assert.match(x,/w165_levels[^>]+layout_height="48dp"/);
     for(let i=0;i<4;i++)assert.match(x,new RegExp('w165_level_'+i+'"[^>]+layout_height="34dp"[^>]+layout_marginTop="7dp"[^>]+layout_marginBottom="7dp"'));
-    assert.match(x,/paddingTop="11dp" android:paddingBottom="11dp"/);
+    assert.match(x,/paddingTop="6dp" android:paddingBottom="6dp"/);
   }
 });
 test('card spacing/scrolling stays compact and content is not clipped to a single text line',()=>{
   for(const kind of ['note','todo','routine','challenge','book']){
     const x=xml('widget_'+kind+'_v165');
     assert.match(x,/layout_height="wrap_content" android:layout_margin="2dp"/);
-    assert.match(x,/paddingTop="11dp" android:paddingBottom="11dp"/);
+    assert.match(x,/paddingTop="6dp" android:paddingBottom="6dp"/);
   }
-  for(const name of ['widget_design_v165','widget_design_v165_wide','widget_native_v164','widget_native_wide_v164'])assert.match(xml(name),/paddingBottom="12dp" android:clipToPadding="false"/);
+  for(const name of ['widget_design_v165','widget_design_v165_wide','widget_native_v164','widget_native_wide_v164'])assert.match(xml(name),/paddingBottom="0dp" android:clipToPadding="false"/);
 });
 test('dark widgets theme agenda time while v176 selected dates and actions retain intended contrast',()=>{
   assert.match(native,/color\(c,row,"widget_item_time_v165",ink\(c,rowTheme\)\)/);
@@ -82,7 +82,7 @@ test('recovery is explicit and never records the legacy generic placeholder as s
   assert.match(native,/manager\.updateAppWidget\(widget,v\);\s*prefs\(c\)\.edit\(\)\.remove\("widget_render_error_"\+widget\)/);
   assert.match(native,/위젯 다시 연결/);assert.match(native,/manager\.updateAppWidget\(widget,recovery\);return false/);
   assert.match(provider,/if\(WidgetNativeV164\.update\(c,manager,widget,name\)\)\s*WidgetNativeV164\.prefs/);
-  assert.match(provider,/putInt\("widget_renderer_"\+widget,169\)/);
+  assert.match(provider,/putInt\("widget_renderer_"\+widget,183\)/);
 });
 test('collection fill-in pending intents remain mutable only where required',()=>{
   assert.match(native,/setPendingIntentTemplate[^\n]+SDK_INT>=31\?0x0a000000:0x08000000/);

@@ -1,0 +1,75 @@
+/* Mobile ESTATE uses the same records, editors and owner-scoped API as the site. */
+#estate.view{--estate-type:1;padding:0 0 calc(86px + env(safe-area-inset-bottom));overflow:hidden;min-height:0}
+html[data-app-font-size=small] #estate{--estate-type:.9}
+html[data-app-font-size=large] #estate{--estate-type:1.15}
+#estate.view.on{display:flex;flex-direction:column;animation:none}
+body:has(#estate.on .estate-panel:not([hidden])) #wheel{visibility:hidden!important;pointer-events:none!important}
+#estate .app-estate-header{display:flex;align-items:center;gap:12px;padding:12px 4px;flex:none;color:var(--app-on-space,#fff)}
+#estate .app-estate-header button{width:44px;height:44px;flex:none;border:1px solid var(--app-border);border-radius:14px;background:var(--app-surface,#fff);color:var(--app-text,#173c38);font-size:22px}
+#estate .app-estate-header h1{margin:0;font-size:calc(23px * var(--estate-type));line-height:1.3;letter-spacing:-.04em;color:var(--app-on-space,#fff)}
+#estate .app-estate-header p{margin:3px 0 0;font-size:calc(13px * var(--estate-type));color:var(--app-on-space,#fff);opacity:.85}
+#estate #estateStage{height:auto;min-height:0!important;flex:1;border:1px solid var(--estate-line);border-radius:16px;font-family:inherit;overflow:hidden}
+#estate #estateStage .estate-shell{display:flex;flex-direction:column;min-height:0}
+#estate #estateStage .estate-nav{flex:none;padding:10px;gap:8px;max-height:45%;border-right:0;border-bottom:1px solid var(--estate-line);overflow-y:auto}
+#estate #estateStage .estate-nav-tools{display:flex;flex-direction:column;gap:8px}
+#estate #estateStage .estate-search{display:grid;grid-template-columns:minmax(0,1fr) auto;max-width:none;width:100%;flex:none;gap:6px}
+#estate #estateStage .estate-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+#estate #estateStage .estate-nav .estate-actions button{padding:8px 4px;text-align:center}
+#estate #estateStage .estate-nav-links{display:flex;flex-direction:row;gap:5px;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;padding:2px 0}
+#estate #estateStage .estate-nav-links>button{flex:0 0 auto;width:auto;min-height:44px;padding:8px 11px}
+#estate #estateStage .estate-main{padding:14px 11px;flex:1;min-height:0;-webkit-overflow-scrolling:touch}
+#estate #estateStage :is(button,input,select,textarea){min-height:44px;font-size:calc(14px * var(--estate-type))!important}
+#estate #estateStage :is(input[type=checkbox],input[type=radio]){min-height:20px;width:20px;height:20px;flex-shrink:0}
+#estate #estateStage :is(input[type=text],input[type=search],input[type=number],input[type=date],input[type=time],input[type=datetime-local],select,textarea){font-size:max(16px,calc(16px * var(--estate-type)))!important;max-width:100%}
+#estate #estateStage :is(p,li,dd,td){font-size:calc(14px * var(--estate-type))!important;line-height:1.6!important;overflow-wrap:anywhere}
+#estate #estateStage :is(small,time,dt,label,legend,th,.estate-wf-meta){font-size:calc(12px * var(--estate-type))!important;line-height:1.5!important}
+#estate #estateStage h2{font-size:calc(20px * var(--estate-type))!important}
+#estate #estateStage :is(h3,h4){font-size:calc(16px * var(--estate-type))!important}
+#estate #estateStage .estate-panel{width:100%;inset:0;border:0;box-shadow:none;z-index:15}
+#estate #estateStage .estate-panel-header{padding:10px 12px;min-height:64px}
+#estate #estateStage .estate-panel-body{padding:14px 12px;scroll-padding-bottom:80px;-webkit-overflow-scrolling:touch}
+#estate #estateStage .estate-form-actions{position:sticky;bottom:-14px;background:#fff;padding:12px 0;display:flex;gap:8px;z-index:2;border-top:1px solid var(--estate-line)}
+#estate #estateStage .estate-form-actions button{flex:1}
+#estate #estateStage .estate-directory-cards{grid-template-columns:minmax(0,1fr)}
+#estate #estateStage .estate-directory-property-card{padding:0}
+#estate #estateStage .estate-directory-cover{aspect-ratio:16/9}
+#estate #estateStage .estate-directory-heading{align-items:flex-start;flex-wrap:wrap;gap:8px}
+#estate #estateStage .estate-directory{gap:12px}
+#estate #estateStage .estate-directory-heading :is(.estate-directory-eyebrow,p,[data-directory-new]){display:none}
+#estate #estateStage .estate-directory-heading h2{margin:0}
+#estate #estateStage .estate-directory-cover:not(:has(img)){aspect-ratio:auto;min-height:48px}
+#estate #estateStage .app-estate-filters{border:1px solid var(--estate-line);border-radius:10px;background:#f1f7f4;overflow:hidden}
+#estate #estateStage .app-estate-filters>summary{padding:11px 12px;min-height:44px;font-size:calc(14px * var(--estate-type));font-weight:650;cursor:pointer}
+#estate #estateStage .app-estate-filters .estate-directory-toolbar{border:0;border-top:1px solid var(--estate-line);border-radius:0}
+#estate #estateStage .estate-directory-list-meta{gap:6px}
+#estate #estateStage .estate-directory-list-meta>p{margin:0;font-size:calc(12px * var(--estate-type))!important}
+#estate #estateStage .estate-directory-view-buttons{gap:6px}
+#estate #estateStage .estate-directory-toolbar{padding:11px}
+#estate #estateStage .estate-directory-card-content{padding:14px;gap:10px}
+#estate #estateStage .estate-wf-top-summary{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+#estate #estateStage .estate-wf-today-grid,#estate #estateStage .estate-wf-settlement-grid,#estate #estateStage .estate-wf-statistics{grid-template-columns:minmax(0,1fr)}
+#estate #estateStage .estate-wf-board-column{flex-basis:min(82vw,300px)}
+#estate #estateStage .estate-wf-onboarding{align-items:flex-start;flex-direction:column;gap:10px}
+#estate #estateStage .estate-notice{padding:9px 12px;flex:none}
+#estate #estateStage .estate-calendar-layout{grid-template-columns:minmax(0,1fr)}
+#estate #estateStage .estate-calendar-agenda{display:block}
+#estate #estateStage .estate-compare{grid-template-columns:1fr}
+@media(min-width:720px){
+  #estate #estateStage .estate-nav-tools{flex-direction:row;align-items:center}
+  #estate #estateStage .estate-search{flex:1}
+  #estate #estateStage .estate-actions{flex:0 0 auto}
+  #estate #estateStage .estate-main{padding:18px}
+  #estate #estateStage .estate-directory-cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #estate #estateStage .estate-wf-top-summary{grid-template-columns:repeat(5,minmax(0,1fr))}
+  #estate #estateStage:has(.estate-panel:not([hidden])) .estate-shell{max-width:46%}
+  #estate #estateStage .estate-panel{width:54%;inset:0 0 0 auto;border-left:1px solid var(--estate-line)}
+  #estate #estateStage:has(.estate-panel:not([hidden])) .estate-nav-tools{flex-direction:column}
+  #estate #estateStage:has(.estate-panel:not([hidden])) .estate-search{flex:none}
+  #estate #estateStage:has(.estate-panel:not([hidden])) .estate-directory-cards{grid-template-columns:minmax(0,1fr)}
+  #estate #estateStage:has(.estate-panel:not([hidden])) .estate-wf-top-summary{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #estate #estateStage .estate-wf-form-grid{grid-template-columns:minmax(0,1fr)}
+}
+@media(min-width:1024px){
+  #estate #estateStage:not(:has(.estate-panel:not([hidden]))) .estate-wf-today-grid{grid-template-columns:minmax(0,3fr) minmax(230px,2fr)}
+  #estate #estateStage:not(:has(.estate-panel:not([hidden]))) .estate-calendar-layout{grid-template-columns:minmax(0,3fr) minmax(220px,2fr)}
+}

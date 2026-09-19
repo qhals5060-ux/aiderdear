@@ -6,8 +6,10 @@ import {installEstateCalendar} from './estate-calendar-view-v172.js';
 
 const root=document.getElementById('estateStage');
 const isApp=()=>!!window.AiderLogNative||!!window.Android||document.documentElement.classList.contains('aiderlog-android')||new URLSearchParams(location.search).has('android-preview');
-if(root&&!isApp())init();
-function init(){
+if(root&&root.dataset.estateHost!=='app'&&!isApp())mountEstateV171(root);
+export function mountEstateV171(root,{isActive=()=>!root.hidden&&!isApp(),openPage=()=>document.querySelector('.tab[data-tab="estate"]')?.click(),savedMessage='사이트 저장 완료',directoryMode='list'}={}){
+  if(!root)throw new Error('ESTATE 화면이 필요합니다.');
+  if(root.estateControllerV171)return root.estateControllerV171;
   const names={today:'오늘의 업무',calendar:'일정 캘린더',properties:'매물 관리',customers:'고객 관리',matching:'매물 매칭',deals:'거래 진행',settlement:'정산·통계'};
   const entities={properties:'매물',customers:'고객',consultations:'상담',proposals:'매물 제안',visits:'방문',deals:'거래',tasks:'일정·업무',receipts:'수납',requests:'방문 요청'};
   const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -17,14 +19,14 @@ function init(){
   const views=new Map(),editors=new Map(),cache=new Map(),viewNodes=new Map();let active='today',panelAbort=null,dirty=false,opening=0,previousFocus=null,initialized=false;
   const api=createEstateClient(()=>{searchSerial++;search.reset();results.replaceChildren();results.hidden=true;notice.textContent='';notice.hidden=true;panelBody.replaceChildren();panel.querySelector('h2').textContent='';previousFocus=null;cache.clear();viewNodes.forEach(v=>v.abort.abort());viewNodes.clear();main.replaceChildren();panelAbort?.abort();opening++;dirty=false;panel.hidden=true;initialized=false;});
   const cacheRow=(collection,row)=>{if(row?.id){if(!cache.has(collection))cache.set(collection,new Map());cache.get(collection).set(row.id,row);}return row;};
-  const app={api,esc,today,uid:()=>api.identity(),money:value=>value===null||value===undefined||value===''?'미확인':Number(value).toLocaleString('ko-KR')+'원',
+  const app={api,esc,today,directoryMode,uid:()=>api.identity(),money:value=>value===null||value===undefined||value===''?'미확인':Number(value).toLocaleString('ko-KR')+'원',
     registerView:(name,fn)=>views.set(name,fn),registerEntity:(name,fn)=>editors.set(name,fn),
     notice(message,isError=false){notice.hidden=!message;notice.textContent=String(message||'');notice.dataset.error=String(isError);},
     async list(collection,options={}){const result=await api.call('list',{collection,...options});(result.rows||[]).forEach(row=>cacheRow(collection,row));return result;},
     options:collection=>[...(cache.get(collection)?.values()||[])],
     async lookup(collection,id){if(!id)return null;return cache.get(collection)?.get(id)||cacheRow(collection,(await api.call('get',{collection,id})).row);},
     async pickOptions(collection){await app.list(collection,{limit:50});return app.options(collection);},
-    async save(collection,row,form){const result=await api.call('save',{collection,id:row.id,row,expectedRevision:row.revision||0});cacheRow(collection,result.row);Object.assign(row,result.row);dirty=false;if(form)form.dataset.saved='true';app.notice(result.warnings?.length?`저장됨 · ${result.warnings.map(w=>typeof w==='string'?w:w.message||String(w)).join(' · ')}`:'사이트 저장 완료');viewNodes.forEach(v=>v.stale=true);window.dispatchEvent(new CustomEvent('aiderlog-estate-updated'));return result.row;},
+    async save(collection,row,form){const result=await api.call('save',{collection,id:row.id,row,expectedRevision:row.revision||0});cacheRow(collection,result.row);Object.assign(row,result.row);dirty=false;if(form)form.dataset.saved='true';app.notice(result.warnings?.length?`저장됨 · ${result.warnings.map(w=>typeof w==='string'?w:w.message||String(w)).join(' · ')}`:savedMessage);viewNodes.forEach(v=>v.stale=true);window.dispatchEvent(new CustomEvent('aiderlog-estate-updated'));return result.row;},
     field(name,label,type='text',value='',options){const opts=Array.isArray(options)?{options}:options||{},attrs=['required','min','max','step','maxlength','placeholder','accept','multiple'].filter(k=>opts[k]!==undefined&&opts[k]!==false).map(k=>opts[k]===true?` ${k}`:` ${k}="${esc(opts[k])}"`).join('');let control;
       if(type==='select')control=`<select name="${esc(name)}"${attrs}>${(opts.options||[]).map(o=>{const v=typeof o==='object'?o.value:o,l=typeof o==='object'?o.label:o;return `<option value="${esc(v)}"${String(value??'')===String(v)?' selected':''}>${esc(l)}</option>`;}).join('')}</select>`;
       else if(type==='textarea')control=`<textarea name="${esc(name)}"${attrs}>${esc(value)}</textarea>`;
@@ -33,7 +35,7 @@ function init(){
     },
     form(container,html,onSave,options={}){const trackDirty=options.trackDirty!==false,form=document.createElement('form');form.className='estate-form';form.innerHTML=html+'<div class="estate-form-error" role="alert" hidden></div><footer class="estate-form-actions"><button type="button" data-form-cancel>닫기</button><button type="submit" class="estate-primary">저장</button></footer>';container.appendChild(form);form.addEventListener('input',()=>{if(trackDirty)dirty=true;});form.addEventListener('change',()=>{if(trackDirty)dirty=true;});form.querySelector('[data-form-cancel]').onclick=()=>{if(!trackDirty){form.remove();return;}if(panel.contains(form))app.close();else if(!dirty||confirm('저장하지 않은 입력을 닫을까요?')){form.remove();dirty=false;}};form.onsubmit=async event=>{event.preventDefault();if(form.dataset.busy==='true')return;const buttons=[...form.querySelectorAll('button')],disabled=new Map(buttons.map(b=>[b,b.disabled])),data=Object.fromEntries(new FormData(form)),error=form.querySelector('.estate-form-error');error.hidden=true;form.dataset.busy='true';form.inert=true;buttons.forEach(b=>b.disabled=true);try{await onSave(data,form);if(trackDirty)dirty=false;}catch(e){error.textContent=e.message||'저장하지 못했습니다. 입력은 유지됩니다.';error.hidden=false;}finally{form.dataset.busy='false';form.inert=false;buttons.forEach(b=>b.disabled=disabled.get(b));}};return form;},
     async open(collection,id,initialFields={}){if(!api.identity())return;if(panel.querySelector('[data-busy="true"]')){app.notice('저장이 끝날 때까지 잠시 기다려주세요.');return;}if(dirty&&!confirm('저장하지 않은 입력을 닫을까요?'))return;const editor=editors.get(collection);if(!editor){app.notice('이 자료의 편집 화면을 찾지 못했습니다.',true);return;}previousFocus=document.activeElement;panelAbort?.abort();panelAbort=new AbortController();const signal=panelAbort.signal,serial=++opening;dirty=false;panel.hidden=false;panel.querySelector('h2').textContent=`${entities[collection]||collection} ${id?'상세':'등록'}`;panelBody.innerHTML='<p>자료를 확인하고 있습니다…</p>';try{const row=id?cacheRow(collection,(await api.call('get',{collection,id})).row):{...initialFields,id:crypto.randomUUID(),revision:0};if(serial!==opening||signal.aborted)return;panelBody.replaceChildren();await editor({container:panelBody,row,isNew:!id,signal});if(serial!==opening||signal.aborted)return;const savedProjection=calendarRows({[collection]:[row]});if(id&&savedProjection.length)renderGoogleExport(panelBody,collection,id,signal);panel.querySelector('[aria-label="상세 닫기"]').focus({preventScroll:true});}catch(error){if(serial===opening){panelBody.innerHTML=`<p class="estate-form-error">${esc(error.message)}</p><button type="button" data-retry>다시 불러오기</button>`;panelBody.querySelector('[data-retry]').onclick=()=>app.open(collection,id,initialFields);}}},
-    close(force=false){if(panel.querySelector('[data-busy="true"]')){app.notice('저장이 끝날 때까지 잠시 기다려주세요.');return false;}if(!force&&dirty&&!confirm('저장하지 않은 입력을 닫을까요?'))return false;panelAbort?.abort();opening++;panel.hidden=true;dirty=false;previousFocus?.focus?.({preventScroll:true});if(viewNodes.get(active)?.stale)app.refresh();return true;},
+    close(force=false){if(root.querySelector('[data-busy="true"]')){app.notice('저장이 끝날 때까지 잠시 기다려주세요.');return false;}if(!force&&dirty&&!confirm('저장하지 않은 입력을 닫을까요?'))return false;panelAbort?.abort();opening++;panel.hidden=true;dirty=false;previousFocus?.focus?.({preventScroll:true});if(viewNodes.get(active)?.stale)app.refresh();return true;},
     async navigate(view,force=false){if(!views.has(view))return;if(!panel.hidden&&!app.close())return;active=view;root.querySelectorAll('[data-estate-view]').forEach(b=>b.setAttribute('aria-current',b.dataset.estateView===view?'page':'false'));await showView(view,force);},
     async refresh(){return showView(active,true);},
     async related(container,collection,predicate,render){let cursor=null;const list=document.createElement('div'),more=document.createElement('button');more.type='button';more.textContent='관련 기록 더 보기';container.append(list,more);const load=async()=>{more.disabled=true;try{const page=await app.list(collection,{cursor,limit:50});for(const row of page.rows||[])if(predicate(row)){const node=render(row);if(node instanceof Node)list.appendChild(node);else list.insertAdjacentHTML('beforeend',String(node||''));}cursor=page.cursor;more.hidden=!cursor;}catch(e){app.notice(e.message,true);}finally{more.disabled=false;}};more.onclick=load;await load();}
@@ -50,12 +52,20 @@ function init(){
   installDirectory(app);installWorkflow(app);installEstateCalendar(app);installMatching(app);
   function fit(){if(!root.hidden)root.style.setProperty('--estate-top',`${Math.max(0,root.getBoundingClientRect().top)+12}px`);}
   window.addEventListener('resize',fit);
-  async function activate(){if(root.hidden||isApp())return;fit();api.identity();if(!initialized){initialized=true;await app.navigate('today');}else if(viewNodes.get(active)?.stale)await app.refresh();}
+  async function activate(){api.identity();if(!isActive())return;fit();if(!initialized){initialized=true;await app.navigate('today');}else if(viewNodes.get(active)?.stale)await app.refresh();}
   new MutationObserver(activate).observe(root,{attributes:true,attributeFilter:['hidden']});
   window.addEventListener('aiderdear-firebase-state',()=>{api.identity();activate();});window.addEventListener('aiderdear-firebase-ready',()=>{api.identity();activate();});
-  window.AiderEstateV171=Object.freeze({activate,open:async(collection,id)=>{document.querySelector('.tab[data-tab="estate"]')?.click();await activate();await app.open(collection,id);}});activate();
+  const controller=Object.freeze({activate,open:async(collection,id)=>{if(await openPage()===false)return false;await activate();if(!isActive())return false;await app.open(collection,id);return true;},
+    close:()=>app.close(),canLeave:()=>app.close(),hasPanel:()=>!panel.hidden,hasUnsaved:()=>dirty||!!root.querySelector('[data-busy="true"]')});
+  root.estateControllerV171=controller;window.AiderEstateV171=controller;activate();return controller;
 
-  async function calendarRequest(action,payload={}){const token=await window.AiderDearFirebase.getFirebaseIdToken();const response=await fetch(`/api/calendar-sync?action=${encodeURIComponent(action)}`,{method:'POST',cache:'no-store',credentials:'same-origin',headers:{'Content-Type':'application/json',Authorization:`Bearer ${token}`},body:JSON.stringify(payload)});const result=await response.json();if(!response.ok)throw Error(result.error||'Google Calendar 연결을 확인해주세요.');return result;}
+  async function calendarRequest(action,payload={},signal){
+    const owner=api.identity(),check=()=>{if(!owner||signal?.aborted||api.identity()!==owner)throw Error('로그인 계정 또는 상세 화면이 변경되었습니다. 다시 열어주세요.');};
+    check();const token=await window.AiderDearFirebase.getFirebaseIdToken();check();
+    const response=await fetch(`/api/calendar-sync?action=${encodeURIComponent(action)}`,{method:'POST',cache:'no-store',credentials:'same-origin',headers:{'Content-Type':'application/json',Authorization:`Bearer ${token}`},body:JSON.stringify(payload),signal});
+    check();const result=await response.json();check();
+    if(!response.ok)throw Error(result.error||'Google Calendar 연결을 확인해주세요.');return result;
+  }
   function renderGoogleExport(container,collection,id,signal){
     const section=document.createElement('section');section.className='estate-google';
     section.innerHTML='<h3>Google Calendar로 보내기</h3><p class="estate-muted">사이트 저장과 별개입니다. 최신 사이트 저장값만 사용하며 미저장 입력은 보내지 않습니다. 연결한 본인 캘린더에만 직접 전송하며, 고객 연락처·내부 메모는 채우지 않습니다.</p><button type="button">연결 상태 확인 · 전송 내용 검토</button><div></div>';container.append(section);
@@ -64,9 +74,9 @@ function init(){
       if(section.querySelector('[data-busy="true"]'))return;
       this.disabled=true;const target=section.querySelector('div');
       try{
-        const status=await calendarRequest('status');
+        const status=await calendarRequest('status',{},signal);
         if(!status.google?.connected||!status.google?.writeEnabled)throw Error('설정에서 Google Calendar 쓰기 연결과 캘린더 선택을 완료한 뒤 사용할 수 있습니다. 사이트 일정은 이미 저장되어 있습니다.');
-        const info=await calendarRequest('calendars'),selected=new Set(info.selectedCalendarIds||[]),choices=(info.calendars||[]).filter(c=>c.accessRole==='owner'&&selected.has(c.id));
+        const info=await calendarRequest('calendars',{},signal),selected=new Set(info.selectedCalendarIds||[]),choices=(info.calendars||[]).filter(c=>c.accessRole==='owner'&&selected.has(c.id));
         if(!choices.length)throw Error('선택한 캘린더 중 본인 소유 캘린더가 없습니다. 기존 설정에서 선택해주세요.');
         const projections=await savedProjections();
         if(signal?.aborted)return;
@@ -77,7 +87,7 @@ function init(){
           const reviewed=projections.find(r=>r.id===data.projection),row=(await savedProjections()).find(r=>r.id===data.projection);
           if(signal?.aborted)throw Error('상세 화면이 닫혔습니다. 다시 열어 전송 내용을 확인해주세요.');
           if(!reviewed||!row||['date','endDate','time','endTime'].some(key=>(reviewed[key]||'')!==(row[key]||'')))throw Error('검토 후 사이트 저장 일정이 변경되었습니다. 연결 상태 확인 · 전송 내용 검토를 다시 눌러주세요.');
-          await calendarRequest('create',{provider:'google',calendarId:data.calendarId,event:{title:data.title,memo:data.memo,date:row.date,endDate:row.endDate,time:row.time,endTime:row.endTime,allDay:!row.time},shareWithCouple:false});
+          await calendarRequest('create',{provider:'google',calendarId:data.calendarId,event:{title:data.title,memo:data.memo,date:row.date,endDate:row.endDate,time:row.time,endTime:row.endTime,allDay:!row.time},shareWithCouple:false},signal);
           exported=true;app.notice('사이트 저장 유지 · Google Calendar 전송 성공');form.querySelector('button[type=submit]').remove();
         },{trackDirty:false});
         form.querySelector('button[type=submit]').textContent='검토한 내용으로 Google 전송';

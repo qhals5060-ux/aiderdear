@@ -23,25 +23,23 @@ test('My cards exactly follow the three signed-in account lists without preview 
   assert(policy({uid:'actor',email:' QHALS5060@GMAIL.COM '}).paper());
   assert.doesNotMatch(source,/previewMode/);
 });
-test('My hub produces only allowed cards and names Estate as a site handoff',()=>{
+test('My hub produces only allowed cards and names Estate as an in-app workspace',()=>{
   const user={uid:'actor',email:'qhals5060@gmail.com'},context=policy(user);
   Object.assign(context,{P:{},ensureData:()=>({paperItems:[],consultingTasks:[],consultingClients:[],workRecords:[],labNotebookEntries:[],labNotebookLinks:[]}),icon:()=>'<svg/>',safe:String});
   vm.runInContext(source.slice(source.indexOf('  function hubHtml()'),source.indexOf('  const subhead ='))+';this.render=hubHtml;',context);
   assert.equal((context.render().match(/data-my128-open=/g)||[]).length,8);
-  assert.match(context.render(),/부동산 업무 · 사이트에서 열기/);
+  assert.match(context.render(),/매물 · 고객 · 거래 · 업무 일정/);
   user.email='aidway55@gmail.com';let html=context.render();assert.equal((html.match(/data-my128-open=/g)||[]).length,4);assert.match(html,/data-my128-open="paper"/);assert.doesNotMatch(html,/data-my128-open="(?:estate|speech|brain|study)"/);
   user.email='abckms5698@naver.com';html=context.render();assert.equal((html.match(/data-my128-open=/g)||[]).length,1);assert.match(html,/data-my128-open="estate"/);
 });
-test('Estate native handoff is guarded and carries neither token nor account data',()=>{
-  let nativeCalls=0,browserCalls=[];const user={uid:'actor',email:'qhals5060@gmail.com'},context=policy(user);
-  Object.assign(context,{toast:()=>{},alert:()=>{},Error});context.window.AiderLogNative={openEstateSite:()=>{nativeCalls++;return true;}};context.window.open=(...args)=>browserCalls.push(args);
-  vm.runInContext(source.slice(source.indexOf('  function openEstateSiteV180()'),source.indexOf('  function openLegacyBrain()'))+';this.open=openEstateSiteV180;',context);
-  assert(context.open());assert.equal(nativeCalls,1);assert.equal(browserCalls.length,0);
-  user.email='aidway55@gmail.com';assert.equal(context.open(),false);assert.equal(nativeCalls,1);
-  user.email='abckms5698@naver.com';delete context.window.AiderLogNative;context.open();assert.equal(browserCalls[0][0],'https://aiderdear1.vercel.app/?site-edition=modern&open=estate');assert.equal(browserCalls[0][2],'noopener,noreferrer');
-  const smali=fs.readFileSync(path.join(repo,'android-src/smali/MainActivity$NativeBridge.smali'),'utf8');
-  const native=smali.slice(smali.indexOf('.method public openEstateSite()Z'),smali.indexOf('.method public syncWidgets('));
-  assert.match(native,/android.intent.action.VIEW/);assert.match(native,/JavascriptInterface/);assert.match(native,/open=estate/);assert.doesNotMatch(native,/getIdToken|access_token|email|p1/);
+test('Estate entry stays inside the app and retains the two-account guard',()=>{
+  let appCalls=0,browserCalls=0;const user={uid:'actor',email:'qhals5060@gmail.com'},context=policy(user);
+  context.window.AiderEstateAppV183={open:()=>{appCalls++;return true;}};
+  context.window.AiderLogNative={openEstateSite:()=>browserCalls++};context.window.open=()=>browserCalls++;
+  vm.runInContext(source.slice(source.indexOf('  function openEstateAppV183()'),source.indexOf('  function openLegacyBrain()'))+';this.open=openEstateAppV183;',context);
+  assert(context.open());assert.equal(appCalls,1);
+  user.email='aidway55@gmail.com';assert.equal(context.open(),false);assert.equal(appCalls,1);
+  user.email='abckms5698@naver.com';assert(context.open());assert.equal(appCalls,2);assert.equal(browserCalls,0);
 });
 test('app top memo button opens detailed todo management instead of the legacy quick overlay',()=>{
   const code=fs.readFileSync(path.join(assets,'experience-v142.js'),'utf8'),body=code.slice(code.indexOf('  function openNotepad(){'),code.indexOf('  window.AiderLogNotepadV142='));let kind,closed=0;

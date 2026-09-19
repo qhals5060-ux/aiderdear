@@ -64,7 +64,16 @@ function header(title,{add=false,pager=false}={}){
   const heading=text(title,14,'android:layout_width="0dp" android:layout_weight="1" android:textStyle="bold"').replace('android:layout_width="match_parent" ','');
   return horizontal([heading,...(pager?[button('‹'),button('›')]:[]),...(add?[button('+',true)]:[])],'android:gravity="center_vertical" android:layout_marginBottom="14dp"');
 }
-function rootXml(conf){return `<FrameLayout ${ns} android:layout_width="match_parent" android:layout_height="match_parent" android:forceDarkAllowed="false" android:contentDescription="위젯 구성 미리보기 · 예시 데이터"><ImageView android:layout_width="match_parent" android:layout_height="match_parent" android:src="@drawable/widget_bg_aurora" android:scaleType="fitXY" android:contentDescription="@null"/><LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:padding="18dp">${header(conf.title||'',conf)}${conf.rows.map(stripNamespace).join('')}</LinearLayout></FrameLayout>`;}
+function rootXml(conf){
+  let xml=read('layout','widget_design_v165');
+  xml=el(xml,'widget_root',{contentDescription:'위젯 구성 미리보기 · 예시 데이터'});
+  xml=el(xml,'w165_header',{visibility:conf.title||conf.add||conf.pager?'visible':'gone'});
+  xml=el(xml,'widget_title',{text:conf.title||''});
+  for(const id of ['widget_items_v164','widget_empty','w165_secondary'])xml=el(xml,id,{visibility:'gone'});
+  for(const id of ['widget_previous','widget_next'])xml=el(xml,id,{visibility:conf.pager?'visible':'gone'});
+  xml=el(xml,'widget_add',{visibility:conf.add?'visible':'gone'});
+  return fillContainer(xml,'widget_preview_rows_v164',conf.rows);
+}
 
 // Both compact picker fixtures embed the real RemoteViews layouts and row XML.
 // Only build-time sample text/selection changes; there is no separate mock design.
@@ -73,7 +82,7 @@ function fillContainer(xml,id,items){
   if(!rx.test(xml))throw Error('Missing empty native preview container: '+id);
   return xml.replace(rx,(tag,name)=>attrs(tag,{visibility:'visible'}).replace(/\/>$/,'>')+items.map(stripNamespace).join('')+`</${name}>`);
 }
-function compactCalendarPreview(kind){
+function compactCalendarPreview(kind,width=336){
   const agenda=kind==='calendar_agenda',rows=['팀 미팅','자료 검토','병원 예약','운동','저녁 약속','공부'];
   const times=['09:30','11:00','14:00','16:00','18:30','20:00'],colours=['#8E71DB','#557FC7','#C66C9C','#7561DC','#8E71DB','#557FC7'];
   const titles=['논문 초안 작성','장비 점검 리스트','발표 자료 준비','구매 견적 확인','메일 회신','전시회 티켓 예매'];
@@ -93,7 +102,8 @@ function compactCalendarPreview(kind){
       const index=week*7+day,date=7+index,entry=index<6?`${times[index]} ${rows[index]}`:'';
       let item=read('layout','widget_compact_day_v181');
       item=el(item,'w181_day',{text:date,textColor:day===6?'#C46779':day===5?'#557FC7':'#171A3A'});
-      item=el(item,'w181_event',{text:entry});
+      item=el(item,'w181_event',{text:index<6?rows[index]:'',textSize:width>=500?'10.5sp':'8.5sp'});
+      item=el(item,'w181_event_time',{text:index<6?times[index].replace(/^0/,''):'',visibility:entry?'visible':'gone'});
       item=el(item,'w181_dot',{visibility:entry?'visible':'gone',textColor:colours[index%colours.length]});
       item=el(item,'w181_cell_background',{src:'@drawable/'+(date===8?'widget_compact_selected_v181':'widget_compact_grid_v181')});
       days.push(item);
@@ -105,34 +115,41 @@ function compactCalendarPreview(kind){
   for(let row=0;row<3;row++)pairs.push(fillContainer(read('layout','widget_compact_todo_group_v181'),'w181_pair',titles.slice(row*2,row*2+2).map(title=>el(read('layout','widget_compact_todo_cell_v181'),'w181_title',{text:title}))));
   return fillContainer(xml,'w181_todo_preview',pairs);
 }
-function calendarPreview(kind,width){
-  if(kind==='calendar_agenda'||kind==='calendar_fortnight')return compactCalendarPreview(kind);
+function calendarPreview(kind,width,height){
+  if(kind==='calendar_agenda'||kind==='calendar_fortnight')return compactCalendarPreview(kind,width);
   const large=kind==='calendar_split',monthOnly=kind==='calendar_month',agenda=kind==='calendar_agenda',fortnight=kind==='calendar_fortnight',wide=width>=560;
-  const only=large||monthOnly,title=agenda?'9월 6일 일요일 · 3건':fortnight?'08.31 – 09.13':'2026. 09';
+  const only=large||monthOnly,title=agenda?'9월 6일 일요일 · 3건':fortnight?'08.31 – 09.13':'2026. 09',split=wide&&!only;
   const rows=['09:30 팀 미팅','14:00 병원 예약','19:30 공부'].map(line=>el(el(read('layout','widget_item_v164'),'widget_item_time_v165',{text:line.slice(0,5)}),'widget_item_text_v164',{text:line.slice(6)}));
   if(agenda)return rootXml({title,add:true,rows}); // No duplicate selected-date subtitle.
   let weekday=read('layout','widget_weekrow_v164');
   if(fortnight)for(let i=0;i<7;i++)weekday=el(weekday,'widget_week_'+i,{text:['월','화','수','목','금','토','일'][i]});
   const dates=new Date(2026,7,fortnight?31:30),weeks=fortnight?2:5,calendar=[weekday];
+  const cellHeight=(((height||320)-38)*(only||split?1:.6)-16)/weeks;
   const events={'2026-09-06':['09:30 팀 미팅','14:00 병원 예약','19:30 공부'],'2026-09-08':['10:00 자료 검토'],'2026-09-11':['16:00 운동']};
   const holidays={'2026-09-24':'추석연휴','2026-09-25':'추석','2026-09-26':'추석연휴','2026-10-03':'개천절'};
   for(let week=0;week<weeks;week++){
     const cells=[];
     for(let day=0;day<7;day++){
-      const key=`${dates.getFullYear()}-${String(dates.getMonth()+1).padStart(2,'0')}-${String(dates.getDate()).padStart(2,'0')}`,entries=events[key]||[],selected=key==='2026-09-06',visible=large?(wide?2:1):0;
+      const key=`${dates.getFullYear()}-${String(dates.getMonth()+1).padStart(2,'0')}-${String(dates.getDate()).padStart(2,'0')}`,entries=events[key]||[],selected=key==='2026-09-06',visible=large?(cellHeight>=90?3:cellHeight>=60?2:1):0;
       let xml=read('layout',fortnight?'widget_day_compact_v178':'widget_day_v164');
-      xml=el(xml,'widget_day_number_v164',{text:dates.getDate(),textColor:'#171A3A',layout_height:'28dp',background:'@drawable/widget_day_clear_v164'});
+      xml=el(xml,'widget_day_number_v164',{text:dates.getDate(),textColor:'#171A3A',background:'@drawable/widget_day_clear_v164'});
       xml=el(xml,'widget_day_background_v164',{src:'@drawable/'+(selected?'widget_day_selected_v164':'widget_day_bg_v164')});
-      xml=el(xml,'widget_day_label_v164',{text:holidays[key]||'',visibility:holidays[key]?'visible':'gone',layout_height:'14dp'});
-      xml=el(xml,'widget_day_events_v164',{text:entries.slice(0,visible).join('\n'),visibility:large?'visible':'gone'});
-      xml=el(xml,'widget_day_more_v164',{text:large&&entries.length>visible?'+'+(entries.length-visible):entries.length&&!large?'●':'',visibility:entries.length?'visible':'gone'});
+      xml=el(xml,'widget_day_number_v164',{textSize:cellHeight>=70?'13sp':'11.5sp'});
+      xml=el(xml,'widget_day_label_v164',{text:holidays[key]||'',visibility:holidays[key]&&cellHeight>=36?'visible':'gone'});
+      xml=el(xml,'widget_day_events_v164',{text:entries.slice(0,visible).join('\n'),textSize:cellHeight>=90?'11.5sp':cellHeight>=60?'10.5sp':'9sp',maxLines:visible*2,visibility:large&&cellHeight>=32?'visible':'gone'});
+      xml=el(xml,'widget_day_more_v164',{text:entries.length?'●':'',visibility:!large&&cellHeight>=24?'visible':'gone'});
       cells.push(xml);dates.setDate(dates.getDate()+1);
     }
-    calendar.push(horizontal(cells,`android:layout_height="${large?92:fortnight?54:44}dp"`).replace('android:layout_height="wrap_content" ',''));
+    calendar.push(fillContainer(read('layout','widget_week_v164'),'widget_week_cells_v164',cells));
   }
-  const chosen=[text('9월 6일 일요일 · 3건',12,'android:layout_marginTop="10dp" android:layout_marginBottom="8dp"'),...rows];
-  const body=only?calendar:wide?[split(calendar,chosen)]:[...calendar,...chosen];
-  return rootXml({title,add:true,pager:true,rows:body});
+  let result=read('layout',split?'widget_native_wide_v164':'widget_native_v164');
+  result=el(result,'widget_root',{contentDescription:'위젯 구성 미리보기 · 예시 데이터'});
+  result=el(result,'widget_title',{text:title});
+  result=el(result,'widget_subtitle',{text:'9월 6일 일요일 · 3건',visibility:only?'gone':'visible'});
+  result=el(result,'widget_list_panel_v164',{visibility:only?'gone':'visible'});
+  for(const id of ['widget_items_v164','widget_empty'])result=el(result,id,{visibility:'gone'});
+  result=fillContainer(result,'widget_calendar_v164',calendar);
+  return fillContainer(result,'widget_preview_rows_v164',rows);
 }
 
 async function generate(){
@@ -188,10 +205,10 @@ async function generate(){
       specs.push({kind,name,width:80,height,xml:read('layout',name),native:true,destination:path.join(res,'drawable-nodpi',name+'.png')});
     }else{
       const calendar=kind.startsWith('calendar_'),conf=configs[kind];
-      const xml=calendar?calendarPreview(kind,336):rootXml(conf);
+      const xml=calendar?calendarPreview(kind,336,height):rootXml(conf);
       write('layout',name,xml);specs.push({kind,name,width:336,height,xml,native:true,destination:path.join(res,'drawable-nodpi',name+'.png')});
       const wideHeight=wideHeights[kind]||(kind==='calendar_month'?320:kind==='calendar_split'?570:kind==='calendar_combined'?370:kind==='calendar_fortnight'?270:Math.min(height,Math.max(224,height*.72)));
-      const wideName=`widget_picker_${kind}_v169_wide`,wideXml=calendar?calendarPreview(kind,672):rootXml({...conf,pager:false,rows:wideRows(kind,conf)});
+      const wideName=`widget_picker_${kind}_v169_wide`,wideXml=calendar?calendarPreview(kind,672,wideHeight):rootXml({...conf,pager:false,rows:wideRows(kind,conf)});
       specs.push({kind,name:wideName,width:672,height:Math.ceil(wideHeight),xml:wideXml,native:false,destination:path.join(qaDir,wideName+'.png')});
     }
     let meta=read('xml','widget_'+kind);

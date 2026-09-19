@@ -1,0 +1,26 @@
+/* ESTATE-only private cooperation details; typography follows the shared site scale. */
+#estateStage .estate-cobroker-summary{display:flex;align-items:center;flex-wrap:wrap;gap:5px 8px;margin:6px 0;min-width:0;font-size:var(--site-type-meta,12px);line-height:1.4;text-align:left}
+#estateStage .estate-cobroker-badge{display:inline-flex;align-items:center;flex:0 0 auto;border:1px solid #d3ddd6;border-radius:5px;padding:3px 7px;background:#f2f5f2;color:#456052;font-weight:600;font-size:var(--site-type-meta,12px)}
+#estateStage .estate-cobroker-active{background:#e9f0fb;border-color:#c8d8ee;color:#355777}
+#estateStage .estate-cobroker-finished{background:#f0f0f1;border-color:#dadadd;color:#61636a}
+#estateStage .estate-cobroker-offices{min-width:0;overflow-wrap:anywhere;color:var(--estate-muted,#656b70);font-size:var(--site-type-meta,12px)}
+#estateStage .estate-cobroker-editor{grid-column:1/-1;display:grid;gap:12px;min-width:0}
+#estateStage .estate-cobroker-editor-head,#estateStage .estate-cobroker-partner>header{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+#estateStage .estate-cobroker-editor-head h4,#estateStage .estate-cobroker-partner h4{margin:0;font-size:var(--site-type-subhead,14px);font-weight:600}
+#estateStage .estate-cobroker-editor-head h4 span{margin-left:5px;color:var(--estate-muted,#656b70);font-size:var(--site-type-meta,12px);font-weight:400}
+#estateStage .estate-cobroker-editor button{min-height:36px;font-size:var(--site-type-control,13px)}
+#estateStage .estate-cobroker-partners{display:grid;gap:12px;min-width:0}
+#estateStage .estate-cobroker-partner{display:grid;gap:12px;min-width:0;margin:0;padding:14px;border:1px solid var(--estate-line,#dce2dd);border-radius:8px;background:var(--estate-surface,#fff)}
+#estateStage .estate-cobroker-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;min-width:0}
+#estateStage .estate-cobroker-fields>label{min-width:0;font-size:var(--site-type-meta,12px)}
+#estateStage .estate-cobroker-fields input,#estateStage .estate-cobroker-fields select,#estateStage .estate-cobroker-fields textarea{width:100%;min-width:0;max-width:100%;box-sizing:border-box;font-size:var(--site-type-control,13px)}
+#estateStage .estate-cobroker-fields>label:has(textarea){grid-column:1/-1}
+#estateStage .estate-cobroker-fields textarea{min-height:80px;resize:vertical}
+#estateStage [data-cobroker-section] .estate-directory-note{font-size:var(--site-type-meta,12px);line-height:1.55}
+#estateStage .estate-wf-cobroker-context{grid-column:1/-1;display:grid;gap:10px;min-width:0;padding:14px;border:1px solid var(--estate-line,#dce2dd);border-radius:8px;background:var(--estate-surface,#fff);font-size:var(--site-type-body,14px);overflow-wrap:anywhere}
+#estateStage .estate-wf-cobroker-context h4{margin:0;font-size:var(--site-type-subhead,14px)}
+#estateStage .estate-wf-cobroker-context p{margin:0;line-height:1.5}
+#estateStage .estate-wf-cobroker-party{display:grid;gap:5px;min-width:0;padding:10px 0;border-top:1px solid var(--estate-line,#dce2dd);font-size:var(--site-type-control,13px)}
+@media(min-width:1180px){#estateStage .estate-directory-filter-grid:has([name="directoryCoBroker"]){grid-template-columns:repeat(6,minmax(0,1fr))}}
+@media(min-width:701px) and (max-width:1179px){#estateStage .estate-directory-filter-grid:has([name="directoryCoBroker"]){grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:560px){#estateStage .estate-cobroker-fields{grid-template-columns:minmax(0,1fr)}#estateStage .estate-cobroker-partner{padding:12px}}

@@ -55,6 +55,8 @@ executables. Use new workspace output directories for each build.
 
 1. If rebuilding shared component resources, run
    `node android-src/widgets/generate-components-v178.cjs ../AiderLog-v145-decoded/res`.
+   Apply the current density migration with
+   `node android-src/widgets/compact-resources-v183.cjs ../AiderLog-v145-decoded/res`.
    Then overlay **all** `android-src/widgets/res` files into the canonical
    decoded `res` directory, including the v181 compact layouts and metadata.
    Do not finish with the historical v169 component generator.
@@ -74,3 +76,19 @@ executables. Use new workspace output directories for each build.
 An actual Flip/Fold is still required to verify One UI placement, native
 ListView gestures, resize behavior and physical touch targets. XML previews,
 Java model tests and APK compilation do not substitute for that device gate.
+
+## v183 geometry correction
+
+The shared native shell now uses 8dp outside padding, a 28dp header and 2dp
+header spacing. A 168dp host therefore has 122dp for collection content,
+compared with 70dp after the old shell and list padding. Standard todo rows
+use a 30dp content minimum and 6dp vertical insets without shrinking text.
+A retains six aligned 26dp rows and raises primary text to 12.5sp. B keeps
+the original 60/40 split and three pairs of incomplete todos, with 11.5sp
+todo labels and separate 8sp condensed time / 8.5sp title columns. The time
+omits a leading zero and the one-line title has its own ellipsis. Month calendars use contiguous cells,
+content-sized dates, and 1–3 visible events according to actual cell height.
+
+Picker generation now embeds the production native shell and weighted calendar
+rows. Its measurement adapter excludes GONE children from weight distribution.
+These are resource measurement fixtures, not device screenshots.

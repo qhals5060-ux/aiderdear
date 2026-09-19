@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/w181_cell" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:forceDarkAllowed="false">
   <ImageView android:id="@+id/w181_cell_background" android:layout_width="match_parent" android:layout_height="match_parent" android:src="@drawable/widget_compact_grid_v181" android:scaleType="fitXY" android:contentDescription="@null"/>
-  <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:gravity="center_vertical" android:paddingLeft="2dp" android:paddingRight="2dp">
-    <TextView android:id="@+id/w181_day" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:textSize="10sp" android:textStyle="bold" android:singleLine="true" android:includeFontPadding="false"/>
+  <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:gravity="center_vertical" android:paddingLeft="1dp" android:paddingRight="1dp">
+    <TextView android:id="@+id/w181_day" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:textSize="11.5sp" android:textStyle="bold" android:singleLine="true" android:includeFontPadding="false"/>
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="14dp" android:orientation="horizontal" android:gravity="center_vertical">
-      <TextView android:id="@+id/w181_dot" android:layout_width="6dp" android:layout_height="wrap_content" android:text="●" android:textSize="5sp" android:textColor="#7561DC" android:includeFontPadding="false"/>
-      <TextView android:id="@+id/w181_event" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:textSize="8sp" android:textColor="#171A3A" android:singleLine="true" android:ellipsize="end" android:includeFontPadding="false"/>
+      <TextView android:id="@+id/w181_dot" android:layout_width="3dp" android:layout_height="wrap_content" android:text="●" android:textSize="4sp" android:textColor="#7561DC" android:includeFontPadding="false"/>
+      <TextView android:id="@+id/w181_event_time" android:layout_width="18dp" android:layout_height="wrap_content" android:layout_marginRight="1dp" android:textSize="8sp" android:fontFamily="sans-serif-condensed" android:textColor="#171A3A" android:singleLine="true" android:includeFontPadding="false"/>
+      <TextView android:id="@+id/w181_event" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:textSize="8.5sp" android:textColor="#171A3A" android:singleLine="true" android:ellipsize="end" android:includeFontPadding="false"/>
     </LinearLayout>
   </LinearLayout>
 </FrameLayout>

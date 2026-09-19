@@ -101,14 +101,14 @@
 
 /* v173: follow the same Work-derived site tokens as the other pages.
    Scoped specificity overrides legacy ESTATE sizes, not the shared tokens. */
-html:not(.aiderlog-android) body #app#app #estateStage{font-size:var(--site-type-body,14px)!important;line-height:1.5!important}
-html:not(.aiderlog-android) body #app#app #estateStage :is(button,input,select,textarea){font-size:var(--site-type-control,13px)!important;line-height:1.45!important}
-html:not(.aiderlog-android) body #app#app #estateStage :is(p,li,dd,td){font-size:var(--site-type-body,14px)!important;line-height:1.5!important}
-html:not(.aiderlog-android) body #app#app #estateStage :is(small,time,dt,label,legend,th,.estate-directory-eyebrow,.estate-directory-note,.estate-wf-meta,.estate-wf-chip,.estate-wf-sample){font-size:var(--site-type-meta,12px)!important;line-height:1.45!important}
-html:not(.aiderlog-android) body #app#app #estateStage h1{font-size:var(--site-type-page,20px)!important;line-height:1.35!important}
-html:not(.aiderlog-android) body #app#app #estateStage h2{font-size:var(--site-type-section,16px)!important;line-height:1.4!important}
-html:not(.aiderlog-android) body #app#app #estateStage :is(h3,h4){font-size:var(--site-type-subhead,14px)!important;line-height:1.4!important}
-html:not(.aiderlog-android) body #app#app #estateStage .estate-panel-header h2{font-size:var(--site-type-section,16px)!important}
+html:not(.aiderlog-android) body #app#app #estateStage:not([data-estate-host=app]){font-size:var(--site-type-body,14px)!important;line-height:1.5!important}
+html:not(.aiderlog-android) body #app#app #estateStage:not([data-estate-host=app]) :is(button,input,select,textarea){font-size:var(--site-type-control,13px)!important;line-height:1.45!important}
+html:not(.aiderlog-android) body #app#app #estateStage:not([data-estate-host=app]) :is(p,li,dd,td){font-size:var(--site-type-body,14px)!important;line-height:1.5!important}
+html:not(.aiderlog-android) body #app#app #estateStage:not([data-estate-host=app]) :is(small,time,dt,label,legend,th,.estate-directory-eyebrow,.estate-directory-note,.estate-wf-meta,.estate-wf-chip,.estate-wf-sample){font-size:var(--site-type-meta,12px)!important;line-height:1.45!important}
+html:not(.aiderlog-android) body #app#app #estateStage:not([data-estate-host=app]) h1{font-size:var(--site-type-page,20px)!important;line-height:1.35!important}
+html:not(.aiderlog-android) body #app#app #estateStage:not([data-estate-host=app]) h2{font-size:var(--site-type-section,16px)!important;line-height:1.4!important}
+html:not(.aiderlog-android) body #app#app #estateStage:not([data-estate-host=app]) :is(h3,h4){font-size:var(--site-type-subhead,14px)!important;line-height:1.4!important}
+html:not(.aiderlog-android) body #app#app #estateStage:not([data-estate-host=app]) .estate-panel-header h2{font-size:var(--site-type-section,16px)!important}
 
 @media(max-width:700px){
   #estateStage .estate-shell{display:flex;flex-direction:column}

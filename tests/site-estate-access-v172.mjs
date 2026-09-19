@@ -32,10 +32,10 @@ test('hidden by default; same site allowlist governs navigation and no Android p
 
 test('changing to a disallowed account clears client identity and blocks network requests',async t=>{
  const before=globalThis.window,priorFetch=globalThis.fetch;let user={uid:'same-uid',email:'qhals5060@gmail.com'},requests=0;const identities=[];
- globalThis.window={AiderDearFirebase:{getState:()=>({user}),getFirebaseIdToken:async()=> 'fixture-token'}};
+ globalThis.window=Object.assign(new EventTarget(),{AiderDearFirebase:{getState:()=>({user}),getFirebaseIdToken:async()=> 'fixture-token'}});
  globalThis.fetch=async()=>{requests++;return {ok:true,json:async()=>({rows:[]})};};
  t.after(()=>{globalThis.window=before;globalThis.fetch=priorFetch;});
  const client=createEstateClient(uid=>identities.push(uid));await client.call('list',{collection:'properties'});assert.equal(requests,1);
- user={uid:'same-uid',email:'friend@example.com'};assert.equal(client.identity(),'');
+ user={uid:'same-uid',email:'friend@example.com'};globalThis.window.dispatchEvent(new Event('aiderdear-firebase-state'));assert.deepEqual(identities,['same-uid','']);assert.equal(client.identity(),'');
  await assert.rejects(client.call('list',{collection:'properties'}),/지정/);assert.equal(requests,1);assert.deepEqual(identities,['same-uid','']);
 });

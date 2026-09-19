@@ -165,7 +165,8 @@ public final class WidgetNativeV164 {
         int rowCount=fortnight?2:monthRows;
         Bundle dimensions=AppWidgetManager.getInstance(c).getAppWidgetOptions(widget);
         int available=Math.round(WidgetSizeV169.current(c,widget).getHeight());
-        float cellHeight=((available-62f)*(kind.equals("CalendarMonth")||kind.equals("CalendarSplit")||split?1f:.6f)-20f)/rowCount-6f;
+        // The old 62dp reserve and 28dp date box hid events even when cells had room.
+        float cellHeight=((available-38f)*(kind.equals("CalendarMonth")||kind.equals("CalendarSplit")||split?1f:.6f)-16f)/rowCount;
         for(int row=0;row<rowCount;row++){
             RemoteViews week=view(c,fortnight&&!split?"widget_week_compact_v178":"widget_week_v164");
             for(int col=0;col<7;col++){
@@ -174,22 +175,25 @@ public final class WidgetNativeV164 {
                 String holiday=holidays==null?"":holidays.optString(key,"");
                 text(c,cell,"widget_day_label_v164",holiday);
                 List<String> dated=eventsOn(events,key);
-                int visibleEvents=kind.equals("CalendarSplit")&&WidgetDesignV165.wide(c,widget)?2:1;
-                String eventText=dated.isEmpty()?"":dated.get(0);if(visibleEvents==2&&dated.size()>1)eventText+="\n"+dated.get(1);
+                int visibleEvents=kind.equals("CalendarSplit")?calendarEventCapacity(cellHeight):1;
+                StringBuilder eventLines=new StringBuilder();
+                for(int i=0;i<Math.min(visibleEvents,dated.size());i++){if(i>0)eventLines.append('\n');eventLines.append(dated.get(i));}
+                String eventText=eventLines.toString();
                 text(c,cell,"widget_day_events_v164",eventText);
                 text(c,cell,"widget_day_more_v164",kind.equals("CalendarSplit")&&dated.size()>visibleEvents?"+"+(dated.size()-visibleEvents):dated.size()>0?"●":"");
-                boolean visibleHoliday=cellHeight>=24&&!holiday.isEmpty();
+                boolean visibleHoliday=cellHeight>=36&&!holiday.isEmpty();
                 show(c,cell,"widget_day_label_v164",visibleHoliday);
-                show(c,cell,"widget_day_events_v164",kind.equals("CalendarSplit")&&cellHeight>=40);
-                show(c,cell,"widget_day_more_v164",cellHeight>=(visibleHoliday?38:28));
+                show(c,cell,"widget_day_events_v164",kind.equals("CalendarSplit")&&cellHeight>=32);
+                show(c,cell,"widget_day_more_v164",!kind.equals("CalendarSplit")&&cellHeight>=24);
                 // TextView wraps its scaled font; a fixed 12–18dp height clips Korean/system-large text.
                 boolean chosen=key.equals(selected),outside=!fortnight&&start.get(Calendar.MONTH)!=shownMonth;
                 // Selection is a quiet full-cell frame; the date remains readable text.
                 color(c,cell,"widget_day_number_v164",foreground);
                 color(c,cell,"widget_day_label_v164",foreground);
                 color(c,cell,"widget_day_events_v164",foreground);color(c,cell,"widget_day_more_v164",dark(c,chosenTheme)?0xffc1baff:PRIMARY);
-                cell.setTextViewTextSize(id(c,"widget_day_number_v164"),2,Math.max(10,size-1.5f));
-                cell.setTextViewTextSize(id(c,"widget_day_events_v164"),2,Math.max(11,size-3));
+                cell.setTextViewTextSize(id(c,"widget_day_number_v164"),2,WidgetSizeV169.sp(c,widget,selectedFont,cellHeight>=70?13:11.5f));
+                cell.setTextViewTextSize(id(c,"widget_day_events_v164"),2,WidgetSizeV169.sp(c,widget,selectedFont,calendarEventSp(cellHeight)));
+                cell.setInt(id(c,"widget_day_events_v164"),"setMaxLines",visibleEvents*2);
                 cell.setTextViewTextSize(id(c,"widget_day_label_v164"),2,Math.max(10,size-4));
                 cell.setInt(id(c,"widget_day_number_v164"),"setBackgroundResource",drawable(c,"widget_day_clear_v164"));
                 cell.setImageViewResource(id(c,"widget_day_background_v164"),drawable(c,chosen?(dark(c,chosenTheme)?"widget_day_selected_dark_v178":"widget_day_selected_v164"):dark(c,chosenTheme)?"widget_day_dark_v164":key.equals(today)?"widget_day_today_v164":"widget_day_bg_v164"));
@@ -202,6 +206,8 @@ public final class WidgetNativeV164 {
             v.addView(id(c,"widget_calendar_v164"),week);
         }
     }
+    static int calendarEventCapacity(float cellHeight){return cellHeight>=90?3:cellHeight>=60?2:1;}
+    static float calendarEventSp(float cellHeight){return cellHeight>=90?11.5f:cellHeight>=60?10.5f:9;}
     static List<String> eventsOn(JSONArray events,String day){
         List<String> out=new ArrayList<String>();if(events==null)return out;
         for(int i=0;i<events.length();i++){JSONObject event=events.optJSONObject(i);if(event==null)continue;String start=event.optString("date"),end=event.optString("endDate",start);if(end.length()==0)end=start;

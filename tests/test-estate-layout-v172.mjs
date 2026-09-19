@@ -150,7 +150,7 @@ test('mobile retains horizontal view navigation and all three visible creation c
   assert(!/\.estate-(?:search|actions|nav-links)[^{]*\{[^}]*display:none/.test(mobile));
 });
 test('ESTATE follows the shared Work-derived site typography without larger local tokens', () => {
-  const scope = 'html:not(.aiderlog-android) body #app#app #estateStage';
+  const scope = 'html:not(.aiderlog-android) body #app#app #estateStage:not([data-estate-host=app])';
   assert(css.includes(scope + '{font-size:var(--site-type-body,14px)!important'));
   assert(css.includes(scope + ' :is(button,input,select,textarea){font-size:var(--site-type-control,13px)!important'));
   assert(css.includes(scope + ' h1{font-size:var(--site-type-page,20px)!important'));

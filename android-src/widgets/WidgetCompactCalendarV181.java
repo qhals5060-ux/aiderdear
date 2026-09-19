@@ -46,6 +46,7 @@ public final class WidgetCompactCalendarV181 {
         String value=row.optString("time");
         return row.optBoolean("allDay")||!value.matches("\\d{2}:\\d{2}.*")?"":value.substring(0,5);
     }
+    static String cellTime(JSONObject row){String value=time(row);return value.startsWith("0")?value.substring(1):value;}
     static List<String> incompleteRows(JSONObject data,boolean pairs) {
         JSONObject model=WidgetDesignV165.model(data);JSONArray values=model.optJSONArray("incompleteTodos");
         if(values==null)values=model.optJSONArray("todos");
@@ -119,11 +120,13 @@ public final class WidgetCompactCalendarV181 {
                 try{if(!dated.isEmpty())event=new JSONObject(dated.get(0));}catch(Exception ignored){}
                 RemoteViews cell=view(c,"widget_compact_day_v181");text(c,cell,"w181_day",String.valueOf(start.get(Calendar.DAY_OF_MONTH)));
                 String summary=event==null?"":(time(event).isEmpty()?"":time(event)+" ")+event.optString("title");
-                text(c,cell,"w181_event",summary);show(c,cell,"w181_dot",event!=null);
-                color(c,cell,"w181_day",ink(c,chosen));color(c,cell,"w181_event",ink(c,chosen));
+                text(c,cell,"w181_event",event==null?"":event.optString("title"));show(c,cell,"w181_dot",event!=null);
+                text(c,cell,"w181_event_time",event==null?"":cellTime(event));show(c,cell,"w181_event_time",event!=null&&!time(event).isEmpty());
+                color(c,cell,"w181_day",ink(c,chosen));color(c,cell,"w181_event",ink(c,chosen));color(c,cell,"w181_event_time",ink(c,chosen));
                 if(event!=null)color(c,cell,"w181_dot",eventColor(event));
-                cell.setTextViewTextSize(id(c,"w181_day"),2,WidgetSizeV169.sp(c,widget,selectedFont,10));
-                cell.setTextViewTextSize(id(c,"w181_event"),2,WidgetSizeV169.sp(c,widget,selectedFont,8));
+                cell.setTextViewTextSize(id(c,"w181_day"),2,WidgetSizeV169.sp(c,widget,selectedFont,11.5f));
+                float eventSize=WidgetSizeV169.current(c,widget).getWidth()>=500?10.5f:8.5f;
+                cell.setTextViewTextSize(id(c,"w181_event"),2,Math.max(8,WidgetSizeV169.sp(c,widget,selectedFont,eventSize)));
                 cell.setImageViewResource(id(c,"w181_cell_background"),drawable(c,key.equals(selected)?dark(c,chosen)?"widget_compact_selected_dark_v181":"widget_compact_selected_v181":dark(c,chosen)?"widget_compact_grid_dark_v181":"widget_compact_grid_v181"));
                 cell.setInt(id(c,"w181_cell_background"),"setImageAlpha",Math.round(255*opacity(c,widget,overrideOpacity)/100f));
                 String holiday=holidays==null?"":holidays.optString(key);
@@ -154,8 +157,8 @@ public final class WidgetCompactCalendarV181 {
         if(kind.contains("@todos"))return todo(c,widget,kind,record,data,chosen,selectedFont,false);
         RemoteViews item=view(c,"widget_compact_event_v181");text(c,item,"w181_title",record.optString("title"));text(c,item,"w181_time",time(record));
         color(c,item,"w181_title",ink(c,chosen));color(c,item,"w181_time",ink(c,chosen));color(c,item,"w181_dot",eventColor(record));
-        item.setTextViewTextSize(id(c,"w181_title"),2,WidgetSizeV169.sp(c,widget,selectedFont,11.5f));
-        item.setTextViewTextSize(id(c,"w181_time"),2,WidgetSizeV169.sp(c,widget,selectedFont,10.5f));
+        item.setTextViewTextSize(id(c,"w181_title"),2,WidgetSizeV169.sp(c,widget,selectedFont,12.5f));
+        item.setTextViewTextSize(id(c,"w181_time"),2,WidgetSizeV169.sp(c,widget,selectedFont,11f));
         WidgetDesignV165.put(record,"selectedDate",selectedDay(c,widget,kind));WidgetDesignV165.put(record,"uid",WidgetDesignV165.model(data).optString("uid",data.optString("uid")));
         item.setOnClickFillInIntent(id(c,"w181_row"),new Intent().putExtra("widgetRow",index).putExtra("action","open-schedule-item-v168:"+Uri.encode(record.toString())));
         item.setContentDescription(id(c,"w181_row"),record.optString("title")+(time(record).isEmpty()?"":" "+time(record)));
@@ -164,7 +167,7 @@ public final class WidgetCompactCalendarV181 {
     static RemoteViews todo(Context c,int widget,String kind,JSONObject record,JSONObject data,String chosen,int selectedFont,boolean cell) {
         RemoteViews item=view(c,cell?"widget_compact_todo_cell_v181":"widget_compact_todo_v181");
         text(c,item,"w181_title",record.optString("title"));color(c,item,"w181_title",ink(c,chosen));
-        item.setTextViewTextSize(id(c,"w181_title"),2,WidgetSizeV169.sp(c,widget,selectedFont,cell?10.5f:11.5f));
+        item.setTextViewTextSize(id(c,"w181_title"),2,WidgetSizeV169.sp(c,widget,selectedFont,cell?11.5f:12.5f));
         item.setInt(id(c,"w181_check"),"setBackgroundResource",drawable(c,dark(c,chosen)?"widget_compact_check_dark_v181":"widget_compact_check_v181"));
         // The whole compact checkbox hit area marks completion; title opens the full manager.
         item.setOnClickFillInIntent(id(c,"w181_check_hit"),WidgetDesignV165.action(data,widget,kind,record,"todo","true"));

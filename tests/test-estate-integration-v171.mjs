@@ -10,7 +10,7 @@ import {installEstateCalendar} from '../estate-calendar-view-v172.js';
 
 const read=name=>fs.readFileSync(new URL('../'+name,import.meta.url),'utf8');
 const controller=read('estate-v171.js'),calendar=read('estate-calendar-v171.js'),index=read('index.html');
-const stripImports=source=>source.replace(/^import .*;\r?$/gm,'');
+const stripImports=source=>source.replace(/^import .*;\r?$/gm,'').replace(/^export function /gm,'function ');
 const deferred=()=>{let resolve,reject;const promise=new Promise((a,b)=>{resolve=a;reject=b;});return {promise,resolve,reject};};
 const flush=async()=>{for(let i=0;i<12;i++)await Promise.resolve();};
 class Events{
@@ -42,13 +42,13 @@ class FormDataDouble{constructor(form){this.values=form.fixtureEntries||[];}*[Sy
 
 function controllerFixture(){
  const root=new Element();root.hidden=true;const doc=new Events();doc.documentElement=new Element();doc.getElementById=id=>id==='estateStage'?root:null;doc.createElement=tag=>new Element(tag);doc.querySelector=()=>null;doc.activeElement=new Element();
- const win=new Events();let app,actor='',uid='owner-a',onIdentity,handler=async()=>({rows:[]}),confirms=0;const googleRequests=[];
+ const win=new Events();let app,actor='',uid='owner-a',onIdentity,handler=async()=>({rows:[]}),googleHandler=null,confirms=0;const googleRequests=[];
  win.AiderDearFirebase={getFirebaseIdToken:async()=> 'fake-test-token'};
- const fakeFetch=async(url,options)=>{const action=new URL(url,'https://example.test').searchParams.get('action');googleRequests.push({action,payload:JSON.parse(options.body)});return {ok:true,json:async()=>action==='status'?{google:{connected:true,writeEnabled:true}}:action==='calendars'?{selectedCalendarIds:['owned-calendar'],calendars:[{id:'owned-calendar',accessRole:'owner',summary:'본인 캘린더'}]}:{ok:true}};};
+ const fakeFetch=async(url,options)=>{const action=new URL(url,'https://example.test').searchParams.get('action');googleRequests.push({action,payload:JSON.parse(options.body)});if(googleHandler)return googleHandler(action,options);return {ok:true,json:async()=>action==='status'?{google:{connected:true,writeEnabled:true}}:action==='calendars'?{selectedCalendarIds:['owned-calendar'],calendars:[{id:'owned-calendar',accessRole:'owner',summary:'본인 캘린더'}]}:{ok:true}};};
  const api={identity(){if(actor!==uid){actor=uid;onIdentity(actor);}return actor;},call:(action,payload)=>handler(action,payload)};
  const context=vm.createContext({window:win,document:doc,location:{search:'',href:'https://example.test/'},URL,URLSearchParams,crypto:webcrypto,AbortController,CustomEvent:class{constructor(type){this.type=type;}},MutationObserver:class{observe(){}},FormData:FormDataDouble,Node:Element,fetch:fakeFetch,confirm:()=>{confirms++;return true;},createEstateClient:fn=>{onIdentity=fn;return api;},installDirectory:value=>{app=value;},installEstateCalendar,installWorkflow:value=>value.registerView('today',async()=>{}),installEstateCalendar:value=>value.registerView('calendar',async()=>{}),calendarRows,matchProperty:()=>({criteria:[],score:null,eligible:true}),estateLabels:{},console});
  vm.runInContext(stripImports(controller),context,{filename:'estate-v171.js'});
- return {app,api,root,win,doc,googleRequests,get confirms(){return confirms;},setUid:value=>uid=value,setHandler:fn=>handler=fn};
+ return {app,api,root,win,doc,googleRequests,get confirms(){return confirms;},setUid:value=>uid=value,setHandler:fn=>handler=fn,setGoogleHandler:fn=>googleHandler=fn};
 }
 function calendarFixture({native=false}={}){
  const win=new Events();if(native)win.AiderLogNative={};const appNode=new Element();appNode.dataset.activeTab='schedule';
@@ -169,7 +169,26 @@ test('successful Google auxiliary form cannot resubmit the same export',async()=
  const f=await exportFixture(),form=await f.review();form.fixtureEntries=f.entries;await form.onsubmit({preventDefault(){}});await form.onsubmit({preventDefault(){}});
  assert.equal(f.googleRequests.filter(request=>request.action==='create').length,1);assert.match(form.querySelector('.estate-form-error').textContent,/이미 전송/);
 });
-test('native application installs only private read-only ESTATE calendar projection, not its desktop editor',()=>{const f=calendarFixture({native:true});assert.equal(typeof f.calendar?.refresh,'function');assert.equal(typeof f.calendar?.rows,'function');assert.equal(f.win.AiderEstateV171,undefined);assert.equal(f.calls.length,0,'hidden native calendar stays idle');});
+test('Google review never sends a token resolved after the editor closed or the account changed',async()=>{
+ for(const change of ['close','switch','same-owner-relogin']){
+  const f=await exportFixture(),token=deferred();f.win.AiderDearFirebase.getFirebaseIdToken=()=>token.promise;const pending=f.review();await flush();
+  if(change==='close')f.app.close();else{f.setUid(change==='switch'?'owner-b':'');f.win.dispatchEvent({type:'aiderdear-firebase-state'});if(change==='same-owner-relogin'){f.setUid('owner-a');f.win.dispatchEvent({type:'aiderdear-firebase-state'});}}
+  token.resolve('late-token');await pending;assert.equal(f.googleRequests.length,0,change);
+ }
+});
+test('Google create never sends a reviewed payload with the next account token',async()=>{
+ const f=await exportFixture(),form=await f.review(),token=deferred();form.fixtureEntries=f.entries;f.win.AiderDearFirebase.getFirebaseIdToken=()=>token.promise;
+ const pending=form.onsubmit({preventDefault(){}});await flush();f.setUid('owner-b');f.win.dispatchEvent({type:'aiderdear-firebase-state'});token.resolve('next-account-token');await pending;
+ assert.equal(f.googleRequests.filter(r=>r.action==='create').length,0);assert.match(form.querySelector('.estate-form-error').textContent,/로그인 계정 또는 상세 화면/);
+});
+test('late Google status and JSON responses cannot start another request or show the old account choices',async()=>{
+ for(const phase of ['response','json']){
+  const f=await exportFixture(),gate=deferred();f.setGoogleHandler(()=>phase==='response'?gate.promise:{ok:true,json:()=>gate.promise});const pending=f.review();await flush();
+  f.setUid('owner-b');f.win.dispatchEvent({type:'aiderdear-firebase-state'});gate.resolve(phase==='response'?{ok:true,json:async()=>({google:{connected:true,writeEnabled:true}})}:{google:{connected:true,writeEnabled:true}});await pending;
+  assert.deepEqual(f.googleRequests.map(r=>r.action),['status']);assert.equal(f.panel.hidden,true);
+ }
+});
+test('native calendar projection initializes independently of the explicit app editor mount',()=>{const f=calendarFixture({native:true});assert.equal(typeof f.calendar?.refresh,'function');assert.equal(typeof f.calendar?.rows,'function');assert.equal(f.win.AiderEstateV171,undefined);assert.equal(f.calls.length,0,'hidden native calendar stays idle');});
 test('calendar stays idle while page is hidden or unrelated',async()=>{
  const f=calendarFixture();await f.calendar.refresh(true);assert.equal(f.calls.length,0);
  f.show();f.appNode.dataset.activeTab='personal';await f.calendar.refresh(true);assert.equal(f.calls.length,0);

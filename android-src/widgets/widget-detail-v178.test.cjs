@@ -11,8 +11,8 @@ test('fortnight calendar has visible equal-width framed cells without a 60-perce
   assert.match(read('res/layout/widget_native_fortnight_v178.xml'),/widget_calendar_v164"[^>]+layout_height="wrap_content"[^>]+orientation="vertical"/);
   const day=read('res/layout/widget_day_compact_v178.xml');
   assert.match(day,/layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:minHeight="52dp"/);
-  assert.match(read('res/drawable/widget_day_bg_v164.xml'),/stroke android:width="1dp" android:color="#DED9FF"/);
-  assert.match(read('res/drawable/widget_day_selected_v164.xml'),/solid android:color="#DED9FF"/);
+  assert.match(read('res/drawable/widget_day_bg_v164.xml'),/stroke android:width="0.5dp" android:color="#E8E3F3"/);
+  assert.match(read('res/drawable/widget_day_selected_v164.xml'),/solid android:color="#E8E3F3"/);
   assert.match(read('WidgetNativeV164.java'),/"widget_day_number_v164",foreground/);
 });
 test('workout sets are compact summaries and collection rows remain unlimited and wrappable',()=>{

@@ -21,7 +21,7 @@ function find(el,name){if(el.name===name)return el;for(const child of children(e
 async function textImage(el,width){
   const text=get(el,'text');if(!text)return {width:0,height:0,data:''};
   const size=px(get(el,'textSize')||'14sp'),spacing=Math.round(size*(px(get(el,'lineSpacingMultiplier'))||1.3)-size+px(get(el,'lineSpacingExtra')));
-  const ink=color(get(el,'textColor')||'#171A3A'),font=`Malgun Gothic${get(el,'textStyle')==='bold'?' Bold':''} ${size}`;
+  const ink=color(get(el,'textColor')||'#171A3A'),family=get(el,'fontFamily')==='sans-serif-condensed'?'Arial Narrow':'Malgun Gothic',font=`${family}${get(el,'textStyle')==='bold'?' Bold':''} ${size}`;
   const single=get(el,'singleLine')==='true'||get(el,'maxLines')==='1',ellipsis=single&&get(el,'ellipsize')==='end';
   const key=JSON.stringify([text,width,spacing,ink,font,single,ellipsis]);if(cache.has(key))return cache.get(key);
   const render=value=>sharp({text:{text:`<span foreground="${ink}">${escape(value)}</span>`,font,...(single?{}:{width:Math.max(1,Math.floor(width))}),dpi:72,rgba:true,wrap:single?'none':'word-char',spacing}}).png().toBuffer({resolveWithObject:true});
@@ -48,7 +48,8 @@ async function layout(el,availableW,availableH,forcedW,forcedH){
     box.h=fixedH??Math.max(px(get(el,'minHeight')),box.naturalH);return box;
   }
   if(el.name==='ImageView'||el.name==='ProgressBar'){box.h=fixedH??px(get(el,'minHeight'));return box;}
-  const nodes=children(el),horizontal=get(el,'orientation')==='horizontal';
+  // Android excludes GONE children before allocating LinearLayout weight.
+  const nodes=children(el).filter(n=>get(n,'visibility')!=='gone'),horizontal=get(el,'orientation')==='horizontal';
   if(el.name==='FrameLayout'){
     const content=nodes.filter(n=>!(n.name==='ImageView'&&get(n,'layout_height')==='match_parent'));
     for(const n of content)box.kids.push(await layout(n,cw,fixedH===undefined?undefined:Math.max(0,fixedH-p.t-p.b)));
@@ -106,7 +107,10 @@ function draw(box,x,y,report){
     const id='clip'+serial++;out+=`<defs><clipPath id="${id}"><rect x="${x}" y="${y}" width="${w}" height="${h}"/></clipPath></defs><image x="${tx}" y="${ty}" width="${i.width}" height="${i.height}" href="${i.data}" clip-path="url(#${id})"/>`;
     if(y+h>report.height+1)report.outside.push(get(el,'text'));
   }
-  for(const kid of box.kids)out+=draw(kid,x+(kid.x||0),y+(kid.y||0),report);return out;
+  // Android ViewGroup clips children by default, including weighted day cells.
+  const content=box.kids.map(kid=>draw(kid,x+(kid.x||0),y+(kid.y||0),report)).join('');
+  const clip='group'+serial++;
+  return out+`<defs><clipPath id="${clip}"><rect x="${x}" y="${y}" width="${w}" height="${h}"/></clipPath></defs><g clip-path="url(#${clip})">${content}</g>`;
 }
 async function main(){
   const reports=[];

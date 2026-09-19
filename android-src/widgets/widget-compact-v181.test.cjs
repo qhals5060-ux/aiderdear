@@ -26,7 +26,7 @@ test('A schedule and todo row height and divider location are exactly aligned', 
     assert.match(xml, /android:layout_height="0\.5dp" android:layout_gravity="bottom"/);
     assert.doesNotMatch(xml, /widget_(panel|card|framed)/);
   }
-  assert.match(layout('widget_compact_event_v181'), /id="@\+id\/w181_time"[^>]*layout_width="34dp"/);
+  assert.match(layout('widget_compact_event_v181'), /id="@\+id\/w181_time"[^>]*layout_width="36dp"/);
   assert.equal(Math.floor((168-8)/26),6);
 });
 test('B uses 60/40 split with fourteen single-line day cells and opens actual date', () => {

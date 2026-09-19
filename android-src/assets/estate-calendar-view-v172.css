@@ -1,0 +1,53 @@
+/* Scoped to ESTATE's internal calendar; no personal calendar or app selectors. */
+#estateStage .estate-calendar-view{min-width:0;width:100%}
+#estateStage .estate-calendar-toolbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+#estateStage .estate-calendar-toolbar>div{margin-right:auto}
+#estateStage .estate-calendar-toolbar h2{margin:0 0 4px}
+#estateStage .estate-calendar-toolbar p{margin:0;color:var(--estate-muted)}
+#estateStage .estate-calendar-toolbar nav{display:flex;gap:5px}
+#estateStage .estate-calendar-range{padding:9px 12px;background:var(--estate-soft);border-radius:6px;font-size:13px!important}
+#estateStage .estate-calendar-layout{display:grid;grid-template-columns:minmax(0,2fr) minmax(220px,1fr);gap:16px;align-items:start}
+#estateStage .estate-calendar-month{border:1px solid var(--estate-line);border-radius:8px;overflow:hidden;background:#fff;min-width:0}
+#estateStage .estate-calendar-weekdays,#estateStage .estate-calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr))}
+#estateStage .estate-calendar-weekdays{background:var(--estate-soft);padding:8px 0;text-align:center;border-bottom:1px solid var(--estate-line)}
+#estateStage .estate-calendar-weekdays span:first-child{color:#a9433b}
+#estateStage .estate-calendar-weekdays span:last-child{color:#286898}
+#estateStage .estate-calendar-cell{min-width:0;min-height:100px;border-right:1px solid var(--estate-line);border-bottom:1px solid var(--estate-line);padding:3px;background:#fff}
+#estateStage .estate-calendar-cell:nth-child(7n){border-right:0}
+#estateStage .estate-calendar-cell:nth-last-child(-n+7){border-bottom:0}
+#estateStage .estate-calendar-cell.estate-calendar-outside{background:#f2f5f3;color:#7d8b87}
+#estateStage .estate-calendar-cell.estate-calendar-selected{box-shadow:inset 0 0 0 2px var(--estate-accent)}
+#estateStage button.estate-calendar-date{display:flex;align-items:center;justify-content:space-between;width:100%;min-height:38px;padding:4px 5px;border:0;border-radius:4px;background:transparent;gap:3px;font-weight:700;font-size:14px!important}
+#estateStage .estate-calendar-date small{font-size:13px!important;font-weight:400;white-space:nowrap}
+#estateStage .estate-calendar-date[aria-current=date]>span{display:inline-grid;place-items:center;min-width:24px;min-height:24px;background:var(--estate-accent);color:#fff;border-radius:50%}
+#estateStage button.estate-calendar-entry{display:grid;grid-template-columns:auto minmax(0,1fr);gap:3px 6px;width:100%;text-align:left;background:#fff;border-left:3px solid var(--estate-accent);margin:0 0 8px;padding:9px;overflow-wrap:anywhere;white-space:normal}
+#estateStage .estate-calendar-entry time{font-size:13px!important;white-space:nowrap;color:var(--estate-muted)}
+#estateStage .estate-calendar-entry span{font-size:15px!important;line-height:1.5;min-width:0}
+#estateStage .estate-calendar-entry small{grid-column:1/-1;font-size:13px!important;color:var(--estate-muted)}
+#estateStage button.estate-calendar-entry-compact{display:block;min-height:0;padding:3px 4px;margin-bottom:3px;border-radius:3px;background:var(--estate-soft)}
+#estateStage .estate-calendar-entry-compact :is(time,span){display:block;font-size:13px!important;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
+#estateStage button.estate-calendar-overflow{min-height:32px;width:100%;padding:2px;border:0;font-size:13px!important;text-align:center}
+#estateStage .estate-calendar-mobile-count{display:none}
+#estateStage .estate-calendar-agenda{min-width:0;background:#fff;border:1px solid var(--estate-line);padding:12px;border-radius:8px}
+#estateStage .estate-calendar-agenda>header{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+#estateStage .estate-calendar-agenda h3{font-size:18px!important;margin:0}
+#estateStage .estate-calendar-empty{color:var(--estate-muted);font-size:15px!important;padding:8px 0}
+#estateStage .estate-calendar-pagination{padding-top:16px}
+#estateStage .estate-calendar-pagination>p{font-size:13px!important;color:var(--estate-muted)}
+#estateStage .estate-calendar-pagination>div{display:flex;gap:8px;flex-wrap:wrap}
+#estateStage .estate-calendar-pagination section{display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:8px;border:1px solid var(--estate-line);border-radius:6px;min-width:0}
+#estateStage .estate-calendar-pagination span,#estateStage .estate-calendar-pagination button{font-size:13px!important}
+#estateStage .estate-calendar-pagination small{width:100%;color:#943a27}
+@media(max-width:1100px){#estateStage .estate-calendar-layout{grid-template-columns:minmax(0,1fr)}#estateStage .estate-calendar-agenda{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}#estateStage .estate-calendar-agenda>header,#estateStage .estate-calendar-agenda>.estate-calendar-empty{grid-column:1/-1}}
+@media(max-width:600px){
+  #estateStage .estate-calendar-toolbar{gap:8px}
+  #estateStage .estate-calendar-toolbar>div{flex:1 0 100%}
+  #estateStage .estate-calendar-cell{min-height:82px;padding:1px}
+  #estateStage button.estate-calendar-date{min-height:44px;padding:3px;justify-content:center}
+  #estateStage .estate-calendar-date small,#estateStage .estate-calendar-cell-events{display:none}
+  #estateStage button.estate-calendar-mobile-count{display:block;width:100%;min-height:44px;padding:2px 0;border:0;background:transparent;font-size:13px!important;white-space:nowrap}
+  #estateStage button.estate-calendar-entry{min-height:44px}
+  #estateStage .estate-calendar-agenda{display:block}
+  #estateStage .estate-calendar-pagination>div{display:grid;grid-template-columns:minmax(0,1fr)}
+  #estateStage .estate-calendar-pagination section{justify-content:space-between}
+}

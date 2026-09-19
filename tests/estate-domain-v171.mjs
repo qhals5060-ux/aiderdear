@@ -63,8 +63,8 @@ test('co-broker source, progress, legacy memo and structured contacts are privat
 });
 
 async function clientFixture(t,fetcher){
- const priorWindow=globalThis.window,priorFetch=globalThis.fetch;let uid='first-owner';globalThis.window={AiderDearFirebase:{getState:()=>({user:uid?{uid,email:'qhals5060@gmail.com'}:null}),getFirebaseIdToken:async()=>`token-${uid}`}};globalThis.fetch=fetcher;
- t.after(()=>{globalThis.window=priorWindow;globalThis.fetch=priorFetch;});return {client:createEstateClient(),setUser(value){uid=value;}};
+ const priorWindow=globalThis.window,priorFetch=globalThis.fetch;let uid='first-owner';globalThis.window=Object.assign(new EventTarget(),{AiderDearFirebase:{getState:()=>({user:uid?{uid,email:'qhals5060@gmail.com'}:null}),getFirebaseIdToken:async()=>`token-${uid}`}});globalThis.fetch=fetcher;
+ t.after(()=>{globalThis.window=priorWindow;globalThis.fetch=priorFetch;});return {client:createEstateClient(),setUser(value){uid=value;globalThis.window.dispatchEvent(new Event('aiderdear-firebase-state'));}};
 }
 test('client retry uses identical operation ID and rejects account change during network response',async t=>{
  const payloads=[];let failOnce=true,fixture;

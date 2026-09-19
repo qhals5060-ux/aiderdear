@@ -35,7 +35,7 @@ test('selected dates use a pale full-cell frame; done checks remain white on pri
   assert.match(java,/"w165_check",done\?0xffffffff:fg/);
   assert.match(java,/"setPaintFlags",done\?17:1/);
   assert.match(native,/color\(c,v,"widget_add",PRIMARY\)/);
-  assert.match(read('layout','widget_day_v164'),/widget_day_number_v164"[^>]+layout_width="28dp"[^>]+layout_height="28dp"/);
+  assert.match(read('layout','widget_day_v164'),/widget_day_number_v164"[^>]+layout_width="match_parent"[^>]+layout_height="wrap_content"/);
 });
 
 test('progress, star graph and statistic emphasis remain primary violet with a lighter track',()=>{
@@ -73,7 +73,8 @@ test('all 27 launcher XML previews resolve to current PNGs with the same near-wh
     assert.ok(read('layout',name).includes('widget_bg_aurora'),'picker uses the current native outer drawable');
     const png=path.join(res,'drawable-nodpi',name+'.png'),meta=await sharp(png).metadata();
     assert.equal(meta.format,'png');assert.ok(meta.width>=80&&meta.width<=672);
-    const bytes=await sharp(png).extract({left:5,top:40,width:1,height:1}).removeAlpha().raw().toBuffer();
+    // x=5 now intersects the compact event dot; x=2 is the outside surface inset.
+    const bytes=await sharp(png).extract({left:2,top:40,width:1,height:1}).removeAlpha().raw().toBuffer();
     assert.deepEqual([...bytes],[252,251,255],name+' still has an old flat-violet bitmap');
   }
   assert.equal(names.size,27);
