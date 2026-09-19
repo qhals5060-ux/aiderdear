@@ -132,7 +132,11 @@
     const overlay=ensureNotepad(),list=$('[data-note-list-v142]',overlay),rows=notebookRowsV179().sort((a,b)=>Number(a.done)-Number(b.done)||(a.date||'9999').localeCompare(b.date||'9999')||(a.createdAt||0)-(b.createdAt||0));
     list.innerHTML=rows.length?rows.map(row=>`<div class="utility-row-v142 ${!row.isMemo&&row.done?'done':''}">${row.isMemo?'<small aria-label="메모">▤</small>':`<input type="checkbox" data-note-check-v142="${safe(row.id)}" aria-label="${safe(row.text)} 완료" ${row.done?'checked':''}>`}<span>${safe(row.text||row.title||'')}</span><time>${safe(row.isMemo?'메모':row.date||'')}</time><button type="button" data-note-delete-v142="${safe(row.id)}" data-note-source-v179="${row.source}" aria-label="${row.isMemo?'메모':'할 일'} 삭제">×</button></div>`).join(''):'<div class="utility-empty-v142">메모나 오늘 할 일을 바로 남겨보세요.</div>';
   }
-  function openNotepad(){renderNotepad();ensureNotepad().classList.add('on');setTimeout(()=>$('[data-note-form-v142] input[name="text"]')?.focus(),30)}
+  function openNotepad(){
+    $('#quickMemoModalV142')?.classList.remove('on');
+    if(window.AiderTodoV179?.open)window.AiderTodoV179.open('todo');
+    else if(window.go)window.go('todo',false);
+  }
   window.AiderLogNotepadV142={refresh:renderNotepad};
 
   function firebase(){return window.AiderDearFirebase}
@@ -173,7 +177,7 @@
 
   function bindUtilityButtons(){
     if(!appShellMode)return;
-    const memo=$('.top button[aria-label="memo"]');if(memo){memo.id='quickMemoBtn';if(memo.dataset.v142!=='1'){memo.dataset.v142='1';memo.addEventListener('click',event=>{event.preventDefault();event.stopImmediatePropagation();openNotepad()},true)}}
+    const memo=$('.top button[aria-label="memo"],.top #quickMemoBtn');if(memo){memo.id='quickMemoBtn';memo.title='투두 · 메모';memo.setAttribute('aria-label','투두 및 메모 관리');if(memo.dataset.v142!=='1'){memo.dataset.v142='1';memo.addEventListener('click',event=>{event.preventDefault();event.stopImmediatePropagation();openNotepad()},true)}}
     const mail=$('.top button[aria-label="mail"]');if(mail){mail.id='mailboxBtn';mail.hidden=false;if(mail.dataset.v142!=='1'){mail.dataset.v142='1';mail.addEventListener('click',event=>{event.preventDefault();event.stopImmediatePropagation();openMailbox()},true)}}
   }
 

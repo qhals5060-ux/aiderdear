@@ -1,6 +1,7 @@
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 const root=path.resolve(__dirname,'..'),read=n=>fs.readFileSync(path.join(root,n),'utf8');
 const css=read('android-src/assets/app-fold-layout-v177.css'),html=read('android-src/assets/index.html');
+const release=process.env.AIDERLOG_RELEASE_VERSION||read('index.html').match(/name="aiderlog-build" content="v(\d+)"/)[1];
 test('adaptive rules target available window width and height, not model identities',()=>{
   assert.match(css,/@media \(min-width:600px\) and \(min-height:480px\)/);
   assert.match(css,/@layer appColour164/);assert.doesNotMatch(css,/data-device-layout|SM-F|userAgent/);
@@ -21,12 +22,12 @@ test('wide editors keep real forms and full-width footer but use the right pane'
   assert.doesNotMatch(css,/font-size|font-family|--app-primary\s*:|display:none|pointer-events:none/);
 });
 test('new layout is mounted once in the app only',()=>{
-  assert.equal((html.match(/href="\.\/app-fold-layout-v177\.css\?v=179"/g)||[]).length,1);
+  assert.equal(html.split(`href="./app-fold-layout-v177.css?v=${release}"`).length-1,1);
   assert.doesNotMatch(read('index.html'),/app-fold-(?:layout|daily|workspaces)-v177/);
   const vm=require('node:vm'),scope={self:{location:{href:'https://app.test/sw.js'},addEventListener(){}},URL};
   vm.runInNewContext(read('android-src/assets/sw.js')+';this.shell=Array.from(SHELL_URLS_V175);',scope);
   assert.ok(scope.shell.includes('https://app.test/app-fold-layout-v177.css'));
-  assert.ok(scope.shell.includes('https://app.test/app-fold-layout-v177.css?v=179'));
+  assert.ok(scope.shell.includes(`https://app.test/app-fold-layout-v177.css?v=${release}`));
 });
 test('native app already allows resizing without forcing an orientation',()=>{
   const manifest=read('android-src/AndroidManifest.xml');

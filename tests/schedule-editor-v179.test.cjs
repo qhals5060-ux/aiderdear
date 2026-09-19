@@ -34,6 +34,16 @@ test('app saves selected all-day explicitly and preserves 24-hour timed values',
   const full=scheduleFixture();full.values.allDay='on';await full.save();assert.equal(full.rows[0].time,'');assert.equal(full.rows[0].endTime,'');assert.equal(full.rows[0].allDay,true);
   const missing=scheduleFixture();missing.values.time='';await missing.save();assert.equal(missing.rows.length,0);assert.match(missing.context.alerts[0],/종일/);
 });
+
+test('v180 app header places compact Save before X and Couple/Friends checkboxes in one scoped row',()=>{
+  const html=functionBody('function ensureScheduleDialogV125','function syncScheduleScopeV148');
+  assert.match(html,/<button type="submit" form="appScheduleFormV179" class="primary">저장<\/button><button type="button" data-schedule-dialog-close-v125/);
+  assert.match(html,/<div class="schedule-share-options-v180"[^>]*>[\s\S]*name="shareWithCouple"[^>]*><span>커플<\/span><\/label><label[^>]*><input name="shareWithFriends"[^>]*><span>친구<\/span><\/label><\/div>/);
+  const css=fs.readFileSync(path.join(root,'schedule-editor-v179.css'),'utf8');
+  assert.match(css,/html body \.schedule-dialog-v125 \.schedule-share-options-v180[^}]*display:flex!important[^}]*flex-wrap:nowrap!important/);
+  assert.match(css,/html body \.schedule-dialog-v125 \.schedule-editor-primary-v179 button[^}]*height:30px!important[^}]*font-size:12px!important/);
+  assert.doesNotMatch(site,/schedule-share-options-v180|name="shareWithFriends"/);
+});
 test('app friend sharing failure keeps the same editable draft ID and retry never duplicates the event',async()=>{
   const f=scheduleFixture();f.context.window.AiderFriendScheduleUIV175.share=async()=>{throw Error('공유 저장 실패')};await f.save();assert.equal(f.rows.length,1);const id=f.form.elements.id.value;assert(id);assert.match(f.status.textContent,/공유 저장 실패/);assert.equal(f.counts.closes,0);assert.equal(f.submit.disabled,false);
   f.context.window.AiderFriendScheduleUIV175.share=async()=>{};await f.save();assert.equal(f.rows.length,1);assert.equal(f.rows[0].id,id);assert.equal(f.counts.closes,1);

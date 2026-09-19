@@ -97,7 +97,7 @@
     .end annotation
 
     .line 285
-    const-string v0, "1.9.69"
+    const-string v0, "1.9.70"
 
     return-object v0
 .end method
@@ -238,6 +238,30 @@
     :catch_0
     :cond_0
     return-void
+.end method
+
+.method public openEstateSite()Z
+    .locals 3
+    .annotation runtime Landroid/webkit/JavascriptInterface;
+    .end annotation
+
+    :try_estate_start
+    const-string v0, "https://aiderdear1.vercel.app/?site-edition=modern&open=estate"
+    invoke-static {v0}, Landroid/net/Uri;->parse(Ljava/lang/String;)Landroid/net/Uri;
+    move-result-object v0
+    new-instance v1, Landroid/content/Intent;
+    const-string v2, "android.intent.action.VIEW"
+    invoke-direct {v1, v2, v0}, Landroid/content/Intent;-><init>(Ljava/lang/String;Landroid/net/Uri;)V
+    iget-object v0, p0, Lcom/aiderlog/v22app/MainActivity$NativeBridge;->this$0:Lcom/aiderlog/v22app/MainActivity;
+    invoke-virtual {v0, v1}, Lcom/aiderlog/v22app/MainActivity;->startActivity(Landroid/content/Intent;)V
+    :try_estate_end
+    .catch Ljava/lang/Exception; {:try_estate_start .. :try_estate_end} :catch_estate
+    const/4 v0, 0x1
+    return v0
+    :catch_estate
+    move-exception v0
+    const/4 v0, 0x0
+    return v0
 .end method
 
 .method public syncWidgets(Ljava/lang/String;)V

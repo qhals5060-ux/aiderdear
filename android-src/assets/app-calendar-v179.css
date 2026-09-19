@@ -1,11 +1,15 @@
 /* v179 Calendar density. The cosmic background and shared theme tokens remain
    owned by the existing theme. Scoped to the app and this calendar only. */
 @layer appColour164 {
-  html {--app-frame-v160:1.134px!important;--app-frame-v153:1.134px!important}
-  html body {padding:max(.3mm,env(safe-area-inset-top)) 0 max(.3mm,env(safe-area-inset-bottom))!important;height:100dvh!important;min-height:0!important;box-sizing:border-box!important}
-  html body #app.app {height:100%!important;max-height:100%!important;min-height:0!important}
-  html body #app.app {padding-top:max(1px,env(safe-area-inset-top))!important;padding-bottom:max(1px,env(safe-area-inset-bottom))!important}
-  html body #app>.top {min-height:42px!important;height:42px!important;padding-block:3px!important}
+  /* v180: body is the sole owner of the .3 mm frame and any real cutout
+     inset. Applying the same inset again on #app doubled the top gap on
+     edge-to-edge WebViews. A flex remainder also avoids the old 45 px view
+     subtraction disagreeing with the 42 px header and its 8 px margin. */
+  html {--app-frame-v180:.3mm;--app-frame-v160:var(--app-frame-v180)!important;--app-frame-v153:var(--app-frame-v180)!important}
+  html body {padding:max(var(--app-frame-v180),env(safe-area-inset-top)) 0 max(var(--app-frame-v180),env(safe-area-inset-bottom))!important;height:100dvh!important;min-height:0!important;box-sizing:border-box!important}
+  html body #app.app {display:flex!important;flex-direction:column!important;height:100%!important;max-height:100%!important;min-height:0!important;margin-block:0!important;padding-top:0!important;padding-bottom:0!important}
+  html body #app.app>.views {flex:1 1 0!important;height:auto!important;max-height:none!important;min-height:0!important;margin-block:0!important;padding-block:0!important}
+  html body #app>.top {flex:0 0 42px!important;min-height:42px!important;height:42px!important;margin-block:0!important;padding-block:3px!important}
   html body #app .brand .brandmark,html body #app .brand .logo,html body #app .brand>img {width:30px!important;height:30px!important;min-width:30px!important}
   html body #home.schedule-feature-v125 {padding:0!important;min-height:0!important;overflow:hidden!important}
   html body #home.schedule-feature-v125 .schedule-dashboard-v179 {

@@ -17,19 +17,26 @@
   let speechElapsed = 0;
   let sharedWorkspaceStop = null;
   let sharedWorkspaceLoading = false;
+  let renderedIdentityV180 = '';
 
   const q = (selector, root = document) => root.querySelector(selector);
   const qa = (selector, root = document) => [...root.querySelectorAll(selector)];
   const safe = value => typeof esc === 'function' ? esc(value) : String(value ?? '').replace(/[&<>"']/g, char => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' })[char]);
   const dateKey = () => typeof today === 'function' ? today() : new Date().toISOString().slice(0, 10);
   const uid = prefix => `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
-  const previewMode = () => /^(?:localhost|127\.0\.0\.1)$/.test(location.hostname) && (new URLSearchParams(location.search).has('preview') || new URLSearchParams(location.search).get('android-preview') === '1');
-  const currentEmail = () => String((typeof authState !== 'undefined' && authState?.user?.email) || window.AiderDearFirebase?.getState?.().user?.email || '').trim().toLowerCase();
-  const currentUid = () => String((typeof authState !== 'undefined' && authState?.user?.uid) || window.AiderDearFirebase?.getState?.().user?.uid || '').trim();
-  const canUsePaper = () => previewMode() || currentEmail()==='qhals5060@gmail.com';
-  const canUseWork = () => previewMode() || ['qhals5060@gmail.com','aidway55@gmail.com'].includes(currentEmail());
-  const canUseTraining = () => previewMode() || currentEmail() !== 'aidway55@gmail.com';
-  const canUseStudy = () => previewMode() || currentEmail() !== 'aidway55@gmail.com';
+  const currentUserV180 = () => window.AiderDearFirebase?.getState ? window.AiderDearFirebase.getState()?.user : (typeof authState !== 'undefined' ? authState?.user : null);
+  const currentEmail = () => String(currentUserV180()?.email || '').trim().toLowerCase();
+  const currentUid = () => String(currentUserV180()?.uid || '').trim();
+  const myRoutesV180 = Object.freeze({
+    'qhals5060@gmail.com':Object.freeze(['paper','task','work','lab','estate','speech','brain','study']),
+    'aidway55@gmail.com':Object.freeze(['paper','task','work','lab']),
+    'abckms5698@naver.com':Object.freeze(['estate'])
+  });
+  const canUseModeV180 = route => Boolean(currentUid() && (myRoutesV180[currentEmail()] || []).includes(route));
+  const canUsePaper = () => canUseModeV180('paper');
+  const canUseWork = () => canUseModeV180('work');
+  const canUseTraining = () => canUseModeV180('speech');
+  const canUseStudy = () => canUseModeV180('study');
   const icon = (name, size = 24) => {
     const paths = {
       back:'<path d="m15 18-6-6 6-6"/><path d="M9 12h10"/>',
@@ -41,6 +48,7 @@
       search:'<circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>',
       close:'<path d="m6 6 12 12M18 6 6 18"/>',
       calendar:'<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/>',
+      estate:'<path d="m3 11 9-8 9 8M5 10v11h14V10M10 21v-7h4v7"/>',
       file:'<path d="M6 3h9l3 3v15H6z"/><path d="M15 3v4h4"/>',
       play:'<path d="m9 7 8 5-8 5z"/>',
       stop:'<rect x="7" y="7" width="10" height="10" rx="2"/>',
@@ -134,7 +142,7 @@
     if (sharedWorkspaceLoading) return;
     const api = window.AiderDearFirebase || (typeof fb !== 'undefined' ? fb : null);
     const signedIn = typeof authState !== 'undefined' && authState?.user;
-    if (!api?.readPaperTaskData || !signedIn) return;
+    if (!api?.readPaperTaskData || !signedIn || !canUseWork()) return;
     sharedWorkspaceLoading = true;
     try {
       const remote = await api.readPaperTaskData();
@@ -258,10 +266,11 @@
       ['work','calendar','Work',`업무 기록 ${data.workRecords.length}건`],
       ['lab','file','실험노트',`기록 ${data.labNotebookEntries.length}건 · 링크 ${data.labNotebookLinks.length}개`]
     );
+    if (canUseModeV180('estate')) research.push(['estate','estate','Estate','부동산 업무 · 사이트에서 열기']);
     if (canUseTraining()) learning.push(['speech','speech','Speech Training',`훈련 기록 ${speechCount}회`],['brain','brain','Brain Training',`훈련 기록 ${brainCount}회`]);
     if (canUseStudy()) learning.push(['study','star','Study Card',`완료 ${studyCounts.completed}/192 · 복습 ${studyCounts.due}개`]);
     const group = (title, rows) => rows.length ? `<section class="my166-group"><h2>${title}</h2><div class="my166-tools">${rows.map(([route,glyph,title,summary])=>`<button type="button" class="my166-tool" data-my128-open="${route}" aria-label="${safe(title)} 열기"><i>${icon(glyph,22)}</i><span><b>${safe(title)}</b><small>${safe(summary)}</small></span><em aria-hidden="true">›</em></button>`).join('')}</div></section>` : '';
-    return `<div class="page my128-page my166-page" data-css-typography><header class="my166-head"><h1>My 공간</h1><span>도구 ${research.length+learning.length}개</span></header><div class="my166-scroll">${group('연구 · 업무',research)}${group('학습 · 훈련',learning)}</div></div>`;
+    return `<div class="page my128-page my166-page" data-css-typography><header class="my166-head"><h1>My 공간</h1><span>도구 ${research.length+learning.length}개</span></header><div class="my166-scroll">${group('연구 · 업무',research)}${group('학습 · 훈련',learning)}${research.length+learning.length?'':`<p class="my128-empty">${currentUid()?'이 계정에 표시할 My 도구가 없습니다.':'로그인 후 내 My 도구를 확인할 수 있습니다.'}</p>`}</div></div>`;
   }
 
   const subhead = (eyebrow, title, action = '') => `<header class="my128-subhead"><div><button class="my128-back" data-my128-back aria-label="My로 돌아가기">${icon('back')}</button><span><small>${eyebrow}</small><h1>${title}</h1></span></div>${action}</header>`;
@@ -381,6 +390,8 @@
 
   function renderMy() {
     const host = q('#fifth'); if (!host) return;
+    const identity=currentUid()+'|'+currentEmail();
+    if(renderedIdentityV180!==identity){mode='hub';modal=null;renderedIdentityV180=identity;}
     ensureData(); installPaperBridge();
     q('#fifthLabel') && (q('#fifthLabel').textContent='My');
     if (mode === 'paper' && !canUsePaper()) mode = 'hub';
@@ -429,6 +440,15 @@
     if (mode === 'paper') requestAnimationFrame(() => window.initAiderPaperWorkspaceV128?.());
   }
 
+  function openEstateSiteV180(){
+    if(!canUseModeV180('estate'))return false;
+    try{
+      if(window.AiderLogNative?.openEstateSite){if(window.AiderLogNative.openEstateSite()===false)throw new Error('browser');return true;}
+      window.open('https://aiderdear1.vercel.app/?site-edition=modern&open=estate','_blank','noopener,noreferrer');
+      return true;
+    }catch(error){(typeof toast==='function'?toast:alert)('브라우저를 열지 못했습니다. 다시 시도해주세요.');return false;}
+  }
+
   function openLegacyBrain() {
     if (typeof window.renderMyV115 !== 'function') return;
     window.renderMyV115();
@@ -440,7 +460,7 @@
 
   function bind() {
     qa('[data-my128-open]', q('#fifth')).forEach(button => {
-      const open=()=>{const next=button.dataset.my128Open;mode=next;modal=null;renderMy()};
+      const open=()=>{const next=button.dataset.my128Open;if(!canUseModeV180(next))return;if(next==='estate'){openEstateSiteV180();return;}mode=next;modal=null;renderMy()};
       button.onclick=open;
     });
     qa('[data-my128-back]', q('#fifth')).forEach(button => button.onclick=()=>{ mode='hub';modal=null;renderMy(); });
@@ -479,8 +499,8 @@
   window.AiderLogMyV128 = Object.freeze({
     render: renderMy,
     open(nextMode='hub') {
-      const allowed = new Set(['hub','paper','task','work','lab','speech','brain','study']);
-      mode = allowed.has(nextMode) ? nextMode : 'hub';
+      if(nextMode==='estate'){openEstateSiteV180();return;}
+      mode = nextMode==='hub'||canUseModeV180(nextMode) ? nextMode : 'hub';
       modal = null;
       renderMy();
     }
@@ -489,7 +509,8 @@
   window.addEventListener('aiderdear-firebase-state', event => {
     if (event.detail?.user) connectSharedWorkspace();
     else if (sharedWorkspaceStop) { sharedWorkspaceStop(); sharedWorkspaceStop = null; }
-    if (q('#fifth')?.classList.contains('active')) renderMy();
+    // Remove account-only tools immediately on logout or identity changes.
+    renderMy();
   });
   setTimeout(renderMy, 0);
   setTimeout(connectSharedWorkspace, 900);

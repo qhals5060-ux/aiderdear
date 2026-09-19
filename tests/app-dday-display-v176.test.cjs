@@ -5,6 +5,7 @@ const fs=require('node:fs');
 const path=require('node:path');
 const vm=require('node:vm');
 const root=path.join(__dirname,'..');
+const release=process.env.AIDERLOG_RELEASE_VERSION||fs.readFileSync(path.join(root,'index.html'),'utf8').match(/name="aiderlog-build" content="v(\d+)"/)[1];
 const source=fs.readFileSync(path.join(root,'android-src/assets/app-dday-v175.js'),'utf8');
 const display=fs.readFileSync(path.join(root,'dday-display-v176.js'),'utf8');
 const plain=x=>JSON.parse(JSON.stringify(x));
@@ -91,7 +92,7 @@ test('site and Android entrypoints preload the same D-day helper and styles offl
     const context={URL,self:{location:{href:'https://aiderdear1.vercel.app/sw.js'},addEventListener(){}}};
     vm.runInNewContext(sw+';globalThis.precache=[...APP_SHELL]',context);
     for(const file of['dday-display-v176.js','dday-display-v176.css']){
-      assert(index.includes(file+'?v=179'));assert(context.precache.includes('./'+file));assert(context.precache.includes('./'+file+'?v=179'));
+      assert(index.includes(file+`?v=${release}`));assert(context.precache.includes('./'+file));assert(context.precache.includes('./'+file+`?v=${release}`));
       assert.equal(fs.readFileSync(path.join(root,folder,file),'utf8'),fs.readFileSync(path.join(root,file),'utf8'));
       assert.equal(fs.readFileSync(path.resolve(root,'../AiderLog-v145-decoded/assets',file),'utf8'),fs.readFileSync(path.join(root,file),'utf8'));
     }

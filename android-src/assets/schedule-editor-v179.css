@@ -28,6 +28,18 @@
 #eventFriendShareV175>small,#appEventFriendShareV179>small{flex-basis:100%;font-size:11px}
 .schedule-period-separator-v179{display:block;text-align:center;line-height:1;font-size:11px;opacity:.6}
 @layer appColour164 {
+  html body .schedule-dialog-v125 .schedule-editor-primary-v179 {gap:4px!important}
+  html body .schedule-dialog-v125 .schedule-editor-primary-v179 button {width:auto!important;height:30px!important;min-width:30px!important;min-height:30px!important;padding:3px 8px!important;font-size:12px!important;line-height:1.2!important;border-radius:9px!important}
+  html body .schedule-dialog-v125 .schedule-editor-primary-v179 [data-schedule-dialog-close-v125] {width:30px!important;padding:5px!important}
+  html body .schedule-dialog-v125 .schedule-editor-primary-v179 [data-schedule-dialog-close-v125] svg {width:16px!important;height:16px!important}
+  html body .schedule-dialog-v125 .schedule-share-options-v180 {display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:14px!important;flex-wrap:nowrap!important;padding:18px 0 0!important;min-width:0!important}
+  html body .schedule-dialog-v125 .schedule-share-options-v180 .schedule-check-v125 {display:flex!important;align-items:center!important;gap:5px!important;white-space:nowrap!important;min-width:0!important;min-height:30px!important;margin:0!important;padding:0!important;font-size:12px!important;background:transparent!important;border:0!important;box-shadow:none!important}
+  html body .schedule-dialog-v125 .schedule-share-options-v180 input {appearance:auto!important;flex:none!important;width:16px!important;height:16px!important;min-height:0!important;margin:0!important;padding:0!important;accent-color:var(--app-primary,#6255e8)!important}
+  html body .schedule-dialog-v125 #appEventFriendShareV179 {grid-column:1/-1!important;margin:0!important;padding:0!important;gap:7px 14px!important}
+  html body .schedule-dialog-v125 #appEventFriendShareV179[hidden] {display:none!important}
+  html body .schedule-dialog-v125 #appEventFriendShareV179 legend {font-size:11px!important;margin:0 0 3px!important}
+  html body .schedule-dialog-v125 #appEventFriendShareV179 label {display:flex!important;align-items:center!important;gap:5px!important;min-height:28px!important;padding:0!important;margin:0!important;font-size:12px!important}
+  html body .schedule-dialog-v125 #appEventFriendShareV179 input {appearance:auto!important;width:16px!important;height:16px!important;min-height:0!important;padding:0!important;margin:0!important}
   html body .schedule-dialog-v125 .schedule-editor-tools-v179 [data-private-schedule-kind] {background:transparent!important;background-image:none!important;border:0!important;border-radius:0!important;box-shadow:none!important;padding:1px 0!important;width:auto!important;height:auto!important;min-width:0!important;min-height:26px!important;font-size:11px!important;text-decoration:underline!important;text-underline-offset:3px!important;color:var(--app-text)!important}
   html body .schedule-dialog-v125 .schedule-editor-tools-v179 [data-private-schedule-kind][aria-pressed="true"] {color:var(--app-primary)!important;font-weight:800!important}
 }

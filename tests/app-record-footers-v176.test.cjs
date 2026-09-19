@@ -5,6 +5,7 @@ const path = require('node:path');
 const vm = require('node:vm');
 const root = path.resolve(__dirname, '..');
 const read = name => fs.readFileSync(path.join(root, 'android-src/assets', name), 'utf8');
+const release=process.env.AIDERLOG_RELEASE_VERSION||read('index.html').match(/name="aiderlog-android-build" content="v(\d+)"/)[1];
 const css = read('app-record-footers-v176.css');
 const declarations = css.replace(/\/\*[\s\S]*?\*\//g, '');
 function block(selector) {
@@ -23,9 +24,9 @@ test('schedule keeps one scrolling body and full-bleed actions inside the origin
   assert.match(footer, /width:calc\(100% \+ 24px\)!important/);
   assert.match(footer, /margin:8px -12px 0!important/);
   assert.match(footer, /padding:9px 12px max\(9px,env\(safe-area-inset-bottom\)\)!important/);
-  assert.ok(read('index.html').includes('./app-record-footers-v176.css?v=179'));
+  assert.ok(read('index.html').includes(`./app-record-footers-v176.css?v=${release}`));
   const shell=vm.runInNewContext(read('sw.js')+';[...APP_SHELL]',{URL,self:{location:{href:'https://app.invalid/sw.js'},addEventListener(){}}});
-  for(const query of ['', '?v=179'])assert(shell.includes('./app-record-footers-v176.css'+query));
+  for(const query of ['', `?v=${release}`])assert(shell.includes('./app-record-footers-v176.css'+query));
 });
 
 test('Schedule Save/X stay in the header while deletion remains a full-bleed body action', () => {

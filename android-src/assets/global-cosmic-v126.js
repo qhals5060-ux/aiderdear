@@ -25,7 +25,7 @@
   }
   function fixWheel(){
     const wheel=$('#wheel');if(!wheel)return;wheel.dataset.globalV126='1';
-    const order=[['fifth','My','my'],['personal','Personal','profile'],['routine','Routine','routine'],['event','Event','event'],['todo','Todo','task']];
+    const order=[['fifth','My','my'],['personal','Personal','profile'],['routine','Routine','routine'],['event','Event','event']];
     $$('.global-wheel-item-v126',wheel).forEach((button,index)=>{
       if(!order[index])return;const [page,oldLabel,iconName]=order[index],label=window.AiderWheelbarV176?.names[page]||oldLabel;
       if(button.dataset.page!==page)button.dataset.page=page;if(button.dataset.index!==String(index))button.dataset.index=String(index);

@@ -21,8 +21,8 @@ function fixture(){
 }
 test('app event colour and upcoming colour both distinguish received from outgoing shares',()=>{
   const context=fixture();assert.equal(context.eventColorV125(incoming),'#B58B00');assert.equal(context.eventColorV125(outgoing),'#456789');assert.equal(context.eventColorV125(business),'#123456');
-  const upcoming=context.scheduleUpcomingV125();assert.match(upcoming,/schedule-upcoming-line-v179 schedule-received-v176[^>]+data-schedule-edit-v125="received"[^>]+--owner-color:#B58B00/);
-  assert.match(upcoming,/class="schedule-upcoming-line-v179"[^>]+data-schedule-edit-v125="outgoing"[^>]+--owner-color:var\(--theme-primary\)/);
+  const upcoming=context.scheduleUpcomingV125();assert.match(upcoming,/schedule-upcoming-line-v179 schedule-received-v176[^>]+data-schedule-jump-v180="received"[^>]+--owner-color:#B58B00/);
+  assert.match(upcoming,/class="schedule-upcoming-line-v179"[^>]+data-schedule-jump-v180="outgoing"[^>]+--owner-color:var\(--theme-primary\)/);
   assert.match(upcoming,/title="2026-09-12 · 받은 일정"/);assert.match(upcoming,/>8시<\/time>/);assert.doesNotMatch(upcoming,/UPCOMING|<h3>|schedule-upcoming-v119/);
 });
 test('app calendar first event, dots, and day detail list expose incoming ownership consistently',()=>{
