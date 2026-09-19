@@ -8,15 +8,14 @@
     if(!dates.length)return null;
     const exact=dates.indexOf(today),nearest=exact>=0?exact:today<dates[0]?0:dates.length-1;
     const week=Math.floor(nearest/7),weeks=Math.ceil(dates.length/7),last=Math.min(dates.length-1,week*7+6);
-    const rows=Array(weeks).fill('minmax(var(--calendar-week-min-v182,0px),1fr)');rows.splice(week+1,0,'78px');
+    const rows=Array(weeks).fill('minmax(var(--calendar-week-min-v182,0px),1fr)');rows.splice(week+1,0,'66px');
     return {last,week,weeks,rows:rows.join(' ')};
   }
   function refresh(){
     frame=0;const home=document.querySelector('#home .schedule-dashboard-v179');if(!home)return;
     const todos=home.querySelector('[data-todo-inline-v179]'),days=home.querySelector('.schedule-days-v119'),side=home.querySelector('.schedule-summary-v179');
     if(!todos||!days||!side)return;
-    if(wide.matches){if(todos.parentNode!==side)side.append(todos);}
-    else {
+    {
       const cells=[...days.querySelectorAll('[data-schedule-date-v125]')],position=todoPosition(cells.map(cell=>cell.dataset.scheduleDateV125));
       if(position){const end=cells[position.last];if(end.nextElementSibling!==todos)end.after(todos);days.style.setProperty('--calendar-grid-rows-v182',position.rows);}
     }

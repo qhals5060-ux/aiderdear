@@ -130,6 +130,19 @@ public final class WidgetNativeContractTest {
         require(WidgetCompactCalendarV181.smallRows("CalendarCombined",180,320),"narrow split pane stacks date and time under title");
         require(!WidgetCompactCalendarV181.smallRows("CalendarCombined",500,320),"expanded Fold pane uses normal date column");
         require(WidgetCompactCalendarV181.smallRows("CalendarAgenda",110,110),"two-column agenda uses compact scroll rows");
+        require(Math.abs(WidgetCompactCalendarV181.eventPaneWidth("CalendarAgenda",336,255)-324)<.01,"agenda inline row receives the full inner width");
+        require(Math.abs(WidgetCompactCalendarV181.eventPaneWidth("CalendarCombined",336,255)-163.22f)<.01,"combined inline row excludes divider and pane padding");
+        require(Math.abs(WidgetCompactCalendarV181.eventPaneWidth("CalendarCombined",180,110)-84.18f)<.01,"minimum combined row measures its narrow right pane");
+        require(!WidgetCompactCalendarV181.inlineEventRow(119.9f,28,28,12,1),"below required width preserves title on a second line");
+        require(WidgetCompactCalendarV181.inlineEventRow(120,28,28,12,1),"exact boundary fits metadata and four title glyphs in one line");
+        require(WidgetCompactCalendarV181.inlineEventRow(163.22f,28,28,12,1),"default combined width displays date time title on one row");
+        require(!WidgetCompactCalendarV181.inlineEventRow(163.22f,42,42,12,1.5f),"large system text keeps two lines instead of squeezing metadata");
+        require(WidgetCompactCalendarV181.inlineEventRow(324,42,42,12,1.5f),"wide agenda remains one row with large system text");
+        require(WidgetCompactCalendarV181.inlineEventRow(100,20,17,11,1),"short all-day metadata uses one line when the actual text fits");
+        require(!WidgetCompactCalendarV181.inlineEventRow(100,24,27,11,1),"longer date and timed metadata can require two lines in the same pane");
+        require(WidgetCompactCalendarV181.eventTimeLabel(new JSONObject().put("time","09:30")).equals("09:30"),"inline time retains leading zero and minutes");
+        require(WidgetCompactCalendarV181.eventTimeLabel(new JSONObject().put("time","09:30").put("allDay",true)).equals("종일"),"inline all-day event preserves its explicit label");
+        require(WidgetCompactCalendarV181.eventTimeLabel(new JSONObject().put("time","종일")).equals("종일"),"legacy all-day metadata remains readable");
         require(WidgetCompactCalendarV181.capacity(14,15,false)==0,"shortest calendar cell never adds a clipped event line");
         require(WidgetCompactCalendarV181.capacity(30,15,false)==1,"compact fortnight cell can show a complete title line");
         for(String kind:new String[]{"CalendarCombined","CalendarFortnight","CalendarMonth","CalendarSplit"}){

@@ -10,9 +10,9 @@ exports.render=function(kind,width,height,{read,el,fillContainer}){
  const demo=[['9.20','팀 미팅','09:30'],['9.20','자료 검토','11:00'],['9.21','병원 예약','14:00'],['9.22','운동','16:00'],['9.23','저녁 약속','18:30'],['9.24','가족 모임','12:00']];
  if(mini||agenda){
   xml=el(xml,'widget_items_v164',{visibility:'gone'});
-  const visible=Math.max(1,Math.floor((height-42)*(agenda?.5:1)/37));
+  const visible=Math.max(1,Math.floor((height-42)*(agenda?.5:1)/27));
   xml=fillContainer(xml,'widget_preview_rows_v164',demo.slice(0,visible).map(([date,title,time],i)=>{
-   let row=read('layout','widget_upcoming_row_v184');row=el(row,'w184_event_date',{text:date});row=el(row,'w184_event_title',{text:title});row=el(row,'w184_event_time',{text:time});return el(row,'w184_event_mark',{background:['#7561DC','#5D83D5','#BD75B8'][i%3]});
+   let row=read('layout','widget_upcoming_inline_v186');row=el(row,'w184_event_date',{text:date});row=el(row,'w184_event_title',{text:title});row=el(row,'w184_event_time',{text:time});return el(row,'w184_event_mark',{background:['#7561DC','#5D83D5','#BD75B8'][i%3]});
   }));
  }
  if(!mini&&!agenda)xml=el(xml,'w184_todo_panel',{visibility:todos?'visible':'gone'});
@@ -37,10 +37,9 @@ exports.render=function(kind,width,height,{read,el,fillContainer}){
     if(mini)cell=el(cell,'w184_dots',{text:entries.length>1?'••':entries.length?'•':'',textColor:'#6255E8'});
     else{
      cell=el(cell,'w184_holiday',{text:holiday,visibility:holiday&&cellHeight>=45?'visible':'gone'});
-     const wrap=fortnight&&cellHeight>=76;
-     const slots=Math.max(1,Math.min(6,Math.floor((cellHeight-22-(holiday&&cellHeight>=45?12:0))/Math.max(13,size*(wrap?2.4:1.2)+4))));
+     const slots=Math.max(1,Math.min(6,Math.floor((cellHeight-22-(holiday&&cellHeight>=45?12:0))/Math.max(13,size*1.2+4))));
      const visible=Math.min(entries.length,entries.length>slots&&slots>1?slots-1:slots);
-     cell=fillContainer(cell,'w184_events',entries.slice(0,visible).map((title,i)=>el(read('layout',wrap?'widget_event_chip_tall_v184':'widget_event_chip_v184'),'w184_event_title',{text:title,textSize:size+'sp',background:['#EAE3F7','#E4EBF8','#F2E3F0'][i%3]})));
+     cell=fillContainer(cell,'w184_events',entries.slice(0,visible).map((title,i)=>el(read('layout','widget_event_chip_v184'),'w184_event_title',{text:title,textSize:size+'sp',background:['#EAE3F7','#E4EBF8','#F2E3F0'][i%3]})));
      cell=el(cell,'w184_more',{text:entries.length>visible?'+'+(entries.length-visible):'',visibility:entries.length>visible&&slots>1?'visible':'gone'});
     }
     cells.push(cell);dates.setDate(n+1);

@@ -18,7 +18,7 @@ test('second style stacks live collections; fifth puts todos below month',()=>{
 test('date actions, event titles and holidays remain separate and accessible',()=>{
  const day=layout('widget_event_day_v184');assert.ok(day.indexOf('w184_day')<day.indexOf('w184_holiday'));assert.ok(day.indexOf('w184_holiday')<day.indexOf('w184_events'));
  assert.match(compact,/count=fortnight\?2:/);assert.match(compact,/for\(int col=0;col<7;col\+\+\)/);assert.match(compact,/"open-schedule-date-v168:"\+key/);
- assert.match(compact,/"open-schedule-item-v168:"\+Uri.encode\(event.toString\(\)\)/);assert.match(layout('widget_event_chip_tall_v184'),/maxLines="2"/);assert.match(compact,/scaledDensity/);
+ assert.match(compact,/"open-schedule-item-v168:"\+Uri.encode\(event.toString\(\)\)/);assert.match(layout('widget_event_chip_tall_v184'),/singleLine="true"/);assert.match(compact,/scaledDensity/);
 });
 test('todo completion, stable IDs and owner boundaries are retained without a collection cap',()=>{
  assert.match(native,/WidgetDesignV165.stableId\(rows.get\(i\),i\)/);assert.match(native,/notifyAppWidgetViewDataChanged\(widget,id\(c,"w165_secondary_list"\)\)/);

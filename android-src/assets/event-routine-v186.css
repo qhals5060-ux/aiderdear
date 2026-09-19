@@ -1,0 +1,82 @@
+/* App-only compact Event/Routine surfaces, using the active app palette. */
+@layer appColour164 {
+ html body #app #event.event-ui-v186,html body #app #routine.routine-ui-v186{--event-font:var(--app-type-scale-v185,1);--r165-font:var(--app-type-scale-v185,1)}
+ html body #app #event.event-ui-v186>.page,html body #app #routine.routine-ui-v186>.page{padding-inline:10px!important}
+ html body #app #event.event-ui-v186 .barebar,html body #app #routine.routine-ui-v186 .r165-header{min-height:36px!important;padding:0!important;gap:8px!important}
+ html body #app #event.event-ui-v186 .barebar .album-btn,html body #app #routine.routine-ui-v186 [data-routine-create-open]{min-width:0!important;min-height:32px!important;height:32px!important;padding:5px 9px!important;border-radius:8px!important}
+ html body #app #event.event-ui-v186 .event-word-tabs-v157,html body #app #routine.routine-ui-v186 .r165-tabs{margin-bottom:8px!important}
+ html body #app #event.event-ui-v186 .event-word-tabs-v157 button,html body #app #routine.routine-ui-v186 .r165-tabs button{min-height:35px!important;padding:6px 2px!important}
+ html body #app #event.event-ui-v186 .event-content-v164,html body #app #routine.routine-ui-v186 .r165-content{font-size:var(--app-body-v184,13px)!important;padding-bottom:76px!important;scrollbar-width:thin!important}
+ html body #app #event.event-ui-v186 .record-head:empty{display:none!important}
+ html body #app #event.event-ui-v186 .er186-toolbar{display:grid!important;grid-template-columns:auto auto minmax(50px,1fr) minmax(48px,.7fr) auto!important;align-items:center!important;gap:5px!important;min-height:32px!important;width:100%!important;margin:0 0 8px!important;padding:0!important;border:0!important;background:transparent!important;flex:none!important;box-sizing:border-box!important}
+ html body #app #event.event-ui-v186 .er186-record-tools.has-together{grid-template-columns:auto auto auto minmax(44px,1fr) minmax(42px,.8fr) auto!important;gap:4px!important}
+ html body #app #event.event-ui-v186 .er186-archive-tools{grid-template-columns:1fr 1fr 1fr!important;margin:0!important}
+ html body #app #event.event-ui-v186 .er186-travel-tools{grid-template-columns:minmax(38px,.65fr) minmax(70px,1.3fr) minmax(46px,.8fr) minmax(63px,1fr)!important;margin:0!important}
+ html body #app #event.event-ui-v186 .er186-travel-tools.without-preparation{grid-template-columns:1fr 1fr 1.2fr!important}
+ html body #app #event.event-ui-v186 .er186-toolbar>button,html body #app #event.event-ui-v186 .er186-picker{display:flex!important;align-items:center!important;justify-content:center!important;position:relative!important;box-sizing:border-box!important;min-width:0!important;width:100%!important;height:32px!important;min-height:32px!important;padding:4px 8px!important;border:1px solid var(--app-border,#c4b4d4)!important;border-radius:8px!important;background:var(--app-control,#e0d5eb)!important;color:var(--app-text,#30283b)!important;font-size:calc(12px * var(--app-type-scale-v185,1))!important;line-height:1.2!important;font-weight:550!important;white-space:nowrap!important;box-shadow:none!important;margin:0!important}
+ html body #app #event.event-ui-v186 .er186-toolbar>button.primary,html body #app #event.event-ui-v186 .er186-toolbar>button.active{background:var(--app-primary,#76509b)!important;color:var(--app-on-primary,#fff)!important;border-color:var(--app-primary,#76509b)!important}
+ html body #app #event.event-ui-v186 .er186-picker:focus-within{outline:2px solid var(--app-focus,#76509b);outline-offset:1px}
+ html body #app #event.event-ui-v186 .er186-picker>span{font-size:inherit!important;color:inherit!important;line-height:inherit!important;pointer-events:none!important}
+ html body #app #event.event-ui-v186 .er186-picker>span::after{content:'⌄';display:inline-block;margin-left:6px;opacity:.7}
+ html body #app #event.event-ui-v186 .er186-picker>input,html body #app #event.event-ui-v186 .er186-picker>select{position:absolute!important;inset:0!important;box-sizing:border-box!important;width:100%!important;height:100%!important;min-height:0!important;margin:0!important;padding:0!important;opacity:0!important;cursor:pointer!important}
+ html body #app #event.event-ui-v186 .er186-picker input::-webkit-calendar-picker-indicator{position:absolute;inset:0;width:auto;height:auto;margin:0;cursor:pointer}
+ html body #app #event.event-ui-v186 :is(.archive-v111,.travel-v111){gap:8px!important}
+ html body #app #event.event-ui-v186 .event-filter-scroll-v111{display:flex!important;gap:5px!important;overflow-x:auto!important;overflow-y:hidden!important;scrollbar-width:none!important}
+ html body #app #event.event-ui-v186 .event-filter-scroll-v111 button{flex:0 0 auto!important;min-height:28px!important;height:28px!important;width:auto!important;padding:4px 8px!important;font-size:calc(10px * var(--app-type-scale-v185,1))!important;border-width:1px!important;border-radius:7px!important}
+ html body #app #event.event-ui-v186 .travel-folder-strip-v111{flex-wrap:nowrap!important;overflow-x:auto!important;gap:5px!important}
+ html body #app #event.event-ui-v186 .travel-folder-strip-v111 button{flex:0 0 auto!important;min-height:30px!important;padding:4px 8px!important;font-size:var(--app-caption-v184,11px)!important}
+ html body #app #event.event-ui-v186 .travel-v111>.quick{gap:5px!important}
+ html body #app #event.event-ui-v186 .quick button{flex-direction:row!important;justify-content:center!important;min-height:34px!important;padding:5px 3px!important;gap:5px!important;font-size:calc(11px * var(--app-type-scale-v185,1))!important}
+ html body #app #event.event-ui-v186 .quick button i{font-size:14px!important}
+ html body #app #event.event-ui-v186 :is(.record-grid,.archive-grid-v111,.travel-feed-v148){gap:8px!important}
+ html body #app #event.event-ui-v186 :is(.insta-card-v148,.event-archive-card-v111,.travel-log-card-v148){border-radius:11px!important;box-shadow:none!important}
+ html body #app #event.event-ui-v186 .insta-card-v148>header{min-height:40px!important;padding:7px 10px!important;gap:7px!important}
+ html body #app #event.event-ui-v186 .insta-card-v148>header i{width:26px!important;height:26px!important}
+ html body #app #event.event-ui-v186 .insta-card-v148>header button{min-width:30px!important;min-height:30px!important}
+ html body #app #event.event-ui-v186 .record-copy{padding:9px 10px!important}
+ html body #app #event.event-ui-v186 :is(.record-copy,.event-archive-copy-v111,.travel-log-copy-v148) :is(b,h3){font-size:calc(14px * var(--app-type-scale-v185,1))!important;line-height:1.35!important}
+ html body #app #event.event-ui-v186 :is(.record-copy,.event-archive-copy-v111,.travel-log-copy-v148) p{font-size:var(--app-body-v184,13px)!important;line-height:1.45!important;margin:5px 0!important}
+ html body #app #event.event-ui-v186 :is(small,.record-meta){font-size:var(--app-caption-v184,11px)!important}
+ html body #app #event.event-ui-v186 .event-archive-card-v111{grid-template-columns:64px minmax(0,1fr)!important;gap:9px!important;padding:9px!important}
+ html body #app #event.event-ui-v186 .event-archive-media-v111{width:64px!important;height:88px!important}
+ html body #app #event.event-ui-v186 .travel-log-card-v148{padding:9px!important}
+ html body #app #event.event-ui-v186 .ticket{padding:8px 10px!important;border-radius:9px!important;gap:8px!important}
+ html body #app #event.event-ui-v186 .ticket small{display:none!important}
+ html body #app #event.event-ui-v186 .event-empty-v111{padding:20px 10px!important;font-size:var(--app-body-v184,13px)!important}
+ html body #app #routine.routine-ui-v186 .r165-section-heading{margin-bottom:7px!important}
+ html body #app #routine.routine-ui-v186 :is(.r165-practice-list,.r165-mandalas){gap:8px!important}
+ html body #app #routine.routine-ui-v186 :is(.r165-practice-card,.r165-goal-card,.r165-stat-card){padding:10px!important;border-radius:11px!important;margin-bottom:8px!important;box-shadow:none!important}
+ html body #app #routine.routine-ui-v186 .r165-practice-card{border-inline-start-width:3px!important;margin:0!important}
+ html body #app #routine.routine-ui-v186 :is(.r165-practice-card,.r165-goal-card)>header{gap:7px!important;margin-bottom:4px!important}
+ html body #app #routine.routine-ui-v186 :is(.r165-practice-card,.r165-goal-card)>header button{min-height:28px!important;height:28px!important;padding:4px 8px!important;border-radius:7px!important;font-size:var(--app-caption-v184,11px)!important}
+ html body #app #routine.routine-ui-v186 :is(.r165-practice-card,.r165-goal-card) h3{font-size:calc(14px * var(--app-type-scale-v185,1))!important;line-height:1.35!important}
+ html body #app #routine.routine-ui-v186 .r165-cycle-caption{font-size:var(--app-caption-v184,11px)!important;line-height:1.3!important;margin:0 0 6px!important}
+ html body #app #routine.routine-ui-v186 .er186-routine-progress{height:3px!important;background:var(--app-input)!important;border-radius:3px!important;overflow:hidden!important;margin:0 0 9px!important}
+ html body #app #routine.routine-ui-v186 .er186-routine-progress i{display:block;height:100%;background:var(--routine-color,var(--app-primary))}
+ html body #app #routine.routine-ui-v186 .r165-recent{gap:4px!important;margin:0 0 8px!important}
+ html body #app #routine.routine-ui-v186 .r165-recent button{min-height:35px!important;padding:3px 0!important;border-radius:6px!important;font-size:calc(10px * var(--app-type-scale-v185,1))!important}
+ html body #app #routine.routine-ui-v186 .r165-recent button b{font-size:12px!important}
+ html body #app #routine.routine-ui-v186 .r165-recent .today{outline-width:1px!important;outline-offset:0!important}
+ html body #app #routine.routine-ui-v186 .r165-levels{gap:5px!important}
+ html body #app #routine.routine-ui-v186 .r165-levels button{min-height:57px!important;padding:6px 4px!important;gap:3px!important;border-radius:7px!important;line-height:1.3!important}
+ html body #app #routine.routine-ui-v186 .r165-levels button b{font-size:var(--app-caption-v184,11px)!important;line-height:1.25!important;letter-spacing:.02em!important}
+ html body #app #routine.routine-ui-v186 .r165-levels button span{font-size:calc(12px * var(--app-type-scale-v185,1))!important;line-height:1.3!important}
+ html body #app #routine.routine-ui-v186 .r165-goal-shortcuts{gap:5px!important;margin-bottom:8px!important}
+ html body #app #routine.routine-ui-v186 .r165-goal-shortcuts button{min-height:32px!important;padding:5px 8px!important;font-size:calc(12px * var(--app-type-scale-v185,1))!important}
+ html body #app #routine.routine-ui-v186 .r165-goal-card footer{margin-top:7px!important}
+ html body #app #routine.routine-ui-v186 .r165-goal-card footer button{min-height:32px!important;padding:5px 12px!important;font-size:var(--app-body-v184,13px)!important}
+ html body #app #routine.routine-ui-v186 .r165-summary{min-height:64px!important;padding:9px 0!important;margin-bottom:8px!important}
+ html body #app #routine.routine-ui-v186 .r165-stat-card>header{margin-bottom:8px!important}
+ html body #app #routine.routine-ui-v186 .r165-stat-card h2{font-size:calc(14px * var(--app-type-scale-v185,1))!important}
+ html body #app #routine.routine-ui-v186 .r165-comparison-row{padding:8px 0!important}
+ @media(min-width:600px) and (min-height:480px){
+  html body #app #event.event-ui-v186>.page,html body #app #routine.routine-ui-v186>.page{padding-inline:12px!important;max-width:none!important}
+  html body #app #event.event-ui-v186 :is(.record-grid,.archive-grid-v111,.travel-feed-v148),html body #app #routine.routine-ui-v186 :is(.r165-practice-list,.r165-mandalas){grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px!important}
+  html body #app #event.event-ui-v186 .er186-record-tools{grid-template-columns:auto auto minmax(90px,1fr) minmax(72px,.55fr) auto!important}
+  html body #app #event.event-ui-v186 .er186-record-tools.has-together{grid-template-columns:auto auto auto minmax(90px,1fr) minmax(72px,.55fr) auto!important}
+  html body #app #routine.routine-ui-v186 .r165-content[data-tab="statistics"]{gap:9px!important}
+ }
+ @media(min-width:840px) and (min-height:480px){
+  html body #app #event.event-ui-v186 :is(.record-grid,.archive-grid-v111,.travel-feed-v148),html body #app #routine.routine-ui-v186 :is(.r165-practice-list,.r165-mandalas){grid-template-columns:repeat(3,minmax(0,1fr))!important}
+ }
+}

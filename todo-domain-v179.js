@@ -47,6 +47,18 @@ export function mergePrivateNotesV179(current={},incoming={},baseline={}) {
 }
 export const todoTextV179 = row => String(row?.text || row?.title || row?.name || '');
 export const todoKindV179 = (row, source = 'checklists') => source === 'memos' || row?.kind === 'memo' || row?.type === 'memo' ? 'memo' : 'todo';
+// Subtasks stay inside the existing private checklist record. Older editors can
+// omit this field without deleting it; an explicit empty array clears it.
+export function todoSubtasksV186(value, previous = []) {
+  if (!Array.isArray(value) || value.length > 20) throw todoFailureV179('invalid-subtasks','하위 할 일은 20개까지 추가할 수 있습니다.');
+  const old = new Map((Array.isArray(previous) ? previous : []).map(row => [String(row?.id || ''), row])), seen = new Set();
+  return value.map(item => {
+    const id = String(item?.id || ''), text = String(item?.text || '').trim();
+    if (!/^[a-zA-Z0-9_-]{1,100}$/.test(id) || seen.has(id) || !text || text.length > 180 || typeof item?.done !== 'boolean') throw todoFailureV179('invalid-subtasks','하위 할 일의 내용을 180자 이내로 입력해주세요.');
+    seen.add(id);
+    return {...old.get(id),id,text,done:item.done};
+  });
+}
 export function todoDateV179(value) {
   const text = String(value || '');
   if (!text) return '';
@@ -76,7 +88,10 @@ export function mutateTodoRowsV179(payload, input, now = Date.now()) {
   if (!TODO_FIELDS_V179.includes(source) || !['save','toggle','delete'].includes(op) || !id || id.length>180 || !/^[a-zA-Z0-9_-]{8,100}$/.test(mutationId)) throw todoFailureV179('invalid-action','저장할 항목을 다시 확인해주세요.');
   if (payload[source]!=null&&!Array.isArray(payload[source])) throw todoFailureV179('invalid-data','기존 메모 형식을 확인해주세요.');
   const rows=(payload[source]||[]).slice(), index=rows.findIndex(row=>row&&String(row.id)===id), before=index<0?null:rows[index];
-  const fingerprint=JSON.stringify([source,op,id,input.kind||'',input.text||'',input.notes||'',input.date||'',!!input.important,input.done??null]);
+  const fingerprintFields=[source,op,id,input.kind||'',input.text||'',input.notes||'',input.date||'',!!input.important,input.done??null];
+  // Keep old request fingerprints valid while detecting changed subtask retries.
+  if (Object.hasOwn(input,'subtasks')) fingerprintFields.push(['subtasks',input.subtasks]);
+  const fingerprint=JSON.stringify(fingerprintFields);
   if (before?.lastTodoMutationV179===mutationId) {
     if(before.lastTodoFingerprintV179!==fingerprint)throw todoFailureV179('replay-mismatch','같은 요청으로 다른 내용을 저장할 수 없습니다. 다시 시도해주세요.');
     return {source,rows,row:before,changed:false,replayed:true};
@@ -98,6 +113,7 @@ export function mutateTodoRowsV179(payload, input, now = Date.now()) {
     if (!text || text.length>(kind==='memo'?1200:180) || notes.length>2000) throw todoFailureV179('invalid-text',kind==='memo'?'메모는 1,200자, 설명은 2,000자 이내로 입력해주세요.':'할 일은 180자, 설명은 2,000자 이내로 입력해주세요.');
     const date=kind==='todo'?todoDateV179(input.date):'';
     row={...before,id,text,notes,date,kind,done:before?.done||false,important:kind==='todo'&&!!input.important,priority:input.important?'높음':'보통',createdAt:before?.createdAt||stamp};
+    if (kind==='todo'&&Object.hasOwn(input,'subtasks')) row.subtasks=todoSubtasksV186(input.subtasks,before?.subtasks);
     // dueAt is the old widget alias. Explicitly clearing a deadline must clear it too.
     if (before&&Object.hasOwn(before,'dueAt')) row.dueAt=date;
     if (before&&Object.hasOwn(before,'note')) row.note=notes;

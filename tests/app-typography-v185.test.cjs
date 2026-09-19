@@ -13,8 +13,9 @@ test('app roles remain stable across font choices, full holidays fit and physica
   }
   // May 2026 includes the long, unabridged Buddha's Birthday substitute holiday.
   await page.evaluate(()=>{const now=new Date(),delta=(now.getFullYear()-2026)*12+now.getMonth()-4;for(let i=0;i<Math.abs(delta);i++)document.querySelector(`[data-calendar-shift-v125="${delta>0?-1:1}"]`).click();});
+  await page.waitForTimeout(100);
   const holidays=await page.locator('.schedule-holiday-v144').evaluateAll(nodes=>nodes.map(e=>{const r=e.getBoundingClientRect(),p=e.parentElement.getBoundingClientRect(),s=getComputedStyle(e);return {text:e.textContent,title:e.title,ellipsis:s.textOverflow,white:s.whiteSpace,right:r.right,parentRight:p.right,bottom:r.bottom,parentBottom:p.bottom,scroll:e.scrollWidth,width:r.width};}));
-  assert(holidays.some(row=>row.text==='부처님오신날 대체공휴일'));for(const row of holidays){assert.equal(row.text,row.title);assert.notEqual(row.ellipsis,'ellipsis');assert.equal(row.white,'normal');assert(row.right<=row.parentRight+1);assert(row.bottom<=row.parentBottom+1);assert(row.scroll<=Math.ceil(row.width)+1);}
+  assert(holidays.some(row=>row.text==='부처님오신날 대체공휴일'));for(const row of holidays){assert.equal(row.text,row.title);assert.notEqual(row.ellipsis,'ellipsis');assert.equal(row.white,'nowrap');assert(row.right<=row.parentRight+1);assert(row.bottom<=row.parentBottom+1);assert(row.scroll<=Math.ceil(row.width)+1);}
   const frame=await page.evaluate(()=>{window.AiderLogNative={getFrameInsetPx:()=>5};window.AiderLogReadabilityV184.updateViewport();const rect=document.querySelector('#app').getBoundingClientRect();return {top:rect.top,bottom:innerHeight-rect.bottom,padding:parseFloat(getComputedStyle(document.body).paddingTop),dpr:devicePixelRatio};});
   assert(Math.abs(frame.padding*frame.dpr-5)<.05);assert(Math.abs(frame.top-frame.bottom)<.05);assert(Math.abs(frame.top-5/3)<.1);assert.deepEqual(errors,[]);await page.close();
  }}finally{await browser.close();}

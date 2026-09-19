@@ -13,7 +13,7 @@ const packaging = read('scripts/package-pc-v184.ps1');
 const release=Number(process.env.AIDERLOG_SITE_VERSION||index.match(/name="aiderlog-build" content="v(\d+)"/)?.[1]);
 const androidRelease=Number(process.env.AIDERLOG_ANDROID_VERSION||index.match(/name="aiderlog-android-build" content="v(\d+)"/)?.[1]);
 assert([179,180,181,182,183,184].includes(release),'Supported release metadata is required');
-assert([179,180,181,182,183,184,185].includes(androidRelease),'Supported Android release metadata is required');
+assert([179,180,181,182,183,184,185,186].includes(androidRelease),'Supported Android release metadata is required');
 const releaseTest=(name,fn)=>test(`v${release} release: ${name}`,fn);
 const retained = [...['calendar','panels'].flatMap(name => ['js','css'].map(ext => `site-${name}-v172.${ext}`)), 'estate-calendar-view-v172.js', 'estate-calendar-view-v172.css', 'estate-cobroker-v173.css', 'dday-store-v174.js'];
 const added = ['shared-schedule-v176.js','shared-schedule-v176.css','private-calendar-v175.js','private-calendar-ui-v175.js','private-calendar-v175.css','friend-schedule-v175.js','friend-schedule-firebase-v175.js','friend-schedule-ui-v175.js','friend-schedule-v175.css','business-calendar-v175.js','business-calendar-v175.css','site-calendar-v175.js','site-calendar-v175.css','todo-domain-v179.js','schedule-time-v179.js','schedule-editor-v179.css','site-calendar-v179.css'];
@@ -33,25 +33,25 @@ releaseTest('site and PC downloads retain their release independently of Android
   for (const edition of ['Modern','Editorial']) assert(index.includes(`href="./AiderLog-${edition}-v${release}-site-files.zip" download="AiderLog-${edition}-v${release}-site-files.zip"`));
   for(const match of index.matchAll(/AiderLog-(?:Modern|Editorial)-v(\d+)-site-files\.zip/g))assert.equal(Number(match[1]),release);
   const apk=read('android-src/apktool.yml');assert.match(apk,new RegExp(`versionCode: ${androidRelease}\\s`));assert(apk.includes(`apkFileName: AiderLog-v${androidRelease}.apk`));
-  if(androidRelease===185){assert.equal(release,184,'an app-only release must keep the restored site build');assert.match(apk,/versionName: 1\.9\.75\s/);assert.doesNotMatch(index,/schedule-ui-v18[45]|app-readability-v18[45]|AiderScheduleUIBridgeV184/);}
+  if(androidRelease>=185){assert.equal(release,184,'an app-only release must keep the restored site build');assert.match(apk,new RegExp(`versionName: 1\\.9\\.${androidRelease-110}\\s`));assert.doesNotMatch(index,/schedule-ui-v18[456]|app-readability-v18[456]|AiderScheduleUIBridgeV184|app-compact-v186|event-routine-v186/);}
 });
 
-releaseTest('production probe checks Android v185 independently of the unchanged site and sync API',async()=>{
-  const {verifyProduction}=require('../scripts/verify-production-v185.cjs');
+releaseTest('production probe checks Android v186 independently of the unchanged site and sync API',async()=>{
+  const {verifyProduction}=require('../scripts/verify-production-v186.cjs');
   async function fixture({oldApk=false,advanceSite=false}={}){
     const requests=[];
     const fetchImpl=async(input,options)=>{
       const url=new URL(input);requests.push({url:url.href,method:options.method});
       if(url.hostname==='github.com')return new Response(null,{status:200,headers:{'content-length':'1024'}});
       const redirect=config.redirects.find(row=>row.source===url.pathname);
-      if(redirect)return new Response(null,{status:307,headers:{location:oldApk&&url.pathname.endsWith('.apk')?redirect.destination.replaceAll('v185','v184'):redirect.destination}});
+      if(redirect)return new Response(null,{status:307,headers:{location:oldApk&&url.pathname.endsWith('.apk')?redirect.destination.replaceAll('v186','v185'):redirect.destination}});
       if(url.pathname==='/')return new Response(advanceSite?index.replace('name="aiderlog-build" content="v184"','name="aiderlog-build" content="v185"'):index);
       if(url.pathname==='/api/calendar-sync')return new Response(JSON.stringify({ok:true,configured:{publicAppUrl:true,firebaseAdmin:true,stateSecret:true,cronSecret:true,googleOAuth:true}}),{headers:{'x-aiderlog-calendar-api':'184'}});
       return new Response(read(url.pathname.slice(1)),{headers:{'content-type':'text/javascript'}});
     };
     return {result:await verifyProduction('https://release-fixture.invalid/',{fetchImpl}),requests};
   }
-  const {result,requests}=await fixture();assert(result.ok,JSON.stringify(result.checks.filter(row=>!row.ok)));assert.equal(result.siteVersion,184);assert.equal(result.calendarApiVersion,184);assert.equal(result.version,185);assert.equal(result.binaryDownloadBytes,0);
+  const {result,requests}=await fixture();assert(result.ok,JSON.stringify(result.checks.filter(row=>!row.ok)));assert.equal(result.siteVersion,184);assert.equal(result.calendarApiVersion,184);assert.equal(result.version,186);assert.equal(result.binaryDownloadBytes,0);
   assert(requests.filter(row=>/\.(apk|zip)$/.test(row.url)).every(row=>row.method==='HEAD'),'release verification must not download binaries');
   assert.equal((await fixture({oldApk:true})).result.ok,false,'stale APK redirects are rejected');
   assert.equal((await fixture({advanceSite:true})).result.ok,false,'an unintended site build change is rejected');
