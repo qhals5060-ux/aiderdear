@@ -12,35 +12,8 @@
     });
   }
 
-  function languageTypeStyle(host){
-    const root=host?.shadowRoot;if(!root)return;
-    if(host.hasAttribute('data-training-v166')){root.querySelector('style[data-solar-type-v134]')?.remove();return;}
-    removeLegacySizing(root);
-    let style=root.querySelector('style[data-solar-type-v134]');
-    if(!style){style=document.createElement('style');style.dataset.solarTypeV134='1';root.append(style)}
-    style.textContent=`
-      :host{--lab-xs:var(--type-xs,11px);--lab-sm:var(--type-sm,12px);--lab-md:var(--type-md,14px);--lab-lg:var(--type-lg,17px)}
-      :is(button,input,select,textarea,label,p,small,span,em){line-height:1.42}
-      .day-index :is(b,small),.day-info :is(b,p,small),.day-action,.category-tab :is(b,small),.scenario-tab :is(b,small,em),.scenario-main>p,.scenario-progress-box :is(div,b),.records-header-actions button,.streak-chip,.records-button{font-size:var(--lab-xs)!important}
-      .section-heading-row strong,.quiz-prompt,.choice-button,.lesson-coach-card :is(b,p),.expression-expansion li :is(b,span){font-size:var(--lab-sm)!important}
-      .scenario-line h3,.page-intro h2{font-size:var(--lab-lg)!important}
-      .learning-section .day-row .day-index{display:flex!important;flex-direction:column!important;align-items:flex-start!important;justify-content:center!important;text-align:left!important;padding-left:12px!important;overflow:hidden!important}
-      .learning-section .day-row .day-index>b,.learning-section .day-row .day-index>small{position:static!important;left:auto!important;right:auto!important;align-self:flex-start!important;justify-self:start!important;width:100%!important;margin:0!important;padding:0!important;translate:none!important;transform:none!important;text-align:left!important;max-width:100%!important}
-      :is(.day-row,.scenario-tab,.category-tab){height:auto!important}
-      .day-row{min-height:calc(var(--lab-sm) * 5.5)!important}
-      @media(max-width:640px){.single-page{height:auto!important;min-height:calc(100dvh - 132px)!important;overflow-y:auto!important}.day-list{grid-template-columns:1fr!important}.course-panel{height:auto!important;min-height:620px!important}}
-      :host-context(html[data-app-font-size="large"]) .single-page{overflow-y:auto!important}
-      :host-context(html[data-app-font-size="large"]) .day-list{grid-template-columns:1fr!important;grid-template-rows:none!important}
-      :host-context(html[data-app-font-size="large"]) .day-row{grid-template-columns:82px minmax(0,1fr) 72px!important}
-      :host-context(html[data-app-font-size="large"]) .learning-section .day-row .day-index{padding-left:9px!important}
-      :host-context(html[data-app-font-size="large"]) .course-panel{min-height:680px!important}
-    `;
-    root.append(style);
-  }
-
   function syncTypography(){
     removeLegacySizing();
-    $$('aiderlog-language-lab').forEach(languageTypeStyle);
   }
 
   function clearStars(immediate=false){

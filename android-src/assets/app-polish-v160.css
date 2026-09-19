@@ -1,0 +1,80 @@
+/* AiderLog v160 · exact 5 mm frame, compact Private cards and reliable bottom sheets. */
+html{--app-frame-v160:31.5px!important}
+html body{
+  width:100vw!important;height:100dvh!important;min-height:100dvh!important;
+  margin:0!important;padding:var(--app-frame-v160) 0!important;box-sizing:border-box!important;overflow:hidden!important;
+}
+html body .app#app{
+  width:min(1120px,100%)!important;height:calc(100dvh - (var(--app-frame-v160) * 2))!important;
+  min-height:0!important;max-height:calc(100dvh - (var(--app-frame-v160) * 2))!important;
+  margin:0 auto!important;padding-top:0!important;padding-bottom:0!important;
+}
+html body .app#app.home-mode>.views{height:calc(100% - 45px)!important;max-height:calc(100% - 45px)!important}
+html body .app#app:not(.home-mode)>.views{height:100%!important;max-height:100%!important}
+html body .app#app>.views>.view{height:100%!important;min-height:0!important;max-height:100%!important}
+
+/* Keep more than one quarter of the wheel planet visible while closed. */
+html .global-wheel-v126{right:-8px!important;bottom:calc(var(--app-frame-v160) - 8px)!important}
+html .global-wheel-v126.open{right:max(2px,env(safe-area-inset-right))!important;bottom:calc(var(--app-frame-v160) + 2px)!important}
+
+/* Private Universe: no summary strip; every available destination is the same size. */
+#fifth .my128-summary{display:none!important}
+#fifth .my128-scroll{gap:0!important;padding:7px 8px max(7px,env(safe-area-inset-bottom))!important}
+#fifth .my128-tools{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;grid-auto-rows:112px!important;gap:8px!important;padding-bottom:0!important}
+#fifth .my128-tool,#fifth .my128-tool.study{
+  grid-column:auto!important;width:100%!important;height:112px!important;min-height:112px!important;
+  padding:12px!important;border-radius:18px!important;
+}
+#fifth .my128-tool>i{right:10px!important;top:10px!important;width:35px!important;height:35px!important;border-radius:11px!important}
+#fifth .my128-tool>span{max-width:67%!important;font-size:7px!important}
+#fifth .my128-tool h2{max-width:78%!important;margin:7px 0 0!important;font-size:15px!important;line-height:1.12!important}
+#fifth .my128-tool footer{left:12px!important;right:12px!important;bottom:9px!important}
+#fifth .my128-tool footer b,#fifth .my128-tool footer em{max-width:72%;overflow:hidden;font-size:7px!important;text-overflow:ellipsis;white-space:nowrap}
+
+/* Researcher links are separately viewable and shareable. */
+#fifth .lab145-links>article{min-width:0;min-height:102px;display:grid;grid-template-columns:auto minmax(0,1fr);align-items:start;gap:6px;padding:9px;border:1px solid color-mix(in srgb,var(--theme-primary) 20%,var(--theme-border));border-radius:13px;background:linear-gradient(155deg,#fff,color-mix(in srgb,var(--theme-accent-soft) 28%,#fff));color:var(--theme-text)}
+#fifth .lab145-links>article.active{outline:2px solid var(--theme-primary);outline-offset:1px}
+#fifth .lab145-links>article>div{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}
+#fifth .lab145-links>article>div button{min-width:0;min-height:34px;border:1px solid var(--theme-border);border-radius:9px;background:#fff;color:var(--theme-primary);padding:0 3px;font-size:8px;font-weight:900}
+#fifth .lab145-filters{display:flex;gap:5px;overflow-x:auto;margin:10px 0 0;padding:0 0 8px;scrollbar-width:none}
+#fifth .lab145-filters button{flex:0 0 auto;min-height:36px;border:1px solid var(--theme-border);border-radius:999px;background:#fff;color:var(--theme-text);padding:0 11px;font-size:8px;font-weight:850}
+#fifth .lab145-filters button.active{border-color:var(--theme-primary);background:var(--theme-primary);color:#fff}
+
+/* Daylog destinations share the title row and stay large enough to tap. */
+#personal .personal-title{display:grid!important;grid-template-columns:auto minmax(0,1fr) auto!important;align-items:center!important;gap:6px!important}
+#personal .personal-title>div:first-child{grid-column:1}
+#personal .personal-title>.personal-tabs{grid-column:2;display:flex!important;grid-template-columns:none!important;gap:4px!important;min-width:0;overflow:visible!important;padding:0!important}
+#personal .personal-title>.personal-tabs button{flex:1 1 0;min-width:0!important;height:42px!important;border-radius:12px!important;padding:3px 2px!important}
+#personal .personal-title>.personal-tabs button i{font-size:14px!important;line-height:1!important}
+#personal .personal-title>.personal-tabs button span{font-size:7px!important;line-height:1.05!important}
+#personal .personal-title-actions{grid-column:3;display:flex;gap:4px!important}
+#personal .personal-title-actions button{width:40px!important;min-width:40px!important;height:42px!important;padding:3px!important;border-radius:12px!important}
+#personal .personal-title-actions button i{font-size:13px!important}
+#personal .personal-title-actions button span{font-size:5.5px!important}
+
+/* Record/create windows rise from the bottom, occupy three fifths, and never clip at the left edge. */
+html :is(.modal.on,.schedule-dialog-v119.on,.emotion-dialog-v119.on,.schedule-dialog-v125.on,.dday-dialog-v125.on,.travel-folder-dialog-v125.on){
+  inset:var(--app-frame-v160) 0!important;width:100vw!important;height:auto!important;padding:0 5px!important;
+  align-items:end!important;justify-items:center!important;place-items:end center!important;box-sizing:border-box!important;
+}
+html :is(.modal.on>.box,.schedule-dialog-v119.on>section,.emotion-dialog-v119.on>section,.schedule-dialog-v125.on>section,.dday-dialog-v125.on>section,.travel-folder-dialog-v125.on>section){
+  width:calc(100vw - 10px)!important;max-width:680px!important;height:auto!important;max-height:60%!important;
+  margin:0!important;overflow:auto!important;border-radius:24px 24px 0 0!important;box-sizing:border-box!important;transform:none!important;
+}
+html .event-editor-overlay-v111{
+  inset:var(--app-frame-v160) 0!important;width:100vw!important;height:auto!important;padding:0 5px!important;
+  display:grid!important;align-items:end!important;justify-items:center!important;box-sizing:border-box!important;
+}
+html .event-editor-overlay-v111>.event-editor-sheet-v111{
+  width:calc(100vw - 10px)!important;max-width:700px!important;height:auto!important;max-height:60%!important;
+  margin:0!important;overflow:auto!important;border-radius:24px 24px 0 0!important;box-sizing:border-box!important;
+}
+html .work145-overlay{padding:var(--app-frame-v160) 5px 0!important;align-items:end!important;box-sizing:border-box!important}
+html .work145-overlay>section{width:calc(100vw - 10px)!important;max-width:700px!important;max-height:60%!important;margin:0!important;border-radius:24px 24px 0 0!important;overflow:auto!important}
+html :is(.modal .box,.event-editor-sheet-v111,.schedule-dialog-v119>section,.emotion-dialog-v119>section,.schedule-dialog-v125>section,.work145-overlay>section) footer{padding-bottom:5px!important;margin-bottom:0!important}
+
+@media(min-width:600px){
+  #fifth .my128-tools{grid-auto-rows:118px!important}
+  #fifth .my128-tool,#fifth .my128-tool.study{height:118px!important;min-height:118px!important}
+  #personal .personal-title>.personal-tabs button{font-size:calc(1em + 1px)!important}
+}

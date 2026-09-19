@@ -22,13 +22,13 @@ test('safe font startup retains preview then cloud then saved preference precede
     let actual;vm.runInNewContext(feature.slice(start,end),{PREVIEW_FONT_V134:preview,P:{settings:{fontSize:cloud}},localStorage:{getItem:()=>saved},applyFontSize:value=>actual=value});assert.equal(actual,expected);
   }
 });
-test('actual app renderer shows six ordered event previews in fortnight and one in month',()=>{
+test('actual app renderer shows six ordered event previews in fortnight and three in month',()=>{
   const feature=fs.readFileSync(path.join(assets,'feature-system-v125.js'),'utf8');
   const render=feature.slice(feature.indexOf('  function scheduleCellsV125'),feature.indexOf('  function scheduleUpcomingV125'));
   const f=fixture(),rows=Array.from({length:7},(_,i)=>({id:String(i),date:'2026-09-12',time:`${String(9+i).padStart(2,'0')}:00`,title:i===0?'<unsafe>':'일정 '+i}));
   const context={Date,scheduleViewV176:f.api,scheduleSelectedV125:'2026-09-12',dateKey:d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`,scheduleRowsV125:()=>rows,eventSpansDateV125:(r,k)=>r.date===k,receivedScheduleV176:()=>false,eventColorV125:()=> '#6255e8',safe:s=>String(s).replace(/</g,'&lt;').replace(/>/g,'&gt;')};
-  vm.runInNewContext(render+'; result=scheduleCellsV125(2026,8);',context);assert.equal((context.result.match(/data-schedule-date-v125=/g)||[]).length,14);assert.equal((context.result.match(/<small class="schedule-event-name-v119/g)||[]).length,6);assert.match(context.result,/schedule-more-v176">\+1/);assert.ok(context.result.includes('&lt;unsafe&gt;'));assert.ok(!context.result.includes('<unsafe>'));
-  f.api.toggle();vm.runInNewContext('result=scheduleCellsV125(2026,8)',context);assert.equal((context.result.match(/data-schedule-date-v125=/g)||[]).length,42);assert.equal((context.result.match(/<small class="schedule-event-name-v119/g)||[]).length,1);
+  vm.runInNewContext(render+'; result=scheduleCellsV125(2026,8);',context);assert.equal((context.result.match(/data-schedule-date-v125=/g)||[]).length,14);assert.equal((context.result.match(/<small class="schedule-event-name-v119/g)||[]).length,6);assert.match(context.result,/schedule-more-v176"[^>]*>\+1/);assert.ok(context.result.includes('&lt;unsafe&gt;'));assert.ok(!context.result.includes('<unsafe>'));
+  f.api.toggle();vm.runInNewContext('result=scheduleCellsV125(2026,8)',context);assert.equal((context.result.match(/data-schedule-date-v125=/g)||[]).length,42);assert.equal((context.result.match(/<small class="schedule-event-name-v119/g)||[]).length,3);assert.match(context.result,/schedule-more-v176"[^>]*>\+4/);
 });
 test('fortnight time and title have separate lines without forcing line breaks in monthly view',()=>{
   const feature=fs.readFileSync(path.join(assets,'feature-system-v125.js'),'utf8'),css=fs.readFileSync(path.join(assets,'app-calendar-v175.css'),'utf8');

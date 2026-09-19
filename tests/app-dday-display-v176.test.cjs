@@ -90,7 +90,7 @@ test('site and Android entrypoints preload the same D-day helper and styles offl
     const context={URL,self:{location:{href:'https://aiderdear1.vercel.app/sw.js'},addEventListener(){}}};
     vm.runInNewContext(sw+';globalThis.precache=[...APP_SHELL]',context);
     for(const file of['dday-display-v176.js','dday-display-v176.css']){
-      assert(index.includes(file+'?v=176'));assert(context.precache.includes('./'+file));assert(context.precache.includes('./'+file+'?v=176'));
+      assert(index.includes(file+'?v=178'));assert(context.precache.includes('./'+file));assert(context.precache.includes('./'+file+'?v=178'));
       assert.equal(fs.readFileSync(path.join(root,folder,file),'utf8'),fs.readFileSync(path.join(root,file),'utf8'));
       assert.equal(fs.readFileSync(path.resolve(root,'../AiderLog-v145-decoded/assets',file),'utf8'),fs.readFileSync(path.join(root,file),'utf8'));
     }

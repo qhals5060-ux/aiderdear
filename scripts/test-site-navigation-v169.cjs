@@ -10,6 +10,7 @@ function fn(name){
   // Multiline helpers end on an independently indented closing brace; legacy
   // switchers are a single line or are followed by their original button bind.
   if(name==='setSitePaneVisibilityV169')return tail.slice(0,tail.indexOf('\n  }')+4);
+  if(name==='goPrivatePage')return tail.split(/\r?\n/)[0];
   const end=tail.indexOf('\n  $$(\'');
   assert(end>0,name+' has its original button binding');return tail.slice(0,end);
 }
@@ -28,7 +29,6 @@ function navigationTests(){
   const groups=[
     {fn:'goPage',panes:['page0','page1'],buttons:'.dotnav',key:'page'},
     {fn:'goRecordPage',panes:['recordHubShell','eventStage'],buttons:'.record-dot',key:'recordPage'},
-    {fn:'goPrivatePage',panes:['privateShell','privateLanguageShell'],buttons:'.private-dot',key:'privatePage'},
     {fn:'goPersonalPage',panes:['personalMainShell','personalOverviewShell'],buttons:'.personal-dot',key:'personalPage'},
     {fn:'goTaskPage',panes:['taskPage0','taskPage1'],buttons:'[data-task-page]',key:'taskPage'},
   ];
@@ -58,6 +58,13 @@ function navigationTests(){
     const p=panes[0];context.window.AiderLogNative={};p.hidden=false;p.style.removeProperty('display');vm.runInContext('setSitePaneVisibilityV169($("#'+group.panes[0]+'"),false)',context);assert.equal(p.hidden,false);assert.equal(p.style.getPropertyValue('display'),'');
   }
   passed.push('Native app guard: website visibility policy does not change Android panes');
+  const routine=element('routine');let renders=0;
+  const routineContext={window:{},document:{documentElement:{classList:{contains:()=>false}}},$:selector=>selector==='#privateShell'?routine:null,renderPrivate:()=>renders++};
+  vm.createContext(routineContext);vm.runInContext(fn('setSitePaneVisibilityV169')+'\n'+fn('goPrivatePage'),routineContext);
+  for(const requested of [0,1,99,-1])routineContext.goPrivatePage(requested,true);
+  assert.equal(renders,4);assert.equal(routine.hidden,false);assert.equal(routine.inert,false);assert.equal(routine.classList.contains('current'),true);
+  assert(!html.includes('id="privateLanguageShell"'));assert(!html.includes('data-private-page="1"'));
+  passed.push('Retired language route cannot blank Routine: old page requests stay on the retained routine pane');
 }
 async function serviceWorker(source){
   const listeners={},entries=new Map(),calls=[];let mode='online',body='fresh';
@@ -74,7 +81,7 @@ async function swTests(){
   assert.equal(await (await old.request('/site-modern-v165.css?v=167')).text(),'stale');
   passed.push('Regression reproduced: v168 SW returns stale cached CSS to an online v168 document');
   const worker=await serviceWorker(source);
-  for(const file of ['site-modern-v165.css?v=167','site-layout-v165.js?v=167','language-lab-v18-template.html','paper-analysis-prompt-v159.txt','manifest.webmanifest','language-data-v2/data/manifest.json']){
+  for(const file of ['site-modern-v165.css?v=167','site-layout-v165.js?v=167','client-intake.html','paper-analysis-prompt-v159.txt','manifest.webmanifest','retired-features-v178.js']){
     worker.entries.set('https://fixture.invalid/'+file,new Response('stale'));
     assert.equal(await (await worker.request('/'+file)).text(),'fresh');assert.equal(worker.calls.at(-1).cache,'no-cache');
   }

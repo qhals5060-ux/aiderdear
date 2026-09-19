@@ -70,15 +70,6 @@ html[data-app-font-size="large"]{--app-font-floor:11px}
 #home.schedule-cosmic-v119 .schedule-dday-v119 :is(small,h2,strong,span,p,time){color:#fff!important;text-shadow:0 1px 4px color-mix(in srgb,var(--theme-deep) 45%,transparent)!important}
 #home.schedule-cosmic-v119 .schedule-dday-v119 button{color:#fff!important;border-color:rgba(255,255,255,.36)!important;background:rgba(255,255,255,.14)!important}
 
-/* Language page heading now follows the other top bars. */
-#language .language-edu-head{height:auto!important;min-height:55px!important;margin:0 0 10px!important;padding:5px 4px 11px!important;border:0!important;border-bottom:1px solid var(--theme-border)!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;align-items:end!important}
-#language .language-edu-head>div:first-child{display:grid;gap:2px}
-#language .language-edu-head span{color:var(--theme-primary)!important;font-weight:900!important;letter-spacing:.15em!important}
-#language .language-edu-head h1{margin:0!important;font-size:27px!important;letter-spacing:-.055em!important}
-#language .language-edu-head p{display:none!important}
-#language .edu-badges i{border-color:var(--theme-border)!important;background:var(--theme-surface)!important;color:var(--theme-primary)!important}
-#language aiderlog-language-lab{height:calc(100% - 66px)!important;min-height:0!important;border-color:var(--theme-border)!important;background:var(--theme-surface)!important}
-
 /* The postcard has one exit: the full-insights button. */
 .intro.insight-letter-modal-v132{background:color-mix(in srgb,var(--theme-deep) 30%,transparent)!important}
 .insight-letter-card-v132.intro-card{min-height:462px!important;padding:22px 18px 18px!important;border-color:color-mix(in srgb,var(--theme-primary) 21%,transparent)!important;background:linear-gradient(90deg,transparent 0 24px,color-mix(in srgb,var(--theme-primary) 7%,transparent) 24px 25px,transparent 25px),repeating-linear-gradient(180deg,transparent 0 31px,color-mix(in srgb,var(--theme-primary) 6%,transparent) 31px 32px),#fff!important;box-shadow:0 22px 48px color-mix(in srgb,var(--theme-deep) 22%,transparent)!important}
@@ -126,13 +117,11 @@ html[data-device-layout="fold-open"] #home.schedule-cosmic-v119{grid-template-co
 html[data-device-layout="fold-open"] #home.schedule-cosmic-v119 .schedule-homeside-v119{grid-template-columns:1fr!important;grid-template-rows:minmax(0,.62fr) minmax(145px,.38fr)!important}
 html[data-device-layout="fold-open"] #event .record-grid,html[data-device-layout="fold-open"] #event .event-record-grid-v111{grid-template-columns:repeat(3,minmax(0,1fr))!important}
 html[data-device-layout="fold-open"] #insights .ins-top,html[data-device-layout="fold-open"] #insights .ins-pair{gap:var(--fold-gutter)!important}
-html[data-device-layout="fold-open"] #language .language-edu-head{padding-inline:8px!important}
 html[data-device-layout="fold-open"] .settings-v125>section{width:min(860px,calc(100vw - 40px))!important}
 html[data-device-layout="fold-open"] .planet-theme-grid-v133{grid-template-columns:repeat(4,minmax(0,1fr))!important}
 
 @media(max-width:460px){
-  .planet-theme-grid-v133{grid-template-columns:repeat(2,minmax(0,1fr))!important}.font-grid-v133{grid-template-columns:1fr!important}
-  #language .language-edu-head{align-items:flex-start!important;flex-direction:row!important}.edu-badges{max-width:48%;justify-content:flex-end!important}
+  .planet-theme-grid-v133{grid-template-columns:repeat(2,minmax(0,1fr))!important}.font-grid-v133{grid-template-columns:1fr!important}.edu-badges{max-width:48%;justify-content:flex-end!important}
   .insight-letter-card-v132.intro-card{left:10px!important;right:10px!important}.insight-letter-summary-v132 article{grid-template-columns:92px minmax(0,1fr)!important}
 }
 @media(prefers-reduced-motion:reduce){.wheel-sparkle-v133,.insight-letter-mascot-v133 img,.insight-letter-mascot-v133 span{animation-duration:.01ms!important}}

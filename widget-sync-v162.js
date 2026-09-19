@@ -34,21 +34,6 @@
       .map(node => node.innerText || node.textContent)
   ).slice(0, limit);
 
-  function languageRows() {
-    const rows = [];
-    const legacy = readJson('aiderlog-language-course-v114', {});
-    ['en', 'ja'].forEach(language => {
-      const label = language === 'en' ? '영어' : '일본어';
-      const progress = legacy?.[language] || legacy?.progress?.[language] || {};
-      const streak = Number(progress.streak || progress.streakDays || 0);
-      const week = Array.isArray(progress.week) ? progress.week : [];
-      const completed = week.filter(Boolean).length;
-      if (streak || completed) rows.push(`${label} · 연속 ${streak}일 · 최근 7일 ${completed}회`);
-    });
-    if (!rows.length) rows.push(...visibleText('#privateLanguagePanel [data-language],#privateLanguagePanel .language-streak,#privateLanguagePanel .language-progress', 4));
-    return rows;
-  }
-
   function mealRows() {
     return visibleText('.personal-meal-card,.meal-card-v59,[data-health-kind="meal"]', 6)
       .map(row => row.replace(/칼로리|kcal|탄수화물|단백질|지방/gi, '').replace(/\s+/g, ' ').trim())
@@ -118,14 +103,11 @@
     const workflows = workflowRows();
     const workouts = workoutRows();
     const meals = mealRows();
-    const languages = languageRows();
     const workoutStats = visibleText('.personal-overview-dashboard .exercise-stat,.personal-overview-dashboard [data-stat="exercise"],.exercise-stat-card', 8);
     const inbodyStats = visibleText('.personal-overview-dashboard .inbody-stat,.personal-inbody-history [data-inbody-id],.inbody-stat-card', 8);
     const challenges = visibleText('.personal-challenge-card,.challenge-card-v100,[data-challenge-id]', 10);
     const selectedChallenge = challenges.slice(0, 4);
     const quote = firstText('.personal-reading-card .quote,.reading-card-v59 blockquote,[data-personal-kind="reading"] blockquote', '');
-    const youtubeStore = readJson('aiderlog-language-shorts-v118', {});
-    const youtube = stringList(youtubeStore?.notes || youtubeStore?.current?.sentences || [], 6);
     const photos = imageSources();
     const month = new Intl.DateTimeFormat('ko-KR', { year:'numeric', month:'long' }).format(now);
     const today = new Intl.DateTimeFormat('ko-KR', { month:'long', day:'numeric', weekday:'short' }).format(now);
@@ -137,9 +119,6 @@
       schedule,
       routines,
       routineStats:routineStats(routines),
-      language:languages[0] || '학습 기록을 확인해 주세요.',
-      languageRows:languages,
-      youtubeNotes:youtube,
       meals,
       mealPhotos:photos,
       workouts,

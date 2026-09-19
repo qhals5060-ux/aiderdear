@@ -37,7 +37,7 @@ write('widget_progress_v165',`<layer-list ${ns}><item android:id="@android:id/ba
 
 for(const name of fs.readdirSync(path.join(res,'layout')).filter(n=>/^widget_.*\.xml$/.test(n))){
   let xml=fs.readFileSync(path.join(res,'layout',name),'utf8');
-  const match=name.match(/^widget_(note|todo|routine|language|stats|challenge|workout|book|quote|workflow|day|trend)_(?:v165|v169)(?:_cell)?\.xml$/);
+  const match=name.match(/^widget_(note|todo|routine|stats|challenge|workout|book|quote|workflow|day|trend)_(?:v165|v169)(?:_cell)?\.xml$/);
   const detail=/^widget_book_detail_v168/.test(name);
   if(match||detail){
     const type=detail?'book_detail':match[1];

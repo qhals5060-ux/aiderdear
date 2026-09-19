@@ -32,7 +32,13 @@ public final class WidgetNativeContractTest {
         long initial=WidgetDesignV165.stableId("{\"kind\":\"todo\",\"id\":\"A\",\"done\":false}",0);
         require(initial==WidgetDesignV165.stableId("{\"kind\":\"todo\",\"id\":\"A\",\"done\":true}",5),"stable collection ID survives update/reorder");
         require(initial!=WidgetDesignV165.stableId("{\"kind\":\"todo\",\"id\":\"B\"}",0),"different record IDs remain distinct");
-        for(String kind:new String[]{"note","youtube","routineStats","workoutStats","workout","quote"}){
+        JSONObject workout=new JSONObject("{\"minutes\":42,\"exercises\":[{\"name\":\"스쿼트\",\"sets\":[{\"weight\":30,\"reps\":12},{\"weight\":30,\"reps\":12}]},{\"name\":\"플랭크\",\"sets\":[{\"seconds\":60},{\"seconds\":60}]},{\"name\":\"런지\",\"sets\":[{\"reps\":8},{\"reps\":10}]}]}");
+        String summary=WidgetDesignV165.workoutSummary(workout);
+        require(summary.contains("스쿼트 · 2세트 × 12회 · 30kg"),"identical repetitions compact without changing actual weight");
+        require(summary.contains("플랭크 · 2세트 × 60초"),"timed sets keep seconds units");
+        require(summary.contains("런지 · 8회 / 10회"),"different doses remain separate");
+        require(!WidgetDesignV165.workoutSummary(new JSONObject()).contains("0분"),"missing minutes not invented");
+        for(String kind:new String[]{"note","routineStats","workoutStats","workout","quote"}){
             require("widget_panel_v176".equals(WidgetDesignV165.surface(kind,false,false)),kind+" uses a lavender information panel, not the outer fill");
             require("widget_panel_dark_v176".equals(WidgetDesignV165.surface(kind,false,true)),kind+" preserves the dark colour preference");
         }
@@ -40,7 +46,7 @@ public final class WidgetNativeContractTest {
             require("widget_framed_v176".equals(WidgetDesignV165.surface(kind,false,false)),kind+" uses a separate white framed card");
             require("widget_card_dark_v165".equals(WidgetDesignV165.surface(kind,false,true)),kind+" remains readable in dark theme");
         }
-        for(String kind:new String[]{"todo","language","book"})require("widget_card_v165".equals(WidgetDesignV165.surface(kind,false,false)),kind+" leaves the base visible");
+        for(String kind:new String[]{"todo","book"})require("widget_card_v165".equals(WidgetDesignV165.surface(kind,false,false)),kind+" leaves the base visible");
         require("widget_panel_v176".equals(WidgetDesignV165.surface("book",true,false)),"selected reading detail uses a lavender panel");
         require("widget_bullet_card_v168".equals(WidgetDesignV165.surface("day",false,false)),"bullet days retain their own bordered surface");
         System.out.println("PASS: "+checks+" native model assertions.");

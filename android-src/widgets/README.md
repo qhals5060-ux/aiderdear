@@ -1,18 +1,30 @@
-# v176 native widget colour layers
+# v178 native widget detail and learning retirement
+
+Language-learning widgets were removed in v178 (selected language, all languages,
+YouTube sentence). The snapshot/model layer no longer reads or emits learning
+progress. There are 27 remaining launcher choices, including the 1×1 Consult
+link. Old language resources and obsolete build tools are recoverable outside Git
+under `outputs/v178-retired-language/widgets`.
+
+Fortnight dates now have a quiet visible frame and a pale selected cell, with
+content-height rows leaving remaining space to the native agenda. Repeated
+workout sets are compacted without changing counts, doses or units. Memo picker
+artwork contains two complete rows. Native collections still expose all records.
 
 The installed RemoteViews renderer now selects semantic surfaces in
 `WidgetDesignV165.surface`: near-white outer default, lavender note/stat/quote
 panels, white bordered routine/challenge/workflow/day cards, transparent plain
-rows. Selected dates/checks are violet with white text. Per-widget background
+rows. Selected dates have dark text on pale violet; completed checks retain white
+text on violet. Per-widget background
 colour, opacity, font settings and action targets remain unchanged.
 
 Rebuild from the repository root (use the configured Node executable):
 
-1. `node android-src/widgets/generate-components-v176.cjs ../AiderLog-v145-decoded/res`
-2. Set `WIDGET_V169_QA` to the workspace `outputs/widget-v176` directory, then run
+1. `node android-src/widgets/generate-components-v178.cjs ../AiderLog-v145-decoded/res`
+2. Set `WIDGET_V169_QA` to the workspace `outputs/widget-v178` directory, then run
    `node android-src/widgets/generate-picker-v169.cjs ../AiderLog-v145-decoded/res --xml-only`.
-3. `node android-src/widgets/render-picker-xml-v176.cjs` creates all 30 portrait
-   launcher PNGs and 29 wide comparison PNGs from those exact XML/drawable trees.
+3. `node android-src/widgets/render-picker-xml-v176.cjs <QA directory>` creates 27
+   launcher PNGs and 26 wide comparison PNGs from those exact XML/drawable trees.
    The local SVG/Pango measurement adapter is not an Android screenshot. It does
    not approximate colours by resource names or introduce production demo data.
 4. `./android-src/widgets/build-native-v176.ps1` builds the Java/D8 helper and
@@ -23,17 +35,17 @@ Rebuild from the repository root (use the configured Node executable):
 
 Do not finish a rebuild with the historical v169 component generator: its v168
 predecessor paints every content surface the same light violet. Always finish
-with v176, then regenerate picker layouts/PNGs. Settings preview calls the same
+with v178, then regenerate picker layouts/PNGs. Settings preview calls the same
 native renderer as installation. Physical Flip/Fold launcher, resize and touch
 verification remains a separate device gate.
 
 ## Historical v168 architecture (v13 designs)
 
-The notes below retain historical architecture details. For v168 use
-`generate-components-v168.cjs` and then `generate-picker-v168.cjs` against the
-decoded `res` directory. Both intentionally reuse the v165 generators and stable
-resource IDs; do not delete those dependencies. v168 adds the 1×1 TaskClientLink
-provider (30 total picker choices), four-token default palette and typography,
+The notes below retain historical architecture details, not current build steps.
+The obsolete picker entry points were archived in v178. The current v178
+generator intentionally reuses v165–176 component helpers and stable resource
+IDs. v168 originally added the 1×1 TaskClientLink
+provider, four-token default palette and typography,
 560dp/font-aware split layouts, and read-only bullet journal actions.
 
 Native settings and installed rendering share the same production components.

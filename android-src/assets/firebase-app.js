@@ -1,7 +1,7 @@
 import { createConsultSync, CONSULT_KEYS } from './consult-sync-v167.js';
 import {decodeArchive,encodeArchive,encodeStoredPayload} from './archive-codec-v168.js';
 import {ddayFailure,ddayId,ddayScope,mergeDdaySources,resolveDdaySelection,preserveDdayRows,mutateDdayStore} from './dday-store-v174.js';
-import {PRIVATE_CALENDAR_VERSION,canUsePrivateIntimacy,privateCalendarFailure,privateCalendarError,privateCalendarId,privateCalendarRange,privateCalendarRevision,normalizePrivateCalendarSettings,normalizePrivateCalendarEntry,privateCalendarMutation,withoutPrivateEmotionFlags} from './private-calendar-v175.js';
+import {PRIVATE_CALENDAR_VERSION,canUsePrivateIntimacy,privateCalendarFailure,privateCalendarError,privateCalendarId,privateCalendarRange,privateCalendarRevision,normalizePrivateCalendarSettings,normalizePrivateCalendarEntry,normalizePrivateCalendarDay,privateCalendarDayMutation,privateCalendarMutation,withoutPrivateEmotionFlags} from './private-calendar-v175.js';
 import {createFriendScheduleAdapter} from './friend-schedule-firebase-v175.js';
 import {createAndroidSession} from './android-session-v176.js';
 const storageStampV168=()=>({storageVersion:168,formatWrittenAt:serverTimestamp()});
@@ -1043,14 +1043,16 @@ async function mutateDday(input) {
 
 const copyJson = value => JSON.parse(JSON.stringify(value ?? null));
 
-// Private health calendar: never stored in app/main or any shared projection.
+// Owner originals never enter app/main. Only explicit v178 day toggles create
+// a minimal projection in the currently linked couple's dedicated collection.
 // Queries are bounded; a truncated range explicitly disables period estimates.
 function assertPrivateCalendarContext(context) {
   if (state.user?.uid !== context.uid || auth.currentUser !== context.principal || auth.currentUser?.uid !== context.uid) privateCalendarFailure('로그인 계정이 변경되어 개인 캘린더 작업을 중단했습니다.', 'unauthenticated');
+  if ((state.pair?.id || '') !== context.pairId) privateCalendarFailure('커플 연결이 변경되어 날짜 기록 작업을 중단했습니다. 다시 눌러주세요.', 'conflict');
 }
 async function capturePrivateCalendarContext() {
   const user = requireUser(), principal = auth.currentUser;
-  const context = {uid:privateCalendarId(user.uid), principal, canUseIntimacy:false};
+  const context = {uid:privateCalendarId(user.uid), principal, pairId:state.pair?.id ? privateCalendarId(state.pair.id) : '', canUseIntimacy:false};
   assertPrivateCalendarContext(context);
   const token = await principal.getIdTokenResult();
   assertPrivateCalendarContext(context);
@@ -1058,6 +1060,15 @@ async function capturePrivateCalendarContext() {
   context.canUseIntimacy = canUsePrivateIntimacy(principal)
     && token.claims.email_verified === true && token.claims.email === principal.email;
   return context;
+}
+async function privateCalendarPair(context, read=getDoc) {
+  if (!context.pairId) return null;
+  const [pair, membership] = await Promise.all([read(doc(db,'pairs',context.pairId)),read(doc(db,'pairMemberships',context.uid))]);
+  assertPrivateCalendarContext(context);
+  const value=pair.exists()?pair.data():null, own=membership.exists()?membership.data():null;
+  if (!value || value.status!=='active' || !Array.isArray(value.memberUids) || value.memberUids.length!==2 || new Set(value.memberUids).size!==2 || !value.memberUids.includes(context.uid)
+      || own?.status!=='active' || own.pairId!==context.pairId) privateCalendarFailure('커플 연결을 다시 확인해주세요. 기록과 입력은 유지됩니다.','permission-denied');
+  return value;
 }
 function privateCalendarRef(context, collectionName, id) {
   return doc(db, 'users', context.uid, collectionName, id);
@@ -1071,17 +1082,32 @@ function privateCalendarSnapshot(snapshot, context) {
 async function readPrivateCalendarData(input) {
   try {
     const range = privateCalendarRange(input), context = await capturePrivateCalendarContext();
+    const pair=await privateCalendarPair(context);
     const periodQuery = query(collection(db, 'users', context.uid, 'menstrualEntries'), where('startDate', '>=', range.historyFrom), where('startDate', '<=', range.to), orderBy('startDate', 'desc'), limit(201));
-    const reads = [getDoc(privateCalendarRef(context, 'healthCalendar', 'settings')), getDocs(periodQuery)];
-    if (context.canUseIntimacy) reads.push(getDocs(query(collection(db, 'users', context.uid, 'intimacyEntries'), where('date', '>=', range.from), where('date', '<=', range.to), orderBy('date', 'desc'), limit(201))));
-    const [settingsSnapshot, periodSnapshot, intimacySnapshot] = await Promise.all(reads);
+    const dateQuery=(path,from=range.from)=>getDocs(query(collection(db,...path),where('date','>=',from),where('date','<=',range.to),orderBy('date','desc'),limit(201)));
+    const [settingsSnapshot, periodSnapshot, intimacySnapshot, periodDays, intimacyDays, sharedPeriods, sharedIntimacy] = await Promise.all([
+      getDoc(privateCalendarRef(context, 'healthCalendar', 'settings')),getDocs(periodQuery),
+      context.canUseIntimacy?dateQuery(['users',context.uid,'intimacyEntries']):null,
+      dateQuery(['users',context.uid,'menstrualDays'],range.historyFrom),
+      context.canUseIntimacy?dateQuery(['users',context.uid,'intimacyDays']):null,
+      pair?dateQuery(['pairs',context.pairId,'menstrualDays']):null,
+      pair&&context.canUseIntimacy?dateQuery(['pairs',context.pairId,'intimacyDays']):null,
+    ]);
     assertPrivateCalendarContext(context);
     const unpack = (snapshot, kind) => (snapshot?.docs || []).slice(0, 200).map(row => {
       const value = privateCalendarSnapshot(row, context);
       if (!value || value.id !== row.id || value.deleted === true) privateCalendarFailure('개인 기록 형식을 확인할 수 없습니다. 원본은 유지됩니다.');
       return normalizePrivateCalendarEntry(kind, value, true);
     });
-    return {settings:normalizePrivateCalendarSettings(privateCalendarSnapshot(settingsSnapshot, context)), periods:unpack(periodSnapshot, 'period'), intimacy:unpack(intimacySnapshot, 'intimacy'), canUseIntimacy:context.canUseIntimacy, hasMore:{periods:periodSnapshot.docs.length > 200, intimacy:(intimacySnapshot?.docs.length || 0) > 200}};
+    const unpackDays=(snapshot,kind,shared=false)=>(snapshot?.docs||[]).slice(0,200).map(row=>{
+      const value=shared?row.data():privateCalendarSnapshot(row,context);
+      if (!value || value.kind!==kind || value.version!==PRIVATE_CALENDAR_VERSION || (shared?(!pair.memberUids.includes(value.ownerUid)||row.id!==`${value.ownerUid}_${value.date}`||value.pairId!==context.pairId):row.id!==value.date)) privateCalendarFailure('날짜 기록 형식을 확인할 수 없습니다. 원본은 유지됩니다.');
+      return {...normalizePrivateCalendarDay(value,true),ownerUid:value.ownerUid};
+    }).filter(row=>!shared||row.ownerUid!==context.uid);
+    const truncated=snapshot=>(snapshot?.docs.length||0)>200;
+    return {settings:normalizePrivateCalendarSettings(privateCalendarSnapshot(settingsSnapshot, context)), periods:unpack(periodSnapshot, 'period'), intimacy:unpack(intimacySnapshot, 'intimacy'),
+      periodDays:unpackDays(periodDays,'period'),intimacyDays:unpackDays(intimacyDays,'intimacy'),sharedPeriods:unpackDays(sharedPeriods,'period',true),sharedIntimacy:unpackDays(sharedIntimacy,'intimacy',true),
+      canUseIntimacy:context.canUseIntimacy, hasMore:{periods:truncated(periodSnapshot)||truncated(periodDays),intimacy:truncated(intimacySnapshot)||truncated(intimacyDays),shared:truncated(sharedPeriods)||truncated(sharedIntimacy)}};
   } catch (error) { throw privateCalendarError(error); }
 }
 async function mutatePrivateCalendar(input) {
@@ -1089,6 +1115,7 @@ async function mutatePrivateCalendar(input) {
     // Validate before network and preserve the caller's input through all awaits.
     const action = JSON.parse(JSON.stringify(input || {}));
     privateCalendarRevision(action.expectedRevision);
+    if(action.type==='day-set')return await mutatePrivateCalendarDay(action);
     privateCalendarMutation({...action, expectedRevision:0}, null);
     const context = await capturePrivateCalendarContext(), type = action.type;
     if (type.startsWith('intimacy-') && !context.canUseIntimacy) privateCalendarFailure('이 계정에서는 관계일 기록을 사용할 수 없습니다.', 'permission-denied');
@@ -1110,6 +1137,44 @@ async function mutatePrivateCalendar(input) {
     window.dispatchEvent(new CustomEvent('aiderdear-private-calendar-data', {detail:{uid:context.uid}}));
     return result;
   } catch (error) { throw privateCalendarError(error); }
+}
+
+async function mutatePrivateCalendarDay(action) {
+  privateCalendarDayMutation({...action,expectedRevision:0});
+  const context=await capturePrivateCalendarContext();
+  if(action.kind==='intimacy'&&!context.canUseIntimacy)privateCalendarFailure('이 계정에서는 관계일 기록을 사용할 수 없습니다.','permission-denied');
+  const collectionName=action.kind==='period'?'menstrualDays':'intimacyDays',ref=privateCalendarRef(context,collectionName,action.date);
+  const result=await runTransaction(db,async transaction=>{
+    assertPrivateCalendarContext(context);
+    const pair=await privateCalendarPair(context,ref=>transaction.get(ref));
+    const settingsRef=privateCalendarRef(context,'healthCalendar','settings');
+    const [snapshot,settingsSnapshot]=await Promise.all([transaction.get(ref),action.kind==='period'&&action.active?transaction.get(settingsRef):null]);
+    assertPrivateCalendarContext(context);
+    const previous=privateCalendarSnapshot(snapshot,context),result=privateCalendarDayMutation(action,previous);
+    // Replaying a completed request is a no-op, never a historical share/backfill.
+    if(!result.changed)return result;
+    const stamp={ownerUid:context.uid,version:PRIVATE_CALENDAR_VERSION,createdAt:previous?.createdAt||serverTimestamp(),updatedAt:serverTimestamp()};
+    transaction.set(ref,{...result.item,...stamp});
+    if(settingsSnapshot){const stored=privateCalendarSnapshot(settingsSnapshot,context),settings=normalizePrivateCalendarSettings(stored);if(!settings.menstrualEnabled)transaction.set(settingsRef,{...settings,menstrualEnabled:true,revision:settings.revision+1,ownerUid:context.uid,version:PRIVATE_CALENDAR_VERSION,createdAt:stored?.createdAt||serverTimestamp(),updatedAt:serverTimestamp()});}
+    if(pair)transaction.set(doc(db,'pairs',context.pairId,collectionName,`${context.uid}_${action.date}`),{...result.item,ownerUid:context.uid,pairId:context.pairId,version:PRIVATE_CALENDAR_VERSION,updatedAt:serverTimestamp()});
+    return result;
+  },{maxAttempts:1});
+  assertPrivateCalendarContext(context);
+  window.dispatchEvent(new CustomEvent('aiderdear-private-calendar-data',{detail:{uid:context.uid}}));
+  return result;
+}
+
+function watchPrivateCalendarPair(input,changed,failed) {
+  let cancelled=false;const subscriptions=[];
+  Promise.resolve().then(async()=>{
+    const range=privateCalendarRange(input),context=await capturePrivateCalendarContext();
+    const pair=await privateCalendarPair(context);if(cancelled||!pair)return;
+    for(const name of ['menstrualDays',...(context.canUseIntimacy?['intimacyDays']:[])]){
+      const ref=query(collection(db,'pairs',context.pairId,name),where('date','>=',range.from),where('date','<=',range.to),orderBy('date','desc'),limit(201));
+      subscriptions.push(onSnapshot(ref,()=>{if(cancelled)return;try{assertPrivateCalendarContext(context);changed?.();}catch(error){failed?.(privateCalendarError(error));}},error=>{if(!cancelled)failed?.(privateCalendarError(error));}));
+    }
+  }).catch(error=>{if(!cancelled)failed?.(privateCalendarError(error));});
+  return()=>{cancelled=true;subscriptions.splice(0).forEach(stop=>stop());};
 }
 
 function eventPairKey() {
@@ -1630,7 +1695,15 @@ function mediaRef(mediaId) {
 
 async function compressImage(file) {
   if (!String(file.type || '').startsWith('image/') || file.type === 'image/gif') return file;
-  const bitmap = await createImageBitmap(file);
+  // Photo batches already decode/resize once. Avoid a second WebView codec pass.
+  if (file.type === 'image/jpeg' && file.size <= 500000) return file;
+  let bitmap, sourceUrl='';
+  try { if (typeof createImageBitmap !== 'function') throw Error('bitmap unavailable'); bitmap = await createImageBitmap(file); }
+  catch {
+    sourceUrl = URL.createObjectURL(file);
+    try { bitmap = await new Promise((resolve,reject)=>{const image=new Image();image.onload=()=>resolve(image);image.onerror=()=>reject(new Error('이 사진 형식을 읽을 수 없습니다. 앨범에서 JPG 또는 PNG로 저장한 뒤 다시 선택해주세요.'));image.src=sourceUrl;}); }
+    catch(error) { URL.revokeObjectURL(sourceUrl); throw error; }
+  }
   const maxSide = 1600;
   const scale = Math.min(1, maxSide / Math.max(bitmap.width, bitmap.height));
   const canvas = document.createElement('canvas');
@@ -1638,6 +1711,7 @@ async function compressImage(file) {
   canvas.height = Math.max(1, Math.round(bitmap.height * scale));
   canvas.getContext('2d', { alpha: false }).drawImage(bitmap, 0, 0, canvas.width, canvas.height);
   bitmap.close?.();
+  if (sourceUrl) URL.revokeObjectURL(sourceUrl);
   const blob = await new Promise((resolve, reject) => canvas.toBlob(
     value => value ? resolve(value) : reject(new Error('사진을 변환하지 못했습니다.')),
     'image/jpeg',
@@ -1676,6 +1750,48 @@ function captureMediaUploadContextV176(privateOnly = false) {
   } };
 }
 
+async function writeMediaChunksV178(context, ref, bytes, metadata) {
+  // 8 x 700 KiB stays well below Firestore's 10 MiB request limit, including
+  // document names and metadata. The final bytes and metadata commit together.
+  const chunkSize = 700 * 1024, perBatch = 8;
+  const chunks = collection(ref, 'chunks'), acknowledged = [];
+  let metadataAttempted = false, metadataSaved = false;
+  try {
+    for (let start = 0; start < Math.max(1, metadata.chunkCount); start += perBatch) {
+      const batch = writeBatch(db), refs = [];
+      const end = Math.min(metadata.chunkCount, start + perBatch);
+      for (let index = start; index < end; index += 1) {
+        const target = doc(chunks, String(index).padStart(5, '0'));
+        batch.set(target, { data: Bytes.fromUint8Array(bytes.slice(index * chunkSize, (index + 1) * chunkSize)) });
+        refs.push(target);
+      }
+      const final = end === metadata.chunkCount;
+      if (final) batch.set(ref, metadata);
+      context.assertCurrent();
+      metadataAttempted = final;
+      await batch.commit();
+      if (final) metadataSaved = true;
+      else acknowledged.push(...refs);
+      context.assertCurrent();
+    }
+  } catch (error) {
+    // A rejected final network response can still represent a successful commit.
+    // Never delete that file, nor retarget cleanup after an account/pair change.
+    const code = String(error?.code || '').replace(/^firestore\//, '');
+    const rejected = ['permission-denied', 'unauthenticated', 'invalid-argument',
+      'failed-precondition', 'resource-exhausted', 'out-of-range', 'unimplemented'].includes(code);
+    if (!metadataSaved && (!metadataAttempted || rejected) && acknowledged.length) {
+      try {
+        context.assertCurrent();
+        const cleanup = writeBatch(db);
+        acknowledged.forEach(target => cleanup.delete(target));
+        await cleanup.commit();
+      } catch { /* Preserve the original upload error; cleanup is best effort. */ }
+    }
+    throw error;
+  }
+}
+
 async function uploadMedia(originalFile, label = 'media') {
   const context = captureMediaUploadContextV176();
   const file = await compressImage(originalFile);
@@ -1695,42 +1811,7 @@ async function uploadMedia(originalFile, label = 'media') {
   context.assertCurrent();
   const chunkSize = 700 * 1024;
   const chunkCount = Math.ceil(bytes.length / chunkSize);
-  const chunks = collection(ref, 'chunks');
-  if (String(file.type || '').startsWith('image/') && chunkCount === 1) {
-    // One-chunk photos and their metadata succeed/fail together; document
-    // write count is unchanged, but a failed metadata request cannot orphan bytes.
-    const atomic = writeBatch(db);
-    atomic.set(doc(chunks, '00000'), { data: Bytes.fromUint8Array(bytes) });
-    atomic.set(ref, { name: file.name, type: file.type || 'application/octet-stream', size: file.size, chunkCount, label, createdAt: serverTimestamp(), createdBy: context.uid });
-    context.assertCurrent();
-    await atomic.commit();
-    context.assertCurrent();
-    return { id: mediaId, name: file.name, mimeType: file.type, size: file.size };
-  }
-  let batch = writeBatch(db);
-  let operations = 0;
-  for (let index = 0; index < chunkCount; index += 1) {
-    const start = index * chunkSize;
-    const end = Math.min(bytes.length, start + chunkSize);
-    batch.set(doc(chunks, String(index).padStart(5, '0')), {
-      data: Bytes.fromUint8Array(bytes.slice(start, end)),
-    });
-    operations += 1;
-    if (operations === 400) {
-      context.assertCurrent();
-      await batch.commit();
-      context.assertCurrent();
-      batch = writeBatch(db);
-      operations = 0;
-    }
-  }
-  if (operations) {
-    context.assertCurrent();
-    await batch.commit();
-    context.assertCurrent();
-  }
-  context.assertCurrent();
-  await setDoc(ref, {
+  await writeMediaChunksV178(context, ref, bytes, {
     name: file.name,
     type: file.type || 'application/octet-stream',
     size: file.size,
@@ -2029,38 +2110,7 @@ async function uploadPrivateMedia(originalFile, label = 'personal') {
   context.assertCurrent();
   const chunkSize = 700 * 1024;
   const chunkCount = Math.ceil(bytes.length / chunkSize);
-  const chunks = collection(ref, 'chunks');
-  if (String(file.type || '').startsWith('image/') && chunkCount === 1) {
-    const atomic = writeBatch(db);
-    atomic.set(doc(chunks, '00000'), { data: Bytes.fromUint8Array(bytes) });
-    atomic.set(ref, { name: file.name, type: file.type || 'application/octet-stream', size: file.size, chunkCount, label, createdAt: serverTimestamp(), createdBy: context.uid });
-    context.assertCurrent();
-    await atomic.commit();
-    context.assertCurrent();
-    return { id: mediaId, name: file.name, mimeType: file.type, size: file.size };
-  }
-  let batch = writeBatch(db);
-  let operations = 0;
-  for (let index = 0; index < chunkCount; index += 1) {
-    const start = index * chunkSize;
-    const end = Math.min(bytes.length, start + chunkSize);
-    batch.set(doc(chunks, String(index).padStart(5, '0')), { data: Bytes.fromUint8Array(bytes.slice(start, end)) });
-    operations += 1;
-    if (operations === 400) {
-      context.assertCurrent();
-      await batch.commit();
-      context.assertCurrent();
-      batch = writeBatch(db);
-      operations = 0;
-    }
-  }
-  if (operations) {
-    context.assertCurrent();
-    await batch.commit();
-    context.assertCurrent();
-  }
-  context.assertCurrent();
-  await setDoc(ref, {
+  await writeMediaChunksV178(context, ref, bytes, {
     name: file.name,
     type: file.type || 'application/octet-stream',
     size: file.size,
@@ -2430,6 +2480,7 @@ const api = {
   mutateDday,
   readPrivateCalendarData,
   mutatePrivateCalendar,
+  watchPrivateCalendarPair,
   migrateEventWorkspace,
   writeAppData,
   readScheduleData,

@@ -62,10 +62,10 @@ for(const name of ['uploadPrivateMedia','uploadMedia']){
   const f=fixture({writeBatch:()=>{const rows=[];return {set:(target,data)=>rows.push({target,data}),commit:async()=>{attempted.push(rows);throw error}}},setDoc:async(...args)=>applied.push(args)});
   await assert.rejects(f.context[name](f.file),e=>e===error);assert.equal(attempted.length,1);assert.equal(attempted[0].length,2);assert.equal(applied.length,0);
  });
- test(name+' retains the existing multiple-chunk and non-photo save policy',async()=>{
+ test(name+' commits final multiple-chunk and non-photo bytes with their metadata',async()=>{
   for(const kind of ['large-image','document']){
    const f=fixture();if(kind==='large-image'){f.file.size=700*1024+1;f.file.arrayBuffer=async()=>new Uint8Array(f.file.size).buffer;}else f.file.type='application/pdf';
-   await f.context[name](f.file);assert.equal(f.commits.length,1);assert.equal(f.commits[0].length,kind==='large-image'?2:1);assert.equal(f.metadata.length,1);
+   await f.context[name](f.file);assert.equal(f.commits.length,1);assert.equal(f.commits[0].length,kind==='large-image'?3:2);assert.equal(f.metadata.length,1);
    assert.equal(f.metadata[0].data.type,kind==='large-image'?'image/jpeg':'application/pdf');
   }
  });

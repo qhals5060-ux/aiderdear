@@ -42,7 +42,7 @@ function legacyFixtureConstructors(){
   source=source.replace("meta:`DAY ${done} / 30`,percent:done/30*100,body:detail?'60초 · 4일 연속':'',...(detail?{graph:['nodes',Array.from({length:30},(_,i)=>i<done)]}:{})",
     "meta:`DAY ${done} / ${detail?7:30}`,percent:done/(detail?7:30)*100,body:detail?'오늘 목표 60초 · 4일 연속':'',...(detail?{graph:['challengeNodes',Array.from({length:7},(_,i)=>i<done)]}:{})");
   if(source.includes("Array.from({length:30},(_,i)=>i<done)"))throw Error('Challenge preview still has thirty nodes.');
-  source+='\nmodule.exports={configs,component,routine,language,memo,todo,challenge,book,workout,meals,notes,todos,routines,languages,challenges,statistics,inbody,workflow,graphJobs};';
+  source+='\nmodule.exports={configs,component,routine,memo,todo,challenge,book,workout,meals,notes,todos,routines,challenges,statistics,inbody,workflow,graphJobs};';
   const sandbox={require,__dirname,process:{argv:['node','generator',res]},module:{exports:{}}};
   vm.runInNewContext(source,sandbox,{filename:'build-only-existing-picker-fixtures'});return sandbox.module.exports;
 }
@@ -80,18 +80,19 @@ function calendarPreview(kind,width){
     const cells=[];
     for(let day=0;day<7;day++){
       const key=`${dates.getFullYear()}-${String(dates.getMonth()+1).padStart(2,'0')}-${String(dates.getDate()).padStart(2,'0')}`,entries=events[key]||[],selected=key==='2026-09-06',visible=large?(wide?2:1):0;
-      let xml=read('layout','widget_day_v164');
-      xml=el(xml,'widget_day_number_v164',{text:dates.getDate(),textColor:selected?'#FFFFFF':'#171A3A',layout_height:'28dp',background:'@drawable/'+(selected?'widget_day_selected_v164':'widget_day_clear_v164')});
+      let xml=read('layout',fortnight?'widget_day_compact_v178':'widget_day_v164');
+      xml=el(xml,'widget_day_number_v164',{text:dates.getDate(),textColor:'#171A3A',layout_height:'28dp',background:'@drawable/widget_day_clear_v164'});
+      xml=el(xml,'widget_day_background_v164',{src:'@drawable/'+(selected?'widget_day_selected_v164':'widget_day_bg_v164')});
       xml=el(xml,'widget_day_label_v164',{text:holidays[key]||'',visibility:holidays[key]?'visible':'gone',layout_height:'14dp'});
       xml=el(xml,'widget_day_events_v164',{text:entries.slice(0,visible).join('\n'),visibility:large?'visible':'gone'});
       xml=el(xml,'widget_day_more_v164',{text:large&&entries.length>visible?'+'+(entries.length-visible):entries.length&&!large?'●':'',visibility:entries.length?'visible':'gone'});
       cells.push(xml);dates.setDate(dates.getDate()+1);
     }
-    calendar.push(horizontal(cells,`android:layout_height="${large?92:44}dp"`).replace('android:layout_height="wrap_content" ',''));
+    calendar.push(horizontal(cells,`android:layout_height="${large?92:fortnight?54:44}dp"`).replace('android:layout_height="wrap_content" ',''));
   }
   const chosen=[text('9월 6일 일요일 · 3건',12,'android:layout_marginTop="10dp" android:layout_marginBottom="8dp"'),...rows];
   const body=only?calendar:wide?[split(calendar,chosen)]:[...calendar,...chosen];
-  return rootXml({title,add:true,pager:!fortnight,rows:body});
+  return rootXml({title,add:true,pager:true,rows:body});
 }
 
 async function generate(){
@@ -108,9 +109,8 @@ async function generate(){
   // 4/5-row launcher cell even though targetCellHeight said 3 (ignored pre-31).
   // Use consistent legacy grid bounds (70*n-30) and explicit modern grid spans.
   const sizes={
-    personal_workflow_one:[2,256],personal_workflow_all:[4,456],personal_todo:[2,272],
+    personal_workflow_one:[2,304],personal_workflow_all:[4,456],personal_todo:[2,272],
     routine_all:[4,460],routine_cards:[3,300],routine_stats:[5,600],
-    routine_language:[3,280],routine_language_all:[5,460],language_youtube:[3,280],
     personal_meal:[4,372],personal_workout_meal:[5,500],personal_workout:[2,224],personal_workout_challenge:[4,430],
     personal_challenge:[2,224],personal_workout_challenge_all:[3,310],personal_workout_challenge_combined:[4,440],
     personal_workout_stats:[4,380],personal_workout_stats_inbody:[4,425],personal_reading:[5,520],personal_quote:[4,380],
@@ -122,7 +122,7 @@ async function generate(){
   // affects only launcher samples: installed collection widgets remain scrollable
   // and use the actual host bounds, never these demonstration bitmap heights.
   const wideHeights={personal_todo:272,routine_cards:264,routine_stats:464,
-    routine_language:240,routine_language_all:448,personal_workout_stats:300,personal_workout_stats_inbody:292,
+    personal_workout_stats:300,personal_workout_stats_inbody:292,
     personal_bullet_seven:408,personal_bullet_seven_workflow:592};
   function wideRows(kind,conf){
     if(kind==='personal_workflow_one')return [horizontal(notes.map(cell))];

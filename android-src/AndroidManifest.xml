@@ -71,14 +71,6 @@
             <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE"/></intent-filter>
             <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_routine_cards"/>
         </receiver>
-        <receiver android:exported="true" android:label="어학 · 선택 언어 7일" android:name=".WidgetProvider$RoutineLanguage">
-            <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE"/></intent-filter>
-            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_routine_language"/>
-        </receiver>
-        <receiver android:exported="true" android:label="어학 · YouTube 문장" android:name=".WidgetProvider$LanguageYoutube">
-            <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE"/></intent-filter>
-            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_language_youtube"/>
-        </receiver>
         <receiver android:exported="true" android:label="건강 · 오늘의 식사" android:name=".WidgetProvider$PersonalMeal">
             <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE"/></intent-filter>
             <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_personal_meal"/>
@@ -138,10 +130,6 @@
         <receiver android:exported="true" android:label="루틴 · 전체와 통계" android:name=".WidgetProvider$RoutineStats">
             <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE"/></intent-filter>
             <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_routine_stats"/>
-        </receiver>
-        <receiver android:exported="true" android:label="어학 · 영어와 일본어 7일" android:name=".WidgetProvider$RoutineLanguageAll">
-            <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE"/></intent-filter>
-            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_routine_language_all"/>
         </receiver>
         <receiver android:exported="true" android:label="건강 · 식사와 운동" android:name=".WidgetProvider$PersonalWorkoutMeal">
             <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE"/></intent-filter>

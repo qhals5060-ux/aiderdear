@@ -24,26 +24,22 @@ function component(type,fields={},cell=false){let xml=read('layout',`widget_${ty
 }
 const row=cards=>`<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:baselineAligned="false">${cards.join('')}</LinearLayout>`;
 const routine=(title,done,detail=false,cell=false)=>component('routine',{title,meta:`${done} / 30일 · 4일 연속`,percent:done/30*100,body:'오늘의 최소 실천',...(detail?{graph:['nodes',[true,true,false,true,true,false,true]]}:{})},cell);
-const language=(title,week,cell=false)=>component('language',{title,meta:'4일 연속 · 이번 주 '+week.filter(Boolean).length+' / 7',body:'학습 시간 기록 없음',graph:['stars',week]},cell);
 const memo=(title,body='',cell=false)=>component('note',{title,body,meta:'09.06 09:20'},cell);
 const todo=(title,done=false,cell=false)=>component('todo',{title,done,meta:'09.06 17:00'},cell);
 const challenge=(title,done,detail=false,cell=false)=>component('challenge',{title,meta:`DAY ${done} / 30`,percent:done/30*100,body:detail?'60초 · 4일 연속':'',...(detail?{graph:['nodes',Array.from({length:30},(_,i)=>i<done)]}:{})},cell);
 const book=(title,author,percent,cell=false)=>component('book',{title,meta:author,body:percent===100?'완독':`${Math.round(percent*3)} / 300쪽 · ${percent}%`,percent},cell);
-const workout=()=>component('workout',{title:'근력 운동',body:'42분\n스쿼트 · 30kg × 12회 / 30kg × 12회\n플랭크 · 60초 / 60초'});
+const workout=()=>component('workout',{title:'근력 운동',body:'42분\n스쿼트 · 2세트 × 12회 · 30kg\n플랭크 · 2세트 × 60초'});
 const meals=()=>[row([component('meal_slot',{time:'08:10',rating:'★★★★☆'},true),component('meal_slot',{time:'12:20',rating:'★★★★★'},true)]),row([component('meal_slot',{time:'18:30',rating:'★★★★☆'},true),component('meal_slot',{time:'15:10',rating:'★★★☆☆'},true)])];
 const notes=[memo('회의에서 확인할 내용','자료 정리와 다음 주 일정 확인'),memo('연구 아이디어','측정 방법과 비교 조건 기록')],todos=[todo('메일 답장'),todo('자료 준비'),todo('예약 확인',true)];
 const routines=[routine('아침 스트레칭',12),routine('독서 20분',9),routine('오늘의 정리',18)];
-const languages=[language('English · 중급',[true,true,false,true,true,true,false]),language('Japanese · 초급',[true,false,true,true,false,true,false])];
 const challenges=[challenge('런지',9),challenge('스쿼트',12),challenge('플랭크',7),challenge('버피',4)];
 const statistics=component('stats',{title:'이번 주',meta:'67%',body:'4일 연속\n누적 39회',foot:'월 – 일 완료 횟수',graph:['bars',[2,3,1,2,3,2,1]]});
 const inbody=[['체중',[61.2,60.8,60.7,60.4],'kg',0],['골격근량',[23.8,24,24.1,24.4],'kg',1],['체지방률',[27.1,26.8,26.3,25.9],'%',2]].map(([title,values,unit,dash])=>component('stats',{title,meta:`${values[0]} → ${values.at(-1)}${unit}`,body:'',foot:'최근 4회 · 항목 자체 범위',graph:['trend',values,dash]}));
 const workflow=component('workflow',{title:'연구 자료 정리',meta:'진행 중',percent:60,body:'✓ 자료 수집\n✓ 항목 분류\n○ 결과 검토'});
-function bulletin(seven,workflowIncluded){const days=seven?['월 31','화 1','수 2']:['일 6','월 7','화 8'],cards=days.map((d,i)=>component('day',{title:d,body:['09:30 팀 미팅\n독서 기록','English 학습 완료\n운동 42분','14:00 자료 검토\n사진 기록'][i]},seven));return [...(seven?[row(cards)]:cards),...notes.slice(0,1),...todos.slice(0,2),...(workflowIncluded?[workflow]:[])];}
+function bulletin(seven,workflowIncluded){const days=seven?['월 31','화 1','수 2']:['일 6','월 7','화 8'],cards=days.map((d,i)=>component('day',{title:d,body:['09:30 팀 미팅\n독서 기록','루틴 완료\n운동 42분','14:00 자료 검토\n사진 기록'][i]},seven));return [...(seven?[row(cards)]:cards),...notes.slice(0,1),...todos.slice(0,2),...(workflowIncluded?[workflow]:[])];}
 const configs={
  personal_workflow_one:{rows:notes,height:300,add:true},personal_workflow_all:{rows:[...notes,...todos],height:460,add:true},personal_todo:{rows:todos,height:290,add:true,title:'1 / 3 완료'},
  routine_all:{rows:routines,height:500,title:'2 / 3 완료'},routine_cards:{rows:[routine('아침 스트레칭',12,true)],height:310,title:'2 / 3 완료'},routine_stats:{rows:[...routines.slice(0,2),statistics],height:610,title:'2 / 3 완료'},
- routine_language:{rows:languages.slice(0,1),height:250},routine_language_all:{rows:languages,height:490},
- language_youtube:{rows:[memo('Could you tell me more?','조금 더 자세히 말해주실 수 있나요?'),memo('What do you mean by that?','그 말은 무슨 뜻인가요?')],height:285},
  personal_meal:{rows:meals(),height:350,title:'2026-09-06'},personal_workout_meal:{rows:[...meals(),workout()],height:540,title:'2026-09-06'},
  personal_workout:{rows:[workout()],height:240,title:'2026-09-06'},personal_workout_challenge:{rows:[workout(),...challenges.slice(0,2)],height:470},
  personal_challenge:{rows:[challenge('플랭크',7,true)],height:275},personal_workout_challenge_all:{rows:challenges,height:470},personal_workout_challenge_combined:{rows:[challenge('플랭크',7,true),...challenges.slice(0,2)],height:505},

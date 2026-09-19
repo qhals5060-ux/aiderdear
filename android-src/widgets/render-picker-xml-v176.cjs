@@ -60,6 +60,13 @@ async function layout(el,availableW,availableH,forcedW){
     for(const n of nodes){if(pre.has(n))box.kids.push(pre.get(n));else{const nheight=Math.max(0,remaining)*px(get(n,'layout_weight'))/Math.max(1,totalWeight),child=await layout(n,cw,nheight);child.h=nheight;box.kids.push(child);}}
     box.h=fixedH??Math.max(px(get(el,'minHeight')),box.kids.reduce((s,x)=>s+x.h+x.m.t+x.m.b,p.t+p.b));
   }
+  // Android remeasures MATCH_PARENT children after a horizontal row's height is
+  // known. Propagate that measurement into their backgrounds and weighted text,
+  // rather than stretching only the outer box (which hid large-calendar events).
+  if(horizontal)for(let i=0;i<box.kids.length;i++){
+    const kid=box.kids[i];
+    if(get(kid.el,'layout_height')==='match_parent')box.kids[i]=await layout(kid.el,cw,Math.max(0,box.h-p.t-p.b),kid.w);
+  }
   let cursor=horizontal?p.l:p.t;
   for(const kid of box.kids){
     if(el.name==='FrameLayout'){kid.x=p.l+kid.m.l;kid.y=p.t+kid.m.t;if(get(kid.el,'layout_gravity')==='bottom')kid.y=box.h-p.b-kid.h-kid.m.b;}

@@ -21,9 +21,9 @@ test('wide editors keep real forms and full-width footer but use the right pane'
   assert.doesNotMatch(css,/font-size|font-family|--app-primary\s*:|display:none|pointer-events:none/);
 });
 test('new layout is mounted once in the app only',()=>{
-  assert.equal((html.match(/href="\.\/app-fold-layout-v177\.css\?v=177"/g)||[]).length,1);
+  assert.equal((html.match(/href="\.\/app-fold-layout-v177\.css\?v=178"/g)||[]).length,1);
   assert.doesNotMatch(read('index.html'),/app-fold-(?:layout|daily|workspaces)-v177/);
-  assert.match(read('android-src/assets/sw.js'),/'\.\/app-fold-layout-v177.css','\.\/app-fold-layout-v177.css\?v=177'/);
+  assert.match(read('android-src/assets/sw.js'),/'\.\/app-fold-layout-v177.css','\.\/app-fold-layout-v177.css\?v=178'/);
 });
 test('native app already allows resizing without forcing an orientation',()=>{
   const manifest=read('android-src/AndroidManifest.xml');

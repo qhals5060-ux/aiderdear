@@ -23,12 +23,10 @@
   };
   const THEME_KEY = 'aiderlogTheme';
   const CALENDAR_KEY = 'aiderlog-calendar-selection-v1';
-  const SHORTS_KEY = 'aiderlog-language-shorts-v118';
   const PREVIEW_THEME_V126 = new URLSearchParams(location.search).get('theme');
   const PREVIEW_FONT_V134 = new URLSearchParams(location.search).get('android-preview') === '1'
     ? new URLSearchParams(location.search).get('font')
     : '';
-  const LANGUAGE_THEME_OBSERVERS_V126 = new WeakMap();
   const themeId = value => THEMES[value] || LEGACY_THEMES[value] ? value : 'system';
   const paletteId = value => LEGACY_THEMES[value] || (THEMES[value] ? value : 'system');
   const fontSizeId = value => FONT_SIZES[value] ? value : 'normal';
@@ -49,67 +47,18 @@
   function applyFixedWheelV125() {
     const wheel=$('#wheel');if(!wheel)return;
     const order=['fifth','personal','routine','event'],labels={event:'Event',routine:'Routine',personal:'Personal',fifth:'My'},icons={event:'event',routine:'routine',personal:'profile',fifth:'my'};
-    $$('.global-wheel-item-v126',wheel).forEach((button,index)=>{const page=order[index],label=labels[page];button.dataset.page=page;button.dataset.index=String(index);button.setAttribute('aria-label',label);button.title=label;const markup=`<i>${window.AiderLogIconsV126?.icon(icons[page])||icon(icons[page])}</i>`;const cached=wheelMarkupV175.get(button);if(!cached||cached.source!==markup||!button.querySelector('svg')){button.innerHTML=markup;wheelMarkupV175.set(button,{source:markup});}});
-    const core=$('.global-wheel-planet-v126',wheel);if(core&&core.dataset.pressV125!=='1'){core.dataset.pressV125='1';const on=()=>core.classList.add('pressing'),off=()=>core.classList.remove('pressing');core.addEventListener('pointerdown',on);core.addEventListener('pointerup',off);core.addEventListener('pointercancel',off);core.addEventListener('pointerleave',off)}
-  }
-
-  function applyLanguageTheme() {
-    // Content aliases are scoped below body; wheel has its own explicit colour aliases.
-    const styles = getComputedStyle($('#app') || document.documentElement);
-    $$('aiderlog-language-lab').forEach(host => {
-      const names = ['primary','secondary','accent','accent-soft','background','border','text','text-muted','deep','gradient-start','gradient-mid','gradient-end','glow'];
-      names.forEach(name => host.style.setProperty(`--theme-${name}`,styles.getPropertyValue(`--theme-${name}`).trim()));
-      host.style.setProperty('--cosmic-primary',styles.getPropertyValue('--theme-primary').trim());
-      host.style.setProperty('--cosmic-secondary',styles.getPropertyValue('--theme-secondary').trim());
-      host.style.setProperty('--cosmic-blue',styles.getPropertyValue('--theme-gradient-start').trim());
-      host.style.setProperty('--cosmic-bg',styles.getPropertyValue('--theme-background').trim());
-      host.style.setProperty('--cosmic-border',styles.getPropertyValue('--theme-border').trim());
-      host.style.setProperty('--blue',styles.getPropertyValue('--theme-primary').trim());
-      host.style.setProperty('--blue-dark',styles.getPropertyValue('--theme-deep').trim());
-      host.style.setProperty('--blue-pale',styles.getPropertyValue('--theme-accent-soft').trim());
-      const root = host.shadowRoot;
-      if (!root) return;
-      if (host.hasAttribute('data-training-v166')) {
-        LANGUAGE_THEME_OBSERVERS_V126.get(root)?.disconnect();
-        LANGUAGE_THEME_OBSERVERS_V126.delete(root);
-        root.querySelector('style[data-theme-v125]')?.remove();
-        return;
-      }
-      let style = root.querySelector('style[data-theme-v125]');
-      if (!style) {
-        style = document.createElement('style');
-        style.dataset.themeV125 = '1';
-        root.append(style);
-      }
-      style.textContent = `
-        :host{--blue:var(--theme-primary)!important;--blue-dark:var(--theme-deep)!important;--blue-pale:var(--theme-accent-soft)!important;--canvas:var(--theme-background)!important;--line:var(--theme-border)!important;--ink:var(--theme-text)!important;--muted:var(--theme-text-muted)!important}
-        .scenario-summary{background:linear-gradient(135deg,var(--theme-gradient-start),var(--theme-gradient-mid) 56%,var(--theme-gradient-end))!important}
-        .category-tab.active,.scenario-tab.active,.records-button,.footer-primary,#review-start-button,.listen-large,.record-control{background:var(--theme-primary)!important;border-color:var(--theme-primary)!important;color:var(--app-on-primary,#fff)!important}
-        .day-action.primary,.day-action:not(:disabled){border-color:var(--theme-primary)}
-        :is(select,input,button):focus-visible{outline-color:var(--theme-primary)!important}
-        .scenario-summary{background-color:var(--theme-deep)!important;background-image:url("./planet-surface-v134.png")!important;background-size:620px 620px!important;background-blend-mode:soft-light!important}
-        .day-index :is(b,small),.day-info :is(b,p,small),.day-action,.category-tab :is(b,small),.scenario-tab :is(b,small,em),.scenario-main>p,.scenario-progress-box :is(div,b),.records-header-actions button,.streak-chip,.records-button{font-size:var(--type-xs,11px)!important}
-        .section-heading-row strong,.quiz-prompt,.choice-button,.lesson-coach-card :is(b,p),.expression-expansion li :is(b,span){font-size:var(--type-sm,12px)!important}
-        .scenario-line h3,.page-intro h2{font-size:var(--type-lg,17px)!important}
-        .learning-section .day-row .day-index{display:flex!important;flex-direction:column!important;align-items:flex-start!important;justify-content:center!important;text-align:left!important;padding-left:12px!important;overflow:hidden!important}
-        .learning-section .day-row .day-index>b,.learning-section .day-row .day-index>small{position:static!important;left:auto!important;right:auto!important;align-self:flex-start!important;justify-self:start!important;width:100%!important;margin:0!important;padding:0!important;translate:none!important;transform:none!important;text-align:left!important;max-width:100%!important}
-        :host-context(html[data-app-font-size="large"]) .day-row{grid-template-columns:82px minmax(0,1fr) 72px!important}
-        :host-context(html[data-app-font-size="large"]) .learning-section .day-row .day-index{padding-left:9px!important}
-      `;
-      /* Keep the shared theme layer last when Language Lab appends its own runtime styles. */
-      root.append(style);
-      if (!LANGUAGE_THEME_OBSERVERS_V126.has(root)) {
-        const observer = new MutationObserver(() => {
-          const themeStyle = root.querySelector('style[data-theme-v125]');
-          if (host.hasAttribute('data-training-v166')) {
-            observer.disconnect();LANGUAGE_THEME_OBSERVERS_V126.delete(root);themeStyle?.remove();return;
-          }
-          if (themeStyle && themeStyle !== root.lastElementChild) root.append(themeStyle);
-        });
-        observer.observe(root,{childList:true});
-        LANGUAGE_THEME_OBSERVERS_V126.set(root,observer);
-      }
+    $$('.global-wheel-item-v126',wheel).forEach((button,index)=>{
+      const page=order[index],label=window.AiderWheelbarV176?.names[page]||labels[page];
+      if(button.dataset.page!==page)button.dataset.page=page;if(button.dataset.index!==String(index))button.dataset.index=String(index);
+      if(button.getAttribute('aria-label')!==label)button.setAttribute('aria-label',label);button.title=label;
+      // v178: never paint an older glyph while a drag/hover decoration runs.
+      // The final renderer owns its SVG node, not a later observer repair.
+      if(window.AiderWheelbarV176?.icon)return;
+      const markup=`<i>${window.AiderLogIconsV126?.icon(icons[page])||icon(icons[page])}</i>`,cached=wheelMarkupV175.get(button);
+      if(!cached||cached.source!==markup||!button.querySelector('svg')){button.innerHTML=markup;wheelMarkupV175.set(button,{source:markup});}
     });
+    window.AiderWheelbarV176?.refresh();
+    const core=$('.global-wheel-planet-v126',wheel);if(core&&core.dataset.pressV125!=='1'){core.dataset.pressV125='1';const on=()=>core.classList.add('pressing'),off=()=>core.classList.remove('pressing');core.addEventListener('pointerdown',on);core.addEventListener('pointerup',off);core.addEventListener('pointercancel',off);core.addEventListener('pointerleave',off)}
   }
 
   function refreshThemeCards() {
@@ -124,7 +73,7 @@
     refreshSystemScheme();
     const meta = $('meta[name="theme-color"]');
     if (meta) meta.content = getComputedStyle(document.documentElement).getPropertyValue(document.documentElement.dataset.backgroundMode === 'light' ? '--app-canvas' : '--app-space-base').trim() || '#231E35';
-    applyLanguageTheme();
+    
     refreshThemeCards();
     if (!persist) return;
     try { localStorage.setItem(THEME_KEY,id); } catch (_) {}
@@ -148,7 +97,7 @@
     const scheme = root.dataset.nativeScheme || (window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
     if (root.dataset.systemScheme !== scheme) {
       root.dataset.systemScheme = scheme;
-      applyLanguageTheme();
+      
       refreshThemeCards();
     }
     return scheme;
@@ -168,7 +117,6 @@
     $$('[data-font-choice-v133]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.fontChoiceV133===id)));
     const scale={small:.72,normal:.84,large:1}[id];
     document.documentElement.style.setProperty('--app-font-multiplier',String(scale));
-    document.querySelectorAll('aiderlog-language-lab').forEach(host=>host.style.setProperty('--app-font-multiplier',String(scale)));
     try{localStorage.setItem('aiderlogFontSize',id)}catch(_){}
     if(!persist||typeof P==='undefined')return;
     P.settings=P.settings&&typeof P.settings==='object'?P.settings:{};P.settings.fontSize=id;
@@ -356,10 +304,10 @@
   function selectedDdayV125() { return window.AiderAppDdayV175?.selected()||null; }
   function ddayCountV125(row) { return window.AiderAppDdayV175?.count(row)||'—'; }
   function scheduleCellsV125(year,month) {
-    const range=scheduleViewV176.current(),start=range.start;
+    const range=scheduleViewV176.current(),start=range.start,previewLimit=range.mode==='fortnight'?6:3;
     return Array.from({length:range.count},(_,index) => {
       const date = new Date(start.getFullYear(),start.getMonth(),start.getDate()+index), key = dateKey(date), rows = scheduleRowsV125().filter(row => eventSpansDateV125(row,key)).sort((a,b)=>String(a.time||'').localeCompare(String(b.time||''))), outside=date.getMonth()!==month;
-      return `<button type="button" class="day schedule-day-v119${outside?' outside':''}${key===scheduleSelectedV125?' selected':''}${key===dateKey(new Date())?' today':''}" data-schedule-date-v125="${key}" data-date="${key}" aria-label="${key} 일정 관리"><span class="schedule-day-number-v119">${date.getDate()}</span><span class="calendar-status-icons" aria-label="날짜 기록"></span>${rows.slice(0,range.mode==='fortnight'?6:1).map(row=>`<small class="schedule-event-name-v119${receivedScheduleV176(row)?' schedule-received-v176':''}"${receivedScheduleV176(row)?` aria-label="상대가 공유한 일정 · ${safe(row.title||'일정')}"`:''}><span class="schedule-event-time-v176">${safe(row.allDay?'종일':row.time||'')}</span><span class="schedule-event-title-v176">${safe(row.title||'일정')}</span></small>`).join('')}${range.mode==='fortnight'&&rows.length>6?`<small class="schedule-more-v176">+${rows.length-6}</small>`:''}<span class="schedule-event-dots-v119">${rows.slice(0,3).map(row=>`<i class="${receivedScheduleV176(row)?'schedule-received-v176':''}" style="--event-color:${safe(eventColorV125(row))}"></i>`).join('')}</span></button>`;
+      return `<button type="button" class="day schedule-day-v119${outside?' outside':''}${key===scheduleSelectedV125?' selected':''}${key===dateKey(new Date())?' today':''}" data-schedule-date-v125="${key}" data-date="${key}" aria-label="${key} 일정 관리"><span class="schedule-day-number-v119">${date.getDate()}</span><span class="calendar-status-icons" aria-label="날짜 기록"></span>${rows.slice(0,previewLimit).map(row=>`<small class="schedule-event-name-v119${receivedScheduleV176(row)?' schedule-received-v176':''}"${receivedScheduleV176(row)?` aria-label="상대가 공유한 일정 · ${safe(row.title||'일정')}"`:''}><span class="schedule-event-time-v176">${safe(row.allDay?'종일':row.time||'')}</span><span class="schedule-event-title-v176">${safe(row.title||'일정')}</span></small>`).join('')}${rows.length>previewLimit?`<small class="schedule-more-v176" aria-label="일정 ${rows.length-previewLimit}개 더 보기">+${rows.length-previewLimit}</small>`:''}<span class="schedule-event-dots-v119">${rows.slice(0,3).map(row=>`<i class="${receivedScheduleV176(row)?'schedule-received-v176':''}" style="--event-color:${safe(eventColorV125(row))}"></i>`).join('')}</span></button>`;
     }).join('');
   }
   function scheduleUpcomingV125() {
@@ -455,28 +403,6 @@
     const root=$('#routine');if(root&&!root.dataset.statsV125){root.dataset.statsV125='1';root.addEventListener('click',event=>{if(event.target.closest('[data-routine-stats-close-v125]')||event.target.matches('[data-routine-stats-overlay-v125]')){event.preventDefault();event.stopImmediatePropagation();routineOverallOpen=false;renderRoutine()}},true)}
   }
 
-  function parseJsonArrayAt(text,start) {let depth=0,string=false,escapeNext=false;for(let index=start;index<text.length;index++){const char=text[index];if(string){if(escapeNext)escapeNext=false;else if(char==='\\')escapeNext=true;else if(char==='"')string=false;continue}if(char==='"'){string=true;continue}if(char==='[')depth++;if(char===']'&&--depth===0)return text.slice(start,index+1)}return''}
-  function parseCaptionPayloadV125(payload) {let data=payload;if(typeof payload==='string'){try{data=JSON.parse(payload)}catch(_){const doc=new DOMParser().parseFromString(payload,'text/xml');return $$('text',doc).map(node=>node.textContent||'').join(' ')}}if(Array.isArray(data?.events))return data.events.flatMap(event=>event.segs||[]).map(seg=>seg.utf8||'').join(' ');if(Array.isArray(data))return data.map(item=>item.text||item.utf8||'').join(' ');return''}
-  function splitSentencesV125(text) {const clean=String(text||'').replace(/\s+/g,' ').replace(/\[(music|applause|laughter)\]/ig,'').trim(),chunks=clean.match(/[^.!?]+[.!?]+|[^.!?]+$/g)||[];const out=[];chunks.forEach(chunk=>{const value=chunk.trim();if(!value)return;if(value.length<=150)out.push(value);else{const words=value.split(' ');let current='';words.forEach(word=>{if((current+' '+word).trim().length>120&&current){out.push(current.trim());current=word}else current=(current+' '+word).trim()});if(current)out.push(current)}});return [...new Set(out.filter(value=>/[A-Za-z]/.test(value)).map(value=>value.replace(/^[-–—\s]+/,'')))].slice(0,80)}
-  function youtubeIdV125(raw){const value=String(raw||'').trim();if(/^[A-Za-z0-9_-]{11}$/.test(value))return value;try{const url=new URL(/^https?:\/\//i.test(value)?value:`https://${value}`),host=url.hostname.replace(/^www\./,'').toLowerCase();let id='';if(host==='youtu.be')id=url.pathname.split('/').filter(Boolean)[0]||'';else if(/(^|\.)youtube\.com$/.test(host)){const parts=url.pathname.split('/').filter(Boolean);id=['shorts','embed','live'].includes(parts[0])?parts[1]||'':url.searchParams.get('v')||''}return /^[A-Za-z0-9_-]{11}$/.test(id)?id:''}catch(_){return''}}
-  async function fetchTranscriptV125(videoId) {
-    const nativeBridge=window.AiderLogNative;if(typeof nativeBridge?.fetchYouTubeCaption==='function'){for(const automatic of [false,true]){try{const payload=nativeBridge.fetchYouTubeCaption(videoId,automatic),sentences=splitSentencesV125(parseCaptionPayloadV125(payload));if(sentences.length)return sentences}catch(_){}}}
-    try{const proxy=await fetch(`/api/youtube-transcript?videoId=${encodeURIComponent(videoId)}`,{credentials:'omit'}),payload=await proxy.json();if(proxy.ok&&Array.isArray(payload?.sentences)&&payload.sentences.length)return payload.sentences.slice(0,80)}catch(_){}
-    const directUrls=[`https://www.youtube.com/api/timedtext?v=${encodeURIComponent(videoId)}&lang=en&fmt=json3`,`https://www.youtube.com/api/timedtext?v=${encodeURIComponent(videoId)}&lang=en&kind=asr&fmt=json3`];
-    for(const url of directUrls){try{const response=await fetch(url,{credentials:'omit'});if(!response.ok)continue;const sentences=splitSentencesV125(parseCaptionPayloadV125(await response.text()));if(sentences.length)return sentences}catch(_){}}
-    const watch=await fetch(`https://www.youtube.com/watch?v=${encodeURIComponent(videoId)}&hl=en`,{credentials:'omit'});if(!watch.ok)throw new Error('YouTube 영상 정보를 불러오지 못했습니다.');const html=await watch.text(),marker='"captionTracks":',index=html.indexOf(marker);if(index<0)throw new Error('이 영상에는 사용할 수 있는 자막이 없습니다.');const start=html.indexOf('[',index+marker.length),json=parseJsonArrayAt(html,start),tracks=JSON.parse(json),track=tracks.find(item=>/^en(?:-|$)/i.test(item.languageCode||''))||tracks.find(item=>item.kind!=='asr')||tracks[0];if(!track?.baseUrl)throw new Error('영어 자막 트랙을 찾지 못했습니다.');const response=await fetch(`${track.baseUrl}&fmt=json3`,{credentials:'omit'});if(!response.ok)throw new Error('자막 데이터를 불러오지 못했습니다.');const text=parseCaptionPayloadV125(await response.text()),sentences=splitSentencesV125(text);if(!sentences.length)throw new Error('정리할 영어 문장을 찾지 못했습니다.');return sentences;
-  }
-  function shortsStoreV125(){try{const value=JSON.parse(localStorage.getItem(SHORTS_KEY)||'{}');return value&&typeof value==='object'?value:{current:null,notes:[]}}catch(_){return{current:null,notes:[]}}}
-  function saveShortsStoreV125(store){try{localStorage.setItem(SHORTS_KEY,JSON.stringify(store))}catch(_){}const api=window.AiderDearFirebase;if(currentUser()&&api?.writePrivateData&&typeof P!=='undefined'){P.languageShorts=store;api.writePrivateData(P).catch(error=>console.warn('Shorts transcript sync skipped',error))}}
-  let transcriptTimerV125=0;
-  function queueTranscriptV125(form){clearTimeout(transcriptTimerV125);const url=$('input',form)?.value;transcriptTimerV125=setTimeout(()=>analyseShortsV125(url),110)}
-  function ensureTranscriptPanelV125() {const work=$('.al-shorts-work-v118');if(!work)return null;let panel=$('.shorts-transcript-v125',work);if(!panel){panel=document.createElement('section');panel.className='shorts-transcript-v125';panel.innerHTML='<header><b>영상 문장</b><span>영어 자막을 문장 단위로 정리합니다.</span></header><div class="shorts-transcript-list-v125"></div>';const note=$('.al-shorts-note-v118',work);work.insertBefore(panel,note||work.firstChild);panel.addEventListener('click',event=>{const button=event.target.closest('[data-transcript-sentence-v125]');if(!button)return;const input=$('.al-shorts-note-v118 [name="phrase"]');if(input){input.value=button.dataset.transcriptSentenceV125;input.focus()}})}const linkForm=$('.al-shorts-link-v118',work.closest('.al-shorts-v118')||document);if(linkForm&&linkForm.dataset.transcriptV125!=='1'){linkForm.dataset.transcriptV125='1';linkForm.addEventListener('submit',()=>queueTranscriptV125(linkForm),true);$('button[type="submit"]',linkForm)?.addEventListener('click',()=>queueTranscriptV125(linkForm),true)}renderTranscriptPanelV125(panel);return panel}
-  function renderTranscriptPanelV125(panel=ensureTranscriptPanelV125(),state=''){if(!panel)return;const store=shortsStoreV125(),sentences=Array.isArray(store.current?.sentences)?store.current.sentences:[],list=$('.shorts-transcript-list-v125',panel),storedError=String(store.current?.transcriptError||'');if(state)list.innerHTML=`<p class="shorts-transcript-state-v125">${safe(state)}</p>`;else if(sentences.length)list.innerHTML=sentences.map((sentence,index)=>`<button type="button" data-transcript-sentence-v125="${safe(sentence)}"><b>${String(index+1).padStart(2,'0')}</b> ${safe(sentence)}</button>`).join('');else if(storedError)list.innerHTML=`<p class="shorts-transcript-state-v125">${safe(storedError)} · 공개 영어 자막이 있는 영상에서 사용할 수 있습니다. 자막이 없더라도 아래에서 문장을 직접 저장하고 연습할 수 있습니다.</p>`;else list.innerHTML='<p class="shorts-transcript-state-v125">YouTube 링크를 열면 공개 자막의 영어 문장을 불러옵니다. 문장을 누르면 표현 입력칸으로 옮겨집니다.</p>'}
-  let analysingVideoV125='';
-  async function analyseShortsV125(url) {const id=youtubeIdV125(url);if(!id||analysingVideoV125===id)return;analysingVideoV125=id;const panel=ensureTranscriptPanelV125();renderTranscriptPanelV125(panel,'영상의 영어 자막을 분석하고 있습니다…');try{const sentences=await fetchTranscriptV125(id),store=shortsStoreV125();if(store.current?.id!==id)store.current={id,url:String(url||'').trim(),updatedAt:Date.now()};store.current.sentences=sentences;store.current.transcriptError='';store.current.transcriptUpdatedAt=Date.now();saveShortsStoreV125(store);renderTranscriptPanelV125(panel)}catch(error){const store=shortsStoreV125();if(store.current?.id===id){store.current.sentences=[];store.current.transcriptError=String(error?.message||error);store.current.transcriptUpdatedAt=Date.now();saveShortsStoreV125(store)}renderTranscriptPanelV125(panel,`${error?.message||'자막을 정리하지 못했습니다.'} · 공개 영어 자막이 있는 영상에서 사용할 수 있습니다.`)}finally{analysingVideoV125=''}}
-  function maybeAnalyseCurrentShortV125(){const store=shortsStoreV125(),current=store.current,sentences=Array.isArray(current?.sentences)?current.sentences:[];if(current?.id&&!sentences.length&&!current.transcriptError&&analysingVideoV125!==current.id)analyseShortsV125(current.url||`https://www.youtube.com/watch?v=${current.id}`)}
-
-  window.AiderLogTranscriptV125=Object.freeze({youtubeId:youtubeIdV125,parseCaptionPayload:parseCaptionPayloadV125,splitSentences:splitSentencesV125,extract:fetchTranscriptV125});
   window.AiderLogThemeV125=Object.freeze({themes:Object.keys(THEMES),palettes:THEMES,resolvePalette:paletteId,apply:applyTheme,refreshSystemScheme,applyFontSize,openSettings});
   window.AiderLogCalendarV125=Object.freeze({parseIcs,openSettings:()=>openSettings('calendar'),openSchedule:openScheduleV125});
 
@@ -494,7 +420,6 @@
   }, true);
   installRoutineStatsModal();
 
-  document.addEventListener('language-lab-ready',()=>{applyLanguageTheme();ensureTranscriptPanelV125();[80,320,900].forEach(delay=>setTimeout(applyLanguageTheme,delay))});
   const systemSchemeV164=window.matchMedia?.('(prefers-color-scheme: dark)');
   const refreshSystemSchemeV164=()=>{refreshSystemScheme();if(paletteId(currentTheme())==='system')applyTheme(currentTheme(),false)};
   if(systemSchemeV164?.addEventListener)systemSchemeV164.addEventListener('change',refreshSystemSchemeV164);
@@ -502,7 +427,7 @@
   document.addEventListener('click',event=>{const close=event.target.closest('#introClose');if(close)$('#intro')?.classList.remove('on')});
 
   let queuePending=false;
-  function refreshV125(){queuePending=false;bindProfileSettings();applyFixedWheelV125();applyLanguageTheme();installRoutineStatsModal();ensureTranscriptPanelV125();maybeAnalyseCurrentShortV125();if($('#intro')?.classList.contains('on'))decorateIntroV125()}
+  function refreshV125(){queuePending=false;bindProfileSettings();applyFixedWheelV125();installRoutineStatsModal();if($('#intro')?.classList.contains('on'))decorateIntroV125()}
   new MutationObserver(()=>{if(queuePending)return;queuePending=true;requestAnimationFrame(refreshV125)}).observe(document.documentElement,{childList:true,subtree:true});
 
   const previousSync = typeof sync === 'function' ? sync : null;

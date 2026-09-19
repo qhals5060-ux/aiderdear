@@ -28,7 +28,7 @@ function harness(initialUid='A', storage={}) {
   h.rows.A.personal={routines:[{title:'A routine'}],checklists:[{id:'memo',text:'A memo'},{id:'todo',text:'A todo',date:today()}],personalItems:[{id:'exercise',date:today(),category:'health',title:'Walk',minutes:32,details:{healthType:'exercise'}},{id:'meal',date:today(),category:'health',title:'Breakfast',details:{healthType:'meal',mealType:'breakfast',time:'08:15',rating:4}}],languageShortsV118:{notes:[{phrase:'A phrase',meaning:'뜻'}]}};
   h.api.readScheduleData=async()=>({own:[{id:'own',title:'Own schedule',date:today()}],shared:[{id:'shared',title:'Shared permitted schedule',date:today()}]});
   await h.widget.refresh();let shot=h.widget.snapshot();
-  assert.equal(shot.scheduleItems.length,3);assert.equal(shot.memos.length,1);assert.equal(shot.todos.length,1);assert.equal(shot.memoTodos.length,2);assert.equal(shot.mealTimes[0],'08:15');assert(shot.workouts[0].includes('32분'));assert.equal(shot.youtubeNotes[0],'A phrase · 뜻');
+  assert.equal(shot.scheduleItems.length,3);assert.equal(shot.memos.length,1);assert.equal(shot.todos.length,1);assert.equal(shot.memoTodos.length,2);assert.equal(shot.mealTimes[0],'08:15');assert(shot.workouts[0].includes('32분'));assert.equal(shot.youtubeNotes,undefined);assert.equal(shot.languageRows,undefined);
   assert(!JSON.stringify(shot).includes('LEGACY SECRET'));
   h.emit('B');assert.equal(h.sent.at(-1).scheduleItems.length,0);assert.equal(h.sent.at(-1).mealPhotos.filter(Boolean).length,0);assert.equal(h.sent.at(-1).accessState,'sync-required');
   assert(!JSON.stringify(h.widget.snapshot()).includes('A routine'));

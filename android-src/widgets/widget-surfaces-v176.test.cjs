@@ -23,15 +23,15 @@ test('all portrait and Fold/cell component layouts use their production semantic
     for(const name of ['routine','challenge','workflow'])assert.match(read('layout','widget_'+name+'_v165'+suffix),/w165_card_background[^>]+src="@drawable\/widget_framed_v176"/);
     assert.match(read('layout','widget_trend_v169'+suffix),/src="@drawable\/widget_framed_v176"/);
     assert.match(read('layout','widget_book_detail_v168'+suffix),/src="@drawable\/widget_panel_v176"/);
-    for(const name of ['todo','language','book'])assert.match(read('layout','widget_'+name+'_v165'+suffix),/src="@drawable\/widget_card_v165"/);
+    for(const name of ['todo','book'])assert.match(read('layout','widget_'+name+'_v165'+suffix),/src="@drawable\/widget_card_v165"/);
   }
 });
 
-test('selected dates and done checks are white on primary violet, not dark on pale violet',()=>{
-  for(const name of ['widget_day_selected_v164','widget_check_done_v165']){
+test('selected dates use a pale full-cell frame; done checks remain white on primary violet',()=>{
+  for(const name of ['widget_check_done_v165']){
     assert.equal(color(name),'#6255E8');assert.match(read('drawable',name),/android:shape="oval"/);
   }
-  assert.match(native,/widget_day_number_v164",chosen\?0xffffffff:foreground/);
+  assert.match(native,/widget_day_number_v164",foreground/);
   assert.match(java,/"w165_check",done\?0xffffffff:fg/);
   assert.match(java,/"setPaintFlags",done\?17:1/);
   assert.match(native,/color\(c,v,"widget_add",PRIMARY\)/);
@@ -57,11 +57,11 @@ test('longpress settings still preview the actual renderer and alpha applies to 
 });
 
 test('plain row separators survive, while bordered cards do not double their edges',()=>{
-  for(const name of ['todo','language'])assert.doesNotMatch(read('layout','widget_'+name+'_v165').match(/<ImageView[^>]+w169_row_divider[^>]*>/)?.[0]||'',/visibility="gone"/);
+  for(const name of ['todo'])assert.doesNotMatch(read('layout','widget_'+name+'_v165').match(/<ImageView[^>]+w169_row_divider[^>]*>/)?.[0]||'',/visibility="gone"/);
   for(const name of ['note','routine','challenge','workflow'])assert.match(read('layout','widget_'+name+'_v165'),/w169_row_divider[^>]+visibility="gone"/);
 });
 
-test('all 30 launcher XML previews resolve to current PNGs with the same near-white base',async()=>{
+test('all 27 launcher XML previews resolve to current PNGs with the same near-white base',async()=>{
   const sharp=require('C:/Users/김보민/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/sharp');
   const names=new Set();
   for(const file of fs.readdirSync(path.join(res,'xml')).filter(n=>n.startsWith('widget_')&&n.endsWith('.xml'))){
@@ -75,7 +75,7 @@ test('all 30 launcher XML previews resolve to current PNGs with the same near-wh
     const bytes=await sharp(png).extract({left:5,top:40,width:1,height:1}).removeAlpha().raw().toBuffer();
     assert.deepEqual([...bytes],[252,251,255],name+' still has an old flat-violet bitmap');
   }
-  assert.equal(names.size,30);
+  assert.equal(names.size,27);
 });
 
 test('offline fallback artwork interprets actual drawable XML rather than guessing by name',()=>{

@@ -42,7 +42,7 @@ html[data-theme] body::after{content:"";position:fixed;inset:0;z-index:0;backgro
 /* Refined translucent material instead of painted gradients. */
 .top,.masthead{border:1px solid var(--material-line)!important;background:var(--glass)!important;box-shadow:0 10px 34px rgba(18,11,39,.11),inset 0 1px rgba(255,255,255,.68)!important;backdrop-filter:blur(20px) saturate(118%)!important}
 .card,.iv-card,.global-surface-v126,.personal-panel,.insight-site-card-v126,.routine-card-v127,.record-card,.dest,.ticket,.phrase,.simple,.searchbox,.drawer aside,
-#home .schedule-calendar-v119,#home .schedule-upcoming-v119,#language aiderlog-language-lab{
+#home .schedule-calendar-v119,#home .schedule-upcoming-v119{
   border:1px solid var(--material-line)!important;
   background:var(--glass-strong)!important;
   color:var(--theme-text)!important;
@@ -52,9 +52,8 @@ html[data-theme] body::after{content:"";position:fixed;inset:0;z-index:0;backgro
 .iconbtn,.schedule-icon-v119,.barebar .actions button,.event-mode-button-v120{border:1px solid color-mix(in srgb,var(--theme-primary) 16%,rgba(255,255,255,.65))!important;background:var(--glass-soft)!important;color:var(--theme-primary)!important;box-shadow:0 5px 16px rgba(18,11,39,.08)!important}
 .iconbtn svg,.global-svg-icon-v126{stroke:var(--theme-primary)!important}
 .barebar{border-color:rgba(255,255,255,.34)!important}
-.app:not(.home-mode) .barebar .page-title,#language .language-edu-head h1{color:#f9f7ff!important;text-shadow:0 2px 14px rgba(5,2,16,.34)!important}
-.app:not(.home-mode) .barebar,.app:not(.home-mode) #language .language-edu-head{border-bottom-color:rgba(255,255,255,.42)!important}
-#language .language-edu-head span{color:color-mix(in srgb,var(--theme-star) 72%,white)!important;text-shadow:0 1px 10px rgba(5,2,16,.32)}
+.app:not(.home-mode) .barebar .page-title{color:#f9f7ff!important;text-shadow:0 2px 14px rgba(5,2,16,.34)!important}
+.app:not(.home-mode) .barebar{border-bottom-color:rgba(255,255,255,.42)!important}
 .barebar .actions button.active,.event-mode-button-v120.active{background:var(--theme-primary)!important;color:#fff!important;box-shadow:0 8px 20px color-mix(in srgb,var(--theme-primary) 25%,transparent)!important}
 .plus,.primary,.event-tools-v111 .primary{border:1px solid rgba(255,255,255,.28)!important;background:var(--theme-primary)!important;color:#fff!important;box-shadow:0 10px 24px color-mix(in srgb,var(--theme-primary) 24%,transparent)!important}
 

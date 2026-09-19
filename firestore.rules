@@ -50,6 +50,22 @@ service cloud.firestore {
         && request.auth.uid in get(/databases/$(database)/documents/pairs/$(pairId)).data.memberUids;
     }
 
+    // Sensitive day projections require the current, two-person couple link.
+    // Friend membership and stale/disconnected pair documents grant no access.
+    function activePrivateDayPair(pairId) {
+      let pair = get(/databases/$(database)/documents/pairs/$(pairId)).data;
+      return activePairMember(pairId)
+        && pair.memberUids.size() == 2 && pair.memberUids[0] != pair.memberUids[1]
+        && get(/databases/$(database)/documents/pairMemberships/$(pair.memberUids[0])).data.status == 'active'
+        && get(/databases/$(database)/documents/pairMemberships/$(pair.memberUids[0])).data.pairId == pairId
+        && get(/databases/$(database)/documents/pairMemberships/$(pair.memberUids[1])).data.status == 'active'
+        && get(/databases/$(database)/documents/pairMemberships/$(pair.memberUids[1])).data.pairId == pairId;
+    }
+    function privateDayIntimacyUser() {
+      return signedIn() && request.auth.token.get('email_verified', false) == true
+        && request.auth.token.get('email', '') in ['qhals5060@gmail.com', 'aidway55@gmail.com'];
+    }
+
     function validOwnMemberProfileUpdate() {
       return request.resource.data.memberProfiles is list
         && resource.data.memberProfiles is list
@@ -153,6 +169,25 @@ service cloud.firestore {
             && request.resource.data.keys().hasOnly(['id','date','note','revision','ownerUid','version','createdAt','updatedAt'])
             && privateCalendarDate(request.resource.data.date)
             && request.resource.data.note is string && request.resource.data.note.size() <= 500));
+        allow delete: if false;
+      }
+
+      function validPrivateDay(date, kind) {
+        return privateCalendarStamp() && privateCalendarDate(date)
+          && request.resource.data.keys().hasOnly(['kind','date','active','revision','ownerUid','version','createdAt','updatedAt'])
+          && request.resource.data.date == date && request.resource.data.kind == kind
+          && request.resource.data.active is bool;
+      }
+      match /menstrualDays/{date} {
+        allow get: if privateCalendarOwner();
+        allow list: if privateCalendarOwner() && request.query.limit != null && request.query.limit <= 201;
+        allow create, update: if privateCalendarOwner() && validPrivateDay(date, 'period');
+        allow delete: if false;
+      }
+      match /intimacyDays/{date} {
+        allow get: if privateIntimacyOwner();
+        allow list: if privateIntimacyOwner() && request.query.limit != null && request.query.limit <= 201;
+        allow create, update: if privateIntimacyOwner() && validPrivateDay(date, 'intimacy');
         allow delete: if false;
       }
 
@@ -265,6 +300,32 @@ service cloud.firestore {
     }
 
     match /pairs/{pairId} {
+      function validPrivateDayShare(shareId, collectionName, kind) {
+        let value = request.resource.data;
+        let original = getAfter(/databases/$(database)/documents/users/$(request.auth.uid)/$(collectionName)/$(value.date)).data;
+        return activePrivateDayPair(pairId)
+          && value.keys().hasOnly(['kind','date','active','revision','ownerUid','pairId','version','updatedAt'])
+          && value.ownerUid == request.auth.uid && value.pairId == pairId
+          && shareId == request.auth.uid + '_' + value.date && value.kind == kind
+          && value.version == 175 && value.updatedAt == request.time
+          && value.date == original.date && value.active == original.active
+          && value.revision == original.revision && original.kind == kind
+          && original.ownerUid == request.auth.uid && original.version == 175
+          && original.updatedAt == request.time
+          && (resource == null || resource.data.ownerUid == request.auth.uid);
+      }
+      match /menstrualDays/{shareId} {
+        allow get: if activePrivateDayPair(pairId);
+        allow list: if activePrivateDayPair(pairId) && request.query.limit != null && request.query.limit <= 201;
+        allow create, update: if validPrivateDayShare(shareId, 'menstrualDays', 'period');
+        allow delete: if false;
+      }
+      match /intimacyDays/{shareId} {
+        allow get: if activePrivateDayPair(pairId) && privateDayIntimacyUser();
+        allow list: if activePrivateDayPair(pairId) && privateDayIntimacyUser() && request.query.limit != null && request.query.limit <= 201;
+        allow create, update: if privateDayIntimacyUser() && validPrivateDayShare(shareId, 'intimacyDays', 'intimacy');
+        allow delete: if false;
+      }
       allow create: if signedIn()
         && getAfter(/databases/$(database)/documents/pairInvites/$(pairId)).data.status == 'accepted'
         && getAfter(/databases/$(database)/documents/pairInvites/$(pairId)).data.pairId == pairId

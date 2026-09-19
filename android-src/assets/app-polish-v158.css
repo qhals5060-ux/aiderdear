@@ -1,0 +1,22 @@
+/* AiderLog v158 · four-item wheel, full-height content and lab notebooks */
+html body{padding-bottom:0!important}
+html body .app#app{height:calc(100dvh - var(--app-frame-v153,31.5px))!important;max-height:calc(100dvh - var(--app-frame-v153,31.5px))!important}
+html body .app#app>.views{height:calc(100% - 45px)!important;max-height:calc(100% - 45px)!important}
+#fifth .suite145-scroll,#fifth .my128-scroll,#fifth .study-scroll-v1{padding-bottom:max(8px,env(safe-area-inset-bottom))!important}
+
+/* One third of the planet remains visible before opening. */
+html .global-wheel-v126{right:-20px!important;bottom:-20px!important}
+html .global-wheel-v126.open{right:max(5px,env(safe-area-inset-right))!important;bottom:max(5px,env(safe-area-inset-bottom))!important}
+html .global-wheel-v126.open .global-wheel-item-v126.slot-0{left:16px!important;top:132px!important}
+html .global-wheel-v126.open .global-wheel-item-v126.slot-1{left:34px!important;top:75px!important}
+html .global-wheel-v126.open .global-wheel-item-v126.slot-2{left:75px!important;top:29px!important}
+html .global-wheel-v126.open .global-wheel-item-v126.slot-3{left:133px!important;top:7px!important}
+
+#fifth .lab145-notebook{scroll-margin-top:8px}
+#fifth .lab145-links{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin-top:10px}
+#fifth .lab145-links>button{min-width:0;min-height:86px;display:grid;grid-template-columns:auto 1fr;align-items:start;gap:6px;padding:9px;border:1px solid color-mix(in srgb,var(--theme-primary) 20%,var(--theme-border));border-radius:13px;background:linear-gradient(155deg,#fff,color-mix(in srgb,var(--theme-accent-soft) 28%,#fff));color:var(--theme-text);text-align:left}
+#fifth .lab145-links i{width:25px;height:25px;display:grid;place-items:center;border-radius:9px;background:var(--theme-primary);color:#fff;font-size:8px;font-style:normal;font-weight:900}
+#fifth .lab145-links span{min-width:0}#fifth .lab145-links b,#fifth .lab145-links small{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#fifth .lab145-links b{font-size:10px}#fifth .lab145-links small{margin-top:3px;color:var(--theme-text-muted);font-size:8px}#fifth .lab145-links em{grid-column:1/-1;color:var(--theme-primary);font-size:8px;font-style:normal;font-weight:900}
+#fifth .lab145-entry-list{display:grid;gap:7px;margin-top:11px}#fifth .lab145-entry-list details{border:1px solid var(--theme-border);border-radius:13px;background:#fff;overflow:hidden}#fifth .lab145-entry-list summary{min-height:50px;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 11px;list-style:none}#fifth .lab145-entry-list summary span{min-width:0}#fifth .lab145-entry-list summary small,#fifth .lab145-entry-list summary b{display:block}#fifth .lab145-entry-list summary small{color:var(--theme-text-muted);font-size:8px}#fifth .lab145-entry-list summary b{margin-top:3px;font-size:11px}#fifth .lab145-entry-list summary em{padding:4px 7px;border-radius:999px;background:var(--theme-accent-soft);color:var(--theme-primary);font-size:8px;font-style:normal;font-weight:900;white-space:nowrap}
+#fifth .lab145-entry-list dl{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:0;padding:9px;border-top:1px solid var(--theme-border)}#fifth .lab145-entry-list dl>div{padding:8px;border-radius:9px;background:color-mix(in srgb,var(--theme-background) 55%,#fff)}#fifth .lab145-entry-list dt{color:var(--theme-primary);font-size:8px;font-weight:900}#fifth .lab145-entry-list dd{margin:4px 0 0;color:var(--theme-text);font-size:9px;line-height:1.45;white-space:pre-wrap}#fifth .lab145-entry-list footer{display:flex;flex-wrap:wrap;gap:5px;padding:0 9px 9px}#fifth .lab145-entry-list footer button{min-height:38px;padding:0 10px;border:1px solid var(--theme-border);border-radius:10px;background:#fff;color:var(--theme-primary);font-size:9px;font-weight:850}
+@media(max-width:520px){#fifth .lab145-links{grid-template-columns:repeat(2,minmax(0,1fr))}#fifth .lab145-entry-list dl{grid-template-columns:1fr}}

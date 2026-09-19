@@ -24,7 +24,6 @@
     const mode=document.documentElement.dataset.appFontSize||'normal';
     const scale={small:.72,normal:.84,large:1}[mode]||.84;
     document.documentElement.style.setProperty('--app-font-multiplier',String(scale));
-    $$('aiderlog-language-lab',scope).forEach(host=>host.style.setProperty('--app-font-multiplier',String(scale)));
   }
 
   function queueType(){if(typeQueued)return;typeQueued=true;requestAnimationFrame(()=>{typeQueued=false;scaleScope()})}

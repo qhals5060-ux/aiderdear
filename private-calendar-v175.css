@@ -52,13 +52,8 @@ html body #emotionCycleSection,html body .emotion-cycle-btn,html body .emotion-d
 .private-calendar-grid-v175{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .private-calendar-grid-v175 label{display:grid;min-width:0;font-size:13px;gap:4px}
 .private-calendar-grid-v175 input{width:100%;min-width:0}
-.private-calendar-notice-v175{font-size:12px;line-height:1.5;color:#6d6573;margin:10px 0}
-#privateCalendarTabsV175{display:flex;gap:8px;margin:12px 0}
-#privateCalendarTabsV175 [aria-pressed=true]{background:#eee9fa;border-color:#9277c9}
-.private-calendar-entry-actions{display:flex;gap:8px;margin-top:8px}
-#privateCalendarListV175{display:grid;gap:6px;margin:12px 0}
-#privateCalendarListV175 article{display:flex;align-items:center;gap:6px;font-size:13px;border-top:1px solid #eae6ed;padding-top:6px}
-#privateCalendarListV175 article span{flex:1;min-width:0}
+[data-private-schedule-kind][aria-pressed=true]{background:color-mix(in srgb,var(--accent,#6b55d8) 14%,white)!important;border-color:var(--accent,#6b55d8)!important;box-shadow:inset 0 -2px 0 var(--accent,#6b55d8)!important}
+[data-private-day-error-v178]{flex-basis:100%;font-size:12px;line-height:1.4;color:#9f3247}
 :is(#calendar,#home) .calendar-status-icon:is(.period,.period-estimate,.intimacy){display:inline-flex!important;align-items:center;justify-content:center;width:14px!important;height:16px!important;flex:0 0 14px!important;background:none!important;border:0!important;box-shadow:none!important}
 :is(#calendar,#home) .calendar-status-icon:is(.period,.period-estimate) .calendar-period-drop{display:block;width:9px;height:9px;background:#c84357;border-radius:0 60% 60% 60%;transform:rotate(45deg)}
 :is(#calendar,#home) .calendar-status-icon.period-estimate .calendar-period-drop{background:#edbac4}

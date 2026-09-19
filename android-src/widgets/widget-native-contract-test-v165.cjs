@@ -25,7 +25,6 @@ const branches={
   note:{...common,...body,...meta},
   todo:{...common,...meta,w165_check:'TextView'},
   routine:{...common,...body,...meta,...progress,...graph,...Object.fromEntries(Array.from({length:4},(_,i)=>['w165_level_'+i,'TextView']))},
-  language:{...common,...body,...meta,...graph,w165_action:'TextView'},
   stats:{...common,...body,...meta,...graph,w165_foot:'TextView'},
   trend:{...common,...body,...meta,...graph,w165_foot:'TextView',w169_row_divider:'ImageView'},
   challenge:{...common,...body,...meta,...progress,...graph},
@@ -95,7 +94,7 @@ test('reflective setInt calls only use audited @RemotableViewMethod methods on c
 });
 
 test('dynamic template aliases exist, including compact trend/YouTube/meal and cell variants',()=>{
-  assert.match(java,/type\.equals\("routineStats"\)\|\|type\.equals\("workoutStats"\)\?"stats":type\.equals\("youtube"\)\?"note":type\.equals\("meal"\)\?"meal_slot":type/);
+  assert.match(java,/type\.equals\("routineStats"\)\|\|type\.equals\("workoutStats"\)\?"stats":type\.equals\("meal"\)\?"meal_slot":type/);
   assert.match(java,/type\.equals\("trend"\)\?"widget_trend_v169"/);
   for(const suffix of ['','_cell'])assert(parse(componentName('trend',suffix)).ids.size>0);
   for(const name of ['stats','note','meal_slot'])for(const suffix of ['','_cell'])assert(parse(`widget_${name}_v165${suffix}`).ids.size>0);
@@ -124,6 +123,6 @@ test('native image reapplication explicitly clears old photo/cover before an abs
 
 test('every generated launcher progress attribute is an integer in the native 0–100 range',()=>{
   const files=fs.readdirSync(path.join(res,'layout')).filter(name=>/^widget_picker_.*\.xml$/.test(name));
-  assert.equal(files.length,30); // Retained 29 types plus the 1x1 Consult link.
+  assert.equal(files.length,27); // Three learning widgets retired; Consult link retained.
   for(const file of files){const xml=fs.readFileSync(path.join(res,'layout',file),'utf8');for(const match of xml.matchAll(/android:progress="([^"]*)"/g)){assert.match(match[1],/^\d+$/,`${file}: ${match[1]} is not an integer`);assert(Number(match[1])<=100,`${file}: progress above 100`);}}
 });

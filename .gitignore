@@ -9,3 +9,4 @@ node_modules/
 *.p12
 android-src/build/
 android-src/tooling/
+pglite-debug.log

@@ -1,0 +1,120 @@
+/* AiderLog v149 · foldable-safe density, typography and focused workspace polish */
+
+html.aiderlog-android body{padding-top:1.89px!important}
+html.aiderlog-android body #app{height:calc(100dvh - 1.89px)!important}
+.app>.top .brand,.page-title,.barebar h1,.personal-title h1,.my128-head h1,.my128-subhead h1,.suite145-head h1,.settings-head-v125 h2,.feature-dialog-head-v125 h2{
+  font-family:var(--v145-brand-font,"Avenir Next","Century Gothic","Trebuchet MS","Noto Sans KR",sans-serif)!important;
+  font-weight:600!important;letter-spacing:-.055em!important
+}
+.views>.view>.page{padding-bottom:max(5px,env(safe-area-inset-bottom))!important}
+
+/* Calendar: the ring belongs to the numeral only, leaving holiday and events clear. */
+#home.schedule-feature-v125 .schedule-days-v119{gap:1px!important}
+#home.schedule-feature-v125 .schedule-day-v119{position:relative;padding:2px!important;border-radius:7px!important}
+#home.schedule-feature-v125 .schedule-day-number-v119{position:absolute!important;left:3px!important;top:3px!important;display:grid!important;place-items:center!important;width:15px!important;height:15px!important;border-radius:50%!important;font-size:8px!important;line-height:1!important;z-index:5}
+#home.schedule-feature-v125 .schedule-day-v119:is(.today,.selected) .schedule-day-number-v119{box-shadow:0 0 0 1.35px var(--theme-primary),0 0 7px color-mix(in srgb,var(--theme-primary) 25%,transparent)!important}
+#home.schedule-feature-v125 .schedule-day-v119.selected .schedule-day-number-v119{color:#fff!important;background:var(--theme-primary)!important}
+#home.schedule-feature-v125 .schedule-holiday-v144{left:20px!important;top:5px!important;right:1px!important;font-size:5.2px!important;line-height:1!important;letter-spacing:-.08em!important}
+#home.schedule-feature-v125 .schedule-event-name-v119{position:relative!important;display:block!important;margin-top:18px!important;padding:1px 2px!important;font-size:6.5px!important;line-height:1.18!important;background:transparent!important}
+#home.schedule-feature-v125 .schedule-event-dots-v119{left:4px!important;bottom:2px!important}
+#home.schedule-feature-v125 .schedule-emotion-v145{right:3px!important;bottom:2px!important}
+#home.schedule-feature-v125 .schedule-period-v145{left:3px!important;bottom:2px!important;width:6px!important;height:8px!important}
+.schedule-form-v125 .schedule-form-grid-v125{align-items:end}
+.schedule-form-v125 .schedule-check-v125{min-height:44px;align-content:center}
+
+/* Routine: clear hierarchy, small action cards and a non-overlapping statistics sheet. */
+#routine .routine-v111{gap:8px!important}
+#routine .routine-v111>.barebar{min-height:42px!important;padding:0 2px!important}
+#routine .routine-goals-v111{padding:9px!important;border-radius:17px!important;background:linear-gradient(145deg,#fff,color-mix(in srgb,var(--theme-accent-soft) 18%,#fff))!important}
+#routine .routine-goal-list-v111{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:6px!important}
+#routine .routine-goal-v111{grid-template-columns:28px minmax(0,1fr)!important}
+#routine .routine-goal-v111 input,#routine .routine-goal-v111 button{height:31px!important;font-size:8px!important}
+#routine .routine-complete-grid{grid-auto-rows:minmax(108px,auto)!important;gap:8px!important}
+#routine .routine-complete-grid .routine-card-v127{min-height:108px!important;padding:10px!important;border:1px solid color-mix(in srgb,var(--routine-color) 24%,var(--theme-border))!important;border-left:4px solid var(--routine-color)!important;border-radius:18px!important;background:linear-gradient(145deg,#fff,color-mix(in srgb,var(--routine-color) 5%,#fff))!important;box-shadow:0 7px 22px rgba(23,27,58,.05)!important}
+#routine .routine-card-v127 header h3 span{font-size:12px!important}
+#routine .routine-card-v127 .routine-stamps-mini{margin:6px 0!important}
+#routine .routine-card-v127 .levels{margin-top:auto!important;gap:4px!important}
+#routine .routine-card-v127 .levels button{min-height:31px!important;border-radius:9px!important;font-size:8px!important}
+.routine-stats-sheet-v127{display:flex!important;flex-direction:column!important;width:min(720px,calc(100vw - 18px))!important;max-height:calc(100dvh - 20px)!important;overflow:auto!important;border-radius:24px!important;background:var(--theme-background)!important}
+.routine-stats-sheet-v127>.feature-dialog-head-v125{flex:0 0 auto!important;padding:17px 18px!important}
+.routine-stats-sheet-v127>.routine-overall-v110{flex:0 0 auto!important;display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:7px!important;margin:10px 12px 0!important}
+.routine-stats-sheet-v127>.routine-overall-v110 article{min-width:0!important;padding:9px!important;border-radius:13px!important;background:#fff!important}
+.routine-analysis-grid-v127{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px!important;padding:10px 12px 14px!important}
+.routine-analysis-grid-v127>section{position:relative!important;min-width:0!important;overflow:hidden!important;padding:12px!important;border-radius:16px!important;background:#fff!important}
+.routine-analysis-grid-v127>.routine-stat-routines-v127{grid-column:1/-1!important}
+.routine-day-bars-v127{height:116px!important;margin-top:8px!important;padding-top:8px!important}.routine-level-bars-v127{margin-top:8px!important}
+.routine-stat-row-v127{display:grid!important;grid-template-columns:7px minmax(0,1fr) auto!important;gap:9px!important;align-items:center!important;padding:8px 0!important}
+.routine-editor-v111 .routine-detail-card{background:#fff!important}.routine-editor-v111 .routine-goal-color-v127{display:grid!important;grid-template-columns:88px minmax(0,1fr)!important;gap:9px!important;align-items:end!important}
+.routine-editor-v111 .routine-color-options-v122{display:flex!important;flex-wrap:wrap!important;gap:8px!important}.routine-editor-v111 .routine-color-swatch-v122{width:29px!important;height:29px!important;border-radius:50%!important}
+
+/* Daylog: calm utility surfaces with modal tools and Flip-first vertical health flow. */
+#personal .personal-page{gap:8px!important}
+#personal .personal-title{min-height:43px!important;margin:0!important;padding:0 2px!important}
+#personal .personal-title h1{font-size:26px!important}
+#personal .personal-title-actions button{height:36px!important;padding:0 10px!important;border-radius:12px!important;background:rgba(255,255,255,.86)!important}
+#personal .personal-tabs{gap:5px!important;padding:4px!important;border-radius:15px!important;background:color-mix(in srgb,var(--theme-accent-soft) 20%,#fff)!important}
+#personal .personal-tabs button{min-height:37px!important;border-radius:11px!important}
+#personal .personal-panel{border:1px solid color-mix(in srgb,var(--theme-border) 84%,var(--theme-primary) 16%)!important;border-radius:20px!important;background:rgba(255,255,255,.94)!important;box-shadow:0 8px 24px rgba(24,29,64,.05)!important}
+#personal .personal-health{display:grid!important;grid-template-columns:1fr!important;gap:9px!important}
+#personal .personal-health>.personal-panel{min-height:0!important}
+#personal .meal-grid{gap:6px!important}.meal-slot{min-height:92px!important;border-radius:15px!important}.meal-pic{height:52px!important}
+#personal .health-history{margin-top:8px!important}.health-record-list article{min-height:52px!important}
+.personal-tool-overlay-v127>section{width:min(720px,calc(100vw - 18px))!important;max-height:calc(100dvh - 20px)!important;padding:16px!important;border-radius:24px!important;background:radial-gradient(circle at 92% 2%,color-mix(in srgb,var(--theme-primary) 11%,transparent),transparent 24%),var(--theme-background)!important}
+.personal-tool-overlay-v127 .overview-metrics{grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:6px!important}.personal-tool-overlay-v127 .overview-metrics article{min-width:0!important;padding:9px 4px!important;border-radius:13px!important;background:#fff!important}
+.personal-tool-overlay-v127 .pomo{max-width:500px!important;margin:auto!important;padding:18px!important;border-radius:22px!important;background:#fff!important}.personal-tool-overlay-v127 .pomo strong{text-shadow:0 0 18px var(--theme-glow)!important}
+#personalModal>section{width:min(680px,calc(100vw - 18px))!important;max-height:calc(100dvh - 20px)!important;border-radius:24px!important}.personal-entry-box{padding:13px!important}.personal-entry-box form{gap:8px!important}
+
+/* Private Universe: compact, no explanatory copy, minimal scrolling. */
+#fifth .my128-page{gap:7px!important}
+#fifth .my128-head{align-items:center!important;min-height:44px!important;margin:0 2px 6px!important}
+#fifth .my128-head h1{margin:0!important;font-size:25px!important}
+#fifth .my128-scroll{gap:7px!important;padding-bottom:5px!important}
+#fifth .my128-summary{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(62px,1fr))!important;gap:5px!important}
+#fifth .my128-summary article{min-height:51px!important;padding:7px 8px!important;border-radius:13px!important}
+#fifth .my128-summary article span,#fifth .my128-summary article small{font-size:6.5px!important}#fifth .my128-summary article b{font-size:14px!important}
+#fifth .my128-tools{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:7px!important}
+#fifth .my128-tool,#fifth .my128-tool.study{min-height:104px!important;padding:12px!important;border-radius:18px!important}
+#fifth .my128-tool.study{grid-column:auto!important}
+#fifth .my128-tool>i{right:10px!important;top:10px!important;width:36px!important;height:36px!important;border-radius:12px!important}
+#fifth .my128-tool>span{max-width:66%!important;font-size:7px!important}#fifth .my128-tool h2{margin:7px 0 0!important;font-size:16px!important}
+#fifth .my128-tool footer{left:12px!important;right:12px!important;bottom:9px!important}#fifth .my128-tool footer b,#fifth .my128-tool footer em{font-size:7px!important}
+
+/* Account/settings: color lives in the cards; no planet imagery or decorative copy. */
+.settings-v125>section{width:min(700px,calc(100vw - 18px))!important;max-height:calc(100dvh - 18px)!important;padding:13px!important;border-radius:24px!important}
+.settings-head-v125{padding-bottom:8px!important}.settings-head-v125 h2{font-size:23px!important}.settings-head-v125 p{display:none!important}
+.settings-user-v125{min-height:48px!important;padding:8px 10px!important;border-radius:14px!important}
+.settings-section-v125{margin-top:10px!important}.settings-section-v125>header{margin-bottom:6px!important}.settings-section-v125 h3{font-size:13px!important}
+.settings-v125 .planet-theme-grid-v133{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:6px!important}
+.settings-v125 .theme-card-v125{min-height:50px!important;padding:8px!important;border:1px solid rgba(255,255,255,.45)!important;border-radius:13px!important;background:linear-gradient(135deg,var(--preview-a),var(--preview-b))!important;background-image:none!important;color:#fff!important;box-shadow:0 6px 15px color-mix(in srgb,var(--preview-a) 18%,transparent)!important}
+.settings-v125 .theme-card-v125::before,.settings-v125 .theme-card-v125::after{display:none!important;content:none!important}.settings-v125 .theme-card-v125>b{max-width:none!important;color:#fff!important;-webkit-text-fill-color:#fff!important;text-shadow:0 1px 5px rgba(0,0,0,.2)!important;font-size:9px!important}.settings-v125 .theme-card-v125>small{display:none!important}
+.settings-v125 .theme-card-v125[aria-pressed="true"]{padding:7px!important;border:2px solid #fff!important;box-shadow:0 0 0 2px var(--theme-primary),0 7px 18px var(--theme-glow)!important}
+.settings-v125 .font-grid-v133{gap:6px!important}.settings-v125 .font-card-v133{min-height:44px!important;border-radius:12px!important}
+.settings-v125 .calendar-sync-v125{gap:6px!important}.settings-v125 .calendar-provider-v125{padding:9px!important;border-radius:13px!important}
+
+/* The idle planet recedes; holding it restores the full luminous state. */
+.global-wheel-v126:not(.open) .global-wheel-planet-v126#wheelCore{opacity:.84!important;filter:brightness(.72) saturate(.74) blur(.12px)!important;box-shadow:0 0 8px color-mix(in srgb,var(--theme-glow) 56%,transparent),0 0 18px color-mix(in srgb,var(--theme-glow) 30%,transparent),inset -10px -12px 18px rgba(5,8,28,.34)!important}
+.global-wheel-v126:not(.open) .wheel-art-v140{filter:var(--wheel-art-filter) brightness(.76) saturate(.74)!important}
+.global-wheel-v126.open .global-wheel-planet-v126#wheelCore,.global-wheel-planet-v126#wheelCore.pressing{opacity:1!important}
+
+/* Compact account surface: system colors live in the choice boxes, not planet illustrations. */
+.profile-overlay-v137{place-items:center!important;padding:10px!important}
+.profile-sheet-v137{width:min(640px,calc(100vw - 18px))!important;height:auto!important;max-height:calc(100dvh - 20px)!important;padding:14px!important;border:1px solid rgba(255,255,255,.66)!important;border-radius:25px!important;overflow:auto!important;box-shadow:0 28px 80px rgba(9,7,31,.3)!important}
+.profile-head-v137{align-items:center!important;padding-bottom:10px!important}.profile-avatar-v137{width:43px!important;height:43px!important;border-radius:14px!important}.profile-identity-v137 h1{font-size:19px!important}.profile-identity-v137 p{font-size:9px!important}.profile-close-v137{width:34px!important;height:34px!important}
+.profile-section-v137{margin-top:9px!important;padding:10px!important;border-radius:16px!important;box-shadow:none!important}.profile-section-v137>header h2{font-size:13px!important}.profile-section-v137>header small{font-size:7px!important}
+.profile-theme-grid-v137{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:5px!important;margin-top:8px!important}.profile-theme-v137{min-height:38px!important;align-content:center!important;padding:6px!important;border-color:rgba(255,255,255,.45)!important;border-radius:11px!important;color:#fff!important;background:linear-gradient(135deg,var(--profile-a),var(--profile-b))!important;text-shadow:0 1px 5px rgba(0,0,0,.25)!important}.profile-theme-v137 .profile-planet-v137{display:none!important}.profile-theme-v137[data-profile-theme-v137="system"]{--profile-a:#6255e8;--profile-b:#a89bfa}.profile-theme-v137[data-profile-theme-v137="sun"]{--profile-a:#d86428;--profile-b:#ffc56b}.profile-theme-v137[data-profile-theme-v137="mercury"]{--profile-a:#626873;--profile-b:#b7bdc6}.profile-theme-v137[data-profile-theme-v137="venus"]{--profile-a:#a97846;--profile-b:#e2c393}.profile-theme-v137[data-profile-theme-v137="earth"]{--profile-a:#2d748e;--profile-b:#80b48c}.profile-theme-v137[data-profile-theme-v137="mars"]{--profile-a:#a84c3b;--profile-b:#e39a7e}.profile-theme-v137[data-profile-theme-v137="jupiter"]{--profile-a:#9b704e;--profile-b:#dec090}.profile-theme-v137[data-profile-theme-v137="saturn"]{--profile-a:#8e7a4a;--profile-b:#d9c58b}.profile-theme-v137[data-profile-theme-v137="uranus"]{--profile-a:#4d8790;--profile-b:#a6cfd2}.profile-theme-v137[data-profile-theme-v137="neptune"]{--profile-a:#3f5fa7;--profile-b:#91a7de}.profile-theme-v137[data-profile-theme-v137="pluto"]{--profile-a:#554c43;--profile-b:#aaa092}.profile-theme-v137.active{border-color:#fff!important;color:#fff!important;background:linear-gradient(135deg,var(--profile-a),var(--profile-b))!important;box-shadow:0 0 0 2px var(--theme-primary),0 6px 15px var(--theme-glow)!important}
+.profile-font-v137{margin-top:7px!important}.profile-font-v137 button{height:34px!important}.profile-foot-v137{margin-top:9px!important}.profile-foot-v137 button{min-height:34px!important}
+
+@media(max-width:520px){
+  #home.schedule-feature-v125 .schedule-day-number-v119{left:2px!important;top:2px!important;width:14px!important;height:14px!important;font-size:7.2px!important}
+  #home.schedule-feature-v125 .schedule-holiday-v144{left:17px!important;top:4px!important;font-size:4.65px!important}
+  #home.schedule-feature-v125 .schedule-event-name-v119{margin-top:17px!important;font-size:5.9px!important}
+  #routine .routine-goal-list-v111{grid-template-columns:1fr!important}
+  #routine .routine-complete-grid{grid-template-columns:1fr!important;grid-auto-rows:minmax(102px,auto)!important}
+  .routine-analysis-grid-v127{grid-template-columns:1fr!important}.routine-analysis-grid-v127>.routine-stat-routines-v127{grid-column:1!important}.routine-stats-sheet-v127>.routine-overall-v110{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .personal-tool-overlay-v127 .overview-metrics{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+  #fifth .my128-summary{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+  #fifth .my128-tool,#fifth .my128-tool.study{min-height:108px!important}
+  .settings-v125 .planet-theme-grid-v133{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+}
+@media(min-width:600px){#personal .personal-health{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media(prefers-reduced-motion:reduce){.my128-tool,.theme-card-v125,.routine-card-v127{transition:none!important}}

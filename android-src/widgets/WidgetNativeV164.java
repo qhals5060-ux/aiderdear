@@ -63,8 +63,7 @@ public final class WidgetNativeV164 {
         v.setTextViewTextSize(id(c,"widget_empty"),2,size);
     }
     static PendingIntent open(Context c,int widget,String kind,String action){
-        String target=kind.startsWith("Calendar")?"home":kind.startsWith("Routine")?"private":kind.contains("Language")?"language":kind.startsWith("Task")?"task":"personal";
-        if(kind.contains("Language"))target="language";
+        String target=kind.startsWith("Calendar")?"home":kind.startsWith("Routine")?"private":kind.startsWith("Task")?"task":"personal";
         if("add-schedule".equals(action))action="add-schedule:"+selected(c,widget);
         Intent i=new Intent().setClassName(c,c.getPackageName()+".MainActivity").setAction("aiderlog.widget."+widget+"."+kind+"."+action);
         i.putExtra("target",target).putExtra("action",action).addFlags(0x14000000);
@@ -115,7 +114,7 @@ public final class WidgetNativeV164 {
         int height=Math.round(WidgetSizeV169.current(c,widget).getHeight());
         boolean calendar=kind.startsWith("Calendar"),agenda="CalendarAgenda".equals(kind),onlyMonth="CalendarMonth".equals(kind)||"CalendarSplit".equals(kind),meal="PersonalMeal".equals(kind);
         boolean split=calendar&&!onlyMonth&&!agenda&&WidgetDesignV165.wide(c,widget);
-        RemoteViews v=view(c,split?"widget_native_wide_v164":"widget_native_v164");
+        RemoteViews v=view(c,split?"widget_native_wide_v164":"CalendarFortnight".equals(kind)?"widget_native_fortnight_v178":"widget_native_v164");
         appearance(c,v,widget,selectedTheme,opacity,selectedFont);
         String now=day(Calendar.getInstance()),selected=selected(c,widget);
         text(c,v,"widget_title",calendar?(agenda?selected+" · "+eventsOn(data.optJSONArray("scheduleItems"),selected).size()+"건":monthTitle(c,widget,kind)):data.optString("today",now));
@@ -125,7 +124,7 @@ public final class WidgetNativeV164 {
         show(c,v,"widget_previous",calendar&&!agenda);show(c,v,"widget_next",calendar&&!agenda);
         boolean add=calendar||kind.equals("PersonalWorkflowOne")||kind.equals("PersonalWorkflowAll")||kind.equals("PersonalTodo");
         show(c,v,"widget_add",add);
-        v.setOnClickPendingIntent(id(c,"widget_root"),open(c,widget,kind,"LanguageYoutube".equals(kind)?"open-youtube":""));
+        v.setOnClickPendingIntent(id(c,"widget_root"),open(c,widget,kind,""));
         v.setOnClickPendingIntent(id(c,"widget_add"),open(c,widget,kind,calendar?"add-schedule":kind.equals("PersonalTodo")?"add-todo":"add-memo"));
         v.setOnClickPendingIntent(id(c,"widget_previous"),navigate(c,widget,kind,"month","-1"));
         v.setOnClickPendingIntent(id(c,"widget_next"),navigate(c,widget,kind,"month","1"));
@@ -167,9 +166,9 @@ public final class WidgetNativeV164 {
         int available=Math.round(WidgetSizeV169.current(c,widget).getHeight());
         float cellHeight=((available-62f)*(kind.equals("CalendarMonth")||kind.equals("CalendarSplit")||split?1f:.6f)-20f)/rowCount-6f;
         for(int row=0;row<rowCount;row++){
-            RemoteViews week=view(c,"widget_week_v164");
+            RemoteViews week=view(c,fortnight&&!split?"widget_week_compact_v178":"widget_week_v164");
             for(int col=0;col<7;col++){
-                String key=day(start);RemoteViews cell=view(c,"widget_day_v164");
+                String key=day(start);RemoteViews cell=view(c,fortnight&&!split?"widget_day_compact_v178":"widget_day_v164");
                 text(c,cell,"widget_day_number_v164",String.valueOf(start.get(Calendar.DAY_OF_MONTH)));
                 String holiday=holidays==null?"":holidays.optString(key,"");
                 text(c,cell,"widget_day_label_v164",holiday);
@@ -184,15 +183,15 @@ public final class WidgetNativeV164 {
                 show(c,cell,"widget_day_more_v164",cellHeight>=(visibleHoliday?38:28));
                 // TextView wraps its scaled font; a fixed 12–18dp height clips Korean/system-large text.
                 boolean chosen=key.equals(selected),outside=!fortnight&&start.get(Calendar.MONTH)!=shownMonth;
-                // Selected dates use the same primary/white contrast in every theme.
-                color(c,cell,"widget_day_number_v164",chosen?0xffffffff:foreground);
+                // Selection is a quiet full-cell frame; the date remains readable text.
+                color(c,cell,"widget_day_number_v164",foreground);
                 color(c,cell,"widget_day_label_v164",foreground);
                 color(c,cell,"widget_day_events_v164",foreground);color(c,cell,"widget_day_more_v164",dark(c,chosenTheme)?0xffc1baff:PRIMARY);
                 cell.setTextViewTextSize(id(c,"widget_day_number_v164"),2,Math.max(10,size-1.5f));
                 cell.setTextViewTextSize(id(c,"widget_day_events_v164"),2,Math.max(11,size-3));
                 cell.setTextViewTextSize(id(c,"widget_day_label_v164"),2,Math.max(10,size-4));
-                cell.setInt(id(c,"widget_day_number_v164"),"setBackgroundResource",drawable(c,chosen?"widget_day_selected_v164":"widget_day_clear_v164"));
-                cell.setImageViewResource(id(c,"widget_day_background_v164"),drawable(c,dark(c,chosenTheme)?"widget_day_dark_v164":key.equals(today)?"widget_day_today_v164":"widget_day_bg_v164"));
+                cell.setInt(id(c,"widget_day_number_v164"),"setBackgroundResource",drawable(c,"widget_day_clear_v164"));
+                cell.setImageViewResource(id(c,"widget_day_background_v164"),drawable(c,chosen?(dark(c,chosenTheme)?"widget_day_selected_dark_v178":"widget_day_selected_v164"):dark(c,chosenTheme)?"widget_day_dark_v164":key.equals(today)?"widget_day_today_v164":"widget_day_bg_v164"));
                 cell.setInt(id(c,"widget_day_background_v164"),"setImageAlpha",Math.round(255*Math.max(0,Math.min(100,opacity<0?prefs(c).getInt("widget_opacity_"+widget,100):opacity))/100f));
                 cell.setContentDescription(id(c,"widget_day_cell_v164"),key+(holiday.isEmpty()?"":" "+holiday)+" 일정 "+dated.size()+"개");
                 cell.setOnClickPendingIntent(id(c,"widget_day_cell_v164"),kind.equals("CalendarSplit")||kind.equals("CalendarMonth")?open(c,widget,kind,"open-schedule-date-v168:"+key):navigate(c,widget,kind,"date",key));
@@ -215,12 +214,11 @@ public final class WidgetNativeV164 {
             for(int n=0;events!=null&&n<events.length();n++){JSONObject r=events.optJSONObject(n);if(r==null)continue;String start=r.optString("date"),end=r.optString("endDate",start);if(end.isEmpty())end=start;if(chosen.compareTo(start)>=0&&chosen.compareTo(end)<=0)records.add(r.toString());}
             Collections.sort(records,new java.util.Comparator<String>(){public int compare(String a,String b){try{return new JSONObject(a).optString("time").compareTo(new JSONObject(b).optString("time"));}catch(Exception e){return 0;}}});return records;
         }
-        String key=kind.equals("RoutineAll")||kind.equals("RoutineCards")?"routines":kind.equals("RoutineStats")?"routineStats":kind.contains("RoutineLanguage")?"languageRows":kind.equals("LanguageYoutube")?"youtubeNotes":kind.equals("PersonalWorkflowOne")?"memos":kind.equals("PersonalWorkflowAll")?"memoTodos":kind.equals("PersonalTodo")?"todos":kind.equals("PersonalReading")?"readingBooks":kind.equals("PersonalQuote")?"readingCurrent":kind.equals("PersonalWorkoutStatsInbody")?"workoutStatsInbody":kind.equals("PersonalWorkoutStats")?"workoutStats":kind.equals("PersonalWorkoutChallengeAll")?"challengeAll":kind.equals("PersonalWorkoutChallengeCombined")?"challengeCombined":kind.equals("PersonalWorkoutChallengeOnly")?"challengeSelected":kind.equals("PersonalWorkoutChallenge")?"workoutChallenges":kind.equals("PersonalWorkoutMeal")?"mealWorkouts":kind.equals("PersonalWorkout")?"workouts":kind.equals("PersonalBulletSeven")?"bullet7":kind.equals("PersonalBulletSevenWorkflow")?"bullet7Workflow":kind.equals("PersonalBulletThreeWorkflow")?"bullet3Workflow":"bullet3";
+        String key=kind.equals("RoutineAll")||kind.equals("RoutineCards")?"routines":kind.equals("RoutineStats")?"routineStats":kind.equals("PersonalWorkflowOne")?"memos":kind.equals("PersonalWorkflowAll")?"memoTodos":kind.equals("PersonalTodo")?"todos":kind.equals("PersonalReading")?"readingBooks":kind.equals("PersonalQuote")?"readingCurrent":kind.equals("PersonalWorkoutStatsInbody")?"workoutStatsInbody":kind.equals("PersonalWorkoutStats")?"workoutStats":kind.equals("PersonalWorkoutChallengeAll")?"challengeAll":kind.equals("PersonalWorkoutChallengeCombined")?"challengeCombined":kind.equals("PersonalWorkoutChallengeOnly")?"challengeSelected":kind.equals("PersonalWorkoutChallenge")?"workoutChallenges":kind.equals("PersonalWorkoutMeal")?"mealWorkouts":kind.equals("PersonalWorkout")?"workouts":kind.equals("PersonalBulletSeven")?"bullet7":kind.equals("PersonalBulletSevenWorkflow")?"bullet7Workflow":kind.equals("PersonalBulletThreeWorkflow")?"bullet3Workflow":"bullet3";
         JSONArray list=data.optJSONArray(key);List<String> out=new ArrayList<String>();String selected=prefs(c).getString("widget_content_"+widget,"전체 내용");
-        if(selected.equals("영어"))selected="English";if(selected.equals("일본어"))selected="Japanese";
         for(int i=0;list!=null&&i<list.length();i++){String line=list.optString(i,"").trim();if(line.length()==0)continue;
             if(key.startsWith("bullet")&&(line.contains("감정")||line.toLowerCase(Locale.US).contains("emotion")))continue;
-            if((kind.equals("RoutineCards")||kind.equals("RoutineLanguage"))&&!selected.startsWith("전체")&&!line.contains(selected))continue;
+            if(kind.equals("RoutineCards")&&!selected.startsWith("전체")&&!line.contains(selected))continue;
             out.add(line);
         }return out;
     }
@@ -243,7 +241,7 @@ public final class WidgetNativeV164 {
         collection(c,v,widget,kind,rows,id(c,"widget_items_v164"));
     }
     static void collection(Context c,RemoteViews v,int widget,String kind,List<String> rows,int list)throws RuntimeException{
-        String target=kind.startsWith("Calendar")?"home":kind.contains("Language")?"language":kind.startsWith("Routine")?"private":"personal";
+        String target=kind.startsWith("Calendar")?"home":kind.startsWith("Routine")?"private":"personal";
         Intent open=new Intent().setClassName(c,c.getPackageName()+".MainActivity").setAction("aiderlog.widget.collection."+widget+"."+kind).putExtra("target",target).addFlags(0x14000000);
         v.setPendingIntentTemplate(list,PendingIntent.getActivity(c,widget*17+kind.hashCode(),open,android.os.Build.VERSION.SDK_INT>=31?0x0a000000:0x08000000));
         if(android.os.Build.VERSION.SDK_INT>=31&&kind.startsWith("Calendar")&&rows.size()<=40){try{

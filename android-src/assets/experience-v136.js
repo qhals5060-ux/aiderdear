@@ -26,7 +26,7 @@
         if(typeof window.AiderDearFirebase?.completeAndroidGoogleSignIn==='function')finish();else addEventListener('aiderdear-firebase-ready',finish,{once:true});return;
       }
       if(!String(target||'').trim()&&!String(action||'').trim())return;
-      const page={schedule:'home',private:'routine',record:'event',personal:'personal',language:'language',fifth:'fifth'}[target]||'home';
+      const page={schedule:'home',private:'routine',record:'event',personal:'personal',fifth:'fifth'}[target]||'home';
       if(typeof go==='function')go(page,false);else location.hash=page;
     };
     shell.handleBack=()=>{const open=$$('.intro.on,.schedule-dialog-v125.on,.emotion-dialog-v119.on,.event-editor-overlay-v111').reverse().find(node=>{const style=getComputedStyle(node);return node.getClientRects().length&&style.display!=='none'&&style.visibility!=='hidden'});if(!open)return false;const close=$('[aria-label="닫기"],[data-schedule-dialog-close-v125]',open);if(!close)return false;close.click();return true};
@@ -161,15 +161,6 @@
     }
   }
 
-  function improveLanguageScroll(){
-    $$('aiderlog-language-lab').forEach(host=>{
-      const root=host.shadowRoot;if(!root)return;
-      if(host.hasAttribute('data-training-v166')){root.querySelector('style[data-v136-scroll]')?.remove();return;}
-      if(root.querySelector('style[data-v136-scroll]'))return;const style=document.createElement('style');style.dataset.v136Scroll='1';
-      style.textContent=':host{display:block!important;height:auto!important;min-height:0!important;overflow:visible!important}:host .app-shell{height:auto!important;min-height:100%!important;max-height:none!important;overflow:visible!important;padding-bottom:80px!important}:host .app-shell>.single-page{height:auto!important;min-height:0!important;max-height:none!important;overflow:visible!important}:host .app-shell>.single-page>.learning-section,:host .app-shell>.single-page>.dashboard-section{height:auto!important;min-height:0!important;max-height:none!important;overflow:visible!important}:host .scenario-summary{border-radius:24px!important}:host .day-list{height:auto!important;max-height:none!important;overflow:visible!important;padding-bottom:30px!important}@media(max-width:760px){:host .app-shell>.single-page{display:block!important}:host .dashboard-section{margin-top:14px!important}}';root.append(style);
-    });
-  }
-
   function notifyNewMail(detail){
     const user=detail?.user;if(!user?.uid||!Array.isArray(detail.directLetters))return;const key=`aiderlog-mail-seen-v136:${user.uid}`;let seen=[];try{seen=JSON.parse(localStorage.getItem(key)||'[]')}catch{}const set=new Set(Array.isArray(seen)?seen.map(String):[]);
     const incoming=detail.directLetters.filter(row=>row?.id&&row.toUid===user.uid&&!row.readBy?.includes(user.uid));
@@ -184,7 +175,7 @@
     if(typeof window.openAiderLogInsightLetter==='function')window.openAiderLogInsightLetter();else $('#intro')?.classList.add('on');
   }
 
-  function refresh(){queued=false;installNativeAppShell();updateLoginButton();wrapPersonalRenderer();renderAccountPage();installWheelSelector();bindWheelEffects();decoratePostcard();improveLanguageScroll()}
+  function refresh(){queued=false;installNativeAppShell();updateLoginButton();wrapPersonalRenderer();renderAccountPage();installWheelSelector();bindWheelEffects();decoratePostcard()}
   function queue(){if(queued)return;queued=true;requestAnimationFrame(refresh)}
   document.addEventListener('click',openInsightFromHome,true);document.addEventListener('click',accountClick);document.addEventListener('change',accountChange);
   addEventListener('aiderdear-firebase-ready',()=>{updateLoginButton();renderAccountPage()});

@@ -3,10 +3,7 @@
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
   const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
-  const SHORTS_KEY = 'aiderlog-language-shorts-v118';
   let queued = false;
-  let activeUser = null;
-  let activeShortStudy = '';
 
   const emotions = {
     joy:{file:'joy.png',label:'기쁨'}, happiness:{file:'happiness.png',label:'행복'}, excitement:{file:'excitement.png',label:'설렘'},
@@ -45,7 +42,6 @@
     const label = $('#fifthLabel')?.textContent?.trim() || 'My';
     const rows = [
       ['.wheel-seg.e','fifth','☆',label,true],
-      ['.wheel-seg.r','language','文','Language'],
       ['.wheel-seg.p','personal','◉','Personal'],
       ['.wheel-seg.l','routine','▤','Routine'],
       ['.wheel-seg.m','event','⌁','Event']
@@ -170,58 +166,15 @@
   }
 
   function readJson(key,fallback) { try { return JSON.parse(localStorage.getItem(key) || '') || fallback; } catch (_) { return fallback; } }
-  function writeJson(key,value) { localStorage.setItem(key,JSON.stringify(value)); }
-  async function persistShorts(store) {
-    const api=window.AiderDearFirebase; if(!activeUser||!api?.readPrivateData||!api?.writePrivateData)return;
-    try { const current=await api.readPrivateData()||{};current.languageShortsV118=store;await api.writePrivateData(current); } catch(error){console.warn('Shorts sync skipped',error);}
-  }
-  function youtubeId(raw) {
-    const value=String(raw||'').trim();if(/^[A-Za-z0-9_-]{11}$/.test(value))return value;
-    try { const url=new URL(/^https?:\/\//i.test(value)?value:`https://${value}`),host=url.hostname.replace(/^www\./,'').toLowerCase();let id='';if(host==='youtu.be')id=url.pathname.split('/').filter(Boolean)[0]||'';else if(/(^|\.)youtube\.com$/.test(host)){const p=url.pathname.split('/').filter(Boolean);id=['shorts','embed','live'].includes(p[0])?(p[1]||''):(url.searchParams.get('v')||'')}return /^[A-Za-z0-9_-]{11}$/.test(id)?id:''; } catch(_){return'';}
-  }
-  function shortsStore(){const value=readJson(SHORTS_KEY,{current:null,notes:[]});value.notes=Array.isArray(value.notes)?value.notes:[];return value;}
-  function renderShortStudy(root,store){
-    const work=$('.al-shorts-work-v118',root),list=$('.al-shorts-list-v118',root);if(!work||!list)return;
-    let panel=$('.al-short-study-v156',work);if(!panel){panel=document.createElement('section');panel.className='al-short-study-v156';work.insertBefore(panel,list)}
-    const note=store.notes.find(row=>String(row.id)===String(activeShortStudy));
-    if(!note){panel.hidden=true;panel.innerHTML='';return}
-    panel.hidden=false;panel.innerHTML=`<header><span>RECALL · ${Number(note.reviewCount)||0}회 복습</span><button type="button" data-short-study-close aria-label="복습 닫기">×</button></header><p>뜻을 보고 영상의 영어 문장을 직접 입력해보세요.</p><strong>${esc(note.meaning||'저장된 뜻이 없습니다.')}</strong><form class="al-short-study-form-v156"><input name="answer" autocomplete="off" required placeholder="기억나는 영어 문장"><button type="submit">확인</button></form><div class="al-short-study-answer-v156" hidden><small>저장한 문장</small><b>${esc(note.phrase)}</b><div><button type="button" data-short-study-speak="${esc(note.id)}">문장 듣기</button><button type="button" data-short-study-done="${esc(note.id)}">복습 완료</button></div></div>`;
-  }
-  function renderShorts(){
-    const root=$('.al-shorts-v118');if(!root)return;const store=shortsStore(),frame=$('.al-shorts-frame-v118',root),list=$('.al-shorts-list-v118',root);
-    frame.innerHTML=store.current?.id?`<iframe title="영어 문장 학습용 YouTube 영상" src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(store.current.id)}?playsinline=1&rel=0&modestbranding=1&origin=https%3A%2F%2Faiderdear1.vercel.app" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`:'<div class="al-shorts-empty-v118"><div><b>YOUTUBE → ENGLISH</b><br>YouTube 영상 링크를 붙여넣고<br>영상 문장 · 뜻 · 나만의 문장을 저장하세요.</div></div>';
-    list.innerHTML=store.notes.length?store.notes.slice(0,12).map(note=>`<article class="al-shorts-row-v118"><div><b>${esc(note.phrase)}</b><small>${esc(note.meaning||'뜻 미입력')}</small><em>${esc(note.example||'나만의 문장 미입력')}</em></div><div class="al-short-row-actions-v156"><button type="button" data-short-study="${esc(note.id)}">연습</button><button type="button" data-short-delete="${esc(note.id)}" aria-label="표현 삭제">×</button></div></article>`).join(''):'<div class="al-shorts-empty-v118"><div>저장한 영어 표현이 없습니다.</div></div>';
-    renderShortStudy(root,store);
-  }
-  function setLanguageMode(mode){
-    const page=$('#language .language-page-v25'),lab=page?.querySelector('aiderlog-language-lab'),shorts=page?.querySelector('.al-shorts-v118');if(!page||!lab||!shorts)return;
-    const next=mode==='shorts'?'shorts':'course';const show=(el,visible,display)=>{el.hidden=!visible;el.inert=!visible;el.style.setProperty('display',visible?display:'none','important');if(visible){['visibility','position','width','height','min-height','max-height','overflow','opacity','pointer-events'].forEach(key=>el.style.removeProperty(key))}else{el.style.setProperty('visibility','hidden','important');el.style.setProperty('position','absolute','important');el.style.setProperty('width','1px','important');el.style.setProperty('height','0','important');el.style.setProperty('min-height','0','important');el.style.setProperty('max-height','0','important');el.style.setProperty('overflow','hidden','important');el.style.setProperty('opacity','0','important');el.style.setProperty('pointer-events','none','important')}};show(lab,next==='course','block');show(shorts,next==='shorts','grid');$$('[data-language-mode-v118]',page).forEach(b=>b.classList.toggle('active',b.dataset.languageModeV118===next));localStorage.setItem('aiderlog-language-mode-v118',next);if(next==='shorts')renderShorts();
-  }
-  function decorateLanguage(){
-    const page=$('#language .language-page-v25'),lab=page?.querySelector('aiderlog-language-lab'),head=page?.querySelector('.language-edu-head');if(!page||!lab||!head)return;
-    if (page.querySelector('.al-language-modes-v118')) return;
-    const oldBadges=head.querySelector('.edu-badges'); if(oldBadges)oldBadges.remove();
-    const nav=document.createElement('nav');nav.className='al-language-modes-v118';nav.innerHTML='<button type="button" class="active" data-language-mode-v118="course">COURSE</button><button type="button" data-language-mode-v118="shorts">YOUTUBE · 문장 학습</button>';head.append(nav);
-    const shorts=document.createElement('section');shorts.className='al-shorts-v118';shorts.hidden=true;shorts.innerHTML=`<section class="al-shorts-video-v118"><div class="al-shorts-frame-v118"></div><form class="al-shorts-link-v118"><input type="text" inputmode="url" required placeholder="YouTube 영상 링크 붙여넣기" aria-label="YouTube 영상 링크"><button type="submit">영상 연결</button></form></section><section class="al-shorts-work-v118"><header><b>YouTube 영어 문장 노트</b><span>공개 영어 자막 또는 직접 입력</span></header><form class="al-shorts-note-v118"><label>영상 문장<input name="phrase" required maxlength="140" placeholder="That makes sense."></label><label>뜻<input name="meaning" maxlength="180" placeholder="그 말이 이해돼."></label><label>나만의 문장<input name="example" maxlength="220" placeholder="That makes sense to me now."></label><button type="submit">문장 저장</button></form><div class="al-shorts-list-v118"></div></section>`;page.append(shorts);
-    nav.addEventListener('click',event=>{const b=event.target.closest('[data-language-mode-v118]');if(b)setLanguageMode(b.dataset.languageModeV118)});
-    $('.al-shorts-link-v118',shorts).addEventListener('submit',event=>{event.preventDefault();const input=event.currentTarget.querySelector('input'),id=youtubeId(input.value);if(!id){input.setCustomValidity('올바른 YouTube 영상 링크를 입력해주세요.');input.reportValidity();return;}input.setCustomValidity('');const store=shortsStore();store.current={...(store.current||{}),id,url:input.value.trim(),updatedAt:Date.now(),sentences:[]};writeJson(SHORTS_KEY,store);persistShorts(store);renderShorts();});
-    $('.al-shorts-note-v118',shorts).addEventListener('submit',event=>{event.preventDefault();const data=new FormData(event.currentTarget),store=shortsStore();store.notes.unshift({id:`short-${Date.now()}`,videoId:store.current?.id||'',phrase:String(data.get('phrase')||'').trim(),meaning:String(data.get('meaning')||'').trim(),example:String(data.get('example')||'').trim(),createdAt:Date.now()});store.notes=store.notes.slice(0,80);writeJson(SHORTS_KEY,store);persistShorts(store);event.currentTarget.reset();renderShorts();});
-    shorts.addEventListener('submit',event=>{if(!event.target.matches('.al-short-study-form-v156'))return;event.preventDefault();const panel=event.target.closest('.al-short-study-v156'),answer=$('.al-short-study-answer-v156',panel);if(answer)answer.hidden=false;event.target.querySelector('input')?.blur();});
-    shorts.addEventListener('click',event=>{const study=event.target.closest('[data-short-study]'),close=event.target.closest('[data-short-study-close]'),speak=event.target.closest('[data-short-study-speak]'),done=event.target.closest('[data-short-study-done]'),remove=event.target.closest('[data-short-delete]');const store=shortsStore();if(study){activeShortStudy=study.dataset.shortStudy;renderShorts();return}if(close){activeShortStudy='';renderShorts();return}if(speak){const note=store.notes.find(row=>String(row.id)===String(speak.dataset.shortStudySpeak));if(note?.phrase&&'speechSynthesis'in window){speechSynthesis.cancel();const utterance=new SpeechSynthesisUtterance(note.phrase);utterance.lang='en-US';utterance.rate=.86;speechSynthesis.speak(utterance)}return}if(done){const note=store.notes.find(row=>String(row.id)===String(done.dataset.shortStudyDone));if(note){note.reviewCount=(Number(note.reviewCount)||0)+1;note.lastReviewedAt=Date.now();writeJson(SHORTS_KEY,store);persistShorts(store)}activeShortStudy='';renderShorts();return}if(!remove)return;store.notes=store.notes.filter(n=>n.id!==remove.dataset.shortDelete);if(activeShortStudy===remove.dataset.shortDelete)activeShortStudy='';writeJson(SHORTS_KEY,store);persistShorts(store);renderShorts();});
-    renderShorts();setLanguageMode(localStorage.getItem('aiderlog-language-mode-v118')||'course');
-  }
-
   function decoratePomodoro(){
     const page=$('.pomo-page'),timer=page?.querySelector('.pomo');if(!page||!timer||page.querySelector('.pomo-history-v118'))return;
     const data=readJson('aiderlog-private-v20',{}),rows=Array.isArray(data.pomodoroSessions)?data.pomodoroSessions.slice().reverse().slice(0,3):[];
     const section=document.createElement('section');section.className='pomo-history-v118';section.innerHTML=`<header><b>최근 집중 기록</b><span>${rows.length} SESSION</span></header>${rows.length?rows.map(row=>`<article><span>${esc(String(row.date||'').slice(5).replace('-','.'))}</span><b>${esc(row.task||'집중 세션')}</b><small>${Number(row.minutes)||25}분</small></article>`).join(''):'<article><span>—</span><b>타이머를 완료하면 여기에 기록됩니다.</b><small>0분</small></article>'}`;page.append(section);
   }
 
-  function decorateAll(){queued=false;decorateWheel();decorateIntroMascot();decorateInsights();decorateEvent();decorateLanguage();decoratePomodoro();}
+  function decorateAll(){queued=false;decorateWheel();decorateIntroMascot();decorateInsights();decorateEvent();decoratePomodoro();}
   function queue(){if(queued)return;queued=true;requestAnimationFrame(decorateAll);}
   document.addEventListener('change',event=>{if(event.target.matches('#eventEditorFormV111 select[name="category"],#eventEditorFormV111 select[name="travelType"]'))setTimeout(decorateEventForm,0);});
-  window.addEventListener('aiderdear-firebase-state',event=>{activeUser=event.detail?.user||null;});
-  window.addEventListener('aiderdear-firebase-ready',()=>{const api=window.AiderDearFirebase;if(api?.subscribe)api.subscribe(async state=>{activeUser=state?.user||null;if(!activeUser||!api.readPrivateData)return;try{const current=await api.readPrivateData()||{};if(current.languageShortsV118&&!localStorage.getItem(SHORTS_KEY))writeJson(SHORTS_KEY,current.languageShortsV118);renderShorts();}catch(_){}});},{once:true});
   new MutationObserver(queue).observe(document.documentElement,{childList:true,subtree:true,characterData:true,attributes:true,attributeFilter:['class','hidden']});
   queue();
 })();

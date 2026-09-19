@@ -36,6 +36,14 @@
     font-size:var(--type-xs,9px)!important;line-height:1.22!important;text-overflow:ellipsis!important;
   }
   html body #home.schedule-feature-v125[data-calendar-view-v176="fortnight"] .schedule-day-v119.outside{opacity:1!important}
+  /* Monthly cells preview three records, not just the first synchronized row. */
+  html body #home.schedule-feature-v125[data-calendar-view-v176="month"] [data-schedule-date-v125]{gap:2px!important;padding-bottom:16px!important}
+  html body #home.schedule-feature-v125[data-calendar-view-v176="month"] .schedule-event-name-v119{
+    display:block!important;flex:0 0 auto!important;width:100%!important;max-width:100%!important;box-sizing:border-box!important;
+    font-size:var(--type-xs,9px)!important;line-height:1.2!important;padding:1px 2px!important;
+    white-space:nowrap!important;text-overflow:ellipsis!important;
+  }
+  html body #home.schedule-feature-v125[data-calendar-view-v176="month"] .schedule-more-v176{position:absolute!important;bottom:3px!important;left:3px!important;margin:0!important}
   html body #home.schedule-feature-v125 .schedule-event-time-v176:not(:empty)::after{content:" "}
   html body #home.schedule-feature-v125[data-calendar-view-v176="fortnight"] .schedule-event-time-v176,
   html body #home.schedule-feature-v125[data-calendar-view-v176="fortnight"] .schedule-event-title-v176{display:block!important}

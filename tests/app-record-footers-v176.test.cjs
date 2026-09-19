@@ -24,8 +24,8 @@ test('schedule keeps one scrolling body and full-bleed actions inside the origin
   assert.match(footer, /width:calc\(100% \+ 24px\)!important/);
   assert.match(footer, /margin:8px -12px 0!important/);
   assert.match(footer, /padding:9px 12px max\(9px,env\(safe-area-inset-bottom\)\)!important/);
-  assert.ok(read('index.html').includes('./app-record-footers-v176.css?v=176'));
-  assert.ok(read('sw.js').includes("'./app-record-footers-v176.css','./app-record-footers-v176.css?v=176'"));
+  assert.ok(read('index.html').includes('./app-record-footers-v176.css?v=178'));
+  assert.ok(read('sw.js').includes("'./app-record-footers-v176.css','./app-record-footers-v176.css?v=178'"));
 });
 
 test('emotion actions span the exact form padding and remove the bottom gap', () => {

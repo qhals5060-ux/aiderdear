@@ -54,7 +54,7 @@ public final class WidgetDesignV165 {
         if(challengePager)pager=true;
         show(c,v,"widget_previous",pager);show(c,v,"widget_next",pager);show(c,v,"widget_add",memo);
         String title="";JSONObject rs=m.optJSONObject("routineStats");
-        if(kind.startsWith("Routine")&&!kind.contains("Language"))title=rs==null?"":rs.optInt("todayDone")+" / "+rs.optInt("total")+" 완료";
+        if(kind.startsWith("Routine"))title=rs==null?"":rs.optInt("todayDone")+" / "+rs.optInt("total")+" 완료";
         else if(kind.equals("PersonalTodo")||kind.equals("PersonalWorkflowAll")){int done=0;JSONArray ts=a(m,"todos");for(int i=0;i<ts.length();i++)if(ts.optJSONObject(i).optBoolean("done"))done++;title=done+" / "+ts.length()+" 완료";}
         else if(kind.equals("PersonalWorkflowOne"))title="최근 수정순";
         else if(challengePager){int count=a(selectedChallenge,"nodes").length(),start=Math.min(Math.max(0,count-7),prefs(c).getInt("widget_challenge_page_"+w,0));title="DAY "+(start+1)+" – "+Math.min(count,start+7)+" / "+count;}
@@ -78,11 +78,10 @@ public final class WidgetDesignV165 {
         if(k.equals("PersonalWorkflowOne")){add(out,a(m,"notes"));out=groups(out,landscape?2:1);}
         else if(k.equals("PersonalWorkflowAll")){if(!right)add(out,a(m,"notes"));if(!split||right)add(out,a(m,"todos"));}
         else if(k.equals("PersonalTodo"))add(out,a(m,"todos"));
-        else if(k.startsWith("Routine")&&!k.contains("Language")){
+        else if(k.startsWith("Routine")){
             if(!right){if(k.equals("RoutineCards")){JSONObject selected=choose(a(m,"routines"),o.optString("id"));if(selected!=null)out.add(put(copy(selected),"detail",true));}else{add(out,a(m,"routines"));out=groups(out,landscape&&!split?2:1);}}
             if(k.equals("RoutineStats")&&(!split||right)){JSONObject stats=m.optJSONObject("routineStats");if(stats!=null)out.add(put(put(copy(stats),"kind","routineStats"),"id","routine-statistics"));}
-        }else if(k.contains("RoutineLanguage")){if(k.equals("RoutineLanguage")){JSONObject r=choose(a(m,"language"),o.optString("id",o.optString("legacy").equals("일본어")?"ja":"en"));if(r!=null)out.add(copy(r));}else add(out,a(m,"language"));}
-        else if(k.equals("LanguageYoutube")){JSONArray y=a(data,"youtubeNotes");for(int i=0;i<y.length();i++)out.add(put(put(card("youtube"),"title",y.optString(i)),"id","youtube-"+i));}
+        }
         else if(k.equals("PersonalMeal")||k.equals("PersonalWorkoutMeal")){if(!right){List<JSONObject> meals=new ArrayList<JSONObject>();JSONArray a=a(m,"meals");for(int i=0;i<a.length();i++)meals.add(put(copy(a.optJSONObject(i)),"kind","meal"));out.addAll(groups(meals,landscape&&k.equals("PersonalMeal")?4:2));}if(k.equals("PersonalWorkoutMeal")&&(!split||right))for(int i=0;i<a(m,"workouts").length();i++){JSONObject r=a(m,"workouts").optJSONObject(i);if(r.optString("date").equals(m.optString("today")))out.add(copy(r));}}
         else if(k.equals("PersonalWorkoutStats")){JSONObject stats=workoutStats(m,o.optInt("period",7));if(!right){out.add(put(stats,"summaryOnly",split));out.addAll(workoutTrends(m,o.optInt("period",7)));}else out.add(put(stats,"chartOnly",true));}
         else if(k.equals("PersonalWorkout")||k.equals("PersonalWorkoutChallenge")){for(int i=0;i<a(m,"workouts").length();i++){JSONObject r=a(m,"workouts").optJSONObject(i);if(r.optString("date").equals(m.optString("today")))out.add(copy(r));}if(k.equals("PersonalWorkoutChallenge"))add(out,a(m,"challenges"));}
@@ -121,44 +120,62 @@ public final class WidgetDesignV165 {
     public static RemoteViews row(Context c,int w,String kind,String json,int index,String selectedTheme,int selectedFont){try{return component(c,w,kind,new JSONObject(json),false,selectedTheme,selectedFont);}catch(Exception e){RemoteViews fallback=view(c,"widget_note_v165");text(c,fallback,"w165_title","기록을 다시 불러와주세요.");return fallback;}}
     /** Same semantic surfaces for installed rows and the unsaved Settings preview. */
     static String surface(String type,boolean detail,boolean night){
-        boolean soft=type.equals("note")||type.equals("youtube")||type.equals("routineStats")||type.equals("workoutStats")||type.equals("workout")||type.equals("quote")||(type.equals("book")&&detail);
+        boolean soft=type.equals("note")||type.equals("routineStats")||type.equals("workoutStats")||type.equals("workout")||type.equals("quote")||(type.equals("book")&&detail);
         boolean framed=type.equals("routine")||type.equals("challenge")||type.equals("workflow")||type.equals("trend")||type.equals("day");
         return soft?(night?"widget_panel_dark_v176":"widget_panel_v176"):framed?(night?"widget_card_dark_v165":type.equals("day")?"widget_bullet_card_v168":"widget_framed_v176"):"widget_card_v165";
     }
     static RemoteViews component(Context c,int w,String kind,JSONObject r,boolean cell,String overrideTheme,int selectedFont){
         String type=r.optString("kind","note");if(type.equals("group")||type.equals("stack")){boolean stack=type.equals("stack");RemoteViews group=view(c,stack?"widget_stack_v168":"widget_group_v165");JSONArray children=a(r,"children");group.removeAllViews(id(c,"w165_group"));for(int i=0;i<children.length();i++)group.addView(id(c,"w165_group"),component(c,w,kind,children.optJSONObject(i),!stack,overrideTheme,selectedFont));for(int i=children.length();i<r.optInt("columns");i++)group.addView(id(c,"w165_group"),view(c,"widget_empty_cell_v165"));return group;}
-        String template=type.equals("routineStats")||type.equals("workoutStats")?"stats":type.equals("youtube")?"note":type.equals("meal")?"meal_slot":type;
+        String template=type.equals("routineStats")||type.equals("workoutStats")?"stats":type.equals("meal")?"meal_slot":type;
         RemoteViews v=view(c,type.equals("trend")?"widget_trend_v169"+(cell?"_cell":""):type.equals("book")&&r.optBoolean("detail")?"widget_book_detail_v168"+(cell?"_cell":""):"widget_"+template+"_v165"+(cell?"_cell":""));JSONObject data=snapshot(c);String chosen=overrideTheme==null?theme(c,w):overrideTheme;int fg=ink(c,chosen);float fs=selectedFont<0?font(c,w):11.5f+selectedFont*.8f;
         if(!type.equals("meal")){v.setImageViewResource(id(c,"w165_card_background"),drawable(c,surface(type,r.optBoolean("detail"),dark(c,chosen))));Integer po=previewOpacity.get();int opacity=po==null?prefs(c).getInt("widget_opacity_"+w,100):po;v.setInt(id(c,"w165_card_background"),"setImageAlpha",Math.round(255*Math.max(0,Math.min(100,opacity))/100f));}
-        if(type.equals("note")||type.equals("youtube")||type.equals("todo")||type.equals("routine")||type.equals("language")||type.equals("trend")||type.equals("challenge")||type.equals("workout")||type.equals("workflow")){Integer po=previewOpacity.get();int opacity=po==null?prefs(c).getInt("widget_opacity_"+w,100):po;v.setInt(id(c,"w169_row_divider"),"setImageAlpha",Math.round(255*Math.max(0,Math.min(100,opacity))/100f));}
-        v.setOnClickFillInIntent(id(c,"w165_card"),action(data,w,kind,r,type.equals("youtube")?"youtube":"open",type));
+        if(type.equals("note")||type.equals("todo")||type.equals("routine")||type.equals("trend")||type.equals("challenge")||type.equals("workout")||type.equals("workflow")){Integer po=previewOpacity.get();int opacity=po==null?prefs(c).getInt("widget_opacity_"+w,100):po;v.setInt(id(c,"w169_row_divider"),"setImageAlpha",Math.round(255*Math.max(0,Math.min(100,opacity))/100f));}
+        v.setOnClickFillInIntent(id(c,"w165_card"),action(data,w,kind,r,"open",type));
         if(type.equals("meal")){bitmap(c,v,"w165_photo",r.optString("image"));text(c,v,"w165_time",r.optString("time"));show(c,v,"w165_time",!r.optString("time").isEmpty());int stars=r.optInt("rating");String rating="";if(!r.isNull("rating"))for(int n=0;n<5;n++)rating+=n<stars?"★":"☆";text(c,v,"w165_rating",rating);String slot=r.optString("slot");String mealName=slot.equals("breakfast")?"아침":slot.equals("lunch")?"점심":slot.equals("dinner")?"저녁":"간식";v.setContentDescription(id(c,"w165_card"),mealName+(r.optString("time").isEmpty()?"":" "+r.optString("time"))+(r.isNull("rating")?" 별점 미입력":" 별점 "+r.optInt("rating"))+" · 기록 보기");return v;}
         float titleSize=type.equals("day")?12:type.equals("todo")||type.equals("trend")?14:type.equals("quote")?11:r.optBoolean("detail")?17:15;
         text(c,v,"w165_title",r.optString("title"));color(c,v,"w165_title",fg);v.setTextViewTextSize(id(c,"w165_title"),2,WidgetSizeV169.sp(c,w,selectedFont,titleSize));
         if(!type.equals("todo")){text(c,v,"w165_body",r.optString("body"));color(c,v,"w165_body",fg);v.setTextViewTextSize(id(c,"w165_body"),2,WidgetSizeV169.sp(c,w,selectedFont,type.equals("day")?12:13));}
         if(!type.equals("workout")&&!type.equals("day")){color(c,v,"w165_meta",fg);v.setTextViewTextSize(id(c,"w165_meta"),2,WidgetSizeV169.sp(c,w,selectedFont,type.equals("routineStats")||type.equals("workoutStats")?22:12));}
         if(type.equals("routineStats")||type.equals("workoutStats")||type.equals("trend")){color(c,v,"w165_foot",fg);v.setTextViewTextSize(id(c,"w165_foot"),2,WidgetSizeV169.sp(c,w,selectedFont,11));}
-        if(type.equals("note")||type.equals("youtube")){text(c,v,"w165_body",r.optString("preview"));text(c,v,"w165_meta",r.optLong("updatedAt")>0?new java.text.SimpleDateFormat("MM.dd HH:mm",Locale.KOREAN).format(new java.util.Date(r.optLong("updatedAt"))):"");show(c,v,"w165_body",!r.optString("preview").isEmpty());}
+        if(type.equals("note")){text(c,v,"w165_body",r.optString("preview"));text(c,v,"w165_meta",r.optLong("updatedAt")>0?new java.text.SimpleDateFormat("MM.dd HH:mm",Locale.KOREAN).format(new java.util.Date(r.optLong("updatedAt"))):"");show(c,v,"w165_body",!r.optString("preview").isEmpty());}
         if(type.equals("todo")){boolean done=r.optBoolean("done");text(c,v,"w165_check",done?"✓":"");v.setInt(id(c,"w165_check"),"setBackgroundResource",drawable(c,done?"widget_check_done_v165":"widget_check_v165"));v.setInt(id(c,"w165_title"),"setPaintFlags",done?17:1);color(c,v,"w165_title",done?(dark(c,chosen)?0xffb6b2c7:0xff92909f):fg);color(c,v,"w165_check",done?0xffffffff:fg);text(c,v,"w165_meta",r.optString("dueAt"));show(c,v,"w165_meta",!r.optString("dueAt").isEmpty());v.setOnClickFillInIntent(id(c,"w165_check"),action(data,w,kind,r,kind.startsWith("PersonalBullet")||kind.equals("PersonalToday")?"open":"todo",kind.startsWith("PersonalBullet")||kind.equals("PersonalToday")?"todo":done?"false":"true"));}
         if(type.equals("routine")||type.equals("challenge")||type.equals("book")||type.equals("workflow")){boolean valid=!r.isNull("percent")&&r.has("percent");show(c,v,"w165_progress",valid);v.setProgressBar(id(c,"w165_progress"),100,r.optInt("percent"),false);}
         // Pale controls retain their own high-contrast foreground in both themes.
         if(type.equals("routine")){text(c,v,"w165_meta",r.isNull("goalDays")||r.optDouble("goalDays")<=0?r.optInt("done")+"일 · 목표 없음":r.optInt("done")+" / "+value(r,"goalDays")+"일 · "+r.optInt("percent")+"%");text(c,v,"w165_body",r.optString(r.optString("level").toLowerCase()+"Text"));show(c,v,"w165_graph",r.optBoolean("detail"));if(r.optBoolean("detail"))v.setImageViewBitmap(id(c,"w165_graph"),graph("nodes",a(r,"week"),fg,0));for(int i=0;i<4;i++){String label=new String[]{"MINI","MORE","MAX","SKIP"}[i];color(c,v,"w165_level_"+i,label.equals(r.optString("level"))?PRIMARY:INK);v.setInt(id(c,"w165_level_"+i),"setBackgroundResource",drawable(c,label.equals(r.optString("level"))?"widget_stage_selected_v168":"widget_stage_v168"));v.setOnClickFillInIntent(id(c,"w165_level_"+i),action(data,w,kind,r,"routine",label));}}
-        if(type.equals("language")){text(c,v,"w165_meta",r.optInt("streak")+"일 연속 · 이번 주 "+r.optInt("weekCount")+" / 7");JSONArray dates=a(r,"weekDates");text(c,v,"w165_body",(dates.length()==7?dates.optString(0)+" – "+dates.optString(6):"")+(r.isNull("minutes")?"":" · "+value(r,"minutes")+"분"));v.setImageViewBitmap(id(c,"w165_graph"),graph("stars",a(r,"week"),fg,0));v.setContentDescription(id(c,"w165_graph"),weekDescription(a(r,"week")));v.setOnClickFillInIntent(id(c,"w165_action"),action(data,w,kind,r,"language",r.optString("language")));}
         if(type.equals("routineStats")){text(c,v,"w165_title","이번 주");text(c,v,"w165_meta",r.isNull("weekPercent")?"기록 없음":r.optInt("weekPercent")+"%");text(c,v,"w165_body",r.optInt("streak")+"일 연속\n누적 "+r.optInt("cumulative")+"회 · 진행 "+r.optInt("total")+"개");JSONArray dates=a(r,"weekDates");text(c,v,"w165_foot",dates.length()==7?dates.optString(0)+" – "+dates.optString(6):"");v.setImageViewBitmap(id(c,"w165_graph"),graph("bars",a(r,"weekCounts"),fg,0));}
         if(type.equals("workoutStats")){text(c,v,"w165_title","최근 "+r.optInt("period")+"일");text(c,v,"w165_meta","운동 "+r.optInt("count")+"회");text(c,v,"w165_body",r.isNull("total")?"운동 시간 기록 없음":"총 "+value(r,"total")+"분 · 평균 "+value(r,"average")+"분\n최장 "+value(r,"longest")+"분");text(c,v,"w165_foot","요일별 운동 시간 (분)");show(c,v,"w165_graph",!r.optBoolean("summaryOnly"));if(r.optBoolean("chartOnly")){show(c,v,"w165_title",false);show(c,v,"w165_meta",false);show(c,v,"w165_body",false);}v.setImageViewBitmap(id(c,"w165_graph"),graph("bars",a(r,"values"),fg,0));}
         if(type.equals("trend")){JSONArray values=a(r,"values");text(c,v,"w165_meta",values.length()>0?fmt(values.optDouble(0))+" → "+fmt(values.optDouble(values.length()-1))+r.optString("unit"):"기록 없음");text(c,v,"w165_body","");text(c,v,"w165_foot",r.optString("foot","최근 "+values.length()+"회 · 항목 자체 범위"));v.setImageViewBitmap(id(c,"w165_graph"),graph("trend",values,fg,r.optInt("dash")));}
         if(type.equals("challenge")){text(c,v,"w165_meta","DAY "+r.optInt("day")+" / "+r.optInt("goal"));text(c,v,"w165_body",r.optBoolean("detail")?r.optString("variant")+" "+value(r,"target")+r.optString("unit")+"\n"+r.optInt("streak")+"일 연속":"");show(c,v,"w165_graph",r.optBoolean("detail"));if(r.optBoolean("detail")){JSONArray all=a(r,"nodes"),visible=new JSONArray();int start=Math.max(0,Math.min(Math.max(0,all.length()-7),prefs(c).getInt("widget_challenge_page_"+w,0)));for(int n=start;n<Math.min(all.length(),start+7);n++)visible.put(all.optBoolean(n));v.setImageViewBitmap(id(c,"w165_graph"),graph("challengeNodes",visible,fg,start));v.setContentDescription(id(c,"w165_graph"),"DAY "+(start+1)+" – "+Math.min(all.length(),start+7)+" / "+all.length());}}
-        if(type.equals("workout")){List<String> lines=new ArrayList<String>();if(!r.isNull("minutes"))lines.add(value(r,"minutes")+"분");JSONArray es=a(r,"exercises");for(int i=0;i<es.length();i++){JSONObject e=es.optJSONObject(i);List<String> sets=new ArrayList<String>();JSONArray ss=a(e,"sets");for(int j=0;j<ss.length();j++){JSONObject st=ss.optJSONObject(j);sets.add((st.optDouble("weight")>0?value(st,"weight")+"kg × ":"")+(st.optDouble("seconds")>0?value(st,"seconds")+"초":value(st,"reps")+"회"));}lines.add(e.optString("name")+" · "+join(sets).replace('\n','/'));}text(c,v,"w165_body",join(lines));}
+        if(type.equals("workout"))text(c,v,"w165_body",workoutSummary(r));
         if(type.equals("book")){bitmap(c,v,"w165_cover",r.optString("image"));text(c,v,"w165_meta",r.optString("author"));text(c,v,"w165_body",r.optString("status").equals("finished")?"완독":r.optString("status").equals("want")?"읽고 싶은 책":r.isNull("totalPages")||r.optDouble("totalPages")<=0?"페이지 기록 없음":value(r,"currentPage")+" / "+value(r,"totalPages")+"쪽 · "+r.optInt("percent")+"%");}
         if(type.equals("quote")){text(c,v,"w165_title","저장한 문장");text(c,v,"w165_body",r.optString("body").isEmpty()?"기록 없음":r.optString("body"));v.setTextViewTextSize(id(c,"w165_body"),2,fs+4);text(c,v,"w165_meta",r.isNull("page")?"":"p. "+value(r,"page"));}
         if(type.equals("workflow")){text(c,v,"w165_meta",r.optInt("done")+" / "+r.optInt("total"));List<String> steps=new ArrayList<String>();JSONArray ss=a(r,"steps");for(int n=0;n<ss.length();n++){JSONObject x=ss.optJSONObject(n);steps.add((x.optBoolean("done")?"✓ ":"○ ")+x.optString("text"));}text(c,v,"w165_body",join(steps));}
         int accent=dark(c,chosen)?0xffbcb3ff:PRIMARY;
         if(type.equals("day"))color(c,v,"w165_title",INK);
-        if(type.equals("language"))color(c,v,"w165_action",PRIMARY);
         if(type.equals("routineStats")||type.equals("workoutStats"))color(c,v,"w165_meta",accent);
         else if(!type.equals("workout")&&!type.equals("day"))color(c,v,"w165_meta",dark(c,chosen)?0xffb6b2c7:0xff6b687d);
         if(type.equals("quote"))color(c,v,"w165_title",accent);
         return v;
+    }
+    static String workoutSummary(JSONObject record){
+        List<String> lines=new ArrayList<String>();
+        if(!record.isNull("minutes")&&record.has("minutes"))lines.add(value(record,"minutes")+"분");
+        JSONArray exercises=a(record,"exercises");
+        for(int i=0;i<exercises.length();i++){
+            JSONObject exercise=exercises.optJSONObject(i);if(exercise==null)continue;
+            java.util.LinkedHashMap<String,Integer> groups=new java.util.LinkedHashMap<String,Integer>();
+            JSONArray sets=a(exercise,"sets");
+            for(int j=0;j<sets.length();j++){
+                JSONObject set=sets.optJSONObject(j);if(set==null)continue;
+                String dose=set.optDouble("seconds")>0?value(set,"seconds")+"초":set.optDouble("reps")>0?value(set,"reps")+"회":"기록 미입력";
+                if(set.optDouble("weight")>0)dose+=" · "+value(set,"weight")+"kg";
+                groups.put(dose,groups.containsKey(dose)?groups.get(dose)+1:1);
+            }
+            List<String> summary=new ArrayList<String>();
+            for(String dose:groups.keySet())summary.add((groups.get(dose)>1?groups.get(dose)+"세트 × ":"")+dose);
+            lines.add(exercise.optString("name")+(summary.isEmpty()?"":" · "+join(summary).replace("\n"," / ")));
+        }
+        return join(lines);
     }
     static String weekDescription(JSONArray days){String[] labels={"월","화","수","목","금","토","일"};StringBuilder text=new StringBuilder();for(int i=0;i<days.length();i++)text.append(labels[i%7]).append(days.optBoolean(i)?" 완료 ":" 미완료 ");return text.toString();}
     static Bitmap graph(String type,JSONArray values,int fg,int dash){
@@ -174,7 +191,7 @@ public final class WidgetDesignV165 {
         if(kind.equals("PersonalReading")){String[] ids={"all","reading","finished","want"},names={"모든 책","읽는 중","완독","읽고 싶은 책"};for(int i=0;i<ids.length;i++){choices.add(put(new JSONObject(),"filter",ids[i]));labels.add(names[i]);}}
         else if(kind.equals("PersonalWorkoutStats")){for(int n:new int[]{7,30,90}){choices.add(put(new JSONObject(),"period",n));labels.add("최근 "+n+"일");}}
         else if(kind.startsWith("PersonalBullet")||kind.equals("PersonalToday")){for(int n:new int[]{3,7}){choices.add(put(new JSONObject(),"rangeDays",n));labels.add(n+"일 기록");}}
-        else {String key=kind.equals("PersonalQuote")?"books":kind.equals("RoutineLanguage")?"language":kind.equals("RoutineCards")?"routines":kind.equals("PersonalWorkoutChallengeOnly")||kind.equals("PersonalWorkoutChallengeCombined")?"challenges":"";JSONArray rows=a(m,key);if(kind.equals("PersonalQuote")){choices.add(new JSONObject());labels.add("최근 읽는 책 자동 선택");}for(int i=0;i<rows.length();i++){JSONObject r=rows.optJSONObject(i);choices.add(put(new JSONObject(),"id",r.optString("id")));labels.add(r.optString("title"));}if(choices.isEmpty()){choices.add(new JSONObject());labels.add("전체 기록");}}
+        else {String key=kind.equals("PersonalQuote")?"books":kind.equals("RoutineCards")?"routines":kind.equals("PersonalWorkoutChallengeOnly")||kind.equals("PersonalWorkoutChallengeCombined")?"challenges":"";JSONArray rows=a(m,key);if(kind.equals("PersonalQuote")){choices.add(new JSONObject());labels.add("최근 읽는 책 자동 선택");}for(int i=0;i<rows.length();i++){JSONObject r=rows.optJSONObject(i);choices.add(put(new JSONObject(),"id",r.optString("id")));labels.add(r.optString("title"));}if(choices.isEmpty()){choices.add(new JSONObject());labels.add("전체 기록");}}
         final java.lang.reflect.Field selected=sf;new AlertDialog.Builder(activity).setTitle("표시할 내용").setItems(labels.toArray(new CharSequence[labels.size()]),new DialogInterface.OnClickListener(){public void onClick(DialogInterface d,int which){try{selected.set(activity,choices.get(which).toString());WidgetNativeV164.preview(activity);}catch(Exception ignored){}}}).setNegativeButton("취소",null).show();
     }catch(Exception ignored){}}
 }

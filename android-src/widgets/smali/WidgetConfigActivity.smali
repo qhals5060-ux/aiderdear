@@ -47,33 +47,6 @@
 
     iget-object v0, p0, Lcom/aiderlog/v22app/WidgetConfigActivity;->providerClass:Ljava/lang/String;
 
-    const-string v1, "RoutineLanguage"
-
-    invoke-virtual {v0, v1}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
-
-    move-result v1
-
-    if-eqz v1, :cond_0
-
-    const/4 v1, 0x2
-
-    new-array v1, v1, [Ljava/lang/CharSequence;
-
-    const-string v2, "\uc601\uc5b4"
-
-    const/4 v3, 0x0
-
-    aput-object v2, v1, v3
-
-    const-string v2, "\uc77c\ubcf8\uc5b4"
-
-    const/4 v3, 0x1
-
-    aput-object v2, v1, v3
-
-    return-object v1
-
-    :cond_0
     const-string v1, "Routine"
 
     invoke-virtual {v0, v1}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z

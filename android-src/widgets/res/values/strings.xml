@@ -14,9 +14,6 @@
     <string name="widget_desc_routine_all">오늘의 루틴 목록</string>
     <string name="widget_desc_routine_one">선택한 루틴</string>
     <string name="widget_desc_routine_stats">루틴 목록과 실제 완료 현황</string>
-    <string name="widget_desc_language">선택한 언어의 최근 7일</string>
-    <string name="widget_desc_language_all">영어와 일본어의 최근 7일</string>
-    <string name="widget_desc_language_youtube">YouTube 영상 문장 복습</string>
     <string name="widget_desc_meal">오늘 먹은 식사 사진</string>
     <string name="widget_desc_workout_today">오늘의 운동 기록</string>
     <string name="widget_desc_workout_challenge">오늘의 운동 기록과 챌린지</string>

@@ -1,5 +1,29 @@
 # Android native release patches
 
+## v178 current release
+
+Version code 178 / version name 1.9.68 retains package `com.aiderlog.v22app` and
+the existing signing certificate. This sparse directory overlays the retained
+full decoded app; it is not a standalone Gradle project.
+
+Language Lab, its bundled courses, caption bridge and three language widget
+providers are retired. The 27 remaining widget picker entries preserve their
+native IDs. Consult language-qualification fields and other user records remain.
+`retired-features-v178.js` clears only dedicated learning caches/fields.
+
+`java/MediaChooserV178.java` and the matching smali provide Album/My Files choices;
+the app uses its reviewed ESM `firebase-app.js` (not the historical bundle).
+Shared Firebase/photo modules must be byte-identical in site, app overlay and
+canonical assets. Android-only layout/entrypoint files must never be replaced
+with the website versions. Fold styles retain their v177 filenames and now use
+the v178 cache query.
+
+Build with apktool 2.12.1 `--no-crunch`, then align/sign with the existing key.
+Verify the final decoded package/version, every asset and widget PNG byte,
+27 picker images, new native media/widget classes, offline precache and absence
+of retired language providers. Source regression checks and APK validation do
+not constitute physical Galaxy picker, login or touch verification.
+
 ## v168 native release
 
 Consult/Work mobile composition, v13 native widgets, 1×1 intake link, and shared

@@ -9,7 +9,7 @@ const block=source.slice(source.indexOf('function assertPrivateCalendarContext')
 const clone=value=>value==null?value:JSON.parse(JSON.stringify(value));
 export function createPrivateCalendarFirebaseFixture(email='qhals5060@gmail.com',verified=true){
   const rows=new Map(),reads=[],writes=[],events=[],transactions=[],queries=[];
-  const state={user:{uid:'u1',email},pair:{id:'p1'}};
+  const state={user:{uid:'u1',email},pair:null};
   const claims={sub:'u1',email,email_verified:verified};
   const principal={uid:'u1',email,emailVerified:verified,getIdTokenResult:async()=>({claims})},auth={currentUser:principal};
   let beforeRead=null,fail=null,tail=Promise.resolve();

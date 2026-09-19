@@ -65,7 +65,7 @@ test('real legacy wheel decorators coexist with the final SVG layer without a re
   const f=fixture();f.context.$=selector=>selector==='#wheel'?f.wheel:null;f.context.$$=()=>f.buttons;
   f.context.window.AiderLogIconsV126={icon:name=>'<svg class="global-svg-icon-v126"><path data-old="'+name+'"/></svg>'};f.context.icon=f.context.window.AiderLogIconsV126.icon;
   const legacy=fs.readFileSync(path.join(base,'feature-system-v125.js'),'utf8');
-  const snippet=legacy.slice(legacy.indexOf('  const wheelMarkupV175'),legacy.indexOf('  function applyLanguageTheme'));
+  const snippet=legacy.slice(legacy.indexOf('  const wheelMarkupV175'),legacy.indexOf('  function refreshThemeCards'));
   vm.runInNewContext(snippet+';applyFixedWheelV125()',f.context);
   f.api.refresh();
   const counts=[...f.writes.values()];
@@ -74,6 +74,24 @@ test('real legacy wheel decorators coexist with the final SVG layer without a re
   assert.deepEqual([...f.writes.values()],counts);
   // The prior controller may restore English aria-label; aria-labelledby wins.
   assert.equal(f.buttons[1].getAttribute('aria-labelledby'),'wheelbar-label-personal-v176');
+});
+
+test('legacy hover/drag decorators never paint an old icon before observer repair',()=>{
+  const f=fixture(),before=f.buttons.map(button=>button.innerHTML);let oldCalls=0;
+  f.context.$=selector=>selector==='#wheel'?f.wheel:null;f.context.$$=()=>f.buttons;
+  f.context.window.AiderLogIconsV126={icon:()=>{oldCalls++;return '<svg class="global-svg-icon-v126"><path data-old="1"/></svg>';}};
+  f.context.icon=f.context.window.AiderLogIconsV126.icon;
+  const system=fs.readFileSync(path.join(base,'feature-system-v125.js'),'utf8');
+  const cosmic=fs.readFileSync(path.join(base,'global-cosmic-v126.js'),'utf8');
+  vm.runInNewContext(system.slice(system.indexOf('  const wheelMarkupV175'),system.indexOf('  function refreshThemeCards'))+cosmic.slice(cosmic.indexOf('  function fixWheel(){'),cosmic.indexOf('  function sparkleBurst(')),f.context);
+  for(let index=0;index<20;index++){
+    const selected=f.buttons[index%4];selected.className+=' hovered';selected.dataset.wheelSelectedV143='true';
+    vm.runInNewContext('fixWheel();applyFixedWheelV125()',f.context);
+    // Check synchronously, without a MutationObserver or animation-frame flush.
+    assert.deepEqual(f.buttons.map(button=>button.innerHTML),before);assert(selected.className.includes('hovered'));
+    assert.equal(selected.dataset.wheelSelectedV143,'true');
+  }
+  assert.equal(oldCalls,0);assert.deepEqual([...f.writes.values()],[1,1,1,1]);
 });
 test('hidden wheel entries are out of Tab order; navigation stays owned by the original handler',()=>{
   const f=fixture();f.open(false);f.api.refresh();assert.ok(f.buttons.every(b=>b.tabIndex===-1));
@@ -118,7 +136,7 @@ test('eleven navigation Primary tokens stay exact across system light/dark witho
   assert.doesNotMatch(tokens,/data-system-scheme|wheelCore|wheel-art|--app-wheel|--app-primary\s*:/);
   assert.match(css,/--app-primary:var\(--app-navigation-primary,#6255E8\)/);
   assert.match(css,/#wheel\.open #wheelFan\.global-wheel-field-v126\{transform:none!important/);
-  for(const name of ['index.html','sw.js'])assert.ok(fs.readFileSync(path.join(base,name),'utf8').includes('app-theme-primary-v176.css?v=176'));
+  for(const name of ['index.html','sw.js'])assert.ok(fs.readFileSync(path.join(base,name),'utf8').includes('app-theme-primary-v176.css?v=178'));
 });
 test('canonical assets and sparse Android mirror agree; confirmation page includes required states',()=>{
   const canonical=path.resolve(base,'../../../AiderLog-v145-decoded/assets');

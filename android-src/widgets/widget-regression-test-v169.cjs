@@ -44,7 +44,7 @@ test('routine chips keep separate 34dp surfaces and 48dp row without gigantic em
   }
 });
 test('card spacing/scrolling stays compact and content is not clipped to a single text line',()=>{
-  for(const kind of ['note','todo','routine','language','challenge','book']){
+  for(const kind of ['note','todo','routine','challenge','book']){
     const x=xml('widget_'+kind+'_v165');
     assert.match(x,/layout_height="wrap_content" android:layout_margin="2dp"/);
     assert.match(x,/paddingTop="11dp" android:paddingBottom="11dp"/);
@@ -53,7 +53,7 @@ test('card spacing/scrolling stays compact and content is not clipped to a singl
 });
 test('dark widgets theme agenda time while v176 selected dates and actions retain intended contrast',()=>{
   assert.match(native,/color\(c,row,"widget_item_time_v165",ink\(c,rowTheme\)\)/);
-  assert.match(native,/color\(c,cell,"widget_day_number_v164",chosen\?0xffffffff:foreground\)/);
+  assert.match(native,/color\(c,cell,"widget_day_number_v164",foreground\)/);
   assert.match(native,/color\(c,v,"widget_add",PRIMARY\)/);
   assert.match(design,/color\(c,v,"w165_level_"\+i,label\.equals\(r\.optString\("level"\)\)\?PRIMARY:INK\)/);
   assert.match(native,/"setImageAlpha"/);assert.doesNotMatch(native,/"setAlpha"/);
@@ -75,7 +75,7 @@ test('one provider update path enumerates actual own-package installed IDs, incl
 test('all retained manifest provider subclasses still extend the single compiled dispatcher',()=>{
   const manifest=fs.readFileSync(path.join(res,'../AndroidManifest.xml'),'utf8');
   const names=[...manifest.matchAll(/android:name="(?:com\.aiderlog\.v22app)?\.WidgetProvider\$([^"]+)"/g)].map(m=>m[1]);
-  assert(names.length>=30,`expected retained variants, found ${names.length}`);
+  assert(names.length>=27,`expected retained variants, found ${names.length}`);
   for(const name of names){const f=path.join(res,'../smali/com/aiderlog/v22app/WidgetProvider$'+name+'.smali');assert.match(fs.readFileSync(f,'utf8'),/\.super Lcom\/aiderlog\/v22app\/WidgetProvider;/,name)}
 });
 test('recovery is explicit and never records the legacy generic placeholder as success',()=>{

@@ -25,8 +25,7 @@ html[data-app-font-size="large"]{
 /* Stable authored baseline for the legacy glyph-only scaler. This attribute is
    added and removed synchronously before painting; it never changes a saved
    font choice, a live input, a route, or any wheel variable. */
-html[data-measuring-type-v166] body>:not(#wheel),
-html[data-measuring-type-v166] aiderlog-language-lab{
+html[data-measuring-type-v166] body>:not(#wheel){
   --app-font-multiplier:1!important;--v142-font-scale:1!important;
   --type-xs:11px!important;--type-sm:12.5px!important;--type-md:14.5px!important;--type-lg:18px!important;--type-xl:28px!important;
 }

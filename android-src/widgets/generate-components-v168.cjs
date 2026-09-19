@@ -21,7 +21,7 @@ write('drawable','widget_bullet_card_v168',shape('#F7F6FF',10,'#DED9FF'));
 write('drawable','widget_photo_v168',shape('#DED9FF',10));
 write('drawable','widget_time_v168',shape('#F7F6FF',5));
 write('drawable','widget_check_done_v165',`<shape ${ns} android:shape="oval"><solid android:color="#DED9FF"/><stroke android:width="1dp" android:color="#6255E8"/></shape>`);
-for(const file of fs.readdirSync(path.join(res,'layout')).filter(n=>/^widget_(note|todo|routine|language|stats|challenge|workout|book|quote|workflow|day|meal_slot|design)_v165(?:_cell|_wide)?\.xml$/.test(n))){
+for(const file of fs.readdirSync(path.join(res,'layout')).filter(n=>/^widget_(note|todo|routine|stats|challenge|workout|book|quote|workflow|day|meal_slot|design)_v165(?:_cell|_wide)?\.xml$/.test(n))){
   let xml=fs.readFileSync(path.join(res,'layout',file),'utf8').replace(/android:layout_height="7dp"/g,'android:layout_height="4dp"').replace(/android:padding="11dp"/g,'android:padding="12dp"').replace(/android:layout_margin="3dp"/g,'android:layout_margin="4dp"');
   xml=xml.replace(/android:textColor="#6255E8"/g,'android:textColor="#171A3A"').replace(/android:textColor="#FFFFFF"/g,'android:textColor="#171A3A"');
   xml=element(xml,'w165_check',{layout_width:'24dp',layout_height:'24dp',textSize:'17sp',layout_marginRight:'10dp'});

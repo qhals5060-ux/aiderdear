@@ -21,12 +21,10 @@
   let owner='',ownerState={},epoch=0,source={app:{},personal:{}},verified=false;
   let apiBound=null,refreshTimer=0,refreshRun=0,logoutPending=false,logoutOwner='';
   const photoCache=new Map();let photoRun=0;
-  let activeCourses=[],manifestLoaded=false;
-  async function loadWidgetCourses(){if(manifestLoaded)return;try{const response=await fetch('./language-data-v2/data/manifest.json',{cache:'force-cache'});if(!response.ok)return;const manifest=await response.json();activeCourses=array(manifest.courses).filter(row=>['en','ja'].includes(row.language));manifestLoaded=true;sync();}catch{}}
   // A/P and the v20 local keys are legacy, unscoped data. They can still contain
   // another user's fields while the app merges a new cloud response. Never read
   // them here: only atomically owner-tagged, scoped Firebase responses are used.
-  function blankSnapshot(){return {version:165,uid:'',v165:{},email:'',theme:themeMap[document.documentElement.dataset.theme]||'aurora',syncState:'account-unverified',accessState:owner&&!logoutPending?'sync-required':'needs-login',scheduleItems:[],schedule:[],holidays:{},routines:[],routineStats:[],languageRows:[],language:'',youtubeNotes:[],memos:[],todos:[],memoTodos:[],readingBooks:[],readingCurrent:[],quote:'',workouts:[],workoutStats:[],workoutStatsInbody:[],challengeSelected:[],challengeAll:[],challengeCombined:[],workoutChallenges:[],mealWorkouts:[],mealPhotos:['','','',''],mealTimes:['','','',''],mealRatings:['','','',''],meals:[],workflows:[],bullet3:[],bullet7:[],bullet3Workflow:[],bullet7Workflow:[]};}
+  function blankSnapshot(){return {version:165,uid:'',v165:{},email:'',theme:themeMap[document.documentElement.dataset.theme]||'aurora',syncState:'account-unverified',accessState:owner&&!logoutPending?'sync-required':'needs-login',scheduleItems:[],schedule:[],holidays:{},routines:[],routineStats:[],memos:[],todos:[],memoTodos:[],readingBooks:[],readingCurrent:[],quote:'',workouts:[],workoutStats:[],workoutStatsInbody:[],challengeSelected:[],challengeAll:[],challengeCombined:[],workoutChallenges:[],mealWorkouts:[],mealPhotos:['','','',''],mealTimes:['','','',''],mealRatings:['','','',''],meals:[],workflows:[],bullet3:[],bullet7:[],bullet3Workflow:[],bullet7Workflow:[]};}
   function sendBlank(){try{const payload=JSON.stringify(blankSnapshot());native.syncWidgets(payload);last=payload;}catch{last='';}}
   function changeOwner(state){
     const next=identity(state);if(next===owner)return;
@@ -141,23 +139,13 @@
     const books=new Map();items.filter(row=>row.category==='reading').slice().sort(newest).forEach(row=>{const d=row.details||{},book=str(d.bookId||row.bookId)||(str(row.title).toLowerCase()+'|'+str(d.author).toLowerCase());if(!books.has(book))books.set(book,row)});
     const reading=[...books.values()].map(row=>{const d=row.details||{},total=Number(d.totalPages),current=Number(d.currentPage);return `${text(row)}${d.author?` · ${d.author}`:''}${total>0?` · ${current||0} / ${total}쪽 · ${Math.min(100,Math.max(0,Math.round((current||0)/total*100)))}%`:''}`});
     const quotes=[...books.values()].filter(row=>str(row.details?.quote)).map(row=>`${str(row.details.quote)}${row.details.quotePage?` · p.${row.details.quotePage}`:''}`);
-    const languageStudy=personal.languageStudy||{},languageRows=[],progressValues=Object.values(languageStudy.v2Progress?.progress||{});
-    for(const storageKey of Object.keys(localStorage))if(storageKey.startsWith(`languageProgress:${uid}:`)){const record=read(storageKey);if(record&&record.completedAt)progressValues.push(record);}
-    for(const [lang,label] of [['en','English'],['ja','Japanese']]){
-      const per=languageStudy[lang]||{},records=progressValues.filter(row=>row.language===lang&&row.completedAt);
-      const days=[...array(per.completedDates),...records.flatMap(row=>[row.completedAt,...array(row.reviewHistory)])].map(activityDate).filter(Boolean);
-      const unique=new Set(days),cursor=new Date();if(!unique.has(key(cursor)))cursor.setDate(cursor.getDate()-1);
-      let streak=0;while(unique.has(key(cursor))){streak++;cursor.setDate(cursor.getDate()-1)}
-      languageRows.push(`${label} · ${streak}일 연속 · 최근 7일 ${[...unique].filter(day=>Date.parse(day)>=Date.now()-7*86400000).length}회`);
-    }
-    const youtube=array((personal.languageShortsV118||personal.languageShorts)?.notes).map(row=>`${str(row.phrase||row.text)}${row.meaning?` · ${str(row.meaning)}`:''}`).filter(Boolean);
     const bullet=days=>{
       const result=[];for(let offset=0;offset<days;offset++){const day=new Date();day.setDate(day.getDate()+offset);const d=key(day);
         result.push(...scheduleItems.filter(row=>row.date<=d&&(row.endDate||row.date)>=d).map(row=>`${d.slice(5)} · ${row.time} ${row.title}`));
         result.push(...items.filter(row=>date(row.date)===d&&row.category!=='emotion').map(row=>`${d.slice(5)} · ${text(row)}`));
       }return [...result,...memos,...todos];
     };
-    return {version:165,uid,v165:window.AiderWidgetModelsV165?.build({app,personal,uid,now,courses:activeCourses,photo:row=>photoCache.get(`${uid}:${row.id}:${row.media?.fileId||row.updatedAt||row.createdAt||''}`)||''})||{},email,theme:themeMap[document.documentElement.dataset.theme]||'aurora',today:new Intl.DateTimeFormat('ko-KR',{month:'long',day:'numeric',weekday:'short'}).format(now),month:new Intl.DateTimeFormat('ko-KR',{year:'numeric',month:'long'}).format(now),scheduleItems,holidays,schedule:scheduleItems.map(row=>`${row.date} ${row.time} ${row.title}`),routines,routineStats:routines,languageRows,language:languageRows.join('\n'),youtubeNotes:youtube,memos,todos,memoTodos:[...memos,...todos],readingBooks:reading,readingCurrent:[...reading,...quotes],quote:quotes[0]||'',workouts,workoutStats,workoutStatsInbody:[...workoutStats,...inbody],challengeSelected:challenges,challengeAll:challenges,challengeCombined:challenges,workoutChallenges:[...workouts,...challenges],mealWorkouts:workouts,mealPhotos,mealTimes,mealRatings,meals:[],workflows,bullet3:bullet(3),bullet7:bullet(7),bullet3Workflow:[...bullet(3),...workflows],bullet7Workflow:[...bullet(7),...workflows]};
+    return {version:165,uid,v165:window.AiderWidgetModelsV165?.build({app,personal,uid,now,photo:row=>photoCache.get(`${uid}:${row.id}:${row.media?.fileId||row.updatedAt||row.createdAt||''}`)||''})||{},email,theme:themeMap[document.documentElement.dataset.theme]||'aurora',today:new Intl.DateTimeFormat('ko-KR',{month:'long',day:'numeric',weekday:'short'}).format(now),month:new Intl.DateTimeFormat('ko-KR',{year:'numeric',month:'long'}).format(now),scheduleItems,holidays,schedule:scheduleItems.map(row=>`${row.date} ${row.time} ${row.title}`),routines,routineStats:routines,memos,todos,memoTodos:[...memos,...todos],readingBooks:reading,readingCurrent:[...reading,...quotes],quote:quotes[0]||'',workouts,workoutStats,workoutStatsInbody:[...workoutStats,...inbody],challengeSelected:challenges,challengeAll:challenges,challengeCombined:challenges,workoutChallenges:[...workouts,...challenges],mealWorkouts:workouts,mealPhotos,mealTimes,mealRatings,meals:[],workflows,bullet3:bullet(3),bullet7:bullet(7),bullet3Workflow:[...bullet(3),...workflows],bullet7Workflow:[...bullet(7),...workflows]};
   }
   let timer=0,last='';
   const commandQueueKey=uid=>`aiderlog.widget-actions.v165:${encodeURIComponent(uid)}`;
@@ -202,15 +190,12 @@
     label.textContent=command.op==='add-todo'?'할 일 (180자 이내)':'메모 (180자 이내)';input.rows=3;input.required=true;input.maxLength=180;input.setAttribute('aria-label',label.textContent);input.style.cssText='display:block;width:100%;box-sizing:border-box;margin:10px 0;padding:12px;font:inherit';dateInput.type='date';dateInput.setAttribute('aria-label','기한 (선택)');dateInput.style.cssText='width:100%;padding:10px;box-sizing:border-box;font:inherit';dateInput.hidden=command.op!=='add-todo';
     buttons.style.cssText='display:flex;justify-content:flex-end;gap:12px;margin-top:14px';save.type='submit';save.textContent='저장';cancel.type='button';cancel.textContent='취소';for(const b of [save,cancel])b.style.cssText='min-width:68px;min-height:44px;font:inherit';buttons.append(cancel,save);form.append(label,input,dateInput,buttons);dialog.append(form);document.body.append(dialog);dialog.addEventListener('close',()=>dialog.remove());cancel.onclick=()=>dialog.close();form.onsubmit=e=>{e.preventDefault();if(!str(input.value))return;const uid=auth()?.user?.uid;if(uid!==command.uid){dialog.close();return;}const id='widget-'+crypto.randomUUID();enqueue({...command,id,key:id,value:str(input.value),date:dateInput.value||''});dialog.close();flushCommands();};dialog.showModal();
   }
-  function openLanguage(lang){const open=window.AiderLogAppShell?.openTarget;open?.call(window.AiderLogAppShell,'language','');setTimeout(()=>{let select=document.querySelector('#language-select');if(!select)for(const el of document.querySelectorAll('*'))if(el.shadowRoot){select=el.shadowRoot.querySelector('#language-select');if(select)break;}if(select&&['en','ja'].includes(lang)){select.value=lang;select.dispatchEvent(new Event('change',{bubbles:true}));}},500);}
   async function commandAction(raw){
     let command;try{command=JSON.parse(decodeURIComponent(String(raw).slice(12)));}catch{return;}
     if(!object(command)||str(command.uid)!==str(auth()?.user?.uid)||!checkOwner())return;
     if(['add-memo','add-todo'].includes(command.op)){quickAdd(command);return;}
-    if(command.op==='language'){openLanguage(command.value);return;}
     if(['todo','routine'].includes(command.op)){if(!str(command.id)||!str(command.key)||command.key.length>1000)return;enqueue(command);if(!verified)await refresh();flushCommands();return;}
-    if(command.op==='youtube'){window.AiderLogAppShell?.openTarget?.('language','open-youtube');return;}
-    if(command.op==='open'){const target=command.value==='routine'?'routine':command.value==='language'?'language':'personal';window.AiderLogAppShell?.openTarget?.(target,'');if(['note','todo'].includes(command.value))document.querySelector('#quickMemoBtn')?.click();}
+    if(command.op==='open'){const target=command.value==='routine'?'routine':'personal';window.AiderLogAppShell?.openTarget?.(target,'');if(['note','todo'].includes(command.value))document.querySelector('#quickMemoBtn')?.click();}
   }
   function sync(){clearTimeout(timer);timer=setTimeout(()=>{try{const payload=JSON.stringify(snapshot());if(payload!==last&&payload.length<=4194304){native.syncWidgets(payload);last=payload}else if(payload.length>4194304){sendBlank();console.warn('[widgets-v164] Snapshot exceeds native transfer limit.');}}catch{sendBlank();console.warn('[widgets-v164] Snapshot sync failed.');}},250)}
   function hook(){
@@ -228,16 +213,15 @@
         return;
       }
       if(action==='add-memo'||action==='add-todo'){document.querySelector('#quickMemoBtn')?.click();return;}
-      if(action==='open-youtube'){open?.call(this,'language','');setTimeout(()=>document.querySelector('[data-language-mode-v118="shorts"]')?.click(),300);return;}
       return open?.call(this,target,action);
     };
   }
-  window.AiderWidgetSyncV164={snapshot,sync,refresh,prepareMealPhotos,commandAction,flushCommands,createIntakeFromWidget,loadWidgetCourses};
+  window.AiderWidgetSyncV164={snapshot,sync,refresh,prepareMealPhotos,commandAction,flushCommands,createIntakeFromWidget};
   addEventListener('online',()=>{requestRefresh(0);flushCommands()});
   addEventListener('aiderlog-calendar-projection-v168',()=>sync());
   document.addEventListener('click',sync,{passive:true});document.addEventListener('change',sync,{passive:true});
   document.addEventListener('visibilitychange',()=>{if(!document.hidden){checkOwner();sync();requestRefresh();prepareMealPhotos()}});
   addEventListener('aiderlog:data-changed',()=>{sync();requestRefresh()});addEventListener('aiderdear-firebase-ready',()=>{bindAuth();sync()});addEventListener('pageshow',()=>{bindAuth();sync();requestRefresh()});
   new MutationObserver(()=>{hook();sync()}).observe(document.body,{childList:true,subtree:true,characterData:true});
-  sendBlank();loadWidgetCourses();bindAuth();hook();sync();setTimeout(()=>{bindAuth();hook();sync();prepareMealPhotos()},1000);document.addEventListener('change',()=>{requestRefresh(700)}, {passive:true});
+  sendBlank();bindAuth();hook();sync();setTimeout(()=>{bindAuth();hook();sync();prepareMealPhotos()},1000);document.addEventListener('change',()=>{requestRefresh(700)}, {passive:true});
 })();

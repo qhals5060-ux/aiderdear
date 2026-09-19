@@ -2,13 +2,14 @@
 (function(root){
   'use strict';
   const MAX=12, MAX_BYTES=25*1024*1024,batches=new Set(),viewers=new Set();
-  function safeSource(value){const source=String(value||'');return /^(blob:|https?:\/\/|data:image\/[a-z0-9.+-]+;base64,)/i.test(source)?source:'';}
+  function safeSource(value){const source=String(value||'');return /^(blob:|https?:\/\/|data:(?:image|video)\/[a-z0-9.+-]+;base64,)/i.test(source)?source:'';}
+  function kind(item){const type=String(item?.mimeType||item?.type||'').toLowerCase();if(type.startsWith('video/')||item?.kind==='video')return 'video';if(type.startsWith('image/')||item?.kind==='image')return 'image';if(type&&type!=='application/octet-stream')return '';const name=String(item?.name||'');return /\.(mp4|mov|m4v|webm|3gp)$/i.test(name)?'video':/\.(jpe?g|png|gif|webp|heic|heif|avif|bmp)$/i.test(name)?'image':'';}
   function mediaItems(row){
     const rows=Array.isArray(row?.media)?row.media:Array.isArray(row?.mediaItems)?row.mediaItems:row?.media?[row.media]:row?.localImage?[{localImage:row.localImage}]:[];
     return rows.map(x=>typeof x==='string'?{kind:'image',localImage:x}:x).filter(x=>x&&typeof x==='object'&&(x.fileId||x.localImage||x.url||x.src)).map(x=>({...x,...(x.src&&!x.localImage?{localImage:x.src}:{})}));
   }
   function fields(items){const list=items.map(x=>({...x}));return {media:list[0]||null,mediaItems:list,localImage:list[0]?.localImage||''};}
-  function createBatch({owner=()=>'',remove=async()=>{},limit=MAX}={}){
+  function createBatch({owner=()=>'',remove=async()=>{},limit=MAX,allowVideo=false}={}){
     let rows=[],origin=[],actor=owner(),epoch=0,busy=false;
     const assert=(token,uid)=>{if(token!==epoch||uid!==owner()||uid!==actor)throw Error('계정 또는 기록창이 변경되었습니다. 다시 열어주세요.');};
     const cleanup=entry=>{if(entry.uploaded?.fileId&&actor===owner())Promise.resolve(remove(entry.uploaded.fileId)).catch(()=>{});if(entry.url)try{URL.revokeObjectURL(entry.url)}catch{}};
@@ -18,8 +19,8 @@
       reset(existing=[]){for(const row of rows)cleanup(row);epoch++;busy=false;actor=owner();origin=existing.map(x=>({...x}));rows=origin.map((media,i)=>({key:'saved-'+i,media}));},
       add(files){if(busy)return ['사진 저장이 끝난 후 추가해주세요.'];if(actor!==owner())api.reset();const errors=[];
         for(const file of Array.from(files||[])){if(rows.length>=limit){errors.push(`사진은 한 기록에 ${limit}장까지 첨부할 수 있습니다.`);break;}
-          if(!String(file?.type||'').startsWith('image/')){errors.push(`${file?.name||'파일'}: 사진 파일만 선택해주세요.`);continue;}
-          if(file.size>MAX_BYTES){errors.push(`${file.name}: 사진은 25MB 이하여야 합니다.`);continue;}
+          const mediaKind=kind(file);if(mediaKind!=='image'&&!(allowVideo&&mediaKind==='video')){errors.push(`${file?.name||'파일'}: ${allowVideo?'사진 또는 동영상':'사진'} 파일만 선택해주세요.`);continue;}
+          if(file.size>MAX_BYTES){errors.push(`${file.name}: 첨부 파일은 25MB 이하여야 합니다.`);continue;}
           const key=[file.name,file.size,file.lastModified||0].join('|');if(rows.some(x=>x.key===key))continue;
           let url='';try{url=URL.createObjectURL(file)}catch{}rows.push({key,file,url,error:''});
         }return errors;
@@ -40,7 +41,8 @@
   }
   function mountPreview(host,batch,resolve=async()=>'',changed=()=>{}){
     if(!host)return;host.classList.add('photo-batch-v176');host.replaceChildren();
-    for(const entry of batch.entries){const cell=document.createElement('figure'),img=document.createElement('img'),caption=document.createElement('figcaption'),button=document.createElement('button');
+    for(const entry of batch.entries){const cell=document.createElement('figure'),img=document.createElement(kind(entry.file||entry.media)==='video'?'video':'img'),caption=document.createElement('figcaption'),button=document.createElement('button');
+      if(img.tagName==='VIDEO'){img.controls=true;img.preload='metadata';img.playsInline=true;}
       img.alt=entry.file?.name||entry.media?.name||'첨부 사진';caption.textContent=entry.error?`${img.alt} · 업로드 실패`:entry.uploaded?'업로드 완료':entry.file?.name||entry.media?.name||'저장된 사진';
       if(entry.error){cell.classList.add('has-error');caption.title=entry.error;}const src=safeSource(entry.url||entry.media?.localImage||entry.media?.url);if(src)img.src=src;else if(entry.media)Promise.resolve(resolve(entry.media)).then(src=>{if(cell.isConnected&&safeSource(src))img.src=safeSource(src)}).catch(()=>{caption.textContent='사진을 불러오지 못했습니다.';});
       button.type='button';button.textContent='×';button.ariaLabel=`${img.alt} 제외`;button.disabled=batch.busy;button.onclick=()=>{batch.remove(entry.key);mountPreview(host,batch,resolve,changed);changed();};cell.append(img,caption,button);host.append(cell);
@@ -54,16 +56,26 @@
       if(!blob||blob.size>budget)throw Error('사진을 압축하지 못했습니다. 다른 사진을 선택해주세요.');return new File([blob],String(file.name||'photo').replace(/\.[^.]+$/,'')+'.jpg',{type:'image/jpeg',lastModified:file.lastModified||Date.now()});
     }finally{URL.revokeObjectURL(url);}
   }
+  async function prepareMedia(file,options={}){
+    if(kind(file)!=='video')return root.AiderLogPhotosV176.compressPhoto(file,options);
+    if(file.size>MAX_BYTES)throw Error('동영상은 25MB 이하로 선택해주세요.');
+    if(options.local&&file.size>2*1024*1024)throw Error('로그인 없이 보관할 동영상은 2MB 이하로 선택해주세요. 큰 영상은 로그인 후 첨부할 수 있습니다.');
+    if(String(file.type||'').startsWith('video/'))return file;
+    const ext=String(file.name||'').split('.').pop().toLowerCase(),type=({mov:'video/quicktime',webm:'video/webm','3gp':'video/3gpp'})[ext]||'video/mp4';
+    return new File([file],file.name,{type,lastModified:file.lastModified||Date.now()});
+  }
   const dataUrl=blob=>new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(String(reader.result||''));reader.onerror=()=>reject(Error('사진 읽기에 실패했습니다.'));reader.readAsDataURL(blob);});
   async function gallery(items,resolve,title='첨부 사진'){
     const overlay=document.createElement('div');overlay.className='photo-viewer-v176';overlay.setAttribute('role','dialog');overlay.setAttribute('aria-label',title);let index=0,current='';
-    const close=document.createElement('button'),image=document.createElement('img'),bar=document.createElement('footer'),prev=document.createElement('button'),next=document.createElement('button'),counter=document.createElement('span'),download=document.createElement('a');
+    const close=document.createElement('button'),image=document.createElement('img'),video=document.createElement('video'),bar=document.createElement('footer'),prev=document.createElement('button'),next=document.createElement('button'),counter=document.createElement('span'),download=document.createElement('a');
+    video.controls=true;video.playsInline=true;video.preload='metadata';video.hidden=true;
     close.textContent='×';close.ariaLabel='사진 닫기';close.className='photo-viewer-close';prev.textContent='‹';prev.ariaLabel='이전 사진';next.textContent='›';next.ariaLabel='다음 사진';download.textContent='↓';download.ariaLabel='사진 다운로드';image.alt=title;bar.append(prev,counter,next,download);overlay.append(close,image,bar);document.body.append(overlay);
-    const dismiss=()=>{overlay.remove();viewers.delete(dismiss);document.removeEventListener('keydown',keys);};viewers.add(dismiss);close.onclick=dismiss;overlay.onclick=e=>{if(e.target===overlay)dismiss();};const keys=e=>{if(e.key==='Escape')dismiss();};document.addEventListener('keydown',keys);
-    async function show(){const item=items[index],token=String(index);current=token;counter.textContent=`${index+1} / ${items.length}`;prev.disabled=index===0;next.disabled=index===items.length-1;image.removeAttribute('src');download.removeAttribute('href');download.setAttribute('aria-disabled','true');try{const src=safeSource(item.localImage||item.url||await resolve(item));if(current!==token||!overlay.isConnected)return;if(!src)throw Error('사진 주소를 확인해주세요.');image.src=src;download.href=src;download.removeAttribute('aria-disabled');download.download=item.name||'photo.jpg';}catch{image.alt='사진을 불러오지 못했습니다. 다시 열어주세요.';}}
+    overlay.insertBefore(video,bar);
+    const dismiss=()=>{video.pause();video.removeAttribute('src');overlay.remove();viewers.delete(dismiss);document.removeEventListener('keydown',keys);};viewers.add(dismiss);close.onclick=dismiss;overlay.onclick=e=>{if(e.target===overlay)dismiss();};const keys=e=>{if(e.key==='Escape')dismiss();};document.addEventListener('keydown',keys);
+    async function show(){const item=items[index],token=String(index),isVideo=kind(item)==='video';current=token;counter.textContent=`${index+1} / ${items.length}`;prev.disabled=index===0;next.disabled=index===items.length-1;video.pause();video.removeAttribute('src');video.hidden=!isVideo;image.hidden=isVideo;image.removeAttribute('src');download.removeAttribute('href');download.setAttribute('aria-disabled','true');try{const src=safeSource(item.localImage||item.url||await resolve(item));if(current!==token||!overlay.isConnected)return;if(!src)throw Error('첨부 주소를 확인해주세요.');(isVideo?video:image).src=src;download.href=src;download.removeAttribute('aria-disabled');download.download=item.name||(isVideo?'video.mp4':'photo.jpg');}catch{counter.textContent='불러오지 못했습니다. 다시 열어주세요.';}}
     prev.onclick=()=>{if(index>0){index--;show();}};next.onclick=()=>{if(index<items.length-1){index++;show();}};await show();
   }
   let visibleOwner=String(root.AiderDearFirebase?.getState?.()?.user?.uid||'');
   root.addEventListener?.('aiderdear-firebase-state',()=>{const next=String(root.AiderDearFirebase?.getState?.()?.user?.uid||'');let changed=false;for(const batch of batches)changed=batch.resetIfOwnerChanged()||changed;if(next!==visibleOwner||changed){visibleOwner=next;for(const dismiss of [...viewers])dismiss();root.document?.querySelectorAll('.photo-batch-v176').forEach(host=>host.replaceChildren());root.dispatchEvent?.(new CustomEvent('aiderlog-photo-owner-reset-v176'));}});
-  const api={MAX,mediaItems,fields,createBatch,mountPreview,compressPhoto,dataUrl,gallery,safeSource};root.AiderLogPhotosV176=api;if(typeof module!=='undefined')module.exports=api;
+  const api={MAX,mediaItems,fields,createBatch,mountPreview,compressPhoto,prepareMedia,kind,dataUrl,gallery,safeSource};root.AiderLogPhotosV176=api;if(typeof module!=='undefined')module.exports=api;
 })(typeof window!=='undefined'?window:globalThis);

@@ -1,4 +1,5 @@
-// Private, owner-only calendar values. These never enter app/main or pair data.
+// Owner originals stay private. v178 day toggles have a minimal, explicit
+// current-couple projection, never an app/main, friend or public payload.
 export const PRIVATE_CALENDAR_VERSION = 175;
 export const INTIMACY_EMAILS = Object.freeze(['qhals5060@gmail.com', 'aidway55@gmail.com']);
 export const PRIVATE_CALENDAR_NOTICE = '예상일은 입력한 주기와 최근 실제 시작일로 계산한 참고값입니다. 실제 생리일과 다를 수 있으며 배란일·피임 안전일을 판단하는 데 사용할 수 없습니다.';
@@ -70,6 +71,26 @@ export function privateCalendarRange(value) {
   return {from, to, historyFrom: from < '1900-06-30' ? '1900-01-01' : privateCalendarOffset(from, -180)};
 }
 export function privateCalendarRevision(value) { return boundedInteger(value, 0, 1000000000, '기록 버전'); }
+export function normalizePrivateCalendarDay(value, stored=false) {
+  if (!stored) knownKeys(value, ['type','kind','date','active','expectedRevision']);
+  if (!plain(value) || !['period','intimacy'].includes(value.kind) || typeof value.active !== 'boolean') privateCalendarFailure('날짜 기록을 확인해주세요.');
+  return {kind:value.kind,date:privateCalendarDate(value.date),active:value.active,revision:privateCalendarRevision(stored?value.revision:value.expectedRevision)};
+}
+export function privateCalendarDayMutation(input, stored=null) {
+  const next=normalizePrivateCalendarDay(input), previous=stored?normalizePrivateCalendarDay(stored,true):null;
+  if(input.type!=='day-set'||previous&&(previous.kind!==next.kind||previous.date!==next.date)) privateCalendarFailure('날짜 기록을 확인해주세요.');
+  const revision=previous?.revision||0, unchanged=!!previous&&previous.active===next.active;
+  if(revision!==next.revision&&!(unchanged&&revision===next.revision+1)) privateCalendarFailure('다른 화면에서 날짜 기록이 변경되었습니다. 다시 눌러주세요.','conflict');
+  return {changed:!unchanged,item:{kind:next.kind,date:next.date,active:next.active,revision:revision+(unchanged?0:1)}};
+}
+export function privateCalendarDayState(data,kind,date) {
+  privateCalendarDate(date);
+  if(!['period','intimacy'].includes(kind))privateCalendarFailure('날짜 기록 종류를 확인해주세요.');
+  const override=(kind==='period'?data?.periodDays:data?.intimacyDays)?.find(row=>row.date===date);
+  if(override)return {active:override.active,revision:override.revision};
+  const active=kind==='period'?(data?.periods||[]).some(row=>row.startDate<=date&&row.endDate>=date):(data?.intimacy||[]).some(row=>row.date===date);
+  return {active,revision:0};
+}
 export function privateCalendarMutation(input, stored = null) {
   knownKeys(input, ['type', 'item', 'id', 'expectedRevision']);
   const type = input.type, expected = privateCalendarRevision(input.expectedRevision);
@@ -106,13 +127,17 @@ export function privateCalendarMutation(input, stored = null) {
 export function privateCalendarMarkers(data, from, to) {
   privateCalendarRange({from, to});
   const settings = normalizePrivateCalendarSettings(data?.settings), marks = new Map();
-  const add = (date, kind) => { if (date >= from && date <= to) marks.set(`${date}:${kind}`, {date, kind}); };
+  const add = (date, kind) => { if (date >= from && date <= to) {if(kind==='period')marks.delete(`${date}:period-estimate`);marks.set(`${date}:${kind}`, {date, kind});} };
   if (settings.menstrualEnabled) {
     const periods = (data?.periods || []).map(row => normalizePrivateCalendarEntry('period', row, true));
-    for (const row of periods) for (let date = row.startDate; date <= row.endDate; date = privateCalendarOffset(date, 1)) add(date, 'period');
+    const actual=new Set();
+    for (const row of periods) for (let date = row.startDate; date <= row.endDate; date = privateCalendarOffset(date, 1)) actual.add(date);
+    for(const raw of data?.periodDays||[]){const row=normalizePrivateCalendarDay(raw,true);if(row.active)actual.add(row.date);else actual.delete(row.date);}
+    for(const date of actual)add(date,'period');
     // Only the next cycle after the latest actual start. Never roll a stale
     // estimate forward month after month or imply an ovulation/safe-day window.
-    const latest = periods.filter(row => row.startDate <= to).sort((a, b) => b.startDate.localeCompare(a.startDate))[0];
+    const starts=[...actual].filter(date=>date<=to&&!actual.has(privateCalendarOffset(date,-1))).sort();
+    const latest = starts.length?{startDate:starts.at(-1)}:null;
     if (latest && !data?.hasMore?.periods) {
       const start = privateCalendarOffset(latest.startDate, settings.cycleLength);
       for (let n = 0; start <= '2200-12-31' && n < settings.periodLength; n++) {
@@ -121,7 +146,13 @@ export function privateCalendarMarkers(data, from, to) {
       }
     }
   }
-  if (data?.canUseIntimacy) for (const row of data.intimacy || []) add(privateCalendarDate(row.date), 'intimacy');
+  for(const row of data?.sharedPeriods||[])if(row.active===true)add(privateCalendarDate(row.date),'period');
+  if (data?.canUseIntimacy) {
+    const actual=new Set((data.intimacy||[]).map(row=>privateCalendarDate(row.date)));
+    for(const raw of data?.intimacyDays||[]){const row=normalizePrivateCalendarDay(raw,true);if(row.active)actual.add(row.date);else actual.delete(row.date);}
+    for(const date of actual)add(date,'intimacy');
+    for(const row of data?.sharedIntimacy||[])if(row.active===true)add(privateCalendarDate(row.date),'intimacy');
+  }
   return [...marks.values()].sort((a, b) => a.date.localeCompare(b.date) || a.kind.localeCompare(b.kind));
 }
 export function withoutPrivateEmotionFlags(payload) {

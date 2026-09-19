@@ -65,7 +65,7 @@ function harness({email='qhals5060@gmail.com',verified=true,guest=false,enabled=
   const document={body,documentElement:new Element('html'),createElement:tag=>new Element(tag),getElementById:id=>body.querySelector('#'+id),querySelector:selector=>body.querySelector(selector),querySelectorAll:selector=>body.querySelectorAll(selector)};
   if(native)document.documentElement.className='aiderlog-android';
   let currentUser=guest?null:{uid:'u1',email,emailVerified:verified},currentModel=model(enabled),readFn=null,mutationFn=null,clock=Date.parse('2026-09-12T03:00:00Z');const reads=[],mutations=[],events=new Map();
-  const api={getState:()=>({user:currentUser}),readPrivateCalendarData:async range=>{reads.push(range);return readFn?readFn(range):structuredClone(currentModel)},mutatePrivateCalendar:async action=>{mutations.push(structuredClone(action));if(mutationFn)return mutationFn(action);return{};}};
+  const api={getState:()=>({user:currentUser}),readPrivateCalendarData:async range=>{reads.push(range);return readFn?readFn(range):structuredClone(currentModel)},mutatePrivateCalendar:async action=>{mutations.push(structuredClone(action));if(mutationFn)return mutationFn(action);if(action.type==='day-set'){const key=action.kind==='period'?'periodDays':'intimacyDays';const rows=currentModel[key]||[];const previous=rows.find(row=>row.date===action.date);const result=domain.privateCalendarDayMutation(action,previous);currentModel[key]=[...rows.filter(row=>row.date!==action.date),result.item];if(action.kind==='period'&&action.active)currentModel.settings.menstrualEnabled=true;return result;}return{};}};
   class FakeDate extends Date{constructor(...args){super(...(args.length?args:[clock]));}static now(){return clock;}}
   const emotions=[];let uuid=0;const window={AiderDearFirebase:api,AiderAppEmotionV176:{open:(date,options)=>emotions.push({date,...options})}};const context=vm.createContext({...domain,window,document,Date:FakeDate,URLSearchParams,location:{search:'',hash:'#home'},crypto:{randomUUID:()=>`stable-${++uuid}`},confirm:()=>true,addEventListener:(name,fn)=>events.set(name,fn)});vm.runInContext(source,context);
   return{window,context,document,body,day,mood,emoji,birthLabel,tools,schedule,scheduleForm,scheduleFooter,scheduleCancel,scheduleDate,scheduleTitle,scheduleSave,legacySection,legacyInput,reads,mutations,events,emotions,api,inspect:()=>context.inspect(),get user(){return currentUser},set user(value){currentUser=value},set read(value){readFn=value},set mutate(value){mutationFn=value},set model(value){currentModel=value},tick:amount=>clock+=amount};
@@ -74,9 +74,9 @@ test('intimacy entry and marker are restricted to verified allowlisted accounts;
   for(const options of [{guest:true},{email:'other@example.test'},{email:'qhals5060@gmail.com',verified:false}]){const h=harness(options);await settle();assert(!h.schedule.textContent.includes('관계'));assert.equal(h.day.querySelector('[data-private-calendar-marker="intimacy"]'),null);if(options.guest)assert.equal(h.reads.length,0);}
   const h=harness({email:'aidway55@gmail.com'});await settle();assert(h.schedule.textContent.includes('관계'));assert(h.day.querySelector('[data-private-calendar-marker="intimacy"]'));
 });
-test('menstrual opt-in controls period add/markers without hiding allowable intimacy',async()=>{
-  const h=harness({enabled:false});await settle();assert.equal(h.schedule.querySelector('[data-private-schedule-kind="period"]').textContent,'생리');assert.equal(h.schedule.querySelector('[data-private-schedule-kind="period"]').title,'생리 일정 설정');assert.equal(h.day.querySelector('[data-private-calendar-marker="period"]'),null);assert(h.schedule.textContent.includes('관계'));
-  h.model=model(true);await h.window.AiderPrivateCalendarUIV175.refresh(true);assert.equal(h.schedule.querySelector('[data-private-schedule-kind="period"]').title,'생리일 추가');assert(h.day.querySelector('[data-private-calendar-marker="period"]'));assert.equal(h.emoji.textContent,'🙂');
+test('period action keeps concise label and enables markers when explicitly toggled',async()=>{
+  const h=harness({enabled:false});await settle();assert.equal(h.schedule.querySelector('[data-private-schedule-kind="period"]').textContent,'생리');assert.equal(h.schedule.querySelector('[data-private-schedule-kind="period"]').title,'생리');assert.equal(h.day.querySelector('[data-private-calendar-marker="period"]'),null);assert(h.schedule.textContent.includes('관계'));
+  await h.schedule.querySelector('[data-private-schedule-kind="period"]').click();await settle();assert.equal(h.inspect().data.settings.menstrualEnabled,true);assert(h.day.querySelector('[data-private-calendar-marker="period"]'));assert.equal(h.emoji.textContent,'🙂');
 });
 test('quota read failure retains existing model/markers and cools down repeat requests',async()=>{
   const h=harness();await settle();const before=h.inspect().data;h.read=async()=>{throw Object.assign(new Error('quota'),{code:'firestore/resource-exhausted'})};await h.window.AiderPrivateCalendarUIV175.refresh(true);assert.equal(h.inspect().data,before);assert(h.day.querySelector('[data-private-calendar-marker="period"]'));
@@ -85,14 +85,14 @@ test('quota read failure retains existing model/markers and cools down repeat re
 test('late read from former account never decorates or repopulates after logout',async()=>{
   const h=harness();await settle();let release;h.read=()=>new Promise(resolve=>{release=resolve});const pending=h.window.AiderPrivateCalendarUIV175.refresh(true);await settle();h.user=null;h.events.get('aiderdear-firebase-state')();release(model(true));await pending;assert.equal(h.inspect().data,null);assert.equal(h.day.querySelector('[data-private-calendar-marker="intimacy"]'),null);assert.equal(h.day.querySelector('[data-private-calendar-marker="period"]'),null);assert.equal(h.emoji.textContent,'🙂');
 });
-test('failed save keeps date input and idempotent ID; duplicate submit blocked while busy',async()=>{
-  const h=harness();await settle();await h.window.AiderPrivateCalendarUIV175.open('period');const form=h.document.getElementById('privateCalendarEntryV175');form.elements.startDate.value='2026-09-10';form.elements.endDate.value='2026-09-13';let reject;h.mutate=()=>new Promise((_resolve,no)=>{reject=no});const first=form.emit('submit');await settle();await form.emit('submit');assert.equal(h.mutations.length,1);reject(new Error('저장 실패'));await first;assert.equal(form.elements.startDate.value,'2026-09-10');assert.equal(form.elements.endDate.value,'2026-09-13');assert.match(h.inspect().error,/저장 실패/);h.mutate=async()=>{throw Error('저장 실패')};await form.emit('submit');assert.equal(h.mutations[0].item.id,h.mutations[1].item.id);
+test('failed day toggle keeps schedule draft and chosen date; duplicate click is blocked while busy',async()=>{
+  const h=harness();await settle();let reject;h.mutate=()=>new Promise((_resolve,no)=>{reject=no});const first=h.schedule.querySelector('[data-private-schedule-kind="period"]').click();await settle();await h.schedule.querySelector('[data-private-schedule-kind="period"]').click();assert.equal(h.mutations.length,1);reject(new Error('저장 실패'));await first;assert.equal(h.scheduleDate.value,'2026-09-18');assert.equal(h.scheduleTitle.value,'입력 중인 개인 일정');assert.match(h.inspect().error,/저장 실패/);assert.equal(h.document.getElementById('privateCalendarEntryV175'),null);h.mutate=async()=>{throw Error('저장 실패')};await h.schedule.querySelector('[data-private-schedule-kind="period"]').click();assert.deepEqual(h.mutations[0],h.mutations[1]);
 });
 test('dialog opens with close control focused, not a keyboard-triggering date input',async()=>{
   const h=harness();await settle();await h.window.AiderPrivateCalendarUIV175.open();const dialog=h.document.getElementById('privateCalendarDialogV175');assert(dialog.open);assert(dialog.querySelector('[data-private-close]').focused);assert(!dialog.querySelector('input').focused);
 });
-test('successful background refresh preserves dirty date and settings inputs',async()=>{
-  const h=harness();await settle();await h.window.AiderPrivateCalendarUIV175.open('period');const form=h.document.getElementById('privateCalendarEntryV175'),settings=h.document.getElementById('privateCalendarSettingsV175');form.elements.startDate.value='2026-09-10';form.elements.endDate.value='2026-09-13';await form.emit('input');settings.elements.cycleLength.value='31';await settings.emit('input');await h.window.AiderPrivateCalendarUIV175.refresh(true);assert.equal(form.elements.startDate.value,'2026-09-10');assert.equal(form.elements.endDate.value,'2026-09-13');assert.equal(settings.elements.cycleLength.value,'31');
+test('settings-only profile dialog and background refresh preserve dirty settings and schedule date',async()=>{
+  const h=harness();await settle();await h.window.AiderPrivateCalendarUIV175.open('period');const settings=h.document.getElementById('privateCalendarSettingsV175');settings.elements.cycleLength.value='31';await settings.emit('input');await h.window.AiderPrivateCalendarUIV175.refresh(true);assert.equal(h.scheduleDate.value,'2026-09-18');assert.equal(settings.elements.cycleLength.value,'31');assert.equal(h.document.getElementById('privateCalendarEntryV175'),null);assert.equal(h.document.querySelector('.private-calendar-notice-v175'),null);
 });
 test('private-created marker container preserves later non-private emotion children on logout',async()=>{
   const h=harness();h.mood.remove();await settle();const line=h.day.querySelector('[data-private-calendar-marker="line"]'),emoji=line.appendChild(new Element('span'));emoji.className='calendar-status-icon mood mine';emoji.textContent='😌';h.user=null;h.events.get('aiderdear-firebase-state')();assert.equal(emoji.parentNode,line);assert(line.isConnected);assert.equal(line.children.length,1);
@@ -106,21 +106,23 @@ test('native visible calendar receives markers instead of hidden site cells and 
 test('overlapping refresh calls coalesce to one API request',async()=>{
   const h=harness();await settle();let release;h.read=()=>new Promise(resolve=>{release=resolve});const count=h.reads.length,pending=[];for(let n=0;n<6;n++)pending.push(h.window.AiderPrivateCalendarUIV175.refresh(true));await settle();assert.equal(h.reads.length,count+1);release(model(true));await Promise.all(pending);assert.equal(h.inspect().pending,null);
 });
-test('in-flight save completing after account switch never opens or repopulates previous dialog',async()=>{
-  const h=harness();await settle();await h.window.AiderPrivateCalendarUIV175.open();let release;h.mutate=()=>new Promise(resolve=>{release=resolve});const form=h.document.getElementById('privateCalendarEntryV175'),pending=form.emit('submit');await settle();h.user={uid:'u9',email:'other@example.test',emailVerified:true};h.events.get('aiderdear-firebase-state')();release({});await pending;await settle();assert.equal(h.document.getElementById('privateCalendarDialogV175'),null);assert(!h.tools.textContent.includes('관계일'));assert.equal(h.day.querySelector('[data-private-calendar-marker="intimacy"]'),null);
+test('in-flight day toggle after account switch never repopulates previous private state',async()=>{
+  const h=harness();await settle();let release;h.mutate=()=>new Promise(resolve=>{release=resolve});const pending=h.schedule.querySelector('[data-private-schedule-kind="intimacy"]').click();await settle();h.user={uid:'u9',email:'other@example.test',emailVerified:true};h.events.get('aiderdear-firebase-state')();release({});await pending;await settle();assert.equal(h.document.getElementById('privateCalendarDialogV175'),null);assert.equal(h.schedule.querySelector('[data-private-schedule-kind="intimacy"]'),null);assert.equal(h.day.querySelector('[data-private-calendar-marker="intimacy"]'),null);
 });
-test('quota save error leaves typed dates and blocks repeated save attempts during cooldown',async()=>{
-  const h=harness();await settle();await h.window.AiderPrivateCalendarUIV175.open();const form=h.document.getElementById('privateCalendarEntryV175');form.elements.startDate.value='2026-09-10';form.elements.endDate.value='2026-09-11';await form.emit('input');h.mutate=async()=>{throw Object.assign(Error('quota'),{code:'resource-exhausted'})};await form.emit('submit');await form.emit('submit');assert.equal(h.mutations.length,1);assert.equal(form.elements.startDate.value,'2026-09-10');assert.equal(form.elements.endDate.value,'2026-09-11');assert.match(h.document.getElementById('privateCalendarStatusV175').textContent,/한도/);
+test('quota day-toggle error leaves selected date and blocks repeated attempts during cooldown',async()=>{
+  const h=harness();await settle();h.mutate=async()=>{throw Object.assign(Error('quota'),{code:'resource-exhausted'})};await h.schedule.querySelector('[data-private-schedule-kind="period"]').click();await h.schedule.querySelector('[data-private-schedule-kind="period"]').click();assert.equal(h.mutations.length,1);assert.equal(h.scheduleDate.value,'2026-09-18');assert.match(h.scheduleFooter.querySelector('[data-private-day-error-v178]').textContent,/한도/);
 });
-test('site and app Schedule host separate private entries, keeping selected dates and unsaved personal draft',async()=>{
+test('site and app Schedule directly toggle separate period/intimacy days without opening any record form',async()=>{
   for(const native of [false,true])for(const kind of ['period','intimacy']){
     const h=harness({native});await settle();h.window.AiderPrivateCalendarUIV175.scheduleOpened();await settle();
     assert.equal(h.tools.querySelector('[data-private-schedule-v176]'),null);assert.equal(h.body.querySelector('.private-calendar-actions-v175'),null);
     assert.equal(h.schedule.querySelectorAll('[data-private-schedule-v176]').length,1);
     await h.schedule.querySelector(`[data-private-schedule-kind="${kind}"]`).click();await settle();
-    const form=h.document.getElementById('privateCalendarEntryV175');assert.equal(form.elements.startDate.value,'2026-09-18');assert.equal(form.elements.endDate.value,'2026-09-18');
-    assert(!h.schedule.classList.contains(native?'on':'open'));assert.equal(h.scheduleTitle.value,'입력 중인 개인 일정');assert.equal(h.mutations.length,0);
-    await form.emit('submit');assert.equal(h.mutations.length,1);assert.equal(h.mutations[0].type,kind+'-save');assert.equal(h.mutations[0].item[kind==='period'?'startDate':'date'],'2026-09-18');assert.equal(h.mutations[0].item.title,undefined);
+    assert.equal(h.document.getElementById('privateCalendarEntryV175'),null);assert.equal(h.document.getElementById('privateCalendarDialogV175'),null);
+    assert(h.schedule.classList.contains(native?'on':'open'));assert.equal(h.scheduleTitle.value,'입력 중인 개인 일정');assert.equal(h.mutations.length,1);
+    assert.deepEqual(h.mutations[0],{type:'day-set',kind,date:'2026-09-18',active:true,expectedRevision:0});
+    assert.equal(h.schedule.querySelector(`[data-private-schedule-kind="${kind}"]`).getAttribute('aria-pressed'),'true');
+    await h.schedule.querySelector(`[data-private-schedule-kind="${kind}"]`).click();await settle();assert.equal(h.mutations[1].active,false);assert.equal(h.mutations[1].expectedRevision,1);
   }
 });
 test('private entries do not appear in read-only site or app schedule views or to guests',async()=>{
@@ -130,34 +132,25 @@ test('private entries do not appear in read-only site or app schedule views or t
     h.scheduleSave.hidden=false;h.scheduleDate.disabled=false;h.user=null;h.events.get('aiderdear-firebase-state')();assert(strip.hidden);assert.equal(strip.children.length,0);
   }
 });
-test('switching selected schedule date resets the private entry, not the personal draft',async()=>{
-  const h=harness();await settle();await h.schedule.querySelector('[data-private-schedule-kind="period"]').click();await settle();h.document.getElementById('privateCalendarEntryV175').elements.startDate.value='2026-09-22';await h.document.getElementById('privateCalendarEntryV175').emit('input');
-  h.scheduleDate.value='2026-09-25';h.window.AiderPrivateCalendarUIV175.scheduleOpened();await h.schedule.querySelector('[data-private-schedule-kind="period"]').click();await settle();assert.equal(h.document.getElementById('privateCalendarEntryV175').elements.startDate.value,'2026-09-25');assert.equal(h.scheduleTitle.value,'입력 중인 개인 일정');
+test('switching selected schedule date updates button state, not the personal draft',async()=>{
+  const h=harness();await settle();await h.schedule.querySelector('[data-private-schedule-kind="period"]').click();await settle();
+  h.scheduleDate.value='2026-09-25';await h.scheduleForm.emit('change');assert.equal(h.schedule.querySelector('[data-private-schedule-kind="period"]').getAttribute('aria-pressed'),'false');await h.schedule.querySelector('[data-private-schedule-kind="period"]').click();await settle();assert.equal(h.mutations[1].date,'2026-09-25');assert.equal(h.scheduleTitle.value,'입력 중인 개인 일정');assert.equal(h.scheduleForm.listeners.get('change').length,1);
 });
 test('old emotion period control is hidden and disabled without changing historical flags',async()=>{
   const h=harness();await settle();assert(h.legacySection.hidden);assert(h.legacyInput.disabled);assert(h.legacyInput.checked);assert.equal(h.mutations.length,0);
   const css=await readFile(new URL('../private-calendar-v175.css',import.meta.url),'utf8');assert.match(css,/#emotionCycleSection[^}]+display:none!important/);assert.match(css,/\.emotion-day-flags :is\(\.period,\.intimacy\)/);
 });
-test('closing private dates restores the same Schedule draft, selected date and scroll on site and app',async()=>{
-  for(const native of [false,true])for(const method of ['close','escape']){
+test('day toggles never close the Schedule draft or change selected date, scroll or focus',async()=>{
+  for(const native of [false,true])for(const kind of ['period','intimacy']){
     const h=harness({native});await settle();h.scheduleTitle.value='격리 검증 입력 유지';h.scheduleDate.value='2026-09-13';h.schedule.scrollTop=123;h.body.classList.add('modal-open');
-    await h.schedule.querySelector('[data-private-schedule-kind="period"]').click();await settle();const dialog=h.document.getElementById('privateCalendarDialogV175');assert(dialog.open);assert(!h.schedule.classList.contains(native?'on':'open'));
-    const privateForm=h.document.getElementById('privateCalendarEntryV175');assert.equal(privateForm.elements.startDate.value,'2026-09-13');h.schedule.scrollTop=0;h.body.classList.remove('modal-open');
-    if(method==='close')await dialog.querySelector('[data-private-close]').click();else await dialog.emit('cancel');await settle();
-    assert(!dialog.open);assert(h.schedule.classList.contains(native?'on':'open'));assert.equal(h.scheduleTitle.value,'격리 검증 입력 유지');assert.equal(h.scheduleDate.value,'2026-09-13');assert.equal(h.schedule.scrollTop,123);assert.equal(h.mutations.length,0);
-    assert(h.schedule.querySelector('[data-close="scheduleModal"], [data-schedule-dialog-close-v125]').focused);assert(!h.scheduleTitle.focused);if(!native)assert(h.body.classList.contains('modal-open'));
+    await h.schedule.querySelector(`[data-private-schedule-kind="${kind}"]`).click();await settle();assert.equal(h.document.getElementById('privateCalendarDialogV175'),null);
+    assert(h.schedule.classList.contains(native?'on':'open'));assert.equal(h.scheduleTitle.value,'격리 검증 입력 유지');assert.equal(h.scheduleDate.value,'2026-09-13');assert.equal(h.schedule.scrollTop,123);assert.equal(h.mutations.length,1);
+    assert(!h.scheduleTitle.focused);assert(h.body.classList.contains('modal-open'));
   }
 });
-test('restoring Schedule never resurrects a previous account, route, detached or read-only draft',async()=>{
-  for(const change of ['logout','account','route','detached','readonly']){
-    const h=harness({native:true});await settle();await h.schedule.querySelector('[data-private-schedule-kind="period"]').click();await settle();const dialog=h.document.getElementById('privateCalendarDialogV175');
-    if(change==='logout'){h.user=null;h.events.get('aiderdear-firebase-state')();}else if(change==='account'){h.user={uid:'u2',email:'aidway55@gmail.com',emailVerified:true};h.events.get('aiderdear-firebase-state')();}else if(change==='route')h.context.location.hash='#personal';else if(change==='detached')h.schedule.remove();else h.scheduleDate.disabled=true;
-    await dialog.close();await settle();assert(!h.schedule.classList.contains('on'));assert.equal(h.mutations.length,0);
-  }
-});
-test('private save then close restores the unsaved schedule without submitting personal or shared fields',async()=>{
-  const h=harness({native:true});await settle();await h.schedule.querySelector('[data-private-schedule-kind="intimacy"]').click();await settle();await h.document.getElementById('privateCalendarEntryV175').emit('submit');await h.document.getElementById('privateCalendarDialogV175').querySelector('[data-private-close]').click();await settle();
-  assert(h.schedule.classList.contains('on'));assert.equal(h.scheduleTitle.value,'입력 중인 개인 일정');assert.equal(h.mutations.length,1);assert.equal(h.mutations[0].type,'intimacy-save');assert.equal(h.mutations[0].item.title,undefined);
+test('period and intimacy on the same selected date stay independent without submitting schedule fields',async()=>{
+  const h=harness({native:true});await settle();for(const kind of ['period','intimacy','period'])await h.schedule.querySelector(`[data-private-schedule-kind="${kind}"]`).click();await settle();
+  assert(h.schedule.classList.contains('on'));assert.equal(h.scheduleTitle.value,'입력 중인 개인 일정');assert.equal(h.mutations.length,3);assert.equal(h.schedule.querySelector('[data-private-schedule-kind="period"]').getAttribute('aria-pressed'),'false');assert.equal(h.schedule.querySelector('[data-private-schedule-kind="intimacy"]').getAttribute('aria-pressed'),'true');assert(h.mutations.every(row=>row.type==='day-set'&&!row.item&&!row.title));
 });
 
 test('site and app private date actions stay inside the existing save footer without duplicating buttons',async()=>{

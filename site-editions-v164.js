@@ -25,7 +25,6 @@
   const sectionNavs = [
     ['.page-dots', ['캘린더', '감정 인사이트']],
     ['.record-page-dots', ['기록 · 앨범', '아카이브 · 여행']],
-    ['.private-page-dots', ['루틴', '어학']],
     ['.personal-page-dots', ['개인 기록', '통합 대시보드']],
     ['.task-page-dots', ['고객 관리', '입시요강']],
   ].map(([selector, names]) => {
@@ -98,7 +97,6 @@
   }
   function styleWorkspaces() {
     styleShadow(document.querySelector('aider-paper-workspace-v121'), 'paper', './site-paper-modern-v165.css?v=167');
-    styleShadow(document.querySelector('aiderlog-language-lab'), 'language', './site-language-modern-v165.css');
   }
   function apply(value, persist = true) {
     current = value === 'editorial' ? 'editorial' : 'modern';
@@ -136,7 +134,6 @@
   document.addEventListener('change', event => {
     if (event.target.matches?.('[data-site-theme-select]')) apply(event.target.value);
   });
-  document.addEventListener('language-lab-ready', styleWorkspaces);
   window.AiderLogSiteEdition = Object.freeze({ get: () => current, set: value => apply(value) });
   apply(current, false);
 })();

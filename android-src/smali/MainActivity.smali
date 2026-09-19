@@ -681,17 +681,6 @@
 
     .line 99
     :cond_0
-    const-string v1, "language"
-
-    invoke-virtual {p1, v1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
-
-    move-result v1
-
-    if-eqz v1, :not_language_target
-
-    return-object p1
-
-    :not_language_target
     invoke-virtual {p1}, Ljava/lang/String;->hashCode()I
 
     move-result v1
@@ -785,8 +774,21 @@
 
 
 # virtual methods
+.method protected onDestroy()V
+    .locals 0
+    invoke-static {p0}, Lcom/aiderlog/v22app/MediaChooserV178;->cancel(Landroid/app/Activity;)V
+    invoke-super {p0}, Landroid/app/Activity;->onDestroy()V
+    return-void
+.end method
+
 .method protected onActivityResult(IILandroid/content/Intent;)V
     .locals 2
+
+    invoke-static {p0, p1, p2, p3}, Lcom/aiderlog/v22app/MediaChooserV178;->consume(Landroid/app/Activity;IILandroid/content/Intent;)Z
+    move-result v0
+    if-eqz v0, :legacy_result_v178
+    return-void
+    :legacy_result_v178
 
     const/16 v0, 0x387
     if-ne p1, v0, :upload_result_v163

@@ -13,7 +13,7 @@ const clone=value=>value==null?value:JSON.parse(JSON.stringify(value));
 const range={from:'2026-09-01',to:'2026-09-30'};
 const period=(extra={})=>({id:'p1',startDate:'2026-09-01',endDate:'2026-09-05',note:'',...extra});
 
-test('default read is opt-out, bounded, and owner-only even in an active pair',async()=>{
+test('default unlinked read is opt-out, bounded, and owner-only',async()=>{
   const h=harness();const data=await h.read(range);assert.equal(data.settings.menstrualEnabled,false);assert.equal(data.canUseIntimacy,true);assert.equal(data.periods.length,0);
   assert(h.reads.every(path=>path.startsWith('users/u1/')));assert.equal(h.writes.length,0);
   assert(h.queries.every(q=>q.constraints.some(c=>c.type==='limit'&&c.value===201)));

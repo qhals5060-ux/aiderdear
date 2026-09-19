@@ -29,7 +29,7 @@
     return [...result].filter(node=>!node.closest('#wheel,[data-css-typography],.profile-compact-v164'));
   }
 
-  function shadowRoots(){return $$('aiderlog-language-lab').map(host=>host.shadowRoot).filter(Boolean)}
+  function shadowRoots(){return []}
 
   function observeRoot(root){
     if(!root||observedRoots.has(root))return;

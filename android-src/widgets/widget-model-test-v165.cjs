@@ -7,7 +7,7 @@ new Function('module', require('node:fs').readFileSync(require('node:path').join
 const M = moduleBox.exports;
 const NOW = new Date('2026-09-06T12:00:00');
 const TODAY = '2026-09-06';
-const make = personal => M.build({uid:'fixture-owner', personal, now:NOW, courses:[{language:'en'},{language:'ja'}], photo:r=>r.localImage || `image:${r.id}`});
+const make = personal => M.build({uid:'fixture-owner', personal, now:NOW, photo:r=>r.localImage || `image:${r.id}`});
 const freeze = obj => { if(obj && typeof obj==='object') { Object.freeze(obj); Object.values(obj).forEach(freeze); } return obj; };
 const reading = (id,date,createdAt,details={},extra={}) => ({id,category:'reading',title:'A Book',date,createdAt,details:{author:'Author',readingStatus:'read',...details},...extra});
 const health = (id,date,details,extra={}) => ({id,category:'health',title:id,date,createdAt:1,details,...extra});
@@ -17,7 +17,7 @@ test('empty account is genuinely empty: no fabricated counts, photos, minutes or
   assert.equal(m.schema,165); assert.equal(m.uid,'fixture-owner'); assert.equal(m.today,TODAY);
   for(const key of ['notes','todos','routines','workouts','challenges','inbody','books','workflows'])assert.equal(m[key].length,0,key);
   assert.deepEqual(m.meals,['breakfast','lunch','dinner','snack'].map(slot=>({id:'',slot,recordIds:[],image:'',time:'',rating:null})));
-  assert.deepEqual(m.language.map(r=>[r.id,r.minutes,r.weekCount,r.streak]),[['en',null,0,0],['ja',null,0,0]]);
+  assert.equal(m.language,undefined);
   assert.equal(m.routineStats.weekPercent,null); assert.deepEqual(m.dates,{});
 });
 
@@ -64,24 +64,10 @@ test('routine missing goal has unknown percent rather than 0 or 100',()=>{
   assert.equal(make({routines:[{id:'r',doneDates:[TODAY]}]}).routines[0].percent,null);
 });
 
-test('English/Japanese actual completion and review dates are separated; Chinese is not emitted',()=>{
-  const languageStudy={en:{completedDates:['2026-09-01']},ja:{completedDates:['2026-09-02']},zh:{completedDates:[TODAY]},v2Progress:{levelByLanguage:{en:2,ja:4},progress:{a:{language:'en',completedAt:'2026-09-03T10:00:00',reviewHistory:['2026-09-05T09:00:00','2026-09-05T12:00:00']},b:{language:'ja',completedAt:'2026-09-04T10:00:00'},c:{language:'zh',completedAt:TODAY},d:{language:'en',attempts:4}}}};
-  const m=make({languageStudy});assert.deepEqual(m.language.map(r=>r.id),['en','ja']);
-  assert.deepEqual([...m.language[0].dates].sort(),['2026-09-01','2026-09-03','2026-09-05']);
-  assert.deepEqual([...m.language[1].dates].sort(),['2026-09-02','2026-09-04']);
-  assert.equal(m.language[0].title,'English · 중급');assert.equal(m.language[1].title,'Japanese · 고급');
-  assert.equal(m.language[0].minutes,null);assert.equal(m.language[1].minutes,null);
-  assert(!JSON.stringify(m).includes('language:zh'));
-});
-
-test('legacy lastReviewedAt is an actual activity date even without reviewHistory',()=>{
-  const m=make({languageStudy:{v2Progress:{progress:{a:{language:'en',completedAt:'2026-08-01T09:00:00',lastReviewedAt:'2026-09-06T09:00:00'}}}}});
-  assert(m.language[0].dates.includes(TODAY)); assert.equal(m.language[0].weekCount,1); assert.equal(m.language[0].streak,1);
-});
-
-test('measured language active time is not inferred from completed lesson count',()=>{
-  const m=make({languageStudy:{v2Progress:{progress:{a:{language:'en',completedAt:TODAY,activeStudyMs:120000},b:{language:'en',completedAt:TODAY,activeMs:60000},c:{language:'en',completedAt:TODAY}}}}});
-  assert.equal(m.language[0].minutes,3); assert.equal(m.language[1].minutes,null);
+test('retired study is absent from widgets without changing legacy source records',()=>{
+  const personal={languageStudy:{en:{completedDates:[TODAY]}},personalItems:[{id:'old-language',category:'language',date:TODAY,title:'Retired lesson'}]};
+  const before=JSON.stringify(personal),m=make(freeze(personal));
+  assert.equal(m.language,undefined);assert.deepEqual(m.dates,{});assert.equal(JSON.stringify(personal),before);
 });
 
 test('meal four slots retain only today, latest own image, real time and rating',()=>{

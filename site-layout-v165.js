@@ -17,7 +17,7 @@
   function make(tag,className,parent){const node=document.createElement(tag);node.className=className;parent.append(node);created.add(node);return node;}
   const dock=make('div','modern-header-pages',head),choice=document.createElement('select');
   choice.className='modern-header-page-select';choice.setAttribute('aria-label','현재 메뉴의 세부 화면');dock.append(choice);
-  const groups=[['schedule','.page-dots',['캘린더','감정 인사이트']],['private','.private-page-dots',['루틴','어학']],['record','.record-page-dots',['Record','Archive','Travel']],['personal','.personal-page-dots',['개인 기록','통합 대시보드']],['task','.task-page-dots',['고객 관리','입시요강']]].map(([tab,selector,names])=>({tab,node:$(selector),names})).filter(row=>row.node);
+  const groups=[['schedule','.page-dots',['캘린더','감정 인사이트']],['record','.record-page-dots',['Record','Archive','Travel']],['personal','.personal-page-dots',['개인 기록','통합 대시보드']],['task','.task-page-dots',['고객 관리','입시요강']]].map(([tab,selector,names])=>({tab,node:$(selector),names})).filter(row=>row.node);
   function currentEvent(){return $('.record-dot[data-record-page="0"]')?.classList.contains('active')?'record':eventView==='record'?'archive':eventView;}
   function selectEvent(view){eventView=['archive','travel'].includes(view)?view:'record';$(`.record-dot[data-record-page="${eventView==='record'?0:1}"]`)?.click();apply();}
   choice.addEventListener('change',()=>{if(app.dataset.activeTab==='record'){selectEvent(choice.value);return;}const group=groups.find(row=>row.tab===app.dataset.activeTab);group?.node.querySelectorAll('button')[Number(choice.value)]?.click();});
@@ -83,36 +83,6 @@
   document.addEventListener('input',event=>{if(event.target.matches?.('#privateRoutineGoalsForm input,#privateRoutineMandalaForm textarea'))drafts.set(draftKey(event.target),event.target.value);});
   document.addEventListener('submit',event=>{if(event.target.matches?.('#privateRoutineGoalsForm,#privateRoutineMandalaForm'))for(const input of event.target.querySelectorAll('input,textarea'))drafts.delete(draftKey(input));},true);
   function restoreDrafts(){for(const input of document.querySelectorAll('#privateRoutineGoalsForm input,#privateRoutineMandalaForm textarea')){const value=drafts.get(draftKey(input));if(value!==undefined&&input.value!==value)input.value=value;}}
-  function mountLanguage(host){
-    const root=host.shadowRoot;if(!root?.querySelector('.app-shell'))return;
-    let state=shadowRoots.get(root);
-    if(!state){
-      const style=root.querySelector('[data-site-edition-style="language"]')||document.createElement('link');style.rel='stylesheet';style.href='./site-language-modern-v165.css';style.dataset.siteEditionStyle='language';if(!style.isConnected)root.append(style);
-      const shell=$('.app-shell',root),main=$('#main-page',root),course=$('.course-panel',root),words=$('#wordbook-section',root),lesson=$('#lesson-view',root);
-      const left=document.createElement('aside');left.className='modern-language-courses';
-      const nav=document.createElement('nav');nav.className='modern-language-mobile-nav';nav.setAttribute('aria-label','어학 화면');
-      for(const [value,label]of [['course','과정'],['learn','학습'],['words','MY WORDS']]){const b=document.createElement('button');b.type='button';b.dataset.languagePanel=value;b.textContent=label;nav.append(b);}
-      const courseSlot=document.createComment('modern-course-slot'),wordsSlot=document.createComment('modern-words-slot'),lessonSlot=document.createComment('modern-lesson-slot');course.before(courseSlot);words.before(wordsSlot);lesson?.before(lessonSlot);
-      state={kind:'language',style,shell,main,course,words,lesson,left,nav,courseSlot,wordsSlot,lessonSlot};shadowRoots.set(root,state);
-      nav.addEventListener('click',event=>{const button=event.target.closest('[data-language-panel]');if(!button)return;shell.dataset.modernLanguagePanel=button.dataset.languagePanel;nav.querySelectorAll('button').forEach(b=>b.classList.toggle('active',b===button));});
-      root.addEventListener('click',event=>{if(event.target.closest('#scenario-tabs button,#category-tabs button'))shell.dataset.modernLanguagePanel='learn';});
-    }
-    state.style.disabled=!modern();state.style.media=modern()?'all':'not all';
-    if(modern()){
-      state.shell.classList.add('modern-language-layout');
-      if(state.left.parentNode!==state.main)state.main.prepend(state.left);
-      if(state.course.parentNode!==state.left)state.left.append(state.course);
-      if(state.words.parentNode!==state.main)state.main.append(state.words);
-      if(state.lesson&&state.lesson.parentNode!==state.main)state.main.insertBefore(state.lesson,state.words);
-      if(state.nav.parentNode!==state.shell)state.main.before(state.nav);
-      if(!state.shell.dataset.modernLanguagePanel)state.shell.dataset.modernLanguagePanel='learn';
-      state.nav.querySelectorAll('button').forEach(button=>button.classList.toggle('active',button.dataset.languagePanel===state.shell.dataset.modernLanguagePanel));
-      if(root.lastElementChild!==state.style)root.append(state.style);
-    }else{
-      state.shell.classList.remove('modern-language-layout');
-      state.courseSlot.after(state.course);state.wordsSlot.after(state.words);if(state.lesson)state.lessonSlot.after(state.lesson);state.left.remove();state.nav.remove();
-    }
-  }
   function mountPaper(host){
     const root=host.shadowRoot;if(!root?.querySelector('.paper-app'))return;
     $('#paperStage')?.classList.toggle('modern-paper-overlay-open',modern()&&!!root.querySelector('.import-drawer.open'));
@@ -165,14 +135,12 @@
         for(const node of created)node.hidden=false;
         arrangeHeader();arrangeCalendar();applyEvent();arrangePersonal();arrangeWork();arrangeConsult();arrangeSettings();restoreDrafts();
       }else{restore();restoreDrafts();}
-      document.querySelectorAll('aiderlog-language-lab').forEach(mountLanguage);
       document.querySelectorAll('aider-paper-workspace-v121').forEach(mountPaper);
     }finally{applying=false;}
   }
   function schedule(){if(!scheduled)scheduled=requestAnimationFrame(apply);}
   new MutationObserver(records=>{if(records.some(record=>record.type==='childList'||record.attributeName==='data-active-tab'||record.target.matches?.('.tab,[class*=dot],.paper-nav button')))schedule();}).observe(app,{childList:true,subtree:true,attributes:true,attributeFilter:['data-active-tab','class']});
   addEventListener('aiderlog-site-editionchange',apply);
-  document.addEventListener('language-lab-ready',schedule);
   document.addEventListener('click',event=>{
     const tab=event.target.closest?.('.tab');if(tab&&modern())requestAnimationFrame(()=>{
       const strip=tab.parentElement,a=tab.getBoundingClientRect(),b=strip.getBoundingClientRect();

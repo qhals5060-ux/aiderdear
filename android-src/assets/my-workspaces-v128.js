@@ -258,7 +258,6 @@
       ['work','calendar','Work',`업무 기록 ${data.workRecords.length}건`],
       ['lab','file','실험노트',`기록 ${data.labNotebookEntries.length}건 · 링크 ${data.labNotebookLinks.length}개`]
     );
-    learning.push(['language','speech','Language Lab','영어 · 일본어 · YouTube']);
     if (canUseTraining()) learning.push(['speech','speech','Speech Training',`훈련 기록 ${speechCount}회`],['brain','brain','Brain Training',`훈련 기록 ${brainCount}회`]);
     if (canUseStudy()) learning.push(['study','star','Study Card',`완료 ${studyCounts.completed}/192 · 복습 ${studyCounts.due}개`]);
     const group = (title, rows) => rows.length ? `<section class="my166-group"><h2>${title}</h2><div class="my166-tools">${rows.map(([route,glyph,title,summary])=>`<button type="button" class="my166-tool" data-my128-open="${route}" aria-label="${safe(title)} 열기"><i>${icon(glyph,22)}</i><span><b>${safe(title)}</b><small>${safe(summary)}</small></span><em aria-hidden="true">›</em></button>`).join('')}</div></section>` : '';
@@ -269,35 +268,6 @@
 
   function paperHtml() {
     return `<div class="page my128-page my128-paper-page">${subhead('MOBILE RESEARCH COMPANION', 'Paper', '<span class="my128-paper-actions"><button class="my128-collect-action" data-paper-collect>'+icon('plus',16)+' 수집</button><button class="my128-icon-action" data-paper-search aria-label="논문 검색">'+icon('search')+'</button></span>')}<div class="paper-stage-v128" id="paperStage"><div class="my128-loading"><i></i><b>Paper Workspace를 준비하고 있어요</b></div></div></div>`;
-  }
-
-  function languageHtml() {
-    const userId = safe(currentUid() || currentEmail() || 'local');
-    return `<div class="page my128-page my128-language-page">${subhead('LANGUAGE LAB', 'Language')}<div class="my128-language-shell"><aiderlog-language-lab data-user-id="${userId}" data-paired="${(typeof authState !== 'undefined' && authState?.pair)?'true':'false'}"><div class="language-lab-loading">Language 콘텐츠를 확인하고 있어요…</div></aiderlog-language-lab></div></div>`;
-  }
-
-  function bindMyLanguage() {
-    const lab = q('#fifth aiderlog-language-lab');
-    if (!lab || lab.dataset.my128Bound === '1') return;
-    lab.dataset.my128Bound = '1';
-    let saveTimer = 0;
-    lab.addEventListener('language-lab-complete', async event => {
-      const data = ensureData();
-      data.languageStudy = data.languageStudy || {};
-      data.languageStudy.lastCompletion = event.detail || null;
-      data.languageStudy.completedDates = Array.isArray(data.languageStudy.completedDates) ? data.languageStudy.completedDates : [];
-      if (!data.languageStudy.completedDates.includes(dateKey())) data.languageStudy.completedDates.push(dateKey());
-      if (typeof savePrivate === 'function') await savePrivate();
-    });
-    lab.addEventListener('language-lab-progress', event => {
-      clearTimeout(saveTimer);
-      saveTimer = setTimeout(async () => {
-        const data = ensureData();
-        data.languageStudy = data.languageStudy || {};
-        data.languageStudy.v2Progress = event.detail || {};
-        if (typeof savePrivate === 'function') await savePrivate();
-      }, 500);
-    });
   }
 
   function stageLabel(value) { return ({ inquiry:'문의', proposal:'제안', analysis:'분석', revision:'수정', complete:'완료' })[value] || '문의'; }
@@ -454,10 +424,9 @@
       window.AiderStudyCardV1.render(host, () => { mode='hub'; modal=null; renderMy(); });
       return;
     }
-    host.innerHTML = (mode==='paper'?paperHtml():mode==='task'?taskHtml():mode==='speech'?speechHtml():mode==='language'?languageHtml():hubHtml()) + modalHtml();
+    host.innerHTML = (mode==='paper'?paperHtml():mode==='task'?taskHtml():mode==='speech'?speechHtml():hubHtml()) + modalHtml();
     bind();
     if (mode === 'paper') requestAnimationFrame(() => window.initAiderPaperWorkspaceV128?.());
-    if (mode === 'language') requestAnimationFrame(bindMyLanguage);
   }
 
   function openLegacyBrain() {
@@ -510,7 +479,7 @@
   window.AiderLogMyV128 = Object.freeze({
     render: renderMy,
     open(nextMode='hub') {
-      const allowed = new Set(['hub','paper','task','work','lab','speech','brain','study','language']);
+      const allowed = new Set(['hub','paper','task','work','lab','speech','brain','study']);
       mode = allowed.has(nextMode) ? nextMode : 'hub';
       modal = null;
       renderMy();

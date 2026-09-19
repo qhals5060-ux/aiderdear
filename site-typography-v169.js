@@ -31,7 +31,7 @@
   function refresh() {
     queued = false;
     if (document.documentElement.classList.contains('aiderlog-android')) return;
-    document.querySelectorAll('aiderlog-language-lab,aider-paper-workspace-v121').forEach(mount);
+    document.querySelectorAll('aider-paper-workspace-v121').forEach(mount);
   }
   function schedule() {
     if (queued) return;
@@ -40,12 +40,11 @@
   }
   new MutationObserver(records => {
     if (records.some(record => [...record.addedNodes].some(node => node.nodeType === 1 &&
-      (node.matches?.('aiderlog-language-lab,aider-paper-workspace-v121') ||
-       node.querySelector?.('aiderlog-language-lab,aider-paper-workspace-v121'))))) schedule();
+      (node.matches?.('aider-paper-workspace-v121') ||
+       node.querySelector?.('aider-paper-workspace-v121'))))) schedule();
   }).observe(document.body, {childList: true, subtree: true});
-  document.addEventListener('language-lab-ready', schedule);
   addEventListener('aiderlog-site-editionchange', schedule);
-  for (const tag of ['aiderlog-language-lab','aider-paper-workspace-v121']) customElements.whenDefined(tag).then(schedule);
+  for (const tag of ['aider-paper-workspace-v121']) customElements.whenDefined(tag).then(schedule);
   window.AiderLogSiteTypographyV169 = {refresh};
   refresh();
 })();

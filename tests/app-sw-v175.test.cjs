@@ -10,14 +10,14 @@ function fixture(){
  vm.runInNewContext(source+';globalThis.shell=[...SHELL_URLS_V175];globalThis.cacheName=CACHE',context);
  return{context,events,stored,precached,request:(pathname,options={})=>{let response;const waits=[];events.get('fetch')({request:{url:'https://aiderdear1.vercel.app'+pathname,method:'GET',mode:'cors',headers:new Headers(),...options},respondWith:value=>response=value,waitUntil:value=>waits.push(value)});return{response,waits}}};
 }
-test('Android Fold v177 cache retains v176 queries except the three new Fold stylesheets',()=>{
+test('Android v178 cache versions all retained and Fold stylesheets together',()=>{
  const fold=['app-fold-layout-v177.css','app-fold-daily-v177.css','app-fold-workspaces-v177.css'];
- const f=fixture();assert.equal(f.context.cacheName,'aiderlog-v177-fold-adaptive');assert.doesNotMatch(source,/\?v=169|CACHE='aiderlog-v169/);
+ const f=fixture();assert.equal(f.context.cacheName,'aiderlog-v178-app-media-widgets');assert.doesNotMatch(source,/\?v=169|CACHE='aiderlog-v169/);
  for(const url of f.context.shell){const pathname=decodeURIComponent(new URL(url).pathname);const target=path.join(canonical,pathname==='/'?'index.html':pathname.slice(1));assert.ok(fs.existsSync(target),pathname);}
  assert.equal(source,fs.readFileSync(path.join(canonical,'sw.js'),'utf8'));
  for(const name of ['private-calendar-ui-v175.js','private-calendar-v175.js','friend-schedule-firebase-v175.js','business-calendar-v175.js','insight-range-v175.js','app-dday-v175.js','shared-schedule-v176.js','wheelbar-v176.js'])assert.ok(f.context.shell.some(url=>new URL(url).pathname==='/'+name),name);
- for(const name of fold)for(const query of ['', '?v=177'])assert.ok(f.context.shell.some(url=>new URL(url).pathname==='/'+name&&new URL(url).search===query),name+query);
- for(const value of f.context.shell){const url=new URL(value),query=url.searchParams;if(query.has('v'))assert.equal(query.get('v'),fold.includes(url.pathname.slice(1))?'177':'176',value);}
+ for(const name of fold)for(const query of ['', '?v=178'])assert.ok(f.context.shell.some(url=>new URL(url).pathname==='/'+name&&new URL(url).search===query),name+query);
+ for(const value of f.context.shell){const url=new URL(value),query=url.searchParams;if(query.has('v'))assert.equal(query.get('v'),'178',value);}
 });
 test('Android service worker install de-duplicates requested shell URLs',async()=>{
  const f=fixture();let pending;f.events.get('install')({waitUntil:p=>pending=p});await pending;
@@ -25,7 +25,7 @@ test('Android service worker install de-duplicates requested shell URLs',async()
 });
 test('Android service worker never handles APIs, credentials, private files, uploads or APKs',()=>{
  const f=fixture();for(const url of ['/api/estate','/api/work','/api/private-calendar','/downloads/private.json','/private-record.json','/customer-contract.pdf','/AiderLog-v176.apk','/AiderLog-v177.apk'])assert.equal(f.request(url).response,undefined,url);
- assert.equal(f.request('/firebase-app.js?v=176',{headers:new Headers({Authorization:'Bearer local-test'})}).response,undefined);
+ assert.equal(f.request('/firebase-app.js?v=178',{headers:new Headers({Authorization:'Bearer local-test'})}).response,undefined);
  assert.equal(f.request('/index.html',{method:'POST'}).response,undefined);
 });
 test('Android offline shell is not overwritten by navigation to intake or shared pages',()=>{
@@ -33,5 +33,5 @@ test('Android offline shell is not overwritten by navigation to intake or shared
  assert.ok(f.request('/index.html?android-preview=1',{mode:'navigate'}).response);
 });
 test('Android static calendar code can still use the declared offline cache',async()=>{
- const f=fixture(),r=f.request('/private-calendar-v175.js?v=176');assert.ok(r.response);await r.response;await Promise.all(r.waits);assert.equal(f.stored.length,1);
+ const f=fixture(),r=f.request('/private-calendar-v175.js?v=178');assert.ok(r.response);await r.response;await Promise.all(r.waits);assert.equal(f.stored.length,1);
 });

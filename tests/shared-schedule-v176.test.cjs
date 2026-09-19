@@ -27,6 +27,8 @@ test('legacy partner records and source colour precedence stay explicit',()=>{
 test('visual classification never mutates a saved event',()=>{
   const row=Object.freeze({owner:'shared',authorUid:'owner-b',title:'shared',sourceColor:'#0000FF'});const before=JSON.stringify(row);isReceived(row,user);color(row,user,'blue');assert.equal(JSON.stringify(row),before);
 });
-test('yellow fill retains readable dark foreground with explicit class selectors',()=>{
-  const css=fs.readFileSync(path.join(__dirname,'../shared-schedule-v176.css'),'utf8');assert.match(css,/background:#FFF2B3!important;color:#594600!important/);assert.match(css,/#calendar \.ev\.schedule-received-v176/);assert.match(css,/schedule-upcoming-line-v126\.schedule-received-v176/);assert.doesNotMatch(css,/\.ev\.mine\s*\{/);
+test('calendar chip retains a pale provenance tint while upcoming rows use only a golden dot',()=>{
+  const css=fs.readFileSync(path.join(__dirname,'../shared-schedule-v176.css'),'utf8');assert.match(css,/background:#FFF8E0!important;color:#665725!important/);assert.match(css,/#calendar \.ev\.schedule-received-v176/);
+  assert.match(css,/schedule-upcoming-line-v126\.schedule-received-v176 \{\s*background:transparent!important;color:var\(--app-text/);
+  assert.match(css,/schedule-owner-dot-v127 \{background:#D9AC12!important/);assert.doesNotMatch(css,/#FFF2B3|\.ev\.mine\s*\{/);
 });
