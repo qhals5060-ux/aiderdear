@@ -6,16 +6,9 @@
   const safe = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
   // Shared by both existing settings entry points. Labels remain accessible,
   // while the visible controls are six small, solid colour swatches.
-  const THEMES = Object.freeze({
-    system:{name:'기본 · Soft Purple',a:'#6E4A8E'},
-    terracotta:{name:'테라코타',a:'#99472F'},
-    apricot:{name:'애프리콧',a:'#E8A168'},
-    peach:{name:'피치 크림',a:'#F0CEB4'},
-    slate:{name:'슬레이트 블루',a:'#416579'},
-    charcoal:{name:'잉크 차콜',a:'#2D3E48'}
-  });
+  const THEMES = Object.freeze({system:{name:'Lavender · 라벤더',a:'#76548f'},sage:{name:'Sage · 세이지',a:'#486f5c'},rose:{name:'Rose · 로즈',a:'#93556f'},slate:{name:'Slate · 슬레이트',a:'#426d94'},charcoal:{name:'Charcoal · 차콜',a:'#57616a'}});
   // Keep legacy saved IDs; one resolved palette now colours content, wheel and logo.
-  const LEGACY_THEMES = Object.freeze({sun:'terracotta',mercury:'charcoal',venus:'peach',earth:'slate',mars:'terracotta',jupiter:'apricot',saturn:'peach',uranus:'slate',neptune:'slate',pluto:'charcoal','cosmic-violet':'system','nebula-blue':'slate','solar-dust':'terracotta','aurora-pink':'peach','eclipse-mono':'charcoal',aurora:'system',lavender:'system',ocean:'slate',mint:'slate',rose:'peach',sunset:'apricot',midnight:'charcoal',mono:'charcoal'});
+  const LEGACY_THEMES = Object.freeze({sun:'rose',mercury:'charcoal',venus:'rose',earth:'slate',mars:'rose',jupiter:'system',saturn:'rose',uranus:'sage',neptune:'slate',pluto:'charcoal','cosmic-violet':'system','nebula-blue':'slate','solar-dust':'rose','aurora-pink':'rose','eclipse-mono':'charcoal',aurora:'system',lavender:'system',ocean:'slate',mint:'sage',sunset:'system',midnight:'charcoal',mono:'charcoal',terracotta:'rose',apricot:'system',peach:'rose'});
   const FONT_SIZES = {
     small:{name:'작게',note:'정보를 더 많이 봅니다'},
     normal:{name:'보통',note:'균형 잡힌 기본 크기'},

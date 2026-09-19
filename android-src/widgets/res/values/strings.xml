@@ -13,7 +13,7 @@
     <string name="widget_desc_bullet_seven_workflow">최근 7일 기록과 워크플로우</string>
     <string name="widget_desc_routine_all">오늘의 루틴 목록</string>
     <string name="widget_desc_routine_one">선택한 루틴</string>
-    <string name="widget_desc_routine_stats">루틴 목록과 실제 완료 현황</string>
+    <string name="widget_desc_routine_stats">주간 실천 그래프와 연속 실천</string>
     <string name="widget_desc_meal">오늘 먹은 식사 사진</string>
     <string name="widget_desc_workout_today">오늘의 운동 기록</string>
     <string name="widget_desc_workout_challenge">오늘의 운동 기록과 챌린지</string>
@@ -21,11 +21,12 @@
     <string name="widget_desc_workout_stats">운동 통계</string>
     <string name="widget_desc_workout_inbody">운동 통계와 인바디 추이</string>
     <string name="widget_desc_memo">최근 메모</string>
-    <string name="widget_desc_memo_todo">최근 메모와 할 일</string>
+    <string name="widget_desc_memo_todo">왼쪽 미완료 투두 · 오른쪽 메모</string>
     <string name="widget_desc_todo">할 일</string>
     <string name="widget_desc_reading_current">읽고 있는 책과 저장한 문장</string>
     <string name="widget_desc_reading_library">서재 목록</string>
-    <string name="widget_desc_meal_workout">오늘 식사와 운동</string>
+    <string name="widget_desc_meal_workout">오늘의 식사 사진과 운동 기록</string>
     <string name="widget_desc_challenge_all">진행 중인 전체 챌린지</string>
     <string name="widget_desc_challenge_combined">선택 챌린지와 전체 현황</string>
+    <string name="widget_desc_today_v188">오늘의 일정과 기록 타임라인</string>
 </resources>

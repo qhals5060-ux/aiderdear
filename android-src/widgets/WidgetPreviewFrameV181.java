@@ -11,12 +11,13 @@ public final class WidgetPreviewFrameV181 {
     private static final WeakHashMap<ViewGroup,Boolean> awaiting=new WeakHashMap<ViewGroup,Boolean>();
     private static final ThreadLocal<SizeF> previous=new ThreadLocal<SizeF>();
     private static final ThreadLocal<Boolean> applied=new ThreadLocal<Boolean>();
-    static boolean compact(String kind){return WidgetCompactCalendarV181.supports(kind);}
+    static boolean compact(String kind){return WidgetCompactCalendarV181.supports(kind)||WidgetApprovedV188.supports(kind);}
+    static float ratio(String kind){return WidgetApprovedV188.supports(kind)?WidgetApprovedV188.ratio(kind):WidgetCompactCalendarV181.ratio(kind);}
     static int heightForWidth(int width,int left,int right,int top,int bottom){
         return Math.max(1,Math.round(Math.max(1,width-left-right)/2f))+top+bottom;
     }
     static int heightForWidth(String kind,int width,int left,int right,int top,int bottom){
-        return Math.max(1,Math.round(Math.max(1,width-left-right)*WidgetCompactCalendarV181.ratio(kind)))+top+bottom;
+        return Math.max(1,Math.round(Math.max(1,width-left-right)*ratio(kind)))+top+bottom;
     }
     public static boolean prepare(final Activity activity,final ViewGroup host,String kind){
         if(!compact(kind))return true;
@@ -40,7 +41,7 @@ public final class WidgetPreviewFrameV181 {
         float density=Math.max(.1f,activity.getResources().getDisplayMetrics().density);
         float innerWidth=Math.max(1,width-host.getPaddingLeft()-host.getPaddingRight());
         previous.set(WidgetSizeV169.active.get());applied.set(Boolean.TRUE);
-        WidgetSizeV169.active.set(new SizeF(innerWidth/density,innerWidth*WidgetCompactCalendarV181.ratio(kind)/density));
+        WidgetSizeV169.active.set(new SizeF(innerWidth/density,innerWidth*ratio(kind)/density));
         return true;
     }
     public static void restore(){

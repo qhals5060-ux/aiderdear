@@ -185,7 +185,9 @@
          On compact Galaxy screens those boxes can overlap, so elementFromPoint
          may report the later sibling instead of the orb the user touched. */
       if (state.origin === 'item' && !state.moved) state.selected = state.item;
-      else if (state.long || state.origin !== 'core') state.selected = nearest(point.x, point.y, 116) || state.selected;
+      // A stationary hold opens the approved compact orbit without choosing
+      // a menu merely because its center is now within the old 116px radius.
+      else if (state.moved || state.origin !== 'core') state.selected = nearest(point.x, point.y, 116) || state.selected;
     }
     gesture = null;
 

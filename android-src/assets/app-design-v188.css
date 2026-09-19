@@ -1,0 +1,134 @@
+/* Approved Compact 05, app only. Data and action owners are unchanged. */
+@layer app188 {
+:root,:root[data-app-palette="system"]{--accent:#76548f!important;--surface:#faf7fc!important;--surface2:#ede5f4!important;--line:#e1d5eb!important;--night:#251831!important;--ink:#352c40!important;--muted:#72647e!important;--shell-top:#574166!important;--shell-glow:#bd9cde!important;--shell-ink:#fffaff!important;--shell-muted:#decee8!important;--shell-active:#dcc4f0!important;--planet-filter:none!important}
+:root[data-app-palette="sage"]{--accent:#486f5c!important;--surface:#f5faf6!important;--surface2:#e2eee5!important;--line:#ccdfd2!important;--night:#183c32!important;--ink:#2d4236!important;--muted:#607568!important;--shell-top:#3c6757!important;--shell-glow:#90c4a4!important;--shell-ink:#f3fff8!important;--shell-muted:#c5ddcf!important;--shell-active:#b5ddc5!important;--planet-filter:hue-rotate(-115deg) saturate(.58)!important}
+:root[data-app-palette="rose"]{--accent:#93556f!important;--surface:#fff7fa!important;--surface2:#f3e0e8!important;--line:#e9cbd8!important;--night:#432333!important;--ink:#4c2d3c!important;--muted:#856173!important;--shell-top:#794759!important;--shell-glow:#dfa2bc!important;--shell-ink:#fff7fa!important;--shell-muted:#ebc7d4!important;--shell-active:#ffd0df!important;--planet-filter:hue-rotate(48deg) saturate(.72)!important}
+:root[data-app-palette="slate"]{--accent:#426d94!important;--surface:#f6faff!important;--surface2:#e2edf7!important;--line:#caddec!important;--night:#172f4b!important;--ink:#2c4055!important;--muted:#60758b!important;--shell-top:#355f80!important;--shell-glow:#8ab9df!important;--shell-ink:#f4fbff!important;--shell-muted:#c2d7e8!important;--shell-active:#b8dbfa!important;--planet-filter:hue-rotate(-58deg) saturate(.8)!important}
+:root[data-app-palette="charcoal"]{--accent:#57616a!important;--surface:#fafafa!important;--surface2:#e9ecee!important;--line:#d2d8dc!important;--night:#1f2429!important;--ink:#303840!important;--muted:#65707a!important;--shell-top:#495058!important;--shell-glow:#abb4bb!important;--shell-ink:#fcfcfc!important;--shell-muted:#ccd1d5!important;--shell-active:#d7dde2!important;--planet-filter:grayscale(1) contrast(.92) brightness(1.08)!important}
+:root{--app-primary:var(--accent)!important;--app-navigation-primary:var(--accent)!important;--app-space-base:var(--night)!important;--app-space-glow:var(--shell-glow)!important;--app-canvas:var(--surface2)!important;--app-surface:var(--surface)!important;--app-card:var(--surface2)!important;--app-control:var(--surface2)!important;--app-input:var(--surface)!important;--app-text:var(--ink)!important;--app-body:var(--ink)!important;--app-text-muted:var(--muted)!important;--app-border:var(--line)!important;--app-control-border:var(--line)!important;--app-active-on-space:var(--shell-active)!important;--app-brand-text:var(--shell-ink)!important;--app-focus:var(--accent)!important;--app-wheel-colour-filter:var(--planet-filter)!important;--theme-primary:var(--accent)!important;--theme-secondary:var(--accent)!important;--theme-deep:var(--ink)!important;--theme-text:var(--ink)!important;--theme-muted:var(--muted)!important;--theme-surface:var(--surface)!important;--theme-background:var(--surface2)!important;--theme-border:var(--line)!important;--theme-glow:var(--shell-glow)!important;--schedule-paper-v184:var(--surface)!important;--schedule-line-v184:var(--line)!important;--schedule-accent-v184:var(--accent)!important;--schedule-muted-v184:var(--muted)!important;--on-night:var(--shell-ink)!important;--muted-on-night:var(--shell-muted)!important;--app-on-primary:#fff!important;--on-accent:#fff!important;--shell-line:color-mix(in srgb,var(--shell-active) 24%,transparent)!important;color-scheme:light!important}
+html.app-readability-v184 body{background:linear-gradient(155deg,var(--shell-top),var(--night) 72%)!important;background-attachment:fixed!important;color:var(--ink)!important;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Malgun Gothic",sans-serif!important;letter-spacing:-.02em!important}
+html.app-readability-v184[data-background-mode=light] body{background:linear-gradient(155deg,var(--surface2),var(--surface) 72%)!important;--shell-ink:var(--ink);--shell-muted:var(--muted);--shell-active:var(--accent)}
+html.app-readability-v184,html.app-readability-v184 body{overflow:clip!important}
+html.app-readability-v184 body #app.app{max-width:none!important;width:100%!important;padding-inline:8px!important;background:transparent!important;overflow:clip!important}
+html.app-readability-v184 body #app.app .top{display:flex!important;height:54px!important;min-height:54px!important;padding:0 4px 2px!important;background:transparent!important;color:var(--shell-ink)!important;border:0!important}
+html.app-readability-v184 body:before{background:radial-gradient(ellipse at 86% 4%,color-mix(in srgb,var(--shell-glow) 16%,transparent),transparent 58%),radial-gradient(circle at 83% 33%,color-mix(in srgb,var(--shell-active) 70%,transparent) 0 .7px,transparent 1.7px),radial-gradient(circle at 16% 63%,color-mix(in srgb,var(--shell-ink) 40%,transparent) 0 .5px,transparent 1.5px)!important;opacity:1!important;pointer-events:none!important}
+html.app-readability-v184 body #app.app .views{height:calc(100% - 54px)!important;min-height:0!important;overflow:visible!important;padding:0!important;margin:0!important;width:100%!important;max-width:none!important}
+html.app-readability-v184 body #app.app .view{background:transparent!important;animation:none!important;padding:0 0 72px!important}
+html.app-readability-v184 body .global-cosmic-atmosphere-v126{opacity:.16!important;pointer-events:none!important}
+html.app-readability-v184 body #app .brand{font-size:20px!important;font-weight:700!important;gap:8px!important;letter-spacing:-.055em!important;color:var(--shell-ink)!important}
+html.app-readability-v184 body #app .brandmark{width:26px!important;height:26px!important;border:1px solid var(--shell-active)!important;border-radius:50%!important;background:none!important;box-shadow:none!important;overflow:visible!important;transform:none!important}
+html.app-readability-v184 body #app .brandmark:after{inset:5px auto auto -5px!important;width:34px!important;height:12px!important;border:1px solid color-mix(in srgb,var(--shell-active) 60%,transparent)!important;transform:rotate(-37deg)!important;border-radius:50%!important;background:none!important}
+html.app-readability-v184 body #app .brandmark:before{content:none!important}
+html.app-readability-v184 body #app .top .tools{gap:1px!important}
+html.app-readability-v184 body #app .top .iconbtn{width:31px!important;min-width:31px!important;height:32px!important;min-height:32px!important;padding:5px!important;color:var(--shell-ink)!important;background:transparent!important;border:0!important;border-radius:8px!important;box-shadow:none!important}
+html.app-readability-v184 body #app .top .iconbtn svg{width:18px!important;height:18px!important;stroke:currentColor!important;color:var(--shell-ink)!important;stroke-width:1.65!important}
+html.app-readability-v184 body #app .top [data-display-settings-v133]{display:none!important}
+html.app-readability-v184 body #app #home{height:100%!important;margin-inline:-6px!important;padding:0!important;width:calc(100% + 12px)!important;max-width:none!important}
+html.app-readability-v184 body #app #home .schedule-dashboard-v179{gap:8px!important;padding:0!important;height:100%!important;width:100%!important;max-width:none!important;margin:0!important}
+html.app-readability-v184 body #app #home .schedule-summary-v179{margin:0 2px!important;padding:7px 10px!important;border:1px solid var(--line)!important;border-radius:15px!important;background:var(--surface)!important;box-shadow:none!important}
+html.app-readability-v184 body #app #home .dday-summary-v179{min-height:29px!important;padding:0 0 6px!important;gap:9px!important;color:var(--ink)!important}
+html.app-readability-v184 body #app #home .dday-summary-v179>.week-overview-open-v184{width:25px!important;min-width:25px!important;flex-basis:25px!important;height:25px!important;min-height:25px!important;background:var(--surface2)!important;color:var(--accent)!important;border-radius:8px!important;box-shadow:none!important;font-size:11px!important}
+html.app-readability-v184 body #app #home .dday-main-v179>strong{font-size:calc(21px * var(--app-type-scale-v185))!important;color:var(--accent)!important;letter-spacing:-.05em!important}
+html.app-readability-v184 body #app #home .dday-main-v179>b{font-size:calc(11px * var(--app-type-scale-v185))!important}
+html.app-readability-v184 body #app #home .dday-small-v179 strong{color:var(--accent)!important}
+html.app-readability-v184 body #app #home .dday-summary-v179 time{font-size:calc(9px * var(--app-type-scale-v185))!important;color:var(--muted)!important}
+html.app-readability-v184 body #app #home .schedule-upcoming-v179{border-top:1px solid var(--line)!important;padding:6px 0 0!important;gap:10px!important;max-height:30px!important}
+html.app-readability-v184 body #app #home .schedule-upcoming-line-v179{padding:1px 0!important;border:0!important;background:transparent!important;min-height:19px!important;gap:5px!important}
+html.app-readability-v184 body #app #home .schedule-upcoming-line-v179>.upcoming-date-v184{color:var(--accent)!important;font-size:10px!important}
+html.app-readability-v184 body #app #home .schedule-upcoming-line-v179>i{width:2px!important;height:16px!important;background:var(--accent)!important}
+html.app-readability-v184 body #app #home .schedule-upcoming-line-v179>span>time{font-size:9px!important;color:var(--muted)!important}
+html.app-readability-v184 body #app #home .schedule-upcoming-line-v179>span>b{font-size:11px!important;color:var(--ink)!important;font-weight:550!important}
+html.app-readability-v184 body #app #home .schedule-calendar-v119{border-radius:18px!important;border:1px solid var(--line)!important;background:var(--surface)!important;box-shadow:none!important;grid-template-rows:48px 24px minmax(0,1fr)!important;overflow:hidden!important;padding:0!important}
+html.app-readability-v184 body #app #home .schedule-calhead-v119{padding:8px 10px!important;height:48px!important;gap:5px!important}
+html.app-readability-v184 body #app #home .schedule-calhead-v119 h1{font-size:23px!important;font-weight:650!important;letter-spacing:-.055em!important;gap:6px!important;white-space:nowrap!important}
+html.app-readability-v184 body #app #home .schedule-calhead-v119 h1 small{font-size:10px!important;color:var(--muted)!important;font-weight:500!important}
+html.app-readability-v184 body #app #home .schedule-calctl-v119{gap:3px!important}
+html.app-readability-v184 body #app #home .schedule-calctl-v119 button{height:27px!important;min-height:27px!important;padding:4px 6px!important;border:0!important;box-shadow:none!important;border-radius:7px!important;background:var(--surface2)!important;color:var(--accent)!important;font-size:10px!important;font-weight:550!important}
+html.app-readability-v184 body #app #home .schedule-calctl-v119 button[data-calendar-shift-v125]{width:23px!important;min-width:23px!important;padding:4px!important;background:transparent!important}
+html.app-readability-v184 body #app #home .schedule-calctl-v119 button[aria-pressed=true]{background:var(--accent)!important;color:#fff!important}
+html.app-readability-v184 body #app #home .schedule-week-v119{height:24px!important;margin:0!important;padding:0!important;align-items:center!important;border-bottom:1px solid var(--line)!important;background:transparent!important}
+html.app-readability-v184 body #app #home .schedule-week-v119 span{font-size:9px!important;font-weight:550!important;color:var(--muted)!important}
+html.app-readability-v184 body #app #home .schedule-week-v119 span:first-child{color:#b47787!important}
+html.app-readability-v184 body #app #home .schedule-week-v119 span:last-child{color:#64859d!important}
+html.app-readability-v184 body #app #home .schedule-days-v119{gap:0!important;background:var(--surface)!important}
+html.app-readability-v184 body #app #home [data-schedule-date-v125]{border:0!important;border-right:1px solid var(--line)!important;border-bottom:1px solid var(--line)!important;border-radius:0!important;box-shadow:none!important;background:transparent!important;padding:22px 3px 4px!important;color:var(--ink)!important}
+html.app-readability-v184 body #app #home [data-schedule-date-v125]:nth-child(7n){border-right:0!important}
+html.app-readability-v184 body #app #home [data-schedule-date-v125].today{background:color-mix(in srgb,var(--accent) 7%,var(--surface))!important}
+html.app-readability-v184 body #app #home .schedule-day-number-v119{top:4px!important;left:4px!important;font-size:10px!important;font-weight:550!important;line-height:14px!important;min-width:14px!important}
+html.app-readability-v184 body #app #home .today .schedule-day-number-v119{background:var(--accent)!important;color:#fff!important;border-radius:5px!important;padding:1px 3px!important;box-shadow:none!important}
+html.app-readability-v184 body #app #home [data-schedule-date-v125]>.schedule-holiday-v144{top:4px!important;left:21px!important;right:2px!important;font-weight:500!important;color:#b45d75!important}
+html.app-readability-v184 body #app #home .schedule-event-name-v119{font-size:calc(10px * var(--app-type-scale-v185))!important;font-weight:500!important;background:var(--surface2)!important;color:var(--ink)!important;border:0!important;border-left:2px solid color-mix(in srgb,var(--accent) 55%,var(--line))!important;border-radius:3px!important;line-height:1.35!important;padding:2px 3px!important;margin-top:3px!important}
+html.app-readability-v184 body #app #home .calendar-todos-v179{background:var(--surface2)!important;border:0!important;border-block:1px solid var(--line)!important;padding:5px 8px!important;max-height:66px!important}
+html.app-readability-v184 body #app #home .todo-inline-v179{border:0!important;border-bottom:1px solid color-mix(in srgb,var(--line) 70%,transparent)!important;box-shadow:none!important;background:transparent!important}
+html.app-readability-v184 body #app #home .weekly-active-v184{grid-template-rows:48px minmax(0,1fr)!important}
+html.app-readability-v184 body #app #home .week-event-v184{border-left:2px solid var(--accent)!important;background:var(--surface2)!important;border-radius:0 5px 5px 0!important;min-height:25px!important;padding:4px 6px!important}
+html.app-readability-v184 body #app #home .weekly-notes-v184{background:color-mix(in srgb,var(--surface2) 48%,var(--surface))!important;border-top:1px solid var(--line)!important}
+html.app-readability-v184 body #app #todo{padding:0 0 72px!important}
+html.app-readability-v184 body #app #todo .todo-workspace-v179{background:transparent!important;padding:0!important;border:0!important;border-radius:0!important;gap:8px!important}
+html.app-readability-v184 body #app .todo-header-v179{color:var(--shell-ink)!important;border-color:var(--shell-line)!important;background:none!important;min-height:36px!important;padding:3px 0!important}
+html.app-readability-v184 body #app .todo-header-v179 h1{position:static!important;clip-path:none!important;width:auto!important;height:auto!important;overflow:visible!important;margin:0 auto 0 0!important;white-space:nowrap!important;font-size:17px!important;font-weight:650!important}
+html.app-readability-v184 body #app .todo-header-v179 button{width:max-content!important;min-width:0!important;padding:5px 9px!important;min-height:28px!important;border:0!important;background:var(--accent)!important;color:#fff!important;border-radius:7px!important;font-size:11px!important}
+html.app-readability-v184 body #app .todo-header-v179 [data-todo-manager-close-v182]{background:transparent!important;color:var(--shell-ink)!important;font-size:17px!important;padding:4px!important}
+html.app-readability-v184 body #app #todo .todo-tabs-v179{display:flex!important;background:none!important;padding:0!important;gap:16px!important;border:0!important;min-height:30px!important;border-radius:0!important}
+html.app-readability-v184 body #app #todo .todo-tabs-v179 button{min-height:30px!important;flex:none!important;width:auto!important;padding:4px 3px!important;border:0!important;border-bottom:2px solid transparent!important;border-radius:0!important;background:none!important;color:var(--shell-muted)!important;box-shadow:none!important;font-size:12px!important}
+html.app-readability-v184 body #app #todo .todo-tabs-v179 button[aria-pressed=true]{color:var(--shell-ink)!important;border-bottom-color:var(--shell-active)!important}
+html.app-readability-v184 body #app #todo .todo-toolbar-v179{gap:6px!important}
+html.app-readability-v184 body #app #todo .todo-toolbar-v179 :is(input,select){min-height:32px!important;height:32px!important;padding:6px 8px!important;border-color:var(--line)!important;border-radius:8px!important;background:var(--surface)!important;font-size:11px!important}
+html.app-readability-v184 body #app #todo .todo-toolbar-v179>button{color:var(--shell-ink)!important;width:28px!important;min-width:28px!important;height:32px!important}
+html.app-readability-v184 body #app #todo .todo-list-v179{flex:0 1 auto!important;background:var(--surface)!important;border:1px solid var(--line)!important;border-radius:14px!important;padding:5px 10px!important;gap:0!important;min-height:65px!important}
+html.app-readability-v184 body #app #todo .todo-row-v179{background:transparent!important;border:0!important;border-bottom:1px solid var(--line)!important;border-radius:0!important;padding:4px 0!important;color:var(--ink)!important}
+html.app-readability-v184 body #app #todo .todo-row-v179:last-child{border-bottom:0!important}
+html.app-readability-v184 body #app #todo .todo-check-v179{min-width:22px!important;min-height:32px!important}
+html.app-readability-v184 body #app #todo .todo-check-v179 input{width:15px!important;height:15px!important;accent-color:var(--accent)!important}
+html.app-readability-v184 body #app #todo .todo-copy-v179 b{font-size:12px!important;font-weight:550!important}
+html.app-readability-v184 body #app #todo .todo-copy-v179 time{font-size:10px!important;color:var(--muted)!important}
+html.app-readability-v184 body #app #todo .todo-more-v179{min-width:25px!important;min-height:32px!important}
+html.app-readability-v184 body #app #todo .todo-status-v179{color:var(--shell-muted)!important}
+html.app-readability-v184 body #app #todo :is(.todo-card-v179,.todo-section-v179){background:var(--surface)!important;color:var(--ink)!important;border:1px solid var(--line)!important;border-radius:14px!important;box-shadow:none!important}
+html.app-readability-v184 body [data-editor-sheet-v184]{height:auto!important;min-height:0!important;max-height:var(--editor-height-v184,60dvh)!important;max-width:680px!important;padding:10px 12px!important;background:var(--surface)!important;color:var(--ink)!important;border:1px solid var(--line)!important;box-shadow:0 -8px 32px #160e2325!important}
+html.app-readability-v184 body [data-editor-sheet-v184] :is(h1,h2,h3){font-size:16px!important;font-weight:650!important}
+html.app-readability-v184 body [data-editor-sheet-v184] :is(input:not([type=checkbox]):not([type=radio]):not([type=file]):not([type=range]),select,textarea){min-height:32px!important;padding:6px 8px!important;border-color:var(--line)!important;border-radius:8px!important;background:var(--surface)!important;color:var(--ink)!important;font-size:13px!important}
+html.app-readability-v184 body [data-editor-sheet-v184] textarea{min-height:58px!important}
+html.app-readability-v184 body [data-editor-sheet-v184] label{font-size:11px!important;color:var(--muted)!important}
+html.app-readability-v184 body [data-editor-sheet-v184] .compact-actions-v186 button[type=submit]{background:var(--accent)!important;color:#fff!important;border-radius:7px!important}
+html.app-readability-v184 body .todo-editor-v179 header button[type=submit]{background:var(--accent)!important;color:#fff!important}
+html.app-readability-v184 body .todo-editor-v179 header [data-todo-close-v179]{background:transparent!important;color:var(--muted)!important}
+html.app-readability-v184 body :is(.todo-editor-v179,#todo) input[type=checkbox]{border-color:var(--accent)!important;accent-color:var(--accent)!important}
+html.app-readability-v184 body :is(.todo-editor-v179,#todo) input[type=checkbox]:checked{background:var(--accent)!important}
+html.app-readability-v184 body .profile-sheet-v137{background:var(--surface)!important;color:var(--ink)!important;border-color:var(--line)!important;border-radius:17px!important;max-width:620px!important;padding:16px!important}
+html.app-readability-v184 body .profile-theme-grid-v137{grid-template-columns:repeat(5,minmax(0,1fr))!important}
+html.app-readability-v184 body .profile-theme-v137{border-color:var(--line)!important}
+html.app-readability-v184 body .profile-theme-v137.active{outline:2px solid var(--accent)!important;outline-offset:2px!important}
+html.app-readability-v184 body #wheel{width:215px!important;height:215px!important;right:8px!important;bottom:8px!important;left:auto!important;top:auto!important;transform:none!important;background:none!important;box-shadow:none!important;pointer-events:none!important;overflow:visible!important}
+html.app-readability-v184 body #wheel #wheelCore{position:absolute!important;right:0!important;bottom:0!important;left:auto!important;top:auto!important;width:59px!important;height:59px!important;min-width:59px!important;min-height:59px!important;transform:none!important;background:none!important;box-shadow:none!important;pointer-events:auto!important}
+html.app-readability-v184 body #wheel #wheelCore:before,html.app-readability-v184 body #wheel #wheelCore:after{content:none!important}
+html.app-readability-v184 body #wheel #wheelCore :is(img,.wheel-planet-art-v140){width:80px!important;height:80px!important;max-width:none!important;max-height:none!important;filter:var(--planet-filter)!important;position:absolute!important;inset:-10px!important;object-fit:contain!important;transform:none!important}
+html.app-readability-v184 body #wheel #wheelFan{position:absolute!important;inset:0!important;width:215px!important;height:215px!important;transform:none!important;pointer-events:none!important}
+html.app-readability-v184 body #wheel:not(.open) #wheelFan{opacity:0!important;visibility:hidden!important}
+html.app-readability-v184 body #wheel.open #wheelFan:before{content:none!important}
+html.app-readability-v184 body #wheel.open #wheelFan:after,html.app-readability-v184 body #wheel.open .global-wheel-orbits-v126{left:75.5px!important;top:75.5px!important;width:220px!important;height:220px!important;border:1px solid var(--shell-line)!important;border-radius:50%!important;background:radial-gradient(circle,transparent 42%,color-mix(in srgb,var(--shell-top) 45%,transparent) 58%,color-mix(in srgb,var(--shell-glow) 35%,transparent) 70%,transparent 71%)!important}
+html.app-readability-v184 body #wheel .global-wheel-item-v126{width:44px!important;height:44px!important;min-width:44px!important;min-height:44px!important;right:auto!important;bottom:auto!important;pointer-events:auto!important;background:var(--accent)!important;border:1px solid var(--shell-line)!important;color:#fff!important;border-radius:50%!important}
+html.app-readability-v184 body #wheel .global-wheel-item-v126:before{content:none!important}
+html.app-readability-v184 body #wheel .global-wheel-item-v126.slot-0{left:53.5px!important;top:163.5px!important}
+html.app-readability-v184 body #wheel .global-wheel-item-v126.slot-1{left:67.5px!important;top:108.5px!important}
+html.app-readability-v184 body #wheel .global-wheel-item-v126.slot-2{left:108.5px!important;top:67.5px!important}
+html.app-readability-v184 body #wheel .global-wheel-item-v126.slot-3{left:163.5px!important;top:53.5px!important}
+html.app-readability-v184 body #wheel .global-wheel-item-v126 svg{width:21px!important;height:21px!important}
+@media(min-width:600px){
+ html.app-readability-v184 body #app.app{padding-inline:12px!important}
+ html.app-readability-v184 body #app #home{margin-inline:-10px!important;width:calc(100% + 20px)!important}
+ html.app-readability-v184 body #app #home .schedule-dashboard-v179{grid-template-columns:minmax(0,1.6fr) minmax(238px,1fr)!important;grid-template-rows:minmax(0,1fr)!important;gap:10px!important;padding:0 2px!important}
+ html.app-readability-v184 body #app #home .schedule-summary-v179{margin:0!important;padding:11px!important;grid-column:2!important;grid-row:1!important;align-self:stretch!important;height:100%!important;max-height:100%!important;grid-template-rows:auto minmax(0,1fr) auto!important}
+ html.app-readability-v184 body #app #home .schedule-calendar-v119{grid-column:1!important;grid-row:1!important}
+ html.app-readability-v184 body #app #home .schedule-summary-v179 .schedule-upcoming-v179{max-height:none!important;padding-top:8px!important;gap:0!important}
+ html.app-readability-v184 body #app #home .schedule-upcoming-line-v179{min-height:43px!important;padding:8px 1px!important;border-bottom:1px solid var(--line)!important}
+ html.app-readability-v184 body #app #home .schedule-upcoming-line-v179>span>b{font-size:12px!important}
+ html.app-readability-v184 body #app #home .schedule-summary-v179>.calendar-todos-v179{max-height:30vh!important;background:transparent!important;padding:8px 0 56px!important}
+ html.app-readability-v184 body #app #home .schedule-side-title-v187{display:none!important}
+ html.app-readability-v184 body #app #home .schedule-calhead-v119 h1{font-size:25px!important}
+ html.app-readability-v184 body #app #home .schedule-calendar-v119{grid-template-rows:54px 24px minmax(0,1fr)!important}
+ html.app-readability-v184 body #app #home .schedule-calendar-v119.weekly-active-v184{grid-template-rows:54px minmax(0,1fr)!important}
+ html.app-readability-v184 body #app #home .schedule-calhead-v119{height:54px!important}
+}
+
+}

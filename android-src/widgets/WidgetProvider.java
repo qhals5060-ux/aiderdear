@@ -13,7 +13,7 @@ public class WidgetProvider extends AppWidgetProvider {
     public static void safeUpdateWidget(Context c,AppWidgetManager manager,int widget,String name){
         try{
             if(WidgetNativeV164.update(c,manager,widget,name))
-                WidgetNativeV164.prefs(c).edit().putLong("widget_update_at_"+widget,System.currentTimeMillis()).putInt("widget_renderer_"+widget,184).apply();
+                WidgetNativeV164.prefs(c).edit().putLong("widget_update_at_"+widget,System.currentTimeMillis()).putInt("widget_renderer_"+widget,188).apply();
         }catch(Throwable error){
             Log.e("AiderLogWidget","provider update failed "+WidgetNativeV164.type(name)+" #"+widget,error);
             WidgetNativeV164.prefs(c).edit().putString("widget_render_error_"+widget,error.getClass().getSimpleName()).apply();

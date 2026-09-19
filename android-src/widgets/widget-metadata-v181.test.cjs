@@ -16,6 +16,6 @@ test('picker fixtures use real production XML with 14 or 35 real date cells',()=
  }assert.match(read('generate-picker-v169.cjs'),/Do not replace runtime initialLayout with sample data/);
 });
 test('settings follows each ratio, restores dimensions and compiles at min26',()=>{
- const helper=read('WidgetPreviewFrameV181.java');assert.match(helper,/innerWidth\*WidgetCompactCalendarV181.ratio\(kind\)/);assert.match(helper,/WidgetSizeV169\.active\.set\(prior\)/);assert.doesNotMatch(helper,/updateAppWidget|SharedPreferences|putInt|setPadding/);
+ const helper=read('WidgetPreviewFrameV181.java');assert.match(helper,/innerWidth\*ratio\(kind\)/);assert.match(helper,/WidgetApprovedV188\.ratio\(kind\):WidgetCompactCalendarV181\.ratio\(kind\)/);assert.match(helper,/WidgetSizeV169\.active\.set\(prior\)/);assert.doesNotMatch(helper,/updateAppWidget|SharedPreferences|putInt|setPadding/);
  const build=read('build-native-v176.ps1');assert.match(build,/--min-api 26/);assert.match(build,/CanonicalDecodedPath/);for(const n of ['WidgetCompactCalendarV181','WidgetPreviewFrameV181'])assert.ok(build.includes(n+'.java'));
 });

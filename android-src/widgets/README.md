@@ -1,4 +1,45 @@
-# Native widgets (v184)
+# Native widgets (v188)
+
+Revision 05 is now implemented as native RemoteViews. The five compact calendar
+providers remain, with eight new layouts in `WidgetApprovedV188`: routine list,
+selected routine, routine statistics, photo meals/exercise, book/quote,
+Todo/Memo (2:1), today's actual timeline and selected exercise challenge.
+Rows bind source UID/date, recursively including meal photos, before rendering or
+constructing an action. Account changes clear those rows rather than rebinding
+their payload to a new user. Rows retain original IDs, images, selected-content preferences and the existing
+owner/revision-checked action helper. No fixture records enter live snapshots.
+Photo-less books show the actual book title as a cover; meals never substitute
+picker photos for missing personal images. Narrow routine cards stack their
+controls; collections scroll at small heights and all eight allow 180×90dp
+minimum resizing in both directions.
+
+All 27 provider identities remain to preserve existing installations. Thirteen
+compatibility/duplicate providers, including the three retired bullet journal
+providers, have Android's `hide_from_picker` feature hint. Fourteen default
+choices remain: the approved 13 and the unrelated existing Consult utility.
+The launcher ultimately decides whether to honor that hint. Existing installed
+compatibility widgets still render and no records are removed.
+
+Widget theme keys retain compatibility; aurora/lavender, mint, rose, ocean and
+mono now use distinct lavender, sage, rose, slate and neutral surfaces. Widget
+appearance remains configurable per instance, independently of app appearance.
+
+Rebuild new production resources with `node android-src/widgets/generate-approved-v188.cjs`.
+Then run `generate-approved-picker-v188.cjs <workspace QA directory>` and
+`render-approved-picker-v188.cjs <same directory>` for explicitly fictional
+launcher artwork from those same production layouts. Photo sources are in
+`PICKER_PHOTOS_V188.md`; images are only 42KB total and used only in picker art.
+Do not run the historical picker generator after this overlay without running
+these two v188 generators again. The compiled helper inventory now includes
+`WidgetApprovedV188.java`, and the standard native build script mirrors it.
+
+Validation: 164 desktop JVM model assertions; approved resource/picker/resize
+contracts plus ownership/action/transaction regression suites; 16 compact/wide
+native XML measurement renders. These are not Android screenshots; physical
+Samsung launcher gestures, host picker filtering and inflation remain a device
+check. Existing signing/package/provider IDs are deliberately unchanged.
+
+## v184 compact calendar implementation
 
 The five existing calendar provider IDs now use the approved compact designs:
 

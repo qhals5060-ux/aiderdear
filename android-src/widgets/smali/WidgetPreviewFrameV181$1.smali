@@ -27,7 +27,7 @@
 .method constructor <init>(Landroid/view/ViewGroup;Landroid/app/Activity;)V
     .locals 0
 
-    .line 27
+    .line 28
     iput-object p1, p0, Lcom/aiderlog/v22app/WidgetPreviewFrameV181$1;->val$host:Landroid/view/ViewGroup;
 
     iput-object p2, p0, Lcom/aiderlog/v22app/WidgetPreviewFrameV181$1;->val$activity:Landroid/app/Activity;
@@ -42,14 +42,14 @@
 .method public onLayoutChange(Landroid/view/View;IIIIIIII)V
     .locals 0
 
-    .line 29
+    .line 30
     sub-int/2addr p4, p2
 
     if-gtz p4, :cond_0
 
     return-void
 
-    .line 30
+    .line 31
     :cond_0
     iget-object p1, p0, Lcom/aiderlog/v22app/WidgetPreviewFrameV181$1;->val$host:Landroid/view/ViewGroup;
 
@@ -63,7 +63,7 @@
 
     invoke-virtual {p1, p2}, Ljava/util/WeakHashMap;->remove(Ljava/lang/Object;)Ljava/lang/Object;
 
-    .line 31
+    .line 32
     iget-object p1, p0, Lcom/aiderlog/v22app/WidgetPreviewFrameV181$1;->val$activity:Landroid/app/Activity;
 
     invoke-virtual {p1}, Landroid/app/Activity;->isFinishing()Z
@@ -82,7 +82,7 @@
 
     invoke-virtual {p1, p2}, Landroid/view/ViewGroup;->post(Ljava/lang/Runnable;)Z
 
-    .line 32
+    .line 33
     :cond_1
     return-void
 .end method

@@ -1,0 +1,222 @@
+/* The layer is declared first in index.html so these scoped important rules
+   supersede the historical presentation layers without changing their logic. */
+@layer appLife188 {
+ html body #app :is(#personal,#routine).app-life-v188{--life-scale:var(--app-type-scale-v185,1);color:var(--ink)!important}
+ html body #app #personal.app-life-v188 .personal-page,html body #app #routine.app-life-v188 .routine-ui-page-v165{padding:0!important;gap:0!important;width:100%!important;height:100%!important;overflow:hidden!important}
+ html body #app #personal.app-life-v188 .personal-title,html body #app #routine.app-life-v188 .r165-header{display:flex!important;align-items:center!important;justify-content:flex-start!important;flex-wrap:nowrap!important;gap:9px!important;min-height:40px!important;height:40px!important;padding:0!important;margin:0 0 9px!important;flex:none!important}
+ html body #app #personal.app-life-v188 .personal-title>.personal-title-actions,html body #app #routine.app-life-v188 .r165-header>[data-routine-create-open]{margin-left:auto!important}
+ html body #app #personal.app-life-v188 .personal-title>.personal-title-actions{display:flex!important;flex:none!important;gap:2px!important;align-items:center!important}
+ html body #app #personal.app-life-v188 .personal-title>.personal-title-actions>button{display:inline-flex!important;align-items:center!important;justify-content:center!important;min-width:26px!important;width:26px!important;height:30px!important;min-height:30px!important;padding:4px!important;border:0!important;border-radius:6px!important;background:none!important;color:var(--shell-ink)!important;box-shadow:none!important}
+ html body #app #personal.app-life-v188 .personal-title>.personal-title-actions svg{width:17px!important;height:17px!important;flex:none!important}
+ html body #app #personal.app-life-v188 .personal-title>.personal-title-actions>.l188-header-add,html body #app #routine.app-life-v188 .r165-header>[data-routine-create-open]{min-width:0!important;width:auto!important;min-height:28px!important;height:28px!important;padding:4px 8px!important;white-space:nowrap!important;background:var(--accent)!important;color:#fff!important;border:0!important;border-radius:7px!important;font-size:calc(11px * var(--life-scale))!important;line-height:1.3!important;box-shadow:none!important}
+ html body #app #personal.app-life-v188 .page-title,html body #app #routine.app-life-v188 .r165-header .page-title{font-size:calc(20px * var(--life-scale))!important;line-height:1.2!important;letter-spacing:-.055em!important;color:var(--shell-ink)!important;white-space:nowrap!important;margin:0!important;font-weight:650!important}
+ html body #app #personal.app-life-v188 .personal-title .personal-tabs,html body #app #routine.app-life-v188 .r165-header .r165-tabs{display:flex!important;flex:0 1 auto!important;align-items:stretch!important;gap:9px!important;width:auto!important;min-width:0!important;height:30px!important;min-height:30px!important;padding:0!important;margin:0!important;background:none!important;border:0!important;overflow:visible!important}
+ html body #app #personal.app-life-v188 .personal-title .personal-tabs button,html body #app #routine.app-life-v188 .r165-header .r165-tabs button{flex:none!important;display:flex!important;align-items:center!important;justify-content:center!important;min-width:0!important;width:auto!important;min-height:30px!important;height:30px!important;padding:3px 0!important;border:0!important;border-bottom:1.5px solid transparent!important;border-radius:0!important;box-shadow:none!important;background:none!important;color:var(--shell-muted)!important;font-size:calc(11px * var(--life-scale))!important;font-weight:500!important;line-height:1.2!important;white-space:nowrap!important}
+ html body #app #personal.app-life-v188 .personal-title .personal-tabs button span{font-size:inherit!important;line-height:inherit!important;white-space:nowrap!important;color:inherit!important}
+ html body #app #personal.app-life-v188 .personal-title .personal-tabs button.active,html body #app #routine.app-life-v188 .r165-header .r165-tabs button.active{border-bottom-color:var(--shell-active)!important;color:var(--shell-ink)!important;font-weight:650!important}
+ html body #app #personal.app-life-v188 .daylog-content-v165,html body #app #routine.app-life-v188 .r165-content{padding:0 0 86px!important;margin:0!important;min-height:0!important;overflow:auto!important;scrollbar-width:thin!important;scrollbar-color:var(--line) transparent!important}
+ html body #app #personal.app-life-v188 :is(h2,h3,h4,b,strong,label),html body #app #routine.app-life-v188 :is(h2,h3,h4,b,strong,label){color:var(--ink)!important;line-height:1.4!important;-webkit-text-fill-color:currentColor!important}
+ html body #app #personal.app-life-v188 :is(p,span,small,time),html body #app #routine.app-life-v188 :is(p,span,small,time){color:var(--muted)!important;line-height:1.5!important;-webkit-text-fill-color:currentColor!important}
+ html body #app #personal.app-life-v188 :is(h2,h3,h4),html body #app #routine.app-life-v188 :is(h2,h3,h4){font-size:calc(13px * var(--life-scale))!important;font-weight:650!important;letter-spacing:-.025em!important}
+ html body #app #personal.app-life-v188 :is(p,span,b,strong,label),html body #app #routine.app-life-v188 :is(p,span,b,strong,label){font-size:calc(12px * var(--life-scale))!important}
+ html body #app #personal.app-life-v188 :is(small,time),html body #app #routine.app-life-v188 :is(small,time){font-size:calc(10px * var(--life-scale))!important}
+ html body #app #personal.app-life-v188 :is(.personal-panel,.reading-metrics-v113,.finance-group),html body #app #routine.app-life-v188 :is(.r165-practice-card,.r165-goal-card,.r165-stat-card,.r165-summary){padding:12px!important;border:1px solid var(--line)!important;border-radius:14px!important;background:var(--surface)!important;box-shadow:none!important;color:var(--ink)!important;margin:0!important;overflow:hidden!important}
+ html body #app #personal.app-life-v188 .personal-panel>header{min-height:24px!important;margin:0 0 9px!important;padding:0!important;gap:8px!important}
+ html body #app #personal.app-life-v188 :is([data-padd],[data-pdelete],.workflow-edit-v127){min-height:27px!important;height:auto!important;min-width:27px!important;width:auto!important;padding:4px 7px!important;border:0!important;border-radius:7px!important;background:var(--surface2)!important;color:var(--ink)!important;font-size:calc(10px * var(--life-scale))!important;line-height:1.3!important}
+ html body #app #personal.app-life-v188 [data-pdelete]{background:none!important;color:var(--muted)!important;padding:2px!important;font-size:18px!important}
+ html body #app #personal.app-life-v188 .personal-panel>header [data-padd]{background:var(--accent)!important;color:#fff!important}
+ html body #app #personal.app-life-v188 .personal-empty{margin:0!important;padding:10px 0!important;font-size:calc(11px * var(--life-scale))!important}
+ /* Health keeps the real meal photos, exercise records and native add actions. */
+ html body #app #personal.app-life-v188 .personal-health{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:10px!important}
+ html body #app #personal.app-life-v188 .meal-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:7px!important}
+ html body #app #personal.app-life-v188 .meal-slot{padding:0!important;gap:4px!important;border:0!important;background:none!important;border-radius:8px!important}
+ html body #app #personal.app-life-v188 .meal-slot .meal-pic{aspect-ratio:1!important;max-height:130px!important;border-radius:9px!important;background:var(--surface2)!important}
+ html body #app #personal.app-life-v188 .meal-slot b{font-size:calc(10px * var(--life-scale))!important;font-weight:600!important}
+ html body #app #personal.app-life-v188 .meal-slot small{font-size:calc(10px * var(--life-scale))!important;line-height:1.4!important}
+ html body #app #personal.app-life-v188 .daylog-empty-meal-v165{min-height:90px!important;border:1px dashed var(--line)!important;padding:9px 5px!important;justify-content:center!important;align-items:center!important;text-align:center!important}
+ html body #app #personal.app-life-v188 .daylog-health-tools-v165{display:grid!important;grid-template-columns:1fr 1fr!important;gap:10px!important;margin:0!important}
+ html body #app #personal.app-life-v188 .daylog-health-tools-v165 button{min-height:57px!important;padding:10px 12px!important;gap:2px!important;border:1px solid var(--line)!important;border-radius:12px!important;background:var(--surface)!important}
+ html body #app #personal.app-life-v188 .health-metrics{min-height:48px!important;padding:8px!important;margin-bottom:8px!important;background:var(--surface2)!important;border-radius:8px!important}
+ html body #app #personal.app-life-v188 .health-metrics b{font-size:calc(19px * var(--life-scale))!important;line-height:1.2!important}
+ html body #app #personal.app-life-v188 .health-record-list article{grid-template-columns:42px minmax(0,1fr) 24px!important;gap:8px!important;padding:8px 0!important;border-bottom-color:var(--line)!important}
+ html body #app #personal.app-life-v188 .health-thumb{width:42px!important;height:46px!important;border-radius:7px!important}
+ /* A physical shelf appears above the selected real book. */
+ html body #app #personal.app-life-v188 .reading-v113{display:flex!important;flex-direction:column!important;gap:10px!important}
+ html body #app #personal.app-life-v188 .reading-library-v113{padding-bottom:0!important}
+ html body #app #personal.app-life-v188 .l188-bookshelf{display:flex!important;align-items:flex-end!important;gap:5px!important;min-height:150px!important;padding:5px 7px 10px!important;margin:0 -1px!important;overflow:auto!important;border-bottom:9px solid color-mix(in srgb,var(--accent) 30%,var(--surface2))!important;box-shadow:0 5px 8px #0000000b!important}
+ html body #app #personal.app-life-v188 .l188-spine{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:space-between!important;flex:0 0 40px!important;width:40px!important;min-width:40px!important;height:var(--book-h)!important;min-height:0!important;padding:10px 7px 6px!important;border:0!important;border-radius:3px 5px 3px 2px!important;background:#c8bbb0!important;box-shadow:inset 4px 0 #ffffff40,inset -2px 0 #0000000e,2px 1px 2px #0000001a!important;transform:rotate(-1.5deg)!important}
+ html body #app #personal.app-life-v188 .l188-spine:nth-child(5n+2){background:#bccbbd!important;transform:rotate(1deg)!important}
+ html body #app #personal.app-life-v188 .l188-spine:nth-child(5n+3){background:#d6babe!important;transform:rotate(-3deg)!important}
+ html body #app #personal.app-life-v188 .l188-spine:nth-child(5n+4){background:#b5c3d0!important;transform:rotate(0)!important}
+ html body #app #personal.app-life-v188 .l188-spine:nth-child(5n+5){background:#ccbddd!important;transform:rotate(2deg)!important}
+ html body #app #personal.app-life-v188 .l188-spine.active{outline:1.5px solid var(--accent)!important;outline-offset:2px!important}
+ html body #app #personal.app-life-v188 .l188-spine b{writing-mode:vertical-rl!important;text-orientation:mixed!important;font-size:10px!important;white-space:nowrap!important;max-height:calc(var(--book-h) - 34px)!important;overflow:hidden!important;text-overflow:ellipsis!important;color:#3e3a3a!important;font-weight:600!important}
+ html body #app #personal.app-life-v188 .l188-spine>span{display:block!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;width:25px!important;font-size:7px!important;color:#4b4444!important}
+ html body #app #personal.app-life-v188 .reading-featured-v113{grid-template-columns:72px minmax(0,1fr)!important;gap:12px!important}
+ html body #app #personal.app-life-v188 .reading-featured-cover-v113{width:72px!important;height:105px!important;background:var(--surface2)!important}
+ html body #app #personal.app-life-v188 .reading-featured-v113>div:not([data-daylog-photo]){justify-content:center!important;gap:6px!important}
+ html body #app #personal.app-life-v188 .reading-featured-v113 b{font-size:calc(16px * var(--life-scale))!important}
+ html body #app #personal.app-life-v188 .reading-featured-v113 i{background:var(--surface2)!important}
+ html body #app #personal.app-life-v188 .reading-featured-v113 i em{background:var(--accent)!important}
+ html body #app #personal.app-life-v188 .reading-metrics-v113{min-height:0!important;padding:10px 12px!important}
+ html body #app #personal.app-life-v188 .reading-metrics-v113 b{font-size:calc(19px * var(--life-scale))!important;font-weight:550!important}
+ html body #app #personal.app-life-v188 .reading-metrics-v113 span{font-size:calc(9px * var(--life-scale))!important}
+ html body #app #personal.app-life-v188 .reading-quote-list-v113 blockquote{padding:10px!important;background:var(--surface2)!important;border-left:2px solid var(--accent)!important}
+ /* Existing workflow step and edit buttons remain operational. */
+ html body #app #personal.app-life-v188 .workflow-panel-v127{padding:0!important;background:none!important;border:0!important;border-radius:0!important}
+ html body #app #personal.app-life-v188 .l188-work-summary{display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:0!important;padding:10px 14px!important;margin:0 0 10px!important;background:var(--surface)!important;border:1px solid var(--line)!important;border-radius:12px!important}
+ html body #app #personal.app-life-v188 .l188-work-summary>div{display:flex!important;align-items:center!important;gap:9px!important;justify-content:center!important;border-right:1px solid var(--line)!important}
+ html body #app #personal.app-life-v188 .l188-work-summary>div:last-child{border:0!important}
+ html body #app #personal.app-life-v188 .l188-work-summary b{font-size:20px!important;font-weight:550!important}
+ html body #app #personal.app-life-v188 .workflow-board{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:10px!important}
+ html body #app #personal.app-life-v188 .workflow-board>section>h4{color:var(--shell-ink)!important;font-size:12px!important;margin:0 0 7px!important;padding:0 2px!important}
+ html body #app #personal.app-life-v188 .workflow-board>section>h4>span,html body #app #personal.app-life-v188 .workflow-board>section>.personal-empty{color:var(--shell-muted)!important}
+ html body #app #personal.app-life-v188 .workflow-board article{display:grid!important;grid-template-columns:minmax(0,1fr) auto auto!important;gap:5px 7px!important;padding:12px!important;margin-bottom:8px!important;background:var(--surface)!important;border:1px solid var(--line)!important;border-radius:13px!important}
+ html body #app #personal.app-life-v188 .workflow-board article>small:not(.daylog-step-count-v165){grid-column:1!important;grid-row:1!important;align-self:center!important}
+ html body #app #personal.app-life-v188 .workflow-board article>.workflow-edit-v127{grid-column:2!important;grid-row:1!important;order:0!important;align-self:center!important}
+ html body #app #personal.app-life-v188 .workflow-board article>.workflow-delete-v127{grid-column:3!important;grid-row:1!important;order:0!important;align-self:center!important}
+ html body #app #personal.app-life-v188 .workflow-board article>b:not(.l188-work-percent){grid-column:1/3!important;grid-row:2!important;font-size:14px!important;align-self:center!important}
+ html body #app #personal.app-life-v188 .workflow-board article>.l188-work-percent{grid-column:3!important;grid-row:2!important;font-size:17px!important;font-weight:550!important;color:var(--accent)!important;text-align:right!important}
+ html body #app #personal.app-life-v188 .workflow-board article>:is(.progress,span,.workflow-steps-v127,.daylog-step-count-v165,.l188-next-action){grid-column:1/-1!important}
+ html body #app #personal.app-life-v188 .workflow-board article>.daylog-step-count-v165{grid-row:auto!important;position:static!important}
+ html body #app #personal.app-life-v188 .workflow-board .progress{height:5px!important;margin:5px 0!important;background:var(--surface2)!important}
+ html body #app #personal.app-life-v188 .workflow-board .progress i{height:5px!important;background:var(--accent)!important}
+ html body #app #personal.app-life-v188 .workflow-steps-v127{display:flex!important;flex-direction:column!important;gap:4px!important}
+ html body #app #personal.app-life-v188 .workflow-steps-v127 button{min-height:30px!important;padding:5px 7px!important;font-size:11px!important;gap:7px!important;border:0!important;background:var(--surface2)!important;color:var(--ink)!important;border-radius:6px!important}
+ html body #app #personal.app-life-v188 .workflow-steps-v127 button i{flex:0 0 16px!important;width:16px!important;height:16px!important;min-width:16px!important;background:var(--surface)!important;border:1px solid var(--line)!important;color:var(--accent)!important}
+ html body #app #personal.app-life-v188 .l188-next-action{margin:4px 0!important;padding:6px 8px!important;border-left:2px solid var(--accent)!important;background:var(--surface2)!important;border-radius:0 5px 5px 0!important}
+ /* Finance retains original three groups and all record fields. */
+ html body #app #personal.app-life-v188 .l188-finance{padding:0!important;border:0!important;background:none!important;border-radius:0!important;overflow:visible!important}
+ html body #app #personal.app-life-v188 .l188-finance-layout{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:10px!important;align-items:start!important}
+ html body #app #personal.app-life-v188 .l188-finance-overview{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:12px!important;padding:14px!important;background:var(--surface)!important;border:1px solid var(--line)!important;border-radius:14px!important}
+ html body #app #personal.app-life-v188 .finance-summary{display:flex!important;flex-direction:column!important;align-items:flex-start!important;gap:5px!important;min-height:0!important;padding:0!important;margin:0!important;border:0!important;background:none!important;border-radius:0!important}
+ html body #app #personal.app-life-v188 .finance-summary b{font-size:calc(27px * var(--life-scale))!important;font-weight:500!important;letter-spacing:-.04em!important;line-height:1.3!important;font-variant-numeric:tabular-nums!important}
+ html body #app #personal.app-life-v188 .finance-summary b small{font-size:12px!important;margin-left:4px!important}
+ html body #app #personal.app-life-v188 .l188-finance-count{display:flex!important;flex-direction:column!important;gap:3px!important;align-items:center!important;padding-left:15px!important;border-left:1px solid var(--line)!important}
+ html body #app #personal.app-life-v188 .l188-finance-count b{font-size:22px!important;font-weight:500!important}
+ html body #app #personal.app-life-v188 .l188-finance-count span{font-size:9px!important}
+ html body #app #personal.app-life-v188 .l188-finance-filters{display:flex!important;align-items:center!important;gap:12px!important;margin:9px 0!important;padding:0 2px!important;overflow:auto!important}
+ html body #app #personal.app-life-v188 .l188-finance-filters button{padding:4px 0!important;min-height:28px!important;flex:none!important;border:0!important;border-bottom:1.5px solid transparent!important;border-radius:0!important;background:none!important;color:var(--shell-muted)!important;font-size:10px!important;white-space:nowrap!important}
+ html body #app #personal.app-life-v188 .l188-finance-filters button.active{border-bottom-color:var(--shell-active)!important;color:var(--shell-ink)!important}
+ html body #app #personal.app-life-v188 .l188-finance-breakdown>div{display:flex!important;justify-content:space-between!important;gap:10px!important;padding:5px 0!important}
+ html body #app #personal.app-life-v188 .l188-finance-breakdown b{font-weight:550!important;font-variant-numeric:tabular-nums!important}
+ html body #app #personal.app-life-v188 .finance-grid{display:flex!important;flex-direction:column!important;gap:10px!important;align-items:stretch!important;width:100%!important}
+ html body #app #personal.app-life-v188 .finance-grid>.finance-group{width:100%!important;min-width:0!important}
+ html body #app #personal.app-life-v188 .finance-grid:empty{display:none!important}
+ html body #app #personal.app-life-v188 .finance-group h4{display:flex!important;align-items:center!important;justify-content:space-between!important;padding:0 0 7px!important}
+ html body #app #personal.app-life-v188 .finance-group h4 small{font-weight:400!important}
+ html body #app #personal.app-life-v188 .finance-group .l188-money-row{display:flex!important;flex-direction:column!important;position:relative!important;gap:7px!important;padding:11px 0!important;border:0!important;border-top:1px solid var(--line)!important;background:none!important}
+ html body #app #personal.app-life-v188 .finance-group .l188-money-row:last-child{padding-bottom:0!important}
+ html body #app #personal.app-life-v188 .l188-money-heading{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;align-items:center!important;gap:4px 8px!important}
+ html body #app #personal.app-life-v188 .l188-money-heading b{flex:1!important;min-width:0!important}
+ html body #app #personal.app-life-v188 .l188-money-heading [data-pdelete]{margin:0!important;order:0!important;align-self:center!important}
+ html body #app #personal.app-life-v188 .l188-type{flex:none!important;display:inline-flex!important;align-items:center!important;padding:0!important;font-size:9px!important;background:none!important;color:var(--accent)!important;border-radius:5px!important}
+ html body #app #personal.app-life-v188 .l188-money-heading time{text-align:right!important;font-size:9px!important}
+ html body #app #personal.app-life-v188 .l188-money-heading strong{font-size:18px!important;white-space:nowrap!important;font-weight:500!important;letter-spacing:-.04em!important}
+ html body #app #personal.app-life-v188 .l188-money-heading strong small{display:inline!important;font-size:9px!important;margin-left:3px!important;font-weight:400!important}
+ html body #app #personal.app-life-v188 .l188-money-row>strong{font-size:calc(21px * var(--life-scale))!important;align-self:flex-start!important;line-height:1.25!important;font-weight:550!important;font-variant-numeric:tabular-nums!important}
+ html body #app #personal.app-life-v188 .l188-money-meta{display:flex!important;justify-content:flex-start!important;gap:3px 8px!important;align-items:center!important;flex-wrap:wrap!important}
+ html body #app #personal.app-life-v188 .l188-money-meta :is(span,b){font-size:10px!important}
+ html body #app #personal.app-life-v188 .l188-money-meta b{margin-left:auto!important}
+ html body #app #personal.app-life-v188 .l188-finance-note{font-size:10px!important;line-height:1.5!important;margin:0!important}
+ html body #app #personal.app-life-v188 .l188-goal-progress{height:4px!important;background:var(--surface2)!important;border-radius:4px!important;overflow:hidden!important}
+ html body #app #personal.app-life-v188 .l188-goal-progress i{display:block!important;height:100%!important;background:var(--accent)!important}
+ html body #app #personal.app-life-v188 .l188-money-foot{display:flex!important;justify-content:space-between!important;align-items:flex-start!important;gap:9px!important}
+ html body #app #personal.app-life-v188 .paycheck{display:flex!important;align-items:center!important;gap:6px!important;min-height:25px!important;font-size:10px!important;flex:none!important}
+ html body #app #personal.app-life-v188 .paycheck input{appearance:auto!important;color-scheme:light!important;width:15px!important;height:15px!important;min-width:15px!important;min-height:15px!important;margin:0!important;accent-color:var(--accent)!important}
+ html body #app #personal.app-life-v188 .paycheck span{font-size:10px!important}
+ html body #app #personal.app-life-v188 .l188-money-foot details{font-size:10px!important;min-width:0!important;flex:1!important}
+ html body #app #personal.app-life-v188 .l188-money-foot summary{list-style:none!important;cursor:pointer!important;color:var(--accent)!important;text-align:right!important;padding:4px 0!important}
+ html body #app #personal.app-life-v188 .l188-money-foot summary::after{content:' ›'!important}
+ html body #app #personal.app-life-v188 .l188-money-foot details[open]{flex-basis:100%!important}
+ html body #app #personal.app-life-v188 .l188-money-foot:has(details[open]){flex-wrap:wrap!important}
+ html body #app #personal.app-life-v188 .l188-money-foot dl{display:grid!important;grid-template-columns:90px minmax(0,1fr)!important;gap:7px!important;padding:10px!important;margin:3px 0 0!important;border-radius:8px!important;background:var(--surface2)!important}
+ html body #app #personal.app-life-v188 .l188-money-foot :is(dt,dd){font-size:11px!important;line-height:1.45!important;margin:0!important;overflow-wrap:anywhere!important;color:var(--ink)!important}
+ html body #app #personal.app-life-v188 .l188-money-foot dt{color:var(--muted)!important}
+ html body #app #personal.app-life-v188 .l188-money-photo{height:100px!important;border-radius:8px!important;overflow:hidden!important;margin-top:7px!important}
+ /* Routine cards, not the old overview sidebar, fill the practice screen. */
+ html body #app #routine.app-life-v188 .r165-practice-list{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:10px!important}
+ html body #app #routine.app-life-v188 .r165-practice-card>header{gap:8px!important;margin:0 0 3px!important;min-height:24px!important}
+ html body #app #routine.app-life-v188 .r165-practice-card h3{font-size:calc(14px * var(--life-scale))!important;display:flex!important;gap:7px!important;align-items:center!important}
+ html body #app #routine.app-life-v188 .r165-practice-card>header button{min-height:26px!important;height:26px!important;padding:4px 7px!important;border:0!important;border-radius:6px!important;background:var(--surface2)!important;color:var(--muted)!important;font-size:10px!important}
+ html body #app #routine.app-life-v188 .r165-cycle-caption{margin:0 0 9px!important;font-size:10px!important}
+ html body #app #routine.app-life-v188 .r165-recent{display:grid!important;grid-template-columns:repeat(7,minmax(0,1fr))!important;gap:4px!important;padding:0 0 9px!important;margin:0 0 9px!important;border-bottom:1px solid var(--line)!important}
+ html body #app #routine.app-life-v188 .r165-recent button{display:flex!important;align-items:center!important;justify-content:center!important;gap:3px!important;min-height:27px!important;height:27px!important;padding:3px 1px!important;border:0!important;border-radius:6px!important;background:var(--surface2)!important;color:var(--muted)!important}
+ html body #app #routine.app-life-v188 .r165-recent button span{font-size:8px!important;white-space:nowrap!important}
+ html body #app #routine.app-life-v188 .r165-recent button b{font-size:10px!important;color:inherit!important}
+ html body #app #routine.app-life-v188 .r165-recent button.today{outline:1px solid var(--accent)!important;outline-offset:1px!important}
+ html body #app #routine.app-life-v188 .r165-recent button.max{background:var(--accent)!important;color:#fff!important}
+ html body #app #routine.app-life-v188 .r165-recent button.max span{color:#fff!important}
+ html body #app #routine.app-life-v188 .r165-levels{gap:5px!important}
+ html body #app #routine.app-life-v188 .r165-levels button{display:flex!important;flex-direction:column!important;align-items:flex-start!important;gap:3px!important;min-height:47px!important;padding:7px!important;border:0!important;background:var(--surface2)!important;border-radius:8px!important;color:var(--ink)!important}
+ html body #app #routine.app-life-v188 .r165-levels button b{font-size:10px!important;letter-spacing:.035em!important}
+ html body #app #routine.app-life-v188 .r165-levels button span{font-size:10px!important;line-height:1.35!important;text-align:left!important}
+ html body #app #routine.app-life-v188 .r165-levels button.active{background:var(--accent)!important}
+ html body #app #routine.app-life-v188 .r165-levels button.active :is(b,span){color:#fff!important}
+ html body #app #routine.app-life-v188 .r165-mandalas{gap:10px!important;grid-template-columns:minmax(0,1fr)!important}
+ html body #app #routine.app-life-v188 .r165-goal-shortcuts{gap:6px!important;margin-bottom:10px!important}
+ html body #app #routine.app-life-v188 .r165-goal-shortcuts button{min-height:30px!important;padding:5px 8px!important;border:1px solid var(--line)!important;border-radius:7px!important;background:var(--surface)!important;color:var(--ink)!important}
+ html body #app #routine.app-life-v188 .r165-goal-shortcuts button.active{background:var(--surface2)!important;border-color:var(--accent)!important}
+ html body #app #routine.app-life-v188 .r165-goal-card>header{margin-bottom:8px!important}
+ html body #app #routine.app-life-v188 .r165-goal-card>header button,html body #app #routine.app-life-v188 .r165-goal-card footer button{min-height:28px!important;height:auto!important;padding:5px 9px!important;border:0!important;border-radius:7px!important;background:var(--accent)!important;color:#fff!important;font-size:11px!important}
+ html body #app #routine.app-life-v188 .r165-mandala-grid{gap:5px!important}
+ html body #app #routine.app-life-v188 .r165-mandala-cell{min-height:89px!important;border:1px solid var(--line)!important;border-radius:8px!important;background:var(--surface)!important}
+ html body #app #routine.app-life-v188 .r165-mandala-cell textarea{font-size:11px!important;line-height:1.5!important;min-height:72px!important;padding:20px 7px 7px!important;color:var(--ink)!important;background:none!important}
+ html body #app #routine.app-life-v188 .r165-mandala-center{background:var(--accent)!important;border-radius:8px!important;padding:9px!important}
+ html body #app #routine.app-life-v188 .r165-mandala-center span{color:#fff!important;font-size:12px!important}
+ html body #app #routine.app-life-v188 .r165-content[data-tab=statistics]{display:grid!important;grid-template-columns:minmax(0,1fr)!important;grid-template-rows:none!important;grid-template-areas:none!important;grid-auto-rows:max-content!important;align-content:start!important;gap:10px!important}
+ html body #app #routine.app-life-v188 .r165-content[data-tab=statistics]>*{grid-area:auto!important;height:auto!important;max-height:none!important;min-height:0!important;align-self:start!important}
+ html body #app #routine.app-life-v188 .r165-stat-card{overflow:visible!important}
+ html body #app #routine.app-life-v188 .r165-summary{display:grid!important;grid-template-columns:repeat(4,1fr)!important;min-height:60px!important;padding:10px!important}
+ html body #app #routine.app-life-v188 .r165-summary b{font-size:calc(21px * var(--life-scale))!important;font-weight:500!important}
+ html body #app #routine.app-life-v188 .r165-summary span{font-size:9px!important}
+ html body #app #routine.app-life-v188 .r165-stat-card>header{margin-bottom:9px!important}
+ html body #app #routine.app-life-v188 .r165-progress,html body #app #routine.app-life-v188 .r165-distribution i{background:var(--surface2)!important}
+ html body #app #routine.app-life-v188 .r165-progress i,html body #app #routine.app-life-v188 .r165-day-bar i,html body #app #routine.app-life-v188 .r165-distribution em{background:var(--accent)!important}
+ html body #app #routine.app-life-v188 .l188-routine-momentum{display:grid!important;grid-template-columns:84px minmax(0,1fr)!important;align-items:center!important;gap:12px!important;padding:14px!important;border:1px solid var(--line)!important;border-radius:14px!important;background:var(--surface)!important}
+ html body #app #routine.app-life-v188 .l188-ring{width:84px!important;height:84px!important;padding:7px!important;border-radius:50%!important;background:conic-gradient(var(--accent) var(--rate),var(--surface2) 0)!important}
+ html body #app #routine.app-life-v188 .l188-ring>div{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:1px!important;width:100%!important;height:100%!important;background:var(--surface)!important;border-radius:50%!important}
+ html body #app #routine.app-life-v188 .l188-ring b{font-size:25px!important;font-weight:500!important;line-height:1.2!important}
+ html body #app #routine.app-life-v188 .l188-ring b small{font-size:13px!important;margin-left:3px!important}
+ html body #app #routine.app-life-v188 .l188-ring span{font-size:9px!important}
+ html body #app #routine.app-life-v188 .l188-momentum-copy{display:flex!important;flex-direction:column!important;gap:6px!important;align-items:flex-start!important}
+ html body #app #routine.app-life-v188 .l188-momentum-copy>span{font-size:10px!important}
+ html body #app #routine.app-life-v188 .l188-momentum-copy>b{font-size:14px!important;font-weight:600!important;line-height:1.4!important}
+ html body #app #routine.app-life-v188 .l188-momentum-copy button{border:0!important;background:none!important;color:var(--accent)!important;padding:2px 0!important;min-height:24px!important;font-size:11px!important}
+ html body #app #routine.app-life-v188 .l188-heatmap{grid-column:1/-1!important;display:grid!important;grid-template-columns:repeat(14,minmax(0,1fr))!important;gap:5px!important;padding-top:2px!important}
+ html body #app #routine.app-life-v188 .l188-heatmap i{display:block!important;aspect-ratio:1!important;max-height:22px!important;border-radius:4px!important;background:var(--surface2)!important}
+ html body #app #routine.app-life-v188 .l188-heatmap [data-level="1"]{background:color-mix(in srgb,var(--accent) 25%,var(--surface2))!important}
+ html body #app #routine.app-life-v188 .l188-heatmap [data-level="2"]{background:color-mix(in srgb,var(--accent) 45%,var(--surface2))!important}
+ html body #app #routine.app-life-v188 .l188-heatmap [data-level="3"]{background:color-mix(in srgb,var(--accent) 70%,var(--surface2))!important}
+ html body #app #routine.app-life-v188 .l188-heatmap [data-level="4"]{background:var(--accent)!important}
+ @media(max-width:430px){
+  html body #app #personal.app-life-v188 .personal-title{gap:7px!important}
+  html body #app #personal.app-life-v188 .personal-title .page-title{font-size:calc(16px * var(--life-scale))!important;letter-spacing:-.05em!important}
+  html body #app #personal.app-life-v188 .personal-title .personal-tabs{gap:7px!important}
+  html body #app #personal.app-life-v188 .personal-title .personal-tabs button{font-size:calc(10px * var(--life-scale))!important}
+  html body #app #personal.app-life-v188 .personal-title>.personal-title-actions>.l188-header-add{padding-inline:6px!important;font-size:10px!important}
+ }
+ @media(min-width:600px){
+  html body #app #personal.app-life-v188 .personal-title,html body #app #routine.app-life-v188 .r165-header{gap:19px!important}
+  html body #app #personal.app-life-v188 .personal-title .personal-tabs,html body #app #routine.app-life-v188 .r165-header .r165-tabs{gap:18px!important}
+  html body #app #personal.app-life-v188 .personal-title .personal-tabs button,html body #app #routine.app-life-v188 .r165-header .r165-tabs button{font-size:12px!important}
+  html body #app #personal.app-life-v188 .personal-health{grid-template-columns:minmax(0,1.18fr) minmax(0,1fr)!important;align-items:start!important}
+  html body #app #personal.app-life-v188 .personal-health>.personal-panel:first-child{grid-column:1!important;grid-row:1!important}
+  html body #app #personal.app-life-v188 .personal-health>.personal-panel:nth-child(2){grid-column:2!important;grid-row:1/3!important}
+  html body #app #personal.app-life-v188 .personal-health>.daylog-meal-history-v165{grid-column:1!important}
+  html body #app #personal.app-life-v188 .personal-health>.daylog-health-tools-v165{grid-column:2!important}
+  html body #app #personal.app-life-v188 .reading-v113{display:grid!important;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr)!important;grid-template-rows:auto auto!important;align-items:start!important}
+  html body #app #personal.app-life-v188 .reading-library-v113{grid-column:1!important;grid-row:1!important}
+  html body #app #personal.app-life-v188 .reading-current-v113{grid-column:1!important;grid-row:2!important}
+  html body #app #personal.app-life-v188 .reading-metrics-v113{grid-column:2!important;grid-row:1!important}
+  html body #app #personal.app-life-v188 .reading-quotes-v113{grid-column:2!important;grid-row:2!important}
+  html body #app #personal.app-life-v188 .workflow-board{grid-template-columns:repeat(2,minmax(0,1fr))!important;align-items:start!important}
+  html body #app #personal.app-life-v188 .workflow-board>section:last-child{grid-column:2!important}
+  html body #app #personal.app-life-v188 .l188-finance-layout{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important}
+  html body #app #personal.app-life-v188 .l188-finance-layout.filtered{grid-template-columns:minmax(0,1fr)!important}
+  html body #app #routine.app-life-v188 .r165-practice-list{grid-template-columns:repeat(2,minmax(0,1fr))!important;align-items:start!important}
+  html body #app #routine.app-life-v188 .r165-mandalas{grid-template-columns:repeat(2,minmax(0,1fr))!important;align-items:start!important}
+  html body #app #routine.app-life-v188 .r165-content[data-tab=statistics]{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  html body #app #routine.app-life-v188 .r165-content[data-tab=statistics]>.r165-comparison{grid-row:2/4!important}
+ }
+}

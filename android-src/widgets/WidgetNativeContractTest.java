@@ -95,7 +95,8 @@ public final class WidgetNativeContractTest {
         require(WidgetPreviewFrameV181.heightForWidth(336,0,0,0,0)==168,"compact preview is exact 4x2");
         require(WidgetPreviewFrameV181.heightForWidth(360,12,12,12,12)==192,"preview excludes outer padding from its ratio");
         require(WidgetPreviewFrameV181.compact("CalendarAgenda")&&WidgetPreviewFrameV181.compact("CalendarFortnight"),"only both compact providers use the compact preview");
-        require(!WidgetPreviewFrameV181.compact("RoutineAll"),"other previews preserve their size");
+        require(WidgetPreviewFrameV181.compact("RoutineAll"),"approved routine preview now matches its compact installed composition");
+        require(!WidgetPreviewFrameV181.compact("PersonalMeal"),"legacy compatibility previews preserve their size");
         require(WidgetCompactCalendarV181.fortnightStart("2026-09-19").equals("2026-09-13"),"fortnight starts on Sunday like the approved calendar");
         require(WidgetCompactCalendarV181.fortnightSelected("2026-09-19","2026-09-04").equals("2026-09-19"),"old hidden selected day resets highlight to today");
         require(WidgetCompactCalendarV181.fortnightSelected("2026-09-19","2026-09-26").equals("2026-09-26"),"last day in current fortnight remains selected");
@@ -152,6 +153,46 @@ public final class WidgetNativeContractTest {
             require(largeCell>smallCell,"expanded "+kind+" uses additional vertical space");
             require(WidgetCompactCalendarV181.capacity(largeCell,15,false)>WidgetCompactCalendarV181.capacity(smallCell,15,false),"expanded "+kind+" gains visible event titles");
         }
+        JSONObject approved=new JSONObject("{\"today\":\"2026-09-20\",\"routines\":[{\"kind\":\"routine\",\"id\":\"r1\",\"title\":\"A\"},{\"kind\":\"routine\",\"id\":\"r2\",\"title\":\"B\"}],\"routineStats\":{\"total\":2,\"todayDone\":1},\"notes\":[{\"kind\":\"note\",\"id\":\"n1\",\"title\":\"memo\"}],\"incompleteTodos\":[{\"kind\":\"todo\",\"id\":\"t1\",\"dueAt\":\"2026-09-19\"}],\"meals\":[{\"slot\":\"breakfast\",\"id\":\"m1\",\"image\":\"data:image/png;base64,owner-photo\"},{\"slot\":\"lunch\"},{\"slot\":\"dinner\"},{\"slot\":\"snack\"}],\"workouts\":[{\"kind\":\"workout\",\"id\":\"old\",\"date\":\"2026-09-19\"},{\"kind\":\"workout\",\"id\":\"today\",\"date\":\"2026-09-20\"}],\"books\":[{\"kind\":\"book\",\"id\":\"b1\",\"recordId\":\"real-book\",\"quote\":\"actual quote\",\"quotePage\":22}],\"challenges\":[{\"kind\":\"challenge\",\"id\":\"ch1\",\"nodes\":[true,false]}],\"dates\":{\"2026-09-20\":[{\"id\":\"entry\",\"type\":\"reading\",\"title\":\"today reading\",\"time\":\"13:00\"}],\"2026-09-19\":[{\"id\":\"yesterday\",\"title\":\"past\"}]}} ");
+        JSONObject approvedData=new JSONObject().put("scheduleItems",new JSONArray("[{\"id\":\"schedule\",\"date\":\"2026-09-20\",\"endDate\":\"2026-09-21\",\"time\":\"09:00\",\"title\":\"meeting\"}]"));
+        JSONObject emptyOptions=new JSONObject();
+        List<String> compactRoutine=WidgetApprovedV188.buildRows("RoutineCards",false,approved,approvedData,new JSONObject().put("id","r2"));
+        require(compactRoutine.size()==1&&new JSONObject(compactRoutine.get(0)).optString("id").equals("r2"),"approved one-routine widget retains selected real record ID");
+        require(new JSONObject(compactRoutine.get(0)).optBoolean("detail"),"one routine preserves detail fields and week history");
+        require(WidgetApprovedV188.buildRows("RoutineStats",false,approved,approvedData,emptyOptions).size()==1,"statistics has its own compact chart, not the full routine list again");
+        List<String> workflowLeft=WidgetApprovedV188.buildRows("PersonalWorkflowAll",false,approved,approvedData,emptyOptions),workflowRight=WidgetApprovedV188.buildRows("PersonalWorkflowAll",true,approved,approvedData,emptyOptions);
+        require(new JSONObject(workflowLeft.get(0)).optString("id").equals("t1"),"Todo/Memo left collection is incomplete todos, including overdue");
+        require(new JSONObject(workflowRight.get(0)).optString("id").equals("n1"),"Todo/Memo right collection is real notes");
+        List<String> healthRows=WidgetApprovedV188.buildRows("PersonalWorkoutMeal",false,approved,approvedData,emptyOptions);
+        require(healthRows.size()==2,"health combines one photo strip with today's actual workout");
+        JSONArray mealStrip=new JSONObject(healthRows.get(0)).optJSONArray("children");
+        require(mealStrip.length()==3,"empty snack does not waste photo strip space");
+        require(mealStrip.getJSONObject(0).optString("image").contains("owner-photo"),"meal photo is carried from owner snapshot without sample fallback");
+        require(new JSONObject(healthRows.get(1)).optString("id").equals("today"),"yesterday's exercise not represented as today's");
+        List<String> readingRows=WidgetApprovedV188.buildRows("PersonalQuote",false,approved,approvedData,emptyOptions);
+        require(readingRows.size()==2&&new JSONObject(readingRows.get(1)).optString("body").equals("actual quote"),"single reading widget contains actual book and quote");
+        List<String> todayRows=WidgetApprovedV188.buildRows("PersonalToday",false,approved,approvedData,emptyOptions);
+        require(todayRows.size()==3&&new JSONObject(todayRows.get(0)).optInt("count")==2,"today widget contains today's real schedule and record only");
+        require(new JSONObject(todayRows.get(1)).optString("id").equals("schedule"),"today timeline sorts actual time and preserves schedule identity");
+        require(!todayRows.toString().contains("yesterday"),"today composition no longer embeds three-day bullet layouts");
+        require(WidgetApprovedV188.buildRows("PersonalQuote",false,new JSONObject(),new JSONObject(),emptyOptions).isEmpty(),"new install has no example book");
+        require(WidgetApprovedV188.buildRows("PersonalWorkoutMeal",false,new JSONObject(),new JSONObject(),emptyOptions).isEmpty(),"new install has no example meal or exercise");
+        require(!WidgetApprovedV188.supports("PersonalBulletSeven"),"retired bullet provider remains isolated compatibility renderer");
+        require(WidgetApprovedV188.supports("PersonalWorkflowAll@right"),"secondary collection routes into approved native renderer");
+        require(approved.getJSONArray("routines").getJSONObject(1).optBoolean("detail")==false,"native composition does not mutate saved model");
+        JSONObject accountA=new JSONObject().put("v165",new JSONObject().put("uid","account-A")),accountB=new JSONObject().put("v165",new JSONObject().put("uid","account-B"));
+        JSONObject ownerBound=new JSONObject().put("id","same-row-id").put("children",new JSONArray().put(new JSONObject().put("kind","meal").put("id","meal-A")));
+        WidgetApprovedV188.bindOwner(ownerBound,"account-A","2026-09-20");
+        require(WidgetApprovedV188.validOwner(ownerBound,accountA),"row remains visible to its captured account");
+        require(!WidgetApprovedV188.validOwner(ownerBound,accountB),"account change between service check and render clears the old row");
+        require(!WidgetApprovedV188.validOwner(ownerBound,new JSONObject()),"logout clears a previously collected row");
+        require(!WidgetApprovedV188.validOwner(new JSONObject(),new JSONObject()),"unbound or anonymous row cannot bypass owner validation");
+        require(WidgetApprovedV188.validOwner(ownerBound.getJSONArray("children").getJSONObject(0),accountA),"meal child photo inherits source owner before recursive rendering");
+        require(!WidgetApprovedV188.validOwner(ownerBound.getJSONArray("children").getJSONObject(0),accountB),"nested photo cannot be rebound to another account");
+        require(WidgetDesignV165.model(WidgetApprovedV188.actionData(ownerBound)).optString("uid").equals("account-A"),"action UID is fixed to row source, never a fresh account snapshot");
+        require(WidgetDesignV165.model(WidgetApprovedV188.actionData(ownerBound)).optString("today").equals("2026-09-20"),"action retains the row's captured date");
+        require(WidgetApprovedV188.openType(new JSONObject().put("kind","stats")).equals("routine"),"routine statistics routes to routine instead of DayLog");
+        require(WidgetApprovedV188.openType(new JSONObject().put("kind","timeline").put("type","reading")).equals("reading"),"DayLog timeline preserves its original category");
         System.out.println("PASS: "+checks+" native model assertions.");
     }
 }

@@ -51,7 +51,7 @@ function harness(payload=initial()){
 }
 
 test('site and app contain the identical focused helper and export the API',()=>{
-  const app=fs.readFileSync(path.resolve(repo,'../AiderLog-v145-decoded/assets/firebase-app.js'),'utf8');
+  const app=fs.readFileSync(path.resolve(repo,'android-src/assets/firebase-app.js'),'utf8');
   assert.equal(app.slice(app.indexOf(start),app.indexOf(end)+end.length),block);
   for(const text of [source,app])assert.match(text,/const api = \{[\s\S]*?\n  applyWidgetActionV165,/);
 });

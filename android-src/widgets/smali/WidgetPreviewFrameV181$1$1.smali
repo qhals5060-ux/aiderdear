@@ -27,7 +27,7 @@
 .method constructor <init>(Lcom/aiderlog/v22app/WidgetPreviewFrameV181$1;Landroid/app/Activity;)V
     .locals 0
 
-    .line 31
+    .line 32
     iput-object p1, p0, Lcom/aiderlog/v22app/WidgetPreviewFrameV181$1$1;->this$1:Lcom/aiderlog/v22app/WidgetPreviewFrameV181$1;
 
     iput-object p2, p0, Lcom/aiderlog/v22app/WidgetPreviewFrameV181$1$1;->val$activity:Landroid/app/Activity;
@@ -42,7 +42,7 @@
 .method public run()V
     .locals 1
 
-    .line 31
+    .line 32
     iget-object v0, p0, Lcom/aiderlog/v22app/WidgetPreviewFrameV181$1$1;->val$activity:Landroid/app/Activity;
 
     invoke-virtual {v0}, Landroid/app/Activity;->isFinishing()Z

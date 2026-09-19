@@ -15,7 +15,7 @@ $taskD8176='C:/Users/김보민/Documents/Codex/2026-09-01/tkd/work/android-build
 $taskClasses176=Join-Path $taskOutput176 'classes'
 $taskDex176=Join-Path $taskOutput176 'dex'
 New-Item -ItemType Directory -Path $taskClasses176,$taskDex176 | Out-Null
-$taskSources176=@('WidgetProvider.java','WidgetNativeV164.java','WidgetDesignV165.java','WidgetRowsV164.java','WidgetNavV164.java','WidgetSizeV169.java','WidgetCompactCalendarV181.java','WidgetPreviewFrameV181.java') | ForEach-Object {Join-Path $PSScriptRoot $_}
+$taskSources176=@('WidgetProvider.java','WidgetNativeV164.java','WidgetDesignV165.java','WidgetApprovedV188.java','WidgetRowsV164.java','WidgetNavV164.java','WidgetSizeV169.java','WidgetCompactCalendarV181.java','WidgetPreviewFrameV181.java') | ForEach-Object {Join-Path $PSScriptRoot $_}
 & $taskJava176 -jar (Join-Path $taskTooling176 'ecj.jar') -1.8 -proc:none -encoding UTF-8 -classpath "$taskPlatform176;$taskTooling176/json.jar" -d $taskClasses176 @taskSources176
 if($LASTEXITCODE -ne 0){throw 'Widget Java compilation failed'}
 $taskCompiled176=@(Get-ChildItem -LiteralPath $taskClasses176 -Recurse -File -Filter '*.class' | Select-Object -ExpandProperty FullName)
@@ -36,7 +36,7 @@ if($CanonicalDecodedPath){
 }
 $taskCount176=0
 foreach($taskFile176 in Get-ChildItem -LiteralPath $taskPackage176 -File -Filter '*.smali'){
-    if($taskFile176.Name -notmatch '^Widget(Provider|NativeV164|DesignV165|RowsV164|NavV164|SizeV169|CompactCalendarV181|PreviewFrameV181)(\$|\.)'){throw 'Unexpected helper class'}
+    if($taskFile176.Name -notmatch '^Widget(Provider|NativeV164|DesignV165|ApprovedV188|RowsV164|NavV164|SizeV169|CompactCalendarV181|PreviewFrameV181)(\$|\.)'){throw 'Unexpected helper class'}
     foreach($taskMirror176 in $taskMirrors176){Copy-Item -LiteralPath $taskFile176.FullName -Destination (Join-Path $taskMirror176 $taskFile176.Name)}
     $taskCount176++
 }

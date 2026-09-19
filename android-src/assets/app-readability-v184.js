@@ -28,12 +28,12 @@
      // values remain CSS variables so keyboard/rotation updates need no DOM rewrite.
      const set=(node,rules)=>Object.entries(rules).forEach(([name,value])=>node.style.setProperty(name,value,'important'));
      set(layer,{'position':'fixed','inset':'auto 0 var(--editor-bottom-v184,0px)','width':'100%','min-width':'0','max-width':'100%','height':'var(--editor-viewport-v184,100dvh)','min-height':'0','max-height':'none','margin':'0','padding':'0','align-items':'flex-end','justify-content':'center','transform':'none','translate':'none'});
-     set(sheet,{'position':'relative','inset':'auto','width':'100%','min-width':'0','max-width':'100%','height':'var(--editor-height-v184,60dvh)','min-height':'var(--editor-height-v184,60dvh)','max-height':'var(--editor-height-v184,60dvh)','margin':'0','transform':'none','translate':'none','box-sizing':'border-box','border-radius':'18px 18px 0 0','overflow-x':'hidden','overflow-y':'auto'});
+     set(sheet,{'position':'relative','inset':'auto','width':'100%','min-width':'0','max-width':'100%','height':'auto','min-height':'0','max-height':'var(--editor-height-v184,60dvh)','margin':'0','transform':'none','translate':'none','box-sizing':'border-box','border-radius':'18px 18px 0 0','overflow-x':'hidden','overflow-y':'auto'});
    }
    for(const sheet of document.querySelectorAll('dialog.cw168-sheet,dialog.c167-dialog,dialog.mp166-modal,#estateStage>aside.estate-panel[role="dialog"]')){
      if(sheet.hasAttribute('data-editor-native-v184'))continue;
      sheet.dataset.editorSheetV184='';sheet.dataset.editorNativeV184='';
-     Object.entries({'position':'fixed','inset':'auto 0 var(--editor-bottom-v184,0px)','width':'100%','min-width':'0','max-width':'100%','height':'var(--editor-height-v184,60dvh)','min-height':'var(--editor-height-v184,60dvh)','max-height':'var(--editor-height-v184,60dvh)','margin':'0','transform':'none','translate':'none','box-sizing':'border-box','border-radius':'18px 18px 0 0','overflow-x':'hidden','overflow-y':'auto'}).forEach(([name,value])=>sheet.style.setProperty(name,value,'important'));
+     Object.entries({'position':'fixed','inset':'auto 0 var(--editor-bottom-v184,0px)','width':'100%','min-width':'0','max-width':'100%','height':'auto','min-height':'0','max-height':'var(--editor-height-v184,60dvh)','margin':'0','transform':'none','translate':'none','box-sizing':'border-box','border-radius':'18px 18px 0 0','overflow-x':'hidden','overflow-y':'auto'}).forEach(([name,value])=>sheet.style.setProperty(name,value,'important'));
    }
  }
  function pass(){queued=false;decorateEditors();}

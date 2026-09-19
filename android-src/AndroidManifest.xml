@@ -35,45 +35,45 @@
             <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE"/></intent-filter>
             <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_task_client_link"/>
         </receiver>
-        <receiver android:exported="true" android:label="일정 · 4 일정이 적힌 월간" android:name=".WidgetProvider$CalendarMonth">
+        <receiver android:exported="true" android:label="일정 · 월간 캘린더" android:name=".WidgetProvider$CalendarMonth">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>
             <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_calendar_month"/>
         </receiver>
-        <receiver android:exported="true" android:label="일정 · 1 달력과 다가오는 일정" android:name=".WidgetProvider$CalendarCombined">
+        <receiver android:exported="true" android:label="일정 · 달력과 다가오는 일정" android:name=".WidgetProvider$CalendarCombined">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>
             <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_calendar_combined"/>
         </receiver>
-        <receiver android:exported="true" android:label="일정 · 5 월간과 투두" android:name=".WidgetProvider$CalendarSplit">
+        <receiver android:exported="true" android:label="일정 · 월간과 투두" android:name=".WidgetProvider$CalendarSplit">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>
             <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_calendar_split"/>
         </receiver>
-        <receiver android:exported="true" android:label="일정 · 3 일정이 적힌 2주" android:name=".WidgetProvider$CalendarFortnight">
+        <receiver android:exported="true" android:label="일정 · 2주 캘린더" android:name=".WidgetProvider$CalendarFortnight">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>
             <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_calendar_fortnight"/>
         </receiver>
-        <receiver android:exported="true" android:label="일정 · 2 일정과 투두" android:name=".WidgetProvider$CalendarAgenda">
+        <receiver android:exported="true" android:label="일정 · 일정과 투두" android:name=".WidgetProvider$CalendarAgenda">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>
             <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_calendar_agenda"/>
         </receiver>
-        <receiver android:exported="true" android:label="불렛저널 · 3일과 메모" android:name=".WidgetProvider$PersonalToday">
+        <receiver android:exported="true" android:label="데이로그 · 오늘의 기록" android:name=".WidgetProvider$PersonalToday">
             <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE"/></intent-filter>
             <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_personal_today"/>
         </receiver>
-        <receiver android:exported="true" android:label="루틴 · 전체" android:name=".WidgetProvider$RoutineAll">
+        <receiver android:exported="true" android:label="루틴 · 체크리스트" android:name=".WidgetProvider$RoutineAll">
             <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE"/></intent-filter>
             <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_routine_all"/>
         </receiver>
-        <receiver android:exported="true" android:label="루틴 · 개별" android:name=".WidgetProvider$RoutineCards">
+        <receiver android:exported="true" android:label="루틴 · 하나의 루틴" android:name=".WidgetProvider$RoutineCards">
             <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE"/></intent-filter>
             <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_routine_cards"/>
         </receiver>
@@ -89,7 +89,7 @@
             <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE"/></intent-filter>
             <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_personal_workout_challenge"/>
         </receiver>
-        <receiver android:exported="true" android:label="건강 · 선택 챌린지" android:name=".WidgetProvider$PersonalWorkoutChallengeOnly">
+        <receiver android:exported="true" android:label="데이로그 · 운동 챌린지" android:name=".WidgetProvider$PersonalWorkoutChallengeOnly">
             <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE"/></intent-filter>
             <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_personal_challenge"/>
         </receiver>
@@ -105,7 +105,7 @@
             <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE"/></intent-filter>
             <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_personal_workflow_one"/>
         </receiver>
-        <receiver android:exported="true" android:label="메모 · 메모와 할 일" android:name=".WidgetProvider$PersonalWorkflowAll">
+        <receiver android:exported="true" android:label="데이로그 · 투두와 메모" android:name=".WidgetProvider$PersonalWorkflowAll">
             <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE"/></intent-filter>
             <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_personal_workflow_all"/>
         </receiver>
@@ -113,7 +113,7 @@
             <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE"/></intent-filter>
             <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_personal_todo"/>
         </receiver>
-        <receiver android:exported="true" android:label="독서 · 현재 책과 문장" android:name=".WidgetProvider$PersonalQuote">
+        <receiver android:exported="true" android:label="데이로그 · 독서" android:name=".WidgetProvider$PersonalQuote">
             <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE"/></intent-filter>
             <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_personal_quote"/>
         </receiver>
@@ -133,11 +133,11 @@
             <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE"/></intent-filter>
             <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_personal_bullet_seven_workflow"/>
         </receiver>
-        <receiver android:exported="true" android:label="루틴 · 전체와 통계" android:name=".WidgetProvider$RoutineStats">
+        <receiver android:exported="true" android:label="루틴 · 통계" android:name=".WidgetProvider$RoutineStats">
             <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE"/></intent-filter>
             <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_routine_stats"/>
         </receiver>
-        <receiver android:exported="true" android:label="건강 · 식사와 운동" android:name=".WidgetProvider$PersonalWorkoutMeal">
+        <receiver android:exported="true" android:label="데이로그 · 식사와 운동" android:name=".WidgetProvider$PersonalWorkoutMeal">
             <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE"/></intent-filter>
             <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_personal_workout_meal"/>
         </receiver>

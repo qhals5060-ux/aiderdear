@@ -83,12 +83,27 @@
 .end method
 
 .method static compact(Ljava/lang/String;)Z
-    .locals 0
+    .locals 1
 
     .line 14
     invoke-static {p0}, Lcom/aiderlog/v22app/WidgetCompactCalendarV181;->supports(Ljava/lang/String;)Z
 
+    move-result v0
+
+    if-nez v0, :cond_0
+
+    invoke-static {p0}, Lcom/aiderlog/v22app/WidgetApprovedV188;->supports(Ljava/lang/String;)Z
+
     move-result p0
+
+    if-nez p0, :cond_0
+
+    const/4 p0, 0x0
+
+    return p0
+
+    :cond_0
+    const/4 p0, 0x1
 
     return p0
 .end method
@@ -96,7 +111,7 @@
 .method static heightForWidth(IIIII)I
     .locals 0
 
-    .line 16
+    .line 17
     sub-int/2addr p0, p1
 
     sub-int/2addr p0, p2
@@ -131,7 +146,7 @@
 .method static heightForWidth(Ljava/lang/String;IIIII)I
     .locals 0
 
-    .line 19
+    .line 20
     sub-int/2addr p1, p2
 
     sub-int/2addr p1, p3
@@ -144,7 +159,7 @@
 
     int-to-float p1, p1
 
-    invoke-static {p0}, Lcom/aiderlog/v22app/WidgetCompactCalendarV181;->ratio(Ljava/lang/String;)F
+    invoke-static {p0}, Lcom/aiderlog/v22app/WidgetPreviewFrameV181;->ratio(Ljava/lang/String;)F
 
     move-result p0
 
@@ -168,7 +183,7 @@
 .method public static prepare(Landroid/app/Activity;Landroid/view/ViewGroup;Ljava/lang/String;)Z
     .locals 8
 
-    .line 22
+    .line 23
     invoke-static {p2}, Lcom/aiderlog/v22app/WidgetPreviewFrameV181;->compact(Ljava/lang/String;)Z
 
     move-result v0
@@ -179,16 +194,16 @@
 
     return v1
 
-    .line 23
+    .line 24
     :cond_0
     invoke-virtual {p1}, Landroid/view/ViewGroup;->getWidth()I
 
     move-result v0
 
-    .line 24
+    .line 25
     if-gtz v0, :cond_2
 
-    .line 25
+    .line 26
     sget-object p2, Lcom/aiderlog/v22app/WidgetPreviewFrameV181;->awaiting:Ljava/util/WeakHashMap;
 
     invoke-virtual {p2, p1}, Ljava/util/WeakHashMap;->containsKey(Ljava/lang/Object;)Z
@@ -197,27 +212,27 @@
 
     if-nez p2, :cond_1
 
-    .line 26
+    .line 27
     sget-object p2, Lcom/aiderlog/v22app/WidgetPreviewFrameV181;->awaiting:Ljava/util/WeakHashMap;
 
     sget-object v0, Ljava/lang/Boolean;->TRUE:Ljava/lang/Boolean;
 
     invoke-virtual {p2, p1, v0}, Ljava/util/WeakHashMap;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
 
-    .line 27
+    .line 28
     new-instance p2, Lcom/aiderlog/v22app/WidgetPreviewFrameV181$1;
 
     invoke-direct {p2, p1, p0}, Lcom/aiderlog/v22app/WidgetPreviewFrameV181$1;-><init>(Landroid/view/ViewGroup;Landroid/app/Activity;)V
 
     invoke-virtual {p1, p2}, Landroid/view/ViewGroup;->addOnLayoutChangeListener(Landroid/view/View$OnLayoutChangeListener;)V
 
-    .line 35
+    .line 36
     :cond_1
     const/4 p0, 0x0
 
     return p0
 
-    .line 37
+    .line 38
     :cond_2
     invoke-virtual {p1}, Landroid/view/ViewGroup;->getPaddingLeft()I
 
@@ -243,12 +258,12 @@
 
     move-result v2
 
-    .line 38
+    .line 39
     invoke-virtual {p1}, Landroid/view/ViewGroup;->getLayoutParams()Landroid/view/ViewGroup$LayoutParams;
 
     move-result-object v3
 
-    .line 39
+    .line 40
     if-eqz v3, :cond_3
 
     iget v4, v3, Landroid/view/ViewGroup$LayoutParams;->height:I
@@ -259,7 +274,7 @@
 
     invoke-virtual {p1, v3}, Landroid/view/ViewGroup;->setLayoutParams(Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 40
+    .line 41
     :cond_3
     const v2, 0x3dcccccd    # 0.1f
 
@@ -277,7 +292,7 @@
 
     move-result p0
 
-    .line 41
+    .line 42
     invoke-virtual {p1}, Landroid/view/ViewGroup;->getPaddingLeft()I
 
     move-result v2
@@ -296,7 +311,7 @@
 
     int-to-float p1, p1
 
-    .line 42
+    .line 43
     sget-object v0, Lcom/aiderlog/v22app/WidgetPreviewFrameV181;->previous:Ljava/lang/ThreadLocal;
 
     sget-object v2, Lcom/aiderlog/v22app/WidgetSizeV169;->active:Ljava/lang/ThreadLocal;
@@ -315,14 +330,14 @@
 
     invoke-virtual {v0, v2}, Ljava/lang/ThreadLocal;->set(Ljava/lang/Object;)V
 
-    .line 43
+    .line 44
     sget-object v0, Lcom/aiderlog/v22app/WidgetSizeV169;->active:Ljava/lang/ThreadLocal;
 
     new-instance v2, Landroid/util/SizeF;
 
     div-float v3, p1, p0
 
-    invoke-static {p2}, Lcom/aiderlog/v22app/WidgetCompactCalendarV181;->ratio(Ljava/lang/String;)F
+    invoke-static {p2}, Lcom/aiderlog/v22app/WidgetPreviewFrameV181;->ratio(Ljava/lang/String;)F
 
     move-result p2
 
@@ -334,14 +349,39 @@
 
     invoke-virtual {v0, v2}, Ljava/lang/ThreadLocal;->set(Ljava/lang/Object;)V
 
-    .line 44
+    .line 45
     return v1
+.end method
+
+.method static ratio(Ljava/lang/String;)F
+    .locals 1
+
+    .line 15
+    invoke-static {p0}, Lcom/aiderlog/v22app/WidgetApprovedV188;->supports(Ljava/lang/String;)Z
+
+    move-result v0
+
+    if-eqz v0, :cond_0
+
+    invoke-static {p0}, Lcom/aiderlog/v22app/WidgetApprovedV188;->ratio(Ljava/lang/String;)F
+
+    move-result p0
+
+    goto :goto_0
+
+    :cond_0
+    invoke-static {p0}, Lcom/aiderlog/v22app/WidgetCompactCalendarV181;->ratio(Ljava/lang/String;)F
+
+    move-result p0
+
+    :goto_0
+    return p0
 .end method
 
 .method public static restore()V
     .locals 2
 
-    .line 47
+    .line 48
     sget-object v0, Ljava/lang/Boolean;->TRUE:Ljava/lang/Boolean;
 
     sget-object v1, Lcom/aiderlog/v22app/WidgetPreviewFrameV181;->applied:Ljava/lang/ThreadLocal;
@@ -356,7 +396,7 @@
 
     if-eqz v0, :cond_1
 
-    .line 48
+    .line 49
     sget-object v0, Lcom/aiderlog/v22app/WidgetPreviewFrameV181;->previous:Ljava/lang/ThreadLocal;
 
     invoke-virtual {v0}, Ljava/lang/ThreadLocal;->get()Ljava/lang/Object;
@@ -378,7 +418,7 @@
 
     invoke-virtual {v1, v0}, Ljava/lang/ThreadLocal;->set(Ljava/lang/Object;)V
 
-    .line 50
+    .line 51
     :cond_1
     :goto_0
     sget-object v0, Lcom/aiderlog/v22app/WidgetPreviewFrameV181;->previous:Ljava/lang/ThreadLocal;
@@ -389,6 +429,6 @@
 
     invoke-virtual {v0}, Ljava/lang/ThreadLocal;->remove()V
 
-    .line 51
+    .line 52
     return-void
 .end method
