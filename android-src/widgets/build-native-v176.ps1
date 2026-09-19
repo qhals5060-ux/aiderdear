@@ -1,10 +1,14 @@
-param([string]$OutputRoot=(Join-Path $PSScriptRoot '../../../../outputs/widget-v176/native-build'))
+param(
+ [string]$OutputRoot=(Join-Path $PSScriptRoot '../../../../work/widget-v184/native-build'),
+ [string]$ToolWorkspace='C:/Users/김보민/Documents/Codex/2026-09-01/new-chat',
+ [string]$CanonicalDecodedPath=''
+)
 $ErrorActionPreference='Stop'
 $taskWorkspace176=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../..'))
 $taskOutput176=[IO.Path]::GetFullPath($OutputRoot)
 if(!$taskOutput176.StartsWith($taskWorkspace176+[IO.Path]::DirectorySeparatorChar,[StringComparison]::OrdinalIgnoreCase)){throw 'Native helper output must remain inside the task workspace.'}
 if(Test-Path -LiteralPath $taskOutput176){throw 'Choose a fresh OutputRoot; previous helpers are preserved.'}
-$taskJava176=Join-Path $taskWorkspace176 'work/android-tools/jre17/jdk-17.0.20.1+1-jre/bin/java.exe'
+$taskJava176=Join-Path $ToolWorkspace 'work/android-tools/jre17/jdk-17.0.20.1+1-jre/bin/java.exe'
 $taskTooling176='C:/AiderLogBuild/tooling-v163'
 $taskPlatform176='C:/AiderLogBuild/android-platform35-v169/sdk/android-35/android.jar'
 $taskD8176='C:/Users/김보민/Documents/Codex/2026-09-01/tkd/work/android-build-tools/30.0.3/android-11/lib/d8.jar'
@@ -21,10 +25,15 @@ Add-Type -AssemblyName System.IO.Compression.FileSystem
 $taskHelper176=Join-Path $taskOutput176 'widget-helper.apk'
 [IO.Compression.ZipFile]::CreateFromDirectory($taskDex176,$taskHelper176)
 $taskDecoded176=Join-Path $taskOutput176 'decoded'
-& $taskJava176 -jar (Join-Path $taskWorkspace176 'work/android-tools/apktool_2.12.1.jar') d $taskHelper176 -o $taskDecoded176 -r
+& $taskJava176 -jar (Join-Path $ToolWorkspace 'work/android-tools/apktool_2.12.1.jar') d $taskHelper176 -o $taskDecoded176 -r
 if($LASTEXITCODE -ne 0){throw 'Helper disassembly failed'}
 $taskPackage176=Join-Path $taskDecoded176 'smali/com/aiderlog/v22app'
-$taskMirrors176=@((Join-Path $taskWorkspace176 'work/AiderLog-v145-decoded/smali/com/aiderlog/v22app'),(Join-Path $PSScriptRoot 'smali'))
+$taskMirrors176=@((Join-Path $PSScriptRoot 'smali'))
+if($CanonicalDecodedPath){
+    $taskCanonical176=[IO.Path]::GetFullPath($CanonicalDecodedPath)
+    if(!$taskCanonical176.StartsWith($taskWorkspace176+[IO.Path]::DirectorySeparatorChar,[StringComparison]::OrdinalIgnoreCase)){throw 'Decoded destination must remain inside the current task workspace.'}
+    $taskMirrors176+=(Join-Path $taskCanonical176 'smali/com/aiderlog/v22app')
+}
 $taskCount176=0
 foreach($taskFile176 in Get-ChildItem -LiteralPath $taskPackage176 -File -Filter '*.smali'){
     if($taskFile176.Name -notmatch '^Widget(Provider|NativeV164|DesignV165|RowsV164|NavV164|SizeV169|CompactCalendarV181|PreviewFrameV181)(\$|\.)'){throw 'Unexpected helper class'}

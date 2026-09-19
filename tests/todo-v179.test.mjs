@@ -62,7 +62,7 @@ test('invalid dates, unsafe fields and missing/oversized content never replace s
   assert.deepEqual(p,before);const memo=mutateTodoRowsV179(p,save({source:'memos',kind:'memo',text:'m'.repeat(1200)}));assert.equal(memo.row.kind,'memo');assert.equal(memo.row.date,'');
 });
 
-const source=fs.readFileSync(new URL('../firebase-app.js',import.meta.url),'utf8');
+const source=fs.readFileSync(new URL('../firebase-app.js',import.meta.url),'utf8').replace(/\r\n/g,'\n');
 const block=source.slice(source.indexOf('// BEGIN TODO NOTE TRANSACTION V179'),source.indexOf('// END TODO NOTE TRANSACTION V179'));
 function fixture(payload=sample()){
   let data={payload:encodeStoredPayload(clone(payload)),unrelated:'preserve'},commits=0,reads=0;

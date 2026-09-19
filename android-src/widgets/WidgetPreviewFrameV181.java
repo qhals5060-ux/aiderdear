@@ -11,9 +11,12 @@ public final class WidgetPreviewFrameV181 {
     private static final WeakHashMap<ViewGroup,Boolean> awaiting=new WeakHashMap<ViewGroup,Boolean>();
     private static final ThreadLocal<SizeF> previous=new ThreadLocal<SizeF>();
     private static final ThreadLocal<Boolean> applied=new ThreadLocal<Boolean>();
-    static boolean compact(String kind){return "CalendarAgenda".equals(kind)||"CalendarFortnight".equals(kind);}
+    static boolean compact(String kind){return WidgetCompactCalendarV181.supports(kind);}
     static int heightForWidth(int width,int left,int right,int top,int bottom){
         return Math.max(1,Math.round(Math.max(1,width-left-right)/2f))+top+bottom;
+    }
+    static int heightForWidth(String kind,int width,int left,int right,int top,int bottom){
+        return Math.max(1,Math.round(Math.max(1,width-left-right)*WidgetCompactCalendarV181.ratio(kind)))+top+bottom;
     }
     public static boolean prepare(final Activity activity,final ViewGroup host,String kind){
         if(!compact(kind))return true;
@@ -31,13 +34,13 @@ public final class WidgetPreviewFrameV181 {
             }
             return false;
         }
-        int height=heightForWidth(width,host.getPaddingLeft(),host.getPaddingRight(),host.getPaddingTop(),host.getPaddingBottom());
+        int height=heightForWidth(kind,width,host.getPaddingLeft(),host.getPaddingRight(),host.getPaddingTop(),host.getPaddingBottom());
         ViewGroup.LayoutParams params=host.getLayoutParams();
         if(params!=null&&params.height!=height){params.height=height;host.setLayoutParams(params);}
         float density=Math.max(.1f,activity.getResources().getDisplayMetrics().density);
         float innerWidth=Math.max(1,width-host.getPaddingLeft()-host.getPaddingRight());
         previous.set(WidgetSizeV169.active.get());applied.set(Boolean.TRUE);
-        WidgetSizeV169.active.set(new SizeF(innerWidth/density,innerWidth/2f/density));
+        WidgetSizeV169.active.set(new SizeF(innerWidth/density,innerWidth*WidgetCompactCalendarV181.ratio(kind)/density));
         return true;
     }
     public static void restore(){

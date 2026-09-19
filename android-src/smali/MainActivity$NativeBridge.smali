@@ -97,7 +97,7 @@
     .end annotation
 
     .line 285
-    const-string v0, "1.9.73"
+    const-string v0, "1.9.74"
 
     return-object v0
 .end method
@@ -238,6 +238,59 @@
     :catch_0
     :cond_0
     return-void
+.end method
+
+.method public openCalendarAuth(Ljava/lang/String;)Z
+    .locals 5
+    .annotation runtime Landroid/webkit/JavascriptInterface;
+    .end annotation
+
+    if-eqz p1, :calendar_rejected_v184
+    :calendar_try_v184
+    invoke-static {p1}, Landroid/net/Uri;->parse(Ljava/lang/String;)Landroid/net/Uri;
+    move-result-object v0
+    const-string v1, "https"
+    invoke-virtual {v0}, Landroid/net/Uri;->getScheme()Ljava/lang/String;
+    move-result-object v2
+    invoke-virtual {v1, v2}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+    move-result v2
+    if-eqz v2, :calendar_rejected_v184
+    const-string v1, "accounts.google.com"
+    invoke-virtual {v0}, Landroid/net/Uri;->getHost()Ljava/lang/String;
+    move-result-object v2
+    invoke-virtual {v1, v2}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+    move-result v2
+    if-eqz v2, :calendar_rejected_v184
+    const-string v1, "/o/oauth2/v2/auth"
+    invoke-virtual {v0}, Landroid/net/Uri;->getPath()Ljava/lang/String;
+    move-result-object v2
+    invoke-virtual {v1, v2}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+    move-result v2
+    if-eqz v2, :calendar_rejected_v184
+    invoke-virtual {v0}, Landroid/net/Uri;->getUserInfo()Ljava/lang/String;
+    move-result-object v2
+    if-nez v2, :calendar_rejected_v184
+    invoke-virtual {v0}, Landroid/net/Uri;->getPort()I
+    move-result v2
+    const/4 v3, -0x1
+    if-eq v2, v3, :calendar_port_ok_v184
+    const/16 v3, 0x1bb
+    if-ne v2, v3, :calendar_rejected_v184
+    :calendar_port_ok_v184
+    new-instance v3, Landroid/content/Intent;
+    const-string v4, "android.intent.action.VIEW"
+    invoke-direct {v3, v4, v0}, Landroid/content/Intent;-><init>(Ljava/lang/String;Landroid/net/Uri;)V
+    iget-object v4, p0, Lcom/aiderlog/v22app/MainActivity$NativeBridge;->this$0:Lcom/aiderlog/v22app/MainActivity;
+    invoke-virtual {v4, v3}, Lcom/aiderlog/v22app/MainActivity;->startActivity(Landroid/content/Intent;)V
+    :calendar_try_end_v184
+    .catch Ljava/lang/Exception; {:calendar_try_v184 .. :calendar_try_end_v184} :calendar_catch_v184
+    const/4 v0, 0x1
+    return v0
+    :calendar_catch_v184
+    move-exception v0
+    :calendar_rejected_v184
+    const/4 v0, 0x0
+    return v0
 .end method
 
 .method public openEstateSite()Z

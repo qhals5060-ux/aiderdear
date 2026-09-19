@@ -4,6 +4,7 @@ import {ddayFailure,ddayId,ddayScope,mergeDdaySources,resolveDdaySelection,prese
 import {PRIVATE_CALENDAR_VERSION,canUsePrivateIntimacy,privateCalendarFailure,privateCalendarError,privateCalendarId,privateCalendarRange,privateCalendarRevision,normalizePrivateCalendarSettings,normalizePrivateCalendarEntry,normalizePrivateCalendarDay,privateCalendarDayMutation,privateCalendarMutation} from './private-calendar-v175.js';
 import {createFriendScheduleAdapter} from './friend-schedule-firebase-v175.js';
 import {createAndroidSession} from './android-session-v176.js';
+import {createCalendarSyncClient} from './calendar-sync-v184.js';
 import {mutateTodoRowsV179,todoFailureV179,mergePrivateNotesV179} from './todo-domain-v179.js';
 const storageStampV168=()=>({storageVersion:168,formatWrittenAt:serverTimestamp()});
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js';
@@ -509,6 +510,7 @@ function googleCalendarProvider() {
 
 async function requestGoogleCalendarAccess() {
   requireUser();
+  if(androidSessionV176.enabled())throw new Error('앱 설정의 Google Calendar 연결에서 자동 동기화를 연결해주세요.');
   try {
     console.info('[calendar-connection] browser-consent-start');
     const result = await reauthenticateWithPopup(auth.currentUser, googleCalendarProvider());
@@ -530,7 +532,7 @@ async function requestGoogleCalendarAccess() {
 }
 
 async function googleCalendarFetch(url, options = {}) {
-  if (!googleCalendarAccessToken) await requestGoogleCalendarAccess();
+  if (!googleCalendarAccessToken) throw new Error('Google Calendar 권한이 만료되었습니다. 캘린더 연결을 다시 눌러주세요.');
   const headers = new Headers(options.headers || {});
   headers.set('Authorization', `Bearer ${googleCalendarAccessToken}`);
   const response = await fetch(url, { ...options, headers });
@@ -567,8 +569,9 @@ async function listGoogleCalendarEvents(calendarId, timeMin, timeMax) {
     const result = await googleCalendarFetch(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendarId)}/events?${params}`);
     rows.push(...(Array.isArray(result?.items) ? result.items.filter(item => item.status !== 'cancelled') : []));
     pageToken = String(result?.nextPageToken || '');
-  } while (pageToken && rows.length < 750);
-  return rows.slice(0, 750);
+    if(pageToken&&rows.length>=10000)throw new Error('일정이 매우 많습니다. 동기화할 캘린더 선택을 줄여주세요.');
+  } while (pageToken);
+  return rows;
 }
 
 function driveQueryEscape(value) {
@@ -2456,6 +2459,7 @@ const friendScheduleAdapterV175 = createFriendScheduleAdapter({db,getContext:()=
 }});
 
 const api = {
+  calendarSync: createCalendarSyncClient({getUser:()=>auth.currentUser,getToken:getFirebaseIdToken,fetch:(...args)=>fetch(...args),bridge:()=>window.AiderLogNative||null,visible:()=>document.visibilityState!=='hidden',online:()=>navigator.onLine!==false}),
   compactQuarterly,
   config: { projectId: firebaseConfig.projectId, authDomain: firebaseConfig.authDomain },
   getState: () => ({ ...state, user:publicStateUserV175() }),

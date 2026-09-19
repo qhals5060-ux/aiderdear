@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/w184_event_title" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:paddingLeft="2dp" android:paddingRight="1dp" android:paddingTop="1dp" android:paddingBottom="1dp" android:textSize="10sp" android:textColor="#171A3A" android:fontFamily="sans-serif" android:includeFontPadding="false" android:maxLines="2" android:ellipsize="end" android:background="#EEE7F8"/>

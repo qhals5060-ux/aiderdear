@@ -154,6 +154,6 @@ import {todoRowsV179,todoKindV179,todoTextV179,filterTodosV179,sortTodosV179} fr
   window.addEventListener('aiderlog-native-resume',()=>{if(!busy)refresh();});
   document.addEventListener('visibilitychange',()=>{if(!document.hidden&&owner&&!busy)refresh();});
   new MutationObserver(queue).observe(document.body,{childList:true,subtree:true});
-  window.AiderTodoV179=Object.freeze({open,refresh,incomplete,inlineMarkup,mountInline,mountAll,edit,close:closeManagerV182});
+  window.AiderTodoV179=Object.freeze({open,refresh,incomplete,inlineMarkup,mountInline,mountAll,edit,close:closeManagerV182,snapshot:()=>owner&&owner===uid()?copy(data):{checklists:[],memos:[]}});
   ensurePage();bind();render();
 })();

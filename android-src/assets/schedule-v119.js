@@ -23,6 +23,7 @@
         // the current pair; unscoped cache flags alone never grant visibility.
         const shared=(remote?.shared||[]).map(row=>state.pair?.id?{...row,pairKey:String(state.pair.id)}:row);
         A.scheduleEvents=mergeRows(Array.isArray(A.scheduleEvents)?A.scheduleEvents:[],remote?.own||[],shared);
+        window.AiderCalendarSyncV184?.applyCached?.();
         try{localStorage.setItem('aiderlog-app-v20',JSON.stringify(A));}catch{}
         if(activePage==='home'&&typeof renderHome==='function')renderHome();
       }catch(error){console.warn('Schedule read sync skipped',error?.code||'unavailable');}

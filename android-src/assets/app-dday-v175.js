@@ -32,6 +32,6 @@
   const tick=()=>{const day=new Date(Date.now()+9*3600000).toISOString().slice(0,10);if(day!==clockDay){clockDay=day;render();updateHome();}};
   const startClock=()=>{tick();if(clockTimer===null)clockTimer=setInterval(tick,60000);};
   window.addEventListener('pagehide',()=>{if(clockTimer!==null)clearInterval(clockTimer);clockTimer=null;});window.addEventListener('pageshow',startClock);startClock();
-  window.AiderAppDdayV175=Object.freeze({selected,count,cardMarkup,open,refresh});
+  window.AiderAppDdayV175=Object.freeze({selected,count,cardMarkup,open,refresh,snapshot:()=>{identity();return data?JSON.parse(JSON.stringify(data)):null;}});
   if(api())connect();
 })();

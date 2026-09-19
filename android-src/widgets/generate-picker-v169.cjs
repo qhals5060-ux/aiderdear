@@ -28,8 +28,8 @@ function legacyFixtureConstructors(){
   let source=fs.readFileSync(path.join(__dirname,'generate-picker-v165.cjs'),'utf8');
   const end=source.indexOf('for(const conf of Object.values(configs))');
   if(end<0)throw Error('Preview fixture boundary changed; review before regenerating.');
-  source=source.slice(0,end).replace(/const \{chromium\}=require\([^\n]+\);\n/,'');
-  source=source.replace(/function graphSvg\([\s\S]*?\nfunction component\(/,graphSvg.toString()+'\nfunction component(');
+  source=source.slice(0,end).replace(/const \{chromium\}=require\([^\r\n]+\);\r?\n/,'');
+  source=source.replace(/function graphSvg\([\s\S]*?\r?\nfunction component\(/,graphSvg.toString()+'\nfunction component(');
   source=source.replace("'widget_demo_graph_v165_'","'widget_demo_graph_v169_'");
   // Both inbody and exercise trend samples use the real compact native row.
   // Weekly/overall statistics retain their existing large chart component.
@@ -82,75 +82,8 @@ function fillContainer(xml,id,items){
   if(!rx.test(xml))throw Error('Missing empty native preview container: '+id);
   return xml.replace(rx,(tag,name)=>attrs(tag,{visibility:'visible'}).replace(/\/>$/,'>')+items.map(stripNamespace).join('')+`</${name}>`);
 }
-function compactCalendarPreview(kind,width=336){
-  const agenda=kind==='calendar_agenda',rows=['팀 미팅','자료 검토','병원 예약','운동','저녁 약속','공부'];
-  const times=['09:30','11:00','14:00','16:00','18:30','20:00'],colours=['#8E71DB','#557FC7','#C66C9C','#7561DC','#8E71DB','#557FC7'];
-  const titles=['논문 초안 작성','장비 점검 리스트','발표 자료 준비','구매 견적 확인','메일 회신','전시회 티켓 예매'];
-  let xml=read('layout',agenda?'widget_agenda_compact_v181':'widget_fortnight_compact_v181');
-  xml=el(xml,'widget_root',{contentDescription:'위젯 구성 미리보기 · 예시 데이터'});
-  xml=el(xml,'w165_secondary_list',{visibility:'gone'});
-  if(agenda){
-    const events=rows.map((title,i)=>el(el(el(read('layout','widget_compact_event_v181'),'w181_dot',{textColor:colours[i]}),'w181_time',{text:times[i]}),'w181_title',{text:title}));
-    xml=el(xml,'widget_items_v164',{visibility:'gone'});
-    xml=fillContainer(xml,'widget_preview_rows_v164',events);
-    return fillContainer(xml,'w181_todo_preview',titles.map(title=>el(read('layout','widget_compact_todo_v181'),'w181_title',{text:title})));
-  }
-  const calendar=[read('layout','widget_compact_weekday_v181')];
-  for(let week=0;week<2;week++){
-    const days=[];
-    for(let day=0;day<7;day++){
-      const index=week*7+day,date=7+index,entry=index<6?`${times[index]} ${rows[index]}`:'';
-      let item=read('layout','widget_compact_day_v181');
-      item=el(item,'w181_day',{text:date,textColor:day===6?'#C46779':day===5?'#557FC7':'#171A3A'});
-      item=el(item,'w181_event',{text:index<6?rows[index]:'',textSize:width>=500?'10.5sp':'8.5sp'});
-      item=el(item,'w181_event_time',{text:index<6?times[index].replace(/^0/,''):'',visibility:entry?'visible':'gone'});
-      item=el(item,'w181_dot',{visibility:entry?'visible':'gone',textColor:colours[index%colours.length]});
-      item=el(item,'w181_cell_background',{src:'@drawable/'+(date===8?'widget_compact_selected_v181':'widget_compact_grid_v181')});
-      days.push(item);
-    }
-    calendar.push(fillContainer(read('layout','widget_week_v164'),'widget_week_cells_v164',days));
-  }
-  xml=fillContainer(xml,'widget_calendar_v164',calendar);
-  const pairs=[];
-  for(let row=0;row<3;row++)pairs.push(fillContainer(read('layout','widget_compact_todo_group_v181'),'w181_pair',titles.slice(row*2,row*2+2).map(title=>el(read('layout','widget_compact_todo_cell_v181'),'w181_title',{text:title}))));
-  return fillContainer(xml,'w181_todo_preview',pairs);
-}
-function calendarPreview(kind,width,height){
-  if(kind==='calendar_agenda'||kind==='calendar_fortnight')return compactCalendarPreview(kind,width);
-  const large=kind==='calendar_split',monthOnly=kind==='calendar_month',agenda=kind==='calendar_agenda',fortnight=kind==='calendar_fortnight',wide=width>=560;
-  const only=large||monthOnly,title=agenda?'9월 6일 일요일 · 3건':fortnight?'08.31 – 09.13':'2026. 09',split=wide&&!only;
-  const rows=['09:30 팀 미팅','14:00 병원 예약','19:30 공부'].map(line=>el(el(read('layout','widget_item_v164'),'widget_item_time_v165',{text:line.slice(0,5)}),'widget_item_text_v164',{text:line.slice(6)}));
-  if(agenda)return rootXml({title,add:true,rows}); // No duplicate selected-date subtitle.
-  let weekday=read('layout','widget_weekrow_v164');
-  if(fortnight)for(let i=0;i<7;i++)weekday=el(weekday,'widget_week_'+i,{text:['월','화','수','목','금','토','일'][i]});
-  const dates=new Date(2026,7,fortnight?31:30),weeks=fortnight?2:5,calendar=[weekday];
-  const cellHeight=(((height||320)-38)*(only||split?1:.6)-16)/weeks;
-  const events={'2026-09-06':['09:30 팀 미팅','14:00 병원 예약','19:30 공부'],'2026-09-08':['10:00 자료 검토'],'2026-09-11':['16:00 운동']};
-  const holidays={'2026-09-24':'추석연휴','2026-09-25':'추석','2026-09-26':'추석연휴','2026-10-03':'개천절'};
-  for(let week=0;week<weeks;week++){
-    const cells=[];
-    for(let day=0;day<7;day++){
-      const key=`${dates.getFullYear()}-${String(dates.getMonth()+1).padStart(2,'0')}-${String(dates.getDate()).padStart(2,'0')}`,entries=events[key]||[],selected=key==='2026-09-06',visible=large?(cellHeight>=90?3:cellHeight>=60?2:1):0;
-      let xml=read('layout',fortnight?'widget_day_compact_v178':'widget_day_v164');
-      xml=el(xml,'widget_day_number_v164',{text:dates.getDate(),textColor:'#171A3A',background:'@drawable/widget_day_clear_v164'});
-      xml=el(xml,'widget_day_background_v164',{src:'@drawable/'+(selected?'widget_day_selected_v164':'widget_day_bg_v164')});
-      xml=el(xml,'widget_day_number_v164',{textSize:cellHeight>=70?'13sp':'11.5sp'});
-      xml=el(xml,'widget_day_label_v164',{text:holidays[key]||'',visibility:holidays[key]&&cellHeight>=36?'visible':'gone'});
-      xml=el(xml,'widget_day_events_v164',{text:entries.slice(0,visible).join('\n'),textSize:cellHeight>=90?'11.5sp':cellHeight>=60?'10.5sp':'9sp',maxLines:visible*2,visibility:large&&cellHeight>=32?'visible':'gone'});
-      xml=el(xml,'widget_day_more_v164',{text:entries.length?'●':'',visibility:!large&&cellHeight>=24?'visible':'gone'});
-      cells.push(xml);dates.setDate(dates.getDate()+1);
-    }
-    calendar.push(fillContainer(read('layout','widget_week_v164'),'widget_week_cells_v164',cells));
-  }
-  let result=read('layout',split?'widget_native_wide_v164':'widget_native_v164');
-  result=el(result,'widget_root',{contentDescription:'위젯 구성 미리보기 · 예시 데이터'});
-  result=el(result,'widget_title',{text:title});
-  result=el(result,'widget_subtitle',{text:'9월 6일 일요일 · 3건',visibility:only?'gone':'visible'});
-  result=el(result,'widget_list_panel_v164',{visibility:only?'gone':'visible'});
-  for(const id of ['widget_items_v164','widget_empty'])result=el(result,id,{visibility:'gone'});
-  result=fillContainer(result,'widget_calendar_v164',calendar);
-  return fillContainer(result,'widget_preview_rows_v164',rows);
-}
+function compactCalendarPreview(kind,width=336,height){return require('./calendar-preview-v184.cjs').render(kind,width,height,{read,el,fillContainer});}
+function calendarPreview(kind,width,height){return compactCalendarPreview(kind,width,height);}
 
 async function generate(){
   fs.mkdirSync(qaDir,{recursive:true});
@@ -172,13 +105,13 @@ async function generate(){
     personal_challenge:[2,224],personal_workout_challenge_all:[3,310],personal_workout_challenge_combined:[4,440],
     personal_workout_stats:[4,380],personal_workout_stats_inbody:[4,425],personal_reading:[5,520],personal_quote:[4,380],
     personal_today:[6,610],personal_bullet_three_workflow:[6,740],personal_bullet_seven:[5,530],personal_bullet_seven_workflow:[6,670],
-    calendar_agenda:[2,168],calendar_combined:[5,520],calendar_fortnight:[2,168],calendar_month:[4,320],calendar_split:[6,570],
+    calendar_agenda:[4,319],calendar_combined:[3,255],calendar_fortnight:[3,269],calendar_month:[5,403],calendar_split:[6,484],
     task_client_link:[1,80]
   };
   // Preview images must contain complete sample rows, not clipped labels. This
   // affects only launcher samples: installed collection widgets remain scrollable
   // and use the actual host bounds, never these demonstration bitmap heights.
-  const wideHeights={calendar_agenda:336,calendar_fortnight:336,personal_todo:272,routine_cards:264,routine_stats:464,
+  const wideHeights={calendar_agenda:390,calendar_combined:310,calendar_fortnight:336,calendar_month:484,calendar_split:560,personal_todo:272,routine_cards:264,routine_stats:464,
     personal_workout_stats:300,personal_workout_stats_inbody:292,
     personal_bullet_seven:408,personal_bullet_seven_workflow:592};
   function wideRows(kind,conf){
@@ -213,8 +146,8 @@ async function generate(){
     }
     let meta=read('xml','widget_'+kind);
     const initial=meta.match(/android:initialLayout="([^"]+)"/)?.[1];
-    const compactCalendar=kind==='calendar_agenda'||kind==='calendar_fortnight';
-    meta=meta.replace(/<appwidget-provider\b[^>]*>/,tag=>attrs(tag,{minWidth:kind==='task_client_link'?'40dp':'250dp',minHeight:(Math.max(40,span*70-30))+'dp',targetCellWidth:kind==='task_client_link'?'1':'4',targetCellHeight:span,previewImage:'@drawable/'+name,previewLayout:'@layout/'+name,...(compactCalendar?{minResizeWidth:'250dp',minResizeHeight:'110dp'}:{})}));
+    const compactCalendar=kind.startsWith('calendar_');
+    meta=meta.replace(/<appwidget-provider\b[^>]*>/,tag=>attrs(tag,{minWidth:kind==='task_client_link'?'40dp':'250dp',minHeight:(Math.max(40,span*70-30))+'dp',targetCellWidth:kind==='task_client_link'?'1':'4',targetCellHeight:span,previewImage:'@drawable/'+name,previewLayout:'@layout/'+name,...(compactCalendar?{minResizeWidth:'250dp',minResizeHeight:kind==='calendar_split'?'320dp':kind==='calendar_month'?'250dp':kind==='calendar_agenda'||kind==='calendar_combined'?'180dp':'150dp'}:{})}));
     if(meta.match(/android:initialLayout="([^"]+)"/)?.[1]!==initial)throw Error('Do not replace runtime initialLayout with sample data.');
     write('xml','widget_'+kind,meta);
   }

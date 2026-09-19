@@ -2,11 +2,11 @@
 <resources>
     <string name="app_name">AiderLog</string>
     <string name="widget_loading">앱을 열어 최신 내용을 동기화하세요.</string>
-    <string name="widget_desc_calendar_agenda">일정과 미완료 할 일 · 4×2</string>
-    <string name="widget_desc_calendar_combined">월간 캘린더 안에 일정 표시</string>
-    <string name="widget_desc_calendar_split">달력 날짜별 시간·제목과 추가 일정 수</string>
-    <string name="widget_desc_calendar_month">월간 캘린더만 표시</string>
-    <string name="widget_desc_calendar_fortnight">2주 캘린더와 미완료 할 일 · 4×2</string>
+    <string name="widget_desc_calendar_agenda">다가오는 일정 · 하단 미완료 투두</string>
+    <string name="widget_desc_calendar_combined">왼쪽 이달 달력 · 오른쪽 다가오는 일정</string>
+    <string name="widget_desc_calendar_split">일정 제목이 표시된 월간 캘린더 · 하단 투두</string>
+    <string name="widget_desc_calendar_month">일정 제목이 표시된 월간 캘린더</string>
+    <string name="widget_desc_calendar_fortnight">일정 제목이 표시된 2주 캘린더</string>
     <string name="widget_desc_bullet">최근 3일 일정·메모·할 일</string>
     <string name="widget_desc_bullet_seven">최근 7일 일정·메모·할 일</string>
     <string name="widget_desc_bullet_three_workflow">최근 3일 기록과 워크플로우</string>

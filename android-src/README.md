@@ -1,5 +1,20 @@
 # Android native release patches
 
+## v184 current release
+
+Version code 184 / version name 1.9.74 retains the package and signing certificate.
+The five calendar providers keep their IDs and now use the approved compact
+month/upcoming, agenda/todo, fortnight, month, and month/todo layouts. The existing
+27 picker entries remain. App editors use 60% of the usable viewport, with 0.3mm
+CSS spacing above and below the app. Weekly and W overview views use the existing
+account-scoped schedule, D-day, and note stores.
+
+Google Calendar uses the existing server OAuth refresh/webhook infrastructure.
+Legacy browser-only or expired connections need one reconnection in settings.
+No new Firestore collection or paid service is required. Release binaries are
+GitHub Release assets; Git and Vercel exclude APK/ZIP duplicates. Keep old download
+URLs redirected, and preserve a rollback before retiring an old deployment.
+
 ## v178 current release
 
 Version code 178 / version name 1.9.68 retains package `com.aiderlog.v22app` and

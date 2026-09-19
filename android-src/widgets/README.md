@@ -1,4 +1,42 @@
-# Native widgets (v181)
+# Native widgets (v184)
+
+The five existing calendar provider IDs now use the approved compact designs:
+
+| Provider | Composition | Default cells |
+| --- | --- | --- |
+| CalendarCombined | Month on the left, upcoming dated events on the right | 4×3 |
+| CalendarAgenda | Upcoming dated events above incomplete todos | 4×4 |
+| CalendarFortnight | Two weeks with event titles inside each date | 4×3 |
+| CalendarMonth | Full month with event titles inside each date | 4×5 |
+| CalendarSplit | Full month with event titles, then incomplete todos | 4×6 |
+
+All five are native RemoteViews, retain saved colour/opacity/font settings and
+resize with actual launcher bounds. The 6dp outer padding and 30dp navigation
+row leave the remaining area to calendar cells and scrolling records. Dates and
+holidays have separate lines. Fortnight titles may use two lines when the host
+has enough height. Month overflow opens the complete date in the app. Upcoming
+lists include ongoing and future events and show date, time and title.
+The todo checkbox retains the existing owner/revision-checked app transaction;
+it opens the app to complete that transaction and does not bypass Firebase rules.
+
+`generate-calendar-v184.cjs` is the production XML source. Run it before copying
+the resource overlay to the isolated decoded stage. `generate-picker-v169.cjs`
+now uses `calendar-preview-v184.cjs` to fill that same XML with explicit demo
+records for launcher artwork. Capture the five 336px-wide picker fixtures and
+preserve their recorded heights (255, 319, 269, 403, 484 respectively). These
+browser measurements are not device screenshots. Do not copy sample records
+into widget snapshots.
+
+`build-native-v176.ps1` now mirrors generated smali only into the repository by
+default. Pass `-CanonicalDecodedPath` explicitly to mirror to an isolated stage
+within the current workspace. Existing tool dependencies are reused through
+`-ToolWorkspace`; no full source copy or Android SDK installation is required.
+
+Current gates: `WidgetNativeContractTest` (102 model assertions), the updated
+compact/density/metadata suites and existing model/privacy/action/transaction
+tests. Physical Samsung launcher behaviour still requires a device check.
+
+## Historical v181 implementation
 
 This is a reproducible source overlay for the existing decoded Android app,
 not a standalone Gradle project. Preserve the application/provider names and

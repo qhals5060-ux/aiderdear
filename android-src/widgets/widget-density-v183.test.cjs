@@ -23,30 +23,18 @@ test('standard todo rows retain readable text and fit two complete records in 4x
     assert.equal(attr(find(root,'w165_title'),'layout_height'),'wrap_content');
   }
 });
-test('A reads six aligned rows at standard size without header or panel stacking',()=>{
-  const root=tree('widget_agenda_compact_v181'),shell=kids(root)[1];
-  const height=168-2*dp(shell,'padding');
-  const event=tree('widget_compact_event_v181'),todo=tree('widget_compact_todo_v181');
-  assert.equal(dp(event,'layout_height'),dp(todo,'layout_height'));
-  assert.equal(Math.floor(height/dp(event,'layout_height')),6);
-  assert.equal(dp(find(event,'w181_title'),'textSize'),12.5);
-  assert.equal(dp(find(todo,'w181_title'),'textSize'),12.5);
-  assert.equal(dp(find(event,'w181_time'),'layout_width'),36);
-  assert.equal(kids(shell).filter(n=>n.name==='FrameLayout').length,2);
-  assert.equal(find(root,'widget_title'),undefined);
+test('five calendars use six-dp padding and 30dp navigation instead of oversized chrome',()=>{
+  for(const name of ['widget_split_compact_v184','widget_agenda_compact_v184','widget_month_compact_v184']){
+    const root=tree(name),shell=kids(root)[1],header=kids(shell)[0];assert.equal(dp(shell,'padding'),6);assert.equal(dp(header,'layout_height'),30);
+    assert.equal(255-2*dp(shell,'padding')-dp(header,'layout_height'),213);
+  }
 });
-test('B keeps 60/40 geometry and all 6 visible todo slots',()=>{
-  const root=tree('widget_fortnight_compact_v181'),shell=kids(root)[1],parts=kids(shell);
-  const total=168-2*dp(shell,'padding')-dp(parts[1],'layout_height'),todoHeight=total*2/5;
-  assert.equal(dp(parts[0],'layout_weight'),3);assert.equal(dp(parts[2],'layout_weight'),2);
-  assert.equal(Math.floor(todoHeight/dp(tree('widget_compact_todo_group_v181'),'layout_height'))*2,6);
-  const day=tree('widget_compact_day_v181');
-  assert.equal(dp(find(day,'w181_event'),'textSize'),8.5);
-  assert.equal(dp(find(day,'w181_event_time'),'layout_width'),18);
-  assert.equal(dp(find(day,'w181_event_time'),'textSize'),8);
-  assert.ok((336-8)/7-2-3-18-1>22,'time has a separate bounded column so a title retains room');
-  assert.equal(attr(find(day,'w181_event'),'singleLine'),'true');
-  assert.equal(attr(find(day,'w181_event'),'ellipsize'),'end');
+test('calendar text has a distinct holiday line and scalable compact todo rows',()=>{
+  const day=tree('widget_event_day_v184'),todo=tree('widget_todo_row_v184');
+  assert.equal(dp(day,'layout_margin'),0);assert.equal(attr(find(day,'w184_day'),'layout_height'),'wrap_content');
+  assert.equal(attr(find(day,'w184_holiday'),'singleLine'),'true');assert.equal(attr(find(day,'w184_holiday'),'ellipsize'),'end');
+  assert.equal(dp(find(todo,'w184_check_hit'),'layout_width'),30);assert.equal(dp(find(todo,'w184_todo_title'),'textSize'),12);
+  assert.equal(attr(find(todo,'w184_todo_title'),'layout_height'),'wrap_content');assert.equal(attr(find(todo,'w184_todo_title'),'minHeight'),'29dp');
 });
 test('month cells reclaim the old 28dp date box and disconnected card gaps',()=>{
   const day=tree('widget_day_v164'),number=find(day,'widget_day_number_v164');
@@ -59,7 +47,7 @@ test('month cells reclaim the old 28dp date box and disconnected card gaps',()=>
 test('picker shell and calendar rows come from installed native resources',()=>{
   const generator=source('generate-picker-v169.cjs');
   assert.match(generator,/function rootXml\(conf\)\{\s+let xml=read\('layout','widget_design_v165'\)/);
-  assert.match(generator,/let result=read\('layout',split\?'widget_native_wide_v164':'widget_native_v164'\)/);
-  assert.match(generator,/fillContainer\(read\('layout','widget_week_v164'\),'widget_week_cells_v164',cells\)/);
+  assert.match(generator,/calendar-preview-v184.cjs/);
+  assert.match(source('calendar-preview-v184.cjs'),/fillContainer\(read\('layout','widget_week_v164'\),'widget_week_cells_v164',cells\)/);
   assert.doesNotMatch(generator,/layout_height:'28dp'/);
 });

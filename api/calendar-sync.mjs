@@ -1,10 +1,11 @@
 import {decodeArchive,encodeStoredPayload} from '../archive-codec-v168.js';
 import crypto from 'node:crypto';
+import {mergeProviderRows,sameRows} from '../server/calendar-rows-v184.mjs';
 import { applicationDefault, cert, getApps, initializeApp } from 'firebase-admin/app';
 import { getAuth } from 'firebase-admin/auth';
 import { FieldValue, getFirestore } from 'firebase-admin/firestore';
 
-const API_VERSION = 109;
+const API_VERSION = 184;
 const CAPABILITIES = Object.freeze({
   serverAutomaticSync: true,
   selectedCalendarImport: true,
@@ -158,34 +159,36 @@ async function mirrorSharedSchedule(uid, email, rows) {
     authorEmail: email,
     authorUid: uid,
   }));
-  await db.doc(`pairs/${pairId}/schedules/${uid}`).set({
+  const ref=db.doc(`pairs/${pairId}/schedules/${uid}`);
+  await db.runTransaction(async transaction=>{
+  const previous=await transaction.get(ref);
+  if(sameRows(decodeArchive(previous.data()?.payload)||[],shared))return;
+  transaction.set(ref,{
     payload: encodeStoredPayload(shared), storageVersion:168, formatWrittenAt:FieldValue.serverTimestamp(),
     ownerUid: uid,
     ownerEmail: email,
     updatedAt: FieldValue.serverTimestamp(),
   }, { merge: true });
+  });
 }
 
 async function replaceProviderRows(uid, provider, rows) {
   const user = await getAuth().getUser(uid);
   const email = String(user.email || '').toLowerCase();
   let savedRows = [];
+  let changed = false;
   await db.runTransaction(async transaction => {
     const ref = scheduleRef(uid);
     const snapshot = await transaction.get(ref);
     const previous = decodeArchive(snapshot.data()?.payload) || [];
-    const own = previous.filter(row => row?.externalSource !== provider);
-    const merged = [...own, ...rows].map(row => ({
-      ...row,
-      authorEmail: email,
-      authorUid: uid,
-      owner: row?.shareWithCouple ? 'shared' : (row?.owner === 'shared' ? 'shared' : 'mine'),
-      pairKey: '',
-    }));
+    const merged = mergeProviderRows(previous,provider,rows,uid,email);
     savedRows = merged;
+    changed = !sameRows(previous,merged);
+    if(!changed)return;
     transaction.set(ref, { ownerUid: uid, payload: encodeStoredPayload(merged), storageVersion:168, formatWrittenAt:FieldValue.serverTimestamp(), updatedAt: FieldValue.serverTimestamp(), updatedBy: uid }, { merge: true });
   });
-  await mirrorSharedSchedule(uid, email, savedRows);
+  if(changed)await mirrorSharedSchedule(uid, email, savedRows);
+  return changed;
 }
 
 async function removeProviderRows(uid, provider) {
@@ -207,8 +210,11 @@ async function googleAccess(uid) {
   const snapshot = await ref.get();
   if (!snapshot.exists) throw new Error('Google Calendar가 연결되지 않았습니다.');
   const data = snapshot.data();
-  if (data.accessToken && Number(data.expiresAt || 0) > Date.now() + 60_000) return { ref, data, token: data.accessToken };
-  if (!data.refreshToken) throw new Error('Google Calendar를 다시 연결해주세요.');
+  if (data.accessToken && Number(data.expiresAt || 0) > Date.now() + 60_000) return { uid, ref, data, token: data.accessToken };
+  if (!data.refreshToken) {
+    await ref.set({connected:false,lastError:'Google Calendar를 다시 연결해주세요.'},{merge:true});
+    throw Object.assign(new Error('Google Calendar를 다시 연결해주세요.'),{code:'calendar/reconnect-required',status:403});
+  }
   const response = await fetch(GOOGLE_TOKEN, {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -219,20 +225,32 @@ async function googleAccess(uid) {
     const message = token.error_description || 'Google Calendar 토큰 갱신에 실패했습니다.';
     if (String(token.error || '').toLowerCase() === 'invalid_grant') {
       await ref.set({ connected: false, accessToken: '', refreshToken: '', expiresAt: 0, lastError: 'Google 권한이 만료되었습니다. 캘린더를 다시 연결해주세요.', updatedAt: FieldValue.serverTimestamp() }, { merge: true });
-      throw new Error('Google 권한이 만료되었습니다. 캘린더를 다시 연결해주세요.');
+      throw Object.assign(new Error('Google 권한이 만료되었습니다. 캘린더를 다시 연결해주세요.'),{code:'calendar/reconnect-required',status:403});
     }
     await ref.set({ lastError: message, updatedAt: FieldValue.serverTimestamp() }, { merge: true });
     throw new Error(message);
   }
   const next = { ...data, accessToken: token.access_token, expiresAt: Date.now() + Number(token.expires_in || 3600) * 1000 };
   await ref.set({ accessToken: next.accessToken, expiresAt: next.expiresAt, updatedAt: FieldValue.serverTimestamp() }, { merge: true });
-  return { ref, data: next, token: next.accessToken };
+  return { uid, ref, data: next, token: next.accessToken };
 }
 
-async function googleJson(token, url, options = {}) {
+async function googleJson(connection, url, options = {}, retry = true) {
+  const token=typeof connection==='string'?connection:connection.token;
   const response = await fetch(url, { ...options, headers: { ...(options.headers || {}), Authorization: `Bearer ${token}` } });
   const body = response.status === 204 ? null : await response.json().catch(() => ({}));
-  if (!response.ok) throw new Error(body?.error?.message || `Google Calendar 오류 (${response.status})`);
+  if(response.status===401&&retry&&connection?.uid){
+    await connection.ref.set({accessToken:'',expiresAt:0},{merge:true});
+    const fresh=await googleAccess(connection.uid);
+    Object.assign(connection,fresh);
+    return googleJson(connection,url,options,false);
+  }
+  const missingScope=(body?.error?.errors||[]).some(row=>row.reason==='insufficientPermissions')||(body?.error?.details||[]).some(row=>row.reason==='ACCESS_TOKEN_SCOPE_INSUFFICIENT');
+  if(connection?.uid&&(response.status===401||missingScope)){
+    await connection.ref.set({connected:false,accessToken:'',expiresAt:0,lastError:'Google 권한을 다시 확인해주세요. 캘린더 연결에서 다시 연결할 수 있습니다.'},{merge:true});
+    throw Object.assign(new Error('Google 권한을 다시 확인해주세요. 캘린더 연결에서 다시 연결할 수 있습니다.'),{code:'calendar/reconnect-required',status:403});
+  }
+  if (!response.ok) throw Object.assign(new Error(body?.error?.message || `Google Calendar 오류 (${response.status})`),{status:response.status});
   return body;
 }
 
@@ -244,7 +262,7 @@ async function listGoogleEvents(token, calendar, start, end, sharedEventKeys = n
   const rows = [];
   let pageToken = '';
   do {
-    const query = new URLSearchParams({ singleEvents: 'true', orderBy: 'startTime', maxResults: '2500', timeMin: start, timeMax: end });
+    const query = new URLSearchParams({ singleEvents: 'true', orderBy: 'startTime', maxResults: '2500', timeMin: start, timeMax: end, fields:'items(id,status,summary,description,start,end,updated,htmlLink),nextPageToken' });
     if (pageToken) query.set('pageToken', pageToken);
     const data = await googleJson(token, `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendar.id)}/events?${query}`);
     for (const item of data.items || []) {
@@ -280,13 +298,20 @@ async function listGoogleEvents(token, calendar, start, end, sharedEventKeys = n
       });
     }
     pageToken = String(data.nextPageToken || '');
-  } while (pageToken && rows.length < 600);
+    if(pageToken&&rows.length>=10000)throw new Error('일정이 매우 많은 캘린더입니다. 동기화할 캘린더 선택을 줄여주세요. 기존 일정은 유지됩니다.');
+  } while (pageToken);
   return rows;
 }
 
 async function availableGoogleCalendars(connection) {
-  const result = await googleJson(connection.token, 'https://www.googleapis.com/calendar/v3/users/me/calendarList?maxResults=250');
-  return (result.items || []).filter(item => item.accessRole !== 'freeBusyReader' && !item.deleted);
+  const rows=[];let pageToken='';
+  do{
+    const query=new URLSearchParams({maxResults:'250',fields:'items(id,summary,primary,accessRole,backgroundColor,foregroundColor,deleted),nextPageToken'});
+    if(pageToken)query.set('pageToken',pageToken);
+    const result=await googleJson(connection,`https://www.googleapis.com/calendar/v3/users/me/calendarList?${query}`);
+    rows.push(...(result.items||[]));pageToken=String(result.nextPageToken||'');
+  }while(pageToken);
+  return rows.filter(item => item.accessRole !== 'freeBusyReader' && !item.deleted);
 }
 
 function selectedGoogleCalendars(connection, calendars) {
@@ -314,19 +339,21 @@ async function googleCalendarChoices(uid) {
   };
 }
 
-async function syncGoogle(uid) {
+async function syncGoogle(uid,{force=true}={}) {
   const connection = await googleAccess(uid);
+  const lastSyncedAt=connection.data.lastSyncedAt?.toMillis?.()||0;
+  if(!force&&Date.now()-lastSyncedAt<5*60*1000)return {itemCount:Number(connection.data.itemCount||0),calendarCount:Number(connection.data.calendarCount||0),selectedCalendarIds:connection.data.selectedCalendarIds||[],lastSyncedAt,unchanged:true};
   const calendars = await availableGoogleCalendars(connection);
   const selected = selectedGoogleCalendars(connection, calendars);
   const start = new Date(Date.now() - 366 * 86400000).toISOString();
   const end = new Date(Date.now() + 732 * 86400000).toISOString();
   const sharedEventKeys = new Set((Array.isArray(connection.data.sharedEventKeys) ? connection.data.sharedEventKeys : []).map(String));
-  const batches = await Promise.all(selected.map(calendar => listGoogleEvents(connection.token, calendar, start, end, sharedEventKeys)));
+  const batches = await Promise.all(selected.map(calendar => listGoogleEvents(connection, calendar, start, end, sharedEventKeys)));
   const rows = batches.flat().sort((a, b) => Math.abs(Date.parse(a.date) - Date.now()) - Math.abs(Date.parse(b.date) - Date.now())).slice(0, 600).sort((a, b) => String(a.date).localeCompare(String(b.date)));
-  await replaceProviderRows(uid, 'google', rows);
+  const changed=await replaceProviderRows(uid, 'google', rows);
   const selectedCalendarIds = selected.map(calendar => String(calendar.id));
   await connection.ref.set({ provider: 'google', connected: true, selectedCalendarIds, calendarCount: selected.length, itemCount: rows.length, lastSyncedAt: FieldValue.serverTimestamp(), lastError: '' }, { merge: true });
-  return { itemCount: rows.length, calendarCount: selected.length, selectedCalendarIds };
+  return { itemCount: rows.length, calendarCount: selected.length, selectedCalendarIds,lastSyncedAt:Date.now(),unchanged:!changed };
 }
 
 function nextDate(value) {
@@ -372,7 +399,7 @@ async function createGoogleEvent(uid, calendarId, event = {}, shareWithCouple = 
   const calendar = selected.find(row => String(row.id) === String(calendarId));
   if (!calendar) throw new Error('동기화 대상으로 선택한 Google 캘린더만 사용할 수 있습니다.');
   if (!['owner', 'writer'].includes(String(calendar.accessRole || ''))) throw new Error('이 Google 캘린더에는 일정을 추가할 권한이 없습니다.');
-  const item = await googleJson(connection.token, `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendar.id)}/events?sendUpdates=none`, {
+  const item = await googleJson(connection, `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendar.id)}/events?sendUpdates=none`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(googleEventPayload(event)),
@@ -402,7 +429,7 @@ async function shareGoogleEventToCoupleSiteOnly(uid, calendarId, eventId, shared
   // This is a read request only. Couple sharing is represented solely by a
   // Firestore flag and the pair schedule mirror below; it never creates or
   // updates an event in the partner's Google Calendar.
-  await googleJson(connection.token, `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendar.id)}/events/${encodeURIComponent(eventId)}`);
+  await googleJson(connection, `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendar.id)}/events/${encodeURIComponent(eventId)}`);
   const key = googleShareKey(calendarId, eventId);
   const values = new Set((Array.isArray(connection.data.sharedEventKeys) ? connection.data.sharedEventKeys : []).map(String));
   if (shared) values.add(key); else values.delete(key);
@@ -426,13 +453,13 @@ async function stopGoogleChannels(token, channels = []) {
 async function watchGoogle(uid) {
   const connection = await googleAccess(uid);
   const oldChannels = Array.isArray(connection.data.channels) ? connection.data.channels : [];
-  await stopGoogleChannels(connection.token, oldChannels);
+  await stopGoogleChannels(connection, oldChannels);
   const calendars = await availableGoogleCalendars(connection);
   const selected = selectedGoogleCalendars(connection, calendars);
   const channels = await Promise.all(selected.map(async calendar => {
     const id = crypto.randomUUID();
     const body = { id, type: 'web_hook', address: `${baseUrl()}/api/calendar-sync?action=google-webhook`, token: signedState({ uid, provider: 'google', exp: Date.now() + 8 * 86400000 }), expiration: String(Date.now() + 6 * 86400000) };
-    const result = await googleJson(connection.token, `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendar.id)}/events/watch`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    const result = await googleJson(connection, `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendar.id)}/events/watch`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
     const channel = { id, resourceId: result.resourceId, calendarId: calendar.id, expiration: Number(result.expiration || body.expiration) };
     await db.doc(`calendarChannels/${id}`).set({ uid, provider: 'google', calendarId: calendar.id, expiration: channel.expiration });
     return channel;
@@ -530,8 +557,8 @@ async function syncNotion(uid) {
   return { itemCount: rows.length };
 }
 
-async function startConnection(uid, provider) {
-  const state = signedState({ uid, provider, exp: Date.now() + 10 * 60_000 });
+async function startConnection(uid, provider, native=false) {
+  const state = signedState({ uid, provider,native:!!native, exp: Date.now() + 10 * 60_000 });
   if (provider === 'google') {
     const user = await getAuth().getUser(uid);
     const query = new URLSearchParams({ client_id: env('GOOGLE_CALENDAR_CLIENT_ID'), redirect_uri: callbackUrl(), response_type: 'code', scope: GOOGLE_SCOPE, access_type: 'offline', prompt: 'select_account consent', include_granted_scopes: 'true', state });
@@ -583,16 +610,24 @@ async function oauthCallback(req, res) {
       await integrationRef(state.uid, 'notion').set({ provider: 'notion', connected: true, accessToken: token.access_token, workspaceId: token.workspace_id || '', workspaceName: token.workspace_name || '', botId: token.bot_id || '', updatedAt: FieldValue.serverTimestamp() }, { merge: true });
       if (token.workspace_id) await db.doc(`calendarIntegrationIndex/notion-${token.workspace_id}`).set({ uid: state.uid, provider: 'notion', workspaceId: token.workspace_id });
     }
+    if(state.native)return nativeCalendarReturn(res,true);
     res.statusCode = 302;
     res.setHeader('Location', `${baseUrl()}/?calendar_sync=${encodeURIComponent(state.provider)}`);
     res.end();
   } catch (error) {
     console.error('calendar-sync callback', error);
+    if(state?.native)return nativeCalendarReturn(res,false);
     res.statusCode = 302;
     const provider = String(state?.provider || '');
     res.setHeader('Location', `${baseUrl()}/?calendar_sync_error=${encodeURIComponent(error.message || String(error))}${provider ? `&calendar_sync_provider=${encodeURIComponent(provider)}` : ''}`);
     res.end();
   }
+}
+
+function nativeCalendarReturn(res,ok){
+  res.statusCode=200;
+  res.setHeader('Content-Type','text/html; charset=utf-8');res.setHeader('Cache-Control','no-store');res.setHeader('Referrer-Policy','no-referrer');
+  res.end(`<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AiderLog Calendar</title><body style="font-family:system-ui;padding:32px;background:#f7f5fa;color:#31283f"><h1>${ok?'Google Calendar 연결 완료':'Google Calendar 연결 확인 필요'}</h1><p>${ok?'앱으로 돌아가서 동기화할 캘린더를 선택해주세요.':'앱으로 돌아가서 캘린더 연결을 다시 시도해주세요.'}</p><a href="aiderlog://calendar-sync?provider=google" style="display:inline-block;padding:14px 20px;border-radius:12px;background:#6e4a8e;color:white">AiderLog로 돌아가기</a></body></html>`);
 }
 
 async function status(uid) {
@@ -611,7 +646,7 @@ async function disconnect(uid, provider) {
   const ref = integrationRef(uid, provider);
   const snapshot = await ref.get();
   if (provider === 'google' && snapshot.exists) {
-    try { const access = await googleAccess(uid); await stopGoogleChannels(access.token, snapshot.data().channels || []); } catch {}
+    try { const access = await googleAccess(uid); await stopGoogleChannels(access, snapshot.data().channels || []); } catch {}
   }
   if (provider === 'notion' && snapshot.data()?.workspaceId) await db.doc(`calendarIntegrationIndex/notion-${snapshot.data().workspaceId}`).delete().catch(() => {});
   await ref.delete();
@@ -693,10 +728,10 @@ export default async function handler(req, res) {
       return json(res, 200, snapshot);
     }
     if (action === 'calendars') return json(res, 200, await googleCalendarChoices(user.uid));
-    if (action === 'start') return json(res, 200, { url: await startConnection(user.uid, parsed.value.provider) });
+    if (action === 'start') return json(res, 200, { url: await startConnection(user.uid, parsed.value.provider,parsed.value.native===true) });
     if (action === 'sync') {
       const provider = parsed.value.provider;
-      const result = provider === 'google' ? await syncGoogle(user.uid) : await syncNotion(user.uid);
+      const result = provider === 'google' ? await syncGoogle(user.uid,{force:parsed.value.force===true}) : await syncNotion(user.uid);
       trace('manual-sync', { user: String(user.uid).slice(0, 8), provider, calendars: result.calendarCount || 0, items: result.itemCount || 0 });
       return json(res, 200, result);
     }
@@ -726,6 +761,6 @@ export default async function handler(req, res) {
     return json(res, 404, { error: 'unknown action' });
   } catch (error) {
     console.error('calendar-sync', action, error);
-    return json(res, Number(error.status || 500), { error: error.message || String(error) });
+    return json(res, Number(error.status || 500), { error: error.message || String(error),...(error.code==='calendar/reconnect-required'?{code:error.code}:{}) });
   }
 }

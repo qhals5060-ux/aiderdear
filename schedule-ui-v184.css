@@ -1,0 +1,162 @@
+/* Shared compact views inherit the existing Editorial, Modern and app palettes. */
+:root,body>#app,.weekly-view-v184,.week-overview-dialog-v184,.site-note-editor-v184{--schedule-ink-v184:var(--app-text,var(--modern-ink,var(--ink,#292637)));--schedule-muted-v184:var(--app-text-muted,var(--modern-muted,#77717e));--schedule-paper-v184:var(--app-surface,var(--modern-surface,#fffdf9));--schedule-card-v184:var(--app-card,var(--modern-soft,#f6f3f8));--schedule-line-v184:var(--app-border,var(--modern-border,#dfd9e5));--schedule-accent-v184:var(--app-primary,var(--modern-accent,#6e4a8e))}
+.weekly-view-v184{display:grid;grid-template-rows:minmax(0,2fr) minmax(0,1fr);min-width:0;min-height:0;height:100%;overflow:hidden;color:var(--schedule-ink-v184);background:var(--schedule-paper-v184)}
+.weekly-view-v184[hidden]{display:none!important}
+.weekly-days-v184{display:grid;grid-template-rows:repeat(7,minmax(38px,1fr));min-height:0;overflow:auto;overscroll-behavior:contain;padding:0 6px;scrollbar-width:thin}
+.week-day-v184{display:grid;grid-template-columns:70px minmax(0,1fr);gap:8px;min-height:0;border-bottom:1px solid var(--schedule-line-v184);padding:3px 0}
+.week-day-v184:last-child{border-bottom:0}
+.week-date-v184{display:grid;grid-template-columns:auto auto;align-content:center;justify-content:start;align-items:baseline;gap:3px 5px;border:0;background:transparent;color:inherit;text-align:left;padding:3px;font:inherit;min-width:0}
+.week-date-v184 span{font-size:var(--type-md,12px);line-height:1.25;font-weight:600}
+.week-date-v184 strong{font-size:var(--type-lg,17px);line-height:1.1;font-variant-numeric:tabular-nums}
+.week-date-v184 small{grid-column:1/-1;font-size:var(--type-sm,10px);line-height:1.25;overflow-wrap:anywhere;color:#b94555}
+.week-day-v184.today .week-date-v184 strong{background:var(--schedule-accent-v184);color:#fff;border-radius:5px;padding:2px 4px}
+.week-day-v184.holiday .week-date-v184 span{color:#b94555}
+.week-events-v184{display:flex;flex-wrap:wrap;align-content:center;align-items:center;gap:3px 4px;min-width:0;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin}
+.week-event-v184{display:inline-flex;align-items:baseline;gap:4px;max-width:100%;min-height:25px;padding:3px 6px;background:var(--schedule-card-v184);border:1px solid var(--schedule-line-v184);border-radius:6px;font:inherit;color:inherit;text-align:left;min-width:0}
+.week-event-v184 time{font-size:var(--type-sm,11px);white-space:nowrap;opacity:.78}
+.week-event-v184 b{font-size:var(--type-md,12px);line-height:1.25;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600}
+.week-event-v184.all-day{background:color-mix(in srgb,#e3c578 22%,var(--schedule-paper-v184))}
+.week-empty-v184{padding:3px 8px;border:0;background:transparent;color:var(--schedule-muted-v184);font-size:var(--type-md,14px)}
+.weekly-notes-v184{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);min-height:0;border-top:1px solid var(--schedule-line-v184);background:var(--schedule-card-v184);padding:5px 8px;gap:8px;overflow:hidden}
+.week-notes-column-v184{display:flex;flex-direction:column;min-width:0;min-height:0}
+.week-notes-column-v184.memo{border-left:1px solid var(--schedule-line-v184);padding-left:8px}
+.week-notes-column-v184>header{display:flex;align-items:center;justify-content:space-between;gap:5px;flex:none;min-height:24px}
+.week-notes-column-v184>header b{font-size:var(--type-sm,11px);letter-spacing:.1em;font-weight:750}
+.week-notes-column-v184>header button{font:inherit;border:0;background:transparent;color:inherit;padding:1px 5px;min-width:26px;min-height:26px}
+.week-notes-column-v184>div{flex:1;min-height:0;overflow:auto;scrollbar-width:thin;overscroll-behavior:contain}
+.week-note-row-v184{display:flex;align-items:center;gap:5px;min-width:0;min-height:28px;border-bottom:1px solid color-mix(in srgb,var(--schedule-line-v184) 65%,transparent)}
+.week-note-row-v184 input{width:15px;height:15px;min-width:15px;margin:0;accent-color:var(--schedule-accent-v184)}
+.week-note-row-v184 button{flex:1;min-width:0;border:0;background:transparent;padding:4px 0;text-align:left;color:inherit;font:inherit}
+.week-note-row-v184 button span{display:block;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-size:var(--type-md,12px);line-height:1.3}
+.week-note-row-v184 time{font-size:var(--type-sm,10px);white-space:nowrap;color:var(--schedule-muted-v184);font-variant-numeric:tabular-nums}
+.week-note-row-v184.memo{align-items:flex-start}
+.week-note-row-v184.memo button span{white-space:normal;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow-wrap:anywhere}
+.week-notes-empty-v184{font-size:var(--type-md,12px);color:var(--schedule-muted-v184);line-height:1.4;padding:5px 0;margin:0}
+.week-overview-dialog-v184,.site-note-editor-v184{box-sizing:border-box;width:min(720px,calc(100vw - 20px));height:60dvh;max-height:calc(100dvh - 20px);min-height:0;overflow:hidden;padding:0;border:1px solid var(--schedule-line-v184);border-radius:20px;background:var(--schedule-paper-v184);color:var(--schedule-ink-v184);box-shadow:0 16px 60px #0003}
+.week-overview-dialog-v184[open]{display:flex;flex-direction:column}
+.week-overview-dialog-v184::backdrop,.site-note-editor-v184::backdrop{background:rgba(18,15,31,.3);backdrop-filter:blur(3px)}
+.week-overview-dialog-v184>header,.site-note-editor-v184 header{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 15px;border-bottom:1px solid var(--schedule-line-v184);flex:none}
+.week-overview-dialog-v184>header small{display:block;font-size:var(--type-sm,9px);letter-spacing:.14em;color:var(--schedule-muted-v184)}
+.week-overview-dialog-v184 h2,.site-note-editor-v184 h2{font-size:var(--type-lg,18px);margin:2px 0 0;line-height:1.25}
+.week-overview-dialog-v184>header button,.site-note-editor-v184 header button{font:inherit;border:0;border-radius:7px;background:var(--schedule-card-v184);color:inherit;min-height:34px;min-width:34px;padding:5px 8px}
+.overview-body-v184{flex:1;min-height:0;overflow:auto;padding:8px 14px 12px;display:grid;grid-template-columns:minmax(0,1fr);align-content:start;gap:12px}
+.overview-section-head-v184{display:flex;align-items:center;justify-content:space-between;min-height:28px;margin-bottom:3px}
+.overview-section-head-v184 b{font-size:var(--type-md,12px);font-weight:700}
+.overview-section-head-v184 button{border:0;border-radius:5px;background:var(--schedule-card-v184);color:inherit;font:inherit;font-size:var(--type-sm,11px);padding:5px 8px}
+.overview-ddays-v184{display:grid;gap:3px}
+.overview-dday-v184{display:grid;grid-template-columns:65px minmax(0,1fr) auto;align-items:center;gap:8px;text-align:left;background:var(--schedule-card-v184);border:0;border-radius:7px;color:inherit;font:inherit;min-height:32px;padding:5px 8px}
+.overview-dday-v184 strong{font-size:var(--type-md,14px);white-space:nowrap;color:var(--schedule-accent-v184)}
+.overview-dday-v184 span{font-size:var(--type-md,12px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.overview-dday-v184 time{font-size:var(--type-sm,10px);white-space:nowrap;color:var(--schedule-muted-v184)}
+.overview-week-v184 .week-day-v184{min-height:32px;padding-block:2px;gap:5px}
+.overview-week-v184 .week-events-v184{flex-wrap:nowrap;overflow-x:auto}
+.overview-week-v184 .week-event-v184{flex:0 0 auto;max-width:100%;min-height:24px;padding:2px 5px}
+.overview-week-v184 .week-date-v184{padding:1px 3px}
+.overview-week-v184 .week-date-v184 strong{font-size:var(--type-md,14px)}
+.overview-week-v184 .week-date-v184 small{font-size:var(--type-sm,10px)}
+.site-note-editor-v184 form{height:100%;display:flex;flex-direction:column;min-height:0}
+.site-note-editor-v184 form>div{overflow:auto;display:grid;gap:12px;padding:14px}
+.site-note-editor-v184 label{display:grid;gap:5px;font-size:var(--type-md,12px)}
+.site-note-editor-v184 input,.site-note-editor-v184 textarea{width:100%;min-width:0;padding:8px;border:1px solid var(--schedule-line-v184);border-radius:8px;color:inherit;background:var(--schedule-card-v184);font:inherit;font-size:var(--type-md,14px);line-height:1.4}
+.site-note-editor-v184 textarea{min-height:70px;resize:vertical}
+.site-note-editor-v184 [role=status]{font-size:var(--type-md,12px);color:#b94555;margin:0}
+@media(min-width:620px){.overview-body-v184{grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:16px}.overview-body-v184>section{min-width:0}.overview-dday-v184{grid-template-columns:58px minmax(0,1fr) auto;gap:5px}}
+
+/* Website additions use the original page frame and the same live calendar. */
+html:not(.aiderlog-android) body #app#app #page0 .schedule-calendar-v184.weekly-active-v184{grid-template-rows:auto minmax(0,1fr)!important}
+html:not(.aiderlog-android) body #app#app #page0 .weekly-active-v184>#calendar{display:none!important}
+html:not(.aiderlog-android) body #app#app #page0 .weekly-active-v184>.weekly-view-v184{grid-row:2;min-height:0!important;height:100%!important}
+html:not(.aiderlog-android) body #app#app #page0 .weekly-toggle-v184{height:29px!important;min-height:29px!important;padding:0 7px!important;width:auto!important;min-width:0!important;font-size:var(--type-sm,11px)!important;border:1px solid var(--schedule-line-v184);border-radius:7px;background:var(--schedule-card-v184);color:var(--schedule-ink-v184)}
+html:not(.aiderlog-android) body #app#app #page0 .weekly-toggle-v184[aria-pressed=true]{background:var(--schedule-accent-v184);color:#fff}
+html:not(.aiderlog-android) body #app#app #calendar .daynum-row{display:grid!important;grid-template-columns:auto minmax(0,1fr)!important;gap:3px!important;align-items:start!important;width:100%!important;min-width:0!important}
+html:not(.aiderlog-android) body #app#app #calendar .daynum{flex:none!important;white-space:nowrap!important}
+html:not(.aiderlog-android) body #app#app #calendar .holiday-name{position:static!important;min-width:0!important;max-width:100%!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
+html:not(.aiderlog-android) body #app#app #page0 .dday-group-v184{position:relative;padding:7px 8px 7px 38px!important;background:color-mix(in srgb,var(--schedule-accent-v184) 6%,var(--schedule-paper-v184))!important;border-radius:10px}
+html:not(.aiderlog-android) body #app#app #stage #ddayManageBtn#ddayManageBtn{display:flex!important;align-items:baseline!important;flex-wrap:nowrap!important;gap:6px!important;min-height:28px!important;padding:0!important}
+html:not(.aiderlog-android) body #app#app #stage #dday#dday{font-size:var(--type-xl,22px)!important;line-height:1.2!important;flex:none}
+html:not(.aiderlog-android) body #app#app #stage #ddayMeta#ddayMeta{font-size:var(--type-md,12px)!important;line-height:1.3!important;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+html:not(.aiderlog-android) body #app#app #page0 .dday-feature-hint-v176{display:none!important}
+html:not(.aiderlog-android) body #app#app #page0 #ddayUpcomingV176{grid-template-columns:1fr!important;margin-top:3px!important;gap:1px!important;max-height:78px!important}
+html:not(.aiderlog-android) body #app#app #page0 #ddayUpcomingV176>button{grid-template-columns:58px minmax(0,1fr) auto!important;min-height:26px!important;padding:2px 0!important;gap:6px!important}
+html:not(.aiderlog-android) body #app#app #page0 #ddayUpcomingV176>button>span:first-child{display:contents!important}
+html:not(.aiderlog-android) body #app#app #page0 .dday-small-count-v176{grid-column:1;grid-row:1;font-size:var(--type-md,13px)!important}
+html:not(.aiderlog-android) body #app#app #page0 .dday-small-title-v176{grid-column:2;grid-row:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:var(--type-md,12px)!important}
+html:not(.aiderlog-android) body #app#app #page0 .dday-small-date-v176{grid-column:3;grid-row:1;white-space:nowrap;font-size:var(--type-sm,10px)!important}
+html:not(.aiderlog-android) body #app#app #page0 .month-agenda{background:color-mix(in srgb,var(--schedule-accent-v184) 4%,var(--schedule-paper-v184))!important;border:0!important;border-radius:10px;padding:6px!important}
+html:not(.aiderlog-android) body #app#app #page0 .agenda-row{width:max-content!important;max-width:100%!important;min-width:0!important;min-height:30px!important;grid-template-columns:auto auto minmax(0,1fr)!important;gap:5px!important;border:1px solid var(--schedule-line-v184)!important;border-radius:7px!important;padding:5px 7px!important;background:var(--schedule-paper-v184)!important}
+html:not(.aiderlog-android) body #app#app #page0 .shared-date{display:block!important;font-size:var(--type-md,12px)!important;line-height:1.3!important}
+html:not(.aiderlog-android) body #app#app #page0 :is(.sharedList,.shared-list){gap:4px!important}
+.week-overview-open-v184{position:absolute;left:3px;top:7px;width:28px;height:28px;border:1px solid var(--schedule-line-v184);border-radius:7px;background:var(--schedule-paper-v184);color:var(--schedule-accent-v184);font:inherit;font-size:var(--type-md,13px);font-weight:800;padding:0}
+/* v172 uses display:contents on frame, so the new weekly panel must occupy
+   the calendar's parent-grid area, not an invented second frame row. */
+html:not(.aiderlog-android) body #app#app #stage #page0#page0 .weekly-active-v184>.weekly-view-v184{grid-column:1!important;grid-row:1/-1!important;height:100%!important;min-height:0!important}
+html:not(.aiderlog-android) body #app#app #stage #page0#page0 .cal-top{height:auto!important;min-height:42px!important;flex-direction:row!important;align-items:center!important;flex-wrap:nowrap!important;padding:6px 9px!important}
+html:not(.aiderlog-android) body #app#app #stage #page0#page0 .month-controls{flex:0 0 auto!important;width:auto!important;height:auto!important;min-height:29px!important;padding:0!important;margin:0!important;display:flex!important;align-items:center!important;flex-wrap:nowrap!important}
+html:not(.aiderlog-android) body #app#app #stage #page0#page0 .dday-group-v184{padding:7px 8px 7px 40px!important}
+@media(max-width:760px){
+ html:not(.aiderlog-android) body #app#app #stage #page0#page0 .weekly-active-v184>.weekly-view-v184{grid-row:2!important;height:65dvh!important;min-height:460px!important}
+ html:not(.aiderlog-android) body #app#app #stage #page0#page0 #monthTitle{font-size:20px!important;flex:1 1 auto!important;min-width:0!important}
+ html:not(.aiderlog-android) body #app#app #stage #page0#page0 .month-controls>button{height:30px!important;min-height:30px!important;padding:2px 6px!important}
+}
+
+/* The app's historical important rules belong to this layer. */
+@layer appColour164 {
+  html body #app #home .schedule-summary-v179{padding:0 7px!important;gap:4px!important}
+  html body #app #home .dday-summary-v179{position:relative!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:8px!important;padding:6px 7px 6px 35px!important;background:color-mix(in srgb,var(--app-surface,#fff) 94%,var(--app-primary,#6e4a8e))!important;color:var(--app-text,#292637)!important;border-radius:11px!important;min-height:48px!important}
+  html body #app #home .dday-main-v179{display:grid!important;grid-template-columns:auto minmax(0,1fr) auto!important;grid-template-rows:1fr!important;gap:4px!important;align-items:center!important;height:auto!important;min-height:26px!important}
+  html body #app #home .dday-main-v179>strong{grid-column:1!important;grid-row:1!important;font-size:var(--type-lg,15px)!important;line-height:1.2!important}
+  html body #app #home .dday-main-v179>b{grid-column:2!important;grid-row:1!important;font-size:var(--type-sm,11px)!important;line-height:1.3!important;white-space:nowrap!important}
+  html body #app #home .dday-main-v179>b:only-child{grid-column:1/-1!important}
+  html body #app #home .dday-main-v179>time{grid-column:3!important;grid-row:1!important;font-size:var(--type-sm,9px)!important;white-space:nowrap!important}
+  html body #app #home .dday-others-v179{grid-template-columns:minmax(0,1fr)!important;grid-auto-rows:22px!important;max-height:44px!important;height:44px!important;gap:0!important}
+  html body #app #home .dday-small-v179{display:grid!important;grid-template-columns:auto minmax(0,1fr) auto!important;align-items:center!important;gap:4px!important}
+  html body #app #home .dday-small-v179>span{display:contents!important}
+  html body #app #home .dday-small-v179 i{display:none!important}
+  html body #app #home .dday-small-v179 strong{font-size:var(--type-sm,11px)!important;line-height:1.3!important}
+  html body #app #home .dday-small-v179 b{font-size:var(--type-sm,10px)!important;line-height:1.3!important}
+  html body #app #home .dday-small-v179 time{font-size:var(--type-sm,9px)!important;line-height:1.3!important;padding:0!important;white-space:nowrap!important}
+  html body #app #home .week-overview-open-v184{top:50%!important;left:4px!important;transform:translateY(-50%);width:26px!important;height:29px!important;min-height:29px!important;min-width:26px!important;border:1px solid var(--schedule-line-v184)!important;background:var(--schedule-paper-v184)!important;color:var(--schedule-accent-v184)!important}
+  html body #app #home .schedule-upcoming-v179{display:flex!important;flex-wrap:nowrap!important;background:color-mix(in srgb,var(--app-surface,#fff) 90%,var(--app-primary,#6e4a8e))!important;padding:4px!important;border-radius:10px!important;gap:4px!important}
+  html body #app #home .schedule-upcoming-line-v179{min-width:0!important;max-width:min(100%,340px)!important;width:max-content!important;min-height:27px!important;display:flex!important;gap:4px!important;padding:4px 6px!important;background:var(--app-card,#fff)!important;border-radius:6px!important;flex:0 0 auto!important}
+  html body #app #home .schedule-upcoming-line-v179>span{display:flex!important;align-items:baseline!important;gap:4px!important;min-width:0!important}
+  html body #app #home .schedule-upcoming-line-v179 time{display:inline!important;font-size:var(--type-sm,10px)!important;white-space:nowrap!important;line-height:1.3!important;flex:none!important}
+  html body #app #home .schedule-upcoming-line-v179 b{font-size:var(--type-sm,11px)!important;line-height:1.3!important;min-width:0!important}
+  html body #app #home .upcoming-halfday-v179{display:none!important}
+  html body #app #home.schedule-feature-v125 .schedule-calctl-v119 .weekly-toggle-v184{width:auto!important;min-width:0!important;padding:0 6px!important;height:25px!important;min-height:25px!important;font-size:var(--type-sm,10px)!important;border:1px solid var(--schedule-line-v184)!important;background:var(--schedule-card-v184)!important;color:var(--schedule-ink-v184)!important}
+  html body #app #home.schedule-feature-v125 .schedule-calctl-v119 .weekly-toggle-v184[aria-pressed=true]{background:var(--schedule-accent-v184)!important;color:#fff!important}
+  html body #app #home .schedule-calendar-v184.weekly-active-v184{grid-template-rows:40px minmax(0,1fr)!important;overflow:clip!important}
+  html body #app #home .weekly-active-v184>.schedule-week-v119,html body #app #home .weekly-active-v184>.schedule-days-v119{display:none!important}
+  html body #app #home .weekly-active-v184>.weekly-view-v184{grid-row:2!important;height:100%!important;min-height:0!important}
+  html body #app #home .schedule-dashboard-v179:has(.weekly-active-v184){grid-template-columns:minmax(0,1fr)!important;grid-template-rows:auto minmax(0,1fr)!important}
+  html body #app #home .schedule-dashboard-v179:has(.weekly-active-v184)>.schedule-summary-v179{grid-column:1!important;grid-row:1!important;grid-template-rows:auto auto!important;min-height:0!important}
+  html body #app #home .schedule-dashboard-v179:has(.weekly-active-v184)>.schedule-calendar-v119{grid-column:1!important;grid-row:2!important}
+  html body #app #home .schedule-dashboard-v179:has(.weekly-active-v184) .schedule-summary-v179>.calendar-todos-v179{display:none!important}
+  html body #app #home .schedule-dashboard-v179:has(.weekly-active-v184) .dday-summary-v179{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important}
+  html body #app #home .schedule-dashboard-v179:has(.weekly-active-v184) .schedule-upcoming-v179{flex-wrap:nowrap!important;max-height:35px!important;overflow-x:auto!important}
+  html body #app #home .weekly-notes-v184 input[type=checkbox]{appearance:none!important;width:15px!important;height:15px!important;min-width:15px!important;display:grid!important;place-content:center!important;border:1px solid var(--schedule-accent-v184)!important;border-radius:3px!important;background:var(--schedule-paper-v184)!important;padding:0!important}
+  html body #app #home .weekly-notes-v184 input[type=checkbox]:checked{background:var(--schedule-accent-v184)!important}
+  html body #app #home .weekly-notes-v184 input[type=checkbox]:checked::after{content:'✓';font-size:11px;color:#fff;line-height:1}
+  html body #app #home .calendar-todos-v179{padding:3px 7px!important;border-block:1px solid var(--schedule-line-v184)!important;background:var(--schedule-card-v184)!important}
+  html body #app #home .calendar-todos-v179 .todo-inline-grid-v179{grid-template-columns:repeat(2,minmax(0,1fr))!important;grid-auto-rows:24px!important;column-gap:10px!important;padding:0!important}
+  html body #app #home .todo-inline-item-v179{gap:5px!important;border-bottom:1px solid color-mix(in srgb,var(--schedule-line-v184) 55%,transparent);font-size:var(--type-sm,11px)!important;line-height:1.3!important}
+  html body #app #home .todo-inline-item-v179>span{flex:1;min-width:0}
+  html body #app #home .todo-inline-item-v179>small{font-size:var(--type-sm,9px)!important;color:var(--schedule-muted-v184)!important}
+  html body #app #home.schedule-feature-v125 [data-schedule-date-v125]>.schedule-holiday-v144{position:absolute!important;top:3px!important;left:22px!important;right:2px!important;max-width:calc(100% - 24px)!important;width:auto!important;margin:0!important;padding:0!important;overflow:hidden!important;white-space:nowrap!important;text-overflow:ellipsis!important;font-size:var(--type-sm,9px)!important;line-height:14px!important;text-align:left!important}
+  html body #app #todo .todo-workspace-v179{gap:7px!important;padding:9px 12px!important;border-radius:20px!important}
+  html body #app #todo .todo-header-v179{justify-content:flex-start!important;padding:2px 0!important}
+  html body #app #todo .todo-header-v179 h1{font-size:var(--type-lg,18px)!important;line-height:1.2!important;flex:1;white-space:nowrap;margin:0!important}
+  html body #app #todo .todo-header-v179>button{min-height:34px!important;padding:5px 8px!important;font-size:var(--type-md,12px)!important;border-radius:8px!important}
+  html body #app #todo .todo-tabs-v179{padding:3px!important;background:var(--schedule-card-v184)!important;border-radius:10px!important;gap:3px!important}
+  html body #app #todo .todo-tabs-v179 button{min-height:35px!important;border:0!important;border-radius:7px!important;font-size:var(--type-md,13px)!important}
+  html body #app #todo .todo-tabs-v179 button[aria-pressed=true]{background:var(--schedule-paper-v184)!important;color:var(--schedule-accent-v184)!important;box-shadow:0 1px 4px #0001!important}
+  html body #app #todo .todo-list-v179{gap:0!important;border:1px solid var(--schedule-line-v184)!important;border-radius:12px!important;background:var(--schedule-paper-v184)!important;padding:0 8px!important}
+  html body #app #todo .todo-row-v179{border:0!important;border-bottom:1px solid var(--schedule-line-v184)!important;border-radius:0!important;background:transparent!important;padding:5px 0!important;gap:5px!important}
+  html body #app #todo .todo-copy-v179{padding:5px 2px!important;gap:3px!important;min-height:38px!important}
+  html body #app #todo .todo-copy-v179 b{font-size:var(--type-md,14px)!important;font-weight:600!important;line-height:1.4!important}
+  html body #app #todo .todo-copy-v179 small{font-size:var(--type-sm,11px)!important}
+  html body #app #todo .todo-check-v179 input{appearance:none!important;width:18px!important;height:18px!important;min-width:18px!important;display:grid!important;place-content:center!important;border:1px solid var(--schedule-accent-v184)!important;border-radius:4px!important;background:var(--schedule-paper-v184)!important;padding:0!important}
+  html body #app #todo .todo-check-v179 input:checked{background:var(--schedule-accent-v184)!important}
+  html body #app #todo .todo-check-v179 input:checked::after{content:'✓';font-size:13px;color:#fff;line-height:1}
+  @media(min-width:600px) and (min-height:480px){html body #app #home .dday-summary-v179{grid-template-columns:1fr!important}html body #app #home .schedule-upcoming-v179{flex-wrap:wrap!important;max-height:150px!important;overflow:auto!important}html body #app #home .calendar-todos-v179 .todo-inline-grid-v179{grid-template-columns:1fr!important}html body #app #todo .todo-list-v179{column-gap:18px!important}}
+  @media(max-width:370px){html body #app #home .dday-summary-v179,html body #app #home .schedule-dashboard-v179:has(.weekly-active-v184) .dday-summary-v179{grid-template-columns:1fr!important;gap:1px!important}html body #app #home .dday-others-v179{height:22px!important;max-height:22px!important}html body #app #home .schedule-calhead-v119 h1{font-size:var(--type-lg,18px)!important}}
+}

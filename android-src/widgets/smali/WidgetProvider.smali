@@ -69,7 +69,7 @@
 
     move-result-object v0
 
-    const/16 v1, 0xb7
+    const/16 v1, 0xb8
 
     invoke-interface {p1, v0, v1}, Landroid/content/SharedPreferences$Editor;->putInt(Ljava/lang/String;I)Landroid/content/SharedPreferences$Editor;
 
@@ -327,7 +327,7 @@
 .end method
 
 .method public onRestored(Landroid/content/Context;[I[I)V
-    .locals 18
+    .locals 20
 
     .line 41
     move-object/from16 v0, p2
@@ -381,7 +381,7 @@
 
     move-object/from16 v7, p1
 
-    const/16 v8, 0x9
+    const/16 v8, 0xb
 
     const-string v9, "theme"
 
@@ -401,7 +401,11 @@
 
     const-string v17, "challenge_page"
 
-    filled-new-array/range {v9 .. v17}, [Ljava/lang/String;
+    const-string v18, "fortnight_offset"
+
+    const-string v19, "agenda_offset"
+
+    filled-new-array/range {v9 .. v19}, [Ljava/lang/String;
 
     move-result-object v9
 

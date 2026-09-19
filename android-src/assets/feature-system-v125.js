@@ -136,7 +136,7 @@
       <section class="settings-section-v125"><header><h3>글자 크기</h3></header><div class="font-grid-v133">${fontCardsMarkup()}</div></section>
       <section class="settings-section-v125" data-calendar-settings-v125><header><h3>캘린더 동기화</h3><span>사이트와 같은 일정 데이터를 사용합니다.</span></header>
         <div class="calendar-sync-v125">
-          <article class="calendar-provider-v125"><header><b>Google Calendar</b><button type="button" data-google-connect-v125>연결 · 선택</button></header><p>가져올 캘린더를 직접 고르고 일정과 원래 색상을 불러옵니다.</p></article>
+          <article class="calendar-provider-v125"><header><b>Google Calendar</b><button type="button" data-google-connect-v125>연결 · 선택</button></header><p data-google-status-v184>앱 실행과 화면 복귀 시 선택한 Google 일정을 자동으로 동기화합니다.</p></article>
           <article class="calendar-provider-v125"><header><b>ICS 캘린더</b><label class="import-v125">파일 가져오기<input type="file" accept=".ics,text/calendar" data-ics-import-v125></label></header><p>Notion·Samsung 등에서 내보낸 ICS 일정을 읽기 전용으로 추가합니다.</p></article>
           <div class="calendar-source-list-v125" data-calendar-sources-v125></div>
         </div>
@@ -170,6 +170,7 @@
     overlay.classList.add('on');
     overlay.setAttribute('aria-hidden','false');
     refreshThemeCards();
+    refreshCalendarV184();
     if (section === 'calendar') setTimeout(() => $('[data-calendar-settings-v125]',overlay)?.scrollIntoView({block:'start'}),30);
   }
   function closeSettings() {
@@ -198,20 +199,19 @@
   }
   function calendarColor(source) { return String(source?.backgroundColor || source?.color || '#6255E8'); }
   async function connectGoogleCalendars() {
-    const api = window.AiderDearFirebase, host = $('[data-calendar-sources-v125]');
-    if (!currentUser()) return api?.login?.();
-    if (!api?.requestGoogleCalendarAccess || !api?.listGoogleCalendars) {
-      if (host) { host.classList.add('on'); host.innerHTML = '<p class="shorts-transcript-state-v125">현재 빌드에서 Google 캘린더 연결 모듈을 찾지 못했습니다.</p>'; }
-      return;
-    }
-    host.classList.add('on'); host.innerHTML = '<p class="shorts-transcript-state-v125">Google 캘린더 권한과 목록을 확인하고 있습니다…</p>';
-    try {
-      await api.requestGoogleCalendarAccess();
-      googleSourcesV125 = await api.listGoogleCalendars();
-      const selected = calendarSelection();
-      host.innerHTML = googleSourcesV125.length ? googleSourcesV125.map((source,index) => `<label><input type="checkbox" data-calendar-source-v125="${index}" ${selected.has(String(source.id)) || (!selected.size && source.primary) ? 'checked' : ''}><i style="--source-color:${safe(calendarColor(source))}"></i><span>${safe(source.summary || source.name || 'Calendar')}</span></label>`).join('') + `<div class="calendar-source-actions-v125"><button type="button" data-calendar-source-cancel-v125>취소</button><button type="button" data-calendar-sync-selected-v125>선택 저장 · 동기화</button></div>` : '<p class="shorts-transcript-state-v125">가져올 캘린더가 없습니다.</p>';
-    } catch (error) {
-      host.innerHTML = `<p class="shorts-transcript-state-v125">${safe(error?.message || 'Google 캘린더를 연결하지 못했습니다.')}</p>`;
+    const api=window.AiderDearFirebase,host=$('[data-calendar-sources-v125]');
+    if(!currentUser())return api?.login?.();
+    if(!api?.calendarSync||!host)return;
+    host.classList.add('on');host.innerHTML='<p class="shorts-transcript-state-v125">Google Calendar 연결 상태를 확인하고 있습니다…</p>';
+    try{
+      const status=await api.calendarSync.call('status');
+      if(!status.google?.connected){await api.calendarSync.connect();calendarConnectPendingV184=true;host.innerHTML='<p class="shorts-transcript-state-v125">시스템 브라우저에서 연결한 뒤 앱으로 돌아와주세요.</p>';return;}
+      const result=await api.calendarSync.call('calendars');googleSourcesV125=result.calendars||[];
+      const selected=new Set(result.selectedCalendarIds||[]);
+      host.innerHTML=googleSourcesV125.map((source,index)=>`<label><input type="checkbox" data-calendar-source-v125="${index}" ${selected.has(String(source.id))?'checked':''}><i style="--source-color:${safe(calendarColor(source))}"></i><span>${safe(source.summary||'Calendar')}</span></label>`).join('')+'<div class="calendar-source-actions-v125"><button type="button" data-calendar-source-cancel-v125>취소</button><button type="button" data-calendar-sync-selected-v125>선택 저장 · 자동 동기화</button></div>';
+    }catch(error){
+      if(error.code==='calendar/reconnect-required')try{await api.calendarSync.connect();calendarConnectPendingV184=true;host.innerHTML='<p class="shorts-transcript-state-v125">Google 권한을 확인한 뒤 앱으로 돌아와주세요.</p>';return;}catch(next){error=next;}
+      host.innerHTML=`<p class="shorts-transcript-state-v125">${safe(error.message||'연결을 확인해주세요.')}</p>`;
     }
   }
   function googleDate(raw) {
@@ -231,29 +231,45 @@
     };
   }
   async function syncSelectedGoogleCalendars() {
-    const api = window.AiderDearFirebase, host = $('[data-calendar-sources-v125]'), user = currentUser();
-    if (!api?.listGoogleCalendarEvents || !user) return;
-    const selected = $$('[data-calendar-source-v125]:checked',host).map(input => googleSourcesV125[Number(input.dataset.calendarSourceV125)]).filter(Boolean);
-    if (!selected.length) { host.insertAdjacentHTML('afterbegin','<p class="shorts-transcript-state-v125">가져올 캘린더를 하나 이상 선택해주세요.</p>'); return; }
-    const ids = selected.map(source => String(source.id));
-    try { localStorage.setItem(CALENDAR_KEY,JSON.stringify(ids)); } catch (_) {}
-    host.innerHTML = '<p class="shorts-transcript-state-v125">선택한 캘린더 일정을 동기화하고 있습니다…</p>';
-    const year = new Date().getFullYear(), timeMin = new Date(Date.UTC(year-1,0,1)).toISOString(), timeMax = new Date(Date.UTC(year+2,0,1)).toISOString();
-    try {
-      const groups = await Promise.all(selected.map(async source => {
-        const result = await api.listGoogleCalendarEvents(source.id,timeMin,timeMax);
-        const items = Array.isArray(result) ? result : (result?.items || []);
-        return items.map(raw => mapGoogleEvent(raw,source,user)).filter(row => row.date);
-      }));
-      A.scheduleEvents = [...(Array.isArray(A.scheduleEvents) ? A.scheduleEvents.filter(row => row.externalSource !== 'google') : []),...groups.flat()];
-      if (typeof saveApp === 'function') await saveApp();
-      if (api.writeScheduleData) await api.writeScheduleData(A.scheduleEvents);
-      host.innerHTML = `<p class="shorts-transcript-state-v125">${selected.length}개 캘린더에서 ${groups.flat().length}개 일정을 동기화했습니다.</p><div class="calendar-source-actions-v125"><button type="button" data-calendar-source-cancel-v125>닫기</button></div>`;
-      if (typeof activePage !== 'undefined' && activePage === 'home') renderHome();
-    } catch (error) {
-      host.innerHTML = `<p class="shorts-transcript-state-v125">${safe(error?.message || '일정 동기화에 실패했습니다.')}</p>`;
-    }
+    const api=window.AiderDearFirebase,host=$('[data-calendar-sources-v125]');if(!currentUser()||!api?.calendarSync)return;
+    const ids=$$('[data-calendar-source-v125]:checked',host).map(input=>googleSourcesV125[Number(input.dataset.calendarSourceV125)]?.id).filter(Boolean);
+    if(!ids.length){host.insertAdjacentHTML('afterbegin','<p>동기화할 캘린더를 하나 이상 선택해주세요.</p>');return;}
+    host.innerHTML='<p class="shorts-transcript-state-v125">선택한 일정을 동기화하고 있습니다…</p>';
+    try{await api.calendarSync.call('configure',{provider:'google',calendarIds:ids});api.calendarSync.reset();await refreshCalendarV184();host.innerHTML='<p class="shorts-transcript-state-v125">선택한 캘린더의 자동 동기화를 시작했습니다.</p>';}
+    catch(error){host.innerHTML=`<p class="shorts-transcript-state-v125">${safe(error.message||'동기화하지 못했습니다.')}</p>`;}
   }
+  let calendarBoundV184=false,calendarScopeV184='',calendarTimerV184=null,googleRowsV184=null,calendarConnectPendingV184=false;
+  const calendarScopeKeyV184=state=>`${state?.user?.uid||''}|${state?.pair?.id||''}|${state?.partner?.uid||''}`;
+  function applyGoogleRowsV184(){
+    if(!googleRowsV184||googleRowsV184.scope!==calendarScopeKeyV184(currentState()))return;
+    A.scheduleEvents=[...(A.scheduleEvents||[]).filter(row=>row.externalSource!=='google'),...googleRowsV184.rows];
+  }
+  window.AiderCalendarSyncV184=Object.freeze({applyCached:applyGoogleRowsV184});
+  async function refreshCalendarV184(force=false){
+    const api=window.AiderDearFirebase,state=currentState(),actor=calendarScopeKeyV184(state);if(!state.user?.uid||!api?.calendarSync)return;
+    const statusNode=$('[data-google-status-v184]');
+    try{
+      const status=await api.calendarSync.refresh({force});if(!status||actor!==calendarScopeKeyV184(currentState()))return;
+      const google=status.google||{};
+      if(statusNode)statusNode.textContent=google.connected?`자동 동기화 · ${google.itemCount||0}개 일정 · ${google.lastSyncedAt?new Date(google.lastSyncedAt).toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'}):'연결됨'}`:google.lastError||'자동 동기화를 위해 Google Calendar를 연결해주세요.';
+      if(!google.connected)return;
+      const remote=await api.readScheduleData();if(actor!==calendarScopeKeyV184(currentState()))return;
+      const shared=(remote.shared||[]).map(row=>({...row,pairKey:state.pair?.id||row.pairKey||''}));
+      const incoming=[...(remote.own||[]),...shared].filter(row=>row.externalSource==='google');
+      googleRowsV184={scope:actor,rows:incoming};applyGoogleRowsV184();
+      try{localStorage.setItem('aiderlog-app-v20',JSON.stringify(A));}catch{}
+      if(typeof activePage!=='undefined'&&activePage==='home'&&typeof renderHome==='function')renderHome();
+      if(calendarConnectPendingV184){calendarConnectPendingV184=false;await connectGoogleCalendars();}
+    }catch(error){if(actor===calendarScopeKeyV184(currentState())&&statusNode)statusNode.textContent=error.message||'캘린더 연결을 다시 확인해주세요.';}
+  }
+  function bindCalendarV184(){
+    const api=window.AiderDearFirebase;if(calendarBoundV184||!api?.subscribe||!api?.calendarSync)return;calendarBoundV184=true;
+    api.subscribe(state=>{const actor=calendarScopeKeyV184(state);if(actor===calendarScopeV184)return;calendarScopeV184=actor;googleRowsV184=null;if(!state.user?.uid)calendarConnectPendingV184=false;api.calendarSync.reset();clearInterval(calendarTimerV184);calendarTimerV184=null;if(state.user?.uid){refreshCalendarV184();calendarTimerV184=setInterval(()=>refreshCalendarV184(),300000);}});
+  }
+  window.addEventListener('aiderdear-firebase-ready',bindCalendarV184,{once:true});setTimeout(bindCalendarV184,1400);
+  window.addEventListener('focus',()=>refreshCalendarV184());window.addEventListener('online',()=>refreshCalendarV184());
+  window.addEventListener('aiderlog-native-resume',()=>refreshCalendarV184());
+  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')refreshCalendarV184();});
 
   function unfoldIcs(text) { return String(text || '').replace(/\r?\n[ \t]/g,''); }
   function parseIcsDate(value) {
@@ -422,7 +438,7 @@
   }
 
   window.AiderLogThemeV125=Object.freeze({themes:Object.keys(THEMES),palettes:THEMES,resolvePalette:paletteId,apply:applyTheme,refreshSystemScheme,applyFontSize,openSettings});
-  window.AiderLogCalendarV125=Object.freeze({parseIcs,openSettings:()=>openSettings('calendar'),openSchedule:openScheduleV125});
+  window.AiderLogCalendarV125=Object.freeze({rows:scheduleRowsV125,parseIcs,openSettings:()=>openSettings('calendar'),openSchedule:openScheduleV125});
 
 
   renderHome = renderScheduleV125;

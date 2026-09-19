@@ -10,3 +10,6 @@ node_modules/
 android-src/build/
 android-src/tooling/
 pglite-debug.log
+AiderLog-v*.apk
+AiderLog-*-site-files.zip
+work/

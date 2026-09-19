@@ -1,0 +1,45 @@
+/* App-only: preserve palettes, three font preferences and the wheel geometry. */
+@layer appColour164 {
+ html.app-readability-v184 {
+   --app-body-v184:calc(14.5px * var(--app-font-multiplier,.84));
+   --app-caption-v184:calc(12.5px * var(--app-font-multiplier,.84));
+   --app-calendar-v184:calc(13.095238px * var(--app-font-multiplier,.84));
+   --app-frame-v184:.3mm;
+ }
+ html.app-readability-v184 body {padding-block:var(--app-frame-v184)!important;box-sizing:border-box!important;height:100dvh!important;min-height:0!important}
+ html.app-readability-v184 body #app.app {height:100%!important;max-height:100%!important;margin-block:0!important;padding-block:0!important}
+ html.app-readability-v184 body [data-editor-layer-v184] {
+   position:fixed!important;inset:auto 0 var(--editor-bottom-v184,0px)!important;
+   width:100%!important;min-width:0!important;max-width:100%!important;
+   height:var(--editor-viewport-v184,100dvh)!important;min-height:0!important;max-height:none!important;
+   margin:0!important;padding:0!important;box-sizing:border-box!important;
+   align-items:flex-end!important;justify-content:center!important;place-items:end center!important;
+   transform:none!important;translate:none!important;
+ }
+ html.app-readability-v184 body [data-editor-sheet-v184] {
+   position:relative!important;inset:auto!important;flex:0 0 auto!important;
+   width:100%!important;min-width:0!important;max-width:100%!important;
+   height:var(--editor-height-v184,60dvh)!important;min-height:var(--editor-height-v184,60dvh)!important;max-height:var(--editor-height-v184,60dvh)!important;
+   margin:0!important;box-sizing:border-box!important;transform:none!important;translate:none!important;
+   border-radius:18px 18px 0 0!important;overflow-x:hidden!important;overflow-y:auto!important;overscroll-behavior:contain!important;
+   background:var(--app-surface,var(--theme-surface,#faf7ff))!important;color:var(--app-text,var(--theme-text,#302b39))!important;
+   border:1px solid var(--app-border,var(--theme-border,#d5ccdf))!important;border-bottom:0!important;
+   padding:12px max(12px,env(safe-area-inset-right)) max(10px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left))!important;
+ }
+ html.app-readability-v184 body [data-editor-sheet-v184] :is(.feature-dialog-head-v125,.personal-form-head,.event-editor-head-v111,.work145-modal-head,.a184-editor-head) {
+   padding:0 0 9px!important;margin:0 0 8px!important;border-radius:0!important;border-bottom:1px solid var(--app-border,var(--theme-border,#d5ccdf))!important;
+   gap:8px!important;min-height:32px!important;flex:none!important;
+ }
+ html.app-readability-v184 body [data-editor-sheet-v184] :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]),select,textarea) {
+   min-width:0!important;max-width:100%!important;box-sizing:border-box!important;
+   border-radius:8px!important;border-color:var(--app-border,var(--theme-border,#d5ccdf))!important;
+   background:var(--app-input,var(--theme-background,#fefcff))!important;color:var(--app-text,var(--theme-text,#302b39))!important;
+ }
+ html.app-readability-v184 body [data-editor-sheet-v184] :is(.schedule-dialog-body-v125,.event-editor-form-v111,.personal-form-fields,.daylog-form-body-v165,.work145-modal-body,.a184-editor-body) {
+   min-height:0!important;overflow-y:auto!important;overscroll-behavior:contain!important;min-width:0!important;max-width:100%!important;
+ }
+ html.app-readability-v184 body [data-editor-sheet-v184] :is(.schedule-dialog-actions-v125,.event-editor-actions-v111,.personal-form-actions,.work145-modal-actions,.a184-editor-actions) {
+   flex:none!important;gap:7px!important;padding:9px 0 0!important;margin-top:8px!important;
+   background:var(--app-surface,var(--theme-surface,#faf7ff))!important;
+ }
+}

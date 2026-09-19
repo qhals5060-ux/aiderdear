@@ -63,7 +63,8 @@ test('calendar data source mirrors keep packaged and canonical adapters identica
   for(const name of ['widget-models-v165.js','widget-sync-v164.js']){
     const source=fs.readFileSync(path.join(__dirname,name),'utf8');
     assert.equal(source,fs.readFileSync(path.join(__dirname,'../assets',name),'utf8'),name+' overlay');
-    assert.equal(source,fs.readFileSync(path.join(__dirname,'../../../AiderLog-v145-decoded/assets',name),'utf8'),name+' canonical');
+    const stage=process.env.AIDERLOG_DECODED_STAGE||path.join(__dirname,'../../../android-stage-v184');
+    assert.equal(source.replace(/\r\n/g,'\n'),fs.readFileSync(path.join(stage,'assets',name),'utf8').replace(/\r\n/g,'\n'),name+' staged APK code');
   }
 });
 

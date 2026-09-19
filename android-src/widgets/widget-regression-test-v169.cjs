@@ -82,7 +82,7 @@ test('recovery is explicit and never records the legacy generic placeholder as s
   assert.match(native,/manager\.updateAppWidget\(widget,v\);\s*prefs\(c\)\.edit\(\)\.remove\("widget_render_error_"\+widget\)/);
   assert.match(native,/위젯 다시 연결/);assert.match(native,/manager\.updateAppWidget\(widget,recovery\);return false/);
   assert.match(provider,/if\(WidgetNativeV164\.update\(c,manager,widget,name\)\)\s*WidgetNativeV164\.prefs/);
-  assert.match(provider,/putInt\("widget_renderer_"\+widget,183\)/);
+  assert.match(provider,/putInt\("widget_renderer_"\+widget,184\)/);
 });
 test('collection fill-in pending intents remain mutable only where required',()=>{
   assert.match(native,/setPendingIntentTemplate[^\n]+SDK_INT>=31\?0x0a000000:0x08000000/);

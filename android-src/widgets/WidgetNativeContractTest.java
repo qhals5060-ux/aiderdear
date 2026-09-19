@@ -51,7 +51,8 @@ public final class WidgetNativeContractTest {
         require("widget_bullet_card_v168".equals(WidgetDesignV165.surface("day",false,false)),"bullet days retain their own bordered surface");
         require(WidgetCompactCalendarV181.supports("CalendarAgenda@todos"),"agenda second adapter uses compact renderer");
         require(WidgetCompactCalendarV181.supports("CalendarFortnight@todos"),"fortnight second adapter uses compact renderer");
-        require(!WidgetCompactCalendarV181.supports("CalendarMonth"),"other calendar provider layout unchanged");
+        for(String kind:new String[]{"CalendarCombined","CalendarMonth","CalendarSplit"})require(WidgetCompactCalendarV181.supports(kind),"all five calendar providers use approved compact compositions");
+        require(!WidgetCompactCalendarV181.supports("RoutineAll"),"unrelated provider remains unchanged");
         List<String> compactEvents=WidgetCompactCalendarV181.scheduleRows(events,"2026-09-06");
         require(compactEvents.size()==3,"compact agenda retains all same-day and spanning events");
         require(new JSONObject(compactEvents.get(0)).optString("id").equals("trip"),"untimed events precede timed events without a fake all-day label");
@@ -95,12 +96,12 @@ public final class WidgetNativeContractTest {
         require(WidgetPreviewFrameV181.heightForWidth(360,12,12,12,12)==192,"preview excludes outer padding from its ratio");
         require(WidgetPreviewFrameV181.compact("CalendarAgenda")&&WidgetPreviewFrameV181.compact("CalendarFortnight"),"only both compact providers use the compact preview");
         require(!WidgetPreviewFrameV181.compact("RoutineAll"),"other previews preserve their size");
-        require(WidgetCompactCalendarV181.fortnightStart("2026-09-19").equals("2026-09-14"),"fortnight follows this week's Monday rather than saved selection");
+        require(WidgetCompactCalendarV181.fortnightStart("2026-09-19").equals("2026-09-13"),"fortnight starts on Sunday like the approved calendar");
         require(WidgetCompactCalendarV181.fortnightSelected("2026-09-19","2026-09-04").equals("2026-09-19"),"old hidden selected day resets highlight to today");
-        require(WidgetCompactCalendarV181.fortnightSelected("2026-09-19","2026-09-27").equals("2026-09-27"),"last day in current fortnight remains selected");
+        require(WidgetCompactCalendarV181.fortnightSelected("2026-09-19","2026-09-26").equals("2026-09-26"),"last day in current fortnight remains selected");
         require(WidgetCompactCalendarV181.fortnightSelected("2026-09-19","2026-09-28").equals("2026-09-19"),"future date outside fortnight resets highlight to today");
-        require(WidgetCompactCalendarV181.fortnightStart("2026-10-01").equals("2026-09-28"),"fortnight rolls across month boundary");
-        require(WidgetCompactCalendarV181.fortnightSelected("2026-10-01","2026-10-11").equals("2026-10-11"),"month-boundary fortnight retains in-range selection");
+        require(WidgetCompactCalendarV181.fortnightStart("2026-10-01").equals("2026-09-27"),"fortnight rolls across month boundary");
+        require(WidgetCompactCalendarV181.fortnightSelected("2026-10-01","2026-10-10").equals("2026-10-10"),"month-boundary fortnight retains in-range selection");
         require(WidgetCompactCalendarV181.fortnightSelected("2026-09-19",null).equals("2026-09-19"),"missing selection safely uses today");
         require(WidgetCompactCalendarV181.cellTime(new JSONObject().put("time","09:30")).equals("9:30"),"narrow B time omits leading zero while A preserves HH:mm");
         require(WidgetCompactCalendarV181.cellTime(new JSONObject().put("time","14:00")).equals("14:00"),"afternoon hour stays unambiguous");
@@ -110,6 +111,19 @@ public final class WidgetNativeContractTest {
         require(WidgetNativeV164.calendarEventCapacity(104)==3,"large month cell uses space for three events");
         require(WidgetNativeV164.calendarEventSp(38)==9,"short cell has compact text");
         require(WidgetNativeV164.calendarEventSp(104)==11.5f,"large month no longer keeps tiny event text");
+        List<String> upcoming=WidgetCompactCalendarV181.upcomingRows(events,"2026-09-06");
+        require(upcoming.size()==3,"upcoming includes an ongoing multi-day event once");
+        require(new JSONObject(upcoming.get(0)).optString("selectedDate").equals("2026-09-06"),"ongoing event opens current day rather than past start");
+        JSONArray futureEvents=new JSONArray(events.toString()).put(new JSONObject().put("id","future").put("date","2026-09-30").put("title","이달 말 일정").put("time","08:00"));
+        require(WidgetCompactCalendarV181.upcomingRows(futureEvents,"2026-09-08").size()==1,"upcoming retains future days and omits finished events");
+        require(new JSONObject(WidgetCompactCalendarV181.upcomingRows(futureEvents,"2026-09-06").get(3)).optString("id").equals("future"),"future morning time is sorted after today's evening");
+        require(WidgetCompactCalendarV181.shortDate("2026-09-06").equals("9.6"),"upcoming date stamp is compact and explicit");
+        require(WidgetCompactCalendarV181.shortDate("").isEmpty(),"undated todos do not invent a deadline");
+        require(WidgetCompactCalendarV181.capacity(70,14,false)>WidgetCompactCalendarV181.capacity(40,14,false),"event titles use available cell height");
+        require(WidgetCompactCalendarV181.capacity(70,22,true)<WidgetCompactCalendarV181.capacity(70,14,false),"holiday line and system font scaling reserve event space");
+        require(WidgetPreviewFrameV181.heightForWidth("CalendarCombined",336,0,0,0,0)==255,"preview first style keeps approved split proportions");
+        require(WidgetPreviewFrameV181.heightForWidth("CalendarSplit",336,0,0,0,0)==484,"preview fifth style has room for month and bottom todos");
+        require(WidgetPreviewFrameV181.compact("CalendarMonth")&&WidgetPreviewFrameV181.compact("CalendarCombined")&&WidgetPreviewFrameV181.compact("CalendarSplit"),"all five settings previews use matching live composition sizes");
         System.out.println("PASS: "+checks+" native model assertions.");
     }
 }
