@@ -41,6 +41,28 @@
 
 
 # virtual methods
+.method public getFrameInsetPx()I
+    .locals 3
+    .annotation runtime Landroid/webkit/JavascriptInterface;
+    .end annotation
+    # Convert 0.3 millimetres using this device's display metrics, not CSS reference pixels.
+    iget-object v0, p0, Lcom/aiderlog/v22app/MainActivity$NativeBridge;->this$0:Lcom/aiderlog/v22app/MainActivity;
+    invoke-virtual {v0}, Lcom/aiderlog/v22app/MainActivity;->getResources()Landroid/content/res/Resources;
+    move-result-object v0
+    invoke-virtual {v0}, Landroid/content/res/Resources;->getDisplayMetrics()Landroid/util/DisplayMetrics;
+    move-result-object v0
+    const/4 v1, 0x5
+    const v2, 0x3e99999a
+    invoke-static {v1, v2, v0}, Landroid/util/TypedValue;->applyDimension(IFLandroid/util/DisplayMetrics;)F
+    move-result v0
+    invoke-static {v0}, Ljava/lang/Math;->round(F)I
+    move-result v0
+    const/4 v1, 0x1
+    invoke-static {v0, v1}, Ljava/lang/Math;->max(II)I
+    move-result v0
+    return v0
+.end method
+
 .method public getSystemScheme()Ljava/lang/String;
     .locals 2
     .annotation runtime Landroid/webkit/JavascriptInterface;

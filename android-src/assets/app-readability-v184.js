@@ -2,24 +2,7 @@
  'use strict';
  const root=document.documentElement;
  root.classList.add('app-readability-v184');
- const owned=new WeakSet();let queued=false;
- const skip='#wheel,svg,canvas,video,[contenteditable="true"],[data-font-owned-v184="1"],.brain-view,.brain-canvas,.plotly,.chartjs-render-monitor';
- const caption='small,time,figcaption,.record-meta,.section-label,.event-meta,.field-help,.hint,[class*="-subtitle"],[class*="-caption"],[class*="-hint"]';
- const calendar='.schedule-days-v119,.schedule-week-v119,.calendar-todos-v179,.schedule-calctl-v119,.calendar-status-icons,.weekly-view-v184';
- function normalizeText(){
-   const nodes=document.querySelectorAll('#app :is(button,label,input,select,textarea,p,span,b,strong,small,time,td,th,li,legend,dt,dd),body>.modal :is(button,label,input,select,textarea,p,span,b,strong,small,time),[role="dialog"] :is(button,label,input,select,textarea,p,span,b,strong,small,time),[data-editor-sheet-v184] :is(button,label,input,select,textarea,p,span,b,strong,small,time)');
-   const writes=[];
-   for(const el of nodes){
-     if(owned.has(el)||el.closest(skip)||!el.getClientRects().length||el.matches('input[type="checkbox"],input[type="radio"],input[type="range"],input[type="color"]'))continue;
-     if(!['INPUT','SELECT','TEXTAREA'].includes(el.tagName)&&![...el.childNodes].some(n=>n.nodeType===3&&n.textContent.trim()))continue;
-     if(el.closest('h1,h2,h3,h4,h5,h6')||el.matches('[class*="icon"],.brandmark,.daynum,.schedule-day-number-v119'))continue;
-     const px=parseFloat(getComputedStyle(el).fontSize);
-     if(!Number.isFinite(px)||px>16.5)continue;
-     const role=el.closest(calendar)?'calendar':el.matches(caption)||el.closest(caption)?'caption':'body';
-     writes.push([el,role]);
-   }
-   for(const [el,role] of writes){el.dataset.readableRoleV184=role;el.setAttribute('data-css-typography','v184');el.style.setProperty('font-size',`var(--app-${role}-v184)`,'important');owned.add(el);}
- }
+ let queued=false;
  const layers=[
  ['.schedule-dialog-v125',':scope>section'],['.schedule-dialog-v119',':scope>section'],['.emotion-dialog-v119',':scope>section'],['.dday-dialog-v125',':scope>section'],
  ['#recordModal',':scope>.box'],['#personalModal',':scope>.box'],['#journalModal',':scope>.box'],['#memoModal',':scope>.box'],
@@ -31,6 +14,8 @@
  ['.consult-modal-overlay',':scope>.consult-modal'],['.estate-modal-overlay',':scope>.estate-modal'],['.a184-editor',':scope>section']
  ];
  function updateViewport(){
+   // Android reports a physical 0.3 mm in device pixels; CSS mm is only a reference pixel unit.
+   try{const px=Number(window.AiderLogNative?.getFrameInsetPx?.());if(Number.isFinite(px)&&px>0)root.style.setProperty('--app-frame-v184',String(px/(window.devicePixelRatio||1))+'px');}catch(_){}
    const vv=window.visualViewport;const height=Math.max(120,vv?.height||innerHeight);const bottom=Math.max(0,innerHeight-height-(vv?.offsetTop||0));
    root.style.setProperty('--editor-viewport-v184',`${height}px`);root.style.setProperty('--editor-height-v184',`${height*.6}px`);root.style.setProperty('--editor-bottom-v184',`${bottom}px`);
  }
@@ -51,9 +36,9 @@
      Object.entries({'position':'fixed','inset':'auto 0 var(--editor-bottom-v184,0px)','width':'100%','min-width':'0','max-width':'100%','height':'var(--editor-height-v184,60dvh)','min-height':'var(--editor-height-v184,60dvh)','max-height':'var(--editor-height-v184,60dvh)','margin':'0','transform':'none','translate':'none','box-sizing':'border-box','border-radius':'18px 18px 0 0','overflow-x':'hidden','overflow-y':'auto'}).forEach(([name,value])=>sheet.style.setProperty(name,value,'important'));
    }
  }
- function pass(){queued=false;decorateEditors();normalizeText();}
+ function pass(){queued=false;decorateEditors();}
  function queue(){if(!queued){queued=true;requestAnimationFrame(pass);}}
- function start(){updateViewport();pass();new MutationObserver(queue).observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['class','hidden','aria-hidden']});new MutationObserver(queue).observe(root,{attributes:true,attributeFilter:['data-app-font-size']});}
+ function start(){updateViewport();pass();new MutationObserver(pass).observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['class','hidden','aria-hidden']});new MutationObserver(queue).observe(root,{attributes:true,attributeFilter:['data-app-font-size']});}
  addEventListener('resize',()=>{updateViewport();queue();},{passive:true});window.visualViewport?.addEventListener('resize',updateViewport,{passive:true});window.visualViewport?.addEventListener('scroll',updateViewport,{passive:true});
  addEventListener('aiderlog-native-resume',()=>{updateViewport();queue();});
  document.readyState==='loading'?document.addEventListener('DOMContentLoaded',start,{once:true}):start();

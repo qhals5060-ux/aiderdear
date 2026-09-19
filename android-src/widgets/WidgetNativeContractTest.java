@@ -124,6 +124,21 @@ public final class WidgetNativeContractTest {
         require(WidgetPreviewFrameV181.heightForWidth("CalendarCombined",336,0,0,0,0)==255,"preview first style keeps approved split proportions");
         require(WidgetPreviewFrameV181.heightForWidth("CalendarSplit",336,0,0,0,0)==484,"preview fifth style has room for month and bottom todos");
         require(WidgetPreviewFrameV181.compact("CalendarMonth")&&WidgetPreviewFrameV181.compact("CalendarCombined")&&WidgetPreviewFrameV181.compact("CalendarSplit"),"all five settings previews use matching live composition sizes");
+        require(WidgetCompactCalendarV181.small(180,110),"minimum launcher rectangle uses compact chrome");
+        require(WidgetCompactCalendarV181.small(336,180),"short wide widget also reclaims header space");
+        require(!WidgetCompactCalendarV181.small(336,255),"existing normal picker size retains regular design");
+        require(WidgetCompactCalendarV181.smallRows("CalendarCombined",180,320),"narrow split pane stacks date and time under title");
+        require(!WidgetCompactCalendarV181.smallRows("CalendarCombined",500,320),"expanded Fold pane uses normal date column");
+        require(WidgetCompactCalendarV181.smallRows("CalendarAgenda",110,110),"two-column agenda uses compact scroll rows");
+        require(WidgetCompactCalendarV181.capacity(14,15,false)==0,"shortest calendar cell never adds a clipped event line");
+        require(WidgetCompactCalendarV181.capacity(30,15,false)==1,"compact fortnight cell can show a complete title line");
+        for(String kind:new String[]{"CalendarCombined","CalendarFortnight","CalendarMonth","CalendarSplit"}){
+            int weeks="CalendarFortnight".equals(kind)?2:6;float minimum="CalendarMonth".equals(kind)||"CalendarSplit".equals(kind)?180:110;
+            float smallCell=WidgetCompactCalendarV181.cellHeight(kind,180,minimum,weeks),largeCell=WidgetCompactCalendarV181.cellHeight(kind,700,650,weeks);
+            require(smallCell>=10,"six-week " +kind+" retains a visible date at minimum resize size");
+            require(largeCell>smallCell,"expanded "+kind+" uses additional vertical space");
+            require(WidgetCompactCalendarV181.capacity(largeCell,15,false)>WidgetCompactCalendarV181.capacity(smallCell,15,false),"expanded "+kind+" gains visible event titles");
+        }
         System.out.println("PASS: "+checks+" native model assertions.");
     }
 }

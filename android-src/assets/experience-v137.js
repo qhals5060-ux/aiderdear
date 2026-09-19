@@ -19,11 +19,11 @@
     /* v128 owns the real MY workspace (Paper, Task, Speech, Brain).  Keep
        account/profile concerns in the header profile sheet. */
     if(typeof window.renderMyV128==='function'){
-      const label=$('#fifthLabel');if(label)label.textContent='My';
+      const label=$('#fifthLabel');if(label&&label.textContent!=='My')label.textContent='My';
       return;
     }
     if(!$('[data-my-home-v137]',host)){host.innerHTML=myMarkup()}
-    const label=$('#fifthLabel');if(label)label.textContent=firebase()?.getState?.()?.pair?'Together':'My';
+    const label=$('#fifthLabel'),text=firebase()?.getState?.()?.pair?'Together':'My';if(label&&label.textContent!==text)label.textContent=text;
   }
 
   function themeButtons(){

@@ -1,6 +1,18 @@
 # Android native release patches
 
-## v184 current release
+## v185 current release
+
+Version code 185 / version name 1.9.75 changes the app only. Website design,
+site ZIPs and Google Calendar backend remain at the restored v184 site release.
+The app owns typography in CSS before first paint, renders full holiday labels,
+returns from Weekly to the monthly Today view, and avoids repeated fade/DOM writes.
+`NativeBridge.getFrameInsetPx()` converts 0.3 mm through Android display metrics;
+the web app divides by its pixel ratio and applies equal top/bottom padding.
+The five calendar widgets retain initial placement sizes but allow smaller
+resize bounds and use eight new `*_small_v185.xml` layouts at compact sizes.
+Site and app release numbers must remain independent when updating downloads.
+
+## v184 previous release
 
 Version code 184 / version name 1.9.74 retains the package and signing certificate.
 The five calendar providers keep their IDs and now use the approved compact

@@ -48,8 +48,9 @@
   function decorateThemes(){
     $$('.profile-theme-v137').forEach(button=>{
       const id=button.dataset.profileThemeV137,palette=PALETTES[id];if(!palette)return;
-      button.style.setProperty('--planet-primary',palette[0]);button.style.setProperty('--planet-soft',palette[3]);
-      const label=$('b',button);if(label)label.textContent=THEME_LABELS[id]||label.textContent;
+      if(button.style.getPropertyValue('--planet-primary')!==palette[0])button.style.setProperty('--planet-primary',palette[0]);
+      if(button.style.getPropertyValue('--planet-soft')!==palette[3])button.style.setProperty('--planet-soft',palette[3]);
+      const label=$('b',button),text=THEME_LABELS[id];if(label&&text&&label.textContent!==text)label.textContent=text;
     });
     const grid=$('.profile-theme-grid-v137');if(!grid)return;
     const section=grid.closest('.profile-section-v137');if(!section||$('.profile-background-v143',section))return;
@@ -122,7 +123,9 @@
   window.AiderLogHolidayTitleV164=holidayTitle;
   function holidayCompactTitle(title){return String(title||'').replace('전국동시지방선거일','지방선거일').replace('국회의원 선거일','국회의원선거').replace(' 대체공휴일',' 대체').replace(' 연휴','연휴')}
   function decorateKoreanHolidays(){
-    $$('[data-schedule-date-v125]').forEach(day=>{const key=day.dataset.scheduleDateV125,title=holidayTitle(key);day.classList.toggle('holiday-v144',Boolean(title));let label=$('.schedule-holiday-v144',day);if(!title){label?.remove();return}if(!label){label=document.createElement('small');label.className='schedule-holiday-v144';$('.schedule-day-number-v119',day)?.after(label)}label.textContent=holidayCompactTitle(title);label.classList.toggle('compact-long',label.textContent.replace(/\s/g,'').length>7);label.title=title;day.setAttribute('aria-label',`${key} ${title} 일정 관리`)})
+    // This decorator observes calendar mutations. Keep unchanged labels intact
+    // so its own text writes cannot schedule another paint on every frame.
+    $$('[data-schedule-date-v125]').forEach(day=>{const key=day.dataset.scheduleDateV125,title=holidayTitle(key),holiday=Boolean(title);if(day.classList.contains('holiday-v144')!==holiday)day.classList.toggle('holiday-v144',holiday);let label=$('.schedule-holiday-v144',day);if(!title){label?.remove();return}if(!label){label=document.createElement('small');label.className='schedule-holiday-v144';$('.schedule-day-number-v119',day)?.after(label)}const text=String(title),long=text.replace(/\s/g,'').length>7;if(label.textContent!==text)label.textContent=text;if(label.classList.contains('compact-long')!==long)label.classList.toggle('compact-long',long);if(label.title!==title)label.title=title;const aria=`${key} ${title} 일정 관리`;if(day.getAttribute('aria-label')!==aria)day.setAttribute('aria-label',aria)})
   }
 
 

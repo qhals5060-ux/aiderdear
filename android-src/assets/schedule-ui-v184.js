@@ -33,18 +33,19 @@
   function notesMarkup(payload){const rows=notes(payload),tasks=rows.filter(row=>row.kind==='todo'&&!row.done),memos=rows.filter(row=>row.kind==='memo');return ['todo','memo'].map(kind=>`<section class="week-notes-column-v184 ${kind}"><header><b>${kind==='todo'?'TODO':'MEMO'}</b><button type="button" ${native()?`data-todo-add-v179="${kind}"`:`data-note-add-v184="${kind}"`} aria-label="${kind==='todo'?'투두':'메모'} 추가">＋</button></header><div>${(kind==='todo'?tasks:memos).map(taskMarkup).join('')||`<p class="week-notes-empty-v184">${kind==='todo'?'할 일이 없어요':'메모를 남겨보세요'}</p>`}</div></section>`).join('');}
   function mountWeekly(calendar,state){
     let view=$('.weekly-view-v184',calendar);if(!view){view=document.createElement('div');view.className='weekly-view-v184';view.innerHTML='<div class="weekly-days-v184" aria-label="오늘부터 7일 일정"></div><div class="weekly-notes-v184" aria-label="투두와 메모"></div>';calendar.append(view);}
-    view.hidden=!weekly;calendar.classList.toggle('weekly-active-v184',weekly);
+    if(view.hidden!==!weekly)view.hidden=!weekly;
+    if(calendar.classList.contains('weekly-active-v184')!==weekly)calendar.classList.toggle('weekly-active-v184',weekly);
     if(weekly){html($('.weekly-days-v184',view),weekMarkup(state.events||[]));html($('.weekly-notes-v184',view),notesMarkup(state.notes));}
   }
-  function mountControls(calendar){const today=$(native()?'[data-calendar-today-v125]':'#todayBtn',calendar)||$('#todayBtn');if(!today)return;let button=$('[data-week-toggle-v184]',today.parentElement);if(!button){button=document.createElement('button');button.type='button';button.dataset.weekToggleV184='';button.className='weekly-toggle-v184';button.textContent='Weekly';button.setAttribute('aria-label','오늘부터 7일 보기');today.after(button);}button.setAttribute('aria-pressed',String(weekly));const heading=$(native()?'.schedule-calhead-v119 h1':'#monthTitle',calendar);if(heading){if(weekly){if(!headings.has(heading))headings.set(heading,heading.innerHTML);const date=new Date(anchor+'T12:00:00'),month=date.toLocaleString('en-US',{month:'long'}),markup=native()?`<span>${month}</span><small>${date.getFullYear()}</small>`:`${date.getFullYear()}. <b>${String(date.getMonth()+1).padStart(2,'0')}.</b>`;if(heading.innerHTML!==markup)heading.innerHTML=markup;}else if(headings.has(heading)){heading.innerHTML=headings.get(heading);headings.delete(heading);}}}
+  function mountControls(calendar){const today=$(native()?'[data-calendar-today-v125]':'#todayBtn',calendar)||$('#todayBtn');if(!today)return;let button=$('[data-week-toggle-v184]',today.parentElement);if(!button){button=document.createElement('button');button.type='button';button.dataset.weekToggleV184='';button.className='weekly-toggle-v184';button.textContent='Weekly';button.setAttribute('aria-label','오늘부터 7일 보기');today.after(button);}if(button.getAttribute('aria-pressed')!==String(weekly))button.setAttribute('aria-pressed',String(weekly));const heading=$(native()?'.schedule-calhead-v119 h1':'#monthTitle',calendar);if(heading){if(weekly){if(!headings.has(heading))headings.set(heading,heading.innerHTML);const date=new Date(anchor+'T12:00:00'),month=date.toLocaleString('en-US',{month:'long'}),markup=native()?`<span>${month}</span><small>${date.getFullYear()}</small>`:`${date.getFullYear()}. <b>${String(date.getMonth()+1).padStart(2,'0')}.</b>`;html(heading,markup);}else if(headings.has(heading)){const markup=headings.get(heading);html(heading,markup);headings.delete(heading);}}}
   function mountDdays(){
     const host=native()?$('.dday-summary-v179'):$('#ddayManageBtn')?.parentElement;if(!host)return;
-    host.classList.add('dday-group-v184');let button=$('[data-week-overview-v184]',host);
+    if(!host.classList.contains('dday-group-v184'))host.classList.add('dday-group-v184');let button=$('[data-week-overview-v184]',host);
     if(!button){button=document.createElement('button');button.type='button';button.className='week-overview-open-v184';button.dataset.weekOverviewV184='';button.textContent='W';button.setAttribute('aria-label','전체 디데이와 이번 주 일정');host.insertBefore(button,host.firstChild);}
   }
   function mountUpcoming(state){
     if(native()){
-      document.querySelectorAll('#home [data-schedule-jump-v180]').forEach(button=>{const row=(state.events||[]).find(row=>String(row.id)===button.dataset.scheduleJumpV180);if(!row)return;let date=$('.upcoming-date-v184',button);if(!date){date=document.createElement('time');date.className='upcoming-date-v184';button.insertBefore(date,button.querySelector('span'));}date.textContent=dateLabel(row.date);date.dateTime=row.date;});
+      document.querySelectorAll('#home [data-schedule-jump-v180]').forEach(button=>{const row=(state.events||[]).find(row=>String(row.id)===button.dataset.scheduleJumpV180);if(!row)return;let date=$('.upcoming-date-v184',button);if(!date){date=document.createElement('time');date.className='upcoming-date-v184';button.insertBefore(date,button.querySelector('span'));}const label=dateLabel(row.date);if(date.textContent!==label)date.textContent=label;if(date.dateTime!==row.date)date.dateTime=row.date;});
     }else document.querySelectorAll('#page0 .shared-date').forEach(node=>node.classList.add('upcoming-date-v184'));
   }
   function renderOverview(state=snapshot()){
@@ -58,10 +59,10 @@
   }
   function closeOverview(){if(!overview)return;overview.close();overview.remove();overview=null;overviewFocus?.focus?.({preventScroll:true});}
   function refresh(){
-    frame=0;const state=snapshot(),identity=String(state.uid||'');if(identity!==lastIdentity){lastIdentity=identity;closeOverview();$('.site-note-editor-v184')?.close();$('.site-note-editor-v184')?.remove();}
+    if(frame)root.cancelAnimationFrame?.(frame);frame=0;const state=snapshot(),identity=String(state.uid||'');if(identity!==lastIdentity){lastIdentity=identity;closeOverview();$('.site-note-editor-v184')?.close();$('.site-note-editor-v184')?.remove();}
     const calendar=native()?$('#home .schedule-calendar-v119'):$('#page0 .calendar-wrap')||$('#calendar')?.parentElement;
-    if(!calendar)return;calendar.classList.add('schedule-calendar-v184');mountControls(calendar);mountDdays();mountUpcoming(state);mountWeekly(calendar,state);if(overview)renderOverview(state);
-    const title=$('#todo .todo-header-v179 h1');if(title){title.classList.remove('todo-sr-v179');title.textContent='투두 · 메모';}
+    if(!calendar)return;if(!calendar.classList.contains('schedule-calendar-v184'))calendar.classList.add('schedule-calendar-v184');mountControls(calendar);mountDdays();mountUpcoming(state);mountWeekly(calendar,state);if(overview)renderOverview(state);
+    const title=$('#todo .todo-header-v179 h1');if(title){if(title.classList.contains('todo-sr-v179'))title.classList.remove('todo-sr-v179');if(title.textContent!=='투두 · 메모')title.textContent='투두 · 메모';}
   }
   function queue(){if(!frame)frame=requestAnimationFrame(refresh);}
   async function siteCommit(input){const actor=uid();if(!actor||siteBusy)throw Error('로그인 후 다시 시도해주세요.');siteBusy=true;try{await api().mutateChecklistV179({...input,uid:actor,mutationId:'note-'+crypto.randomUUID()});if(actor!==uid())throw Error('로그인 계정이 변경되었습니다.');await bridge()?.reloadNotes?.();queue();}finally{siteBusy=false;}}
@@ -83,10 +84,14 @@
     else if(button.hasAttribute('data-note-add-v184'))editSiteNote('','',button.dataset.noteAddV184);
     else if(button.hasAttribute('data-note-edit-v184'))editSiteNote(button.dataset.source,button.dataset.noteEditV184);
   });
-  // Weekly navigation is independent of the stored month/fortnight selection.
-  root.addEventListener('click',event=>{if(!weekly)return;const button=event.target.closest('button');if(!button||!button.matches('[data-calendar-today-v125],#todayBtn,[data-calendar-shift-v125],#prevMonth,#nextMonth'))return;event.preventDefault();event.stopImmediatePropagation();if(button.matches('[data-calendar-today-v125],#todayBtn'))anchor=key(new Date());else{const shift=button.dataset.calendarShiftV125||(button.id==='prevMonth'?-1:1),date=new Date(anchor+'T12:00:00');date.setDate(date.getDate()+7*Number(shift));anchor=key(date);}queue();},true);
+  // Today leaves Weekly and reaches the calendar's existing Today handler,
+  // which restores the current month and selected date without changing data.
+  root.addEventListener('click',event=>{if(!weekly)return;const button=event.target.closest('button');if(!button||!button.matches('[data-calendar-today-v125],#todayBtn,[data-calendar-shift-v125],#prevMonth,#nextMonth'))return;if(button.matches('[data-calendar-today-v125],#todayBtn')){weekly=false;anchor=key(new Date());queue();return;}event.preventDefault();event.stopImmediatePropagation();const shift=button.dataset.calendarShiftV125||(button.id==='prevMonth'?-1:1),date=new Date(anchor+'T12:00:00');date.setDate(date.getDate()+7*Number(shift));anchor=key(date);queue();},true);
   document.addEventListener('change',async event=>{const check=event.target.closest('[data-note-check-v184]');if(!check)return;const source=check.dataset.source,before=(snapshot().notes?.[source]||[]).find(row=>String(row.id)===check.dataset.noteCheckV184);if(!before)return;try{await siteCommit({source,id:before.id,op:'toggle',done:check.checked,expected:JSON.stringify(before)});}catch(error){check.checked=!!before.done;check.title=error.message;}});
-  new MutationObserver(records=>{if(records.some(record=>[...record.addedNodes].some(node=>node.nodeType===1&&!node.closest?.('.weekly-view-v184,.week-overview-dialog-v184,.site-note-editor-v184')&&(node.matches?.('.schedule-dashboard-v179,.day,.dday-main-v179,.todo-row-v179')||node.querySelector?.('.schedule-dashboard-v179,.todo-row-v179')))))queue();}).observe(document.body,{childList:true,subtree:true});
+  // The base renderer replaces the calendar when data/pages change. Restore
+  // its active view in the mutation microtask, before the browser can paint
+  // an intermediate month. Our own children do not retrigger this pass.
+  new MutationObserver(records=>{if(records.some(record=>[...record.addedNodes].some(node=>node.nodeType===1&&!node.closest?.('.weekly-view-v184,.week-overview-dialog-v184,.site-note-editor-v184')&&(node.matches?.('.schedule-dashboard-v179,.day,.dday-main-v179,.todo-row-v179')||node.querySelector?.('.schedule-dashboard-v179,.todo-row-v179')))))refresh();}).observe(document.body,{childList:true,subtree:true});
   ['aiderdear-firebase-state','aiderdear-dday-data','aiderlog:todo-changed-v179','aiderlog:data-changed','aiderlog-friend-schedule-data','aiderlog-site-editionchange'].forEach(name=>root.addEventListener(name,queue));
   root.addEventListener('resize',queue,{passive:true});
   root.AiderScheduleUIV184=Object.freeze({refresh:queue,model,openOverview});queue();

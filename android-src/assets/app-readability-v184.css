@@ -1,9 +1,10 @@
 /* App-only: preserve palettes, three font preferences and the wheel geometry. */
 @layer appColour164 {
  html.app-readability-v184 {
-   --app-body-v184:calc(14.5px * var(--app-font-multiplier,.84));
-   --app-caption-v184:calc(12.5px * var(--app-font-multiplier,.84));
-   --app-calendar-v184:calc(13.095238px * var(--app-font-multiplier,.84));
+   --app-type-scale-v185:1;
+   --app-body-v184:calc(13px * var(--app-type-scale-v185));
+   --app-caption-v184:calc(11px * var(--app-type-scale-v185));
+   --app-calendar-v184:calc(10px * var(--app-type-scale-v185));
    --app-frame-v184:.3mm;
  }
  html.app-readability-v184 body {padding-block:var(--app-frame-v184)!important;box-sizing:border-box!important;height:100dvh!important;min-height:0!important}
@@ -41,5 +42,83 @@
  html.app-readability-v184 body [data-editor-sheet-v184] :is(.schedule-dialog-actions-v125,.event-editor-actions-v111,.personal-form-actions,.work145-modal-actions,.a184-editor-actions) {
    flex:none!important;gap:7px!important;padding:9px 0 0!important;margin-top:8px!important;
    background:var(--app-surface,var(--theme-surface,#faf7ff))!important;
+ }
+}
+
+/* v185: one CSS owner, with the same role sizes from the first painted frame.
+   The body ownership marker disables the legacy computed-size multiplier. */
+@layer appColour164 {
+ html.app-readability-v184[data-app-font-size="small"]{--app-type-scale-v185:.88}
+ html.app-readability-v184[data-app-font-size="large"]{--app-type-scale-v185:1.15}
+ html.app-readability-v184 body #app.app{font-size:var(--app-body-v184)!important;line-height:1.4!important}
+ html.app-readability-v184 body :is(#app.app,[role="dialog"],[data-editor-sheet-v184],.settings-v125,.searchsheet){font-size:var(--app-body-v184)!important}
+ html.app-readability-v184 body :is(#app.app,[role="dialog"],[data-editor-sheet-v184],.settings-v125,.searchsheet) :is(div,section,article,header,footer,nav,form,p,span,b,strong,label,button,input,select,textarea,li,td,th,dt,dd,a,legend):not(:where(#wheel,#wheel *,svg,svg *,canvas,[class*="icon"],[class*="icon"] *,[data-font-owned-v184="1"],[data-font-owned-v184="1"] *)){
+   font-size:inherit!important;line-height:1.35!important;
+ }
+ html.app-readability-v184 body :is(#app.app,[role="dialog"],[data-editor-sheet-v184]) :is(small,time,figcaption,.record-meta,.event-meta,.field-help,.hint){font-size:var(--app-caption-v184)!important;line-height:1.35!important}
+ html.app-readability-v184 body :is(#app.app,[role="dialog"],[data-editor-sheet-v184]) h1{font-size:calc(21px * var(--app-type-scale-v185))!important;line-height:1.2!important}
+ html.app-readability-v184 body :is(#app.app,[role="dialog"],[data-editor-sheet-v184]) h2{font-size:calc(17px * var(--app-type-scale-v185))!important;line-height:1.25!important}
+ html.app-readability-v184 body :is(#app.app,[role="dialog"],[data-editor-sheet-v184]) :is(h3,h4,h5,h6){font-size:calc(14px * var(--app-type-scale-v185))!important;line-height:1.3!important}
+ html.app-readability-v184 body #app.app .view.on{animation:none!important;opacity:1!important;transform:none!important}
+ html.app-readability-v184 body #app.app .brand{font-size:18px!important}
+ html.app-readability-v184 body #app.app>.views{overflow:hidden!important}
+ html.app-readability-v184 body #app.app #home .schedule-summary-v179{
+   margin:0 7px!important;padding:4px 6px!important;gap:0!important;
+   background:color-mix(in srgb,var(--app-surface,#fff) 94%,var(--app-primary,#6e4a8e))!important;
+   border:1px solid var(--app-border,#d5ccdf)!important;border-radius:12px!important;color:var(--app-text,#292637)!important;
+ }
+ html.app-readability-v184 body #app.app #home .dday-summary-v179{
+   padding:3px 0 5px 30px!important;gap:7px!important;background:transparent!important;
+   border:0!important;border-radius:0!important;min-height:39px!important;
+ }
+ html.app-readability-v184 body #app.app #home .dday-main-v179{column-gap:4px!important}
+ html.app-readability-v184 body #app.app #home .dday-main-v179>strong{
+   font-size:calc(22px * var(--app-type-scale-v185))!important;line-height:1.1!important;font-weight:750!important;letter-spacing:-.035em!important;
+ }
+ html.app-readability-v184 body #app.app #home .dday-main-v179>b{font-size:calc(12px * var(--app-type-scale-v185))!important;font-weight:600!important}
+ html.app-readability-v184 body #app.app #home .dday-main-v179>time{font-size:calc(10px * var(--app-type-scale-v185))!important;font-weight:400!important}
+ html.app-readability-v184 body #app.app #home .dday-small-v179 :is(strong,b){font-size:var(--app-caption-v184)!important;font-weight:600!important}
+ html.app-readability-v184 body #app.app #home .dday-small-v179 time{font-size:calc(10px * var(--app-type-scale-v185))!important}
+ html.app-readability-v184 body #app.app #home .week-overview-open-v184{left:0!important;font-size:14px!important}
+ html.app-readability-v184 body #app.app #home .schedule-upcoming-v179{
+   background:transparent!important;border-radius:0!important;border-top:1px solid var(--app-border,#d5ccdf)!important;
+   padding:5px 0 1px!important;gap:5px!important;
+ }
+ html.app-readability-v184 body #app.app #home .schedule-upcoming-line-v179{background:transparent!important;border:0!important;padding:2px 4px!important;min-height:24px!important;font-size:var(--app-caption-v184)!important}
+ html.app-readability-v184 body #app.app #home .schedule-upcoming-line-v179 :is(span,b,time){font-size:inherit!important;line-height:1.35!important}
+ html.app-readability-v184 body #app.app #home .schedule-upcoming-line-v179 b{font-weight:600!important}
+ html.app-readability-v184 body #app.app #home .schedule-calhead-v119 h1{font-size:calc(19px * var(--app-type-scale-v185))!important;letter-spacing:-.025em!important}
+ html.app-readability-v184 body #app.app #home .schedule-calhead-v119 h1 span{letter-spacing:inherit!important}
+ html.app-readability-v184 body #app.app #home .schedule-calctl-v119 button{font-size:var(--app-caption-v184)!important;font-weight:600!important}
+ html.app-readability-v184 body #app.app #home .schedule-week-v119 span{font-size:var(--app-caption-v184)!important;font-weight:500!important}
+ html.app-readability-v184 body #app.app #home .schedule-day-number-v119{font-size:var(--app-caption-v184)!important;font-weight:650!important;line-height:14px!important}
+ html.app-readability-v184 body #app.app #home .schedule-event-name-v119{
+   font-size:var(--app-calendar-v184)!important;font-weight:550!important;line-height:1.25!important;
+   min-height:0!important;height:auto!important;padding:2px 2px!important;
+ }
+ html.app-readability-v184 body #app.app #home .schedule-event-name-v119 :is(span,b,time){font-size:inherit!important;font-weight:inherit!important;line-height:inherit!important}
+ html.app-readability-v184 body #app.app #home .schedule-event-time-v176{opacity:.8}
+ html.app-readability-v184 body #app.app #home [data-schedule-date-v125]>.schedule-holiday-v144{
+   position:static!important;inset:auto!important;order:-1!important;display:block!important;flex:none!important;
+   width:100%!important;max-width:100%!important;height:auto!important;max-height:none!important;min-height:0!important;
+   margin:0 0 2px!important;padding:0!important;overflow:visible!important;white-space:normal!important;
+   overflow-wrap:anywhere!important;word-break:normal!important;text-overflow:clip!important;
+   font-size:var(--app-calendar-v184)!important;font-weight:600!important;line-height:1.4!important;text-align:left!important;
+ }
+ html.app-readability-v184 body #app.app #home .calendar-todos-v179{font-size:var(--app-caption-v184)!important}
+ html.app-readability-v184 body #app.app #home .todo-inline-item-v179{font-size:inherit!important}
+ html.app-readability-v184 body #app.app #home .weekly-view-v184{font-size:var(--app-body-v184)!important}
+ html.app-readability-v184 body #app.app #home .week-date-v184 strong{font-size:calc(17px * var(--app-type-scale-v185))!important}
+ html.app-readability-v184 body #app.app #home .week-date-v184 small{font-size:var(--app-calendar-v184)!important;white-space:normal!important;overflow-wrap:anywhere!important}
+ html.app-readability-v184 body #app.app #home .week-event-v184{font-size:calc(12px * var(--app-type-scale-v185))!important}
+ html.app-readability-v184 body #app.app #home .week-note-row-v184{font-size:var(--app-caption-v184)!important}
+ html.app-readability-v184 body #app.app :is(.pomo-clock-v113 strong,.pomo-clock strong){font-size:calc(38px * var(--app-type-scale-v185))!important;font-variant-numeric:tabular-nums}
+ @media(max-width:420px){
+   html.app-readability-v184 body #app.app #home .dday-summary-v179{grid-template-columns:minmax(0,1fr)!important;gap:3px!important}
+   html.app-readability-v184 body #app.app #home .dday-others-v179{height:22px!important;max-height:44px!important}
+   html.app-readability-v184 body #app.app #home .dday-main-v179{grid-template-columns:auto minmax(0,1fr) auto!important}
+ }
+ @media(min-width:600px) and (min-height:480px){
+   html.app-readability-v184 body #app.app #home .schedule-summary-v179{align-self:start!important;max-height:100%!important;overflow:auto!important}
  }
 }

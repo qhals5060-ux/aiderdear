@@ -21,17 +21,29 @@ const resources={
  'widget_weekdays_compact_v184':`<LinearLayout ${ns} android:layout_width="match_parent" android:layout_height="16dp" android:orientation="horizontal">${['일','월','화','수','목','금','토'].map((d,i)=>`<TextView android:id="@+id/widget_week_${i}" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:gravity="center" android:text="${d}" android:textSize="9sp" android:includeFontPadding="false"/>`).join('')}</LinearLayout>`
 };
 resources.widget_event_chip_tall_v184=resources.widget_event_chip_v184.replace('android:singleLine="true"','android:maxLines="2"');
+// Small launcher bounds use less chrome; runtime chooses these without changing picker defaults.
+for(const kind of ['split','agenda','month'])resources['widget_'+kind+'_small_v185']=resources['widget_'+kind+'_compact_v184']
+ .replace('android:padding="6dp"','android:padding="4dp"').replace('android:layout_height="30dp"','android:layout_height="24dp"')
+ .replaceAll('android:minHeight="28dp"','android:minHeight="24dp"');
+for(const name of Object.keys(resources))if(name.includes('_compact_v184')||name.includes('_small_v185'))resources[name]=resources[name]
+ .replace('android:id="@+id/widget_title" android:layout_width="wrap_content"','android:id="@+id/widget_title" android:layout_weight="1" android:layout_width="0dp"')
+ .replace('android:id="@+id/w184_caption" android:layout_width="0dp" android:layout_weight="1"','android:id="@+id/w184_caption" android:layout_width="wrap_content"');
+resources.widget_weekdays_small_v185=resources.widget_weekdays_compact_v184.replace('android:layout_height="16dp"','android:layout_height="12dp"');
+resources.widget_event_day_small_v185=resources.widget_event_day_v184.replace('android:padding="2dp"','android:padding="1dp"').replace('android:minHeight="18dp"','android:minHeight="11dp"').replace('android:minWidth="18dp"','android:minWidth="0dp"');
+resources.widget_mini_day_small_v185=resources.widget_mini_day_v184.replace('android:minHeight="14dp"','android:minHeight="0dp"').replace('android:minWidth="18dp"','android:minWidth="0dp"');
+resources.widget_upcoming_small_v185=`<LinearLayout ${ns} android:id="@+id/w184_row" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="27dp" android:paddingTop="1dp" android:paddingBottom="2dp" android:orientation="horizontal" android:gravity="center_vertical"><ImageView android:id="@+id/w184_event_mark" android:layout_width="2dp" android:layout_height="21dp" android:layout_marginRight="3dp" android:background="#7561DC" android:contentDescription="@null"/><LinearLayout android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:orientation="vertical"><TextView android:id="@+id/w184_event_title" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="11sp" android:fontFamily="sans-serif" android:includeFontPadding="false" android:singleLine="true" android:ellipsize="end"/><LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">${text('w184_event_date','android:textSize="8.5sp" android:paddingRight="4dp"')}${text('w184_event_time','android:textSize="8.5sp"')}</LinearLayout></LinearLayout></LinearLayout>`;
+resources.widget_todo_small_v185=resources.widget_todo_row_v184.replaceAll('29dp','25dp').replace('android:layout_width="30dp"','android:layout_width="22dp"');
 for(const[name,xml]of Object.entries(resources))fs.writeFileSync(path.join(root,'layout',name+'.xml'),'<?xml version="1.0" encoding="utf-8"?>\n'+xml+'\n');
 fs.writeFileSync(path.join(root,'drawable','widget_today_compact_v184.xml'),`<?xml version="1.0" encoding="utf-8"?>\n<shape ${ns} android:shape="rectangle"><solid android:color="#7561AA"/><corners android:radius="5dp"/></shape>\n`);
 const configurations={
-calendar_combined:[3,180,180,'widget_split_compact_v184','왼쪽 이달 달력 · 오른쪽 다가오는 일정'],
-calendar_agenda:[4,250,180,'widget_agenda_compact_v184','다가오는 일정 · 하단 미완료 투두'],
-calendar_fortnight:[3,180,150,'widget_month_compact_v184','일정 제목이 표시된 2주 캘린더'],
-calendar_month:[5,320,250,'widget_month_compact_v184','일정 제목이 표시된 월간 캘린더'],
-calendar_split:[6,390,320,'widget_month_compact_v184','일정 제목이 표시된 월간 캘린더 · 하단 투두']};
-for(const[kind,[span,height,min,layout,description]]of Object.entries(configurations)){
+calendar_combined:[3,180,180,110,'widget_split_compact_v184','왼쪽 이달 달력 · 오른쪽 다가오는 일정'],
+calendar_agenda:[4,250,110,110,'widget_agenda_compact_v184','다가오는 일정 · 하단 미완료 투두'],
+calendar_fortnight:[3,180,180,110,'widget_month_compact_v184','일정 제목이 표시된 2주 캘린더'],
+calendar_month:[5,320,180,180,'widget_month_compact_v184','일정 제목이 표시된 월간 캘린더'],
+calendar_split:[6,390,180,180,'widget_month_compact_v184','일정 제목이 표시된 월간 캘린더 · 하단 투두']};
+for(const[kind,[span,height,minWidth,minHeight,layout,description]]of Object.entries(configurations)){
  const file=path.join(root,'xml','widget_'+kind+'.xml');let xml=fs.readFileSync(file,'utf8');
- const values={minWidth:'250dp',minHeight:height+'dp',minResizeWidth:'250dp',minResizeHeight:min+'dp',targetCellWidth:'4',targetCellHeight:span,initialLayout:'@layout/'+layout};
+ const values={minWidth:'250dp',minHeight:height+'dp',minResizeWidth:minWidth+'dp',minResizeHeight:minHeight+'dp',targetCellWidth:'4',targetCellHeight:span,initialLayout:'@layout/'+layout};
  for(const[k,v]of Object.entries(values))xml=xml.replace(new RegExp('android:'+k+'="[^"]*"'),`android:${k}="${v}"`);
  fs.writeFileSync(file,xml);
  const strings=path.join(root,'values','strings.xml');fs.writeFileSync(strings,fs.readFileSync(strings,'utf8').replace(new RegExp('(<string name="widget_desc_'+kind+'">)[^<]*(</string>)'),'$1'+description+'$2'));

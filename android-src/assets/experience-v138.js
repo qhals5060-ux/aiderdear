@@ -32,7 +32,7 @@
     if(typeof window.renderMyV128!=='function')return;
     const host=$('#fifth');
     if(host&&!$('.my128-page',host))window.renderMyV128();
-    const label=$('#fifthLabel');if(label)label.textContent='My';
+    const label=$('#fifthLabel');if(label&&label.textContent!=='My')label.textContent='My';
   }
   function refresh(){decorateProfile();restoreWorkspace()}
   document.addEventListener('click',openCalendar,true);

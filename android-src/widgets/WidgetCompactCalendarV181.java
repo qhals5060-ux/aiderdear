@@ -78,7 +78,10 @@ public final class WidgetCompactCalendarV181 {
         int[] palette={0xff7561dc,0xff5d83d5,0xffbd75b8,0xff9080d1};return palette[(row.optString("id",row.optString("title")).hashCode()&0x7fffffff)%palette.length];
     }
     static int softColor(int value,boolean night){return (night?0x50000000:0x22000000)|(value&0x00ffffff);}
-    static int capacity(float cellHeight,float lineHeight,boolean holiday){return Math.max(1,Math.min(6,(int)((cellHeight-22-(holiday?12:0))/Math.max(13,lineHeight))));}
+    static int capacity(float cellHeight,float lineHeight,boolean holiday){return Math.max(0,Math.min(6,(int)((cellHeight-(cellHeight<32?13:22)-(holiday?12:0))/Math.max(13,lineHeight))));}
+    static boolean small(float width,float height){return width<240||height<200;}
+    static float cellHeight(String kind,float width,float height,int weeks){return Math.max(1,((height-(small(width,height)?32:42))*("CalendarSplit".equals(kind)?.75f:1)-(small(width,height)?12:16))/Math.max(1,weeks));}
+    static boolean smallRows(String kind,float width,float height){float pane="CalendarCombined".equals(WidgetDesignV165.base(kind))?(width-17)*.52f:width-12;return pane<150||height<200;}
     static float ratio(String kind){return "CalendarCombined".equals(kind)?.76f:"CalendarAgenda".equals(kind)?.95f:"CalendarFortnight".equals(kind)?.80f:"CalendarSplit".equals(kind)?1.44f:1.20f;}
     static Calendar calendarStart(Context c,int widget,String kind){
         Calendar start=Calendar.getInstance();
@@ -89,7 +92,8 @@ public final class WidgetCompactCalendarV181 {
     static RemoteViews render(Context c,int widget,String kind,boolean preview,String overrideTheme,int overrideOpacity,int selectedFont) {
         boolean agenda="CalendarAgenda".equals(kind),mini="CalendarCombined".equals(kind),todos=agenda||"CalendarSplit".equals(kind);
         String chosen=overrideTheme==null?theme(c,widget):overrideTheme;
-        RemoteViews result=view(c,mini?"widget_split_compact_v184":agenda?"widget_agenda_compact_v184":"widget_month_compact_v184");
+        float width=WidgetSizeV169.current(c,widget).getWidth(),height=WidgetSizeV169.current(c,widget).getHeight();boolean compact=small(width,height);
+        RemoteViews result=view(c,"widget_"+(mini?"split":agenda?"agenda":"month")+(compact?"_small_v185":"_compact_v184"));
         String background="widget_bg_"+("system".equals(chosen)?dark(c,chosen)?"midnight":"aurora":chosen);
         int resource=drawable(c,background);if(resource==0)resource=drawable(c,"widget_bg_aurora");
         result.setImageViewResource(id(c,"widget_background"),resource);result.setInt(id(c,"widget_background"),"setImageAlpha",Math.round(255*opacity(c,widget,overrideOpacity)/100f));
@@ -97,8 +101,9 @@ public final class WidgetCompactCalendarV181 {
         String title=agenda?"일정 · 투두":(start.get(Calendar.YEAR)+". "+String.format(java.util.Locale.US,"%02d",start.get(Calendar.MONTH)+1));
         if("CalendarFortnight".equals(kind)){Calendar end=(Calendar)start.clone();end.add(Calendar.DAY_OF_MONTH,13);title=shortDate(day(start))+" — "+shortDate(day(end));}
         text(c,result,"widget_title",title);text(c,result,"w184_caption",agenda?shortDate(from)+"부터":mini?"다가오는 일정":"CalendarFortnight".equals(kind)?"2주":todos?"일정 · 투두":"일정");
+        show(c,result,"w184_caption",width>=300);show(c,result,"widget_previous",width>=180);show(c,result,"widget_next",width>=180);
         for(String key:new String[]{"widget_title","w184_caption","widget_previous","widget_next","w184_today"})color(c,result,key,ink(c,chosen));
-        result.setTextViewTextSize(id(c,"widget_title"),2,WidgetSizeV169.sp(c,widget,selectedFont,13));
+        result.setTextViewTextSize(id(c,"widget_title"),2,WidgetSizeV169.sp(c,widget,selectedFont,compact?11:13));
         result.setTextViewTextSize(id(c,"w184_caption"),2,Math.max(8.5f,WidgetSizeV169.sp(c,widget,selectedFont,9)));
         result.setOnClickPendingIntent(id(c,"widget_root"),open(c,widget,kind,""));
         result.setOnClickPendingIntent(id(c,"widget_previous"),navigate(c,widget,kind,"month","-1"));result.setOnClickPendingIntent(id(c,"widget_next"),navigate(c,widget,kind,"month","1"));
@@ -108,6 +113,7 @@ public final class WidgetCompactCalendarV181 {
         if(mini||agenda)bind(c,result,widget,kind,rows(c,widget,kind,data),"widget_items_v164","widget_preview_rows_v164","w184_event_empty",preview,chosen,selectedFont,mini?5:6,data);
         if(!mini&&!agenda)show(c,result,"w184_todo_panel",todos);
         if(todos){
+            show(c,result,"w184_todo_heading",height>=170);
             color(c,result,"w184_todo_heading",ink(c,chosen));
             bind(c,result,widget,kind+"@todos",rows(c,widget,kind+"@todos",data),"w165_secondary_list","w181_todo_preview","w184_todo_empty",preview,chosen,selectedFont,agenda?5:4,data);
         }
@@ -120,14 +126,15 @@ public final class WidgetCompactCalendarV181 {
         else collection(c,result,widget,kind,values,id(c,list));
     }
     static void calendar(Context c,RemoteViews result,int widget,String kind,JSONObject data,String chosen,int overrideOpacity,int selectedFont) {
-        boolean mini="CalendarCombined".equals(kind),fortnight="CalendarFortnight".equals(kind),withTodos="CalendarSplit".equals(kind),night=dark(c,chosen);
+        boolean mini="CalendarCombined".equals(kind),fortnight="CalendarFortnight".equals(kind),night=dark(c,chosen);
         Calendar start=calendarStart(c,widget,kind);int shownMonth=start.get(Calendar.MONTH),count=fortnight?2:(start.get(Calendar.DAY_OF_WEEK)-1+start.getActualMaximum(Calendar.DAY_OF_MONTH)+6)/7;
         if(!fortnight)start.add(Calendar.DAY_OF_MONTH,1-start.get(Calendar.DAY_OF_WEEK));
-        result.removeAllViews(id(c,"widget_calendar_v164"));RemoteViews weekdays=view(c,"widget_weekdays_compact_v184");String[] labels={"일","월","화","수","목","금","토"};
+        float width=WidgetSizeV169.current(c,widget).getWidth(),height=WidgetSizeV169.current(c,widget).getHeight();boolean compact=small(width,height);
+        result.removeAllViews(id(c,"widget_calendar_v164"));RemoteViews weekdays=view(c,compact?"widget_weekdays_small_v185":"widget_weekdays_compact_v184");String[] labels={"일","월","화","수","목","금","토"};
         for(int i=0;i<7;i++){text(c,weekdays,"widget_week_"+i,labels[i]);color(c,weekdays,"widget_week_"+i,i==0?night?0xffe3b4c5:0xffaa6077:i==6?night?0xffb2c4f1:0xff6080bc:ink(c,chosen));weekdays.setTextViewTextSize(id(c,"widget_week_"+i),2,Math.max(8.5f,WidgetSizeV169.sp(c,widget,selectedFont,9)));}
         result.addView(id(c,"widget_calendar_v164"),weekdays);
-        float height=WidgetSizeV169.current(c,widget).getHeight(),cellHeight=((height-42)*(withTodos?.75f:1)-16)/count;
-        float baseSize=WidgetSizeV169.current(c,widget).getWidth()>=500?11.5f:10f;
+        float cellHeight=cellHeight(kind,width,height,count);
+        float baseSize=width>=500?11.5f:compact?9:10f;
         float eventSize=Math.max(9,WidgetSizeV169.sp(c,widget,selectedFont,baseSize));
         float scaled=Math.max(1,c.getResources().getDisplayMetrics().scaledDensity/Math.max(.1f,c.getResources().getDisplayMetrics().density));
         JSONArray events=data.optJSONArray("scheduleItems");JSONObject holidays=data.optJSONObject("holidays");String today=day(Calendar.getInstance());
@@ -135,11 +142,11 @@ public final class WidgetCompactCalendarV181 {
             RemoteViews week=view(c,"widget_week_v164");
             for(int col=0;col<7;col++){
                 String key=day(start),holiday=holidays==null?"":holidays.optString(key);List<String> dated=scheduleRows(events,key);boolean outside=!fortnight&&start.get(Calendar.MONTH)!=shownMonth;
-                RemoteViews cell=view(c,mini?"widget_mini_day_v184":"widget_event_day_v184");text(c,cell,"w184_day",String.valueOf(start.get(Calendar.DAY_OF_MONTH)));
+                RemoteViews cell=view(c,mini?(compact?"widget_mini_day_small_v185":"widget_mini_day_v184"):(compact?"widget_event_day_small_v185":"widget_event_day_v184"));text(c,cell,"w184_day",String.valueOf(start.get(Calendar.DAY_OF_MONTH)));
                 int foreground=outside?night?0xff938ba8:0xffa9a2b5:!holiday.isEmpty()||col==0?night?0xffe3b4c5:0xffaa6077:col==6?night?0xffb2c4f1:0xff6080bc:ink(c,chosen);
                 color(c,cell,"w184_day",key.equals(today)?0xffffffff:foreground);cell.setInt(id(c,"w184_day"),"setBackgroundResource",drawable(c,key.equals(today)?"widget_today_compact_v184":"widget_day_clear_v164"));
-                cell.setTextViewTextSize(id(c,"w184_day"),2,WidgetSizeV169.sp(c,widget,selectedFont,mini?11.5f:11));
-                if(mini){text(c,cell,"w184_dots",dated.isEmpty()?"":dated.size()>1?"••":"•");color(c,cell,"w184_dots",night?0xffc1baff:PRIMARY);}
+                cell.setTextViewTextSize(id(c,"w184_day"),2,WidgetSizeV169.sp(c,widget,selectedFont,compact?8.5f:mini?11.5f:11));
+                if(mini){boolean dots=cellHeight>=19;text(c,cell,"w184_dots",dated.isEmpty()?"":dated.size()>1?"••":"•");show(c,cell,"w184_dots",dots);if(!dots&&!dated.isEmpty()&&!key.equals(today))color(c,cell,"w184_day",night?0xffc1baff:PRIMARY);color(c,cell,"w184_dots",night?0xffc1baff:PRIMARY);}
                 else{
                     cell.setImageViewResource(id(c,"w184_cell_background"),drawable(c,night?"widget_compact_grid_dark_v181":"widget_compact_grid_v181"));
                     cell.setInt(id(c,"w184_cell_background"),"setImageAlpha",Math.round(255*opacity(c,widget,overrideOpacity)/100f));
@@ -147,6 +154,7 @@ public final class WidgetCompactCalendarV181 {
                     cell.setTextViewTextSize(id(c,"w184_holiday"),2,Math.max(8,WidgetSizeV169.sp(c,widget,selectedFont,8.5f)));
                     boolean wrap=fortnight&&cellHeight>=76;
                     cell.removeAllViews(id(c,"w184_events"));int slots=capacity(cellHeight,eventSize*scaled*(wrap?2.4f:1.2f)+4,!holiday.isEmpty()&&cellHeight>=45);int visible=Math.min(slots,dated.size());
+                    if(slots==0&&!dated.isEmpty())text(c,cell,"w184_day",start.get(Calendar.DAY_OF_MONTH)+"·");
                     // When there are hidden entries reserve the last line for a clear overflow count.
                     if(dated.size()>slots&&slots>1)visible=slots-1;
                     for(int i=0;i<visible;i++)try{
@@ -169,18 +177,20 @@ public final class WidgetCompactCalendarV181 {
         String chosen=overrideTheme==null?theme(c,widget):overrideTheme;JSONObject data=snapshot(c);
         if(record.has("_widgetOwnerV181")&&!sameOwner(record.optString("_widgetOwnerV181"),data)){RemoteViews cleared=view(c,"widget_upcoming_row_v184");cleared.setViewVisibility(id(c,"w184_row"),View.INVISIBLE);return cleared;}
         if(kind.contains("@todos"))return todo(c,widget,kind,record,data,chosen,selectedFont,false);
-        RemoteViews item=view(c,"widget_upcoming_row_v184");String date=record.optString("selectedDate",record.optString("date"));
+        boolean compact=smallRows(kind,WidgetSizeV169.current(c,widget).getWidth(),WidgetSizeV169.current(c,widget).getHeight());
+        RemoteViews item=view(c,compact?"widget_upcoming_small_v185":"widget_upcoming_row_v184");String date=record.optString("selectedDate",record.optString("date"));
         text(c,item,"w184_event_date",shortDate(date));text(c,item,"w184_event_title",record.optString("title"));text(c,item,"w184_event_time",time(record).isEmpty()?"종일":time(record));
         for(String key:new String[]{"w184_event_date","w184_event_title","w184_event_time"})color(c,item,key,ink(c,chosen));
-        item.setTextViewTextSize(id(c,"w184_event_title"),2,WidgetSizeV169.sp(c,widget,selectedFont,12));
-        item.setTextViewTextSize(id(c,"w184_event_date"),2,WidgetSizeV169.sp(c,widget,selectedFont,10));item.setTextViewTextSize(id(c,"w184_event_time"),2,WidgetSizeV169.sp(c,widget,selectedFont,10));
+        item.setTextViewTextSize(id(c,"w184_event_title"),2,WidgetSizeV169.sp(c,widget,selectedFont,compact?11:12));
+        item.setTextViewTextSize(id(c,"w184_event_date"),2,WidgetSizeV169.sp(c,widget,selectedFont,compact?8.5f:10));item.setTextViewTextSize(id(c,"w184_event_time"),2,WidgetSizeV169.sp(c,widget,selectedFont,compact?8.5f:10));
         item.setInt(id(c,"w184_event_mark"),"setBackgroundColor",eventColor(record));
         WidgetDesignV165.put(record,"uid",owner(data));item.setOnClickFillInIntent(id(c,"w184_row"),new Intent().putExtra("widgetRow",index).putExtra("action","open-schedule-item-v168:"+Uri.encode(record.toString())));
         item.setContentDescription(id(c,"w184_row"),date+" "+time(record)+" "+record.optString("title"));return item;
     }
     static RemoteViews todo(Context c,int widget,String kind,JSONObject record,JSONObject data,String chosen,int selectedFont,boolean cell) {
-        RemoteViews item=view(c,"widget_todo_row_v184");text(c,item,"w184_todo_title",record.optString("title"));color(c,item,"w184_todo_title",ink(c,chosen));
-        item.setTextViewTextSize(id(c,"w184_todo_title"),2,WidgetSizeV169.sp(c,widget,selectedFont,12));
+        boolean compact=smallRows(kind,WidgetSizeV169.current(c,widget).getWidth(),WidgetSizeV169.current(c,widget).getHeight());
+        RemoteViews item=view(c,compact?"widget_todo_small_v185":"widget_todo_row_v184");text(c,item,"w184_todo_title",record.optString("title"));color(c,item,"w184_todo_title",ink(c,chosen));
+        item.setTextViewTextSize(id(c,"w184_todo_title"),2,WidgetSizeV169.sp(c,widget,selectedFont,compact?11:12));
         String due=record.optString("dueAt",record.optString("dueDate",record.optString("date")));if(due.length()>10)due=due.substring(0,10);
         text(c,item,"w184_todo_due",shortDate(due));color(c,item,"w184_todo_due",ink(c,chosen));show(c,item,"w184_todo_due",dateKey(due));
         item.setTextViewTextSize(id(c,"w184_todo_due"),2,WidgetSizeV169.sp(c,widget,selectedFont,10));
