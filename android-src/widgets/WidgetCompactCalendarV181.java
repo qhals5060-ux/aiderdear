@@ -83,7 +83,7 @@ public final class WidgetCompactCalendarV181 {
     }
     static int softColor(int value,boolean night){return (night?0x50000000:0x22000000)|(value&0x00ffffff);}
     // Secondary labels stay opaque and readable when the widget background is transparent.
-    static int secondaryInk(Context c,String chosen){return dark(c,chosen)?0xffc7bfd8:0xff716b80;}
+    static int secondaryInk(Context c,String chosen){return WidgetThemeV190.muted(chosen);}
     static int capacity(float cellHeight,float lineHeight,boolean holiday){return Math.max(0,Math.min(6,(int)((cellHeight-(cellHeight<32?13:22)-(holiday?12:0))/Math.max(13,lineHeight))));}
     static boolean small(float width,float height){return width<240||height<200;}
     static float cellHeight(String kind,float width,float height,int weeks){return Math.max(1,((height-(small(width,height)?32:42))*("CalendarSplit".equals(kind)?.75f:1)-(small(width,height)?12:16))/Math.max(1,weeks));}
@@ -103,7 +103,7 @@ public final class WidgetCompactCalendarV181 {
         String chosen=overrideTheme==null?theme(c,widget):overrideTheme;
         float width=WidgetSizeV169.current(c,widget).getWidth(),height=WidgetSizeV169.current(c,widget).getHeight();boolean compact=small(width,height);
         RemoteViews result=view(c,"widget_"+(mini?"split":agenda?"agenda":"month")+(compact?"_small_v185":"_compact_v184"));
-        String background="widget_bg_"+("system".equals(chosen)?dark(c,chosen)?"midnight":"aurora":chosen);
+        String background=WidgetThemeV190.resource(chosen,"surface");
         int resource=drawable(c,background);if(resource==0)resource=drawable(c,"widget_bg_aurora");
         result.setImageViewResource(id(c,"widget_background"),resource);result.setInt(id(c,"widget_background"),"setImageAlpha",Math.round(255*opacity(c,widget,overrideOpacity)/100f));
         JSONObject data=snapshot(c);Calendar start=calendarStart(c,widget,kind);String from=selectedDay(c,widget,kind);
@@ -113,8 +113,8 @@ public final class WidgetCompactCalendarV181 {
         show(c,result,"w184_caption",width>=300);show(c,result,"widget_previous",width>=180);show(c,result,"widget_next",width>=180);
         for(String key:new String[]{"widget_title","w184_caption","widget_previous","widget_next","w184_today"})color(c,result,key,ink(c,chosen));
         color(c,result,"w184_caption",secondaryInk(c,chosen));
-        result.setInt(id(c,"w184_today"),"setBackgroundResource",drawable(c,dark(c,chosen)?"widget_control_dark_v187":"widget_control_v187"));
-        result.setInt(id(c,"w187_section_divider"),"setBackgroundColor",dark(c,chosen)?0xff4b455e:0xffe8e3f0);
+        result.setInt(id(c,"w184_today"),"setBackgroundResource",drawable(c,WidgetThemeV190.resource(chosen,"control")));
+        result.setInt(id(c,"w187_section_divider"),"setBackgroundColor",WidgetThemeV190.color(chosen,3));
         result.setTextViewTextSize(id(c,"widget_title"),2,WidgetSizeV169.sp(c,widget,selectedFont,compact?12:14));
         result.setTextViewTextSize(id(c,"w184_caption"),2,Math.max(8.5f,WidgetSizeV169.sp(c,widget,selectedFont,9)));
         result.setOnClickPendingIntent(id(c,"widget_root"),open(c,widget,kind,""));
@@ -156,11 +156,11 @@ public final class WidgetCompactCalendarV181 {
                 String key=day(start),holiday=holidays==null?"":holidays.optString(key);List<String> dated=scheduleRows(events,key);boolean outside=!fortnight&&start.get(Calendar.MONTH)!=shownMonth;
                 RemoteViews cell=view(c,mini?(compact?"widget_mini_day_small_v185":"widget_mini_day_v184"):(compact?"widget_event_day_small_v185":"widget_event_day_v184"));text(c,cell,"w184_day",String.valueOf(start.get(Calendar.DAY_OF_MONTH)));
                 int foreground=outside?night?0xff938ba8:0xffa9a2b5:!holiday.isEmpty()||col==0?night?0xffe3b4c5:0xffaa6077:col==6?night?0xffb2c4f1:0xff6080bc:ink(c,chosen);
-                color(c,cell,"w184_day",key.equals(today)?0xffffffff:foreground);cell.setInt(id(c,"w184_day"),"setBackgroundResource",drawable(c,key.equals(today)?"widget_today_compact_v184":"widget_day_clear_v164"));
+                color(c,cell,"w184_day",key.equals(today)?0xffffffff:foreground);cell.setInt(id(c,"w184_day"),"setBackgroundResource",drawable(c,key.equals(today)?WidgetThemeV190.resource(chosen,"today"):"widget_day_clear_v164"));
                 cell.setTextViewTextSize(id(c,"w184_day"),2,WidgetSizeV169.sp(c,widget,selectedFont,compact?8.5f:mini?11.5f:11));
-                if(mini){boolean dots=cellHeight>=19;text(c,cell,"w184_dots",dated.isEmpty()?"":dated.size()>1?"••":"•");show(c,cell,"w184_dots",dots);if(!dots&&!dated.isEmpty()&&!key.equals(today))color(c,cell,"w184_day",night?0xffc1baff:PRIMARY);color(c,cell,"w184_dots",night?0xffc1baff:PRIMARY);}
+                if(mini){boolean dots=cellHeight>=19;text(c,cell,"w184_dots",dated.isEmpty()?"":dated.size()>1?"••":"•");show(c,cell,"w184_dots",dots);if(!dots&&!dated.isEmpty()&&!key.equals(today))color(c,cell,"w184_day",WidgetThemeV190.accent(chosen));color(c,cell,"w184_dots",WidgetThemeV190.accent(chosen));}
                 else{
-                    cell.setImageViewResource(id(c,"w184_cell_background"),drawable(c,night?"widget_compact_grid_dark_v181":"widget_compact_grid_v181"));
+                    cell.setImageViewResource(id(c,"w184_cell_background"),drawable(c,WidgetThemeV190.resource(chosen,"grid")));
                     cell.setInt(id(c,"w184_cell_background"),"setImageAlpha",Math.round(255*opacity(c,widget,overrideOpacity)/100f));
                     text(c,cell,"w184_holiday",holiday);color(c,cell,"w184_holiday",foreground);show(c,cell,"w184_holiday",!holiday.isEmpty()&&cellHeight>=45);
                     cell.setTextViewTextSize(id(c,"w184_holiday"),2,Math.max(8,WidgetSizeV169.sp(c,widget,selectedFont,8.5f)));
@@ -215,8 +215,8 @@ public final class WidgetCompactCalendarV181 {
         String due=record.optString("dueAt",record.optString("dueDate",record.optString("date")));if(due.length()>10)due=due.substring(0,10);
         text(c,item,"w184_todo_due",shortDate(due));color(c,item,"w184_todo_due",secondaryInk(c,chosen));show(c,item,"w184_todo_due",dateKey(due));
         item.setTextViewTextSize(id(c,"w184_todo_due"),2,WidgetSizeV169.sp(c,widget,selectedFont,10));
-        item.setInt(id(c,"w184_check"),"setBackgroundResource",drawable(c,dark(c,chosen)?"widget_compact_check_dark_v181":"widget_compact_check_v181"));
-        item.setInt(id(c,"w187_row_divider"),"setBackgroundColor",dark(c,chosen)?0xff4b455e:0xffe8e3f0);
+        item.setInt(id(c,"w184_check"),"setBackgroundResource",drawable(c,WidgetThemeV190.resource(chosen,"outline")));
+        item.setInt(id(c,"w187_row_divider"),"setBackgroundColor",WidgetThemeV190.color(chosen,3));
         item.setOnClickFillInIntent(id(c,"w184_check_hit"),WidgetDesignV165.action(data,widget,kind,record,"todo","true"));item.setOnClickFillInIntent(id(c,"w184_todo_title"),WidgetDesignV165.action(data,widget,kind,record,"open","todo"));item.setOnClickFillInIntent(id(c,"w184_todo_due"),WidgetDesignV165.action(data,widget,kind,record,"open","todo"));
         item.setContentDescription(id(c,"w184_check_hit"),record.optString("title")+" 완료");return item;
     }

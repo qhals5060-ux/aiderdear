@@ -126,7 +126,7 @@ function scheduleRef(uid) {
 }
 
 function cleanText(value, max = 500) {
-  return String(value || '').replace(/\s+/g, ' ').trim().slice(0, max);
+  return String(value || '').trim();
 }
 
 function dateOnly(date) {
@@ -172,7 +172,7 @@ async function mirrorSharedSchedule(uid, email, rows) {
   });
 }
 
-async function replaceProviderRows(uid, provider, rows) {
+async function replaceProviderRows(uid, provider, rows, coverage = null) {
   const user = await getAuth().getUser(uid);
   const email = String(user.email || '').toLowerCase();
   let savedRows = [];
@@ -181,7 +181,7 @@ async function replaceProviderRows(uid, provider, rows) {
     const ref = scheduleRef(uid);
     const snapshot = await transaction.get(ref);
     const previous = decodeArchive(snapshot.data()?.payload) || [];
-    const merged = mergeProviderRows(previous,provider,rows,uid,email);
+    const merged = mergeProviderRows(previous,provider,rows,uid,email,coverage);
     savedRows = merged;
     changed = !sameRows(previous,merged);
     if(!changed)return;
@@ -349,8 +349,8 @@ async function syncGoogle(uid,{force=true}={}) {
   const end = new Date(Date.now() + 732 * 86400000).toISOString();
   const sharedEventKeys = new Set((Array.isArray(connection.data.sharedEventKeys) ? connection.data.sharedEventKeys : []).map(String));
   const batches = await Promise.all(selected.map(calendar => listGoogleEvents(connection, calendar, start, end, sharedEventKeys)));
-  const rows = batches.flat().sort((a, b) => Math.abs(Date.parse(a.date) - Date.now()) - Math.abs(Date.parse(b.date) - Date.now())).slice(0, 600).sort((a, b) => String(a.date).localeCompare(String(b.date)));
-  const changed=await replaceProviderRows(uid, 'google', rows);
+  const rows = batches.flat().sort((a, b) => String(a.date).localeCompare(String(b.date)));
+  const changed=await replaceProviderRows(uid, 'google', rows, {from:start,to:end,calendarIds:selected.map(calendar=>'google:'+calendar.id)});
   const selectedCalendarIds = selected.map(calendar => String(calendar.id));
   await connection.ref.set({ provider: 'google', connected: true, selectedCalendarIds, calendarCount: selected.length, itemCount: rows.length, lastSyncedAt: FieldValue.serverTimestamp(), lastError: '' }, { merge: true });
   return { itemCount: rows.length, calendarCount: selected.length, selectedCalendarIds,lastSyncedAt:Date.now(),unchanged:!changed };
@@ -405,7 +405,7 @@ async function createGoogleEvent(uid, calendarId, event = {}, shareWithCouple = 
     body: JSON.stringify(googleEventPayload(event)),
   });
   if (shareWithCouple) {
-    const sharedEventKeys = [...new Set([...(Array.isArray(connection.data.sharedEventKeys) ? connection.data.sharedEventKeys : []), googleShareKey(calendar.id, item.id)])].slice(-600);
+    const sharedEventKeys = [...new Set([...(Array.isArray(connection.data.sharedEventKeys) ? connection.data.sharedEventKeys : []), googleShareKey(calendar.id, item.id)])];
     await connection.ref.set({ sharedEventKeys, updatedAt: FieldValue.serverTimestamp() }, { merge: true });
   }
   const result = await syncGoogle(uid);
@@ -433,7 +433,7 @@ async function shareGoogleEventToCoupleSiteOnly(uid, calendarId, eventId, shared
   const key = googleShareKey(calendarId, eventId);
   const values = new Set((Array.isArray(connection.data.sharedEventKeys) ? connection.data.sharedEventKeys : []).map(String));
   if (shared) values.add(key); else values.delete(key);
-  await connection.ref.set({ sharedEventKeys: [...values].slice(-600), updatedAt: FieldValue.serverTimestamp() }, { merge: true });
+  await connection.ref.set({ sharedEventKeys: [...values], updatedAt: FieldValue.serverTimestamp() }, { merge: true });
   const result = await syncGoogle(uid);
   return {
     ...result,
@@ -520,7 +520,9 @@ async function syncNotion(uid) {
     const data = await notionJson(connection.accessToken, `https://api.notion.com/v1/databases/${connection.sourceId}/query`, { method: 'POST', body: JSON.stringify(payload) });
     pages.push(...(data.results || []));
     cursor = data.has_more ? String(data.next_cursor || '') : '';
-  } while (cursor && pages.length < 1000);
+    if(data.has_more&&!cursor)throw new Error('Notion의 다음 페이지를 확인하지 못했습니다. 기존 일정은 유지됩니다.');
+    if(cursor&&pages.length>=10000)throw new Error('Notion 일정이 매우 많아 동기화를 완료하지 못했습니다. 기존 일정은 유지됩니다.');
+  } while (cursor);
   const rows = [];
   for (const page of pages) {
     const properties = Object.values(page.properties || {});
@@ -552,7 +554,7 @@ async function syncNotion(uid) {
       updatedAt: Date.parse(page.last_edited_time || '') || Date.now(),
     });
   }
-  await replaceProviderRows(uid, 'notion', rows);
+  await replaceProviderRows(uid, 'notion', rows, {calendarIds:['notion:'+connection.sourceId]});
   await ref.set({ provider: 'notion', connected: true, itemCount: rows.length, lastSyncedAt: FieldValue.serverTimestamp(), lastError: '' }, { merge: true });
   return { itemCount: rows.length };
 }

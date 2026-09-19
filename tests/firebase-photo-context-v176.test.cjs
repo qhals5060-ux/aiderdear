@@ -88,12 +88,12 @@ test('direct letter photo arrays preserve legacy first image and cap count and t
  assert.throws(()=>f.context.directPhotosPayload(Array(6).fill('data:image/jpeg;base64,'+'a'.repeat(150000))),/최대 6장/);
  assert.throws(()=>f.context.directPhotosPayload(['https://fixture.invalid/private.jpg']),/형식/);
 });
-test('direct letter sends photos only to an existing pair/friend and preserves seven-day rule',async()=>{
+test('direct letter sends photos only to an existing pair/friend and never grants age-based deletion',async()=>{
  const f=fixture();f.state.friends=[{uid:'synthetic-friend',email:'friend@example.invalid',friendshipId:'synthetic-friendship'}];
  await f.context.sendDirectLetter({toUid:'synthetic-friend',toEmail:'friend@example.invalid',body:'synthetic letter',photoDataUrls:['data:image/jpeg;base64,YWJj','data:image/jpeg;base64,YWJj']});
  assert.equal(f.letters.length,1);assert.equal(f.letters[0].data.additionalPhotos.length,1);assert.equal(f.letters[0].data.connectionType,'friend');
  await assert.rejects(f.context.sendDirectLetter({toUid:'stranger',toEmail:'stranger@example.invalid',body:'synthetic'}));assert.equal(f.letters.length,1);
  const rules=fs.readFileSync(path.join(root,'firestore.rules'),'utf8'),block=rules.slice(rules.indexOf('match /directLetters/'),rules.indexOf('match /ephemeralMedia/'));
  assert.match(block,/request\.resource\.data\.fromUid == request\.auth\.uid/);assert.match(block,/hasAll\(request\.resource\.data\.memberUids\)/);
- assert.match(block,/duration\.value\(7, 'd'\)/);
+ assert.doesNotMatch(block,/duration\.value\(7, 'd'\)/);assert.match(block,/request\.auth\.uid == resource\.data\.fromUid/);
 });

@@ -185,16 +185,16 @@
           population:String(study.population || neuro.speciesPopulation || ''), method:[study.design, join(modalities), join(close.analysisPipeline)].filter(Boolean).join(' · '),
           variables:join(close.measures), findings:join(close.mainResults), limitations:join(payload.limitationsAndGaps),
           futureResearch:[...list(close.researchIdeaSeeds), ...list(payload.unknowns)].join('\n'),
-          keywords:[...new Set([...terms, ...regions, ...modalities])].slice(0, 40),
+          keywords:[...new Set([...terms, ...regions, ...modalities])],
           researchConnection:String(evaluation.overallVerdict?.decisionForMyResearch || ''),
           neuroProfile:{ brainRegions:regions, modalities, cognitiveFunctions:list(neuro.cognitiveTasks || neuro.cognitiveFunctions), disorders:list(neuro.disorders), studyDesign:String(study.design || '') },
-          status:'reading', importance:3, tags:[...new Set([...terms, ...regions, ...modalities])].slice(0, 30),
+          status:'reading', importance:3, tags:[...new Set([...terms, ...regions, ...modalities])],
           importSchema:'AIDERLOG_PAPER_V3', createdAt:existing?.createdAt || Date.now(), updatedAt:Date.now(), lastOpenedAt:Date.now()
         };
         const at = data.paperItems.findIndex(row => row.id === id);
         if (at >= 0) data.paperItems.splice(at, 1, paper); else data.paperItems.push(paper);
         data.researchInsights = data.researchInsights.filter(row => row.paperId !== id || !(row.tags || []).includes('AIDERLOG_PAPER_V3'));
-        (Array.isArray(payload.claims) ? payload.claims : []).slice(0, 120).forEach((claim, index) => data.researchInsights.push({
+        (Array.isArray(payload.claims) ? payload.claims : []).forEach((claim, index) => data.researchInsights.push({
           id:uid(`insight-${index}`), paperId:id, title:String(claim.claim || `근거 ${index + 1}`), content:String(claim.claim || ''),
           sourceEvidence:String(claim.sourceQuote || ''), sourceQuote:String(claim.sourceQuote || ''), interpretation:String(claim.plainLanguageMeaning || ''),
           evidenceDirection:claim.evidenceDirection || 'context', reviewState:'unreviewed', status:'aiCandidate', tags:['AIDERLOG_PAPER_V3', ...paper.tags.slice(0, 8)], createdAt:Date.now() + index

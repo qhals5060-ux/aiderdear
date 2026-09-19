@@ -4,12 +4,12 @@ function routineGoalWorkspaceV111(){
   P.routines=Array.isArray(P.routines)?P.routines:[];
   const first=P.routines[0]||{},legacyGoals=Array.isArray(P.routineGoals)?P.routineGoals:first.bigGoals;
   if(!Array.isArray(P.routineBigGoals))P.routineBigGoals=Array.from({length:3},(_,i)=>String(legacyGoals?.[i]||''));
-  P.routineBigGoals=Array.from({length:3},(_,i)=>String(P.routineBigGoals?.[i]||'').slice(0,120));
+  P.routineBigGoals=Array.from({length:3},(_,i)=>String(P.routineBigGoals?.[i]||''));
   if(!P.routineMandalaByGoal||typeof P.routineMandalaByGoal!=='object'||Array.isArray(P.routineMandalaByGoal)){
     const legacy=Array.isArray(first.mandalaGoals)?first.mandalaGoals:[];
     P.routineMandalaByGoal={'0':Array.from({length:8},(_,i)=>String(legacy[i]||'')),'1':Array(8).fill(''),'2':Array(8).fill('')};
   }
-  for(let i=0;i<3;i++)P.routineMandalaByGoal[String(i)]=Array.from({length:8},(_,n)=>String(P.routineMandalaByGoal?.[String(i)]?.[n]||'').slice(0,100));
+  for(let i=0;i<3;i++)P.routineMandalaByGoal[String(i)]=Array.from({length:8},(_,n)=>String(P.routineMandalaByGoal?.[String(i)]?.[n]||''));
   selectedBigGoalV111=Math.max(0,Math.min(2,Number(selectedBigGoalV111)||0));
   return{goals:P.routineBigGoals,mandala:P.routineMandalaByGoal};
 }
@@ -60,19 +60,19 @@ renderRoutine=function(){
 async function saveRoutineGoalsV111(form){
   const data=new FormData(form),target=form.dataset.goalIndex;
   if(target!==undefined&&/^[0-2]$/.test(target)){
-    routineGoalWorkspaceV111();P.routineBigGoals[Number(target)]=String(data.get('goal'+target)||'').trim().slice(0,120);
-  }else P.routineBigGoals=Array.from({length:3},(_,i)=>String(data.get('goal'+i)||'').trim().slice(0,120));
+    routineGoalWorkspaceV111();P.routineBigGoals[Number(target)]=String(data.get('goal'+target)||'').trim();
+  }else P.routineBigGoals=Array.from({length:3},(_,i)=>String(data.get('goal'+i)||'').trim());
   await savePrivate();
 }
 
 async function saveRoutineMandalaV111(form){
-  routineGoalWorkspaceV111();const data=new FormData(form),target=/^[0-2]$/.test(form.dataset.goalIndex||'')?form.dataset.goalIndex:String(selectedBigGoalV111);P.routineMandalaByGoal[target]=Array.from({length:8},(_,i)=>String(data.get('mandala'+i)||'').trim().slice(0,100));await savePrivate();routineMandalaOpenV111=false;renderRoutine();
+  routineGoalWorkspaceV111();const data=new FormData(form),target=/^[0-2]$/.test(form.dataset.goalIndex||'')?form.dataset.goalIndex:String(selectedBigGoalV111);P.routineMandalaByGoal[target]=Array.from({length:8},(_,i)=>String(data.get('mandala'+i)||'').trim());await savePrivate();routineMandalaOpenV111=false;renderRoutine();
 }
 
 async function saveRoutineEditorV111(form){
   const data=new FormData(form),name=String(data.get('text')||'').trim();if(!name){alert('루틴 이름을 입력해주세요.');return}
   let existing=(P.routines||[]).find(x=>String(x.id)===String(form.dataset.routineId));
-  const values={text:name.slice(0,80),icon:existing?.icon||'✨',goalDays:Number(data.get('goalDays'))||20,cycleDays:Number(data.get('goalDays'))||20,color:routinePaletteKey(data.get('color')),miniText:String(data.get('miniText')||'').trim().slice(0,100)||'5분만 시작하기',moreText:String(data.get('moreText')||'').trim().slice(0,100)||'20분 집중하기',maxText:String(data.get('maxText')||'').trim().slice(0,100)||'충분히 끝내기',updatedAt:Date.now()};
+  const values={text:name,icon:existing?.icon||'✨',goalDays:Number(data.get('goalDays'))||20,cycleDays:Number(data.get('goalDays'))||20,color:routinePaletteKey(data.get('color')),miniText:String(data.get('miniText')||'').trim()||'5분만 시작하기',moreText:String(data.get('moreText')||'').trim()||'20분 집중하기',maxText:String(data.get('maxText')||'').trim()||'충분히 끝내기',updatedAt:Date.now()};
   let r=existing;
   if(r)Object.assign(r,values);else{r={id:'r-'+Date.now(),...values,doneDates:[],dailyLevels:{},goalTracking:{'0':{},'1':{},'2':{}},goalDerivedDates:{},braggedAt:0,createdAt:Date.now()};P.routines.push(r)}
   await savePrivate();routineEditorIdV111=null;routineDetailId='';renderRoutine();

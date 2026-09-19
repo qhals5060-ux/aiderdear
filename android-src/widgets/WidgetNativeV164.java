@@ -37,9 +37,9 @@ public final class WidgetNativeV164 {
     static String day(Calendar value){synchronized(DATE){return DATE.format(value.getTime());}}
     static Calendar date(String key){Calendar value=Calendar.getInstance();try{synchronized(DATE){value.setTime(DATE.parse(key));}}catch(Exception ignored){}return value;}
     static String selected(Context c,int widget){return prefs(c).getString("widget_date_"+widget,day(Calendar.getInstance()));}
-    static boolean dark(Context c,String theme){return "midnight".equals(theme)||("system".equals(theme)&&(c.getResources().getConfiguration().uiMode&48)==32);}
-    static int ink(Context c,String theme){return dark(c,theme)?0xfff7f6ff:INK;}
-    static String theme(Context c,int widget){return prefs(c).getString("widget_theme_"+widget,"aurora");}
+    static boolean dark(Context c,String theme){return false;}
+    static int ink(Context c,String theme){return WidgetThemeV190.color(theme,4);}
+    static String theme(Context c,int widget){return WidgetThemeV190.normalize(prefs(c).getString("widget_theme_"+widget,"system"));}
     static float font(Context c,int widget){return 11.5f+Math.max(1,Math.min(5,prefs(c).getInt("widget_font_"+widget,3)))*.8f;}
     static RemoteViews view(Context c,String name){return new RemoteViews(c.getPackageName(),layout(c,name));}
     static void text(Context c,RemoteViews v,String key,String text){v.setTextViewText(id(c,key),text);}
@@ -47,16 +47,14 @@ public final class WidgetNativeV164 {
     static void color(Context c,RemoteViews v,String key,int value){v.setTextColor(id(c,key),value);}
     static void appearance(Context c,RemoteViews v,int widget,String overrideTheme,int overrideOpacity,int overrideFont){
         String selectedTheme=overrideTheme==null?theme(c,widget):overrideTheme;
-        String bg="widget_bg_"+selectedTheme;
-        if("system".equals(selectedTheme))bg=dark(c,selectedTheme)?"widget_bg_midnight":"widget_bg_aurora";
+        String bg=WidgetThemeV190.resource(selectedTheme,"surface");
         int background=drawable(c,bg);if(background==0)background=drawable(c,"widget_bg_aurora");
         v.setImageViewResource(id(c,"widget_background"),background);
         float opacity=(overrideOpacity<0?prefs(c).getInt("widget_opacity_"+widget,100):overrideOpacity)/100f;
         v.setInt(id(c,"widget_background"),"setImageAlpha",Math.round(255*Math.max(0,Math.min(1,opacity))));
         int foreground=ink(c,selectedTheme);
         for(String key:new String[]{"widget_title","widget_subtitle","widget_empty","widget_previous","widget_next","widget_add"})color(c,v,key,foreground);
-        // This button retains a pale lavender surface in both widget modes.
-        color(c,v,"widget_add",PRIMARY);
+        color(c,v,"widget_add",WidgetThemeV190.accent(selectedTheme));
         float size=overrideFont<0?font(c,widget):11.5f+Math.max(1,Math.min(5,overrideFont))*.8f;
         v.setTextViewTextSize(id(c,"widget_title"),2,size+1.2f);
         v.setTextViewTextSize(id(c,"widget_subtitle"),2,Math.max(10,size-2));
@@ -98,7 +96,7 @@ public final class WidgetNativeV164 {
     public static RemoteViews render(Context c,int widget,String kind,boolean preview,String selectedTheme,int opacity,int selectedFont){
         if(kind.equals("TaskClientLink")){
             RemoteViews link=view(c,"widget_client_link_v168");String chosen=selectedTheme==null?theme(c,widget):selectedTheme;
-            link.setImageViewResource(id(c,"widget_background"),drawable(c,"widget_bg_"+("system".equals(chosen)?dark(c,chosen)?"midnight":"aurora":chosen)));
+            link.setImageViewResource(id(c,"widget_background"),drawable(c,WidgetThemeV190.resource(chosen,"surface")));
             link.setInt(id(c,"widget_background"),"setImageAlpha",Math.round(255*(opacity<0?prefs(c).getInt("widget_opacity_"+widget,100):opacity)/100f));
             color(c,link,"widget_title",ink(c,chosen));color(c,link,"widget_subtitle",ink(c,chosen));
             float linkSize=12f+((selectedFont<0?prefs(c).getInt("widget_font_"+widget,3):selectedFont)-3)*.8f;
@@ -286,6 +284,7 @@ public final class WidgetNativeV164 {
     /** Settings preview is the same RemoteViews tree, with unsaved appearance overrides only. */
     public static void preview(Activity activity){
         try{
+            WidgetThemeV190.refresh(activity);
             Class<?> cls=activity.getClass();java.lang.reflect.Field wf=cls.getDeclaredField("appWidgetId"),kf=cls.getDeclaredField("providerClass"),tf=cls.getDeclaredField("selectedTheme"),of=cls.getDeclaredField("selectedOpacity"),ff=cls.getDeclaredField("selectedFont");
             for(java.lang.reflect.Field f:new java.lang.reflect.Field[]{wf,kf,tf,of,ff})f.setAccessible(true);
             ViewGroup host=(ViewGroup)activity.findViewById(id(activity,"widget_config_preview_v164"));if(host==null)return;

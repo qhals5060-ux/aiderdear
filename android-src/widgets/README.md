@@ -1,4 +1,35 @@
-# Native widgets (v189)
+# Native widgets (v190)
+
+v190 updates the actual installed-widget settings flow to the app's five theme
+families: Lavender (`system`), Sage, Rose, Slate and Charcoal. `WidgetThemeV190`
+owns the labels, selected radio item, unsaved preview and palette resolution.
+The existing Save remains the only preference write. Legacy aurora/lavender,
+mint, ocean, mono/midnight and sunset keys map to the nearest current family;
+content selections, opacity, font size, widget IDs and records are untouched.
+The `system` key means the app's Lavender palette, not Android dark mode.
+
+Surfaces, text, outlines, selection states, calendar markers and progress bars
+follow the selected family. Twenty tiny themed progress-layout variants keep
+this working on API26+, without newer RemoteViews tint methods. Routine week
+marks use the host width so circles and labels do not stretch on a Fold screen.
+Settings rows are compact and show the currently selected theme name.
+
+Rebuild with `node android-src/widgets/generate-themes-v190.cjs`, followed by
+`node android-src/widgets/generate-picker-v190.cjs <QA directory>`. Render each
+of its `system`, `sage`, `rose`, `slate`, `charcoal` subfolders with
+`render-approved-picker-v188.cjs`. This is 585 explicit fixture renders, not
+device screenshots. Only the 13 Lavender picker artworks enter app resources.
+Native tests cover palette aliases, setting entry points and Save/Cancel paths;
+real aapt2 compilation and widget/configuration smali assembly are also checked.
+All 27 provider identities and existing resize/empty-form behavior remain.
+
+v190 validation: 90 Node tests, 298 native JVM assertions, 19 Java/D8 helper
+classes mirrored to smali, and 64 widget/settings classes assembled together.
+All widget XMLs pass strict parsing and real aapt2 compilation. The 585 adapter
+renders cover five themes and empty/partial/rich content at 220/336/672dp.
+The same two narrow routine-list cases per theme intentionally scroll their
+fourth row; no content is removed to fit the fixed preview height. Actual
+Samsung launcher interaction still requires a device.
 
 v189 refines the approved layout details and preserves each widget's empty
 form: meal photo slots and actual body measurements, book/quote/next-book
@@ -8,7 +39,7 @@ calendar date grids remain visible. Empty forms contain no sample records or
 invented counts; they only open the existing protected editor/page actions.
 Source record IDs, owner checks, synchronization and storage are unchanged.
 
-Generate current resources with `node android-src/widgets/generate-compact-v189.cjs`,
+The historical v189 resources used `node android-src/widgets/generate-compact-v189.cjs`,
 then `node android-src/widgets/generate-picker-v189.cjs <workspace QA directory>`
 and `node android-src/widgets/render-approved-picker-v188.cjs <same directory>`.
 The first script applies the v188 base before the v189 detail layer. Do not end

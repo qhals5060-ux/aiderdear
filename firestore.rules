@@ -590,15 +590,10 @@ service cloud.firestore {
       allow delete: if signedIn()
         && (
           request.auth.uid == resource.data.fromUid
-          || (
-            request.auth.uid in resource.data.memberUids
-            && resource.data.createdAt <= request.time - duration.value(7, 'd')
-          )
         );
     }
 
-    // Schedule photo/video stories. The UI hides them after 24 hours and the
-    // uploader's client removes expired documents and chunks on the next visit.
+    // Shared photo/video records are permanent. Only the uploader may delete.
     match /ephemeralMedia/{mediaId} {
       allow create: if signedIn()
         && request.resource.data.createdByUid == request.auth.uid
@@ -609,14 +604,13 @@ service cloud.firestore {
         && request.auth.uid in request.resource.data.memberUids
         && request.resource.data.recipientUids is list
         && request.resource.data.recipientUids.size() >= 1
-        && request.resource.data.expiresAt > request.time
+        && !('expiresAt' in request.resource.data)
         && request.resource.data.ready == false;
       allow read: if signedIn() && request.auth.uid in resource.data.memberUids;
       allow update: if signedIn()
         && resource.data.createdByUid == request.auth.uid
         && request.resource.data.createdByUid == resource.data.createdByUid
         && request.resource.data.memberUids == resource.data.memberUids
-        && request.resource.data.expiresAt == resource.data.expiresAt
         && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['ready']);
       allow delete: if signedIn() && resource.data.createdByUid == request.auth.uid;
 

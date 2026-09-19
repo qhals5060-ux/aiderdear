@@ -107,9 +107,7 @@ let friendIncomingRows = [];
 let friendOutgoingRows = [];
 let directLetterRows = [];
 let repairPromise = null;
-let directLetterCleanupBusy = false;
 
-const DIRECT_LETTER_RETENTION_MS = 7 * 24 * 60 * 60 * 1000;
 const PAPER_TASK_WORKSPACE_ID = 'aiderlog-paper-task-v1';
 const PAPER_TASK_WORKSPACE_EMAILS = new Set(['qhals5060@gmail.com', 'aidway55@gmail.com']);
 
@@ -229,20 +227,6 @@ function recomputeState() {
   emit();
 }
 
-async function cleanupExpiredDirectLetters(snapshots) {
-  if (directLetterCleanupBusy || !snapshots.length) return;
-  directLetterCleanupBusy = true;
-  try {
-    for (let start = 0; start < snapshots.length; start += 400) {
-      const batch = writeBatch(db);
-      snapshots.slice(start, start + 400).forEach(snapshot => batch.delete(snapshot.ref));
-      await batch.commit();
-    }
-  } finally {
-    directLetterCleanupBusy = false;
-  }
-}
-
 async function ensureUserProfile(user) {
   const ref = doc(db, 'users', user.uid);
   const saved = plainDoc(await getDoc(ref)) || {};
@@ -287,8 +271,9 @@ async function propagateMemberProfile(profile) {
 async function updateNickname(rawName) {
   const user = auth.currentUser;
   if (!user) throw new Error('로그인이 필요합니다.');
-  const name = String(rawName || '').trim().slice(0, 24);
+  const name = String(rawName || '').trim();
   if (!name) throw new Error('사용할 닉네임을 입력해주세요.');
+  if (name.length > 24) throw new Error('닉네임은 24자 이내로 입력해주세요.');
   await updateProfile(user, { displayName: name });
   state.user = await ensureUserProfile(user);
   await propagateMemberProfile(state.user);
@@ -299,12 +284,13 @@ async function updateNickname(rawName) {
 async function updateProfileSettings(raw = {}) {
   const user = auth.currentUser;
   if (!user) throw new Error('로그인이 필요합니다.');
-  const name = String(raw.name || user.displayName || '').trim().slice(0, 24);
+  const name = String(raw.name || user.displayName || '').trim();
   const gender = ['female', 'male'].includes(raw.gender) ? raw.gender : '';
   const birthDate = /^\d{4}-\d{2}-\d{2}$/.test(String(raw.birthDate || '')) ? String(raw.birthDate) : '';
   const birthCalendar = raw.birthCalendar === 'lunar' ? 'lunar' : 'solar';
   const birthLeap = birthCalendar === 'lunar' && Boolean(raw.birthLeap);
   if (!name) throw new Error('사용할 닉네임을 입력해주세요.');
+  if (name.length > 24) throw new Error('닉네임은 24자 이내로 입력해주세요.');
   if (!gender) throw new Error('성별을 선택해주세요.');
   if (!birthDate) throw new Error('생년월일을 입력해주세요.');
   if (name !== user.displayName) await updateProfile(user, { displayName: name });
@@ -370,20 +356,15 @@ function startListeners(user) {
   unsubscribeDirectLetters = onSnapshot(
     query(collection(db, 'directLetters'), where('memberUids', 'array-contains', user.uid)),
     snapshot => {
-      const cutoff = Date.now() - DIRECT_LETTER_RETENTION_MS;
-      const expired = snapshot.docs.filter(item => {
-        const createdAt = timestampValue(item.data().createdAt);
-        return createdAt > 0 && createdAt < cutoff;
-      });
-      directLetterRows = snapshot.docs.filter(item => !expired.includes(item)).map(item => {
+      // Mail is permanent until the user explicitly deletes it.
+      directLetterRows = snapshot.docs.map(item => {
         const row = plainDoc(item) || {};
         let photoDataUrl = '';
         try { if (row.photoBytes?.toBase64) photoDataUrl = `data:${row.photoMimeType || 'image/jpeg'};base64,${row.photoBytes.toBase64()}`; } catch {}
-        const photoDataUrls = [photoDataUrl, ...(Array.isArray(row.additionalPhotos) ? row.additionalPhotos.slice(0, 5).map(photo => { try { return photo.photoBytes?.toBase64 ? `data:${photo.photoMimeType || 'image/jpeg'};base64,${photo.photoBytes.toBase64()}` : ''; } catch { return ''; } }) : [])].filter(Boolean);
+        const photoDataUrls = [photoDataUrl, ...(Array.isArray(row.additionalPhotos) ? row.additionalPhotos.map(photo => { try { return photo.photoBytes?.toBase64 ? `data:${photo.photoMimeType || 'image/jpeg'};base64,${photo.photoBytes.toBase64()}` : ''; } catch { return ''; } }) : [])].filter(Boolean);
         return { ...row, transport: 'direct', photoDataUrl, photoDataUrls, createdAt: timestampValue(row.createdAt) };
       });
       recomputeState();
-      if (expired.length) cleanupExpiredDirectLetters(expired).catch(error => console.warn('Expired letter cleanup failed', error));
     },
     error => { state.error = error.message; emit(); },
   );
@@ -604,7 +585,7 @@ async function uploadGoogleDriveBackupFile(folderId, sourceId, name, blob) {
   const existing = await findGoogleDriveBackup(sourceId);
   if (existing) return { ...existing, reused: true };
   const metadata = {
-    name: String(name || 'AiderLog media').replace(/[\\/:*?"<>|]/g, '_').slice(0, 180),
+    name: String(name || 'AiderLog media').replace(/[\\/:*?"<>|]/g, '_'),
     parents: [folderId],
     mimeType: blob.type || 'application/octet-stream',
     appProperties: { aiderlogBackup: 'media', aiderlogSourceId: String(sourceId) },
@@ -929,7 +910,8 @@ async function sendDirectLetter({ toUid, toEmail, toName, body, photoDataUrl = '
   const friend = state.friends.find(row => row.uid === toUid && row.email === cleanEmail(toEmail));
   const partner = state.partner?.uid === toUid && state.partner?.email === cleanEmail(toEmail);
   if (!friend && !partner) throw new Error('연결된 커플 또는 친구에게만 편지를 보낼 수 있습니다.');
-  const text = String(body || '').trim().slice(0, 220);
+  const text = String(body || '').trim();
+  if (text.length > 220) throw new Error('편지는 220자 이내로 입력해주세요. 입력 내용은 잘라 저장하지 않습니다.');
   if (!text) throw new Error('편지 내용을 입력해주세요.');
   const payload = {
     fromUid: user.uid,
@@ -937,7 +919,7 @@ async function sendDirectLetter({ toUid, toEmail, toName, body, photoDataUrl = '
     fromName: user.name,
     toUid: String(toUid),
     toEmail: cleanEmail(toEmail),
-    toName: String(toName || toEmail?.split('@')[0] || '받는 사람').slice(0, 80),
+    toName: String(toName || toEmail?.split('@')[0] || '받는 사람'),
     memberUids: [user.uid, String(toUid)],
     connectionType: friend ? 'friend' : 'pair',
     connectionId: friend ? friend.friendshipId : state.pair?.id,
@@ -1463,14 +1445,13 @@ const consultSyncV167 = createConsultSync({
   writeRemaining:async(uid,incoming,noteBaseline)=>{
     const ref=doc(db,'users',uid,'private','main');
     return runTransaction(db,async transaction=>{
-      const snap=await transaction.get(ref),rawCurrent=snap.data()?.payload||{},current=decodeArchive(rawCurrent),next=JSON.parse(JSON.stringify(incoming));
+      const snap=await transaction.get(ref),rawCurrent=snap.data()?.payload||{},current=decodeArchive(rawCurrent),next={...current,...JSON.parse(JSON.stringify(incoming))};
       if(auth.currentUser?.uid!==uid)throw Error('계정이 변경되었습니다.');
       for(const key of CONSULT_KEYS){if(Object.hasOwn(current,key))next[key]=current[key];else delete next[key];}
       Object.assign(next,mergePrivateNotesV179(current,incoming,noteBaseline));
       if(snap.exists()){
         const fields=[new FieldPath('updatedAt'),serverTimestamp(),new FieldPath('storageVersion'),168,new FieldPath('formatWrittenAt'),serverTimestamp()];
         for(const [key,value] of Object.entries(next))if(!CONSULT_KEYS.includes(key))fields.push(new FieldPath('payload',key),encodeArchive(value));
-        for(const key of Object.keys(current))if(!CONSULT_KEYS.includes(key)&&!Object.prototype.hasOwnProperty.call(next,key))fields.push(new FieldPath('payload',key),deleteField());
         transaction.update(ref,...fields);
       }else transaction.set(ref,{payload:encodeStoredPayload(next),...storageStampV168(),updatedAt:serverTimestamp()});
       return next;
@@ -1901,20 +1882,22 @@ async function pruneSharedAlbumMedia(ownerUid, keepIds) {
 async function publishSharedAlbums(payload = {}) {
   const user = requireUser();
   const allowedViewerUids = connectedRecipientUids();
-  const albums = (Array.isArray(payload.albums) ? payload.albums : []).filter(row => row?.id && row?.sharedWithFriends).slice(0, 40).map(row => {
+  const albums = (Array.isArray(payload.albums) ? payload.albums : []).filter(row => row?.id && row?.sharedWithFriends).map(row => {
     const requested = Array.isArray(row.sharedFriendUids) && row.sharedFriendUids.length ? row.sharedFriendUids : [...allowedViewerUids];
-    const viewerUids = [...new Set(requested.map(String).filter(uid => allowedViewerUids.has(uid)))].slice(0, 30);
-    return { id: String(row.id), name: String(row.name || '앨범').slice(0, 60), color: String(row.color || '#DED6F4'), viewerUids };
+    const viewerUids = [...new Set(requested.map(String).filter(uid => allowedViewerUids.has(uid)))];
+    return { id: String(row.id), name: String(row.name || '앨범'), color: String(row.color || '#DED6F4'), viewerUids };
   }).filter(row => row.viewerUids.length);
-  const viewerUids = [...new Set(albums.flatMap(row => row.viewerUids))].slice(0, 30);
+  const viewerUids = [...new Set(albums.flatMap(row => row.viewerUids))];
+  if(viewerUids.length > 30) throw new Error('공유 대상은 30명까지입니다. 일부 대상을 제외해 저장하지 않았습니다.');
   const memberUids = [user.uid, ...viewerUids];
   const albumIds = new Set(albums.map(row => row.id));
   const albumMap = new Map(albums.map(row => [row.id, row]));
-  const recordRows = (Array.isArray(payload.records) ? payload.records : []).filter(record => albumIds.has(String(record?.folderId))).slice(-250);
+  const recordRows = (Array.isArray(payload.records) ? payload.records : []).filter(record => albumIds.has(String(record?.folderId)));
+  if(new TextEncoder().encode(JSON.stringify({albums,records:recordRows})).length > 800000) throw new Error('공유 앨범의 한 문서 저장 용량을 초과했습니다. 기존 기록과 원본 첨부는 그대로 유지됩니다.');
   const mediaViewerMap = new Map();
   recordRows.forEach(row => {
     const album = albumMap.get(String(row.folderId));
-    (Array.isArray(row.media) ? row.media : []).slice(0, 8).forEach(item => {
+    (Array.isArray(row.media) ? row.media : []).forEach(item => {
       const sourceId = String(item?.fileId || item?.key || '');
       if (!sourceId) return;
       const recipients = mediaViewerMap.get(sourceId) || new Set();
@@ -1925,7 +1908,7 @@ async function publishSharedAlbums(payload = {}) {
   const records = [];
   for (const row of recordRows) {
     const media = [];
-    for (const item of (Array.isArray(row.media) ? row.media : []).slice(0, 8)) {
+    for (const item of (Array.isArray(row.media) ? row.media : [])) {
       const sourceId = String(item?.fileId || item?.key || '');
       if (!sourceId) continue;
       try {
@@ -1933,12 +1916,13 @@ async function publishSharedAlbums(payload = {}) {
         // blob the union of those folders' viewers while each record remains
         // filtered to its own selected folder.
         const sharedId = await copyMediaToSharedAlbum(sourceId, [user.uid, ...(mediaViewerMap.get(sourceId) || [])]);
-        if (sharedId) media.push({ kind: item.kind === 'video' ? 'video' : 'image', sharedId, name: String(item.name || '').slice(0, 180), type: String(item.type || '') });
+        if (!sharedId) throw new Error('공유할 원본 첨부를 찾지 못했습니다.');
+        media.push({ kind: item.kind === 'video' ? 'video' : 'image', sharedId, name: String(item.name || ''), type: String(item.type || '') });
       } catch (error) {
-        console.warn('Shared album media copy skipped', sourceId, error);
+        throw new Error('공유 앨범 첨부를 모두 저장하지 못했습니다. 기존 공유 기록은 유지됩니다.', {cause:error});
       }
     }
-    records.push({ id: String(row.id), folderId: String(row.folderId), title: String(row.title || '기록').slice(0, 100), date: String(row.date || ''), body: String(row.body || '').slice(0, 600), media });
+    records.push({ id: String(row.id), folderId: String(row.folderId), title: String(row.title || '기록'), date: String(row.date || ''), body: String(row.body || ''), media });
   }
   const liveSharedMediaIds = new Set(records.flatMap(record => record.media || []).map(item => item.sharedId).filter(Boolean));
   await setDoc(doc(db, 'sharedAlbums', user.uid), {
@@ -1980,7 +1964,6 @@ async function readSharedAlbumMedia(mediaId) {
   return new Blob(parts, { type: metaSnapshot.data().type || 'application/octet-stream' });
 }
 
-const EPHEMERAL_MEDIA_TTL_MS = 24 * 60 * 60 * 1000;
 
 function ephemeralMediaRef(mediaId) {
   return doc(db, 'ephemeralMedia', mediaId);
@@ -2013,7 +1996,6 @@ async function uploadEphemeralMedia(originalFile, recipientUids = []) {
   const bytes = new Uint8Array(await file.arrayBuffer());
   const chunkSize = 700 * 1024;
   const chunkCount = Math.ceil(bytes.length / chunkSize);
-  const expiresAt = Timestamp.fromMillis(Date.now() + EPHEMERAL_MEDIA_TTL_MS);
   await setDoc(ref, {
     name: file.name,
     type: file.type || 'application/octet-stream',
@@ -2025,7 +2007,6 @@ async function uploadEphemeralMedia(originalFile, recipientUids = []) {
     recipientUids: recipients,
     memberUids: [user.uid, ...recipients],
     createdAt: serverTimestamp(),
-    expiresAt,
     ready: false,
   });
   try {
@@ -2049,7 +2030,7 @@ async function uploadEphemeralMedia(originalFile, recipientUids = []) {
     await deleteEphemeralMedia(mediaId).catch(() => {});
     throw error;
   }
-  return { id: mediaId, name: file.name, mimeType: file.type, size: file.size, expiresAt: expiresAt.toMillis() };
+  return { id: mediaId, name: file.name, mimeType: file.type, size: file.size, permanent: true };
 }
 
 async function readEphemeralMedia(mediaId) {
@@ -2059,7 +2040,6 @@ async function readEphemeralMedia(mediaId) {
   if (!metaSnapshot.exists()) throw new Error('공유 미디어를 찾을 수 없습니다.');
   const meta = metaSnapshot.data();
   if (!meta.memberUids?.includes(state.user.uid)) throw new Error('이 미디어를 볼 권한이 없습니다.');
-  if (timestampValue(meta.expiresAt) <= Date.now()) throw new Error('24시간이 지나 사라진 미디어입니다.');
   const chunkSnapshot = await getDocs(collection(ref, 'chunks'));
   const parts = chunkSnapshot.docs.sort((a, b) => a.id.localeCompare(b.id)).map(item => item.data().data.toUint8Array());
   return new Blob(parts, { type: meta.type || 'application/octet-stream' });
@@ -2084,20 +2064,13 @@ function watchEphemeralMedia(callback) {
   return onSnapshot(
     query(collection(db, 'ephemeralMedia'), where('memberUids', 'array-contains', user.uid)),
     snapshot => {
-      const now = Date.now();
-      const expiredOwned = [];
       const rows = snapshot.docs.map(item => {
         const row = plainDoc(item) || {};
         return { ...row, createdAt: timestampValue(row.createdAt), expiresAt: timestampValue(row.expiresAt) };
-      }).filter(row => {
-        const expired = row.expiresAt > 0 && row.expiresAt <= now;
-        if (expired && row.createdByUid === user.uid) expiredOwned.push(row.id);
-        return row.ready && !expired;
-      }).sort((a, b) => b.createdAt - a.createdAt);
+      }).filter(row => row.ready).sort((a, b) => b.createdAt - a.createdAt);
       callback(rows);
-      expiredOwned.forEach(id => deleteEphemeralMedia(id).catch(() => {}));
     },
-    error => console.warn('24-hour media listener stopped', error),
+    error => console.warn('Shared media listener stopped', error),
   );
 }
 
@@ -2215,7 +2188,7 @@ async function deletePaperTaskMedia(mediaId) {
 }
 
 const CLIENT_INTAKE_TOKEN = /^[A-Za-z0-9_-]{32,100}$/;
-const intakeText = (value, max) => String(value || '').trim().slice(0, max);
+const intakeText = (value, max) => { const text = String(value || '').trim(); if(text.length > max) throw new Error(`입력은 ${max}자 이내여야 합니다. 내용을 잘라 저장하지 않았습니다.`); return text; };
 const intakeList = (value, max = 20) => (Array.isArray(value) ? value : String(value || '').split(/[;,\n]/))
   .map((item) => intakeText(item, 120))
   .filter(Boolean)
@@ -2380,7 +2353,8 @@ async function getLabNotebookLink(token) {
 async function submitLabNotebook(token, payload = {}, originalFiles = []) {
   const link = await getDoc(labNotebookRef(token));
   if (!link.exists() || link.data().active !== true) throw new Error('만료되었거나 비활성화된 실험노트 링크입니다.');
-  const files = Array.from(originalFiles || []).slice(0, 3);
+  const files = Array.from(originalFiles || []);
+  if (files.length > 3) throw new Error('첨부는 한 번에 3개까지 제출할 수 있습니다. 선택한 파일을 제외해 저장하지 않았습니다.');
   for (const file of files) {
     if (!/^(image|video)\//.test(file.type || '')) throw new Error('사진 또는 영상 파일만 첨부할 수 있습니다.');
     if (file.size > 25 * 1024 * 1024) throw new Error('첨부 파일은 각각 25MB 이하여야 합니다.');

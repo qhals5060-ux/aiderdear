@@ -59,10 +59,10 @@
     const root = rootState();
     const old = root.worldLabStudy && typeof root.worldLabStudy === 'object' ? root.worldLabStudy : {};
     const next = {...baseState(), ...old};
-    next.completedModuleIds = [...new Set((Array.isArray(old.completedModuleIds) ? old.completedModuleIds : []).filter(id => moduleMap.has(id)))];
+    next.completedModuleIds = [...new Set((Array.isArray(old.completedModuleIds) ? old.completedModuleIds : []))];
     next.moduleProgress = old.moduleProgress && typeof old.moduleProgress === 'object' ? old.moduleProgress : {};
     next.reviewQueue = old.reviewQueue && typeof old.reviewQueue === 'object' ? old.reviewQueue : {};
-    next.reviewHistory = Array.isArray(old.reviewHistory) ? old.reviewHistory.slice(-5000) : [];
+    next.reviewHistory = Array.isArray(old.reviewHistory) ? old.reviewHistory.slice() : [];
     next.streak = {...baseState().streak, ...(old.streak || {})};
     next.settings = {...baseState().settings, ...(old.settings || {})};
     next.schemaVersion = 1;

@@ -37,15 +37,15 @@ test('My routing and native targets retain no learning entry; background transcr
  const native=read('android-src/smali/MainActivity.smali'),method=native.slice(native.indexOf('.method private safeTarget'),native.indexOf('.end method',native.indexOf('.method private safeTarget')));
  assert.doesNotMatch(method,/"language"/);
 });
-test('cleanup removes only dedicated learning keys and fields, keeping user records and Consult qualifications',()=>{
+test('retiring a tool preserves its existing records and Consult qualifications',()=>{
  const data={languageStudy:{notes:{a:'obsolete'}},languageShorts:{},languageShortsV118:{},consultingClients:[{languageSpec:'TOEFL 105'}],personalItems:[{category:'reading',title:'Language research'}],ddays:[{id:'keep'}],profile:{language:'ko'}};
  const store=storage({'aiderlog-language-course-v114':'{}','aiderlog-language-mode-v118':'course','languageProgress:owner:en:1:1':'{}','aiderlog-private-v20':JSON.stringify(data),'aiderlogTheme':'slate','aiderlog-app-v20':'{"records":[1]}','language-preference':'ko','consult-languageSpec':'TOEFL'});
  const {api}=harness(store);const next=JSON.parse(store.getItem('aiderlog-private-v20'));
- assert.deepEqual(Object.keys(next),['consultingClients','personalItems','ddays','profile']);
+ assert.deepEqual(next,data);
  assert.deepEqual(next.consultingClients,data.consultingClients);assert.deepEqual(next.personalItems,data.personalItems);assert.deepEqual(next.ddays,data.ddays);
- assert.equal(store.getItem('aiderlog-language-course-v114'),null);assert.equal(store.getItem('languageProgress:owner:en:1:1'),null);
+ assert.equal(store.getItem('aiderlog-language-course-v114'),'{}');assert.equal(store.getItem('languageProgress:owner:en:1:1'),'{}');
  for(const key of ['aiderlogTheme','aiderlog-app-v20','language-preference','consult-languageSpec'])assert.notEqual(store.getItem(key),null);
- assert.strictEqual(api.cleanPrivate(data),data);assert(!Object.hasOwn(data,'languageStudy'));assert.equal(data.profile.language,'ko');
+ assert.strictEqual(api.cleanPrivate(data),data);assert(Object.hasOwn(data,'languageStudy'));assert.equal(data.profile.language,'ko');
  assert.equal(api.cleanPrivate(null),null);assert.equal(api.cleanPrivate('raw'),'raw');
 });
 test('malformed private data remains recoverable; cleanup is idempotent',()=>{

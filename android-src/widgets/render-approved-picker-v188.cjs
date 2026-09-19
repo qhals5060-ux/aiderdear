@@ -100,7 +100,7 @@ function drawable(ref,x,y,w,h,scaleType){
 function draw(box,x,y,report){
   if(box.hidden)return '';const {el,w,h,p}=box;let out=drawable(get(el,'background'),x,y,w,h);
   if(el.name==='ImageView')return out+drawable(get(el,'src'),x,y,w,h,get(el,'scaleType'));
-  if(el.name==='ProgressBar'){const value=Math.max(0,Math.min(100,px(get(el,'progress'))));return out+`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="4" fill="${get(el,'progressBackgroundTint')||'#DED9FF'}"/><rect x="${x}" y="${y}" width="${w*value/100}" height="${h}" rx="4" fill="${get(el,'progressTint')||'#6255E8'}"/>`;}
+  if(el.name==='ProgressBar'){const value=Math.max(0,Math.min(100,px(get(el,'progress')))),source=bundle.drawables[get(el,'progressDrawable').replace('@drawable/','')];let track='#DED9FF',fill='#6255E8';if(source){for(const item of children(parse(source))){const solid=find(item,'solid');if(!solid)continue;if(get(item,'id')==='@android:id/background')track=get(solid,'color');if(get(item,'id')==='@android:id/progress')fill=get(solid,'color');}}return out+`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="4" fill="${get(el,'progressBackgroundTint')||track}"/><rect x="${x}" y="${y}" width="${w*value/100}" height="${h}" rx="4" fill="${get(el,'progressTint')||fill}"/>`;}
   if(el.name==='TextView'&&box.image.data){
     const i=box.image,gravity=get(el,'gravity'),tx=gravity.includes('right')?x+w-p.r-i.width:gravity==='center'?x+(w-i.width)/2:x+p.l;
     const ty=gravity.includes('center')?y+(h-i.height)/2:y+p.t+box.font*.12;

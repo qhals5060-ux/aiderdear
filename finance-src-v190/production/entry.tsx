@@ -1,0 +1,10 @@
+import React from 'react';
+import {createRoot} from 'react-dom/client';
+import Dashboard from '../app/dashboard';
+import '../app/globals.css';
+import '../app/workspace.css';
+import '../app/management.css';
+import '../app/personal-finance.css';
+import '../app/finance-refinement.css';
+import '../app/embedded-v190.css';
+createRoot(document.getElementById('root')!).render(<Dashboard/>);

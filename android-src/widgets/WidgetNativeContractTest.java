@@ -204,6 +204,26 @@ public final class WidgetNativeContractTest {
         require(WidgetApprovedV188.shortDay("2026-09-20").equals("9.20"),"today preview uses compact month and day");
         require(WidgetApprovedV188.weekday("2026-09-20").equals("일요일"),"today weekday is actual date, not preview text");
         JSONObject partialHealth=WidgetDesignV165.copy(approved);partialHealth.put("inbody",new JSONArray().put(new JSONObject().put("weight",61.5).put("muscle",25.1)));List<String> partialHealthRows=WidgetApprovedV188.buildRows("PersonalWorkoutMeal",false,partialHealth,accountA,new JSONObject());require(new JSONObject(partialHealthRows.get(0)).optDouble("weight")==61.5&&!new JSONObject(partialHealthRows.get(0)).has("fat"),"health widget preserves missing measures while displaying actual latest values");
+        for(int i=0;i<5;i++){
+            String key=WidgetThemeV190.key(i);
+            require(WidgetThemeV190.index(key)==i,"theme selection index round trip "+key);
+            require(WidgetThemeV190.normalize(key).equals(key),"canonical theme key remains stable "+key);
+            require(WidgetThemeV190.resource(key,"surface").equals("widget_theme_"+key+"_surface_v190"),"background resource follows selected palette "+key);
+            require(WidgetThemeV190.color(key,1)!=WidgetThemeV190.color(key,2),"surface and compact inset remain distinct "+key);
+            require((WidgetThemeV190.color(key,4)&0xff000000)==0xff000000,"readable opaque foreground "+key);
+        }
+        require(WidgetThemeV190.normalize("aurora").equals("system"),"old aurora maps to Lavender");
+        require(WidgetThemeV190.normalize("lavender").equals("system"),"old lavender maps to Lavender");
+        require(WidgetThemeV190.normalize("mint").equals("sage"),"old mint maps to Sage");
+        require(WidgetThemeV190.normalize("ocean").equals("slate"),"old ocean maps to Slate");
+        require(WidgetThemeV190.normalize("mono").equals("charcoal"),"old mono maps to Charcoal");
+        require(WidgetThemeV190.normalize("midnight").equals("charcoal"),"old midnight maps to Charcoal");
+        require(WidgetThemeV190.normalize("sunset").equals("rose"),"old sunset maps to Rose");
+        require(WidgetThemeV190.label("system").equals("Lavender"),"system key is app Lavender, not Android night mode");
+        require(WidgetThemeV190.normalize(null).equals("system"),"missing preference defaults to Lavender");
+        require(WidgetApprovedV188.weekWidth(220)==408,"narrow routine week bitmap preserves circular marks");
+        require(WidgetApprovedV188.weekWidth(336)==640,"normal routine week bitmap matches its actual content width");
+        require(WidgetApprovedV188.weekWidth(672)==1312,"unfolded routine week bitmap does not stretch glyphs horizontally");
         System.out.println("PASS: "+checks+" native model assertions.");
     }
 }
