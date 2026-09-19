@@ -69,7 +69,7 @@
 
     move-result-object v0
 
-    const/16 v1, 0xbc
+    const/16 v1, 0xbd
 
     invoke-interface {p1, v0, v1}, Landroid/content/SharedPreferences$Editor;->putInt(Ljava/lang/String;I)Landroid/content/SharedPreferences$Editor;
 

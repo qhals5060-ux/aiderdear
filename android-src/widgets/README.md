@@ -1,4 +1,25 @@
-# Native widgets (v188)
+# Native widgets (v189)
+
+v189 refines the approved layout details and preserves each widget's empty
+form: meal photo slots and actual body measurements, book/quote/next-book
+sections, compact timeline rows, todo/memo columns, routine controls, weekly
+graphs and challenge cells. Calendar lists retain addable empty rows while
+calendar date grids remain visible. Empty forms contain no sample records or
+invented counts; they only open the existing protected editor/page actions.
+Source record IDs, owner checks, synchronization and storage are unchanged.
+
+Generate current resources with `node android-src/widgets/generate-compact-v189.cjs`,
+then `node android-src/widgets/generate-picker-v189.cjs <workspace QA directory>`
+and `node android-src/widgets/render-approved-picker-v188.cjs <same directory>`.
+The first script applies the v188 base before the v189 detail layer. Do not end
+a rebuild with an older resource or picker generator. Picker examples are
+explicitly fictional and never become runtime records.
+
+v189 validation includes 261 JVM assertions and 117 native XML adapter renders
+(13 designs × empty/partial/rich × 220/336/672dp). The two populated routine-list
+cases at 220dp retain offscreen rows in the native scrolling collection; text
+is not shrunk to force all records into a fixed-height widget. These adapter
+renders are not Android device screenshots.
 
 Revision 05 is now implemented as native RemoteViews. The five compact calendar
 providers remain, with eight new layouts in `WidgetApprovedV188`: routine list,
@@ -24,13 +45,12 @@ Widget theme keys retain compatibility; aurora/lavender, mint, rose, ocean and
 mono now use distinct lavender, sage, rose, slate and neutral surfaces. Widget
 appearance remains configurable per instance, independently of app appearance.
 
-Rebuild new production resources with `node android-src/widgets/generate-approved-v188.cjs`.
-Then run `generate-approved-picker-v188.cjs <workspace QA directory>` and
+The v188 base resources were generated with `node android-src/widgets/generate-approved-v188.cjs`.
+Its original `generate-approved-picker-v188.cjs <workspace QA directory>` and
 `render-approved-picker-v188.cjs <same directory>` for explicitly fictional
 launcher artwork from those same production layouts. Photo sources are in
 `PICKER_PHOTOS_V188.md`; images are only 42KB total and used only in picker art.
-Do not run the historical picker generator after this overlay without running
-these two v188 generators again. The compiled helper inventory now includes
+For current output use the v189 generator sequence above. The helper inventory includes
 `WidgetApprovedV188.java`, and the standard native build script mirrors it.
 
 Validation: 164 desktop JVM model assertions; approved resource/picker/resize

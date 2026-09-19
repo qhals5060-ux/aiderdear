@@ -32,7 +32,7 @@
     'aidway55@gmail.com':Object.freeze(['paper','task','work','lab']),
     'abckms5698@naver.com':Object.freeze(['estate'])
   });
-  const canUseModeV180 = route => Boolean(currentUid() && (myRoutesV180[currentEmail()] || []).includes(route));
+  const canUseModeV180 = route => Boolean(currentUid() && (route==='youtube'||(myRoutesV180[currentEmail()] || []).includes(route)));
   const canUsePaper = () => canUseModeV180('paper');
   const canUseWork = () => canUseModeV180('work');
   const canUseTraining = () => canUseModeV180('speech');
@@ -51,6 +51,7 @@
       estate:'<path d="m3 11 9-8 9 8M5 10v11h14V10M10 21v-7h4v7"/>',
       file:'<path d="M6 3h9l3 3v15H6z"/><path d="M15 3v4h4"/>',
       play:'<path d="m9 7 8 5-8 5z"/>',
+      youtube:'<rect x="3" y="5" width="18" height="14" rx="4"/><path d="m10 9 5 3-5 3z"/>',
       stop:'<rect x="7" y="7" width="10" height="10" rx="2"/>',
       save:'<path d="M5 4h12l2 2v14H5z"/><path d="M8 4v6h8V4M8 20v-6h8v6"/>',
       edit:'<path d="m4 20 4.5-1 10-10a2.1 2.1 0 0 0-3-3l-10 10z"/><path d="m14 7 3 3"/>',
@@ -259,7 +260,8 @@
     const brainCount = offlineCounts.brain;
     const studyCounts = window.AiderStudyCardV1?.counts?.() || { completed:0, due:0 };
     // Presentation only: each row retains the original mode and permission check.
-    const research = [], learning = [];
+    const research = [], learning = [], personal = [];
+    if(canUseModeV180('youtube'))personal.push(['youtube','youtube','유튜브 보관함','레시피 · 어학 · 링크']);
     if (canUsePaper()) research.push(['paper','paper','Paper',`논문 ${data.paperItems.length}편 · 검토 완료 ${data.paperItems.filter(row=>row.status==='reviewed').length}편`]);
     if (canUseWork()) research.push(
       ['task','task','Consulting',`고객 ${data.consultingClients.length}명 · 진행할 업무 ${pending}건`],
@@ -270,7 +272,7 @@
     if (canUseTraining()) learning.push(['speech','speech','Speech Training',`훈련 기록 ${speechCount}회`],['brain','brain','Brain Training',`훈련 기록 ${brainCount}회`]);
     if (canUseStudy()) learning.push(['study','star','Study Card',`완료 ${studyCounts.completed}/192 · 복습 ${studyCounts.due}개`]);
     const group = (title, rows) => rows.length ? `<section class="my166-group"><h2>${title}</h2><div class="my166-tools">${rows.map(([route,glyph,title,summary])=>`<button type="button" class="my166-tool" data-my128-open="${route}" aria-label="${safe(title)} 열기"><i>${icon(glyph,22)}</i><span><b>${safe(title)}</b><small>${safe(summary)}</small></span><em aria-hidden="true">›</em></button>`).join('')}</div></section>` : '';
-    return `<div class="page my128-page my166-page" data-css-typography><header class="my166-head"><h1>My 공간</h1><span>도구 ${research.length+learning.length}개</span></header><div class="my166-scroll">${group('연구 · 업무',research)}${group('학습 · 훈련',learning)}${research.length+learning.length?'':`<p class="my128-empty">${currentUid()?'이 계정에 표시할 My 도구가 없습니다.':'로그인 후 내 My 도구를 확인할 수 있습니다.'}</p>`}</div></div>`;
+    return `<div class="page my128-page my166-page" data-css-typography><header class="my166-head"><h1>My 공간</h1><span>도구 ${research.length+learning.length+personal.length}개</span></header><div class="my166-scroll">${group('내 보관함',personal)}${group('연구 · 업무',research)}${group('학습 · 훈련',learning)}${research.length+learning.length+personal.length?'':`<p class="my128-empty">${currentUid()?'이 계정에 표시할 My 도구가 없습니다.':'로그인 후 내 My 도구를 확인할 수 있습니다.'}</p>`}</div></div>`;
   }
 
   const subhead = (eyebrow, title, action = '') => `<header class="my128-subhead"><div><button class="my128-back" data-my128-back aria-label="My로 돌아가기">${icon('back')}</button><span><small>${eyebrow}</small><h1>${title}</h1></span></div>${action}</header>`;
@@ -398,7 +400,13 @@
     if ((mode === 'task' || mode === 'work' || mode === 'lab') && !canUseWork()) mode = 'hub';
     if ((mode === 'speech' || mode === 'brain') && !canUseTraining()) mode = 'hub';
     if (mode === 'study' && !canUseStudy()) mode = 'hub';
+    if (mode === 'youtube' && !canUseModeV180('youtube')) mode = 'hub';
+    if (mode !== 'youtube') window.AiderYoutubeUIV189?.close?.();
     if (mode !== 'paper') window.AiderMobilePaperV159?.close?.();
+    if (mode === 'youtube' && window.AiderYoutubeUIV189) {
+      window.AiderYoutubeUIV189.render(host,()=>{mode='hub';modal=null;renderMy();});
+      return;
+    }
     if ((mode === 'task' || mode === 'work') && window.AiderAppConsultWorkV168) {
       window.AiderAppConsultWorkV168.render(mode,host,()=>{mode='hub';modal=null;renderMy();});
       return;

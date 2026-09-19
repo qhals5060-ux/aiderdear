@@ -5,13 +5,11 @@
   const html=document.documentElement,app=document.querySelector('#app'),head=app?.querySelector('.masthead');
   if(!app||!head)return;
   const $=(selector,root=document)=>root?.querySelector(selector)||null;
-  const modern=()=>html.classList.contains('modern-site');
-  const moves=new Map(),created=new Set(),shadowRoots=new Map();
+  const created=new Set(),shadowRoots=new Map();
   let eventView='record';
   const drafts=new Map();let scheduled=0,applying=false;
   function move(node,parent,before=null){
     if(!node||!parent||node===before)return;
-    if(!moves.has(node)){const marker=document.createComment('modern-v165-original-position');node.before(marker);moves.set(node,marker);}
     if(node.parentNode!==parent||(before&&node.nextSibling!==before))parent.insertBefore(node,before);
   }
   function make(tag,className,parent){const node=document.createElement(tag);node.className=className;parent.append(node);created.add(node);return node;}
@@ -23,7 +21,7 @@
   choice.addEventListener('change',()=>{if(app.dataset.activeTab==='record'){selectEvent(choice.value);return;}const group=groups.find(row=>row.tab===app.dataset.activeTab);group?.node.querySelectorAll('button')[Number(choice.value)]?.click();});
   function arrangeHeader(){
     move($('.tabs',app),head,$('.nav-tools',head));
-    // The edition controller owns the original toolbar marker and Editorial restore.
+    // Reuse the same live toolbar controls in the sole website header.
     const tools=$('.nav-tools',app);if(tools&&tools.parentNode!==head)head.append(tools);
     if(head.lastElementChild!==dock)head.append(dock);
     const active=groups.find(row=>row.tab===app.dataset.activeTab);
@@ -85,7 +83,7 @@
   function restoreDrafts(){for(const input of document.querySelectorAll('#privateRoutineGoalsForm input,#privateRoutineMandalaForm textarea')){const value=drafts.get(draftKey(input));if(value!==undefined&&input.value!==value)input.value=value;}}
   function mountPaper(host){
     const root=host.shadowRoot;if(!root?.querySelector('.paper-app'))return;
-    $('#paperStage')?.classList.toggle('modern-paper-overlay-open',modern()&&!!root.querySelector('.import-drawer.open'));
+    $('#paperStage')?.classList.toggle('modern-paper-overlay-open',!!root.querySelector('.import-drawer.open'));
     let state=shadowRoots.get(root);
     if(!state){
       const style=root.querySelector('[data-site-edition-style="paper"]')||document.createElement('link');style.rel='stylesheet';style.href='./site-paper-modern-v165.css';style.dataset.siteEditionStyle='paper';if(!style.isConnected)root.append(style);
@@ -94,8 +92,8 @@
       select.addEventListener('change',()=>{const button=[...nav.querySelectorAll('button')].find(b=>(b.dataset.view||b.dataset.v159View)===select.value);button?.click();});
       new MutationObserver(()=>schedule()).observe(root,{childList:true,subtree:true,attributes:true,attributeFilter:['class']});
     }
-    state.style.disabled=!modern();state.style.media=modern()?'all':'not all';state.select.hidden=!modern();
-    if(modern()){
+    state.style.disabled=false;state.style.media='all';state.select.hidden=false;
+    {
       const side=$('.paper-sidebar',root);let extra=$('.modern-paper-projects',root);
       if(!extra){extra=make('details','modern-paper-projects',side);const summary=document.createElement('summary');summary.textContent='진행 프로젝트 · 연구실';extra.append(summary);}
       for(const node of root.querySelectorAll('.sidebar-project,.sidebar-lab'))move(node,extra);
@@ -104,7 +102,7 @@
     const signature=buttons.map(b=>(b.dataset.view||b.dataset.v159View)+':'+b.querySelector('b')?.textContent).join('|');
     if(state.select.dataset.signature!==signature){const home=new Option('연구 홈','');home.disabled=true;state.select.replaceChildren(home,...buttons.map(b=>new Option(b.querySelector('b')?.textContent||b.textContent,b.dataset.view||b.dataset.v159View)));state.select.dataset.signature=signature;}
     const active=buttons.find(b=>b.classList.contains('active'));state.select.value=active?(active.dataset.view||active.dataset.v159View):'';
-    if(modern()&&root.lastElementChild!==state.style)root.append(state.style);
+    if(root.lastElementChild!==state.style)root.append(state.style);
     const flow=$('.v159-import-flow',root);
     if(flow&&!$('.modern-import-pager',flow)){
       const sections=[...flow.children].filter(node=>node.tagName==='SECTION');
@@ -118,23 +116,13 @@
       // Navigation only changes visibility, not parser state, locked stages or save permissions.
       show(0);
     }
-    const pager=$('.modern-import-pager',flow);if(pager)pager.hidden=!modern();
-  }
-  function restore(){
-    document.querySelectorAll('.site-display-dialog[open]').forEach(dialog=>dialog.close());
-    for(const [node,marker]of [...moves].reverse()){if(marker.isConnected&&node.isConnected&&marker.nextSibling!==node)marker.after(node);}
-    for(const node of created)node.hidden=true;
-    for(const group of groups)group.node.hidden=false;
-    for(const id of ['recordShell','albumShell','eventArchiveShell','travelArchiveShell'])$('#'+id).hidden=false;
-    document.querySelectorAll('.modern-account-layout').forEach(node=>node.classList.remove('modern-account-layout'));
+    const pager=$('.modern-import-pager',flow);if(pager)pager.hidden=false;
   }
   function apply(){
     scheduled=0;if(applying)return;applying=true;
     try{
-      if(modern()){
-        for(const node of created)node.hidden=false;
-        arrangeHeader();arrangeCalendar();applyEvent();arrangePersonal();arrangeWork();arrangeConsult();arrangeSettings();restoreDrafts();
-      }else{restore();restoreDrafts();}
+      for(const node of created)node.hidden=false;
+      arrangeHeader();arrangeCalendar();applyEvent();arrangePersonal();arrangeWork();arrangeConsult();arrangeSettings();restoreDrafts();
       document.querySelectorAll('aider-paper-workspace-v121').forEach(mountPaper);
     }finally{applying=false;}
   }
@@ -142,7 +130,7 @@
   new MutationObserver(records=>{if(records.some(record=>record.type==='childList'||record.attributeName==='data-active-tab'||record.target.matches?.('.tab,[class*=dot],.paper-nav button')))schedule();}).observe(app,{childList:true,subtree:true,attributes:true,attributeFilter:['data-active-tab','class']});
   addEventListener('aiderlog-site-editionchange',apply);
   document.addEventListener('click',event=>{
-    const tab=event.target.closest?.('.tab');if(tab&&modern())requestAnimationFrame(()=>{
+    const tab=event.target.closest?.('.tab');if(tab)requestAnimationFrame(()=>{
       const strip=tab.parentElement,a=tab.getBoundingClientRect(),b=strip.getBoundingClientRect();
       // Only the menu strip may scroll; scrollIntoView also moved the entire mobile app.
       if(a.left<b.left)strip.scrollLeft-=b.left-a.left;else if(a.right>b.right)strip.scrollLeft+=a.right-b.right;

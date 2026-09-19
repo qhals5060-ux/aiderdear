@@ -1,0 +1,195 @@
+/* Modern website only. Keep the existing live Event and Routine layouts, forms,
+   navigation and data handlers. The repeated #app outranks legacy typography. */
+
+/* Event: a consistent toolbar and quiet card surfaces within the existing grid. */
+html.modern-site:not(.aiderlog-android) body #app#app #recordStage :is(.record-toolbar,.album-toolbar,.event-toolbar) {
+  gap:10px!important;
+  padding-block:6px 12px!important;
+  align-items:center!important;
+}
+html.modern-site:not(.aiderlog-android) body #app#app #recordStage :is(.record-controls,.event-actions,.album-actions) {
+  gap:6px!important;
+  align-items:center!important;
+}
+html.modern-site:not(.aiderlog-android) body #app#app #recordStage :is(.record-controls,.event-actions,.album-actions,.record-toolbar) :is(button,select,input) {
+  border-radius:7px!important;
+  box-shadow:none!important;
+}
+html.modern-site:not(.aiderlog-android) body #app#app #recordStage :is(.record-filter.active,.event-category.active) {
+  background:var(--modern-selected)!important;
+  border-color:var(--modern-primary)!important;
+  color:var(--modern-primary)!important;
+}
+html.modern-site:not(.aiderlog-android) body #app#app #recordStage .event-category-tabs {
+  gap:5px!important;
+}
+html.modern-site:not(.aiderlog-android) body #app#app #recordStage .event-category-tabs button {
+  padding-inline:10px!important;
+  font-weight:600!important;
+}
+html.modern-site:not(.aiderlog-android) body #app#app #recordStage :is(.record-post,.event-gallery-card,.travel-gallery-card) {
+  border:1px solid var(--modern-border)!important;
+  border-radius:10px!important;
+  background:var(--modern-surface)!important;
+  color:var(--modern-ink)!important;
+  box-shadow:0 2px 7px #25323805!important;
+}
+html.modern-site:not(.aiderlog-android) body #app#app #recordStage .record-post {
+  border-top:3px solid var(--record-color,var(--modern-primary))!important;
+}
+html.modern-site:not(.aiderlog-android) body #app#app #recordStage :is(.event-gallery-card,.travel-gallery-card) {
+  height:auto!important;
+  min-height:0!important;
+  padding:10px!important;
+  text-align:left!important;
+  align-self:start!important;
+  overflow:hidden!important;
+}
+html.modern-site:not(.aiderlog-android) body #app#app #recordStage :is(.event-gallery-card,.travel-gallery-card):hover {
+  border-color:color-mix(in srgb,var(--modern-primary) 42%,var(--modern-border))!important;
+  box-shadow:0 4px 12px #2532380c!important;
+}
+html.modern-site:not(.aiderlog-android) body #app#app #recordStage :is(.event-gallery-media,.travel-gallery-media) {
+  border-radius:6px!important;
+  background:var(--modern-soft)!important;
+  height:176px!important;
+  min-height:0!important;
+  aspect-ratio:auto!important;
+  overflow:hidden!important;
+}
+html.modern-site:not(.aiderlog-android) body #app#app #recordStage :is(.event-gallery-media,.travel-gallery-media).is-empty {
+  height:102px!important;
+  background:linear-gradient(135deg,var(--modern-selected),var(--modern-soft))!important;
+}
+html.modern-site:not(.aiderlog-android) body #app#app #recordStage .event-gallery-placeholder-icon {
+  color:var(--modern-primary)!important;
+  opacity:.42;
+}
+html.modern-site:not(.aiderlog-android) body #app#app #recordStage :is(.event-gallery-meta,.travel-gallery-kind) {
+  display:flex!important;
+  align-items:center;
+  gap:6px;
+  margin:10px 0 0!important;
+  color:var(--modern-muted)!important;
+  font-size:12px!important;
+  letter-spacing:.025em!important;
+}
+html.modern-site:not(.aiderlog-android) body #app#app #recordStage .event-gallery-meta {justify-content:space-between}
+html.modern-site:not(.aiderlog-android) body #app#app #recordStage .event-gallery-divider {
+  position:static!important;
+  width:100%!important;
+  height:1px!important;
+  margin:9px 0!important;
+  background:var(--modern-border)!important;
+  border:0!important;
+}
+html.modern-site:not(.aiderlog-android) body #app#app #recordStage :is(.event-gallery-card,.travel-gallery-copy) h3 {
+  margin:7px 0 4px!important;
+  font-size:16px!important;
+  font-weight:650!important;
+  line-height:1.4!important;
+  letter-spacing:-.02em!important;
+}
+html.modern-site:not(.aiderlog-android) body #app#app #recordStage :is(.event-gallery-author,.event-gallery-note,.travel-gallery-copy>p) {
+  margin:4px 0 0!important;
+  color:var(--modern-muted)!important;
+  line-height:1.55!important;
+}
+html.modern-site:not(.aiderlog-android) body #app#app #recordStage .event-gallery-author {font-size:12px!important}
+html.modern-site:not(.aiderlog-android) body #app#app #recordStage :is(.event-gallery-footer,.travel-gallery-footer) {
+  margin-top:12px!important;
+  padding-top:9px!important;
+  border-top:1px solid var(--modern-border)!important;
+  color:var(--modern-muted)!important;
+  font-size:12px!important;
+}
+html.modern-site:not(.aiderlog-android) body #app#app #recordStage :is(.event-gallery-stars,.travel-gallery-stars) {color:var(--modern-primary)!important;letter-spacing:1px!important}
+html.modern-site:not(.aiderlog-android) body #app#app #recordStage .travel-location-badge {background:var(--modern-primary)!important;color:#fff!important;padding:3px 8px!important;border-radius:5px!important}
+html.modern-site:not(.aiderlog-android) body #app#app #recordStage :is(.record-empty,.event-gallery-empty) {
+  border:1px dashed var(--modern-border)!important;
+  background:var(--modern-soft)!important;
+  border-radius:10px!important;
+  padding:26px 18px!important;
+  min-height:160px!important;
+  height:auto!important;
+  color:var(--modern-muted)!important;
+}
+html.modern-site:not(.aiderlog-android) body #app#app #recordStage .event-gallery-empty b {color:var(--modern-ink)!important}
+html.modern-site:not(.aiderlog-android) body #app#app #recordStage .event-wishlist-dock {border-color:var(--modern-border)!important}
+html.modern-site:not(.aiderlog-android) body #app#app #recordStage .travel-folder-tabs :is([data-travel-folder],.travel-folder-tab) {border-radius:8px!important;border-color:var(--modern-border)!important;box-shadow:none!important}
+html.modern-site:not(.aiderlog-android) body #app#app #recordStage .travel-folder-tabs [data-travel-folder].active {background:var(--modern-selected)!important;border-color:var(--modern-primary)!important;box-shadow:inset 0 0 0 1px var(--modern-primary)!important}
+
+/* Routine: preserve the list/detail layout, actual stamps and comparison charts. */
+html.modern-site:not(.aiderlog-android) body #app#app #privateStage :is(.modern-routine-nav,.routine-progress-card,.routine-stat-card,.modern-routine-support>details) {
+  border-radius:10px!important;
+  border-color:var(--modern-border)!important;
+  box-shadow:0 2px 7px #25323805!important;
+}
+html.modern-site:not(.aiderlog-android) body #app#app #privateStage #privateRoutinePanel .routine-progress-card {border-top-color:var(--routine)!important;padding:14px!important}
+html.modern-site:not(.aiderlog-android) body #app#app #privateStage .modern-routine-nav nav {gap:5px!important;margin-block:12px!important}
+html.modern-site:not(.aiderlog-android) body #app#app #privateStage .modern-routine-nav nav button {padding:9px 8px!important;border-radius:7px!important}
+html.modern-site:not(.aiderlog-android) body #app#app #privateStage .modern-routine-nav nav button.active {box-shadow:inset 2px 0 var(--routine);font-weight:600}
+html.modern-site:not(.aiderlog-android) body #app#app #privateStage :is(.modern-routine-paging,.routine-progress-tools,.routine-card-head,.routine-mandala-v106>header) button {
+  border:1px solid var(--modern-border)!important;
+  background:var(--modern-soft)!important;
+  color:var(--modern-primary)!important;
+  padding:5px 10px!important;
+  border-radius:7px!important;
+  box-shadow:none!important;
+  font-weight:600!important;
+}
+html.modern-site:not(.aiderlog-android) body #app#app #privateStage .routine-progress-top {border-bottom:1px solid var(--modern-border)!important;margin-bottom:10px!important;padding-bottom:10px!important;justify-content:space-between!important}
+html.modern-site:not(.aiderlog-android) body #app#app #privateStage .routine-progress-metrics {flex-wrap:wrap;gap:4px 12px!important}
+html.modern-site:not(.aiderlog-android) body #app#app #privateStage .routine-progress-metrics span {color:var(--modern-muted)!important;font-size:12px!important;white-space:nowrap}
+html.modern-site:not(.aiderlog-android) body #app#app #privateStage .routine-progress-intro h3 {font-size:16px!important;line-height:1.4!important;margin-bottom:9px!important}
+html.modern-site:not(.aiderlog-android) body #app#app #privateStage .routine-progress-ruleline {gap:6px!important}
+html.modern-site:not(.aiderlog-android) body #app#app #privateStage .routine-progress-ruleline span {display:grid!important;grid-template-columns:42px minmax(0,1fr)!important;gap:8px!important;font-size:13px!important;line-height:1.45!important}
+html.modern-site:not(.aiderlog-android) body #app#app #privateStage .routine-progress-round {border-radius:7px!important;background:var(--modern-soft)!important;padding:7px 10px!important}
+html.modern-site:not(.aiderlog-android) body #app#app #privateStage .routine-progress-round strong {font-size:24px!important;font-variant-numeric:tabular-nums}
+html.modern-site:not(.aiderlog-android) body #app#app #privateStage .routine-round-grid {gap:5px!important;padding:4px!important}
+html.modern-site:not(.aiderlog-android) body #app#app #privateStage .routine-round-stamp {min-height:54px!important;padding:4px 1px!important;border-radius:7px!important;gap:4px!important;border-color:var(--modern-border)!important}
+html.modern-site:not(.aiderlog-android) body #app#app #privateStage .routine-round-stamp :is(small,b,span) {font-size:11px!important;line-height:1.2!important;white-space:nowrap!important;letter-spacing:0!important}
+html.modern-site:not(.aiderlog-android) body #app#app #privateStage .routine-round-stamp:is(.status-mini,.status-more,.status-max) {border-color:color-mix(in srgb,var(--routine) 35%,var(--modern-border))!important}
+html.modern-site:not(.aiderlog-android) body #app#app #privateStage .routine-round-stamp.today {outline:2px solid var(--routine)!important;outline-offset:0!important;background:var(--modern-surface)!important}
+html.modern-site:not(.aiderlog-android) body #app#app #privateStage .routine-stat-summary {width:100%!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:5px!important}
+html.modern-site:not(.aiderlog-android) body #app#app #privateStage .routine-stat-summary>div {background:var(--modern-soft)!important;border:1px solid var(--modern-border)!important;border-radius:7px!important;min-height:58px!important}
+html.modern-site:not(.aiderlog-android) body #app#app #privateStage .routine-stat-summary>div>span {color:var(--modern-muted)!important;font-size:11px!important;white-space:nowrap}
+html.modern-site:not(.aiderlog-android) body #app#app #privateStage .modern-routine-support summary {color:var(--modern-primary)!important;padding-block:4px 12px!important}
+html.modern-site:not(.aiderlog-android) body #app#app #privateStage :is(.routine-big-goals-v106,.routine-mandala-v106) {border-radius:8px!important;border-color:var(--modern-border)!important}
+html.modern-site:not(.aiderlog-android) body #app#app #privateStage .routine-goal-list label {border:0!important;border-radius:7px!important;padding:7px!important;gap:8px!important;background:var(--modern-soft)!important}
+html.modern-site:not(.aiderlog-android) body #app#app #privateStage .routine-goal-list label.active {background:var(--modern-selected)!important}
+html.modern-site:not(.aiderlog-android) body #app#app #privateStage .routine-goal-list label>button {color:var(--modern-primary)!important;border:0!important;background:transparent!important;min-width:28px!important}
+html.modern-site:not(.aiderlog-android) body #app#app #privateStage .routine-mandala-grid {gap:5px!important}
+html.modern-site:not(.aiderlog-android) body #app#app #privateStage .routine-mandala-grid label {border:1px solid var(--modern-border)!important;border-radius:6px!important;background:var(--modern-soft)!important}
+html.modern-site:not(.aiderlog-android) body #app#app #privateStage .routine-mandala-grid label>small {color:var(--modern-muted)!important}
+html.modern-site:not(.aiderlog-android) body #app#app #privateStage .routine-mandala-center {border-radius:6px!important;background:var(--modern-primary)!important;color:#fff!important;border:1px solid var(--modern-primary)!important;gap:7px!important}
+html.modern-site:not(.aiderlog-android) body #app#app #privateStage #routineOverallDialogV167 {border-radius:12px!important;border-color:var(--modern-border)!important}
+html.modern-site:not(.aiderlog-android) body #app#app #privateStage .routine-overall-v121 {background:var(--modern-soft)!important;border-radius:8px!important}
+html.modern-site:not(.aiderlog-android) body #app#app #privateStage .routine-levels-v107>div {grid-template-columns:44px minmax(0,1fr) 28px 30px!important;gap:8px!important}
+html.modern-site:not(.aiderlog-android) body #app#app #privateStage .routine-levels-v107>div>span {white-space:nowrap!important;font-size:12px!important}
+html.modern-site:not(.aiderlog-android) body #app#app #privateStage .routine-levels-v107 i>b {background:var(--modern-primary)!important}
+html.modern-site:not(.aiderlog-android) body #app#app #privateStage .routine-analysis-v121 article {border-radius:0 7px 7px 0!important}
+
+@media(max-width:767px) {
+  html.modern-site:not(.aiderlog-android) body #app#app #recordStage .record-controls {display:flex!important;flex-wrap:wrap!important}
+  html.modern-site:not(.aiderlog-android) body #app#app #recordStage #newRecordTop {width:auto!important;flex:0 0 auto!important;margin-left:auto!important;padding-inline:13px!important}
+  html.modern-site:not(.aiderlog-android) body #app#app #recordStage .event-toolbar {align-items:flex-start!important;gap:8px!important}
+  html.modern-site:not(.aiderlog-android) body #app#app #recordStage .event-actions {min-width:0!important;flex-wrap:wrap!important}
+  html.modern-site:not(.aiderlog-android) body #app#app #recordStage .event-category-tabs {flex-wrap:wrap!important;gap:5px!important}
+  html.modern-site:not(.aiderlog-android) body #app#app #recordStage .event-category-tabs button {height:34px!important;padding-inline:9px!important}
+  html.modern-site:not(.aiderlog-android) body #app#app #recordStage :is(.event-gallery-media,.travel-gallery-media).is-empty {height:84px!important}
+  html.modern-site:not(.aiderlog-android) body #app#app #privateStage #privateRoutinePanel .routine-progress-card {padding:10px!important}
+  html.modern-site:not(.aiderlog-android) body #app#app #privateStage .routine-progress-top {gap:8px!important}
+  html.modern-site:not(.aiderlog-android) body #app#app #privateStage .routine-progress-metrics {gap:3px 9px!important}
+  html.modern-site:not(.aiderlog-android) body #app#app #privateStage .routine-round-grid {gap:4px!important;padding:3px!important;grid-auto-rows:minmax(56px,auto)!important}
+  html.modern-site:not(.aiderlog-android) body #app#app #privateStage .routine-round-stamp {min-height:56px!important}
+  html.modern-site:not(.aiderlog-android) body #app#app #privateStage .routine-mandala-grid :is(label,.routine-mandala-center) {padding:5px!important}
+  html.modern-site:not(.aiderlog-android) body #app#app #privateStage .routine-mandala-grid textarea {padding:6px!important}
+  html.modern-site:not(.aiderlog-android) body #app#app #privateStage .routine-summary-strip-v121 {grid-template-columns:70px minmax(0,1fr)!important;gap:8px!important;min-width:0!important}
+  html.modern-site:not(.aiderlog-android) body #app#app #privateStage .routine-summary-strip-v121>p {grid-column:1/-1!important;min-width:0!important}
+  html.modern-site:not(.aiderlog-android) body #app#app #privateStage .routine-levels-v107>div {grid-template-columns:38px minmax(0,1fr) 20px 28px!important;gap:5px!important}
+  html.modern-site:not(.aiderlog-android) body #app#app #privateStage .routine-performance-row-v121 {grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:7px!important;padding-block:12px!important;min-width:0!important}
+  html.modern-site:not(.aiderlog-android) body #app#app #privateStage .routine-performance-name-v121 {grid-column:1/-1!important}
+  html.modern-site:not(.aiderlog-android) body #app#app #privateStage .routine-performance-row-v121>span:last-child {grid-column:1/-1!important}
+  html.modern-site:not(.aiderlog-android) body #app#app #privateStage .routine-overall-v121>header {flex-wrap:wrap!important;gap:8px!important}
+}

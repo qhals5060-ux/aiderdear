@@ -1,4 +1,4 @@
-/* Modern v165 — one website layout layer. Editorial and Android never match. */
+/* Website layout layer. Android uses its own styles. */
 /* The shared website dot controls are buttons, not scroll gestures. Their active
    state must never magnify the text when the same nodes are used by Modern. */
 html:not(.aiderlog-android) #app :is(.dotnav,.record-dot,.private-dot,.personal-dot,.emotion-dot,[data-task-page]){transform:none!important;scale:none!important}

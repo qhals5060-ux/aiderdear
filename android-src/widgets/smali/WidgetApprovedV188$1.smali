@@ -30,7 +30,7 @@
 .method constructor <init>()V
     .locals 0
 
-    .line 61
+    .line 96
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -56,7 +56,7 @@
 .method public compare(Lorg/json/JSONObject;Lorg/json/JSONObject;)I
     .locals 2
 
-    .line 61
+    .line 96
     const-string v0, "time"
 
     invoke-virtual {p1, v0}, Lorg/json/JSONObject;->optString(Ljava/lang/String;)Ljava/lang/String;

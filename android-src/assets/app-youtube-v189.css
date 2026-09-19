@@ -1,0 +1,104 @@
+/* App-only private link library. The five app themes supply every UI color. */
+@layer appWorkspaces188 {
+ html body #app #fifth .yt189-page,html body .yt189-overlay{font-family:inherit!important;font-size:13px!important;line-height:1.45!important;color:var(--ink)!important;box-sizing:border-box!important}
+ html body #app #fifth .yt189-page *,html body .yt189-overlay *{box-sizing:border-box!important;font-family:inherit!important}
+ html body #app #fifth .yt189-page{display:flex!important;flex-direction:column!important;width:100%!important;height:100%!important;min-height:0!important;padding:0!important;gap:0!important;overflow:hidden!important}
+ html body #app #fifth .yt189-page :is(button,a),html body .yt189-overlay button{-webkit-tap-highlight-color:transparent;cursor:pointer}
+ html body #app #fifth .yt189-page :is(button,input,textarea,select),html body .yt189-overlay :is(button,input,textarea,select){font-size:12px!important;line-height:1.4!important;box-shadow:none!important;min-width:0!important;-webkit-text-fill-color:currentColor!important}
+ html body #app #fifth .yt189-page :is(button,a):focus-visible,html body .yt189-overlay :is(button,input,textarea,select,summary):focus-visible{outline:2px solid var(--accent)!important;outline-offset:2px!important}
+ html body #app #fifth .yt189-page svg,html body .yt189-overlay svg{width:17px!important;height:17px!important;flex:none!important;display:block!important}
+ html body #app #fifth .yt189-head{display:flex!important;align-items:center!important;gap:7px!important;flex:none!important;min-height:40px!important;padding:0!important;margin:0 0 6px!important;background:none!important;border:0!important}
+ html body #app #fifth .yt189-head h1{font-size:20px!important;font-weight:600!important;letter-spacing:-.04em!important;line-height:1.25!important;color:var(--shell-ink)!important;margin:0!important}
+ html body #app #fifth .yt189-icon{display:grid!important;place-items:center!important;width:27px!important;height:30px!important;min-height:30px!important;padding:3px!important;background:none!important;color:var(--shell-ink)!important;border:0!important;border-radius:7px!important}
+ html body #app #fifth .yt189-add{display:flex!important;align-items:center!important;gap:3px!important;min-height:29px!important;height:29px!important;padding:4px 8px!important;margin-left:auto!important;background:var(--accent)!important;color:#fff!important;border:0!important;border-radius:7px!important;font-size:11px!important;white-space:nowrap!important}
+ html body #app #fifth .yt189-add svg{width:13px!important;height:13px!important}
+ html body #app #fifth .yt189-tabs{display:flex!important;align-items:center!important;gap:18px!important;flex:none!important;padding:0 2px!important;margin:0 0 10px!important;background:none!important;border:0!important}
+ html body #app #fifth .yt189-tabs button{display:block!important;flex:none!important;min-height:30px!important;height:30px!important;padding:3px 1px!important;background:none!important;color:var(--shell-muted)!important;border:0!important;border-bottom:1.5px solid transparent!important;border-radius:0!important;font-size:12px!important}
+ html body #app #fifth .yt189-tabs button.active{border-bottom-color:var(--shell-active)!important;color:var(--shell-ink)!important;font-weight:650!important}
+ html body #app #fifth .yt189-search{display:flex!important;align-items:center!important;gap:8px!important;flex:none!important;width:100%!important;min-height:35px!important;padding:7px 10px!important;margin:0 0 10px!important;background:var(--surface)!important;border:1px solid var(--line)!important;border-radius:9px!important;color:var(--muted)!important}
+ html body #app #fifth .yt189-search svg{width:15px!important;height:15px!important}
+ html body #app #fifth .yt189-search input{flex:1!important;width:100%!important;min-height:0!important;height:20px!important;border:0!important;background:none!important;color:var(--ink)!important;padding:0!important;outline:0!important;font-size:12px!important}
+ html body #app #fifth .yt189-search input::placeholder{color:var(--muted)!important;opacity:.8!important}
+ html body #app #fifth .yt189-status{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:10px!important;flex:none!important;padding:7px 9px!important;margin-bottom:8px!important;border:1px solid var(--line)!important;border-radius:8px!important;background:var(--surface)!important;color:var(--muted)!important;font-size:11px!important}
+ html body #app #fifth .yt189-status button{border:0!important;background:var(--surface2)!important;color:var(--accent)!important;min-height:27px!important;padding:4px 7px!important;border-radius:6px!important;font-size:10px!important;white-space:nowrap!important}
+ html body #app #fifth .yt189-layout{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:10px!important;flex:1!important;min-height:0!important;overflow:auto!important;padding-bottom:86px!important;scrollbar-width:thin!important;scrollbar-color:var(--line) transparent!important;align-content:start!important}
+ html body #app #fifth .yt189-list-pane,html body #app #fifth .yt189-detail-pane{min-width:0!important}
+ html body #app #fifth .yt189-list{display:flex!important;flex-direction:column!important;gap:8px!important}
+ html body #app #fifth .yt189-card{display:flex!important;align-items:center!important;gap:10px!important;width:100%!important;padding:9px!important;min-height:79px!important;background:var(--surface)!important;border:1px solid var(--line)!important;border-radius:11px!important;color:var(--ink)!important;text-align:left!important}
+ html body #app #fifth .yt189-card.selected{border-color:var(--accent)!important;background:var(--surface2)!important}
+ html body #app #fifth .yt189-thumb{position:relative!important;display:grid!important;place-items:center!important;flex:0 0 86px!important;width:86px!important;height:55px!important;overflow:hidden!important;border-radius:7px!important;background:var(--surface2)!important;color:var(--accent)!important}
+ html body #app #fifth .yt189-thumb svg{width:27px!important;height:27px!important}
+ html body #app #fifth .yt189-thumb img{position:absolute!important;inset:0!important;display:block!important;width:100%!important;height:100%!important;object-fit:cover!important;filter:none!important;opacity:1!important}
+ html body #app #fifth .yt189-card-copy{display:flex!important;flex-direction:column!important;gap:4px!important;min-width:0!important;flex:1!important}
+ html body #app #fifth .yt189-card-copy b{font-size:13px!important;font-weight:600!important;line-height:1.45!important;color:var(--ink)!important;display:-webkit-box!important;-webkit-box-orient:vertical!important;-webkit-line-clamp:2!important;overflow:hidden!important;overflow-wrap:anywhere!important}
+ html body #app #fifth .yt189-card-copy small{font-size:9px!important;line-height:1.4!important;color:var(--muted)!important;white-space:normal!important}
+ html body #app #fifth .yt189-card-copy>span{display:block!important;font-size:10px!important;color:var(--muted)!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+ html body #app #fifth .yt189-arrow{font-size:18px!important;color:var(--muted)!important}
+ html body #app #fifth .yt189-more{display:block!important;min-height:32px!important;width:100%!important;margin:8px 0 0!important;padding:6px!important;background:var(--surface2)!important;color:var(--ink)!important;border:0!important;border-radius:8px!important;font-size:11px!important}
+ html body #app #fifth .yt189-detail-pane{display:none!important}
+ html body #app #fifth .yt189-page.has-selection .yt189-detail-pane{display:block!important}
+ html body #app #fifth .yt189-page.has-selection :is(.yt189-list-pane,.yt189-tabs,.yt189-search){display:none!important}
+ html body #app #fifth .yt189-detail{padding:13px!important;background:var(--surface)!important;border:1px solid var(--line)!important;border-radius:13px!important;color:var(--ink)!important}
+ html body #app #fifth .yt189-detail-head{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:8px!important;margin-bottom:8px!important}
+ html body #app #fifth .yt189-detail-head>span{font-size:10px!important;color:var(--accent)!important}
+ html body #app #fifth .yt189-detail-head>div{display:flex!important;align-items:center!important;gap:4px!important}
+ html body #app #fifth .yt189-detail-head button{display:grid!important;place-items:center!important;width:27px!important;height:27px!important;min-height:27px!important;padding:4px!important;border:0!important;border-radius:6px!important;background:none!important;color:var(--muted)!important}
+ html body #app #fifth .yt189-detail h2{margin:0 0 8px!important;font-size:18px!important;font-weight:600!important;line-height:1.5!important;letter-spacing:-.03em!important;color:var(--ink)!important;overflow-wrap:anywhere!important}
+ html body #app #fifth .yt189-source-line{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:10px!important;padding-bottom:10px!important;border-bottom:1px solid var(--line)!important}
+ html body #app #fifth .yt189-source-line>span{font-size:10px!important;color:var(--muted)!important}
+ html body #app #fifth .yt189-source-line>a{display:inline-flex!important;align-items:center!important;gap:5px!important;font-size:10px!important;color:var(--accent)!important;text-decoration:none!important;padding:4px 0!important}
+ html body #app #fifth .yt189-source-line>a svg{width:12px!important;height:12px!important}
+ html body #app #fifth .yt189-detail-note{padding:10px!important;margin:10px 0!important;background:var(--surface2)!important;border-radius:8px!important;font-size:12px!important;line-height:1.65!important;color:var(--ink)!important;white-space:pre-wrap!important;overflow-wrap:anywhere!important}
+ html body #app #fifth .yt189-sentence-title{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:10px!important;margin:12px 0 5px!important}
+ html body #app #fifth .yt189-sentence-title b{font-size:12px!important;font-weight:600!important;color:var(--ink)!important}
+ html body #app #fifth .yt189-sentence-title>span{font-size:10px!important;color:var(--muted)!important}
+ html body #app #fifth .yt189-sentence{display:grid!important;grid-template-columns:36px minmax(0,1fr)!important;gap:8px!important;padding:10px 0!important;border-bottom:1px solid var(--line)!important}
+ html body #app #fifth .yt189-sentence:last-child{border:0!important;padding-bottom:0!important}
+ html body #app #fifth .yt189-sentence>p{margin:0!important;font-size:12px!important;line-height:1.75!important;color:var(--ink)!important;white-space:pre-wrap!important;overflow-wrap:anywhere!important}
+ html body #app #fifth .yt189-sentence>:is(a,span){display:block!important;align-self:start!important;font-size:10px!important;color:var(--accent)!important;text-align:center!important;text-decoration:none!important;padding:3px 1px!important;background:var(--surface2)!important;border-radius:5px!important;font-variant-numeric:tabular-nums!important}
+ html body #app #fifth :is(.yt189-empty,.yt189-detail-empty){font-size:12px!important;color:var(--shell-muted)!important;text-align:center!important;padding:28px 10px!important;margin:0!important;background:none!important}
+ html body #app #fifth .yt189-detail .yt189-empty{color:var(--muted)!important;padding:14px 0!important}
+ /* Compact editor: the existing account stays outside the scrollable fields. */
+ html body .yt189-overlay{position:fixed!important;inset:0!important;z-index:2200!important;display:flex!important;align-items:flex-end!important;justify-content:center!important;padding:0!important;background:color-mix(in srgb,var(--night) 65%,transparent)!important;backdrop-filter:blur(5px)!important}
+ html body .yt189-sheet{width:100%!important;max-width:650px!important;max-height:60dvh!important;height:auto!important;min-height:0!important;border:1px solid var(--line)!important;border-bottom:0!important;border-radius:18px 18px 0 0!important;background:var(--surface)!important;color:var(--ink)!important;overflow:hidden!important;display:flex!important;flex-direction:column!important;padding:0!important;box-shadow:0 -6px 26px #0002!important}
+ html body .yt189-sheet form{display:flex!important;flex-direction:column!important;width:100%!important;min-height:0!important;max-height:60dvh!important;margin:0!important;padding:0!important;overflow:hidden!important}
+ html body .yt189-sheet header{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:8px!important;flex:none!important;min-height:47px!important;padding:9px 13px!important;margin:0!important;border-bottom:1px solid var(--line)!important;background:var(--surface)!important}
+ html body .yt189-sheet header h2{font-size:16px!important;line-height:1.4!important;font-weight:600!important;margin:0!important;color:var(--ink)!important}
+ html body .yt189-sheet header>div{display:flex!important;align-items:center!important;gap:7px!important}
+ html body .yt189-sheet [data-yt189-save]{padding:5px 10px!important;min-height:29px!important;height:29px!important;border:0!important;border-radius:7px!important;background:var(--accent)!important;color:#fff!important;font-size:12px!important}
+ html body .yt189-sheet [data-yt189-close]{width:28px!important;min-height:28px!important;height:28px!important;display:grid!important;place-items:center!important;padding:4px!important;border:0!important;background:none!important;color:var(--muted)!important}
+ html body .yt189-form-body{flex:1!important;min-height:0!important;overflow:auto!important;overscroll-behavior:contain!important;padding:11px 13px 14px!important;display:flex!important;flex-direction:column!important;gap:10px!important;scrollbar-width:thin!important}
+ html body .yt189-form-body label{display:flex!important;flex-direction:column!important;gap:5px!important;font-size:10px!important;line-height:1.4!important;font-weight:500!important;color:var(--muted)!important;min-width:0!important;margin:0!important}
+ html body .yt189-form-body :is(input,select,textarea){width:100%!important;min-height:34px!important;max-width:100%!important;border:1px solid var(--line)!important;border-radius:7px!important;padding:7px 9px!important;background:var(--surface2)!important;color:var(--ink)!important;font-size:13px!important;font-weight:400!important;resize:vertical!important}
+ html body .yt189-form-body textarea{height:auto!important;min-height:59px!important;line-height:1.55!important}
+ html body .yt189-url-line{display:flex!important;align-items:center!important;gap:6px!important}
+ html body .yt189-url-line input{flex:1!important;min-width:0!important}
+ html body .yt189-url-line button{display:grid!important;place-items:center!important;flex:0 0 32px!important;min-height:32px!important;width:32px!important;padding:5px!important;border:1px solid var(--line)!important;border-radius:7px!important;background:var(--surface2)!important;color:var(--accent)!important}
+ html body .yt189-import-status{margin:-4px 0 0!important;font-size:10px!important;line-height:1.5!important;color:var(--muted)!important}
+ html body .yt189-form-grid{display:grid!important;grid-template-columns:minmax(0,1fr) 91px!important;gap:9px!important}
+ html body .yt189-manual{border-top:1px solid var(--line)!important;padding-top:8px!important;margin:0!important}
+ html body .yt189-manual summary{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:9px!important;font-size:11px!important;line-height:1.5!important;color:var(--ink)!important;cursor:pointer!important;padding:0 0 7px!important;list-style:none!important}
+ html body .yt189-manual summary:before{content:'+'!important;color:var(--accent)!important}
+ html body .yt189-manual[open] summary:before{content:'−'!important}
+ html body .yt189-manual summary>span{margin-left:auto!important;font-size:10px!important;color:var(--muted)!important}
+ html body .yt189-manual>div{display:flex!important;justify-content:flex-end!important;margin-top:6px!important}
+ html body .yt189-manual button{min-height:28px!important;padding:4px 10px!important;background:var(--surface2)!important;color:var(--accent)!important;border:1px solid var(--line)!important;border-radius:6px!important;font-size:11px!important}
+ html body .yt189-editor-error{margin:0!important;padding:8px 9px!important;border-left:2px solid var(--accent)!important;border-radius:5px!important;background:var(--surface2)!important;color:var(--ink)!important;font-size:11px!important;line-height:1.5!important;overflow-wrap:anywhere!important}
+ html body .yt189-overlay [hidden],html body #app #fifth .yt189-page [hidden]{display:none!important}
+ html body .yt189-overlay button:disabled,html body #app #fifth .yt189-page button:disabled{opacity:.55!important;cursor:default!important}
+ @media(min-width:600px){
+  html body #app #fifth .yt189-head{margin-bottom:5px!important}
+  html body #app #fifth .yt189-head h1{font-size:23px!important}
+  html body #app #fifth .yt189-tabs{gap:22px!important}
+  html body #app #fifth .yt189-search{width:calc(45% - 6px)!important}
+  html body #app #fifth .yt189-layout{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr)!important;align-items:start!important;gap:12px!important}
+  html body #app #fifth .yt189-detail-pane,html body #app #fifth .yt189-page.has-selection .yt189-list-pane{display:block!important}
+  html body #app #fifth .yt189-page.has-selection .yt189-tabs{display:flex!important}
+  html body #app #fifth .yt189-page.has-selection .yt189-search{display:flex!important}
+  html body #app #fifth .yt189-detail-pane{position:sticky!important;top:0!important}
+  html body #app #fifth .yt189-card{gap:8px!important;padding:9px!important}
+  html body #app #fifth .yt189-thumb{width:80px!important;flex-basis:80px!important;height:53px!important}
+  html body #app #fifth .yt189-detail{padding:15px!important}
+  html body .yt189-sheet{margin-bottom:0!important}
+ }
+}

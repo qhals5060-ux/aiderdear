@@ -67,6 +67,7 @@ public final class WidgetCompactCalendarV181 {
     static List<String> rows(Context c,int widget,String kind,JSONObject data) {
         List<String> values=kind.contains("@todos")?incompleteRows(data,false):upcomingRows(data.optJSONArray("scheduleItems"),selectedDay(c,widget,kind));
         String owner=owner(data);List<String> bound=new ArrayList<String>();
+        if(values.isEmpty())for(int i=0;i<3;i++){JSONObject empty=WidgetApprovedV188.emptyRow(kind.contains("@todos")?"calendarTodo":"calendarEvent",i);WidgetApprovedV188.bindOwner(empty,owner,selectedDay(c,widget,kind));bound.add(empty.toString());}
         for(String value:values)try{JSONObject row=new JSONObject(value);WidgetDesignV165.put(row,"_widgetOwnerV181",owner);bound.add(row.toString());}catch(Exception ignored){}
         return bound;
     }
@@ -184,6 +185,7 @@ public final class WidgetCompactCalendarV181 {
     }
     static RemoteViews row(Context c,int widget,String kind,String json,int index,String overrideTheme,int selectedFont) {
         JSONObject record;try{record=new JSONObject(json);}catch(Exception ignored){record=new JSONObject();}
+        if(record.optBoolean("_emptyV189"))return WidgetApprovedV188.renderRow(c,widget,kind,json,overrideTheme,selectedFont);
         String chosen=overrideTheme==null?theme(c,widget):overrideTheme;JSONObject data=snapshot(c);
         if(record.has("_widgetOwnerV181")&&!sameOwner(record.optString("_widgetOwnerV181"),data)){RemoteViews cleared=view(c,"widget_upcoming_row_v184");cleared.setViewVisibility(id(c,"w184_row"),View.INVISIBLE);return cleared;}
         if(kind.contains("@todos"))return todo(c,widget,kind,record,data,chosen,selectedFont,false);

@@ -159,24 +159,26 @@ public final class WidgetNativeContractTest {
         List<String> compactRoutine=WidgetApprovedV188.buildRows("RoutineCards",false,approved,approvedData,new JSONObject().put("id","r2"));
         require(compactRoutine.size()==1&&new JSONObject(compactRoutine.get(0)).optString("id").equals("r2"),"approved one-routine widget retains selected real record ID");
         require(new JSONObject(compactRoutine.get(0)).optBoolean("detail"),"one routine preserves detail fields and week history");
-        require(WidgetApprovedV188.buildRows("RoutineStats",false,approved,approvedData,emptyOptions).size()==1,"statistics has its own compact chart, not the full routine list again");
+        require(WidgetApprovedV188.buildRows("RoutineStats",false,approved,approvedData,emptyOptions).size()==2,"statistics has its own compact chart and mini controls instead of repeating the full list");
         List<String> workflowLeft=WidgetApprovedV188.buildRows("PersonalWorkflowAll",false,approved,approvedData,emptyOptions),workflowRight=WidgetApprovedV188.buildRows("PersonalWorkflowAll",true,approved,approvedData,emptyOptions);
         require(new JSONObject(workflowLeft.get(0)).optString("id").equals("t1"),"Todo/Memo left collection is incomplete todos, including overdue");
         require(new JSONObject(workflowRight.get(0)).optString("id").equals("n1"),"Todo/Memo right collection is real notes");
         List<String> healthRows=WidgetApprovedV188.buildRows("PersonalWorkoutMeal",false,approved,approvedData,emptyOptions);
-        require(healthRows.size()==2,"health combines one photo strip with today's actual workout");
-        JSONArray mealStrip=new JSONObject(healthRows.get(0)).optJSONArray("children");
+        require(healthRows.size()==3,"health combines measurements, one photo strip and today's actual workout");
+        JSONArray mealStrip=new JSONObject(healthRows.get(1)).optJSONArray("children");
         require(mealStrip.length()==3,"empty snack does not waste photo strip space");
         require(mealStrip.getJSONObject(0).optString("image").contains("owner-photo"),"meal photo is carried from owner snapshot without sample fallback");
-        require(new JSONObject(healthRows.get(1)).optString("id").equals("today"),"yesterday's exercise not represented as today's");
+        require(new JSONObject(healthRows.get(2)).optString("id").equals("today"),"yesterday's exercise not represented as today's");
         List<String> readingRows=WidgetApprovedV188.buildRows("PersonalQuote",false,approved,approvedData,emptyOptions);
-        require(readingRows.size()==2&&new JSONObject(readingRows.get(1)).optString("body").equals("actual quote"),"single reading widget contains actual book and quote");
+        require(readingRows.size()==3&&new JSONObject(readingRows.get(1)).optString("body").equals("actual quote"),"single reading widget contains actual book and quote with next-book form");
         List<String> todayRows=WidgetApprovedV188.buildRows("PersonalToday",false,approved,approvedData,emptyOptions);
         require(todayRows.size()==3&&new JSONObject(todayRows.get(0)).optInt("count")==2,"today widget contains today's real schedule and record only");
         require(new JSONObject(todayRows.get(1)).optString("id").equals("schedule"),"today timeline sorts actual time and preserves schedule identity");
         require(!todayRows.toString().contains("yesterday"),"today composition no longer embeds three-day bullet layouts");
-        require(WidgetApprovedV188.buildRows("PersonalQuote",false,new JSONObject(),new JSONObject(),emptyOptions).isEmpty(),"new install has no example book");
-        require(WidgetApprovedV188.buildRows("PersonalWorkoutMeal",false,new JSONObject(),new JSONObject(),emptyOptions).isEmpty(),"new install has no example meal or exercise");
+        List<String> emptyReading=WidgetApprovedV188.buildRows("PersonalQuote",false,new JSONObject(),new JSONObject(),emptyOptions);
+        require(emptyReading.size()==3&&new JSONObject(emptyReading.get(0)).optBoolean("_emptyV189"),"new install preserves an empty book form without an example book");
+        List<String> emptyHealth=WidgetApprovedV188.buildRows("PersonalWorkoutMeal",false,new JSONObject(),new JSONObject(),emptyOptions);
+        require(emptyHealth.size()==3&&new JSONObject(emptyHealth.get(0)).optBoolean("_emptyV189")&&new JSONObject(emptyHealth.get(2)).optBoolean("_emptyV189"),"new install preserves empty measure/meal/exercise forms without invented values");
         require(!WidgetApprovedV188.supports("PersonalBulletSeven"),"retired bullet provider remains isolated compatibility renderer");
         require(WidgetApprovedV188.supports("PersonalWorkflowAll@right"),"secondary collection routes into approved native renderer");
         require(approved.getJSONArray("routines").getJSONObject(1).optBoolean("detail")==false,"native composition does not mutate saved model");
@@ -193,6 +195,15 @@ public final class WidgetNativeContractTest {
         require(WidgetDesignV165.model(WidgetApprovedV188.actionData(ownerBound)).optString("today").equals("2026-09-20"),"action retains the row's captured date");
         require(WidgetApprovedV188.openType(new JSONObject().put("kind","stats")).equals("routine"),"routine statistics routes to routine instead of DayLog");
         require(WidgetApprovedV188.openType(new JSONObject().put("kind","timeline").put("type","reading")).equals("reading"),"DayLog timeline preserves its original category");
+        for(String kind:new String[]{"RoutineAll","RoutineCards","RoutineStats","PersonalWorkoutMeal","PersonalQuote","PersonalWorkflowAll","PersonalToday","PersonalWorkoutChallengeOnly"}){
+            JSONObject blankModel=new JSONObject().put("uid","account-A").put("today","2026-09-20");List<String> forms=WidgetApprovedV188.buildRows(kind,false,blankModel,accountA,new JSONObject());
+            require(!forms.isEmpty(),kind+" preserves its empty form");
+            for(String form:forms){JSONObject e=new JSONObject(form);require(e.optBoolean("_emptyV189"),kind+" missing records are explicit UI forms");require(WidgetApprovedV188.structuralOwner(e,accountA),kind+" form remains bound to original account");require(!WidgetApprovedV188.structuralOwner(e,accountB),kind+" old account form is cleared on account change");require(!e.has("percent")&&!e.has("goal")&&!e.has("weight")&&!e.has("currentPage"),kind+" no fabricated measured/completion data");}
+        }
+        JSONObject publicForm=WidgetApprovedV188.emptyRow("meal",0);WidgetApprovedV188.bindOwner(publicForm,"","2026-09-20");require(WidgetApprovedV188.structuralOwner(publicForm,new JSONObject()),"signed-out account may see generic empty structure only");require(!WidgetApprovedV188.validOwner(publicForm,new JSONObject()),"generic empty structure never satisfies actual record authorization");
+        require(WidgetApprovedV188.shortDay("2026-09-20").equals("9.20"),"today preview uses compact month and day");
+        require(WidgetApprovedV188.weekday("2026-09-20").equals("일요일"),"today weekday is actual date, not preview text");
+        JSONObject partialHealth=WidgetDesignV165.copy(approved);partialHealth.put("inbody",new JSONArray().put(new JSONObject().put("weight",61.5).put("muscle",25.1)));List<String> partialHealthRows=WidgetApprovedV188.buildRows("PersonalWorkoutMeal",false,partialHealth,accountA,new JSONObject());require(new JSONObject(partialHealthRows.get(0)).optDouble("weight")==61.5&&!new JSONObject(partialHealthRows.get(0)).has("fat"),"health widget preserves missing measures while displaying actual latest values");
         System.out.println("PASS: "+checks+" native model assertions.");
     }
 }

@@ -1,4 +1,13 @@
-AiderLog v164 · 현재 다운로드 경로
+AiderLog v189 · 현재 다운로드 경로
+
+- Android: /AiderLog-v189.apk
+- PC 사이트 파일: /AiderLog-v189-site-files.zip
+- 버전: versionCode 189 / versionName 1.9.79
+- 에디토리얼 버전은 종료되었으며 이전 다운로드 주소는 통합 파일로 연결됩니다.
+- 검사 범위와 미검증 항목: RELEASE_V189.md
+
+이전 배포 기록
+AiderLog v164 · 다운로드 경로
 
 - Android: /AiderLog-v164.apk
 - 모던: /AiderLog-Modern-v164-site-files.zip

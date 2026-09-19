@@ -1,23 +1,25 @@
-# AiderLog v167 · current downloads
+# AiderLog v189 · current downloads
 
-Current download links provide the compatible v167 Android APK and the Modern /
-Editorial v167 site packages. The three former v165 download URLs redirect to
-their corresponding v167 files; recoverable originals are kept outside the Git
-working tree. Each PC ZIP contains browser source and a Windows shortcut to the
-HTTPS site, not a standalone Windows executable or local API server.
+Current downloads are `AiderLog-v189.apk` and one `AiderLog-v189-site-files.zip`.
+The website uses the existing Modern design; the Editorial version and its
+appearance selector have been retired. Older edition preferences and download
+addresses lead to the current website and unified site package.
+The PC ZIP contains browser source and a Windows shortcut to the HTTPS site,
+not a standalone Windows executable or local API server.
 
 Before any rollout, read [WORK_V167_OPERATIONS.md](./WORK_V167_OPERATIONS.md) and
 [RELEASE_V167.md](./RELEASE_V167.md). Do not publish the new rules independently of
 the matching clients/API: older Consult direct writes will be rejected.
 
-## Current v167 downloads · Routine / DayLog / native widgets / Modern site
+## Current v189 downloads
 
-Current download: Android versionCode 167 (1.9.57).
+Current download: Android versionCode 189 (1.9.79).
 
-- Site appearance: `site-editions-v164.js/css` switches Modern / Editorial without changing functions.
-- Downloads: `AiderLog-v167.apk`, `AiderLog-Modern-v167-site-files.zip`, `AiderLog-Editorial-v167-site-files.zip`.
-- Both site ZIPs have current functions and a different initial appearance. The Android app is not switched to the site layout.
-- Download hashes: [release-v167.json](./release-v167.json). Change scope and verification limits: [RELEASE_V167.md](./RELEASE_V167.md).
+- Routine and Event receive restrained spacing and control refinements; the other website pages keep their current design.
+- Native widgets keep their form visible when no records are available, with refined compact presentation and account isolation.
+- The Android app retains its own layout and five themes. Its header restores a compact version of the original circle mark.
+- My includes a signed-in YouTube library for recipes, language study and other links. Public captions are imported when available; pasted text, SRT and VTT remain available when YouTube blocks captions. No paid AI API or video downloads are used.
+- Change scope, artifact hashes and verification limits: [RELEASE_V189.md](./RELEASE_V189.md).
 - Native permission, widget and file-transfer patch sources: [android-src](./android-src/README.md).
 
 ## Previous releases
