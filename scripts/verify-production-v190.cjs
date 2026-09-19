@@ -48,7 +48,7 @@ async function verifyProduction(input, {fetchImpl = fetch, checkReleaseAssets = 
   await record('site build and module references', async () => {
     const {text} = await fetchText('/?verify=android-v190');
     if (!/<meta\b[^>]*name=["']aiderlog-build["'][^>]*content=["']v190["']/i.test(text)) throw new Error('aiderlog-build v190 metadata is missing');
-    for (const file of ['site-calendar-v179.css?v=189', 'site-typography-v169.css?v=189', 'firebase-app.js?v=189', 'site-event-routine-v189.css?v=189']) {
+    for (const file of ['site-calendar-v179.css?v=190', 'site-typography-v169.css?v=190', 'firebase-app.js?v=190', 'site-event-routine-v189.css?v=190', 'site-investment-v190.js?v=190', 'site-investment-v190.css?v=190', 'assets-client-v190.js?v=190']) {
       if (!text.includes(file)) throw new Error(`Missing module reference: ${file}`);
     }
     if (/schedule-ui-v184|AiderScheduleUIBridgeV184|app-compact-v18[67]|event-routine-v18[67]|routine-ui-v189/.test(text)) throw new Error('App-only layout must not be mounted on the site');
