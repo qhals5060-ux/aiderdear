@@ -54,7 +54,7 @@
         label.childNodes.forEach(node => { if (node.nodeType === Node.TEXT_NODE) node.textContent = '＋ 사진 추가'; });
       }
       const preview = form.querySelector('#eventPreviewV111');
-      if (preview && !preview.querySelector('img,[data-event-file]')) preview.classList.add('event-preview-empty-v164');
+      if (preview) preview.classList.toggle('event-preview-empty-v164', !preview.querySelector('img,video,figure,[data-event-file]'));
     }
     viewport();
     return result;

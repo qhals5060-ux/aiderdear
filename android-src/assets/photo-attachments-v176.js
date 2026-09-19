@@ -10,7 +10,7 @@
   }
   function fields(items){const list=items.map(x=>({...x}));return {media:list[0]||null,mediaItems:list,localImage:list[0]?.localImage||''};}
   function createBatch({owner=()=>'',remove=async()=>{},limit=MAX,allowVideo=false}={}){
-    let rows=[],origin=[],actor=owner(),epoch=0,busy=false;
+    let rows=[],origin=[],actor=owner(),epoch=0,busy=false,nextFileId=0;
     const assert=(token,uid)=>{if(token!==epoch||uid!==owner()||uid!==actor)throw Error('계정 또는 기록창이 변경되었습니다. 다시 열어주세요.');};
     const cleanup=entry=>{if(entry.uploaded?.fileId&&actor===owner())Promise.resolve(remove(entry.uploaded.fileId)).catch(()=>{});if(entry.url)try{URL.revokeObjectURL(entry.url)}catch{}};
     const api={
@@ -21,7 +21,7 @@
         for(const file of Array.from(files||[])){if(rows.length>=limit){errors.push(`사진은 한 기록에 ${limit}장까지 첨부할 수 있습니다.`);break;}
           const mediaKind=kind(file);if(mediaKind!=='image'&&!(allowVideo&&mediaKind==='video')){errors.push(`${file?.name||'파일'}: ${allowVideo?'사진 또는 동영상':'사진'} 파일만 선택해주세요.`);continue;}
           if(file.size>MAX_BYTES){errors.push(`${file.name}: 첨부 파일은 25MB 이하여야 합니다.`);continue;}
-          const key=[file.name,file.size,file.lastModified||0].join('|');if(rows.some(x=>x.key===key))continue;
+          if(rows.some(x=>x.file===file))continue;const key='file-'+(++nextFileId);
           let url='';try{url=URL.createObjectURL(file)}catch{}rows.push({key,file,url,error:''});
         }return errors;
       },
@@ -40,11 +40,11 @@
     };batches.add(api);return api;
   }
   function mountPreview(host,batch,resolve=async()=>'',changed=()=>{}){
-    if(!host)return;host.classList.add('photo-batch-v176');host.replaceChildren();
+    if(!host)return;host.classList.add('photo-batch-v176');host.classList.remove('event-preview-empty-v164');host.replaceChildren();
     for(const entry of batch.entries){const cell=document.createElement('figure'),img=document.createElement(kind(entry.file||entry.media)==='video'?'video':'img'),caption=document.createElement('figcaption'),button=document.createElement('button');
       if(img.tagName==='VIDEO'){img.controls=true;img.preload='metadata';img.playsInline=true;}
       img.alt=entry.file?.name||entry.media?.name||'첨부 사진';caption.textContent=entry.error?`${img.alt} · 업로드 실패`:entry.uploaded?'업로드 완료':entry.file?.name||entry.media?.name||'저장된 사진';
-      if(entry.error){cell.classList.add('has-error');caption.title=entry.error;}const src=safeSource(entry.url||entry.media?.localImage||entry.media?.url);if(src)img.src=src;else if(entry.media)Promise.resolve(resolve(entry.media)).then(src=>{if(cell.isConnected&&safeSource(src))img.src=safeSource(src)}).catch(()=>{caption.textContent='사진을 불러오지 못했습니다.';});
+      if(entry.error){cell.classList.add('has-error');caption.textContent+=` · ${entry.error}`;}const src=safeSource(entry.url||entry.media?.localImage||entry.media?.url);if(src)img.src=src;else if(entry.media)Promise.resolve(resolve(entry.media)).then(src=>{if(cell.isConnected&&safeSource(src))img.src=safeSource(src)}).catch(()=>{caption.textContent='사진을 불러오지 못했습니다.';});
       button.type='button';button.textContent='×';button.ariaLabel=`${img.alt} 제외`;button.disabled=batch.busy;button.onclick=()=>{batch.remove(entry.key);mountPreview(host,batch,resolve,changed);changed();};cell.append(img,caption,button);host.append(cell);
     }
   }

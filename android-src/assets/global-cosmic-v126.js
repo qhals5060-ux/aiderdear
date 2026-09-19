@@ -25,9 +25,9 @@
   }
   function fixWheel(){
     const wheel=$('#wheel');if(!wheel)return;wheel.dataset.globalV126='1';
-    const order=[['fifth','My','my'],['personal','Personal','profile'],['routine','Routine','routine'],['event','Event','event']];
+    const order=[['fifth','My','my'],['personal','Personal','profile'],['routine','Routine','routine'],['event','Event','event'],['todo','Todo','task']];
     $$('.global-wheel-item-v126',wheel).forEach((button,index)=>{
-      const [page,oldLabel,iconName]=order[index],label=window.AiderWheelbarV176?.names[page]||oldLabel;
+      if(!order[index])return;const [page,oldLabel,iconName]=order[index],label=window.AiderWheelbarV176?.names[page]||oldLabel;
       if(button.dataset.page!==page)button.dataset.page=page;if(button.dataset.index!==String(index))button.dataset.index=String(index);
       // Preserve transient hovered/selected classes owned by the gesture engine.
       // They are not a reason to replace the icon with the pre-v176 renderer.

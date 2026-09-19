@@ -19,14 +19,14 @@ class Node{
   addEventListener(name,fn){this.listeners.set(name,fn);}emit(name){return this.listeners.get(name)?.({target:this,currentTarget:this});}
 }
 const event={id:'e1',title:'개인 일정',isAiderDear:true,authorEmail:'owner@example.test'};
-function fixture({guest=false,noFriends=false}={}){
+function fixture({guest=false,noFriends=false,native=false}={}){
   let state={user:guest?null:{uid:'u1',email:'owner@example.test'},friends:noFriends?[]:[{uid:'u2',friendshipId:'f1',name:'친구 A'},{uid:'u3',friendshipId:'f2',name:'친구 B'}]},clock=1000000,reader=async()=>({events:[],ownTargetsByEventId:{}}),targetReader=async()=>[],shareWriter=async()=>({}),removeWriter=async()=>({});
   const body=new Node('body'),owner=body.appendChild(new Node()),google=body.appendChild(new Node('select')),header=body.appendChild(new Node()),dates=[new Node(),new Node()];owner.id='eventOwnerField';google.id='eventGoogleCalendar';dates[0].dataset.date='2026-09-01';dates[1].dataset.date='2026-10-12';const reads=[],targets=[],shares=[],removes=[],dispatched=[],warnings=[],events=new Map();
-  const document={createElement:tag=>new Node(tag),createTextNode:text=>{const node=new Node('#text');node.text=text;return node},getElementById:id=>body.querySelector('#'+id),querySelector:selector=>selector==='#page0 .month-list-head'?header:null,querySelectorAll:selector=>selector==='#calendar .day[data-date]'?dates:[]};
+  const document={createElement:tag=>new Node(tag),createTextNode:text=>{const node=new Node('#text');node.text=text;return node},getElementById:id=>body.querySelector('#'+id),querySelector:selector=>selector==='#page0 .month-list-head'?header:native&&selector==='.schedule-dialog-v125 [data-app-friend-slot-v179]'?owner:null,querySelectorAll:selector=>selector==='#calendar .day[data-date]'&&!native||selector==='#home [data-schedule-date-v125][data-date]'&&native?dates:[]};
   const api={getState:()=>state,readFriendSchedule:async range=>{reads.push(range);return reader(range)},friendScheduleTargets:async id=>{targets.push(id);return targetReader(id)},setFriendScheduleTargets:async(row,selected)=>{shares.push({row,selected:[...selected]});return shareWriter(row,selected)},removeFriendSchedule:async id=>{removes.push(id);return removeWriter(id)}};
   const window={AiderDearFirebase:api,dispatchEvent:e=>dispatched.push(e.type)};class DateDouble extends Date{static now(){return clock}}
   vm.runInNewContext(source,{window,document,Date:DateDouble,Event:class{constructor(type){this.type=type}},console:{warn:(...args)=>warnings.push(args)},addEventListener:(type,fn)=>events.set(type,fn)});
-  return{ui:window.AiderFriendScheduleUIV175,body,owner,google,header,reads,targets,shares,removes,warnings,dispatched,events,get state(){return state},set state(value){state=value},set read(fn){reader=fn},set targetRead(fn){targetReader=fn},set write(fn){shareWriter=fn},set removeWrite(fn){removeWriter=fn},tick:ms=>clock+=ms,box:()=>document.getElementById('eventFriendShareV175'),status:()=>document.getElementById('friendScheduleStatusV175')};
+  return{ui:window.AiderFriendScheduleUIV175,body,owner,google,header,reads,targets,shares,removes,warnings,dispatched,events,get state(){return state},set state(value){state=value},set read(fn){reader=fn},set targetRead(fn){targetReader=fn},set write(fn){shareWriter=fn},set removeWrite(fn){removeWriter=fn},tick:ms=>clock+=ms,box:()=>document.getElementById(native?'appEventFriendShareV179':'eventFriendShareV175'),status:()=>document.getElementById('friendScheduleStatusV175')};
 }
 test('guest/no accepted friends have no sharing UI, reads, writes or default recipients',async()=>{
   for(const options of [{guest:true},{noFriends:true}]){const f=fixture(options);await settle();await f.ui.open();assert(f.box().hidden);assert.equal(f.reads.length,0);assert.deepEqual(Array.from(f.ui.selected()),[]);}
@@ -65,4 +65,8 @@ test('read deduplication avoids render feedback loops and view accessor returns 
 });
 test('remove invokes revocation API; failed revoke is propagated instead of claiming deletion',async()=>{
   const f=fixture();await settle();f.removeWrite=async()=>{throw Error('offline')};await assert.rejects(f.ui.remove('e1'),/offline/);assert.deepEqual(f.removes,['e1']);
+});
+
+test('app uses its visible month and explicit friend recipients through the same safe adapter',async()=>{
+  const f=fixture({native:true});await settle();assert.equal(f.reads[0].from,'2026-09-01');await f.ui.open();assert.equal(f.box().id,'appEventFriendShareV179');assert.equal(f.ui.selected().length,0);f.box().querySelectorAll('input')[1].checked=true;await f.ui.share({...event,authorUid:'u1'});assert.deepEqual(f.shares[0].selected,['f2']);
 });

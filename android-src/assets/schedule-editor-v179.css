@@ -1,0 +1,33 @@
+/* Shared editor chrome only; calendar and unrelated record sheets are untouched. */
+#scheduleModal .modal-head,.schedule-dialog-v125 .feature-dialog-head-v125{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;gap:6px 12px;align-items:start!important}
+.schedule-editor-tools-v179{display:grid;justify-items:end;gap:5px;min-width:0}
+.schedule-editor-primary-v179{display:flex;align-items:center;justify-content:flex-end;gap:7px}
+.schedule-editor-primary-v179 button{width:auto!important;min-width:36px;min-height:36px;padding:5px 10px;margin:0}
+.schedule-dialog-v125 .feature-dialog-head-v125 h2{font-size:15px!important;line-height:1.5!important;align-self:center;overflow-wrap:anywhere}
+.schedule-editor-primary-v179 .x{font-size:22px}
+.schedule-editor-tools-v179 [data-schedule-secondary-v176]{display:flex!important;justify-content:flex-end;align-items:center;gap:9px;margin:0;padding:0}
+.schedule-editor-tools-v179 .private-schedule-actions-v176{display:flex;gap:11px;margin:0;padding:0}
+:is(#scheduleModal,.schedule-dialog-v125) .schedule-editor-tools-v179 [data-private-schedule-kind]{background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;min-width:0!important;min-height:26px!important;height:auto!important;width:auto!important;padding:1px 0!important;font-size:11px!important;line-height:1.4!important;text-decoration:underline;text-underline-offset:3px}
+.schedule-editor-tools-v179 [data-private-schedule-kind][aria-pressed="true"]{font-weight:800;color:var(--theme-primary,#6255e8)!important}
+.schedule-title-row-v179{display:flex!important;align-items:center;gap:10px;flex-wrap:nowrap;min-width:0}
+.schedule-title-row-v179>label:first-child,.schedule-title-row-v179>.schedule-title-first-v150{flex:1;min-width:0}
+.schedule-all-day-v179{display:flex!important;align-items:center;gap:6px;white-space:nowrap;font-size:12px!important;flex:none!important;margin:0!important}
+.schedule-all-day-v179 input{width:17px!important;height:17px!important;min-height:0!important;margin:0!important;padding:0!important;accent-color:var(--theme-primary,#6255e8)}
+.schedule-dialog-v125 .schedule-title-row-v179>.schedule-all-day-v179{padding-top:19px}
+.schedule-dialog-v125 .schedule-dialog-actions-v125:empty,#scheduleModal .modal-actions:empty{display:none!important}
+.schedule-dialog-v125 .schedule-dialog-actions-v125:not(:has(button:not([hidden]))),#scheduleModal .modal-actions:not(:has(button:not([hidden]))){display:none!important}
+.schedule-dialog-v125 [data-app-friend-slot-v179]{grid-column:auto!important;min-height:0;border:0;background:none;padding:0}
+.schedule-dialog-v125 .schedule-dialog-actions-v125{justify-content:flex-start}
+.schedule-editor-error-v179{color:#963839;font-size:12px;line-height:1.4;white-space:normal;grid-column:1/-1}
+.schedule-editor-error-v179:empty{display:none}
+#eventFriendShareV175,#appEventFriendShareV179{border:0;margin:4px 0;padding:0;display:flex;gap:7px 14px;flex-wrap:wrap;align-items:center}
+#eventFriendShareV175[hidden],#appEventFriendShareV179[hidden]{display:none!important}
+#eventFriendShareV175 legend,#appEventFriendShareV179 legend{font-size:12px;font-weight:700;margin-bottom:5px}
+#eventFriendShareV175 label,#appEventFriendShareV179 label{display:flex;align-items:center;gap:5px;font-size:12px}
+#eventFriendShareV175 input,#appEventFriendShareV179 input{width:17px;height:17px;min-height:0;margin:0;accent-color:var(--theme-primary,#6255e8)}
+#eventFriendShareV175>small,#appEventFriendShareV179>small{flex-basis:100%;font-size:11px}
+.schedule-period-separator-v179{display:block;text-align:center;line-height:1;font-size:11px;opacity:.6}
+@layer appColour164 {
+  html body .schedule-dialog-v125 .schedule-editor-tools-v179 [data-private-schedule-kind] {background:transparent!important;background-image:none!important;border:0!important;border-radius:0!important;box-shadow:none!important;padding:1px 0!important;width:auto!important;height:auto!important;min-width:0!important;min-height:26px!important;font-size:11px!important;text-decoration:underline!important;text-underline-offset:3px!important;color:var(--app-text)!important}
+  html body .schedule-dialog-v125 .schedule-editor-tools-v179 [data-private-schedule-kind][aria-pressed="true"] {color:var(--app-primary)!important;font-weight:800!important}
+}

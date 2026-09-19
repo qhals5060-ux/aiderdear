@@ -1,0 +1,92 @@
+/* v179 Calendar density. The cosmic background and shared theme tokens remain
+   owned by the existing theme. Scoped to the app and this calendar only. */
+@layer appColour164 {
+  html {--app-frame-v160:1.134px!important;--app-frame-v153:1.134px!important}
+  html body {padding:max(.3mm,env(safe-area-inset-top)) 0 max(.3mm,env(safe-area-inset-bottom))!important;height:100dvh!important;min-height:0!important;box-sizing:border-box!important}
+  html body #app.app {height:100%!important;max-height:100%!important;min-height:0!important}
+  html body #app.app {padding-top:max(1px,env(safe-area-inset-top))!important;padding-bottom:max(1px,env(safe-area-inset-bottom))!important}
+  html body #app>.top {min-height:42px!important;height:42px!important;padding-block:3px!important}
+  html body #app .brand .brandmark,html body #app .brand .logo,html body #app .brand>img {width:30px!important;height:30px!important;min-width:30px!important}
+  html body #home.schedule-feature-v125 {padding:0!important;min-height:0!important;overflow:hidden!important}
+  html body #home.schedule-feature-v125 .schedule-dashboard-v179 {
+    display:grid!important;grid-template-columns:minmax(0,1fr)!important;grid-template-rows:auto minmax(0,1fr)!important;
+    height:100%!important;min-height:0!important;width:100%!important;gap:5px!important;overflow:hidden!important;
+  }
+  html body #home .schedule-summary-v179 {min-width:0;padding:0 8px;display:grid;gap:5px;color:#f6f3ff;background:none;border:0;box-shadow:none}
+  html body #home .dday-summary-v179 {display:grid;grid-template-columns:minmax(82px,.7fr) minmax(0,1.7fr);gap:8px;position:relative;align-items:center;min-height:45px}
+  html body #home :is(.dday-main-v179,.dday-small-v179) {border:0!important;box-shadow:none!important;background:none!important;color:inherit;padding:0!important;text-align:left;min-width:0;height:auto!important;min-height:0!important;border-radius:0!important}
+  html body #home .dday-main-v179 {display:grid;gap:1px;align-content:center;min-height:44px!important}
+  html body #home .dday-main-v179>strong {font-size:clamp(21px,5.2vw,29px)!important;line-height:1.05!important;letter-spacing:-.03em}
+  html body #home .dday-main-v179>b {font-size:11px!important;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  html body #home .dday-main-v179>time {font-size:9px!important;opacity:.85}
+  html body #home .dday-others-v179 {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px 8px;max-height:65px;overflow:auto;scrollbar-width:none;overscroll-behavior:contain}
+  html body #home .dday-others-v179[hidden] {display:none!important}
+  html body #home .dday-small-v179>span {display:flex;gap:4px;align-items:center;min-width:0;line-height:1.1;font-size:10px!important;white-space:nowrap}
+  html body #home .dday-small-v179 strong {font-size:11px!important;flex-shrink:0}
+  html body #home .dday-small-v179 b {font-size:10px!important;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500}
+  html body #home .dday-small-v179 i {width:5px;height:5px;background:var(--dday-dot);border-radius:50%;flex-shrink:0}
+  html body #home .dday-small-v179 time {font-size:8px!important;opacity:.8;padding-left:9px;line-height:1.15;display:block;margin-top:2px}
+  html body #home .dday-status-v179 {font-size:9px;grid-column:1/-1}
+  html body #home .schedule-upcoming-v179 {display:flex;gap:5px;overflow-x:auto;overscroll-behavior:contain;scrollbar-width:none;min-height:0;padding:0 0 1px;background:none!important;box-shadow:none!important}
+  html body #home .schedule-upcoming-line-v179 {display:flex;align-items:center;gap:5px;border:1px solid color-mix(in srgb,var(--theme-primary) 20%,transparent)!important;border-radius:11px!important;padding:5px 7px!important;min-height:32px!important;min-width:76px;max-width:125px;flex:0 0 auto;background:var(--theme-surface,#f1ebff)!important;color:var(--theme-text,#25223d)!important;box-shadow:none!important}
+  html body #home .schedule-upcoming-line-v179 i {width:5px;height:5px;border-radius:50%;background:var(--owner-color);flex-shrink:0}
+  html body #home .upcoming-halfday-v179 {align-self:center;font-size:12px;opacity:.75}
+  html body #home .schedule-upcoming-line-v179>span {min-width:0}
+  html body #home .schedule-upcoming-line-v179 time {display:block;font-size:9px!important;line-height:1.2!important}
+  html body #home .schedule-upcoming-line-v179 b {display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:10px!important;font-weight:600;line-height:1.3!important}
+  html body #home.schedule-feature-v125 .schedule-calendar-v119 {display:grid!important;grid-template-rows:40px 22px minmax(0,1fr)!important;width:100%!important;height:100%!important;min-height:0!important;max-height:none!important;padding:3px 1px 1px!important;overflow:hidden!important;border-radius:22px!important;gap:0!important}
+  html body #home.schedule-feature-v125 .schedule-calhead-v119 {padding:0 8px!important;margin:0!important;min-height:0!important;height:40px!important;display:flex!important;flex-wrap:nowrap!important;gap:4px!important;align-items:center!important;justify-content:space-between!important}
+  html body #home.schedule-feature-v125 .schedule-calhead-v119 h1 {display:flex!important;align-items:baseline!important;gap:6px!important;min-width:0!important;font-size:clamp(18px,4.9vw,24px)!important;line-height:1.1!important;margin:0!important}
+  html body #home.schedule-feature-v125 .schedule-calhead-v119 h1 span {font-size:inherit!important;letter-spacing:-.06em!important}
+  html body #home.schedule-feature-v125 .schedule-calhead-v119 h1 small {font-size:11px!important;font-weight:600!important;margin:0!important}
+  html body #home.schedule-feature-v125 .schedule-calctl-v119 {display:flex!important;gap:3px!important;flex-wrap:nowrap!important;flex-shrink:0}
+  html body #home.schedule-feature-v125 .schedule-calctl-v119 button {width:30px!important;min-width:30px!important;height:32px!important;min-height:32px!important;padding:0!important;border-radius:9px!important;font-size:10px!important}
+  html body #home.schedule-feature-v125 .schedule-calctl-v119 .schedule-today-v119 {width:43px!important;min-width:43px!important}
+  html body #home.schedule-feature-v125 .schedule-calctl-v119 svg {width:14px!important;height:14px!important}
+  html body #home.schedule-feature-v125 .schedule-week-v119 {height:22px!important;min-height:0!important;margin:0!important;padding:0!important;gap:0!important;align-items:center!important}
+  html body #home.schedule-feature-v125 .schedule-week-v119 span {font-size:9px!important}
+  html body #home.schedule-feature-v125 .schedule-days-v119 {display:grid!important;grid-template-columns:repeat(7,minmax(0,1fr))!important;grid-template-rows:repeat(6,minmax(0,1fr))!important;gap:0!important;min-height:0!important;height:100%!important;overflow:hidden!important;padding:0!important}
+  html body #home.schedule-feature-v125 .schedule-days-v119:has(>.calendar-todos-v179:not([hidden])) {grid-template-rows:repeat(2,minmax(0,1fr)) 102px repeat(4,minmax(0,1fr))!important}
+  html body #home.schedule-feature-v125 .schedule-day-v119 {display:flex!important;flex-direction:column!important;justify-content:flex-start!important;align-items:stretch!important;gap:1px!important;min-width:0!important;min-height:0!important;height:auto!important;border-radius:5px!important;padding:20px 2px 12px!important;border-width:.5px!important;box-shadow:none!important;overflow:hidden!important;text-align:left!important}
+  html body #home.schedule-feature-v125 .schedule-day-number-v119 {top:3px!important;left:4px!important;font-size:10px!important;line-height:14px!important;min-width:14px!important;height:14px!important}
+  html body #home.schedule-feature-v125 .schedule-event-name-v119 {display:block!important;flex:none!important;width:100%!important;margin:0!important;min-height:11px!important;font-size:9px!important;line-height:11px!important;padding:1px 2px!important;border-radius:4px!important;overflow:hidden!important;white-space:nowrap!important;text-overflow:ellipsis!important;box-sizing:border-box!important}
+  html body #home .schedule-event-time-v176 {display:inline!important;font-size:inherit!important;line-height:inherit!important;margin-right:2px}
+  html body #home .schedule-event-time-v176:empty {display:none!important}
+  html body #home .schedule-event-title-v176 {display:inline!important;font-size:inherit!important;line-height:inherit!important}
+  html body #home .schedule-event-name-v119.is-all-day {background:#fff0ad!important;color:#302923!important}
+  html body #home .schedule-halfday-v179 {display:block;line-height:5px;font-size:10px;text-align:center;color:var(--theme-muted,#756b89);height:5px;flex-shrink:0;order:1!important}
+  html body #home.schedule-feature-v125 .calendar-status-icons {right:2px!important;bottom:2px!important;height:9px!important;gap:2px!important}
+  html body #home.schedule-feature-v125 .calendar-status-icon {width:8px!important;height:9px!important;font-size:8px!important;min-width:8px!important}
+  html body #home.schedule-feature-v125 .schedule-more-v176 {font-size:7px!important;bottom:1px!important;left:3px!important;line-height:8px!important}
+  html body #home .calendar-todos-v179 {grid-column:1/-1;min-width:0;min-height:0;max-height:102px;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none;background:color-mix(in srgb,var(--theme-primary,#7861ef) 4%,var(--theme-surface,#fcfaff));border-block:1px solid color-mix(in srgb,var(--theme-primary,#7861ef) 18%,transparent);padding:2px 5px;box-sizing:border-box}
+  html body #home .todo-inline-item-v179 input {appearance:none!important;background:#fff!important;border:1px solid var(--theme-primary,#7861ef)!important;border-radius:3px!important;width:13px!important;height:13px!important;min-width:13px!important;display:grid!important;place-content:center!important}
+  html body #home .todo-inline-item-v179 input:checked {background:var(--theme-primary,#7861ef)!important}
+  html body #home .todo-inline-item-v179 input:checked::after {content:'✓';color:#fff;font-size:10px;line-height:1}
+  html body #home .todo-inline-item-v179 input:focus-visible {outline:2px solid var(--theme-primary,#7861ef);outline-offset:2px}
+  @media (max-height:720px) and (max-width:599px) {
+    html body #home .dday-main-v179>strong {font-size:20px!important}
+    html body #home .dday-summary-v179 {min-height:40px}
+    html body #home .schedule-upcoming-line-v179 {min-height:28px!important;padding-block:3px!important}
+    html body #home.schedule-feature-v125 .schedule-days-v119 {overflow-y:auto!important;grid-template-rows:repeat(6,minmax(72px,1fr))!important}
+    html body #home.schedule-feature-v125 .schedule-days-v119:has(>.calendar-todos-v179:not([hidden])) {grid-template-rows:repeat(2,minmax(72px,1fr)) 102px repeat(4,minmax(72px,1fr))!important}
+  }
+  @media (min-width:600px) and (min-height:480px) {
+    html body #home.schedule-feature-v125 .schedule-dashboard-v179 {position:relative;grid-template-columns:minmax(0,1.65fr) minmax(210px,1fr)!important;grid-template-rows:minmax(0,1fr)!important;gap:8px!important}
+    html body #home .schedule-calendar-v119 {grid-column:1;grid-row:1}
+    html body #home .schedule-summary-v179 {grid-column:2;grid-row:1;align-self:stretch;grid-template-rows:auto auto minmax(0,1fr);min-height:0;padding:8px 7px 0;gap:14px}
+    html body #home .dday-summary-v179 {grid-template-columns:1fr;gap:12px}
+    html body #home .dday-main-v179>strong {font-size:30px!important}
+    html body #home .dday-main-v179>b {font-size:13px!important}
+    html body #home .dday-main-v179>time {font-size:11px!important}
+    html body #home .dday-others-v179 {max-height:102px;gap:10px}
+    html body #home .dday-small-v179 strong {font-size:12px!important}
+    html body #home .dday-small-v179 b {font-size:11px!important}
+    html body #home .dday-small-v179 time {font-size:10px!important}
+    html body #home .schedule-upcoming-v179 {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}
+    html body #home .upcoming-halfday-v179 {grid-column:1/-1;text-align:center;line-height:3px}
+    html body #home .schedule-upcoming-line-v179 {max-width:none;min-width:0;min-height:42px!important}
+    html body #home.schedule-feature-v125 .schedule-days-v119 {grid-template-rows:repeat(6,minmax(0,1fr))!important;overflow:visible!important}
+    html body #home .calendar-todos-v179 {position:static;max-height:none;background:var(--theme-surface,#f6f1ff);color:var(--theme-text,#25223d);border:1px solid color-mix(in srgb,var(--theme-primary,#7861ef) 18%,transparent);border-radius:15px;padding:8px;grid-column:auto}
+    html body #home .calendar-todos-v179 .todo-inline-grid-v179 {grid-template-columns:1fr!important;max-height:none!important;height:100%;align-content:start}
+  }
+}

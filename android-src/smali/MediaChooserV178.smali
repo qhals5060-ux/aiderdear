@@ -30,14 +30,14 @@
 .method static constructor <clinit>()V
     .locals 1
 
-    .line 21
+    .line 22
     new-instance v0, Ljava/util/WeakHashMap;
 
     invoke-direct {v0}, Ljava/util/WeakHashMap;-><init>()V
 
     sput-object v0, Lcom/aiderlog/v22app/MediaChooserV178;->pending:Ljava/util/WeakHashMap;
 
-    .line 22
+    .line 23
     const/16 v0, 0x2ee0
 
     sput v0, Lcom/aiderlog/v22app/MediaChooserV178;->nextRequest:I
@@ -48,7 +48,7 @@
 .method public constructor <init>()V
     .locals 0
 
-    .line 20
+    .line 21
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -57,7 +57,7 @@
 .method private static accepted([Ljava/lang/String;Ljava/lang/String;)Z
     .locals 7
 
-    .line 121
+    .line 133
     array-length v0, p0
 
     const/4 v1, 0x0
@@ -67,10 +67,10 @@
     :goto_0
     if-lt v2, v0, :cond_0
 
-    .line 123
+    .line 135
     return v1
 
-    .line 121
+    .line 133
     :cond_0
     aget-object v3, p0, v2
 
@@ -90,7 +90,7 @@
 
     if-nez v4, :cond_2
 
-    .line 122
+    .line 134
     const-string v4, "/*"
 
     invoke-virtual {v3, v4}, Ljava/lang/String;->endsWith(Ljava/lang/String;)Z
@@ -123,13 +123,13 @@
 
     goto :goto_1
 
-    .line 121
+    .line 133
     :cond_1
     add-int/lit8 v2, v2, 0x1
 
     goto :goto_0
 
-    .line 122
+    .line 134
     :cond_2
     :goto_1
     return v5
@@ -138,7 +138,7 @@
 .method static synthetic access$0()I
     .locals 1
 
-    .line 22
+    .line 23
     sget v0, Lcom/aiderlog/v22app/MediaChooserV178;->nextRequest:I
 
     return v0
@@ -147,7 +147,7 @@
 .method static synthetic access$1(I)V
     .locals 0
 
-    .line 22
+    .line 23
     sput p0, Lcom/aiderlog/v22app/MediaChooserV178;->nextRequest:I
 
     return-void
@@ -156,7 +156,7 @@
 .method public static cancel(Landroid/app/Activity;)V
     .locals 2
 
-    .line 132
+    .line 144
     sget-object v0, Lcom/aiderlog/v22app/MediaChooserV178;->pending:Ljava/util/WeakHashMap;
 
     invoke-virtual {v0, p0}, Ljava/util/WeakHashMap;->get(Ljava/lang/Object;)Ljava/lang/Object;
@@ -165,14 +165,14 @@
 
     check-cast v0, Lcom/aiderlog/v22app/MediaChooserV178$Pending;
 
-    .line 133
+    .line 145
     if-eqz v0, :cond_0
 
     const/4 v1, 0x0
 
     invoke-static {p0, v0, v1}, Lcom/aiderlog/v22app/MediaChooserV178;->finish(Landroid/app/Activity;Lcom/aiderlog/v22app/MediaChooserV178$Pending;[Landroid/net/Uri;)V
 
-    .line 134
+    .line 146
     :cond_0
     return-void
 .end method
@@ -180,7 +180,7 @@
 .method public static consume(Landroid/app/Activity;IILandroid/content/Intent;)Z
     .locals 9
 
-    .line 92
+    .line 93
     const/4 v0, 0x0
 
     const/16 v1, 0x2ee0
@@ -193,7 +193,7 @@
 
     goto/16 :goto_9
 
-    .line 93
+    .line 94
     :cond_0
     sget-object v1, Lcom/aiderlog/v22app/MediaChooserV178;->pending:Ljava/util/WeakHashMap;
 
@@ -203,7 +203,7 @@
 
     check-cast v1, Lcom/aiderlog/v22app/MediaChooserV178$Pending;
 
-    .line 95
+    .line 96
     const/4 v2, 0x1
 
     if-eqz v1, :cond_11
@@ -214,28 +214,31 @@
 
     goto/16 :goto_8
 
-    .line 96
+    .line 97
     :cond_1
     new-instance p1, Ljava/util/ArrayList;
 
     invoke-direct {p1}, Ljava/util/ArrayList;-><init>()V
 
-    .line 97
+    .line 98
     nop
 
-    .line 98
+    .line 99
+    nop
+
+    .line 100
     const/4 v3, -0x1
 
     if-ne p2, v3, :cond_e
 
     if-eqz p3, :cond_e
 
-    .line 99
+    .line 101
     invoke-virtual {p3}, Landroid/content/Intent;->getClipData()Landroid/content/ClipData;
 
     move-result-object p2
 
-    .line 100
+    .line 102
     if-nez p2, :cond_3
 
     invoke-virtual {p3}, Landroid/content/Intent;->getData()Landroid/net/Uri;
@@ -258,8 +261,11 @@
 
     move-result v3
 
-    .line 101
+    .line 103
     :goto_0
+    nop
+
+    .line 104
     move v4, v0
 
     move v5, v4
@@ -269,7 +275,7 @@
 
     goto/16 :goto_6
 
-    .line 102
+    .line 105
     :cond_4
     if-nez p2, :cond_5
 
@@ -288,7 +294,7 @@
 
     move-result-object v6
 
-    .line 103
+    .line 106
     :goto_2
     if-eqz v6, :cond_c
 
@@ -306,7 +312,7 @@
 
     goto :goto_4
 
-    .line 106
+    .line 109
     :cond_6
     :try_start_0
     invoke-virtual {p0}, Landroid/app/Activity;->getContentResolver()Landroid/content/ContentResolver;
@@ -317,10 +323,18 @@
 
     move-result-object v7
 
-    .line 107
-    if-eqz v7, :cond_7
+    .line 114
+    invoke-static {v7}, Lcom/aiderlog/v22app/MediaChooserV178;->unknownMime(Ljava/lang/String;)Z
+
+    move-result v8
+
+    if-nez v8, :cond_7
 
     iget-object v8, v1, Lcom/aiderlog/v22app/MediaChooserV178$Pending;->types:[Ljava/lang/String;
+
+    invoke-virtual {v7}, Ljava/lang/String;->trim()Ljava/lang/String;
+
+    move-result-object v7
 
     invoke-static {v8, v7}, Lcom/aiderlog/v22app/MediaChooserV178;->accepted([Ljava/lang/String;Ljava/lang/String;)Z
 
@@ -334,7 +348,7 @@
 
     goto :goto_5
 
-    .line 108
+    .line 115
     :cond_7
     :try_start_1
     invoke-virtual {p0}, Landroid/app/Activity;->getContentResolver()Landroid/content/ContentResolver;
@@ -347,21 +361,21 @@
 
     move-result-object v7
 
-    .line 109
+    .line 116
     if-nez v7, :cond_9
 
-    .line 110
+    .line 117
     if-eqz v7, :cond_8
 
     invoke-virtual {v7}, Landroid/content/res/AssetFileDescriptor;->close()V
 
-    .line 101
+    .line 104
     :cond_8
     move v5, v2
 
     goto :goto_5
 
-    .line 110
+    .line 117
     :cond_9
     if-eqz v7, :cond_a
 
@@ -369,7 +383,7 @@
     :try_end_1
     .catchall {:try_start_1 .. :try_end_1} :catchall_0
 
-    .line 111
+    .line 118
     :cond_a
     :try_start_2
     invoke-virtual {p1, v6}, Ljava/util/ArrayList;->contains(Ljava/lang/Object;)Z
@@ -380,10 +394,10 @@
 
     invoke-virtual {p1, v6}, Ljava/util/ArrayList;->add(Ljava/lang/Object;)Z
 
-    .line 112
+    .line 119
     goto :goto_3
 
-    .line 110
+    .line 117
     :catchall_0
     move-exception v5
 
@@ -391,13 +405,13 @@
     :try_end_2
     .catch Ljava/lang/Exception; {:try_start_2 .. :try_end_2} :catch_0
 
-    .line 112
+    .line 119
     :catch_0
     move-exception v5
 
     move v5, v2
 
-    .line 113
+    .line 120
     :cond_b
     :goto_3
     iget-boolean v6, v1, Lcom/aiderlog/v22app/MediaChooserV178$Pending;->multiple:Z
@@ -412,23 +426,68 @@
 
     goto :goto_6
 
-    .line 103
+    .line 106
     :cond_c
     :goto_4
     move v5, v2
 
-    .line 101
+    .line 104
     :cond_d
     :goto_5
     add-int/lit8 v4, v4, 0x1
 
     goto :goto_1
 
-    .line 116
+    .line 124
     :cond_e
-    move v5, v0
+    move v3, v0
+
+    move v5, v3
 
     :goto_6
+    new-instance p2, Ljava/lang/StringBuilder;
+
+    const-string p3, "picker-result returned="
+
+    invoke-direct {p2, p3}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+
+    invoke-virtual {p2, v3}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    move-result-object p2
+
+    const-string p3, " readable="
+
+    invoke-virtual {p2, p3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object p2
+
+    invoke-virtual {p1}, Ljava/util/ArrayList;->size()I
+
+    move-result p3
+
+    invoke-virtual {p2, p3}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    move-result-object p2
+
+    const-string p3, " rejected="
+
+    invoke-virtual {p2, p3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object p2
+
+    invoke-virtual {p2, v5}, Ljava/lang/StringBuilder;->append(Z)Ljava/lang/StringBuilder;
+
+    move-result-object p2
+
+    invoke-virtual {p2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object p2
+
+    const-string p3, "AiderLogMedia"
+
+    invoke-static {p3, p2}, Landroid/util/Log;->i(Ljava/lang/String;Ljava/lang/String;)I
+
+    .line 125
     invoke-virtual {p1}, Ljava/util/ArrayList;->isEmpty()Z
 
     move-result p2
@@ -451,7 +510,7 @@
     :goto_7
     invoke-static {p0, v1, p1}, Lcom/aiderlog/v22app/MediaChooserV178;->finish(Landroid/app/Activity;Lcom/aiderlog/v22app/MediaChooserV178$Pending;[Landroid/net/Uri;)V
 
-    .line 117
+    .line 126
     if-eqz v5, :cond_10
 
     const-string p1, "\uc77d\uc744 \uc218 \uc5c6\uac70\ub098 \uc9c0\uc6d0\ud558\uc9c0 \uc54a\ub294 \ud30c\uc77c\uc740 \uc81c\uc678\ud588\uc2b5\ub2c8\ub2e4."
@@ -462,16 +521,16 @@
 
     invoke-virtual {p0}, Landroid/widget/Toast;->show()V
 
-    .line 118
+    .line 127
     :cond_10
     return v2
 
-    .line 95
+    .line 96
     :cond_11
     :goto_8
     return v2
 
-    .line 92
+    .line 93
     :cond_12
     :goto_9
     return v0
@@ -480,7 +539,7 @@
 .method private static files(Lcom/aiderlog/v22app/MediaChooserV178$Pending;Z)Landroid/content/Intent;
     .locals 3
 
-    .line 66
+    .line 67
     new-instance v0, Landroid/content/Intent;
 
     if-eqz p1, :cond_0
@@ -495,17 +554,17 @@
     :goto_0
     invoke-direct {v0, p1}, Landroid/content/Intent;-><init>(Ljava/lang/String;)V
 
-    .line 67
+    .line 68
     const-string p1, "android.intent.category.OPENABLE"
 
     invoke-virtual {v0, p1}, Landroid/content/Intent;->addCategory(Ljava/lang/String;)Landroid/content/Intent;
 
-    .line 68
+    .line 69
     const/4 p1, 0x1
 
     invoke-virtual {v0, p1}, Landroid/content/Intent;->addFlags(I)Landroid/content/Intent;
 
-    .line 69
+    .line 70
     iget-object v1, p0, Lcom/aiderlog/v22app/MediaChooserV178$Pending;->types:[Ljava/lang/String;
 
     array-length v1, v1
@@ -526,7 +585,7 @@
     :goto_1
     invoke-virtual {v0, v1}, Landroid/content/Intent;->setType(Ljava/lang/String;)Landroid/content/Intent;
 
-    .line 70
+    .line 71
     iget-object v1, p0, Lcom/aiderlog/v22app/MediaChooserV178$Pending;->types:[Ljava/lang/String;
 
     array-length v1, v1
@@ -539,7 +598,7 @@
 
     invoke-virtual {v0, v1, p1}, Landroid/content/Intent;->putExtra(Ljava/lang/String;[Ljava/lang/String;)Landroid/content/Intent;
 
-    .line 71
+    .line 72
     :cond_2
     iget-boolean p0, p0, Lcom/aiderlog/v22app/MediaChooserV178$Pending;->multiple:Z
 
@@ -547,14 +606,14 @@
 
     invoke-virtual {v0, p1, p0}, Landroid/content/Intent;->putExtra(Ljava/lang/String;Z)Landroid/content/Intent;
 
-    .line 72
+    .line 73
     return-object v0
 .end method
 
 .method private static finish(Landroid/app/Activity;Lcom/aiderlog/v22app/MediaChooserV178$Pending;[Landroid/net/Uri;)V
     .locals 1
 
-    .line 126
+    .line 138
     sget-object v0, Lcom/aiderlog/v22app/MediaChooserV178;->pending:Ljava/util/WeakHashMap;
 
     invoke-virtual {v0, p0}, Ljava/util/WeakHashMap;->get(Ljava/lang/Object;)Ljava/lang/Object;
@@ -565,13 +624,13 @@
 
     return-void
 
-    .line 127
+    .line 139
     :cond_0
     sget-object v0, Lcom/aiderlog/v22app/MediaChooserV178;->pending:Ljava/util/WeakHashMap;
 
     invoke-virtual {v0, p0}, Ljava/util/WeakHashMap;->remove(Ljava/lang/Object;)Ljava/lang/Object;
 
-    .line 128
+    .line 140
     iget-object p0, p1, Lcom/aiderlog/v22app/MediaChooserV178$Pending;->dialog:Landroid/app/AlertDialog;
 
     if-eqz p0, :cond_1
@@ -580,20 +639,20 @@
 
     invoke-virtual {p0}, Landroid/app/AlertDialog;->dismiss()V
 
-    .line 129
+    .line 141
     :cond_1
     iget-object p0, p1, Lcom/aiderlog/v22app/MediaChooserV178$Pending;->callback:Landroid/webkit/ValueCallback;
 
     invoke-interface {p0, p2}, Landroid/webkit/ValueCallback;->onReceiveValue(Ljava/lang/Object;)V
 
-    .line 130
+    .line 142
     return-void
 .end method
 
 .method static synthetic lambda$0(Landroid/app/Activity;Lcom/aiderlog/v22app/MediaChooserV178$Pending;Landroid/content/DialogInterface;I)V
     .locals 0
 
-    .line 58
+    .line 59
     if-nez p3, :cond_0
 
     const/4 p2, 0x1
@@ -612,7 +671,7 @@
 .method static synthetic lambda$1(Landroid/app/Activity;Lcom/aiderlog/v22app/MediaChooserV178$Pending;Landroid/content/DialogInterface;I)V
     .locals 0
 
-    .line 59
+    .line 60
     const/4 p2, 0x0
 
     invoke-static {p0, p1, p2}, Lcom/aiderlog/v22app/MediaChooserV178;->finish(Landroid/app/Activity;Lcom/aiderlog/v22app/MediaChooserV178$Pending;[Landroid/net/Uri;)V
@@ -623,7 +682,7 @@
 .method static synthetic lambda$2(Landroid/app/Activity;Lcom/aiderlog/v22app/MediaChooserV178$Pending;Landroid/content/DialogInterface;)V
     .locals 0
 
-    .line 60
+    .line 61
     const/4 p2, 0x0
 
     invoke-static {p0, p1, p2}, Lcom/aiderlog/v22app/MediaChooserV178;->finish(Landroid/app/Activity;Lcom/aiderlog/v22app/MediaChooserV178$Pending;[Landroid/net/Uri;)V
@@ -634,7 +693,7 @@
 .method private static launch(Landroid/app/Activity;Lcom/aiderlog/v22app/MediaChooserV178$Pending;Z)V
     .locals 5
 
-    .line 75
+    .line 76
     sget-object v0, Lcom/aiderlog/v22app/MediaChooserV178;->pending:Ljava/util/WeakHashMap;
 
     invoke-virtual {v0, p0}, Ljava/util/WeakHashMap;->get(Ljava/lang/Object;)Ljava/lang/Object;
@@ -645,7 +704,7 @@
 
     return-void
 
-    .line 77
+    .line 78
     :cond_0
     const/4 v0, 0x1
 
@@ -658,14 +717,14 @@
 
     if-lt v1, v2, :cond_3
 
-    .line 78
+    .line 79
     new-instance v1, Landroid/content/Intent;
 
     const-string v2, "android.provider.action.PICK_IMAGES"
 
     invoke-direct {v1, v2}, Landroid/content/Intent;-><init>(Ljava/lang/String;)V
 
-    .line 79
+    .line 80
     iget-object v2, p1, Lcom/aiderlog/v22app/MediaChooserV178$Pending;->types:[Ljava/lang/String;
 
     array-length v2, v2
@@ -680,7 +739,7 @@
 
     invoke-virtual {v1, v2}, Landroid/content/Intent;->setType(Ljava/lang/String;)Landroid/content/Intent;
 
-    .line 80
+    .line 81
     :cond_1
     iget-boolean v2, p1, Lcom/aiderlog/v22app/MediaChooserV178$Pending;->multiple:Z
 
@@ -700,13 +759,13 @@
 
     invoke-virtual {v1, v2, v3}, Landroid/content/Intent;->putExtra(Ljava/lang/String;I)Landroid/content/Intent;
 
-    .line 81
+    .line 82
     :cond_2
     invoke-virtual {v1, v0}, Landroid/content/Intent;->addFlags(I)Landroid/content/Intent;
     :try_end_0
     .catch Ljava/lang/Exception; {:try_start_0 .. :try_end_0} :catch_1
 
-    .line 82
+    .line 83
     :try_start_1
     iget v2, p1, Lcom/aiderlog/v22app/MediaChooserV178$Pending;->request:I
 
@@ -717,11 +776,11 @@
 
     return-void
 
-    .line 83
+    .line 84
     :catch_0
     move-exception v1
 
-    .line 85
+    .line 86
     :cond_3
     :try_start_2
     invoke-static {p1, p2}, Lcom/aiderlog/v22app/MediaChooserV178;->files(Lcom/aiderlog/v22app/MediaChooserV178$Pending;Z)Landroid/content/Intent;
@@ -748,18 +807,18 @@
     :try_end_2
     .catch Ljava/lang/Exception; {:try_start_2 .. :try_end_2} :catch_1
 
-    .line 86
+    .line 87
     goto :goto_1
 
     :catch_1
     move-exception p2
 
-    .line 87
+    .line 88
     const/4 p2, 0x0
 
     invoke-static {p0, p1, p2}, Lcom/aiderlog/v22app/MediaChooserV178;->finish(Landroid/app/Activity;Lcom/aiderlog/v22app/MediaChooserV178$Pending;[Landroid/net/Uri;)V
 
-    .line 88
+    .line 89
     const-string p1, "\uc120\ud0dd\uae30\ub97c \uc5f4\uc9c0 \ubabb\ud588\uc2b5\ub2c8\ub2e4. \ub2e4\uc2dc \ub20c\ub7ec \ub0b4 \ud30c\uc77c\uc744 \uc120\ud0dd\ud574\uc8fc\uc138\uc694."
 
     invoke-static {p0, p1, v0}, Landroid/widget/Toast;->makeText(Landroid/content/Context;Ljava/lang/CharSequence;I)Landroid/widget/Toast;
@@ -768,7 +827,7 @@
 
     invoke-virtual {p0}, Landroid/widget/Toast;->show()V
 
-    .line 90
+    .line 91
     :goto_1
     return-void
 .end method
@@ -788,10 +847,10 @@
         }
     .end annotation
 
-    .line 52
+    .line 53
     invoke-static {p0}, Lcom/aiderlog/v22app/MediaChooserV178;->cancel(Landroid/app/Activity;)V
 
-    .line 53
+    .line 54
     invoke-virtual {p0}, Landroid/app/Activity;->isFinishing()Z
 
     move-result v0
@@ -808,25 +867,25 @@
 
     goto :goto_1
 
-    .line 54
+    .line 55
     :cond_0
     new-instance v0, Lcom/aiderlog/v22app/MediaChooserV178$Pending;
 
     invoke-direct {v0, p1, p2}, Lcom/aiderlog/v22app/MediaChooserV178$Pending;-><init>(Landroid/webkit/ValueCallback;Landroid/webkit/WebChromeClient$FileChooserParams;)V
 
-    .line 55
+    .line 56
     sget-object p1, Lcom/aiderlog/v22app/MediaChooserV178;->pending:Ljava/util/WeakHashMap;
 
     invoke-virtual {p1, p0, v0}, Ljava/util/WeakHashMap;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
 
-    .line 56
+    .line 57
     invoke-virtual {v0}, Lcom/aiderlog/v22app/MediaChooserV178$Pending;->mediaOnly()Z
 
     move-result p1
 
     if-eqz p1, :cond_1
 
-    .line 57
+    .line 58
     new-instance p1, Landroid/app/AlertDialog$Builder;
 
     invoke-direct {p1, p0}, Landroid/app/AlertDialog$Builder;-><init>(Landroid/content/Context;)V
@@ -837,7 +896,7 @@
 
     move-result-object p1
 
-    .line 58
+    .line 59
     const-string p2, "\uc568\ubc94"
 
     const-string v2, "\ub0b4 \ud30c\uc77c"
@@ -854,7 +913,7 @@
 
     move-result-object p1
 
-    .line 59
+    .line 60
     new-instance p2, Lcom/aiderlog/v22app/-$$Lambda$MediaChooserV178$xUeUm0llNene0nhYLlcfTl56j_4;
 
     invoke-direct {p2, p0, v0}, Lcom/aiderlog/v22app/-$$Lambda$MediaChooserV178$xUeUm0llNene0nhYLlcfTl56j_4;-><init>(Landroid/app/Activity;Lcom/aiderlog/v22app/MediaChooserV178$Pending;)V
@@ -865,7 +924,7 @@
 
     move-result-object p1
 
-    .line 60
+    .line 61
     new-instance p2, Lcom/aiderlog/v22app/-$$Lambda$MediaChooserV178$qKnCAyb0_bnHYGTJP5p5EugX6vU;
 
     invoke-direct {p2, p0, v0}, Lcom/aiderlog/v22app/-$$Lambda$MediaChooserV178$qKnCAyb0_bnHYGTJP5p5EugX6vU;-><init>(Landroid/app/Activity;Lcom/aiderlog/v22app/MediaChooserV178$Pending;)V
@@ -878,15 +937,15 @@
 
     move-result-object p0
 
-    .line 57
+    .line 58
     iput-object p0, v0, Lcom/aiderlog/v22app/MediaChooserV178$Pending;->dialog:Landroid/app/AlertDialog;
 
-    .line 61
+    .line 62
     iget-object p0, v0, Lcom/aiderlog/v22app/MediaChooserV178$Pending;->dialog:Landroid/app/AlertDialog;
 
     invoke-virtual {p0}, Landroid/app/AlertDialog;->show()V
 
-    .line 62
+    .line 63
     goto :goto_0
 
     :cond_1
@@ -894,11 +953,11 @@
 
     invoke-static {p0, v0, p1}, Lcom/aiderlog/v22app/MediaChooserV178;->launch(Landroid/app/Activity;Lcom/aiderlog/v22app/MediaChooserV178$Pending;Z)V
 
-    .line 63
+    .line 64
     :goto_0
     return v1
 
-    .line 53
+    .line 54
     :cond_2
     :goto_1
     const/4 p0, 0x0
@@ -906,4 +965,42 @@
     invoke-interface {p1, p0}, Landroid/webkit/ValueCallback;->onReceiveValue(Ljava/lang/Object;)V
 
     return v1
+.end method
+
+.method private static unknownMime(Ljava/lang/String;)Z
+    .locals 1
+
+    .line 130
+    if-eqz p0, :cond_0
+
+    invoke-virtual {p0}, Ljava/lang/String;->trim()Ljava/lang/String;
+
+    move-result-object v0
+
+    invoke-virtual {v0}, Ljava/lang/String;->isEmpty()Z
+
+    move-result v0
+
+    if-nez v0, :cond_0
+
+    invoke-virtual {p0}, Ljava/lang/String;->trim()Ljava/lang/String;
+
+    move-result-object p0
+
+    const-string v0, "application/octet-stream"
+
+    invoke-virtual {v0, p0}, Ljava/lang/String;->equalsIgnoreCase(Ljava/lang/String;)Z
+
+    move-result p0
+
+    if-nez p0, :cond_0
+
+    const/4 p0, 0x0
+
+    return p0
+
+    :cond_0
+    const/4 p0, 0x1
+
+    return p0
 .end method

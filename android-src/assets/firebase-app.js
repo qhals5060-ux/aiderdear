@@ -1,9 +1,10 @@
 import { createConsultSync, CONSULT_KEYS } from './consult-sync-v167.js';
 import {decodeArchive,encodeArchive,encodeStoredPayload} from './archive-codec-v168.js';
 import {ddayFailure,ddayId,ddayScope,mergeDdaySources,resolveDdaySelection,preserveDdayRows,mutateDdayStore} from './dday-store-v174.js';
-import {PRIVATE_CALENDAR_VERSION,canUsePrivateIntimacy,privateCalendarFailure,privateCalendarError,privateCalendarId,privateCalendarRange,privateCalendarRevision,normalizePrivateCalendarSettings,normalizePrivateCalendarEntry,normalizePrivateCalendarDay,privateCalendarDayMutation,privateCalendarMutation,withoutPrivateEmotionFlags} from './private-calendar-v175.js';
+import {PRIVATE_CALENDAR_VERSION,canUsePrivateIntimacy,privateCalendarFailure,privateCalendarError,privateCalendarId,privateCalendarRange,privateCalendarRevision,normalizePrivateCalendarSettings,normalizePrivateCalendarEntry,normalizePrivateCalendarDay,privateCalendarDayMutation,privateCalendarMutation} from './private-calendar-v175.js';
 import {createFriendScheduleAdapter} from './friend-schedule-firebase-v175.js';
 import {createAndroidSession} from './android-session-v176.js';
+import {mutateTodoRowsV179,todoFailureV179,mergePrivateNotesV179} from './todo-domain-v179.js';
 const storageStampV168=()=>({storageVersion:168,formatWrittenAt:serverTimestamp()});
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js';
 import {
@@ -1456,16 +1457,17 @@ const consultSyncV167 = createConsultSync({
     if(!response.ok)throw Object.assign(Error(result.error||'컨설트 저장에 실패했습니다.'),{status:response.status});
     return result;
   },
-  writeRemaining:async(uid,incoming)=>{
+  writeRemaining:async(uid,incoming,noteBaseline)=>{
     const ref=doc(db,'users',uid,'private','main');
     return runTransaction(db,async transaction=>{
       const snap=await transaction.get(ref),rawCurrent=snap.data()?.payload||{},current=decodeArchive(rawCurrent),next=JSON.parse(JSON.stringify(incoming));
       if(auth.currentUser?.uid!==uid)throw Error('계정이 변경되었습니다.');
       for(const key of CONSULT_KEYS){if(Object.hasOwn(current,key))next[key]=current[key];else delete next[key];}
+      Object.assign(next,mergePrivateNotesV179(current,incoming,noteBaseline));
       if(snap.exists()){
         const fields=[new FieldPath('updatedAt'),serverTimestamp(),new FieldPath('storageVersion'),168,new FieldPath('formatWrittenAt'),serverTimestamp()];
-        for(const [key,value] of Object.entries(incoming))if(!CONSULT_KEYS.includes(key))fields.push(new FieldPath('payload',key),encodeArchive(value));
-        for(const key of Object.keys(current))if(!CONSULT_KEYS.includes(key)&&!Object.prototype.hasOwnProperty.call(incoming,key))fields.push(new FieldPath('payload',key),deleteField());
+        for(const [key,value] of Object.entries(next))if(!CONSULT_KEYS.includes(key))fields.push(new FieldPath('payload',key),encodeArchive(value));
+        for(const key of Object.keys(current))if(!CONSULT_KEYS.includes(key)&&!Object.prototype.hasOwnProperty.call(next,key))fields.push(new FieldPath('payload',key),deleteField());
         transaction.update(ref,...fields);
       }else transaction.set(ref,{payload:encodeStoredPayload(next),...storageStampV168(),updatedAt:serverTimestamp()});
       return next;
@@ -1601,6 +1603,33 @@ async function applyWidgetActionV165(input = {}) {
 }
 // END WIDGET ACTION TRANSACTION V165
 
+// BEGIN TODO NOTE TRANSACTION V179
+// Patch only the selected existing private collection; never write a stale P document.
+async function mutateChecklistV179(input = {}) {
+  const uid=String(input.uid||'');
+  const assertOwner=()=>{if(!uid||auth.currentUser?.uid!==uid||state.user?.uid!==uid)throw todoFailureV179('owner-changed','계정이 변경되었습니다. 다시 로그인 상태를 확인해주세요.');};
+  assertOwner();
+  // Validate before reading any user's data. The full selected-row fingerprint also
+  // catches edits from the legacy quick notebook which has no revision counter.
+  if(typeof input.expected!=='string'||input.expected.length>20000)throw todoFailureV179('invalid-action','수정할 항목을 다시 불러와주세요.');
+  const ref=doc(db,'users',uid,'private','main');
+  const result=await runTransaction(db,async transaction=>{
+    assertOwner();const snapshot=await transaction.get(ref);assertOwner();
+    const payload=snapshot.exists()?decodeArchive(snapshot.data()?.payload)||{}:{};
+    const mutation=mutateTodoRowsV179(payload,input,Date.now());
+    if(mutation.changed){
+      assertOwner();
+      if(snapshot.exists())transaction.update(ref,new FieldPath('payload',mutation.source),encodeArchive(mutation.rows),new FieldPath('updatedAt'),serverTimestamp(),new FieldPath('storageVersion'),168,new FieldPath('formatWrittenAt'),serverTimestamp());
+      else transaction.set(ref,{payload:encodeStoredPayload({[mutation.source]:mutation.rows}),...storageStampV168(),updatedAt:serverTimestamp()});
+    }
+    return {source:mutation.source,rows:mutation.rows,row:mutation.row,changed:mutation.changed,replayed:!!mutation.replayed};
+  });
+  assertOwner();
+  if(typeof consultSyncV167!=='undefined')consultSyncV167.rememberFields(uid,{[result.source]:result.rows});
+  return result;
+}
+// END TODO NOTE TRANSACTION V179
+
 async function writePrivateData(payload) {
   requireUser();
   return consultSyncV167.write(payload);
@@ -1657,30 +1686,6 @@ async function writePaperAnalysis(paperId, payload) {
 async function deletePaperAnalysis(paperId) {
   requirePaperTaskMember();
   await deleteDoc(paperAnalysisRef(paperId));
-}
-
-function emotionRef(uid) {
-  const user = requireUser();
-  if (state.pair) return doc(db, 'pairs', state.pair.id, 'emotions', uid);
-  if (uid !== user.uid) throw new Error('개인 모드에서는 본인의 감정 기록만 볼 수 있습니다.');
-  return doc(db, 'users', user.uid, 'emotion', 'main');
-}
-
-async function readEmotionData(uid) {
-  const snapshot = await getDoc(emotionRef(uid));
-  return snapshot.exists() ? decodeArchive(snapshot.data().payload) || null : null;
-}
-
-async function writeEmotionData(payload) {
-  const user = requireUser();
-  const safePayload = encodeStoredPayload(JSON.parse(JSON.stringify(payload)));
-  const ownSoloRef = doc(db, 'users', user.uid, 'emotion', 'main');
-  const ownPairRef = emotionRef(user.uid);
-  const writes = [setDoc(ownSoloRef, { payload: safePayload, ...storageStampV168(), updatedAt: serverTimestamp() })];
-  if (ownPairRef.path !== ownSoloRef.path) {
-    writes.push(setDoc(ownPairRef, { payload: encodeStoredPayload(withoutPrivateEmotionFlags(payload)), ...storageStampV168(), updatedAt: serverTimestamp() }));
-  }
-  await Promise.all(writes);
 }
 
 function mediaCollection() {
@@ -2494,14 +2499,13 @@ const api = {
   readPrivateData,
   writePrivateData,
   applyWidgetActionV165,
+  mutateChecklistV179,
   readPaperTaskData,
   writePaperTaskData,
   watchPaperTaskData,
   readPaperAnalysis,
   writePaperAnalysis,
   deletePaperAnalysis,
-  readEmotionData,
-  writeEmotionData,
   uploadMedia,
   readMedia,
   deleteMedia,

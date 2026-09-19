@@ -50,13 +50,13 @@
         }
     .end annotation
 
-    .line 29
+    .line 30
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    .line 30
+    .line 31
     iput-object p1, p0, Lcom/aiderlog/v22app/MediaChooserV178$Pending;->callback:Landroid/webkit/ValueCallback;
 
-    .line 31
+    .line 32
     invoke-virtual {p2}, Landroid/webkit/WebChromeClient$FileChooserParams;->getMode()I
 
     move-result p1
@@ -77,12 +77,12 @@
     :goto_0
     iput-boolean p1, p0, Lcom/aiderlog/v22app/MediaChooserV178$Pending;->multiple:Z
 
-    .line 32
+    .line 33
     new-instance p1, Ljava/util/LinkedHashSet;
 
     invoke-direct {p1}, Ljava/util/LinkedHashSet;-><init>()V
 
-    .line 33
+    .line 34
     invoke-virtual {p2}, Landroid/webkit/WebChromeClient$FileChooserParams;->getAcceptTypes()[Ljava/lang/String;
 
     move-result-object p2
@@ -94,7 +94,7 @@
     :goto_1
     if-lt v3, v2, :cond_3
 
-    .line 41
+    .line 42
     invoke-virtual {p1}, Ljava/util/LinkedHashSet;->isEmpty()Z
 
     move-result p2
@@ -105,7 +105,7 @@
 
     invoke-virtual {p1, p2}, Ljava/util/LinkedHashSet;->add(Ljava/lang/Object;)Z
 
-    .line 42
+    .line 43
     :cond_1
     new-array p2, v0, [Ljava/lang/String;
 
@@ -117,7 +117,7 @@
 
     iput-object p1, p0, Lcom/aiderlog/v22app/MediaChooserV178$Pending;->types:[Ljava/lang/String;
 
-    .line 43
+    .line 44
     invoke-static {}, Lcom/aiderlog/v22app/MediaChooserV178;->access$0()I
 
     move-result p1
@@ -128,7 +128,7 @@
 
     iput p1, p0, Lcom/aiderlog/v22app/MediaChooserV178$Pending;->request:I
 
-    .line 44
+    .line 45
     invoke-static {}, Lcom/aiderlog/v22app/MediaChooserV178;->access$0()I
 
     move-result p1
@@ -141,20 +141,20 @@
 
     invoke-static {p1}, Lcom/aiderlog/v22app/MediaChooserV178;->access$1(I)V
 
-    .line 45
+    .line 46
     :cond_2
     return-void
 
-    .line 33
+    .line 34
     :cond_3
     aget-object v4, p2, v3
 
-    .line 34
+    .line 35
     if-nez v4, :cond_4
 
     goto :goto_3
 
-    .line 35
+    .line 36
     :cond_4
     const-string v5, ","
 
@@ -169,17 +169,17 @@
     :goto_2
     if-lt v6, v5, :cond_5
 
-    .line 33
+    .line 34
     :goto_3
     add-int/lit8 v3, v3, 0x1
 
     goto :goto_1
 
-    .line 35
+    .line 36
     :cond_5
     aget-object v7, v4, v6
 
-    .line 36
+    .line 37
     invoke-virtual {v7}, Ljava/lang/String;->trim()Ljava/lang/String;
 
     move-result-object v7
@@ -190,7 +190,7 @@
 
     move-result-object v7
 
-    .line 37
+    .line 38
     const-string v8, "."
 
     invoke-virtual {v7, v8}, Ljava/lang/String;->startsWith(Ljava/lang/String;)Z
@@ -211,7 +211,7 @@
 
     move-result-object v7
 
-    .line 38
+    .line 39
     :cond_6
     if-eqz v7, :cond_7
 
@@ -225,7 +225,7 @@
 
     invoke-virtual {p1, v7}, Ljava/util/LinkedHashSet;->add(Ljava/lang/Object;)Z
 
-    .line 35
+    .line 36
     :cond_7
     add-int/lit8 v6, v6, 0x1
 
@@ -237,7 +237,7 @@
 .method mediaOnly()Z
     .locals 6
 
-    .line 47
+    .line 48
     iget-object v0, p0, Lcom/aiderlog/v22app/MediaChooserV178$Pending;->types:[Ljava/lang/String;
 
     array-length v1, v0
@@ -249,12 +249,12 @@
     :goto_0
     if-lt v3, v1, :cond_0
 
-    .line 48
+    .line 49
     const/4 v0, 0x1
 
     return v0
 
-    .line 47
+    .line 48
     :cond_0
     aget-object v4, v0, v3
 

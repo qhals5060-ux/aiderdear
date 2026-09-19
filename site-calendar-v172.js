@@ -18,17 +18,8 @@
   }
   function refresh(){
     frame=0;if(native())return;
-    const insight=document.querySelector('.page-dots [data-page="1"]');
-    // Editorial keeps its original dot artwork; its accessible name still changes.
-    label(insight,'인사이트',{visible:html.classList.contains('modern-site')||Boolean(insight?.textContent.trim())});
-    const choice=document.querySelector('.modern-header-page-select');
-    if(choice?.dataset.menu==='schedule')for(const option of choice.options){if(option.value==='1'&&option.textContent!=='인사이트')option.textContent='인사이트';}
-    label(document.getElementById('emotionInsightPage'),'인사이트',{visible:false});
-    for(const [id,text,aria]of [['addScheduleTop','+ 일정','일정 등록'],['addEmotionTop','+ 감정','감정 기록']]){
-      const control=document.getElementById(id);if(!control)continue;
-      if(control.textContent!==text)control.textContent=text;
-      if(control.getAttribute('aria-label')!==aria)control.setAttribute('aria-label',aria);
-    }
+    document.getElementById('addScheduleTop')?.remove();
+    document.getElementById('addEmotionTop')?.remove();
   }
   function schedule(){if(!frame)frame=requestAnimationFrame(refresh);}
   // Only label sources matter. Rendering calendar cells or moving unrelated

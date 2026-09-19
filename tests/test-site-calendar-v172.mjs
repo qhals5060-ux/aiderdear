@@ -7,6 +7,7 @@ import vm from 'node:vm';
 const script=await readFile(new URL('../site-calendar-v172.js',import.meta.url),'utf8');
 const css=await readFile(new URL('../site-calendar-v172.css',import.meta.url),'utf8');
 const index=await readFile(new URL('../index.html',import.meta.url),'utf8');
+const awaitableCssV179=await readFile(new URL('../site-calendar-v179.css',import.meta.url),'utf8');
 class LabelNode {
   constructor(text=''){this.text=text;this.attributes=new Map();this.dataset={};this.textWrites=0;this.attributeWrites=0;this.listeners=[];}
   get textContent(){return this.text;}
@@ -15,6 +16,7 @@ class LabelNode {
   setAttribute(name,value){this.attributes.set(name,value);this.attributeWrites++;}
   matches(selector){return this.selector===selector;}
   closest(){return this.closestLabelRoot||null;}
+  remove(){this.removed=true;}
 }
 function run({modern=true,android=false,preview=false,native=false,androidBridge=false}={}){
   const classes=new Set([...(modern?['modern-site']:[]),...(android?['aiderlog-android']:[])]);
@@ -24,7 +26,7 @@ function run({modern=true,android=false,preview=false,native=false,androidBridge
   first.value='0';second.value='1';choice.options=[first,second];choice.dataset.menu='schedule';
   const originalListener=()=>{};insight.listeners.push(originalListener);nodes.get('addScheduleTop').listeners.push(originalListener);
   const raf=[],observers=[],events=new Map();
-  const document={documentElement:{classList:{contains:name=>classes.has(name),add:name=>classes.add(name)}},getElementById:id=>nodes.get(id)||null,
+  const document={documentElement:{classList:{contains:name=>classes.has(name),add:name=>classes.add(name)}},getElementById:id=>nodes.get(id)?.removed?null:nodes.get(id)||null,
     querySelector:selector=>selector==='.page-dots [data-page="1"]'?insight:selector==='.modern-header-page-select'?choice:null};
   const window={...(native?{AiderLogNative:{}}:{}),...(androidBridge?{Android:{}}:{})};
   const context=vm.createContext({window,document,location:{search:typeof preview==='string'?preview:preview?'?android-preview=1':''},URLSearchParams,
@@ -35,14 +37,11 @@ function run({modern=true,android=false,preview=false,native=false,androidBridge
   return {window,context,classes,nodes,insight,choice,first,second,raf,observers,events,drain,originalListener};
 }
 
-test('Site installs once, renames existing navigation and preserves original controls/listeners',()=>{
+test('Site installs once, removes retired header actions and preserves the calendar',()=>{
   const h=run();assert(h.classes.has('site-calendar-v172'));
-  assert.equal(h.insight.textContent,'인사이트');assert.equal(h.insight.getAttribute('aria-label'),'인사이트');
-  assert.equal(h.second.textContent,'인사이트');assert.equal(h.first.textContent,'캘린더');
-  assert.equal(h.nodes.get('emotionInsightPage').getAttribute('aria-label'),'인사이트');
+  assert.equal(h.first.textContent,'캘린더');assert.equal(h.nodes.get('calendar').removed,undefined);
   assert.equal(h.nodes.get('emotionInsightPage').textWrites,0,'insight content must not be replaced');
-  assert.equal(h.nodes.get('addScheduleTop').textContent,'+ 일정');assert.equal(h.nodes.get('addScheduleTop').getAttribute('aria-label'),'일정 등록');
-  assert.equal(h.nodes.get('addEmotionTop').textContent,'+ 감정');
+  assert.equal(h.nodes.get('addScheduleTop').removed,true);assert.equal(h.nodes.get('addEmotionTop').removed,true);
   assert.equal(h.insight.listeners[0],h.originalListener);assert.equal(h.nodes.get('addScheduleTop').listeners[0],h.originalListener);
   assert.equal(h.observers.length,1);vm.runInContext(script,h.context);assert.equal(h.observers.length,1);
 });
@@ -54,16 +53,16 @@ test('100 refreshes cause no new text/attribute writes, no reparenting, and no c
   assert.deepEqual(all.map(node=>[node.textWrites,node.attributeWrites]),before);
   h.observers[0].callback([{target:h.nodes.get('calendar')}]);assert.equal(h.raf.length,0);
   h.insight.closestLabelRoot={};h.insight.text='감정 인사이트';
-  h.observers[0].callback([{target:h.insight}]);h.drain();assert.equal(h.insight.textContent,'인사이트');
+  h.observers[0].callback([{target:h.insight}]);h.drain();assert.equal(h.insight.textContent,'감정 인사이트','retired navigation is no longer rewritten');
   h.observers[0].callback([{target:h.insight}]);h.drain();assert.equal(h.raf.length,0);
-  assert(!/\.(?:append|appendChild|insertBefore|replaceChildren|remove|before|after)\s*\(/.test(script),'live nodes must never be reparented');
+  assert(!/\.(?:append|appendChild|insertBefore|replaceChildren|before|after)\s*\(/.test(script),'surviving live nodes must never be reparented');
   assert(!/localStorage|sessionStorage|indexedDB|fetch\s*\(|\.click\s*\(/.test(script),'presentation must not read/write records or replay actions');
 });
 
-test('Editorial dot artwork stays empty; edition events and recreated mobile options get the new label',()=>{
-  const h=run({modern:false});assert.equal(h.insight.textContent,'');assert.equal(h.insight.getAttribute('aria-label'),'인사이트');
+test('Editorial/modern edition changes do not restore removed actions or rewrite unrelated menu labels',()=>{
+  const h=run({modern:false});assert.equal(h.insight.textContent,'');assert.equal(h.nodes.get('addScheduleTop').removed,true);
   h.classes.add('modern-site');h.insight.text='감정 인사이트';h.second.text='감정 인사이트';
-  h.events.get('aiderlog-site-editionchange')();h.drain();assert.equal(h.insight.textContent,'인사이트');assert.equal(h.second.textContent,'인사이트');
+  h.events.get('aiderlog-site-editionchange')();h.drain();assert.equal(h.insight.textContent,'감정 인사이트');assert.equal(h.nodes.get('addEmotionTop').removed,true);
   h.choice.dataset.menu='record';h.second.text='Archive';h.window.AiderLogSiteCalendarV172.refresh();assert.equal(h.second.textContent,'Archive');
 });
 
@@ -78,11 +77,15 @@ test('Static layout keeps both frame ownership models, full-height calendar and 
   assert(css.includes('#calendar {\n  grid-column:1!important;grid-row:1/-1!important'));
   assert(css.includes('#page0 .cal-top {\n  grid-column:2!important;grid-row:1!important'));
   assert(css.includes('#page0>.side {\n  grid-column:2!important;grid-row:2!important'));
-  assert(css.includes('#page0 .month-controls {\n  display:contents!important'));
+  assert(css.includes('#page0 .month-controls {\n  display:flex!important;align-items:center!important;gap:4px!important;flex-wrap:nowrap!important'));
+  assert.match(css,/#page0 \.cal-top \{[^}]*display:flex!important;flex-wrap:nowrap!important/);
+  assert.match(css,/#page0 \.month-controls>button \{[^}]*height:29px!important/);
   assert(css.includes('@media(max-width:760px)'));assert(css.includes('grid-template-rows:auto minmax(460px,65dvh) auto!important'));
   assert(css.includes('#calendar .day:is(:hover,:focus-within) .ev'));
   assert(css.includes('body>.calendar-event-tooltip>span {grid-template-columns:58px minmax(0,1fr)!important;font-size:14px!important'));
-  for(const id of ['calendar','monthTitle','prevMonth','nextMonth','todayBtn','addScheduleTop','addEmotionTop','ddayManageBtn','emotionInsightPage','emotionInsightFrame','storyMediaOpen','storyMediaControls','storyMediaMinimize'])assert(index.includes(`id="${id}"`),`existing control missing: ${id}`);
+  for(const id of ['calendar','monthTitle','prevMonth','nextMonth','todayBtn','ddayManageBtn','storyMediaOpen','storyMediaControls','storyMediaMinimize'])assert(index.includes(`id="${id}"`),`existing control missing: ${id}`);
+  for(const id of ['addScheduleTop','addEmotionTop','emotionInsightPage','emotionInsightFrame'])assert(!index.includes(`id="${id}"`),`retired control remains: ${id}`);
+  const latest=awaitableCssV179;assert.match(latest,/#monthTitle \{font-size:24px!important;white-space:nowrap!important/);assert.match(latest,/\.cal-top \{display:flex!important[^}]*flex-wrap:nowrap!important/);
 });
 
 test('Photo controls occupy a separate static grid row, preserve hidden/collapse and never cover/crop media',()=>{

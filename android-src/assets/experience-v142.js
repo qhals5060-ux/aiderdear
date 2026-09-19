@@ -94,16 +94,20 @@
     head.querySelector('button').addEventListener('click',()=>$('#searchSheet')?.classList.remove('on'));
   }
 
-  function getChecklist(){
+  function getChecklist(source='checklists'){
+    source=source==='memos'?'memos':'checklists';
     if(typeof P!=='undefined'){
-      if(!Array.isArray(P.checklists))P.checklists=[];
-      return P.checklists;
+      if(!Array.isArray(P[source]))P[source]=[];
+      return P[source];
     }
+    if(source==='memos')return[];
     try{return JSON.parse(localStorage.getItem('aiderlog-quick-notes-v142')||'[]')}catch{return[]}
   }
-  async function persistChecklist(rows){
+  function notebookRowsV179(){return ['checklists','memos'].flatMap(source=>getChecklist(source).filter(Boolean).map(row=>({...row,source,isMemo:source==='memos'||row.kind==='memo'||row.type==='memo'})));}
+  async function persistChecklist(rows,source='checklists'){
+    source=source==='memos'?'memos':'checklists';
     if(typeof P!=='undefined'){
-      P.checklists=rows;
+      P[source]=rows;
       if(typeof savePrivate==='function')try{await savePrivate()}catch(error){console.warn('[v142-notepad]',error)}
     }else try{localStorage.setItem('aiderlog-quick-notes-v142',JSON.stringify(rows))}catch{}
   }
@@ -114,9 +118,9 @@
     overlay.addEventListener('click',async event=>{
       if(event.target===overlay||event.target.closest('[data-utility-close-v142]')){overlay.classList.remove('on');return}
       const check=event.target.closest('[data-note-check-v142]');
-      if(check){const rows=getChecklist(),row=rows.find(item=>String(item.id)===check.dataset.noteCheckV142);if(row){row.done=check.checked;await persistChecklist(rows);renderNotepad()}return}
+      if(check){const rows=getChecklist(),row=rows.find(item=>String(item.id)===check.dataset.noteCheckV142);if(row&&row.kind!=='memo'&&row.type!=='memo'){row.done=check.checked;await persistChecklist(rows);renderNotepad()}return}
       const del=event.target.closest('[data-note-delete-v142]');
-      if(del){await persistChecklist(getChecklist().filter(item=>String(item.id)!==del.dataset.noteDeleteV142));renderNotepad()}
+      if(del){const source=del.dataset.noteSourceV179==='memos'?'memos':'checklists';await persistChecklist(getChecklist(source).filter(item=>String(item.id)!==del.dataset.noteDeleteV142),source);renderNotepad()}
     });
     $('[data-note-form-v142]',overlay).addEventListener('submit',async event=>{
       event.preventDefault();const form=event.currentTarget,text=form.elements.text.value.trim();if(!text)return;
@@ -125,8 +129,8 @@
     return overlay;
   }
   function renderNotepad(){
-    const overlay=ensureNotepad(),list=$('[data-note-list-v142]',overlay),rows=getChecklist().slice().sort((a,b)=>Number(a.done)-Number(b.done)||(a.date||'9999').localeCompare(b.date||'9999')||(a.createdAt||0)-(b.createdAt||0));
-    list.innerHTML=rows.length?rows.map(row=>`<div class="utility-row-v142 ${row.done?'done':''}"><input type="checkbox" data-note-check-v142="${safe(row.id)}" aria-label="${safe(row.text)} 완료" ${row.done?'checked':''}><span>${safe(row.text)}</span><time>${safe(row.date||'')}</time><button type="button" data-note-delete-v142="${safe(row.id)}" aria-label="삭제">×</button></div>`).join(''):'<div class="utility-empty-v142">메모나 오늘 할 일을 바로 남겨보세요.</div>';
+    const overlay=ensureNotepad(),list=$('[data-note-list-v142]',overlay),rows=notebookRowsV179().sort((a,b)=>Number(a.done)-Number(b.done)||(a.date||'9999').localeCompare(b.date||'9999')||(a.createdAt||0)-(b.createdAt||0));
+    list.innerHTML=rows.length?rows.map(row=>`<div class="utility-row-v142 ${!row.isMemo&&row.done?'done':''}">${row.isMemo?'<small aria-label="메모">▤</small>':`<input type="checkbox" data-note-check-v142="${safe(row.id)}" aria-label="${safe(row.text)} 완료" ${row.done?'checked':''}>`}<span>${safe(row.text||row.title||'')}</span><time>${safe(row.isMemo?'메모':row.date||'')}</time><button type="button" data-note-delete-v142="${safe(row.id)}" data-note-source-v179="${row.source}" aria-label="${row.isMemo?'메모':'할 일'} 삭제">×</button></div>`).join(''):'<div class="utility-empty-v142">메모나 오늘 할 일을 바로 남겨보세요.</div>';
   }
   function openNotepad(){renderNotepad();ensureNotepad().classList.add('on');setTimeout(()=>$('[data-note-form-v142] input[name="text"]')?.focus(),30)}
   window.AiderLogNotepadV142={refresh:renderNotepad};

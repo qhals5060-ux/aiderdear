@@ -153,15 +153,14 @@ test('period and intimacy on the same selected date stay independent without sub
   assert(h.schedule.classList.contains('on'));assert.equal(h.scheduleTitle.value,'입력 중인 개인 일정');assert.equal(h.mutations.length,3);assert.equal(h.schedule.querySelector('[data-private-schedule-kind="period"]').getAttribute('aria-pressed'),'false');assert.equal(h.schedule.querySelector('[data-private-schedule-kind="intimacy"]').getAttribute('aria-pressed'),'true');assert(h.mutations.every(row=>row.type==='day-set'&&!row.item&&!row.title));
 });
 
-test('site and app private date actions stay inside the existing save footer without duplicating buttons',async()=>{
+test('site and app private date actions move beside the header save without duplicating controls',async()=>{
   for(const native of [false,true]){
-    const h=harness({native});await settle();for(let i=0;i<3;i++)h.window.AiderPrivateCalendarUIV175.scheduleOpened();await settle();
-    const secondary=h.scheduleFooter.querySelector('[data-schedule-secondary-v176]'),strip=secondary.querySelector('[data-private-schedule-v176]');
-    assert.equal(h.scheduleFooter.children[0],secondary);assert.equal(h.schedule.querySelectorAll('[data-private-schedule-v176]').length,1);
-    assert.equal(h.scheduleSave.parentElement,h.scheduleFooter);assert.equal(h.scheduleForm.querySelectorAll('button[type="submit"]').length,1);
+    const h=harness({native});await settle();const header=h.schedule.appendChild(new Element());header.dataset.privateHeaderV179='';header.appendChild(h.scheduleSave);for(let i=0;i<3;i++)h.window.AiderPrivateCalendarUIV175.scheduleOpened();await settle();
+    const secondary=header.querySelector('[data-schedule-secondary-v176]'),strip=secondary.querySelector('[data-private-schedule-v176]');
+    assert.equal(header.children[1],secondary);assert.equal(h.schedule.querySelectorAll('[data-private-schedule-v176]').length,1);
+    assert.equal(h.scheduleSave.parentElement,header);assert.equal(h.schedule.querySelectorAll('button[type="submit"]').length,1);
     assert.deepEqual(strip.children.map(button=>button.dataset.privateScheduleKind),['period','intimacy']);
-    if(native){assert.equal(secondary.children[0].textContent,'감정');assert.equal(h.scheduleCancel.parentElement,h.scheduleFooter);}
-    else assert.equal(secondary.querySelector('[data-schedule-emotion-footer-v176]'),null);
+    assert.equal(secondary.querySelector('[data-schedule-emotion-footer-v176]'),null);
   }
 });
 
@@ -169,29 +168,23 @@ test('footer intimacy controls preserve verified account allowlist and never app
   for(const native of [false,true])for(const options of [{guest:true},{email:'other@example.test'},{verified:false},{email:'qhals5060@gmail.com'},{email:'aidway55@gmail.com'}]){
     const h=harness({...options,native});await settle();const allowed=!options.guest&&options.verified!==false&&options.email!=='other@example.test';
     assert.equal(!!h.scheduleFooter.querySelector('[data-private-schedule-kind="intimacy"]'),allowed);
-    assert.equal(!!h.scheduleFooter.querySelector('[data-private-schedule-kind="period"]'),!options.guest);
-    if(native)assert.equal(h.scheduleFooter.querySelector('[data-schedule-emotion-footer-v176]').hidden,false);
+    assert.equal(!!h.scheduleFooter.querySelector('[data-private-schedule-kind="period"]'),allowed);
+    assert.equal(h.scheduleFooter.querySelector('[data-schedule-emotion-footer-v176]'),null);
   }
 });
 
-test('app footer emotion opens selected date and returns to the same unsaved schedule without saving it',async()=>{
+test('app schedule no longer contains an emotion action and keeps the draft untouched',async()=>{
   for(const guest of [false,true]){
     const h=harness({native:true,guest});await settle();h.schedule.scrollTop=73;
-    await h.scheduleFooter.querySelector('[data-schedule-emotion-footer-v176]').click();
-    assert.equal(h.emotions.length,1);assert.equal(h.emotions[0].date,'2026-09-18');assert(!h.schedule.classList.contains('on'));assert.equal(h.scheduleTitle.value,'입력 중인 개인 일정');
-    h.schedule.scrollTop=0;h.emotions[0].onClose();await settle();
+    assert.equal(h.scheduleFooter.querySelector('[data-schedule-emotion-footer-v176]'),null);h.window.AiderPrivateCalendarUIV175.scheduleOpened();await settle();
+    assert.equal(h.emotions.length,0);assert.equal(h.scheduleTitle.value,'입력 중인 개인 일정');
     assert(h.schedule.classList.contains('on'));assert.equal(h.schedule.scrollTop,73);assert.equal(h.scheduleTitle.value,'입력 중인 개인 일정');assert.equal(h.mutations.length,0);
-    assert(h.schedule.querySelector('[data-schedule-dialog-close-v125]').focused);assert(!h.scheduleTitle.focused);
+    assert(!h.scheduleTitle.focused);
   }
 });
 
-test('app footer emotion cannot be opened from read-only schedules and cannot restore after route or account change',async()=>{
-  const readonly=harness({native:true});await settle();readonly.scheduleDate.disabled=true;readonly.window.AiderPrivateCalendarUIV175.scheduleOpened();const button=readonly.scheduleFooter.querySelector('[data-schedule-emotion-footer-v176]');assert(button.hidden);await button.click();assert.equal(readonly.emotions.length,0);
-  for(const change of ['route','account']){
-    const h=harness({native:true});await settle();await h.scheduleFooter.querySelector('[data-schedule-emotion-footer-v176]').click();
-    if(change==='route')h.context.location.hash='#event';else{h.user=null;h.events.get('aiderdear-firebase-state')();}
-    h.emotions[0].onClose();await settle();assert(!h.schedule.classList.contains('on'));assert.equal(h.mutations.length,0);
-  }
+test('read-only schedules cannot expose or activate private date actions',async()=>{
+  const readonly=harness({native:true});await settle();readonly.scheduleDate.disabled=true;readonly.window.AiderPrivateCalendarUIV175.scheduleOpened();assert.equal(readonly.schedule.querySelector('[data-private-schedule-kind]'),null);assert.equal(readonly.emotions.length,0);assert.equal(readonly.mutations.length,0);
 });
 
 test('schedule footer styles wrap instead of clipping and retain accessible small-screen touch height',async()=>{
@@ -202,32 +195,11 @@ test('schedule footer styles wrap instead of clipping and retain accessible smal
   assert.doesNotMatch(css,/\.private-schedule-actions-v176[^}]*min-width:100px/);
 });
 
-test('actual app emotion opener accepts footer date and runs return callback only once when closing',async()=>{
-  const schedule=await readFile(new URL('../android-src/assets/schedule-v119.js',import.meta.url),'utf8');
-  const section=schedule.slice(schedule.indexOf('  function closeEmotionDialogV176(){'),schedule.indexOf('  async function saveEmotionV119('));
-  const form={elements:{date:{value:''}},reset(){this.elements.date.value='';},querySelector:()=>({checked:false}),querySelectorAll:()=>[]};
-  const overlay={querySelector:()=>form,classList:{add(){overlay.open=true;},remove(){overlay.open=false;}}};
-  const context=vm.createContext({ensureEmotionDialog:()=>overlay,document:{querySelector:()=>overlay},selectedDate:'2026-09-01',localDate:()=> '2026-09-01',Date});
-  vm.runInContext('let emotionReturnV176=null;'+section+';this.open=openEmotionDialog;this.close=closeEmotionDialogV176;',context);
-  let returns=0;context.open('2026-09-18',{onClose:()=>returns++});assert.equal(form.elements.date.value,'2026-09-18');assert(overlay.open);context.close();context.close();assert.equal(returns,1);assert(!overlay.open);
-  context.open({type:'click'});assert.equal(form.elements.date.value,'2026-09-01');context.close();assert.equal(returns,1);
-  assert.match(schedule,/window\.AiderAppEmotionV176=Object\.freeze\(\{open:openEmotionDialog\}\)/);
+test('private calendar adapter no longer launches a retired emotion dialog',()=>{
+  assert.doesNotMatch(original,/AiderAppEmotionV176|openEmotionFromSchedule/);
 });
 
-test('actual app emotion form retires private-date inputs and preserves historical records during new saves',async()=>{
-  const schedule=await readFile(new URL('../android-src/assets/schedule-v119.js',import.meta.url),'utf8');
-  const template=schedule.slice(schedule.indexOf('  function ensureEmotionDialog()'),schedule.indexOf('  function closeEmotionDialogV176(){'));
-  assert.doesNotMatch(template,/emotion-period-v126|name="period"|name="intimacy"|생리일 기록/);
-  const save=schedule.slice(schedule.indexOf('  async function saveEmotionV119('),schedule.indexOf('  function bindScheduleControls()'));
-  const historical={id:'old-emotion',date:'2026-09-01',period:true,intimacy:true,note:'preserved'};
-  const original=structuredClone(historical),E={entries:[historical]},alerts=[],cached=[],writes=[];let closed=0;
-  const values={date:'2026-09-18',moods:['기쁨'],period:'on',intimacy:'on'};
-  class FormDataDouble{get(name){return values[name]||'';}getAll(name){return Array.isArray(values[name])?values[name]:[];}}
-  const context=vm.createContext({E,FormData:FormDataDouble,Date,URLSearchParams,localDate:()=> '2026-09-18',closeEmotionDialogV176:()=>closed++,localStorage:{setItem:(_key,value)=>cached.push(JSON.parse(value))},window:{AiderDearFirebase:{getState:()=>({user:{uid:'synthetic'}}),writeEmotionData:async payload=>writes.push(structuredClone(payload))}},alert:message=>alerts.push(message),console});
-  vm.runInContext(save+';this.save=saveEmotionV119;',context);
-  await context.save({preventDefault(){},currentTarget:{}});
-  assert.deepEqual(historical,original);assert.equal(E.entries[0],historical);assert.equal(E.entries.length,2);assert.equal(E.entries[1].date,'2026-09-18');
-  assert.equal(Object.hasOwn(E.entries[1],'period'),false);assert.equal(Object.hasOwn(E.entries[1],'intimacy'),false);assert.equal(closed,1);assert.equal(alerts.length,0);
-  assert.equal(cached[0].entries[0].period,true);assert.equal(writes[0].entries[0].intimacy,true);
-  values.moods=[];await context.save({preventDefault(){},currentTarget:{}});assert.equal(E.entries.length,2);assert.equal(alerts.length,1);assert.equal(closed,1);
+test('v179 private controls are underlined compact header links, not boxed buttons',async()=>{
+  const css=await readFile(new URL('../schedule-editor-v179.css',import.meta.url),'utf8');
+  assert.match(css,/\[data-private-schedule-kind\]\{[^}]*background:transparent!important[^}]*border:0!important[^}]*text-decoration:underline/);
 });

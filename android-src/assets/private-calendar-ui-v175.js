@@ -17,7 +17,7 @@ function range(){const dates=calendarCells().map(el=>el.dataset.date).sort();con
 function message(value){error=value;const node=$('privateCalendarStatusV175');if(node)node.textContent=value;}
 function failure(err){if(String(err?.code||'').endsWith('resource-exhausted')){retryAt=Date.now()+300000;return '저장소 요청 한도에 도달했습니다. 기록과 입력은 유지됩니다. 잠시 후 다시 시도해주세요.';}return String(err?.message||'저장소 연결을 확인해주세요. 기존 기록은 변경하지 않았습니다.');}
 async function refresh(force=false){
-  const key=identity();install();if(!key||busy)return;if(pending)return pending;if(Date.now()<retryAt)return;
+  const key=identity();install();if(!key||!canUsePrivateIntimacy(user())||busy)return;if(pending)return pending;if(Date.now()<retryAt)return;
   const query=range(),queryKey=JSON.stringify(query);if(!force&&data&&rangeKey===queryKey){decorateCalendar();return;}
   const version=epoch;const run=Promise.resolve().then(async()=>{try{
     if(!api()?.readPrivateCalendarData)throw Error('최신 버전으로 다시 열어주세요.');
@@ -27,7 +27,7 @@ async function refresh(force=false){
   finally{if(version===epoch)pending=null;}});pending=run;return run;
 }
 function decorateCalendar(){
-  identity();clearMarkers();if(!data||!actor)return;let marks=[];
+  identity();clearMarkers();if(!data||!actor||!canUsePrivateIntimacy(user()))return;let marks=[];
   try{const r=range();marks=privateCalendarMarkers({...data,canUseIntimacy:canIntimacy()},r.from,r.to);}catch{return;}
   for(const mark of marks)for(const cell of calendarCells().filter(node=>node.dataset.date===mark.date)){
     let line=cell.querySelector('.calendar-status-icons');if(!line){line=document.createElement('div');line.className='calendar-status-icons';line.dataset.privateCalendarMarker='line';cell.appendChild(line);}
@@ -51,7 +51,7 @@ function compactProfile(){
 function install(){
   compactProfile();
   const birth=$('loginBirthDate')?.closest('label');if(birth&&!profileButton?.isConnected){profileButton=document.createElement('button');profileButton.id='privateCalendarProfileV175';profileButton.type='button';profileButton.className='private-calendar-profile-v175';profileButton.textContent='생리 일정';profileButton.addEventListener('click',()=>open());birth.appendChild(profileButton);}
-  if(profileButton){profileButton.hidden=!identity();profileButton.textContent=data?.settings?.menstrualEnabled?'생리 일정 · 사용 중':'생리 일정';}
+  if(profileButton){profileButton.hidden=!canUsePrivateIntimacy(user());profileButton.textContent=data?.settings?.menstrualEnabled?'생리 일정 · 사용 중':'생리 일정';}
   // These dates belong to Schedule, never to an emotion form or its toolbar.
   document.querySelectorAll('.private-calendar-actions-v175').forEach(node=>node.remove());
   const legacy=$('emotionCycleSection');if(legacy)legacy.hidden=true;
@@ -60,8 +60,8 @@ function install(){
 }
 function scheduleContext(host){
   const native=host.classList.contains('schedule-dialog-v125'),form=host.querySelector(native?'[data-schedule-form-v125]':'#scheduleForm');
-  const date=form?.querySelector(native?'[name="date"]':'#eventDate'),save=form?.querySelector(native?'button[type="submit"]':'#saveEvent');
-  const footer=form?.querySelector(native?'.schedule-dialog-actions-v125':'.modal-actions');
+  const date=form?.querySelector(native?'[name="date"]':'#eventDate'),save=host.querySelector(native?'button[type="submit"]':'#saveEvent');
+  const footer=host.querySelector('[data-private-header-v179]')||form?.querySelector(native?'.schedule-dialog-actions-v125':'.modal-actions');
   return{native,form,date,footer,editable:!!form&&!!date&&!!save&&!save.hidden&&!save.disabled&&!date.disabled};
 }
 function installScheduleEntries(){
@@ -69,17 +69,13 @@ function installScheduleEntries(){
     const context=scheduleContext(host);let strip=host.querySelector('[data-private-schedule-v176]');
     if(!context.form||!context.footer){strip?.remove();continue;}
     if(!context.form.dataset.privateDayEventsV178){context.form.dataset.privateDayEventsV178='1';context.form.addEventListener('change',()=>installScheduleEntries());}
-    context.footer.dataset.scheduleFooterV176='';
+    if(context.footer.dataset.privateHeaderV179===undefined)context.footer.dataset.scheduleFooterV176='';
     let actions=context.footer.querySelector('[data-schedule-secondary-v176]');
-    if(!actions){actions=document.createElement('div');actions.dataset.scheduleSecondaryV176='';context.footer.insertBefore(actions,context.footer.firstChild);}
+    if(!actions){actions=document.createElement('div');actions.dataset.scheduleSecondaryV176='';if(context.footer.dataset.privateHeaderV179!==undefined)context.footer.appendChild(actions);else context.footer.insertBefore(actions,context.footer.firstChild);}
     if(!strip){strip=document.createElement('nav');strip.dataset.privateScheduleV176='';strip.className='private-schedule-actions-v176';strip.setAttribute('aria-label','개인 날짜 기록');}
     if(strip.parentElement!==actions)actions.appendChild(strip);
-    if(context.native){
-      let emotion=actions.querySelector('[data-schedule-emotion-footer-v176]');
-      if(!emotion){emotion=document.createElement('button');emotion.type='button';emotion.dataset.scheduleEmotionFooterV176='';emotion.textContent='감정';emotion.addEventListener('click',()=>openEmotionFromSchedule(host));actions.insertBefore(emotion,strip);}
-      emotion.hidden=!context.editable;
-    }
-    strip.replaceChildren();strip.hidden=!identity()||!context.editable;if(strip.hidden)continue;
+    actions.querySelector('[data-schedule-emotion-footer-v176]')?.remove();
+    strip.replaceChildren();strip.hidden=!identity()||!canUsePrivateIntimacy(user())||!context.editable;if(strip.hidden)continue;
     for(const kind of ['period',...(canIntimacy()?['intimacy']:[])]){
       const button=document.createElement('button');button.type='button';button.dataset.privateScheduleKind=kind;
       button.textContent=kind==='period'?'생리':'관계';
@@ -91,7 +87,7 @@ function installScheduleEntries(){
   }
 }
 async function openFromSchedule(host,kind){
-  const context=scheduleContext(host);if(!identity()||!context.editable||(kind==='intimacy'&&!canIntimacy()))return;
+  const context=scheduleContext(host);if(!identity()||!canUsePrivateIntimacy(user())||!context.editable||(kind==='intimacy'&&!canIntimacy()))return;
   if(busy||Date.now()<retryAt)return;
   const key=identity(),version=epoch;let date;try{date=privateCalendarDate(context.date.value);}catch(err){message(failure(err));return;}
   busy=true;installScheduleEntries();
@@ -113,12 +109,6 @@ function suspendScheduleDraft(host){
   // to the separate owner-only date editor and never stack two modal surfaces.
   host.querySelector('[data-close="scheduleModal"], [data-schedule-dialog-close-v125]')?.click();
 }
-function openEmotionFromSchedule(host){
-  const context=scheduleContext(host);identity();
-  if(!context.native||!context.editable||typeof window.AiderAppEmotionV176?.open!=='function')return;
-  suspendScheduleDraft(host);
-  window.AiderAppEmotionV176.open(context.date.value,{onClose:restoreScheduleDraft});
-}
 function restoreScheduleDraft(){
   const previous=scheduleReturn;scheduleReturn=null;
   // Wait until all close handlers finish before showing the previous sheet.
@@ -134,7 +124,7 @@ function restoreScheduleDraft(){
 function scheduleOpened(){install();refresh();}
 function watchPair(){
   const visible=document.visibilityState!=='hidden'&&['','#home','#schedule'].includes(location.hash||'');
-  const query=range(),key=visible&&actor&&api()?.getState?.().pair?.id?actor+JSON.stringify(query):'';
+  const query=range(),key=visible&&actor&&canUsePrivateIntimacy(user())&&api()?.getState?.().pair?.id?actor+JSON.stringify(query):'';
   if(key===pairWatchKey)return;stopPairWatch?.();stopPairWatch=null;pairWatchKey=key;
   if(key&&api()?.watchPrivateCalendarPair)stopPairWatch=api().watchPrivateCalendarPair(query,()=>{if(key===pairWatchKey)refresh(true);},err=>{
     if(key!==pairWatchKey)return;if(data){data.sharedPeriods=[];data.sharedIntimacy=[];decorateCalendar();}message(failure(err));
@@ -157,7 +147,7 @@ async function save(action){const key=identity(),version=epoch;if(!key||busy||!d
   finally{if(epoch===version){busy=false;renderStatus();}}
   if(success){if(action.type==='settings')settingsDirty=false;await refresh(true);if(error)return false;}return success;
 }
-async function open(kind='period',options={}){if(!identity())return;if(!options.fromSchedule)scheduleReturn=null;const nextKind=kind==='intimacy'&&canIntimacy()?'intimacy':'period';if(formKind!==nextKind){editing=null;draft=null;entryDirty=false;}entryDate=/^\d{4}-\d{2}-\d{2}$/.test(options.date||'')?options.date:'';formKind=nextKind;build();
+async function open(kind='period',options={}){if(!identity()||!canUsePrivateIntimacy(user()))return;if(!options.fromSchedule)scheduleReturn=null;const nextKind=kind==='intimacy'&&canIntimacy()?'intimacy':'period';if(formKind!==nextKind){editing=null;draft=null;entryDirty=false;}entryDate=/^\d{4}-\d{2}-\d{2}$/.test(options.date||'')?options.date:'';formKind=nextKind;build();
   const closeProfile=document.querySelector('#loginModal.open [data-close="loginModal"], .profile-overlay-v137.on [data-profile-close-v137]');closeProfile?.click();render();if(!dialog.open)dialog.showModal();dialog.querySelector('[data-private-close]').focus();await refresh(true);
 }
 function calendarChanged(){identity();install();decorateCalendar();refresh();watchPair();}

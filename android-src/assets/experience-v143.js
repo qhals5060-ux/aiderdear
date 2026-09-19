@@ -77,7 +77,7 @@
     if(!document.getElementById(page))page='home';setWheelOpen(false);
     try{if(typeof window.go==='function'){window.go(page,false);return}}catch(error){console.warn('[v143 navigation fallback]',error)}
     $$('.view').forEach(view=>view.classList.toggle('on',view.id===page));
-    const app=$('#app');app?.classList.toggle('home-mode',page==='home');app?.classList.toggle('insights-mode',page==='insights');
+    const app=$('#app');app?.classList.toggle('home-mode',page==='home');
     history.replaceState(null,'',`${location.pathname}${location.search}#${page}`);
     try{window.render?.()}catch{}
   }
@@ -125,18 +125,6 @@
     $$('[data-schedule-date-v125]').forEach(day=>{const key=day.dataset.scheduleDateV125,title=holidayTitle(key);day.classList.toggle('holiday-v144',Boolean(title));let label=$('.schedule-holiday-v144',day);if(!title){label?.remove();return}if(!label){label=document.createElement('small');label.className='schedule-holiday-v144';$('.schedule-day-number-v119',day)?.after(label)}label.textContent=holidayCompactTitle(title);label.classList.toggle('compact-long',label.textContent.replace(/\s/g,'').length>7);label.title=title;day.setAttribute('aria-label',`${key} ${title} 일정 관리`)})
   }
 
-  function insightRows(){try{return window.AiderLogInsightsV126?.rows?.()||[]}catch{return[]}}
-  function renderInsightsV143(){
-    const host=$('#insights'),api=window.AiderLogInsightRangeV175;if(!host||!api)return;
-    host.dataset.v143Rendered='1';
-    host.innerHTML=api.mobileMarkup(insightRows());
-  }
-  window.addEventListener('aiderlog-insight-range-change',renderInsightsV143);
-  function installInsightRenderer(){
-    try{if(typeof renderInsights==='function')renderInsights=renderInsightsV143;window.renderInsights=renderInsightsV143}catch{}
-    const root=$('#insights');
-    if((location.hash==='#insights'||root?.classList.contains('on'))&&root&&root.dataset.v143Rendered!=='1')renderInsightsV143();
-  }
 
   function decorateEventEditor(){
     $$('.event-editor-sheet-v111').forEach(sheet=>{
@@ -148,22 +136,18 @@
       $$('.event-head-subtitle-v143',head).forEach(node=>node.remove());
     });
   }
-  function decoratePostcard(){
-    $$('.insight-letter-mascot-v133,#introMascotV133,#introMascot').forEach(node=>node.remove());
-    const view=$('#introView');if(view&&!view.dataset.directV143){view.dataset.directV143='1';view.addEventListener('click',event=>{event.preventDefault();event.stopPropagation();event.stopImmediatePropagation();$('#intro')?.classList.remove('on','closing-v136','letter-exit-v135');navigate('insights')},true)}
-  }
 
 
   function captureActions(event){
     const background=event.target.closest?.('[data-background-v143]');if(background){event.preventDefault();event.stopPropagation();event.stopImmediatePropagation();applyBackground(background.dataset.backgroundV143);return}
   }
-  function refresh(){refreshQueued=false;installWheel();decorateThemes();decorateEventEditor();decoratePostcard();decorateKoreanHolidays();installInsightRenderer()}
+  function refresh(){refreshQueued=false;installWheel();decorateThemes();decorateEventEditor();decorateKoreanHolidays()}
   function queueRefresh(){if(refreshQueued)return;refreshQueued=true;requestAnimationFrame(refresh)}
 
   applyBackground(backgroundMode(),false);
   document.addEventListener('click',captureActions,true);
   window.addEventListener('hashchange',()=>{const page=location.hash.slice(1);if(page&&document.getElementById(page))navigate(page)});
   new MutationObserver(records=>{if(records.some(record=>record.addedNodes.length||record.type==='attributes'))queueRefresh()}).observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['data-theme','class']});
-  window.AiderLogV143={navigate,setWheelOpen,renderInsights:renderInsightsV143,applyBackground,palettes:PALETTES};
+  window.AiderLogV143={navigate,setWheelOpen,applyBackground,palettes:PALETTES};
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',refresh,{once:true});else refresh();
 })();

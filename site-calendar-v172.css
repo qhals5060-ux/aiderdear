@@ -24,15 +24,14 @@ html.site-calendar-v172:not(.aiderlog-android) body #app#app #stage #calendar {
 }
 html.site-calendar-v172:not(.aiderlog-android) body #app#app #stage #page0 .cal-top {
   grid-column:2!important;grid-row:1!important;
-  display:grid!important;grid-template-columns:repeat(6,minmax(0,1fr))!important;
-  grid-template-rows:auto auto!important;gap:6px!important;align-items:center!important;
+  display:flex!important;flex-wrap:nowrap!important;gap:8px!important;align-items:center!important;justify-content:space-between!important;
   width:100%!important;height:auto!important;min-height:0!important;min-width:0!important;
-  padding:10px!important;margin:0!important;box-sizing:border-box!important;
+  padding:7px 10px!important;margin:0!important;box-sizing:border-box!important;
   border:1px solid var(--modern-border,#c7c3b9)!important;border-radius:8px;
   background:var(--modern-surface,var(--paper,#fff))!important;
 }
 html.site-calendar-v172:not(.aiderlog-android) body #app#app #stage #page0 .month-controls {
-  display:contents!important;
+  display:flex!important;align-items:center!important;gap:4px!important;flex-wrap:nowrap!important;
 }
 html.site-calendar-v172:not(.aiderlog-android) body #app#app #stage #monthTitle {
   grid-column:1/5!important;grid-row:1!important;
@@ -42,8 +41,8 @@ html.site-calendar-v172:not(.aiderlog-android) body #app#app #stage #monthTitle 
 }
 html.site-calendar-v172:not(.aiderlog-android) body #app#app #stage #monthTitle b {font-size:inherit!important;line-height:inherit!important}
 html.site-calendar-v172:not(.aiderlog-android) body #app#app #stage #page0 .month-controls>button {
-  width:100%!important;min-width:0!important;height:32px!important;min-height:32px!important;
-  padding:4px 5px!important;font-size:12px!important;line-height:1.3!important;
+  width:auto!important;min-width:28px!important;height:29px!important;min-height:29px!important;
+  padding:3px 7px!important;font-size:11px!important;line-height:1.3!important;
   letter-spacing:0!important;white-space:nowrap!important;box-sizing:border-box!important;
 }
 html.site-calendar-v172:not(.aiderlog-android) body #app#app #stage #prevMonth {grid-column:5!important;grid-row:1!important}

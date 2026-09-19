@@ -47,7 +47,7 @@ test('Android D-day actions cannot overwrite legacy whole-app payloads',()=>{
   assert.match(moduleSource,/if\(await mutate\(/);
 });
 test('Android calendar business rows are minimized and open a read-only view',()=>{
-  const source=asset('feature-system-v125.js'),fn=source.match(/function scheduleRowsV125\(\) \{[^\n]+/)[0],context={window:{AiderBusinessCalendarV175:{minimal:r=>({id:r.id,title:r.title,projectionSource:r.projectionSource,readOnly:true})}},baseScheduleRowsV125:()=>[{id:'personal',note:'mine'},{id:'oldwork',calendarScope:'work',note:'private'}],privateScheduleRowsV148:()=>[{id:'newwork',projectionSource:'work-task',note:'private'}]};
+  const source=asset('feature-system-v125.js'),fn=source.match(/function scheduleRowsV125\(\) \{[^\n]+/)[0],context={currentState:()=>({user:{uid:'fixture'}}),visibleCachedScheduleV179:()=>true,window:{AiderBusinessCalendarV175:{minimal:r=>({id:r.id,title:r.title,projectionSource:r.projectionSource,readOnly:true})}},baseScheduleRowsV125:()=>[{id:'personal',note:'mine'},{id:'oldwork',calendarScope:'work',note:'private'}],privateScheduleRowsV148:()=>[{id:'newwork',projectionSource:'work-task',note:'private'}]};
   vm.runInNewContext(fn+';globalThis.result=scheduleRowsV125()',context);
   assert.equal(context.result[0].note,'mine');assert.equal(context.result[1].note,undefined);assert.equal(context.result[2].note,undefined);assert.equal(context.result[2].readOnly,true);
   assert.match(source,/if\(projected\)\{closeScheduleV125\(\);window\.AiderBusinessCalendarV175\?\.open\(projected\);return\}/);
@@ -55,14 +55,13 @@ test('Android calendar business rows are minimized and open a read-only view',()
   assert.match(source,/if\(scope!=='schedule'\)/);
   assert.doesNotMatch(source,/await app\.newWorkTask\(seed\)|await app\.newConsultTask\(seed\)/);
 });
-test('Android calendar has a stable common status line; no legacy private-period or unscoped mood fallback',()=>{
-  const feature=asset('feature-system-v125.js'),emotion=asset('experience-v145.js');
+test('Android calendar preserves its private-date status line after mood retirement',()=>{
+  const feature=asset('feature-system-v125.js');
   assert.match(feature,/data-schedule-date-v125="\$\{key\}" data-date="\$\{key\}"/);
   assert.match(feature,/class="calendar-status-icons"/);
   assert.match(feature,/AiderPrivateCalendarUIV175\?\.calendarChanged\(\)/);
-  assert.doesNotMatch(emotion,/localStorage\.getItem\('aiderlog-emotion|partnerPeriod|hasPeriod\(/);
-  assert.match(emotion,/source\.own\?'is-own':'is-partner'/);
-  assert.match(emotion,/scope!==lastScope\|\|scope!==currentScope/);
+  assert.doesNotMatch(feature,/openEmotionV125|AiderAppEmotionV176|readEmotionData|writeEmotionData/);
+  assert.equal(fs.existsSync(path.join(root,'android-src/assets/experience-v145.js')),false);
 });
 test('Android profile birthday save is bound to the rendered user, preserves lunar settings and inputs on failure',()=>{
   const profile=asset('experience-v137.js');assert.match(profile,/id="loginBirthDate"/);assert.match(profile,/data-profile-user-v175/);
@@ -70,9 +69,9 @@ test('Android profile birthday save is bound to the rendered user, preserves lun
   assert.match(profile,/입력은 유지됩니다/);assert.match(profile,/AiderPrivateCalendarUIV175\?\.calendarChanged\(\)/);
 });
 test('Android includes its own presentation and the new shared features, not desktop Estate UI',()=>{
-  const html=asset('index.html');for(const name of ['insight-range-v175.js','insight-range-v175.css','business-calendar-v175.js','business-calendar-v175.css','private-calendar-ui-v175.js','private-calendar-v175.css','app-dday-v175.js','app-calendar-v175.css','estate-calendar-v171.js'])assert.ok(html.includes(name),name);
+  const html=asset('index.html');for(const name of ['business-calendar-v175.js','business-calendar-v175.css','private-calendar-ui-v175.js','private-calendar-v175.css','app-dday-v175.js','app-calendar-v175.css','estate-calendar-v171.js'])assert.ok(html.includes(name),name);
   assert.doesNotMatch(html,/<script[^>]+(?:estate-ui-v171|site-calendar-v175)\.js/);
-  assert.ok(html.indexOf('<script src="./insight-range-v175.js')<html.indexOf('<script src="./experience-v143.js'));
+  assert.doesNotMatch(html,/insight-range-v175\.(?:js|css)/);
 });
 test('Android profile entry is initialized before unrelated workspace bootstrap',()=>{
   const source=asset('experience-v137.js');
@@ -81,14 +80,14 @@ test('Android profile entry is initialized before unrelated workspace bootstrap'
   assert.match(source,/bindProfileButton\(\);\s*window\.AiderLogProfileV175=Object\.freeze/);
   assert.match(source,/queued=false;bindProfileButton\(\);restoreMy\(\)/);
 });
-test('Android calendar re-applies account emotion badges after each calendar render and viewport change',()=>{
-  assert.match(asset('feature-system-v125.js'),/bindScheduleV125\(\);window\.AiderLogV145\?\.decorateCalendar\(\)/);
-  assert.match(asset('experience-v145.js'),/addEventListener\('resize',scheduleRefresh\)/);
-  assert.match(asset('experience-v145.js'),/addEventListener\('aiderlog-page-changed',scheduleRefresh\)/);
+test('Android calendar refreshes private-date badges without loading mood decoration',()=>{
+  assert.match(asset('feature-system-v125.js'),/AiderPrivateCalendarUIV175\?\.calendarChanged\(\)/);
+  assert.doesNotMatch(asset('index.html'),/<script[^>]+experience-v145\.js/);
+  assert.doesNotMatch(asset('schedule-v119.js'),/emotion|Emotion|mood|Mood/);
 });
 test('Android calendar keeps projected business records read-only after startup guide removal',()=>{
   assert.doesNotMatch(asset('experience-v143.js'),/Consulting과 Work 마감도 같은 캘린더에서 확인하고 수정/);
-  assert.match(asset('feature-system-v125.js'),/if\(existing\?\.readOnly\)return/);
+  assert.match(asset('feature-system-v125.js'),/if\(!editableScheduleV179\(existing\)\)return/);
   assert.doesNotMatch(asset('experience-v143.js'),/renderTutorial|maybeTutorial/);
   assert.match(asset('index.html'),/<title>AiderLog<\/title>/);
 });

@@ -150,16 +150,6 @@
     }
   }
 
-  function moodTone(value){const text=String(value||'');if(/기쁨|행복|설렘|신남|뿌듯/.test(text))return'joy';if(/사랑|애정|감사/.test(text))return'love';if(/슬픔|우울|외로|허전/.test(text))return'sad';if(/화|분노|짜증|불안/.test(text))return'anger';return'calm'}
-  function decoratePostcard(){
-    const modal=$('#intro'),card=$('.insight-letter-card-v132');if(!modal||!card)return;
-    if(!$('.insight-postcard-art-v135',card)){const art=document.createElement('div');art.className='insight-postcard-art-v135';art.setAttribute('aria-hidden','true');card.insertBefore(art,$('.insight-letter-summary-v132',card))}
-    modal.dataset.moodTone=moodTone($('#introMood')?.textContent);const mascot=$('#introMascotV133');mascot?.remove();
-    const old=$('#introView');if(old&&old.dataset.exitV136!=='1'){
-      const button=old.cloneNode(true);button.dataset.exitV136='1';button.dataset.exitV135='1';old.replaceWith(button);
-      button.addEventListener('click',event=>{event.preventDefault();event.stopImmediatePropagation();if(modal.classList.contains('closing-v136'))return;modal.classList.add('closing-v136');const delay=matchMedia('(prefers-reduced-motion: reduce)').matches?40:820;setTimeout(()=>{modal.classList.remove('on','closing-v136','letter-exit-v135');if(typeof go==='function')go('insights',false);else location.hash='insights'},delay)},true);
-    }
-  }
 
   function notifyNewMail(detail){
     const user=detail?.user;if(!user?.uid||!Array.isArray(detail.directLetters))return;const key=`aiderlog-mail-seen-v136:${user.uid}`;let seen=[];try{seen=JSON.parse(localStorage.getItem(key)||'[]')}catch{}const set=new Set(Array.isArray(seen)?seen.map(String):[]);
@@ -169,15 +159,9 @@
     detail.directLetters.forEach(row=>set.add(String(row.id)));try{localStorage.setItem(key,JSON.stringify(Array.from(set).slice(-160)))}catch{}
   }
 
-  function openInsightFromHome(event){
-    if(!event.target.closest('[data-schedule-insights-v125],[data-schedule-insights-v119]'))return;
-    event.preventDefault();event.stopPropagation();event.stopImmediatePropagation();
-    if(typeof window.openAiderLogInsightLetter==='function')window.openAiderLogInsightLetter();else $('#intro')?.classList.add('on');
-  }
-
-  function refresh(){queued=false;installNativeAppShell();updateLoginButton();wrapPersonalRenderer();renderAccountPage();installWheelSelector();bindWheelEffects();decoratePostcard()}
+  function refresh(){queued=false;installNativeAppShell();updateLoginButton();wrapPersonalRenderer();renderAccountPage();installWheelSelector();bindWheelEffects()}
   function queue(){if(queued)return;queued=true;requestAnimationFrame(refresh)}
-  document.addEventListener('click',openInsightFromHome,true);document.addEventListener('click',accountClick);document.addEventListener('change',accountChange);
+  document.addEventListener('click',accountClick);document.addEventListener('change',accountChange);
   addEventListener('aiderdear-firebase-ready',()=>{updateLoginButton();renderAccountPage()});
   addEventListener('aiderdear-firebase-state',event=>{accountState=event.detail||{};updateLoginButton();renderAccountPage();notifyNewMail(event.detail||{})});
   new MutationObserver(records=>{if(records.some(record=>record.addedNodes.length||record.type==='attributes'))queue()}).observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['class','data-theme','data-app-font-size']});

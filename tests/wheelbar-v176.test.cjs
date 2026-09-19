@@ -6,7 +6,7 @@ const source=fs.readFileSync(path.join(base,'wheelbar-v176.js'),'utf8');
 const css=fs.readFileSync(path.join(base,'wheelbar-v176.css'),'utf8');
 function fixture(){
   const writes=new Map(),listeners=[],frames=[];let active='event',open=true;
-  const buttons=['fifth','personal','routine','event'].map((page,index)=>{
+  const buttons=['fifth','personal','routine','event','todo'].map((page,index)=>{
     let html='';const attributes={};
     const button={dataset:{page,index:String(index)},className:'global-wheel-item-v126 slot-'+index,tabIndex:0,title:'',
       setAttribute:(key,value)=>attributes[key]=value,getAttribute:key=>attributes[key]??null,
@@ -32,14 +32,25 @@ function fixture(){
   vm.runInNewContext(source,context);
   return {api:window.AiderWheelbarV176,buttons,wheel,views,context,writes,listeners,active:value=>active=value,open:value=>open=value};
 }
-test('wheelbar exposes four distinct currentColor vector silhouettes at 24px',()=>{
-  const f=fixture(),names=Object.keys(f.api.names).sort();assert.deepEqual(names,['event','fifth','personal','routine']);
-  const values=names.map(page=>f.api.icon(page));assert.equal(new Set(values).size,4);
+test('wheelbar exposes five distinct currentColor vector silhouettes at 24px',()=>{
+  const f=fixture(),names=Object.keys(f.api.names).sort();assert.deepEqual(names,['event','fifth','personal','routine','todo']);
+  const values=names.map(page=>f.api.icon(page));assert.equal(new Set(values).size,5);
   for(const icon of values){assert.match(icon,/viewBox="0 0 24 24"/);assert.match(icon,/currentColor/);assert.doesNotMatch(icon,/linearGradient|radialGradient|filter=|<image|<text|#[0-9a-f]{3}/i);}
   assert.match(f.api.icon('event'),/<rect[^>]*width="18"[^>]*height="13"/);
   assert.match(f.api.icon('event'),/<circle/);
   assert.equal((f.api.icon('routine').match(/<path/g)||[]).length,2);
   assert.equal((f.api.icon('fifth').match(/<path/g)||[]).length,2);
+});
+test('five-entry TODO arc has separate 48px targets, stays within the field and follows a concentric guide',()=>{
+  const topLeft=[[16,177],[20,121],[50,73],[101,27],[160,17]],center=[176,177];
+  for(let i=0;i<topLeft.length;i++){
+    const[x,y]=topLeft[i];assert(x>=0&&x+48<=230&&y>=0&&y+48<=228);
+    assert(Math.abs(Math.hypot(x+24-center[0],y+24-center[1])-137)<8);
+    for(let j=i+1;j<topLeft.length;j++){const[u,v]=topLeft[j];assert(x+48<=u||u+48<=x||y+48<=v||v+48<=y);}
+    assert(css.includes(`slot-${i}[data-wheelbar-menu-v176]{left:${x}px!important;top:${y}px!important}`));
+  }
+  assert.match(css,/:has\(\[data-page="todo"\]\)/);assert.match(css,/left:39px!important;top:40px!important;width:274px!important;height:274px!important/);
+  assert.match(fixture().api.icon('todo'),/<rect/);
 });
 test('personal uses a real even-odd transparent circular hole, not a painted center',()=>{
   const icon=fixture().api.icon('personal');
@@ -48,7 +59,7 @@ test('personal uses a real even-odd transparent circular hole, not a painted cen
   assert.equal((icon.match(/<path/g)||[]).length,1);
 });
 test('wheelbar retains page order and uses stable Korean accessible names and true current-page state',()=>{
-  const f=fixture();assert.deepEqual(f.buttons.map(b=>b.dataset.page),['fifth','personal','routine','event']);
+  const f=fixture();assert.deepEqual(f.buttons.map(b=>b.dataset.page),['fifth','personal','routine','event','todo']);
   for(const button of f.buttons){assert.equal(button.getAttribute('aria-labelledby'),'wheelbar-label-'+button.dataset.page+'-v176');assert.ok(button.innerHTML.includes(f.api.names[button.dataset.page]));}
   assert.equal(f.buttons[3].getAttribute('aria-current'),'page');
   f.active('personal');f.api.refresh();assert.equal(f.buttons[1].getAttribute('aria-current'),'page');assert.equal(f.buttons[3].getAttribute('aria-current'),'false');
@@ -57,8 +68,8 @@ test('wheelbar retains page order and uses stable Korean accessible names and tr
 });
 test('font decoration and selected states do not recreate pressed SVGs',()=>{
   const f=fixture();for(const button of f.buttons)button.decorate();
-  f.api.refresh();f.api.refresh();assert.deepEqual([...f.writes.values()],[1,1,1,1]);
-  f.active('routine');f.api.refresh();assert.deepEqual([...f.writes.values()],[1,1,1,1]);
+  f.api.refresh();f.api.refresh();assert.deepEqual([...f.writes.values()],[1,1,1,1,1]);
+  f.active('routine');f.api.refresh();assert.deepEqual([...f.writes.values()],[1,1,1,1,1]);
   f.buttons[0].innerHTML='<i><svg></svg></i>';f.api.refresh();assert.equal(f.writes.get('fifth'),3);
 });
 test('real legacy wheel decorators coexist with the final SVG layer without a rewrite loop',()=>{
@@ -85,13 +96,13 @@ test('legacy hover/drag decorators never paint an old icon before observer repai
   const cosmic=fs.readFileSync(path.join(base,'global-cosmic-v126.js'),'utf8');
   vm.runInNewContext(system.slice(system.indexOf('  const wheelMarkupV175'),system.indexOf('  function refreshThemeCards'))+cosmic.slice(cosmic.indexOf('  function fixWheel(){'),cosmic.indexOf('  function sparkleBurst(')),f.context);
   for(let index=0;index<20;index++){
-    const selected=f.buttons[index%4];selected.className+=' hovered';selected.dataset.wheelSelectedV143='true';
+    const selected=f.buttons[index%5];selected.className+=' hovered';selected.dataset.wheelSelectedV143='true';
     vm.runInNewContext('fixWheel();applyFixedWheelV125()',f.context);
     // Check synchronously, without a MutationObserver or animation-frame flush.
     assert.deepEqual(f.buttons.map(button=>button.innerHTML),before);assert(selected.className.includes('hovered'));
     assert.equal(selected.dataset.wheelSelectedV143,'true');
   }
-  assert.equal(oldCalls,0);assert.deepEqual([...f.writes.values()],[1,1,1,1]);
+  assert.equal(oldCalls,0);assert.deepEqual([...f.writes.values()],[1,1,1,1,1]);
 });
 test('hidden wheel entries are out of Tab order; navigation stays owned by the original handler',()=>{
   const f=fixture();f.open(false);f.api.refresh();assert.ok(f.buttons.every(b=>b.tabIndex===-1));
@@ -136,7 +147,7 @@ test('eleven navigation Primary tokens stay exact across system light/dark witho
   assert.doesNotMatch(tokens,/data-system-scheme|wheelCore|wheel-art|--app-wheel|--app-primary\s*:/);
   assert.match(css,/--app-primary:var\(--app-navigation-primary,#6255E8\)/);
   assert.match(css,/#wheel\.open #wheelFan\.global-wheel-field-v126\{transform:none!important/);
-  for(const name of ['index.html','sw.js'])assert.ok(fs.readFileSync(path.join(base,name),'utf8').includes('app-theme-primary-v176.css?v=178'));
+  for(const name of ['index.html','sw.js'])assert.ok(fs.readFileSync(path.join(base,name),'utf8').includes('app-theme-primary-v176.css?v=179'));
 });
 test('canonical assets and sparse Android mirror agree; confirmation page includes required states',()=>{
   const canonical=path.resolve(base,'../../../AiderLog-v145-decoded/assets');

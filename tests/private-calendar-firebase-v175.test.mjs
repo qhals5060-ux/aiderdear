@@ -1,9 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import vm from 'node:vm';
 import * as domain from '../private-calendar-v175.js';
-import {encodeStoredPayload,decodeArchive} from '../archive-codec-v168.js';
 import {createPrivateCalendarFirebaseFixture as harness} from './private-calendar-firebase-fixture-v175.mjs';
 
 // Actual adapter code, with a memory-only Firestore contract. Not a claim of
@@ -77,10 +75,8 @@ test('quota and malformed storage errors preserve original rows and do not creat
   h.fail(null);h.rows.get('users/u1/menstrualEntries/p1').startDate='2026-09-99';
   await assert.rejects(h.mutate({type:'period-delete',id:'p1',expectedRevision:1}));assert.equal(h.writes.length,0);
 });
-test('actual emotion adapter preserves private original but strips future paired health flags',async()=>{
-  const writes=[];const context={requireUser:()=>({uid:'u1'}),encodeStoredPayload,withoutPrivateEmotionFlags:domain.withoutPrivateEmotionFlags,db:{},JSON,doc:(_db,...parts)=>({path:parts.join('/')}),emotionRef:()=>({path:'pairs/p1/emotions/u1'}),setDoc:async(ref,data)=>writes.push([ref.path,data]),storageStampV168:()=>({storageVersion:168}),serverTimestamp:()=>1};
-  const code=source.slice(source.indexOf('async function writeEmotionData('),source.indexOf('\nfunction mediaCollection'));
-  vm.createContext(context);vm.runInContext(code,context);await context.writeEmotionData({entries:[{id:'e1',period:true,intimacy:true,mood:'happy'}]});
-  assert.equal(decodeArchive(writes[0][1].payload).entries[0].period,true);
-  const shared=decodeArchive(writes[1][1].payload);assert.equal(shared.entries[0].period,undefined);assert.equal(shared.entries[0].intimacy,undefined);assert.equal(shared.entries[0].mood,'happy');
+test('retired emotion adapter has no read/write entry, while historic privacy sanitizer remains non-mutating',()=>{
+  assert.doesNotMatch(source,/emotionRef|readEmotionData|writeEmotionData/);
+  const original={entries:[{id:'e1',period:true,intimacy:true,mood:'happy'}]},before=clone(original),safe=domain.withoutPrivateEmotionFlags(original);
+  assert.deepEqual(original,before);assert.equal(safe.entries[0].period,undefined);assert.equal(safe.entries[0].intimacy,undefined);assert.equal(safe.entries[0].mood,'happy');
 });

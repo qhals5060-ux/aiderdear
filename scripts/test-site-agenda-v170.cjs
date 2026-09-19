@@ -28,11 +28,11 @@ function harness({rows,month='2026-09',at='2026-09-08T16:00:00'}={}){
     scheduleOwnerKind:row=>row.owner,escapeHtml:value=>String(value||''),document:{createElement:node},
     openEvent:row=>opened.push(row),toast(){},persistOwnScheduleEvents(){throw Error('agenda must not write records')},
     saveCloudData(){throw Error('agenda must not save records')}};
-  vm.createContext(context);vm.runInContext(fs.readFileSync(path.join(__dirname,'../shared-schedule-v176.js'),'utf8'),context);vm.runInContext(receivedHelper+'\n'+renderer,context);
+  vm.createContext(context);for(const file of ['shared-schedule-v176.js','schedule-time-v179.js'])vm.runInContext(fs.readFileSync(path.join(__dirname,'../'+file),'utf8'),context);vm.runInContext(receivedHelper+'\n'+renderer,context);
   return {data,opened,top,compact,advance(value){current=value},render(){
     vm.runInContext('renderShared()',context);
     assert.equal(JSON.stringify(data),original,'original dates/order/metadata remain unchanged');
-    return [...top.children,...compact.children].map(row=>row.innerHTML.match(/<b>([^<]*)<\/b>/)[1]);
+    return [...top.children,...compact.children].filter(row=>row.tag==='button').map(row=>row.innerHTML.match(/<b>([^<]*)<\/b>/)[1]);
   }};
 }
 
@@ -78,6 +78,15 @@ if(process.argv[2]==='--timezone-fixture'){
   test('month agenda gives incoming shares the received class but preserves outgoing own event colour',()=>{
     const h=harness({rows:[fixture('received','2026-09-08','',{owner:'shared',authorUid:'friend',authorEmail:'friend@example.invalid'}),fixture('outgoing','2026-09-08','',{owner:'shared',shareWithCouple:true,authorUid:'fixture-owner'})]});
     assert.deepEqual(h.render(),['received','outgoing']);assert.match(h.top.children[0].className,/schedule-received-v176/);assert.match(h.top.children[0].attributes['aria-label'],/^상대가 공유한 일정 · /);assert.doesNotMatch(h.top.children[1].className,/schedule-received-v176/);assert.equal(h.top.children[1].attributes['aria-label'],undefined);
+  });
+  test('agenda uses 12-hour labels, omits all-day prefixes and separates AM/PM only within one date',()=>{
+    const h=harness({rows:[fixture('morning','2026-09-08','',{time:'09:05'}),fixture('all-day','2026-09-08','',{allDay:true,time:'00:00'}),fixture('afternoon','2026-09-08','',{time:'13:20'}),fixture('next-noon','2026-09-09','',{time:'12:00'})]});
+    assert.deepEqual(h.render(),['all-day','morning','afternoon','next-noon']);
+    const visible=[...h.top.children,...h.compact.children];
+    assert.equal(visible.filter(row=>row.className==='schedule-halfday-v179').length,1);
+    assert.equal(visible.find(row=>row.className==='schedule-halfday-v179').textContent,'-');
+    assert.match(h.top.children[1].innerHTML,/9시 5분/);assert.match(h.top.children[3].innerHTML,/1시 20분/);
+    assert.doesNotMatch(h.top.children[0].innerHTML,/종일|00:00/);assert.match(h.compact.children[0].innerHTML,/12시/);
   });
   test('calendar projection retains historical dates while business rows expose only a read-only summary',()=>{
     const projection=source.match(/^  function calendarDisplayEvents\(year\)\{[^\r\n]+/m)?.[0];

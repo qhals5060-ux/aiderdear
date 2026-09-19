@@ -31,11 +31,12 @@ function fixture({store={value:snapshot([row('hero','2027-01-01'),row('near','20
     controlsDisabled:()=>dialog&&[...dialog.nodes.values()].some(node=>node.disabled),
     click:async(id,scope='user:u1')=>{if(!dialog)await window.AiderAppDdayV175.open();if(!dialog)return;const index=store.value.items.findIndex(item=>item.id===id&&item.sourceScope===scope);return fire(dialog.handlers,'click',{target:{closest:selector=>selector==='[data-dday-select-v175]'?{dataset:{ddaySelectV175:String(index)}}:null}})}};
 }
-test('Android representative is the only home button and compact dates are sorted information rows',async()=>{
-  const f=fixture();await f.api.refresh();const html=f.markup();assert.match(html,/<h2>hero<\/h2>/);assert(html.indexOf('aria-label="near D-1"')<html.indexOf('aria-label="past D+1"'));
-  assert.equal((html.match(/<button/g)||[]).length,1);assert.equal((html.match(/<\/button>/g)||[]).length,1);assert.match(html,/<\/button><div class="dday-secondary/);assert.equal(f.calls.filter(c=>c.type!=='read').length,0);
+test('Android main Dday and compact date text are unboxed, sorted and management-accessible',async()=>{
+  const f=fixture();await f.api.refresh();const html=f.markup();assert.match(html,/<b>hero<\/b>/);assert(html.indexOf('<b>near</b>')<html.indexOf('<b>past</b>'));
+  assert.equal((html.match(/<button/g)||[]).length,3);assert.equal((html.match(/data-dday-open-v125/g)||[]).length,3);assert.match(html,/<\/button><div class="dday-others-v179/);assert.equal(f.calls.filter(c=>c.type!=='read').length,0);assert.doesNotMatch(html,/대표 디데이|대표 선택|dday-card/);
   assert.equal((html.match(/role="listitem"/g)||[]).length,2);assert.doesNotMatch(html,/data-dday-featured-v176|dday-small-date-v176/);assert.doesNotMatch(source,/document\.addEventListener\('click'|data-dday-featured-v176/);
-  const css=fs.readFileSync(path.join(root,'dday-display-v176.css'),'utf8');assert.match(css,/#home\.schedule-cosmic-v119 \.dday-display-v176>\.dday-secondary-v176\{[^}]*gap:0;max-height:60px/);assert.match(css,/#home\.schedule-cosmic-v119 \.dday-secondary-v176>\.dday-compact-row-v176\{[^}]*min-height:20px;padding:1px 0/);
+  const appCss=fs.readFileSync(path.join(root,'android-src/assets/app-calendar-v179.css'),'utf8');assert.match(appCss,/\.dday-others-v179\s*\{display:grid;grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);assert.match(appCss,/:is\(\.dday-main-v179,\.dday-small-v179\)\s*\{border:0!important;box-shadow:none!important;background:none!important/);
+  const css=fs.readFileSync(path.join(root,'dday-display-v176.css'),'utf8');
   assert.match(css,/^\.dday-secondary-v176\{display:grid;gap:3px;max-height:132px/m,'site list spacing stays unchanged');assert.match(css,/\.dday-small-title-v176\{font-size:11px!important/);assert.match(css,/\.dday-small-count-v176\{font-size:13px!important/);
 });
 test('Android management-dialog choice persists through a new UI instance and shared cloud resets',async()=>{
@@ -43,16 +44,16 @@ test('Android management-dialog choice persists through a new UI instance and sh
   await f.event('aiderdear-firebase-state');assert.equal(f.api.selected().id,'near');const reopened=fixture({store:f.store});await reopened.api.refresh();assert.equal(reopened.api.selected().id,'near');
 });
 test('Android identical IDs in personal and pair scopes select only the requested record',async()=>{
-  const f=fixture({store:{value:snapshot([row('same','2026-09-13','user:u1','개인'),row('same','2026-09-14','pair:p1','커플')])}});await f.api.refresh();await f.click('same','pair:p1');assert.equal(f.api.selected().title,'커플');assert.match(f.markup(),/dday-small-title-v176" title="개인">개인/);
+  const f=fixture({store:{value:snapshot([row('same','2026-09-13','user:u1','개인'),row('same','2026-09-14','pair:p1','커플')])}});await f.api.refresh();await f.click('same','pair:p1');assert.equal(f.api.selected().title,'커플');assert.match(f.markup(),/dday-small-v179[^]*<b>개인<\/b>/);
 });
 test('Android selection error retains both lists, blocks duplicates in flight, and permits retry',async()=>{
-  const job=deferred(),f=fixture({mutate:()=>job.promise});await f.api.refresh();const first=f.click('near');await settle();assert.equal(f.controlsDisabled(),true);assert.match(f.markup(),/저장하는 중/);await f.click('past');assert.equal(f.calls.filter(c=>c.type==='select').length,1);
-  job.reject(Error('offline'));await first;assert.equal(f.api.selected().id,'hero');assert.match(f.markup(),/저장 상태 확인/);assert.equal(f.controlsDisabled(),false);
+  const job=deferred(),f=fixture({mutate:()=>job.promise});await f.api.refresh();const first=f.click('near');await settle();assert.equal(f.controlsDisabled(),true);assert.match(f.markup(),/저장 중/);await f.click('past');assert.equal(f.calls.filter(c=>c.type==='select').length,1);
+  job.reject(Error('offline'));await first;assert.equal(f.api.selected().id,'hero');assert.match(f.markup(),/저장 상태를 확인/);assert.equal(f.controlsDisabled(),false);
   f.transport.mutateDday=async()=>snapshot(f.store.value.items,'near','user:u1');await f.click('near');assert.equal(f.api.selected().id,'near');
 });
 test('Android malformed read and mutation acknowledgements never replace the confirmed selection',async()=>{
   const f=fixture();await f.api.refresh();f.transport.readDdayData=async()=>({items:null});await f.api.refresh(true);assert.equal(f.api.selected().id,'hero');
-  f.transport.mutateDday=async()=>({items:[{}],activeId:'bad',activeScope:'user:u1'});await f.click('near');assert.equal(f.api.selected().id,'hero');assert.match(f.markup(),/저장 상태 확인/);
+  f.transport.mutateDday=async()=>({items:[{}],activeId:'bad',activeScope:'user:u1'});await f.click('near');assert.equal(f.api.selected().id,'hero');assert.match(f.markup(),/저장 상태를 확인/);
 });
 test('Android late selection after logout cannot repopulate the previous account',async()=>{
   const job=deferred(),f=fixture({mutate:()=>job.promise});await f.api.refresh();const pending=f.click('near');await settle();f.state.user=null;await f.event('aiderdear-firebase-state');assert.equal(f.api.selected(),null);assert.doesNotMatch(f.markup(),/dday-small-title/);
@@ -63,7 +64,7 @@ test('Android relogin to the same UID rejects an earlier session selection ackno
   f.state.user=null;await f.event('aiderdear-firebase-state');f.state.user={uid:'u1'};
   f.transport.readDdayData=async()=>snapshot([row('fresh-session','2026-10-01')]);await f.event('aiderdear-firebase-state');await f.api.refresh();
   job.resolve(snapshot(f.store.value.items,'near','user:u1'));await pending;
-  assert.equal(f.api.selected().id,'fresh-session');assert.doesNotMatch(f.markup(),/aria-label="near D-1"/);
+  assert.equal(f.api.selected().id,'fresh-session');assert.doesNotMatch(f.markup(),/<b>near<\/b>/);
 });
 test('Android account switch keeps the new account load pending when the old selection finishes',async()=>{
   const old=deferred(),next=deferred(),f=fixture({mutate:()=>old.promise});await f.api.refresh();const pending=f.click('near');await settle();
@@ -74,11 +75,11 @@ test('Android account switch keeps the new account load pending when the old sel
 });
 test('Android quota cooldown stops repeated reads and selections without clearing persisted data',async()=>{
   let reads=0;const f=fixture();await f.api.refresh();f.transport.readDdayData=async()=>{reads++;throw Object.assign(Error('quota'),{code:'firestore/resource-exhausted'})};await f.api.refresh(true);await f.api.refresh(true);await f.event('focus');await f.event('online');await f.click('near');assert.equal(reads,1);assert.equal(f.calls.filter(c=>c.type==='select').length,0);assert.equal(f.api.selected().id,'hero');
-  f.time('2026-09-12T03:05:01Z');f.transport.readDdayData=async()=>{reads++;return plain(f.store.value)};await f.api.refresh(true);assert.equal(reads,2);assert.doesNotMatch(f.markup(),/저장 상태 확인/);
+  f.time('2026-09-12T03:05:01Z');f.transport.readDdayData=async()=>{reads++;return plain(f.store.value)};await f.api.refresh(true);assert.equal(reads,2);assert.doesNotMatch(f.markup(),/저장 상태를 확인/);
 });
 test('Android timer is single-installed, stops for pagehide, and resumes without network writes',async()=>{
   const f=fixture();await f.api.refresh();f.rerun();assert.equal(f.timers.size,1);assert.equal(f.events.get('aiderdear-firebase-state').length,1);assert.equal([...f.timers.values()][0].ms,60000);
-  await f.event('pagehide');assert.equal(f.timers.size,0);f.time('2026-09-12T15:00:00Z');const before=f.homes();await f.event('pageshow');await f.event('pageshow');assert.equal(f.timers.size,1);assert.equal(f.homes(),before+1);assert.equal(f.calls.length,1);assert.match(f.markup(),/near D-DAY/);
+  await f.event('pagehide');assert.equal(f.timers.size,0);f.time('2026-09-12T15:00:00Z');const before=f.homes();await f.event('pageshow');await f.event('pageshow');assert.equal(f.timers.size,1);assert.equal(f.homes(),before+1);assert.equal(f.calls.length,1);assert.match(f.markup(),/<strong>D-DAY<\/strong> <b>near<\/b>/);
 });
 test('Android escapes stored D-day markup and does not expose rows for guests',async()=>{
   const f=fixture({store:{value:snapshot([row('hero'),row('bad','2026-09-13','user:u1','<img src=x onerror=alert(1)>')])}});await f.api.refresh();assert.match(f.markup(),/&lt;img/);assert.doesNotMatch(f.markup(),/<img/);
@@ -90,7 +91,7 @@ test('site and Android entrypoints preload the same D-day helper and styles offl
     const context={URL,self:{location:{href:'https://aiderdear1.vercel.app/sw.js'},addEventListener(){}}};
     vm.runInNewContext(sw+';globalThis.precache=[...APP_SHELL]',context);
     for(const file of['dday-display-v176.js','dday-display-v176.css']){
-      assert(index.includes(file+'?v=178'));assert(context.precache.includes('./'+file));assert(context.precache.includes('./'+file+'?v=178'));
+      assert(index.includes(file+'?v=179'));assert(context.precache.includes('./'+file));assert(context.precache.includes('./'+file+'?v=179'));
       assert.equal(fs.readFileSync(path.join(root,folder,file),'utf8'),fs.readFileSync(path.join(root,file),'utf8'));
       assert.equal(fs.readFileSync(path.resolve(root,'../AiderLog-v145-decoded/assets',file),'utf8'),fs.readFileSync(path.join(root,file),'utf8'));
     }

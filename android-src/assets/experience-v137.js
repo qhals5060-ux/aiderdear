@@ -83,23 +83,9 @@
     core.prepend(front);core.prepend(sphere);core.prepend(back);
   }
 
-  function animatePostcard(){
-    const art=$('.insight-postcard-art-v135');if(!art)return;
-    if(!$('.postcard-dream-v137',art)){const dream=document.createElement('span'),stars=document.createElement('span');dream.className='postcard-dream-v137';stars.className='postcard-stars-v137';dream.setAttribute('aria-hidden','true');stars.setAttribute('aria-hidden','true');art.append(dream,stars);art.dataset.motionV137='active'}
-  }
-  function directInsightTransition(event){
-    if(!event.target.closest('#introView'))return;
-    event.preventDefault();event.stopPropagation();event.stopImmediatePropagation();
-    const modal=$('#intro');modal?.classList.remove('on','closing-v136','letter-exit-v135');
-    if(typeof window.go==='function')window.go('insights',false);else location.hash='insights';
-  }
   function removeInAppWidgetPreviews(){$$('.widget-settings-v135,.widget-config-v136,.widget-preview-v136').forEach(node=>{node.hidden=true;node.setAttribute('aria-hidden','true')})}
-  function decorateInsight(){
-    const hero=$('#insights .ins-hero-v126');if(hero)hero.dataset.atlasV137='1';
-    $$('#insights .insight-site-card-v126').forEach((card,index)=>card.dataset.orbitCardV137=String(index+1));
-  }
   function refresh(){
-    queued=false;bindProfileButton();restoreMy();buildWheelLayers();animatePostcard();removeInAppWidgetPreviews();decorateInsight();
+    queued=false;bindProfileButton();restoreMy();buildWheelLayers();removeInAppWidgetPreviews();
   }
   function queue(){if(queued)return;queued=true;requestAnimationFrame(refresh)}
 
@@ -107,7 +93,6 @@
   // Register it independently of render/MutationObserver initialization.
   bindProfileButton();
   window.AiderLogProfileV175=Object.freeze({open:openProfile});
-  document.addEventListener('click',directInsightTransition,true);
   addEventListener('aiderdear-firebase-state',()=>{restoreMy();if($('.profile-overlay-v137.on'))renderProfile()});
   new MutationObserver(queue).observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['data-theme','data-app-font-size']});
   document.readyState==='loading'?document.addEventListener('DOMContentLoaded',refresh,{once:true}):refresh();

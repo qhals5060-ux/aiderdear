@@ -84,7 +84,13 @@
   #event.event-ui-v164 .event-inline-v148 {display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important;min-width:0!important}
   #event.event-ui-v164 .event-editor-fields-v164 textarea {min-height:110px!important;padding:10px!important;resize:vertical!important}
   #event.event-ui-v164 .event-editor-preview-v111 {height:auto!important;min-height:0!important;max-height:150px!important;border-radius:8px!important;overflow:hidden!important}
-  #event.event-ui-v164 .event-preview-empty-v164:has(:not(img)) {display:none!important}
+  /* A batch includes figure/caption/remove controls, and video is not an img.
+     Only an actually empty preview may disappear. */
+  #event.event-ui-v164 .event-editor-preview-v111:empty {display:none!important}
+  #event.event-ui-v164 .event-editor-preview-v111.photo-batch-v176:not(:empty) {display:grid!important;grid-template-columns:repeat(auto-fill,minmax(96px,1fr))!important;max-height:210px!important;overflow:auto!important;gap:8px!important;padding:2px!important}
+  #event.event-ui-v164 .photo-batch-v176 figure {min-height:0!important;overflow:hidden!important}
+  #event.event-ui-v164 .photo-batch-v176 figure :is(img,video) {height:90px!important;max-height:90px!important;object-fit:contain!important}
+  #event.event-ui-v164 .photo-batch-v176 figure>button {min-width:32px!important;min-height:32px!important}
   #event.event-ui-v164 .event-editor-preview-v111 img {display:block!important;width:100%!important;max-height:150px!important;object-fit:contain!important}
   #event.event-ui-v164 .event-photo-field-v164 {padding:10px!important;border:1px dashed var(--app-border,#C4B4D4)!important;border-radius:8px!important}
   #event.event-ui-v164 .event-editor-actions-v111 {position:static!important;display:flex!important;align-items:center!important;gap:8px!important;flex:0 0 auto!important;min-height:74px!important;width:100%!important;box-sizing:border-box!important;margin:0!important;padding:12px 16px max(12px,env(safe-area-inset-bottom))!important;background:var(--app-editor-foot,var(--app-control,#EEE5F5))!important;border:0!important;border-top:1px solid var(--app-border,#C4B4D4)!important;box-shadow:none!important}

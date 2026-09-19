@@ -11,8 +11,8 @@
 <meta name="description" content="">
 <meta name="format-detection" content="telephone=no">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="aiderlog-build" content="v178">
-<meta name="aiderlog-android-build" content="v178">
+<meta name="aiderlog-build" content="v179">
+<meta name="aiderlog-android-build" content="v179">
 <link rel="canonical" href="https://aiderdear1.vercel.app/">
 <script>
 (() => {
@@ -4056,17 +4056,17 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   html body #stage .calendar{min-height:488px!important}
 }
 </style>
-<link rel="stylesheet" href="./site-work-v167.css?v=178">
-<link rel="stylesheet" href="./site-polish-v158.css?v=178">
+<link rel="stylesheet" href="./site-work-v167.css?v=179">
+<link rel="stylesheet" href="./site-polish-v158.css?v=179">
 <script>(()=>{const h=document.documentElement;if(window.AiderLogNative){h.classList.add('aiderlog-android');return}let e=h.dataset.siteDefaultEdition==='editorial'?'editorial':'modern';try{const s=localStorage.getItem('aiderlog.site.edition');if(s==='modern'||s==='editorial')e=s}catch{}h.dataset.siteEdition=e;h.classList.toggle('modern-site',e==='modern')})();</script>
-<link rel="stylesheet" href="./site-modern-v165.css?v=178">
-<link rel="stylesheet" href="./site-editions-v164.css?v=178">
-<script src="./insight-range-v175.js?v=178"></script>
-<script src="./business-calendar-v175.js?v=178"></script>
-<script src="./retired-features-v178.js?v=178"></script>
-<script src="./photo-attachments-v176.js?v=178"></script>
-<script src="./shared-schedule-v176.js?v=178"></script>
-<script src="./dday-display-v176.js?v=178"></script>
+<link rel="stylesheet" href="./site-modern-v165.css?v=179">
+<link rel="stylesheet" href="./site-editions-v164.css?v=179">
+<script src="./schedule-time-v179.js?v=179"></script>
+<script src="./business-calendar-v175.js?v=179"></script>
+<script src="./retired-features-v178.js?v=179"></script>
+<script src="./photo-attachments-v176.js?v=179"></script>
+<script src="./shared-schedule-v176.js?v=179"></script>
+<script src="./dday-display-v176.js?v=179"></script>
 </head>
 <body>
 <a class="skip-link" href="#app">본문으로 건너뛰기</a>
@@ -4113,8 +4113,8 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
             <button class="today" id="todayBtn">TODAY</button>
             <button class="mini-btn" id="nextMonth" aria-label="다음 달">→</button>
             <div class="filters" id="schedulePeopleFilters" aria-label="함께 보는 사용자" hidden></div>
-            <button class="primary" id="addScheduleTop">+ 일정 등록</button>
-            <button class="emotion-quick" id="addEmotionTop" type="button">+ 감정 기록</button>
+
+
           </div>
         </div>
         <div class="calendar" id="calendar"></div>
@@ -4157,58 +4157,19 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
       </aside>
     </article>
 
-    <article class="page next schedule-insight-page" id="page1" aria-hidden="true">
-      <section class="emotion-shell schedule-insight-shell" id="emotionInsightPage" aria-label="감정 인사이트">
-        <section class="emotion-frame" id="emotionInsightFrame">
-          <div class="emotion-toolbar">
-            <div class="emotion-title-group"><h2 class="emotion-heading">Insights</h2><span class="emotion-insight-kicker">LAST 30 DAYS</span></div>
-          </div>
-          <div class="emotion-content emotion-insight-content" id="emotionInsightsPage"></div>
-        </section>
-      </section>
-    </article>
 
-    <div class="page-dots" aria-label="페이지 위치">
-      <button class="dotnav active" data-page="0" aria-label="첫 번째 화면"></button>
-      <button class="dotnav" data-page="1" aria-label="두 번째 화면"></button>
-    </div>
   </section>
 
 
 
-  <section class="emotion-stage emotion-legacy-stage" id="emotionStage" aria-label="감정 기록 지원 영역" hidden aria-hidden="true">
-    <section class="emotion-shell emotion-page current" id="emotionRecordPage" aria-label="이달의 감정" aria-hidden="false">
-      <section class="emotion-frame" id="emotionFrame">
-        <div class="emotion-toolbar">
-          <div class="emotion-title-group"><h2 class="emotion-heading">Emotion</h2><span class="emotion-insight-kicker">THIS MONTH</span></div>
-          <div class="emotion-actions"></div>
-        </div>
-        <div class="emotion-content emotion-record-content">
-          <div class="emotion-month-split">
-            <section class="emotion-month-board emotion-month-calendar" aria-label="월별 감정 기록">
-              <div class="emotion-month-head">
-                <b id="emotionMonthTitle">MOOD CALENDAR</b>
-                <div class="emotion-month-controls">
-                  <button type="button" id="emotionPrevMonth" aria-label="이전 달">←</button>
-                  <button type="button" id="emotionTodayMonth">TODAY</button>
-                  <button type="button" id="emotionNextMonth" aria-label="다음 달">→</button>
-                  <button type="button" class="emotion-new month" id="newEmotionDiaryBtn">감정기록</button>
-                </div>
-              </div>
-              <div class="emotion-week-head"><span>SUN</span><span>MON</span><span>TUE</span><span>WED</span><span>THU</span><span>FRI</span><span>SAT</span></div>
-              <div class="emotion-month-grid" id="emotionMoodCalendar"></div>
-            </section>
+  <!-- Legacy Bucket data/UI remains independent of the retired mood feature. -->
+  <section id="bucketLegacySupport" hidden aria-hidden="true">
             <aside class="bucket-board" aria-label="버킷리스트">
               <div class="bucket-head"><div><b>Bucket List</b></div><button id="bucketHistoryBtn" type="button">HISTORY</button></div>
               <form class="bucket-form" id="bucketForm"><input id="bucketInput" maxlength="80" placeholder="하고 싶은 일을 적어주세요"><button class="bucket-photo-pick" id="bucketPhotoPick" type="button" aria-label="사진 첨부" title="사진 첨부">▧</button><button class="bucket-submit" type="submit" aria-label="버킷리스트 추가">+</button><input id="bucketPhotoInput" type="file" accept="image/*" hidden></form>
               <div class="bucket-drops" id="bucketDrops"></div>
               <div class="bucket-history" id="bucketHistory" hidden></div>
             </aside>
-          </div>
-        </div>
-      </section>
-    </section>
-
   </section>
 
   <section class="record-stage" id="recordStage" aria-label="기록·앨범·아카이브·여행" hidden>
@@ -4769,15 +4730,15 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
 <div class="app-install-grid app-install-v137 site-edition-downloads">
   <article class="app-install-card windows">
     <i>Windows PC · 사이트 파일</i><b>모던</b><p>간결한 구조와 차분한 색상의 사이트 디자인입니다.</p>
-    <a class="app-download-link app-download-v164" href="./AiderLog-Modern-v178-site-files.zip" download="AiderLog-Modern-v178-site-files.zip">모던 사이트 파일 다운로드</a>
+    <a class="app-download-link app-download-v164" href="./AiderLog-Modern-v179-site-files.zip" download="AiderLog-Modern-v179-site-files.zip">모던 사이트 파일 다운로드</a>
   </article>
   <article class="app-install-card windows">
     <i>Windows PC · 사이트 파일</i><b>에디토리얼</b><p>기존의 잡지형 구성과 탭 디자인을 유지합니다.</p>
-    <a class="app-download-link app-download-v164" href="./AiderLog-Editorial-v178-site-files.zip" download="AiderLog-Editorial-v178-site-files.zip">에디토리얼 사이트 파일 다운로드</a>
+    <a class="app-download-link app-download-v164" href="./AiderLog-Editorial-v179-site-files.zip" download="AiderLog-Editorial-v179-site-files.zip">에디토리얼 사이트 파일 다운로드</a>
   </article>
   <article class="app-install-card android">
     <i>Android APK</i><b>Android 앱</b><p>Galaxy Fold·Flip 3–8 및 Android 8.0 이상용 최신 설치 파일입니다.</p>
-    <a class="app-download-link app-download-v164" href="./AiderLog-v178.apk" download="AiderLog-v178.apk">Android APK 다운로드</a>
+    <a class="app-download-link app-download-v164" href="./AiderLog-v179.apk" download="AiderLog-v179.apk">Android APK 다운로드</a>
   </article>
 </div>
           <div class="login-data-summary"><b>기록 저장 안내</b><span>일정은 본인 공간에 저장되며 ‘커플과 공유’를 선택한 일정만 상대 캘린더에 표시됩니다.</span><span>EVENT는 커플 연결 시 함께 보고, 루틴·PERSONAL·메모는 본인만 확인합니다.</span><span>PAPER·CONSULTING·WORK는 허용된 두 계정만 열 수 있으며, 각 계정의 연구·컨설팅·운영 기록은 서로 분리해 저장합니다.</span><span>사진·영상은 압축 저장되며, 오래된 일반 기록은 삭제 전에 반드시 확인을 요청합니다.</span></div>
@@ -4863,22 +4824,21 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
 <!-- Schedule editor -->
 <div class="overlay" id="scheduleModal" role="dialog" aria-modal="true" aria-labelledby="scheduleModalTitle">
   <div class="modal">
-    <div class="modal-head"><b id="scheduleModalTitle">일정 등록</b><button class="x" data-close="scheduleModal">×</button></div>
+    <div class="modal-head"><b id="scheduleModalTitle">일정 추가</b><div class="schedule-editor-tools-v179" data-private-header-v179><div class="schedule-editor-primary-v179"><button class="x" type="button" data-close="scheduleModal" aria-label="닫기">×</button><button class="primary" type="submit" form="scheduleForm" id="saveEvent">저장</button></div></div></div>
     <div class="modal-body">
       <form id="scheduleForm">
         <input id="eventId" type="hidden">
         <div class="form">
-          <div class="field full"><label for="eventTitle">일정 제목</label><input id="eventTitle" required maxlength="60"></div>
+          <div class="field full"><div class="schedule-title-row-v179"><label for="eventTitle">일정 이름</label><label class="schedule-all-day-v179"><input id="eventAllDay" type="checkbox">종일</label></div><input id="eventTitle" required maxlength="60"></div>
           <div class="field"><label for="eventDate">시작 날짜</label><input id="eventDate" type="date" required></div>
           <div class="field"><label for="eventEndDate">종료 날짜</label><input id="eventEndDate" type="date"></div>
           <div class="field"><label for="eventTime">시작 시간</label><input id="eventTime" type="time"></div>
           <div class="field"><label for="eventEndTime">종료 시간</label><input id="eventEndTime" type="time"></div>
-          <div class="field full"><label class="schedule-range-check"><input id="eventAllDay" type="checkbox">하루 종일 / 날짜 범위 일정</label></div>
           <div class="field full" id="eventGoogleCalendarField" hidden><label for="eventGoogleCalendar">저장할 캘린더</label><select id="eventGoogleCalendar"><option value="">AiderLog에만 저장</option></select><small class="hinttext">자동 동기화에서 선택한 캘린더 중 일정 추가 권한이 있는 캘린더만 표시됩니다.</small></div>
           <div class="field full" id="eventOwnerField"><label class="schedule-share-check" for="eventShared"><input id="eventShared" type="checkbox"><span><b>커플과 공유</b><small>출처와 관계없이 상대의 AiderLog에만 표시됩니다. 상대 또는 원본 Google 캘린더에는 전송되지 않습니다.</small></span></label><select id="eventOwner" hidden aria-hidden="true"><option value="mine">내 일정</option><option value="shared">공유 일정</option></select></div>
           <div class="field full"><label for="eventMemo">메모</label><textarea id="eventMemo"></textarea></div>
         </div>
-        <div class="modal-actions"><button class="secondary" type="button" id="eventImportedShare" hidden>커플에게 공유</button><button class="secondary" type="button" id="deleteEvent" hidden>삭제</button><button class="primary" type="submit" id="saveEvent">저장</button></div>
+        <div class="modal-actions"><button class="secondary" type="button" id="eventImportedShare" hidden>커플에게 공유</button><button class="secondary" type="button" id="deleteEvent" hidden>삭제</button></div>
       </form>
     </div>
   </div>
@@ -4961,127 +4921,6 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
 </div>
 
 
-<!-- Emotion editor -->
-<div class="overlay" id="emotionModal" role="dialog" aria-modal="true" aria-labelledby="emotionModalTitle">
-  <div class="modal emotion-editor-modal">
-    <div class="modal-head"><b id="emotionModalTitle">감정기록</b><button class="x" data-close="emotionModal">×</button></div>
-    <div class="modal-body">
-      <form id="emotionForm">
-        <input id="emotionEntryId" type="hidden">
-        <input id="emotionMood" type="hidden" value="">
-        <input id="emotionWants" type="hidden" value="">
-        <div class="form emotion-form-grid">
-          <div class="emotion-core-grid emotion-core-grid-v52 full">
-            <div class="field"><label for="emotionDate">날짜</label><input id="emotionDate" type="date" required></div>
-            <div class="field" id="emotionTimeField"><label for="emotionTime">시간</label><input id="emotionTime" type="time"></div>
-            <div class="field" id="emotionLocationField"><label for="emotionLocation">장소</label><select id="emotionLocation"><option value="">선택</option><option value="집">집</option><option value="직장/학교">직장/학교</option><option value="카페">카페</option><option value="식당">식당</option><option value="이동 중">이동 중</option><option value="야외">야외</option><option value="기타">기타</option></select></div>
-            <div class="field" id="emotionCompanionField"><label for="emotionCompanion">함께 있는 사람</label><select id="emotionCompanion"><option value="">선택</option><option value="혼자">혼자</option><option value="연인">연인</option><option value="가족">가족</option><option value="친구">친구</option><option value="동료">동료</option><option value="지인">지인</option><option value="기타">기타</option></select></div>
-          </div>
-          <div class="field full" id="emotionJournalSection">
-            <label>감정</label>
-            <div class="emotion-mood-picker">
-              <button class="emotion-mood-chip" type="button" data-emotion-mood="기쁨">😄<span>기쁨</span></button>
-              <button class="emotion-mood-chip" type="button" data-emotion-mood="행복">😊<span>행복</span></button>
-              <button class="emotion-mood-chip" type="button" data-emotion-mood="설렘">🥰<span>설렘</span></button>
-              <button class="emotion-mood-chip" type="button" data-emotion-mood="편안함">😌<span>편안함</span></button>
-              <button class="emotion-mood-chip" type="button" data-emotion-mood="감사">🙏<span>감사</span></button>
-              <button class="emotion-mood-chip" type="button" data-emotion-mood="피곤함">😴<span>피곤함</span></button>
-              <button class="emotion-mood-chip" type="button" data-emotion-mood="불안">😰<span>불안</span></button>
-              <button class="emotion-mood-chip" type="button" data-emotion-mood="짜증">😠<span>짜증</span></button>
-              <button class="emotion-mood-chip" type="button" data-emotion-mood="외로움">🥺<span>외로움</span></button>
-              <button class="emotion-mood-chip" type="button" data-emotion-mood="슬픔">😢<span>슬픔</span></button>
-            </div>
-            <div class="emotion-data-block">
-              <label>감정 강도</label>
-              <input id="emotionIntensity" type="hidden" value="3">
-              <div class="emotion-intensity-picker" aria-label="감정 강도">
-                <button class="emotion-intensity-btn" type="button" data-emotion-intensity="1">1 · 약함</button>
-                <button class="emotion-intensity-btn" type="button" data-emotion-intensity="2">2</button>
-                <button class="emotion-intensity-btn" type="button" data-emotion-intensity="3">3 · 보통</button>
-                <button class="emotion-intensity-btn" type="button" data-emotion-intensity="4">4</button>
-                <button class="emotion-intensity-btn" type="button" data-emotion-intensity="5">5 · 강함</button>
-              </div>
-            </div>
-            <div class="emotion-data-block">
-              <label>무슨 일이 있었나요?</label>
-              <input id="emotionContexts" type="hidden" value="">
-              <div class="emotion-data-chips" data-emotion-group="context">
-                <button class="emotion-data-chip" type="button" data-emotion-context="일이 몰리거나 시간에 쫓김">일이 몰리거나 시간에 쫓김</button>
-                <button class="emotion-data-chip" type="button" data-emotion-context="실수하거나 문제가 생김">실수하거나 문제가 생김</button>
-                <button class="emotion-data-chip" type="button" data-emotion-context="갈등하거나 서운한 말을 들음">갈등하거나 서운한 말을 들음</button>
-                <button class="emotion-data-chip" type="button" data-emotion-context="계획이 틀어지거나 갑자기 바뀜">계획이 틀어지거나 갑자기 바뀜</button>
-                <button class="emotion-data-chip" type="button" data-emotion-context="중요한 선택·결정을 앞둠">중요한 선택·결정을 앞둠</button>
-                <button class="emotion-data-chip" type="button" data-emotion-context="바라던 결과를 얻음">바라던 결과를 얻음</button>
-                <button class="emotion-data-chip" type="button" data-emotion-context="칭찬·인정을 받음">칭찬·인정을 받음</button>
-                <button class="emotion-data-chip" type="button" data-emotion-context="반가운 연락·만남이 있었음">반가운 연락·만남이 있었음</button>
-                <button class="emotion-data-chip" type="button" data-emotion-context="도움·배려를 받음">도움·배려를 받음</button>
-                <button class="emotion-data-chip" type="button" data-emotion-context="새로운 기회·계획이 생김">새로운 기회·계획이 생김</button>
-                <button class="emotion-data-chip" type="button" data-emotion-context="기타">기타</button>
-              </div>
-            </div>
-            <div class="emotion-data-block">
-              <label>그때 무엇을 하고 있었나요?</label>
-              <input id="emotionCurrentActivities" type="hidden" value="">
-              <div class="emotion-data-chips" data-emotion-group="current">
-                <button class="emotion-data-chip" type="button" data-emotion-current="업무·작업">업무·작업</button>
-                <button class="emotion-data-chip" type="button" data-emotion-current="회의·발표">회의·발표</button>
-                <button class="emotion-data-chip" type="button" data-emotion-current="공부·자기계발">공부·자기계발</button>
-                <button class="emotion-data-chip" type="button" data-emotion-current="대화·통화·메신저">대화·통화·메신저</button>
-                <button class="emotion-data-chip" type="button" data-emotion-current="이동·운전">이동·운전</button>
-                <button class="emotion-data-chip" type="button" data-emotion-current="약속·모임">약속·모임</button>
-                <button class="emotion-data-chip" type="button" data-emotion-current="개인 용무 처리">개인 용무 처리</button>
-                <button class="emotion-data-chip" type="button" data-emotion-current="취미·창작">취미·창작</button>
-                <button class="emotion-data-chip" type="button" data-emotion-current="SNS·커뮤니티 보기">SNS·커뮤니티 보기</button>
-                <button class="emotion-data-chip" type="button" data-emotion-current="기타">기타</button>
-              </div>
-            </div>
-            <div class="emotion-data-block">
-              <label>그 감정이 든 뒤 어떻게 했나요?</label>
-              <input id="emotionAfterActivities" type="hidden" value="">
-              <div class="emotion-data-chips" data-emotion-group="after">
-                <button class="emotion-data-chip" type="button" data-emotion-after="하던 일을 계속함">하던 일을 계속함</button>
-                <button class="emotion-data-chip" type="button" data-emotion-after="해야 할 일을 미룸">해야 할 일을 미룸</button>
-                <button class="emotion-data-chip" type="button" data-emotion-after="문제를 바로 해결하려 함">문제를 바로 해결하려 함</button>
-                <button class="emotion-data-chip" type="button" data-emotion-after="누군가에게 말·연락함">누군가에게 말·연락함</button>
-                <button class="emotion-data-chip" type="button" data-emotion-after="대화를 멈추고 거리를 둠">대화를 멈추고 거리를 둠</button>
-                <button class="emotion-data-chip" type="button" data-emotion-after="혼자 있는 곳으로 이동함">혼자 있는 곳으로 이동함</button>
-                <button class="emotion-data-chip" type="button" data-emotion-after="밖으로 나가 걷거나 장소를 바꿈">밖으로 나가 걷거나 장소를 바꿈</button>
-                <button class="emotion-data-chip" type="button" data-emotion-after="음악·영상·SNS로 주의를 돌림">음악·영상·SNS로 주의를 돌림</button>
-                <button class="emotion-data-chip" type="button" data-emotion-after="메모·일기로 감정을 적음">메모·일기로 감정을 적음</button>
-                <button class="emotion-data-chip" type="button" data-emotion-after="호흡하며 감정을 가라앉힘">호흡하며 감정을 가라앉힘</button>
-                <button class="emotion-data-chip" type="button" data-emotion-after="기타">기타</button>
-              </div>
-            </div>
-            <div class="emotion-data-block">
-              <label for="emotionNextEmotion">그 후의 감정 <span class="emotion-analysis-note">(선택 · 다음 기록이 있다면 Insights에서도 자동으로 연결됩니다)</span></label>
-              <select id="emotionNextEmotion" class="emotion-next-select">
-                <option value="">선택하지 않음</option>
-                <option value="기쁨">기쁨</option><option value="행복">행복</option><option value="설렘">설렘</option><option value="편안함">편안함</option><option value="감사">감사</option><option value="피곤함">피곤함</option><option value="불안">불안</option><option value="짜증">짜증</option><option value="외로움">외로움</option><option value="슬픔">슬픔</option>
-              </select>
-            </div>
-            <label class="emotion-sub-label">지금 하고 싶은 것</label>
-            <div class="emotion-want-picker">
-              <button type="button" data-emotion-want="쉬기">쉬기</button><button type="button" data-emotion-want="산책">산책</button><button type="button" data-emotion-want="운동">운동</button><button type="button" data-emotion-want="대화">대화</button><button type="button" data-emotion-want="혼자 있기">혼자 있기</button><button type="button" data-emotion-want="먹기">먹기</button><button type="button" data-emotion-want="잠자기">잠자기</button><button type="button" data-emotion-want="쇼핑">쇼핑</button><button type="button" data-emotion-want="여행">여행</button><button type="button" data-emotion-want="취미">취미</button><button type="button" data-emotion-want="기타">기타</button>
-            </div>
-            <div class="emotion-want-custom-wrap"><input id="emotionWantCustom" maxlength="120" placeholder="직접 입력 · 예: 바다 보러 가기, 맛있는 것 먹기"><span>쉼표로 여러 개 입력할 수 있어요.</span></div>
-            <label class="emotion-sub-label">3줄 일기</label>
-            <div class="emotion-three-lines"><input id="emotionLine1" maxlength="100" placeholder="1. 오늘 가장 기억나는 순간"><input id="emotionLine2" maxlength="100" placeholder="2. 지금 마음에 남은 생각"><input id="emotionLine3" maxlength="100" placeholder="3. 오늘의 나에게 남기고 싶은 말"></div>
-          </div>
-          <div class="field full" id="emotionCycleSection" hidden><label>생리기록</label><div class="emotion-checks emotion-checks-period"><label class="emotion-check"><input id="emotionPeriod" type="checkbox">생리일</label></div></div>
-        </div>
-        <div class="modal-actions"><button class="secondary" type="button" id="deleteEmotion" hidden>삭제</button><button class="primary" type="submit">저장</button></div>
-      </form>
-    </div>
-  </div>
-</div>
-
-<!-- Emotion day detail: shared view, owner-only edit -->
-<div class="overlay" id="emotionDayModal" role="dialog" aria-modal="true" aria-labelledby="emotionDayTitle">
-  <div class="modal emotion-day-modal">
-    <div class="modal-head"><b id="emotionDayTitle">감정 기록</b><button class="x" data-close="emotionDayModal">×</button></div>
-    <div class="modal-body"><div class="emotion-day-detail-list" id="emotionDayDetailList"></div></div>
-  </div>
-</div>
 
 <!-- Event / travel review editor -->
 <div class="overlay" id="eventReviewModal" role="dialog" aria-modal="true" aria-labelledby="eventReviewModalTitle">
@@ -5215,50 +5054,6 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
 
 
 
-<!-- Emotion CARE: breathing -->
-<div class="overlay" id="careBreathModal" role="dialog" aria-modal="true" aria-labelledby="careBreathTitle">
-  <div class="modal care-modal">
-    <div class="modal-head"><b id="careBreathTitle">호흡하기</b><button class="x" data-close="careBreathModal">×</button></div>
-    <div class="modal-body">
-      <div class="care-breath-wrap">
-        <div class="care-breath-circle" id="careBreathCircle"><div><div class="care-breath-phase" id="careBreathPhase">준비</div><div class="care-breath-time" id="careBreathTime">1분 · 4-4-6 호흡</div></div></div>
-        <div class="care-breath-actions"><button type="button" id="careBreathReset">RESET</button><button class="primary" type="button" id="careBreathStart">START</button></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Emotion CARE: writing -->
-<div class="overlay" id="careWriteModal" role="dialog" aria-modal="true" aria-labelledby="careWriteTitle">
-  <div class="modal care-modal">
-    <div class="modal-head"><b id="careWriteTitle">생각 정리하기</b><button class="x" data-close="careWriteModal">×</button></div>
-    <div class="modal-body">
-      <div class="care-write-prompts">
-        <label>지금 나를 가장 불편하게 하는 생각은 무엇인가요?<textarea id="careWrite1" maxlength="500"></textarea></label>
-        <label>내가 지금 통제할 수 있는 것은 무엇인가요?<textarea id="careWrite2" maxlength="500"></textarea></label>
-        <label>지금 당장 하지 않아도 되는 것은 무엇인가요?<textarea id="careWrite3" maxlength="500"></textarea></label>
-      </div>
-      <div class="modal-actions"><button class="primary" type="button" id="careWriteSave">저장</button></div>
-    </div>
-  </div>
-</div>
-
-<!-- Emotion CARE: meditation -->
-<div class="overlay" id="careMeditationModal" role="dialog" aria-modal="true" aria-labelledby="careMeditationTitle">
-  <div class="modal care-modal meditation-modal">
-    <div class="modal-head"><b id="careMeditationTitle">명상하기</b><button class="x" data-close="careMeditationModal">×</button></div>
-    <div class="modal-body">
-      <div class="meditation-guide">
-        <div class="meditation-kicker">QUIET MOMENT</div>
-        <div class="meditation-orb" id="meditationOrb"><span id="meditationPhase">준비</span><strong id="meditationClock">03:00</strong></div>
-        <p id="meditationPrompt">편안한 자세를 잡고, 시선을 천천히 한 곳에 두세요.</p>
-        <div class="meditation-duration" aria-label="명상 시간"><button type="button" class="active" data-meditation-minutes="3">3 MIN</button><button type="button" data-meditation-minutes="5">5 MIN</button><button type="button" data-meditation-minutes="10">10 MIN</button></div>
-        <div class="meditation-progress"><i id="meditationProgress"></i></div>
-        <div class="care-breath-actions"><button type="button" id="meditationReset">RESET</button><button class="primary" type="button" id="meditationStart">START</button></div>
-      </div>
-    </div>
-  </div>
-</div>
 
 <!-- Brain disorder detail -->
 <div class="research-modal brain-disorder-modal" id="brainDisorderOverlay" hidden>
@@ -5294,8 +5089,8 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script type="module" src="./firebase-app.js?v=178"></script>
-<script src="./brain-3d.js?v=178"></script>
+<script type="module" src="./firebase-app.js?v=179"></script>
+<script src="./brain-3d.js?v=179"></script>
 <script>
 (()=>{
   const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
@@ -5547,9 +5342,6 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
       brainDisorder('Klüver–Bucy 증후군','Klüver–Bucy Syndrome','양측 편도-전측두 손상의 정서·인식 증후군','공포 반응 감소, 시각실인, 구강 탐색, 성행동 변화가 조합되며 herpes encephalitis, 외상, 수술 후 드물게 나타납니다.')
     ]
   };
-  const EMOTION_DATA_FILE_NAME='emotion-data.json';
-  const EMOTION_FOLDER_PREFIX='AiderDear Emotion - ';
-  const EMOTION_VERSION=4;
   const FAMILY_LIMIT=10;
   let googleConfig={clientId:'',adminEmail:'',familyUsers:[],partnerEmail:'',rootFolderId:''};
   let importedJoinConfig=false;
@@ -5577,8 +5369,6 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   let privateRefs={};
   let privateOwner='';
   let privateFeature='memo';
-  let emotionData={};
-  let emotionRefs={};
   let firebaseState={ready:false,user:null,pair:null,partner:null,incoming:[],outgoing:[],friends:[],friendIncoming:[],friendOutgoing:[],directLetters:[],error:''};
   let firebaseScopeKey='';
   let firebaseBootstrapPromise=null;
@@ -5631,7 +5421,7 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   function scheduleVisiblePeople(){return []}
   function renderSchedulePeopleFilters(){const box=$('#schedulePeopleFilters');if(box)box.innerHTML='';schedulePersonFilters=new Set()}
   function eventPassesPersonFilter(){return true}
-  async function syncCurrentDisplayName(){if(!currentUserEmail||!currentUserName)return;localStorage.setItem(displayNameStorageKey(currentUserEmail),currentUserName);let changed=false;const roster=normalizeFamilyUsers(cloudData.familyUsers||googleConfig.familyUsers||[]);const row=roster.find(x=>x.email===currentUserEmail);if(row&&row.name!==currentUserName){row.name=currentUserName;cloudData.familyUsers=roster;changed=true}if(privateData[currentUserEmail]){privateData[currentUserEmail].profile.name=currentUserName;try{await savePrivateData(currentUserEmail)}catch{}}if(emotionData[currentUserEmail]){emotionData[currentUserEmail].profile.name=currentUserName;try{await saveEmotionData(currentUserEmail)}catch{}}if(changed)try{await saveCloudData()}catch{}renderSchedulePeopleFilters();renderCalendar();renderEmotion();renderPrivate();renderPersonal()}
+  async function syncCurrentDisplayName(){if(!currentUserEmail||!currentUserName)return;localStorage.setItem(displayNameStorageKey(currentUserEmail),currentUserName);let changed=false;const roster=normalizeFamilyUsers(cloudData.familyUsers||googleConfig.familyUsers||[]);const row=roster.find(x=>x.email===currentUserEmail);if(row&&row.name!==currentUserName){row.name=currentUserName;cloudData.familyUsers=roster;changed=true}if(privateData[currentUserEmail]){privateData[currentUserEmail].profile.name=currentUserName;try{await savePrivateData(currentUserEmail)}catch{}}if(changed)try{await saveCloudData()}catch{}renderSchedulePeopleFilters();renderCalendar();renderEmotion();renderPrivate();renderPersonal()}
   async function saveDisplayName(value){if(!currentUserEmail)return;const suggested=storedDisplayName(currentUserEmail)||currentUserName||String(googleProfile?.given_name||googleProfile?.name||'').trim()||currentUserEmail.split('@')[0],name=String(value||'').trim().slice(0,24)||suggested;currentUserName=name;localStorage.setItem(displayNameStorageKey(currentUserEmail),name);applyLoginUI();if(window.AiderDearFirebase?.updateNickname)await window.AiderDearFirebase.updateNickname(name);if(driveDataFileId)await syncCurrentDisplayName();toast(`${name}(으)로 표시합니다.`)}
   async function changeDisplayName(force=false){if(!currentUserEmail)return;const suggested=storedDisplayName(currentUserEmail)||currentUserName||String(googleProfile?.given_name||googleProfile?.name||'').trim()||currentUserEmail.split('@')[0],value=window.prompt(force?'AiderLog에서 사용할 닉네임을 입력해주세요.':'닉네임을 입력해주세요.',suggested);if(value!=null)await saveDisplayName(value)}
   function loadGoogleConfig(){
@@ -5914,36 +5704,6 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
     data=await importRestrictedWorkspaceOnce(data);privateData[currentUserEmail]=normalizePrivateData(data,currentUserEmail,currentUserName);await window.AiderDearFirebase.writePrivateData(privateData[currentUserEmail]);syncGenderUI();renderPrivate();renderPersonal();renderPaper();renderConsultingWorkspace();startConsultingIntakeWatch().catch(console.warn);
   }
   async function savePrivateData(email){email=normalizeEmail(email);if(!currentUser||currentUserEmail!==email||!privateRefs[email]?.fileId)throw new Error('이 개인 기록을 수정할 권한이 없습니다.');privateData[email]=normalizePrivateData(privateData[email],email,currentUserName);await window.AiderDearFirebase.writePrivateData(privateData[email])}
-  function blankEmotionData(email='',name=''){return {version:EMOTION_VERSION,profile:{email:normalizeEmail(email),name:normalizeName(name,email)},entries:[]}}
-  function normalizeEmotionData(data,email='',name=''){
-    const d={...blankEmotionData(email,name),...(data||{})};
-    d.profile={email:normalizeEmail(d.profile?.email||email),name:normalizeName(d.profile?.name||name,d.profile?.email||email)};
-    const cleanList=(v,max=8)=>[...new Set((Array.isArray(v)?v:[]).map(x=>String(x||'').trim().replace(/\s+/g,' ')).filter(Boolean))].slice(0,max);
-    d.entries=Array.isArray(d.entries)?d.entries.filter(x=>x&&x.id&&/^\d{4}-\d{2}-\d{2}$/.test(x.date||'')).map(x=>{
-      const legacy=normalizeMoodValue(String(x.mood||''));
-      const moods=[...new Set((Array.isArray(x.moods)?x.moods:(legacy?[legacy]:[])).map(v=>normalizeMoodValue(String(v||''))).filter(Boolean))].slice(0,10);
-      const wants=cleanList(x.wants,6);
-      const contexts=cleanList(x.context,6);
-      const currentActivities=cleanList(x.currentActivities,6);
-      const afterActivities=cleanList(x.afterActivities,6);
-      const nextEmotion=normalizeMoodValue(String(x.nextEmotion||''));
-      const intensity=Math.max(1,Math.min(5,Number(x.intensity)||3));
-      const time=/^\d{2}:\d{2}$/.test(String(x.time||''))?String(x.time):'';
-      const location=String(x.location||'').trim().replace(/\s+/g,' ').slice(0,40);
-      const companion=String(x.companion||'').trim().replace(/\s+/g,' ').slice(0,40);
-      return {...x,owner:d.profile.email,mood:moods[0]||'',moods,wants,context:contexts,currentActivities,afterActivities,nextEmotion,intensity,time,location,companion,lines:Array.isArray(x.lines)?x.lines.slice(0,3).map(v=>String(v||'')):[String(x.line1||''),String(x.line2||''),String(x.line3||'')],period:!!x.period,intimacy:!!x.intimacy}
-    }):[];
-    d.version=EMOTION_VERSION;return d;
-  }
-  function emotionFolderName(email){return `${EMOTION_FOLDER_PREFIX}${normalizeEmail(email)}`}
-  async function ensureEmotionOwner(email){
-    email=normalizeEmail(email);if(!email)return false;emotionRefs[email]={folderId:'',fileId:'',writable:currentUserEmail===email};let folder=await findDriveFolder(emotionFolderName(email));if(!folder&&currentUserEmail===email){const legacy=isAdmin?'AiderDear Emotion - Bomin':'AiderDear Emotion - Dongwoo';const oldFolder=await findDriveFolder(legacy);if(oldFolder){folder=oldFolder;try{await googleApi(`https://www.googleapis.com/drive/v3/files/${encodeURIComponent(folder.id)}?fields=id,name`,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:emotionFolderName(email)})})}catch{}}}if(!folder){if(currentUserEmail!==email)return false;folder=await createDriveFolder(emotionFolderName(email),'',{aiderdear:'emotion-user-v2'});;if(mutualPartner()&&mutualPartner().email!==email)await shareDriveReadOnly(folder.id,mutualPartner().email)}
-    emotionRefs[email].folderId=folder.id;let file=await driveFindNamedFile(EMOTION_DATA_FILE_NAME,folder.id);if(!file){if(currentUserEmail!==email)return false;file=await driveCreateJsonInFolder(EMOTION_DATA_FILE_NAME,folder.id,blankEmotionData(email,currentUserName),'emotion-v2')}emotionRefs[email].fileId=file.id;const text=await googleApi(`https://www.googleapis.com/drive/v3/files/${encodeURIComponent(file.id)}?alt=media`,{},'text');emotionData[email]=normalizeEmotionData(JSON.parse(text||'{}'),email,email===currentUserEmail?currentUserName:'');return true;
-  }
-  async function loadEmotionData(){
-    emotionData={};emotionRefs={};if(!currentUserEmail||!window.AiderDearFirebase)return;const own=await window.AiderDearFirebase.readEmotionData(firebaseState.user?.uid||'');emotionData[currentUserEmail]=normalizeEmotionData(own||blankEmotionData(currentUserEmail,currentUserName),currentUserEmail,currentUserName);emotionRefs[currentUserEmail]={folderId:'firebase-emotion',fileId:'firebase-emotion',writable:true};const partner=mutualPartner();if(partner?.uid)try{const shared=await window.AiderDearFirebase.readEmotionData(partner.uid);if(shared){emotionData[partner.email]=normalizeEmotionData(shared,partner.email,partner.name);emotionRefs[partner.email]={folderId:'firebase-emotion-shared',fileId:'firebase-emotion-shared',writable:false}}}catch(e){console.warn('Partner emotion unavailable',e)}renderEmotion();
-  }
-  async function saveEmotionData(email){email=normalizeEmail(email);if(!currentUser||currentUserEmail!==email||!emotionRefs[email]?.fileId)throw new Error('본인의 감정일기만 수정할 수 있습니다.');emotionData[email]=normalizeEmotionData(emotionData[email],email,currentUserName);await window.AiderDearFirebase.writeEmotionData(emotionData[email])}
 
   async function driveLoadJsonFile(){
     const parsed=firebaseState.pair?.id&&window.AiderDearFirebase.migrateEventWorkspace
@@ -6168,7 +5928,6 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
     // Private records are essential. Load them before optional calendar/media
     // integrations so a failed OAuth or sync request can never blank routines.
     await loadPrivateData();
-    try{await loadEmotionData()}catch(error){optionalErrors.push(error);console.warn('Emotion data load skipped',error)}
     try{await ensureCalendar();await loadCalendarList();await loadCalendarEvents()}catch(error){optionalErrors.push(error);console.warn('Calendar data load skipped',error)}
     try{await refreshExternalCalendarStatus();startExternalCalendarAutoSync();await runExternalCalendarAutoSync(true)}catch(error){optionalErrors.push(error);console.warn('Automatic calendar sync bootstrap skipped',error)}
     try{await scanDriveMedia()}catch(error){optionalErrors.push(error);console.warn('Media scan skipped',error)}
@@ -6183,7 +5942,8 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
     const show=()=>{
       calendarTooltip?.remove();
       calendarTooltip=document.createElement('div');calendarTooltip.className='calendar-event-tooltip';calendarTooltip.setAttribute('role','tooltip');
-      calendarTooltip.innerHTML=`<strong>${escapeHtml(date.replaceAll('-','.'))} · 일정 ${events.length}개</strong>${events.map(event=>`<span class="${scheduleReceivedV176(event)?'schedule-received-v176':''}" ${scheduleReceivedV176(event)?'aria-label="상대가 공유한 일정"':''}><time>${escapeHtml(event.time||'종일')}</time><b>${escapeHtml(event.title)}</b></span>`).join('')}`;
+      const tooltipEntries=window.AiderScheduleTimeV179?.entries(events)||events.map(row=>({row,separatorBefore:false}));
+      calendarTooltip.innerHTML=`<strong>${escapeHtml(date.replaceAll('-','.'))} · 일정 ${events.length}개</strong>${tooltipEntries.map(({row:event,separatorBefore})=>`${separatorBefore?'<i class="schedule-halfday-v179" aria-label="오후 일정">-</i>':''}<span class="${scheduleReceivedV176(event)?'schedule-received-v176':''}" ${scheduleReceivedV176(event)?'aria-label="상대가 공유한 일정"':''}><time>${escapeHtml(window.AiderScheduleTimeV179?.format(event)||'')}</time><b>${escapeHtml(event.title)}</b></span>`).join('')}`;
       document.body.appendChild(calendarTooltip);
       const rect=cell.getBoundingClientRect(),tip=calendarTooltip.getBoundingClientRect(),gap=7;
       let left=Math.min(rect.left,window.innerWidth-tip.width-10),top=rect.bottom+gap;
@@ -6196,7 +5956,7 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
 
   function renderCalendar(){
     renderSchedulePeopleFilters();const y=shown.getFullYear(),m=shown.getMonth();
-    $('#monthTitle').innerHTML=`${y}. <b>${String(m+1).padStart(2,'0')}</b>`;
+    $('#monthTitle').innerHTML=`${y}. <b>${String(m+1).padStart(2,'0')}.</b>`;
     const cal=$('#calendar'); cal.innerHTML='';
     ['SUN','MON','TUE','WED','THU','FRI','SAT'].forEach(w=>{const e=document.createElement('div');e.className='week';e.textContent=w;cal.appendChild(e)});
     const first=new Date(y,m,1).getDay(), days=new Date(y,m+1,0).getDate(), prevDays=new Date(y,m,0).getDate(),calendarEvents=[...calendarDisplayEvents(y),...koreaHolidayEvents(y-1),...koreaHolidayEvents(y),...koreaHolidayEvents(y+1)];
@@ -6208,16 +5968,17 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
       const date=iso(cy,cm,day); const cell=document.createElement('div'); cell.className='day'+(out?' out':'');cell.dataset.date=date;cell.setAttribute('role','button');cell.tabIndex=0;cell.setAttribute('aria-label',`${cy}년 ${cm+1}월 ${day}일 일정 추가`);
       if(date===iso(today.getFullYear(),today.getMonth(),today.getDate())) cell.classList.add('today-cell');
       const dayEvents=calendarEvents.filter(e=>eventOccursOnDate(e,date) && (e.isHoliday||eventPassesPersonFilter(e))).sort((a,b)=>Number(!!b.isHoliday)-Number(!!a.isHoliday)||(a.date||'').localeCompare(b.date||'')||(a.time||'').localeCompare(b.time||''));const holidayEvents=dayEvents.filter(e=>e.isHoliday);if(holidayEvents.length)cell.classList.add('holiday-day');
-      const moodRows=currentUser?emotionVisibleOwners().map(email=>entryForDate(email,date)).filter(Boolean):[];
+
       const numRow=document.createElement('div');numRow.className='daynum-row';const n=document.createElement('div');n.className='daynum';n.textContent=String(day).padStart(2,'0');numRow.appendChild(n);if(holidayEvents.length){const h=document.createElement('span');h.className='holiday-name';h.textContent=holidayEvents.map(e=>e.title).join(' · ');h.title=h.textContent;numRow.appendChild(h)}cell.appendChild(numRow);
       const lineLimit=(window.AiderLogNative||document.documentElement.classList.contains('aiderlog-android')||new URLSearchParams(location.search).has('android-preview'))?2:3;
-      const normalEvents=dayEvents.filter(e=>!e.isHoliday),visibleEvents=normalEvents.slice(0,lineLimit);
+      const normalEvents=window.AiderScheduleTimeV179.ordered(dayEvents.filter(e=>!e.isHoliday)),visibleEvents=normalEvents.slice(0,lineLimit);
       if(normalEvents.length>lineLimit){cell.classList.add('has-more-events');attachCalendarEventTooltip(cell,normalEvents,date)}
-      visibleEvents.forEach(e=>{
-        const ownerKind=scheduleOwnerKind(e),ownImported=!!e.externalSource&&ownerKind==='mine',received=scheduleReceivedV176(e),b=document.createElement('button');b.className=`ev ${ownerKind}${ownImported?' imported-calendar':''}${e.isBirthday?' birthday-event':''}${received?' schedule-received-v176':''}`;b.type='button';if(ownImported&&e.sourceColor)b.style.setProperty('--source-color',safeCalendarColor(e.sourceColor)||'#B1A6D0');const range=(e.endDate&&e.endDate!==e.date)?` (${e.date.slice(5).replace('-','/')}~${e.endDate.slice(5).replace('-','/')})`:'';const author=normalizeEmail(e.authorEmail);const who=author?(author===currentUserEmail?(currentUserName||'나'):(emotionData[author]?.profile?.name||familyUser(author).name||author)):ownerLabel(ownerKind);b.title=`${received?'상대가 공유한 일정 · ':''}${who} · ${e.sourceTitle||'AiderLog'} · ${e.title}${range}`;b.textContent=`${e.time?e.time+' ':''}${e.title}`;if(received)b.setAttribute('aria-label',`상대가 공유한 일정 · ${b.textContent}`);b.addEventListener('click',ev=>{ev.stopPropagation();if(e.isBirthday)toast(e.memo||`${e.title}입니다.`);else openEvent(e)});cell.appendChild(b)
+      window.AiderScheduleTimeV179.entries(visibleEvents).forEach(({row:e,separatorBefore})=>{
+        if(separatorBefore){const divider=document.createElement('span');divider.className='schedule-halfday-v179';divider.textContent='-';divider.setAttribute('aria-label','오후 일정');cell.appendChild(divider)}
+        const ownerKind=scheduleOwnerKind(e),ownImported=!!e.externalSource&&ownerKind==='mine',received=scheduleReceivedV176(e),b=document.createElement('button');b.className=`ev ${ownerKind}${ownImported?' imported-calendar':''}${e.isBirthday?' birthday-event':''}${received?' schedule-received-v176':''}`;b.type='button';if(ownImported&&e.sourceColor)b.style.setProperty('--source-color',safeCalendarColor(e.sourceColor)||'#B1A6D0');const range=(e.endDate&&e.endDate!==e.date)?` (${e.date.slice(5).replace('-','/')}~${e.endDate.slice(5).replace('-','/')})`:'';const author=normalizeEmail(e.authorEmail);const who=author?(author===currentUserEmail?(currentUserName||'나'):(familyUser(author).name||author)):ownerLabel(ownerKind);b.title=`${received?'상대가 공유한 일정 · ':''}${who} · ${e.sourceTitle||'AiderLog'} · ${e.title}${range}`;b.textContent=`${window.AiderScheduleTimeV179.format(e)?window.AiderScheduleTimeV179.format(e)+' ':''}${e.title}`;if(received)b.setAttribute('aria-label',`상대가 공유한 일정 · ${b.textContent}`);b.addEventListener('click',ev=>{ev.stopPropagation();if(e.isBirthday)toast(e.memo||`${e.title}입니다.`);else openEvent(e)});cell.appendChild(b)
       });
       if(normalEvents.length>lineLimit){const more=document.createElement('span');more.className='calendar-more-count';more.textContent=`+${normalEvents.length-lineLimit}`;more.setAttribute('aria-label',`일정 ${normalEvents.length-lineLimit}개 더 있음`);cell.appendChild(more)}
-      if(moodRows.length){cell.classList.add('has-calendar-status');const status=document.createElement('button');status.type='button';status.className='calendar-status-icons';const statusLabels=[];moodRows.forEach(row=>{const owner=normalizeEmail(row.owner),ownerKind=owner===currentUserEmail?'mine':(mutualPartner()?.email===owner?'partner':'shared'),name=owner===currentUserEmail?'나':(emotionData[owner]?.profile?.name||familyUser(owner).name||'상대');const mood=entryMoods(row)[0];if(mood){const icon=document.createElement('span'),ownerDot=document.createElement('i');icon.className=`calendar-status-icon mood ${ownerKind}`;icon.style.setProperty('--mood-color',emotionMoodColor(mood));icon.textContent=emotionMoodMeta(mood).emoji;ownerDot.className='calendar-status-owner-dot';ownerDot.setAttribute('aria-hidden','true');icon.appendChild(ownerDot);icon.title=`${name} · ${mood}`;statusLabels.push(icon.title);status.appendChild(icon)}});status.title=statusLabels.join(' / ');status.setAttribute('aria-label',`${date} · ${statusLabels.join(' / ')}`);status.addEventListener('click',ev=>{ev.stopPropagation();if(ev.target.closest('[data-private-calendar-marker]'))newEvent('mine',date);else renderEmotionDayDetail(date)});cell.appendChild(status)}
+
       const addForDay=event=>{if(event?.target?.closest?.('.ev,.calendar-status-icons')&&!event?.target?.closest?.('[data-private-calendar-marker]'))return;if(event?.type==='keydown'&&!['Enter',' '].includes(event.key))return;event?.preventDefault?.();newEvent('mine',date)};cell.addEventListener('click',addForDay);cell.addEventListener('keydown',addForDay);cal.appendChild(cell);
     }
     renderShared();
@@ -6231,12 +5992,13 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
     const partner=mutualPartner(),toggle=$('#coupleAgendaToggle'),title=$('#monthAgendaTitle');if(title)title.textContent='This Month';if(toggle)toggle.hidden=true;
     const rows=calendarDisplayEvents(y).filter(e=>{const start=new Date(e.date+'T00:00:00'),end=new Date((e.endDate||e.date)+'T00:00:00');return !e.isHoliday&&last>=todayStart&&start<=last&&end>=first&&end>=todayStart}).sort((a,b)=>a.date.localeCompare(b.date)||(a.time||'').localeCompare(b.time||''));
     if(!rows.length){top.innerHTML='<div class="agenda-empty">오늘 이후 일정이 없습니다.</div>';return}
-    rows.forEach((e,index)=>{
+    window.AiderScheduleTimeV179.entries(rows).forEach(({row:e,separatorBefore},index)=>{
       const d=Number(e.date.slice(8,10)),author=normalizeEmail(e.authorEmail),owner=scheduleOwnerKind(e);
-      const row=document.createElement('button');row.type='button';row.className=`shared-row agenda-row ${index<3?'wide':'compact'}${scheduleReceivedV176(e)?' schedule-received-v176':''}`;if(scheduleReceivedV176(e))row.setAttribute('aria-label',`상대가 공유한 일정 · ${e.time||'종일'} ${e.title}`);
-      const when=e.endDate&&e.endDate!==e.date?`${e.date.slice(5).replace('-','/')}~${e.endDate.slice(5).replace('-','/')}`:(e.time||'종일');
+      const row=document.createElement('button');row.type='button';row.className=`shared-row agenda-row ${index<3?'wide':'compact'}${scheduleReceivedV176(e)?' schedule-received-v176':''}`;if(scheduleReceivedV176(e))row.setAttribute('aria-label',`상대가 공유한 일정 · ${window.AiderScheduleTimeV179.format(e)} ${e.title}`);
+      const when=e.endDate&&e.endDate!==e.date?`${e.date.slice(5).replace('-','/')}~${e.endDate.slice(5).replace('-','/')}`:window.AiderScheduleTimeV179.format(e);
       row.innerHTML=`<div class="shared-date">${String(d).padStart(2,'0')}</div><i class="agenda-owner-dot ${owner}" aria-hidden="true"></i><div class="agenda-copy"><span class="shared-line"><span>${escapeHtml(when)}</span><b>${escapeHtml(e.title)}</b>${e.memo?`<span> · ${escapeHtml(e.memo)}</span>`:''}</span></div>`;
-      row.addEventListener('click',ev=>{ev.stopPropagation();if(e.isBirthday)toast(e.memo||`${e.title}입니다.`);else openEvent(e)});(index<3?top:compact).appendChild(row);
+      const target=index<3?top:compact;if(separatorBefore){const divider=document.createElement('div');divider.className='schedule-halfday-v179';divider.textContent='-';divider.setAttribute('aria-label','오후 일정');target.appendChild(divider)}
+      row.addEventListener('click',ev=>{ev.stopPropagation();if(e.isBirthday)toast(e.memo||`${e.title}입니다.`);else openEvent(e)});target.appendChild(row);
     });
     if(rows.length<=3)compact.innerHTML='';
   }
@@ -6537,24 +6299,21 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
     if(e.key==='Escape'){e.preventDefault();closeModal(open.id);return}
     if(e.key!=='Tab')return;const items=modalFocusables(open);if(!items.length)return;e.preventDefault();const current=items.indexOf(document.activeElement);const next=e.shiftKey?(current<=0?items.length-1:current-1):(current===items.length-1?0:current+1);items[next].focus();
   });
-  function searchEmotionText(x){return `${(x.moods||[x.mood||'']).join(' ')} ${(x.wants||[]).join(' ')} ${(x.context||[]).join(' ')} ${(x.currentActivities||[]).join(' ')} ${(x.afterActivities||[]).join(' ')} ${x.location||''} ${x.companion||''} ${(x.lines||[]).join(' ')}`}
   function renderSearchResults(value=''){
     const q=String(value||'').trim().toLowerCase(),box=$('#searchResults'),hint=$('#searchHint');if(!box||!hint)return;
     if(!q){hint.textContent='예: 데이트 · 기념일 · 제주도 · 병원';box.innerHTML='';return}
     const schedule=events.filter(x=>`${x.title||''} ${x.memo||''}`.toLowerCase().includes(q)).map(x=>({tab:'schedule',kind:'일정',id:x.id,title:x.title||'제목 없는 일정',detail:x.memo||x.sourceTitle||'',date:x.date||''}));
-    const emotions=Object.values(emotionData).flatMap(d=>d?.entries||[]).filter(x=>searchEmotionText(x).toLowerCase().includes(q)).map(x=>({tab:'emotion',kind:'감정',id:x.id||'',title:(x.moods||[x.mood||'감정 기록']).filter(Boolean).join(' · '),detail:(x.lines||[]).filter(Boolean).join(' '),date:x.date||''}));
     const records=visibleRecords().filter(x=>`${x.title||''} ${x.body||''} ${x.mood||''}`.toLowerCase().includes(q)).map(x=>({tab:'record',kind:'기록',id:x.id,title:x.title||'오늘의 기록',detail:x.body||x.mood||'',date:x.date||''}));
     const reviews=visibleEventRows().filter(x=>`${x.title||''} ${x.place||''} ${x.oneLine||''} ${x.review||''}`.toLowerCase().includes(q)).map(x=>({tab:'record',kind:x.category==='travel'?'여행':'이벤트',id:x.id,title:x.title||'이벤트 기록',detail:x.place||x.oneLine||'',date:x.date||''}));
-    const rows=[...schedule,...emotions,...records,...reviews].sort((a,b)=>String(b.date).localeCompare(String(a.date))).slice(0,30);
-    hint.textContent=`일정 ${schedule.length} · 감정 ${emotions.length} · 기록 ${records.length} · 이벤트 ${reviews.length}`;
+    const rows=[...schedule,...records,...reviews].sort((a,b)=>String(b.date).localeCompare(String(a.date))).slice(0,30);
+    hint.textContent=`일정 ${schedule.length} · 기록 ${records.length} · 이벤트 ${reviews.length}`;
     box.innerHTML=rows.length?rows.map(r=>`<button class="search-result" type="button" data-search-tab="${r.tab}" data-search-kind="${r.kind}" data-search-id="${escapeHtml(r.id||'')}" data-search-date="${escapeHtml(r.date||'')}"><span class="search-result-kind">${escapeHtml(r.kind)}</span><span class="search-result-copy"><b>${escapeHtml(r.title)}</b><span>${escapeHtml(r.detail||'상세 보기')}</span></span><time>${escapeHtml(String(r.date||'').replaceAll('-','.'))}</time></button>`).join(''):'<div class="search-empty">일치하는 기록이 없습니다.<br>다른 단어로 검색해보세요.</div>';
   }
   $('#searchInput').addEventListener('input',e=>renderSearchResults(e.target.value));
   $('#searchResults').addEventListener('click',e=>{
     const item=e.target.closest('[data-search-tab]');if(!item)return;const tab=item.dataset.searchTab,kind=item.dataset.searchKind,id=item.dataset.searchId,date=item.dataset.searchDate;
-    closeModal('searchModal',false);showMainTab(tab==='emotion'?'schedule':tab);
+    closeModal('searchModal',false);showMainTab(tab);
     if(tab==='schedule'){const row=events.find(x=>String(x.id)===id);if(row)setTimeout(()=>openEvent(row),0)}
-    if(tab==='emotion'&&date){goPage(0,true);setTimeout(()=>renderEmotionDayDetail(date),0)}
     if(tab==='record'&&(kind==='이벤트'||kind==='여행')){goRecordPage(1,true);const row=eventRows().find(x=>String(x.id)===id);if(row)setTimeout(()=>openEventReviewView(row.id),0)}
     else if(tab==='record'&&date){goRecordPage(0,true);recordDateSearch=date;$('#recordDateSearch').value=date;$('#recordDateClear').hidden=false;setTimeout(renderRecordFeed,0)}
   });
@@ -6588,7 +6347,7 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
     toast('커플이나 친구를 선택해 완료 소식을 보내세요.');
     return true
   }
-  function letterPersonName(email,fallback=''){email=normalizeEmail(email);if(email===currentUserEmail)return currentUserName||fallback||'나';const connected=[firebaseState.partner,...(firebaseState.friends||[])].find(row=>normalizeEmail(row?.email)===email),p=connected||emotionData[email]?.profile||privateData[email]?.profile||familyUser(email);return normalizeName(p?.name||fallback,email)}
+  function letterPersonName(email,fallback=''){email=normalizeEmail(email);if(email===currentUserEmail)return currentUserName||fallback||'나';const connected=[firebaseState.partner,...(firebaseState.friends||[])].find(row=>normalizeEmail(row?.email)===email),p=connected||privateData[email]?.profile||familyUser(email);return normalizeName(p?.name||fallback,email)}
   function letterDateLabel(ts){try{return new Date(ts).toLocaleString('ko-KR',{year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'})}catch{return ''}}
   function updateMailBadge(){const n=unreadLetters().length,b=$('#mailUnreadBadge'),button=$('#mailboxBtn'),available=mailRecipients().length>0;if(button)button.hidden=!currentUserEmail||!available;if(!b)return;b.textContent=String(n);b.hidden=!available||!n}
   function renderMailbox(){const recipients=mailRecipients(),recipient=$('#mailRecipient'),select=$('#mailRecipientSelect'),send=$('#mailSendBtn'),list=$('#mailList'),selected=select?.value||'';if(recipient)recipient.textContent=recipients.length?'커플 또는 친구를 선택해 편지를 보낼 수 있습니다.':'연결된 커플이나 친구가 없습니다.';if(select){select.innerHTML=recipients.length?recipients.map(row=>`<option value="${escapeHtml(row.uid)}">${row.kind==='couple'?'COUPLE':'FRIEND'} · ${escapeHtml(row.name)} (${escapeHtml(row.email)})</option>`).join(''):'<option value="">받는 사람 없음</option>';if(recipients.some(row=>row.uid===selected))select.value=selected}if(send)send.disabled=!recipients.length;$$('.mail-tab').forEach(b=>b.classList.toggle('active',b.dataset.mailTab===mailTab));const rows=mailTab==='sent'?sentLetters():receivedLetters();$('#mailboxCount').textContent=`${rows.length} LETTERS`;if(!rows.length){list.innerHTML='<div class="mail-empty">아직 편지가 없습니다.</div>';return}list.innerHTML=rows.map(l=>{const incoming=normalizeEmail(l.toEmail)===currentUserEmail,unread=incoming&&(l.transport==='direct'?!(l.readBy||[]).includes(firebaseState.user?.uid):!(l.readBy||[]).map(normalizeEmail).includes(currentUserEmail)),who=incoming?letterPersonName(l.fromEmail,l.fromName):letterPersonName(l.toEmail,l.toName);return `<button class="mail-row ${unread?'unread':''} ${l.photoDataUrl||l.photoSrc?'has-photo':''}" type="button" data-letter-id="${escapeHtml(l.id)}" data-letter-transport="${escapeHtml(l.transport||'legacy')}"><div><b>${incoming?'From.':'To.'} ${escapeHtml(who)}</b><p>${escapeHtml(l.body)}</p></div><time>${escapeHtml(letterDateLabel(l.createdAt))}</time></button>`}).join('')}
@@ -6607,11 +6366,11 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   $('#letterNextBtn').addEventListener('click',()=>{const next=letterQueue.shift();if(next)openLetterView(next,letterQueue)});
 
   // Header notepad — private checklist shortcuts
-  function renderQuickTodo(){const list=$('#quickTodoList');if(!list)return;if(!currentUserEmail){list.innerHTML='';return}const data=privateData[currentUserEmail]||blankPrivateData(currentUserEmail,currentUserName),todayKey=iso(today.getFullYear(),today.getMonth(),today.getDate()),rows=(data.checklists||[]).slice().sort((a,b)=>Number(a.done)-Number(b.done)||(a.date||'9999').localeCompare(b.date||'9999')||(a.createdAt||0)-(b.createdAt||0));list.innerHTML=rows.length?rows.map(row=>{const due=String(row.date||''),overdue=!row.done&&due&&due<todayKey;return `<div class="quick-todo-row ${row.done?'done':''} ${overdue?'overdue':''}"><input type="checkbox" data-quick-todo-check="${escapeHtml(row.id)}" aria-label="${escapeHtml(row.text||'할 일')} 완료" ${row.done?'checked':''}><span>${escapeHtml(row.text||'')}</span><input class="quick-todo-due" type="date" data-quick-todo-due="${escapeHtml(row.id)}" aria-label="${escapeHtml(row.text||'할 일')} 마감일" value="${escapeHtml(due)}"><button type="button" data-quick-todo-delete="${escapeHtml(row.id)}" aria-label="할 일 삭제">×</button></div>`}).join(''):'<div class="quick-todo-empty">—</div>'}
+  function renderQuickTodo(){const list=$('#quickTodoList');if(!list)return;if(!currentUserEmail){list.innerHTML='';return}const data=privateData[currentUserEmail]||blankPrivateData(currentUserEmail,currentUserName),todayKey=iso(today.getFullYear(),today.getMonth(),today.getDate()),rows=['checklists','memos'].flatMap(source=>(data[source]||[]).filter(Boolean).map(row=>({...row,source,isMemo:source==='memos'||row.kind==='memo'||row.type==='memo'}))).sort((a,b)=>Number(a.done)-Number(b.done)||(a.date||'9999').localeCompare(b.date||'9999')||(a.createdAt||0)-(b.createdAt||0));list.innerHTML=rows.length?rows.map(row=>{const due=String(row.date||''),overdue=!row.isMemo&&!row.done&&due&&due<todayKey;return `<div class="quick-todo-row ${!row.isMemo&&row.done?'done':''} ${overdue?'overdue':''}">${row.isMemo?'<small aria-label="메모">▤</small>':`<input type="checkbox" data-quick-todo-check="${escapeHtml(row.id)}" aria-label="${escapeHtml(row.text||'할 일')} 완료" ${row.done?'checked':''}>`}<span>${escapeHtml(row.text||row.title||'')}</span>${row.isMemo?'<small>메모</small>':`<input class="quick-todo-due" type="date" data-quick-todo-due="${escapeHtml(row.id)}" aria-label="${escapeHtml(row.text||'할 일')} 마감일" value="${escapeHtml(due)}">`}<button type="button" data-quick-todo-delete="${escapeHtml(row.id)}" data-quick-note-source="${row.source}" aria-label="${row.isMemo?'메모':'할 일'} 삭제">×</button></div>`}).join(''):'<div class="quick-todo-empty">—</div>'}
   $('#quickMemoBtn').addEventListener('click',()=>{if(!currentUser){requireLogin(()=>$('#quickMemoBtn').click());return}renderQuickTodo();openModal('quickMemoModal')});
   $('#quickTodoForm').addEventListener('submit',async e=>{e.preventDefault();if(!currentUserEmail)return;const input=$('#quickTodoInput'),dueInput=$('#quickTodoDate'),text=input.value.trim();if(!text)return;try{if(!privateRefs[currentUserEmail]?.fileId)await loadPrivateData();privateOwner=currentUserEmail;const data=privateData[currentUserEmail]||(privateData[currentUserEmail]=blankPrivateData(currentUserEmail,currentUserName));data.checklists=Array.isArray(data.checklists)?data.checklists:[];data.checklists.push({id:'pc-'+Date.now(),text:text.slice(0,120),date:dueInput.value||'',time:'',urgent:false,important:false,priority:'보통',category:'',done:false,createdAt:Date.now()});await savePrivateData(currentUserEmail);input.value='';dueInput.value='';renderQuickTodo();renderPrivate();toast('메모장에 추가했습니다.')}catch(err){toast(googleErrorMessage(err))}});
-  $('#quickTodoList').addEventListener('change',async e=>{const checkId=e.target.dataset.quickTodoCheck,dueId=e.target.dataset.quickTodoDue,id=checkId||dueId;if(!id||!currentUserEmail)return;try{if(!privateRefs[currentUserEmail]?.fileId)await loadPrivateData();const data=privateData[currentUserEmail],row=data?.checklists?.find(item=>item.id===id);if(!row)return;if(checkId)row.done=e.target.checked;else row.date=e.target.value||'';await savePrivateData(currentUserEmail);renderQuickTodo();renderPrivate();if(dueId)toast(row.date?'마감일을 저장했습니다.':'마감일을 삭제했습니다.')}catch(err){toast(googleErrorMessage(err))}});
-  $('#quickTodoList').addEventListener('click',async e=>{const button=e.target.closest('[data-quick-todo-delete]');if(!button||!currentUserEmail)return;try{if(!privateRefs[currentUserEmail]?.fileId)await loadPrivateData();const data=privateData[currentUserEmail];data.checklists=(data.checklists||[]).filter(item=>item.id!==button.dataset.quickTodoDelete);await savePrivateData(currentUserEmail);renderQuickTodo();renderPrivate();toast('할 일을 삭제했습니다.')}catch(err){toast(googleErrorMessage(err))}});
+  $('#quickTodoList').addEventListener('change',async e=>{const checkId=e.target.dataset.quickTodoCheck,dueId=e.target.dataset.quickTodoDue,id=checkId||dueId;if(!id||!currentUserEmail)return;try{if(!privateRefs[currentUserEmail]?.fileId)await loadPrivateData();const data=privateData[currentUserEmail],row=data?.checklists?.find(item=>item.id===id);if(!row||row.kind==='memo'||row.type==='memo')return;if(checkId)row.done=e.target.checked;else row.date=e.target.value||'';await savePrivateData(currentUserEmail);renderQuickTodo();renderPrivate();if(dueId)toast(row.date?'마감일을 저장했습니다.':'마감일을 삭제했습니다.')}catch(err){toast(googleErrorMessage(err))}});
+  $('#quickTodoList').addEventListener('click',async e=>{const button=e.target.closest('[data-quick-todo-delete]');if(!button||!currentUserEmail)return;try{if(!privateRefs[currentUserEmail]?.fileId)await loadPrivateData();const data=privateData[currentUserEmail],source=button.dataset.quickNoteSource==='memos'?'memos':'checklists';data[source]=(data[source]||[]).filter(item=>item.id!==button.dataset.quickTodoDelete);await savePrivateData(currentUserEmail);renderQuickTodo();renderPrivate();toast(source==='memos'?'메모를 삭제했습니다.':'할 일을 삭제했습니다.')}catch(err){toast(googleErrorMessage(err))}});
 
   // Firebase Google login + explicit couple invitations
   function applyLoginUI(){
@@ -6622,7 +6381,7 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
     if(currentUser&&googleProfile?.email)setGoogleStatus(`${googleProfile.email} · AiderLog 로그인 완료`,'ok');updateRestrictedTabVisibility();renderFirebasePairUI();renderSchedulePeopleFilters();renderPartnerMatchStatus();updateMailBadge();renderQuickTodo();if(currentUser)renderExternalCalendarStatus();
   }
   function canEdit(owner){if(!currentUser)return false;return owner===currentUser||owner==='shared'}
-  function canEditEvent(e){if(!currentUserEmail||!e?.isAiderDear||e.readOnly||e.projectionSource)return false;if(normalizeEmail(e.authorEmail))return normalizeEmail(e.authorEmail)===currentUserEmail;return e.owner===currentUser}
+  function canEditEvent(e){if(!currentUserEmail||!e?.isAiderDear||e.readOnly||e.projectionSource||e.friendShared||e.externalSource||e.authorUid&&firebaseState.user?.uid&&e.authorUid!==firebaseState.user.uid)return false;if(normalizeEmail(e.authorEmail))return normalizeEmail(e.authorEmail)===currentUserEmail;return e.owner===currentUser}
   function configureOwnerOptions(selected){
     const sel=$('#eventOwner'),shared=$('#eventShared'),field=$('#eventOwnerField'),partner=sharedPartner();if(!sel||!shared)return;field.hidden=!partner;shared.checked=!!partner&&selected==='shared';sel.value=shared.checked?'shared':'mine';
   }
@@ -6634,7 +6393,7 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   function resetFirebaseLocalSession(){
     clearPersonalMediaCacheV178();
     stopPaperTaskWorkspaceWatch();try{scheduleWatchStop?.()}catch{}scheduleWatchStop=null;try{ephemeralMediaWatchStop?.()}catch{}ephemeralMediaWatchStop=null;try{friendAlbumWatchStop?.()}catch{}friendAlbumWatchStop=null;friendSharedAlbums=[];clearTimeout(ephemeralExpiryTimer);ephemeralMediaRows=[];ephemeralMediaIndex=0;googleToken='';googleProfile=null;currentUser='';currentUserEmail='';currentUserName='';isAdmin=false;events=[];ownScheduleEvents=[];partnerSharedScheduleEvents=[];driveRootId='';driveMediaFolderId='';driveDataFileId='';firebaseScopeKey='';
-    privateData={};privateRefs={};privateOwner='';privateFeature='memo';emotionData={};emotionRefs={};schedulePersonFilters=new Set();showCoupleAgenda=true;clearInterval(clientGoogleSyncTimer);clientGoogleSyncTimer=null;clientGoogleSyncSources=[];googleCalendarWriteSources=[];clearInterval(externalCalendarAutoSyncTimer);externalCalendarAutoSyncTimer=null;externalCalendarAutoSyncBusy=false;externalCalendarAutoSyncAt=0;externalCalendarStatus={google:null,notion:null};calendarSyncReturnHandled=false;selectedConsultingClientId='';consultingClientQuery='';consultingFilterYear='';consultingFilterSemester='';consultingFileClientId='';taskPageIndex=0;try{consultingIntakeStop?.()}catch{}consultingIntakeStop=null;personalOverviewDays=7;personalComparePhotoIds=['',''];pomodoroTaskName='';if($('#pomodoroTaskName'))$('#pomodoroTaskName').value='';if(pomodoroTimer){clearInterval(pomodoroTimer);pomodoroTimer=null}pomodoroMode='focus';pomodoroSeconds=25*60;pomodoroInitialSeconds=25*60;if(personalPendingPreviewUrl)URL.revokeObjectURL(personalPendingPreviewUrl);personalPendingPreviewUrl='';personalPendingFile=null;for(const url of personalMediaUrlCache.values())URL.revokeObjectURL(url);personalMediaUrlCache.clear();
+    privateData={};privateRefs={};privateOwner='';privateFeature='memo';schedulePersonFilters=new Set();showCoupleAgenda=true;clearInterval(clientGoogleSyncTimer);clientGoogleSyncTimer=null;clientGoogleSyncSources=[];googleCalendarWriteSources=[];clearInterval(externalCalendarAutoSyncTimer);externalCalendarAutoSyncTimer=null;externalCalendarAutoSyncBusy=false;externalCalendarAutoSyncAt=0;externalCalendarStatus={google:null,notion:null};calendarSyncReturnHandled=false;selectedConsultingClientId='';consultingClientQuery='';consultingFilterYear='';consultingFilterSemester='';consultingFileClientId='';taskPageIndex=0;try{consultingIntakeStop?.()}catch{}consultingIntakeStop=null;personalOverviewDays=7;personalComparePhotoIds=['',''];pomodoroTaskName='';if($('#pomodoroTaskName'))$('#pomodoroTaskName').value='';if(pomodoroTimer){clearInterval(pomodoroTimer);pomodoroTimer=null}pomodoroMode='focus';pomodoroSeconds=25*60;pomodoroInitialSeconds=25*60;if(personalPendingPreviewUrl)URL.revokeObjectURL(personalPendingPreviewUrl);personalPendingPreviewUrl='';personalPendingFile=null;for(const url of personalMediaUrlCache.values())URL.revokeObjectURL(url);personalMediaUrlCache.clear();
     cloudData={version:CLOUD_VERSION,calendarId:'',userCalendars:{},albumsBySpace:{},travelFoldersBySpace:{},records:[],coupleMediaBySpace:{},ddays:[],activeDdayBySpace:{},letters:[],bucketItems:[],eventReviews:[],partnerChoices:{},scheduleEvents:[]};activeCalendarId='';calendarSources=[];calendarImportSources=[];selectedCalendarIds=new Set();driveLooseMedia=[];
     for(const url of recordMediaUrlCache.values())URL.revokeObjectURL(url);recordMediaUrlCache.clear();
     clearActiveMediaUrl();const v=$('#coupleVideo2');v.pause();v.hidden=true;v.removeAttribute('src');const img=$('#couplePhoto2');img.hidden=true;img.removeAttribute('src');$('#mediaPlaceholder2').style.display='flex';
@@ -6707,7 +6466,7 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   }
   function newEvent(owner='mine',selectedDate=''){
     if(!currentUser){requireLogin(()=>newEvent(owner,selectedDate));return;}
-    $('#scheduleModalTitle').textContent='일정 등록';
+    $('#scheduleModalTitle').textContent='일정 추가';
     $('#eventId').value='';
     $('#eventTitle').value='';
     $('#eventDate').value=/^\d{4}-\d{2}-\d{2}$/.test(selectedDate)?selectedDate:iso(shown.getFullYear(),shown.getMonth(),Math.min(today.getDate(),new Date(shown.getFullYear(),shown.getMonth()+1,0).getDate()));
@@ -6724,7 +6483,7 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
     syncEventAllDayFields(false);
     $('#deleteEvent').hidden=true;
     window.AiderFriendScheduleUIV175?.open();
-    openModal('scheduleModal');window.AiderPrivateCalendarUIV175?.scheduleOpened();
+    $('#scheduleModalTitle').textContent=$('#eventDate').value+' · 일정 추가';openModal('scheduleModal');window.AiderPrivateCalendarUIV175?.scheduleOpened();
   }
   function openEvent(e){
     if(!currentUser){requireLogin(()=>openEvent(e));return;}
@@ -6748,19 +6507,20 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
     if(canShareImported){$('#eventOwnerField').hidden=false;$('#eventShared').disabled=false;$('#eventShared').checked=!!(e.shareWithCouple||e.owner==='shared')}
     $('#eventImportedShare').hidden=true;
     window.AiderFriendScheduleUIV175?.open(e);
-    openModal('scheduleModal');window.AiderPrivateCalendarUIV175?.scheduleOpened();
+    $('#scheduleModalTitle').textContent=$('#eventDate').value+' · '+(editable?'일정 수정':'일정 보기');openModal('scheduleModal');window.AiderPrivateCalendarUIV175?.scheduleOpened();
   }
 
   $('#eventAllDay').addEventListener('change',()=>syncEventAllDayFields(false));
+  $('#eventDate').addEventListener('change',()=>{$('#scheduleModalTitle').textContent=$('#eventDate').value+' · 일정 '+($('#eventId').value?($('#saveEvent').hidden?'보기':'수정'):'추가');});
   $('#eventShared').addEventListener('change',async()=>{const checkbox=$('#eventShared'),shared=checkbox.checked;$('#eventOwner').value=shared?'shared':'mine';const event=events.find(row=>row.id===$('#eventId').value);if(!event?.externalSource||canEditEvent(event))return;checkbox.disabled=true;try{await setExternalEventCoupleShare(event,shared);toast(shared?'이 일정을 상대의 AiderLog에 표시합니다. Google 캘린더에는 전송하지 않습니다.':'AiderLog 커플 공유를 해제했습니다.');closeModal('scheduleModal')}catch(err){checkbox.checked=!shared;$('#eventOwner').value=checkbox.checked?'shared':'mine';toast(googleErrorMessage(err))}finally{checkbox.disabled=false}});
   $('#eventImportedShare').addEventListener('click',async()=>{const button=$('#eventImportedShare'),shared=button.dataset.shared!=='1';if(!button.dataset.calendarId||!button.dataset.eventId)return;button.disabled=true;try{await calendarSyncRequest('share',{provider:'google',calendarId:button.dataset.calendarId,eventId:button.dataset.eventId,shared});const snapshot=await window.AiderDearFirebase.readScheduleData();applyScheduleDataSnapshot(snapshot);closeModal('scheduleModal');toast(shared?'Google 일정을 커플 캘린더에 공유했습니다.':'커플 공유를 해제했습니다.')}catch(err){toast(googleErrorMessage(err))}finally{button.disabled=false}});
-  $('#addScheduleTop').addEventListener('click',()=>newEvent('mine'));
+  $('#addScheduleTop')?.addEventListener('click',()=>newEvent('mine'));
   $('#googleCalendarConnect').addEventListener('click',connectGoogleCalendarImport);
   $('#googleCalendarImport').addEventListener('click',importSelectedGoogleCalendars);
   $('#notionCalendarFile').addEventListener('change',async e=>{const file=e.target.files?.[0];$('#notionCalendarFileName').textContent=file?.name||'선택된 파일 없음';if(!file)return;try{await importNotionCalendarFile(file)}catch(err){toast(err.message||String(err))}});
   $('#addScheduleBottom')?.addEventListener('click',()=>newEvent('mine'));
   $('#scheduleForm').addEventListener('submit',async e=>{
-    e.preventDefault();if(!currentUser||!googleToken)return;
+    e.preventDefault();if(!currentUser||!googleToken||$('#saveEvent').disabled)return;
     const id=$('#eventId').value;const title=$('#eventTitle').value.trim();if(!title)return;
     const data={title,date:$('#eventDate').value,endDate:$('#eventEndDate').value||$('#eventDate').value,time:$('#eventAllDay').checked?'':$('#eventTime').value,endTime:$('#eventAllDay').checked?'':($('#eventEndTime').value||$('#eventTime').value),allDay:$('#eventAllDay').checked,owner:sharedPartner()&&$('#eventShared').checked?'shared':'mine',memo:$('#eventMemo').value.trim()};
     try{
@@ -7086,7 +6846,7 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
     if(!currentUser||!googleToken||!driveDataFileId)return;
     if(!force&&document.querySelector('.overlay.open'))return;
     try{
-      await loadPrivateData();await driveLoadJsonFile();renderPartnerMatchStatus();await ensureCalendar();await loadCalendarList();await loadCalendarEvents();await scanDriveMedia();await loadEmotionData();refreshRecordAlbumSelect($('#recordAlbumFolder')?.value||DEFAULT_ALBUM_ID);renderRecordFeed();renderAlbumFolders();renderEventArchive();renderTravelArchive();renderBucketList();setDday();renderDdayList();renderPrivate();renderPersonal();renderEmotion();renderMailbox();updateMailBadge();
+      await loadPrivateData();await driveLoadJsonFile();renderPartnerMatchStatus();await ensureCalendar();await loadCalendarList();await loadCalendarEvents();await scanDriveMedia();refreshRecordAlbumSelect($('#recordAlbumFolder')?.value||DEFAULT_ALBUM_ID);renderRecordFeed();renderAlbumFolders();renderEventArchive();renderTravelArchive();renderBucketList();setDday();renderDdayList();renderPrivate();renderPersonal();renderEmotion();renderMailbox();updateMailBadge();
       lastSyncAt=new Date();setGoogleStatus(`${googleProfile?.email||''}\n동기화 완료 · ${lastSyncAt.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'})}`,'ok');if(force)toast('데이터를 새로고침했습니다.');
     }catch(err){setGoogleStatus(googleErrorMessage(err),'error');if(force)toast(googleErrorMessage(err))}
   }
@@ -7105,15 +6865,6 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   }
   $$('.record-dot').forEach(b=>b.addEventListener('click',()=>goRecordPage(Number(b.dataset.recordPage),true)));
 
-  let emotionView='journal';
-  let emotionPageIndex=0,emotionFlipLocked=false;
-  let emotionShown=new Date(today.getFullYear(),today.getMonth(),1);
-  const EMOTION_MOODS=['기쁨','행복','설렘','편안함','감사','피곤함','불안','짜증','외로움','슬픔'];
-  const EMOTION_FACES={'기쁨':'⌣','행복':'◡','설렘':'˶ᵔᵕᵔ˶','편안함':'˘‿˘','감사':'•ᴗ•','피곤함':'－_－','불안':'•︵•','짜증':'＞︿＜','외로움':'｡•́︿•̀｡','슬픔':'╥﹏╥'};
-  const EMOTION_WANTS=['쉬기','산책','운동','대화','혼자 있기','먹기','잠자기','쇼핑','여행','취미','기타'];
-  function normalizeMoodValue(mood=''){const legacy={'아주 좋음':'기쁨','좋음':'행복','보통':'편안함','가라앉음':'슬픔','힘듦':'피곤함'};const m=legacy[mood]||mood;return EMOTION_MOODS.includes(m)?m:''}
-  function emotionMoodMeta(mood=''){const map={'기쁨':['😄','기쁨'],'행복':['😊','행복'],'설렘':['🥰','설렘'],'편안함':['😌','편안함'],'감사':['🙏','감사'],'피곤함':['😴','피곤함'],'불안':['😰','불안'],'짜증':['😠','짜증'],'외로움':['🥺','외로움'],'슬픔':['😢','슬픔']};const p=map[normalizeMoodValue(mood)]||['○',''];return {emoji:p[0],label:p[1]}}
-  function entryMoods(entry){const arr=Array.isArray(entry?.moods)?entry.moods:(normalizeMoodValue(entry?.mood)?[entry.mood]:[]);return [...new Set(arr.map(normalizeMoodValue).filter(Boolean))]}
 
   // EVENT ARCHIVE — movie / performance / book / music + travel
   let eventCategory='all',eventSortMode='date',travelSortMode='date',activeTravelFolder='all',eventPageIndex=0,eventFlipLocked=false,eventPendingFile=null,eventPendingPreviewUrl='',eventOriginalMedia=null,eventViewId='';
@@ -7305,49 +7056,6 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   $('#eventReviewForm').addEventListener('submit',async e=>{e.preventDefault();if(!currentUserEmail||eventPhotoSavingV176)return;const id=$('#eventReviewId').value,rows=eventRows(),existing=id?rows.find(x=>x.id===id):null;if(existing&&!canEditEventReview(existing))return;const priorRowsV176=rows.slice(),actorV176=currentUserEmail,submitV176=e.currentTarget.querySelector('[type=submit]');let media=null,mediaItems=[];eventPhotoSavingV176=true;if(submitV176)submitV176.disabled=true;try{mediaItems=await eventPhotosV176.upload(async file=>{const photo=await window.AiderLogPhotosV176.prepareMedia(file);if(actorV176!==currentUserEmail)throw Error('계정이 변경되었습니다.');const up=await driveUploadMedia(photo,'event-review');return {kind:window.AiderLogPhotosV176.kind(photo),fileId:up.id,name:up.name||file.name,type:up.mimeType||photo.type};},refreshEventPhotosV176);if(actorV176!==currentUserEmail)throw Error('계정이 변경되었습니다.');media=mediaItems[0]||null;const category=$('#eventReviewCategory').value,travelType=category==='travel'?$('#eventReviewTravelType').value:'',item={...existing,...eventTravelFieldsV164(existing,category,travelType,{durationOrMenu:$('#travelRecordWeather').value,impression:$('#travelRecordCost').value,routeOrFavorite:$('#travelRecordRoute').value,memoryScene:$('#eventReviewMemoryScene').value}),id:id||('er-'+Date.now()),category,experienceStatus:$('#eventReviewStatus').value==='want'?'want':'done',travelType,folderId:category==='travel'?$('#eventReviewFolder').value:'',title:$('#eventReviewTitle').value.trim(),creator:category==='travel'?'':$('#eventReviewCreator').value.trim(),place:$('#eventReviewPlaceField').hidden?'':$('#eventReviewPlace').value.trim(),detailA:$('#eventReviewDetailA').value.trim(),detailB:$('#eventReviewDetailB').value.trim(),date:$('#eventReviewDate').value,endDate:category==='travel'&&travelType==='plan'?$('#eventReviewEndDate').value:'',visitTime:$('#eventReviewVisitTime').value,rating:Number($('#eventReviewRating').value)||0,oneLine:$('#eventReviewOneLine').value.trim(),review:$('#eventReviewText').value.trim(),planPurpose:category==='travel'&&travelType==='plan'?$('#travelPlanPurpose').value.trim():'',companions:category==='travel'?(travelType==='plan'?$('#travelPlanCompanions').value.trim():$('#travelRecordCompanions').value.trim()):'',transport:category==='travel'&&travelType==='plan'?$('#travelPlanTransport').value.trim():'',stay:category==='travel'&&travelType==='plan'?$('#travelPlanStay').value.trim():'',budget:category==='travel'&&travelType==='plan'?$('#travelPlanBudget').value.trim():'',bookings:category==='travel'&&travelType==='plan'?$('#travelPlanBookings').value.trim():'',picks:category==='travel'&&travelType==='plan'?$('#travelPlanPicks').value.trim():'',itinerary:category==='travel'&&travelType==='plan'?$('#travelPlanItinerary').value.trim():'',checklist:category==='travel'&&travelType==='plan'?$('#travelPlanChecklist').value.trim():'',media,mediaItems,authorEmail:existing?.authorEmail||currentUserEmail,createdAt:existing?.createdAt||Date.now(),updatedAt:Date.now(),pairKey:existing?.pairKey||currentPairKey()};if(existing)rows[rows.findIndex(x=>x.id===id)]=item;else rows.push(item);cloudData.eventReviews=rows;await saveCloudData();if(actorV176!==currentUserEmail)throw Error('계정이 변경되었습니다.');eventPhotosV176.committed();clearEventPendingPreview();closeModal('eventReviewModal');renderEventArchive();renderTravelArchive();toast(item.experienceStatus==='want'?'보고 싶은 것 목록에 저장했습니다.':(category==='travel'?(travelType==='plan'?'여행 계획을 저장했습니다.':'여행 기록을 저장했습니다.'):'아카이브 기록을 저장했습니다.'))}catch(err){if(actorV176===currentUserEmail)cloudData.eventReviews=priorRowsV176;toast(err.message||googleErrorMessage(err));}finally{eventPhotoSavingV176=false;if(submitV176)submitV176.disabled=false;refreshEventPhotosV176();}});
   $('#eventReviewDelete').addEventListener('click',async()=>{const id=$('#eventReviewId').value,r=eventRows().find(x=>x.id===id);if(!r||!canEditEventReview(r))return;if(!confirm(`“${r.title}” 기록을 삭제할까요?`))return;cloudData.eventReviews=eventRows().filter(x=>x.id!==id);await saveCloudData();for(const media of window.AiderLogPhotosV176.mediaItems(r))if(media.fileId)await driveDeleteFile(media.fileId);clearEventPendingPreview();closeModal('eventReviewModal');renderEventArchive();renderTravelArchive();toast('기록과 연결된 미디어를 완전히 삭제했습니다.')});
   $('#eventReviewEditBtn').addEventListener('click',()=>{const r=eventRows().find(x=>x.id===eventViewId);if(!r)return;closeModal('eventReviewViewModal');openEventReviewEditor(r,r.category)});
-  function emotionEntries(email){return (emotionData[email]?.entries||[]).slice().sort((a,b)=>(b.date||'').localeCompare(a.date||'')||(b.updatedAt||b.createdAt||0)-(a.updatedAt||a.createdAt||0))}
-  function emotionLinesText(entry){return (entry?.lines||[]).filter(Boolean).join('\n')}
-  function emotionVisibleOwners(){const keys=Object.keys(emotionData).filter(e=>emotionRefs[e]?.fileId);keys.sort((a,b)=>a===currentUserEmail?-1:b===currentUserEmail?1:0);return keys.slice(0,FAMILY_LIMIT)}
-  function setEmotionMoods(moods=[]){const clean=[...new Set((moods||[]).map(normalizeMoodValue).filter(Boolean))].slice(0,10);$('#emotionMood').value=clean.join('|');$$('.emotion-mood-chip').forEach(btn=>btn.classList.toggle('active',clean.includes(btn.dataset.emotionMood)))}
-  function selectedEmotionMoods(){return String($('#emotionMood').value||'').split('|').map(normalizeMoodValue).filter(Boolean)}
-  function toggleEmotionMood(mood){const set=new Set(selectedEmotionMoods());mood=normalizeMoodValue(mood);if(!mood)return;if(set.has(mood))set.delete(mood);else set.add(mood);setEmotionMoods([...set])}
-  $$('.emotion-mood-chip').forEach(btn=>btn.addEventListener('click',()=>toggleEmotionMood(btn.dataset.emotionMood||'')));
-  function cleanEmotionWant(v){return String(v||'').trim().replace(/\s+/g,' ').slice(0,30)}
-  function parseCustomWants(){return String($('#emotionWantCustom')?.value||'').split(/[,，\n]/).map(cleanEmotionWant).filter(Boolean)}
-  function setEmotionWants(wants=[]){const clean=[...new Set((wants||[]).map(cleanEmotionWant).filter(Boolean))].slice(0,6),presets=clean.filter(v=>EMOTION_WANTS.includes(v)),custom=clean.filter(v=>!EMOTION_WANTS.includes(v));$('#emotionWants').value=presets.join('|');if($('#emotionWantCustom'))$('#emotionWantCustom').value=custom.join(', ');$$('[data-emotion-want]').forEach(btn=>btn.classList.toggle('active',presets.includes(btn.dataset.emotionWant)))}
-  function selectedEmotionWants(){const presets=String($('#emotionWants').value||'').split('|').map(cleanEmotionWant).filter(Boolean),custom=parseCustomWants();return [...new Set([...presets,...custom])].slice(0,6)}
-  function toggleEmotionWant(want){want=cleanEmotionWant(want);const all=selectedEmotionWants(),set=new Set(all);if(set.has(want))set.delete(want);else if(set.size<6)set.add(want);setEmotionWants([...set])}
-  $$('[data-emotion-want]').forEach(btn=>btn.addEventListener('click',()=>toggleEmotionWant(btn.dataset.emotionWant||'')));
-  function emotionTokenClean(v){return String(v||'').trim().replace(/\s+/g,' ').slice(0,40)}
-  function emotionTokenSet(hiddenId,attr,values=[]){const clean=[...new Set((values||[]).map(emotionTokenClean).filter(Boolean))].slice(0,11);const input=$(hiddenId);if(input)input.value=clean.join('|');$$(`[${attr}]`).forEach(btn=>{const active=clean.includes(btn.getAttribute(attr));btn.classList.toggle('active',active);btn.setAttribute('aria-pressed',String(active))})}
-  function emotionTokenGet(hiddenId){return String($(hiddenId)?.value||'').split('|').map(emotionTokenClean).filter(Boolean)}
-  function emotionTokenToggle(hiddenId,attr,value){value=emotionTokenClean(value);const set=new Set(emotionTokenGet(hiddenId));if(set.has(value))set.delete(value);else if(set.size<11)set.add(value);emotionTokenSet(hiddenId,attr,[...set])}
-  $$('[data-emotion-context]').forEach(btn=>btn.addEventListener('click',()=>emotionTokenToggle('#emotionContexts','data-emotion-context',btn.dataset.emotionContext||'')));
-  $$('[data-emotion-current]').forEach(btn=>btn.addEventListener('click',()=>emotionTokenToggle('#emotionCurrentActivities','data-emotion-current',btn.dataset.emotionCurrent||'')));
-  $$('[data-emotion-after]').forEach(btn=>btn.addEventListener('click',()=>emotionTokenToggle('#emotionAfterActivities','data-emotion-after',btn.dataset.emotionAfter||'')));
-  function setEmotionIntensity(v=3){v=Math.max(1,Math.min(5,Number(v)||3));$('#emotionIntensity').value=String(v);$$('[data-emotion-intensity]').forEach(btn=>btn.classList.toggle('active',Number(btn.dataset.emotionIntensity)===v))}
-  $$('[data-emotion-intensity]').forEach(btn=>btn.addEventListener('click',()=>setEmotionIntensity(btn.dataset.emotionIntensity)));
-  function emotionViewLabel(){return '감정기록'}
-  function configureEmotionModal(){emotionView='journal';$('#emotionJournalSection').hidden=false;$('#emotionCycleSection').hidden=true;$('#emotionPeriod').disabled=true;['#emotionTimeField','#emotionLocationField','#emotionCompanionField'].forEach(id=>{const field=$(id);if(field)field.hidden=false});$('#emotionModalTitle').textContent=emotionViewLabel()}
-  function entryForDate(email,date){return emotionData[email]?.entries?.find(x=>x.date===date)||null}
-  function openEmotionEditor(entry=null,view='journal',presetDate=''){
-    if(!currentUser){requireLogin(()=>openEmotionEditor(entry,view,presetDate));return}
-    if(entry&&normalizeEmail(entry.owner)!==currentUserEmail){toast('본인의 기록만 수정할 수 있습니다.');return}
-    configureEmotionModal(view);
-    const now=new Date(),date=presetDate||entry?.date||iso(today.getFullYear(),today.getMonth(),today.getDate());
-    $('#emotionEntryId').value=entry?.id||'';$('#emotionDate').value=date;$('#emotionTime').value=entry?.time||`${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;$('#emotionLocation').value=entry?.location||'';$('#emotionCompanion').value=entry?.companion||'';
-    setEmotionMoods(entryMoods(entry));setEmotionWants(entry?.wants||[]);setEmotionIntensity(entry?.intensity||3);
-    emotionTokenSet('#emotionContexts','data-emotion-context',entry?.context||[]);emotionTokenSet('#emotionCurrentActivities','data-emotion-current',entry?.currentActivities||[]);emotionTokenSet('#emotionAfterActivities','data-emotion-after',entry?.afterActivities||[]);
-    $('#emotionNextEmotion').value=normalizeMoodValue(entry?.nextEmotion||'')||'';
-    const lines=entry?.lines||[];$('#emotionLine1').value=lines[0]||'';$('#emotionLine2').value=lines[1]||'';$('#emotionLine3').value=lines[2]||'';$('#emotionPeriod').checked=false;$('#deleteEmotion').hidden=!entry;openModal('emotionModal')
-  }
-  function emotionMiniColorIndex(mood){return Math.max(0,EMOTION_MOODS.indexOf(normalizeMoodValue(mood)))}
-  function miniMoodStyle(mood){const colors=['#D9D96D','#72D49E','#D96DA4','#64C59E','#B06DD9','#6DB3D9','#6D8CD9','#D96D5F','#8B6DD9','#5398D9'];return `background:${colors[emotionMiniColorIndex(mood)]||'#eee'}`}
-  function renderEmotionMoodCalendar(rows,owners){
-    const box=$('#emotionMoodCalendar');if(!box)return;const y=emotionShown.getFullYear(),m=emotionShown.getMonth(),first=new Date(y,m,1).getDay(),days=new Date(y,m+1,0).getDate(),prevDays=new Date(y,m,0).getDate();$('#emotionMonthTitle').textContent=`${y}. ${String(m+1).padStart(2,'0')}`;let html='';
-    for(let i=0;i<42;i++){let cy=y,cm=m,day,out=false;if(i<first){day=prevDays-first+i+1;cm=m-1;out=true;if(cm<0){cm=11;cy--}}else if(i>=first+days){day=i-first-days+1;cm=m+1;out=true;if(cm>11){cm=0;cy++}}else day=i-first+1;const date=iso(cy,cm,day),dayRows=rows.filter(r=>r.date===date);let moodItems=[];dayRows.forEach(r=>{const ownerEmail=normalizeEmail(r.owner),label=emotionData[ownerEmail]?.profile?.name||familyUser(ownerEmail).name||'';entryMoods(r).forEach(mood=>moodItems.push({mood,ownerEmail,label}))});moodItems=moodItems.slice(0,6);const moods=moodItems.map(x=>`<span class="emotion-mini-blob" title="${escapeHtml(x.label)} · ${escapeHtml(x.mood)}" style="${miniMoodStyle(x.mood)}">${escapeHtml(EMOTION_FACES[x.mood]||'•ᴗ•')}</span>`).join('');html+=`<button class="emotion-month-day ${out?'out':''} ${date===iso(today.getFullYear(),today.getMonth(),today.getDate())?'today':''}" type="button" data-emotion-day-open="${date}" ${out?'tabindex="-1"':''}><span class="emotion-month-num">${String(day).padStart(2,'0')}</span><div class="emotion-day-moods">${moods}</div></button>`}
-    box.innerHTML=html;
-  }
   let bucketHistoryOpen=false,bucketPendingPhoto=null,bucketPhotoTargetId='';
   function bucketItems(){normalizeCloudData();return (cloudData.bucketItems||[]).filter(x=>pairVisible(x,'createdBy'))}
   function bucketDate(ts){if(!ts)return '';return new Date(ts).toLocaleDateString('ko-KR',{year:'numeric',month:'2-digit',day:'2-digit'})}
@@ -7380,147 +7088,8 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   $('#bucketForm').addEventListener('submit',async e=>{e.preventDefault();if(!currentUser||!googleToken){requireLogin();return}const input=$('#bucketInput'),text=String(input.value||'').trim();if(!text)return;let photo=null,uploadedId='';try{if(bucketPendingPhoto){toast('사진을 업로드하고 있습니다.');const uploaded=await driveUploadMedia(bucketPendingPhoto,'bucket');uploadedId=uploaded.id;photo={fileId:uploaded.id,name:bucketPendingPhoto.name,type:bucketPendingPhoto.type}}cloudData.bucketItems.push({id:'bucket-'+Date.now()+'-'+Math.random().toString(36).slice(2,6),text:text.slice(0,80),photo,createdAt:Date.now(),createdBy:currentUserEmail,pairKey:currentPairKey(),completedAt:0,completedBy:''});input.value='';resetBucketPendingPhoto();await saveCloudData();renderBucketList()}catch(err){if(uploadedId)driveDeleteFile(uploadedId);toast(googleErrorMessage(err))}});
   $('#bucketDrops').addEventListener('click',async e=>{if(!currentUser||!googleToken){requireLogin();return}const photo=e.target.closest('[data-bucket-photo]');if(photo){bucketPhotoTargetId=photo.dataset.bucketPhoto||'';$('#bucketPhotoInput').click();return}const edit=e.target.closest('[data-bucket-edit]');if(edit){const item=cloudData.bucketItems.find(x=>x.id===edit.dataset.bucketEdit);if(!item)return;const next=prompt('버킷리스트를 수정하세요.',item.text||'');if(next===null)return;const text=String(next).trim();if(!text)return;item.text=text.slice(0,80);item.updatedAt=Date.now();try{await saveCloudData();renderBucketList()}catch(err){toast(googleErrorMessage(err))}return}const del=e.target.closest('[data-bucket-delete]');if(del){const item=cloudData.bucketItems.find(x=>x.id===del.dataset.bucketDelete);if(!item||!confirm(`“${item.text}” 버킷리스트를 삭제할까요?`))return;cloudData.bucketItems=cloudData.bucketItems.filter(x=>x.id!==item.id);try{await saveCloudData();if(item.photo?.fileId)driveDeleteFile(item.photo.fileId);renderBucketList()}catch(err){toast(googleErrorMessage(err))}return}const b=e.target.closest('[data-bucket-pop]');if(!b)return;const wrap=b.closest('.bucket-drop');if(wrap?.classList.contains('popping'))return;const item=cloudData.bucketItems.find(x=>x.id===b.dataset.bucketPop);if(!item||item.completedAt)return;wrap?.classList.add('popping');setTimeout(async()=>{item.completedAt=Date.now();item.completedBy=currentUserEmail;try{await saveCloudData();renderBucketList()}catch(err){toast(googleErrorMessage(err));renderBucketList()}},260)});
   $('#bucketHistory').addEventListener('click',async e=>{if(!currentUser||!googleToken){requireLogin();return}const restore=e.target.closest('[data-bucket-restore]');if(restore){const item=cloudData.bucketItems.find(x=>x.id===restore.dataset.bucketRestore);if(!item)return;item.completedAt=0;item.completedBy='';try{await saveCloudData();renderBucketList()}catch(err){toast(googleErrorMessage(err))}return}const del=e.target.closest('[data-bucket-delete]');if(del){const item=cloudData.bucketItems.find(x=>x.id===del.dataset.bucketDelete);if(!item||!confirm(`“${item.text}” 기록을 삭제할까요?`))return;cloudData.bucketItems=cloudData.bucketItems.filter(x=>x.id!==item.id);try{await saveCloudData();if(item.photo?.fileId)driveDeleteFile(item.photo.fileId);renderBucketList()}catch(err){toast(googleErrorMessage(err))}}});
-  function countWantByMood(rows,mood){const counts={};rows.filter(r=>entryMoods(r).includes(mood)).forEach(r=>(r.wants||[]).forEach(w=>{w=cleanEmotionWant(w);if(w)counts[w]=(counts[w]||0)+1}));return Object.entries(counts).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0]))}
-  function emotionMoodColor(mood){const colors={'기쁨':'#D9D96D','행복':'#72D49E','설렘':'#D96DA4','편안함':'#64C59E','감사':'#B06DD9','피곤함':'#6DB3D9','불안':'#6D8CD9','짜증':'#D96D5F','외로움':'#8B6DD9','슬픔':'#5398D9'};return colors[mood]||'#deded8'}
-  function emotionCareBase(mood){const map={
-    '기쁨':['좋았던 순간을 구체적으로 기억해 두세요. 기쁨을 만든 사람·장소·행동을 다시 선택할 단서가 됩니다.','기쁜 에너지를 바로 다음 할 일로 소진하지 말고 잠깐 머물러 보세요. 몸에서 느껴지는 가벼움이나 활기를 알아차리는 것도 도움이 됩니다.','오늘의 기쁨이 우연이었는지, 내가 만든 선택에서 왔는지 한 가지 원인을 찾아보세요.'],
-    '행복':['만족감을 충분히 느끼고, 오늘 유지하고 싶은 행동 하나를 남겨보세요.','행복했던 장면을 사진이나 한 문장으로 저장해 두면 힘든 날에 회복 단서로 활용하기 좋습니다.','지금의 좋은 상태를 만든 생활 리듬이 무엇인지 살펴보세요. 수면·사람·활동 중 하나만 골라도 충분합니다.'],
-    '설렘':['기대되는 것과 걱정되는 것을 한 가지씩 나눠 적으면 설렘의 에너지를 안정적으로 사용할 수 있습니다.','설렘이 큰 날에는 준비 행동을 아주 작게 시작해 보세요. 10분만 준비해도 막연함이 줄어듭니다.','기대가 커질수록 결과보다 과정에서 내가 선택할 수 있는 것을 확인해 보세요.'],
-    '편안함':['편안함을 만든 조건을 관찰해 보세요. 장소·시간·사람·활동 중 반복되는 요소가 회복 루틴의 단서입니다.','몸이 편안한 상태를 기억하기 위해 호흡 속도나 근육의 긴장 정도를 잠깐 알아차려 보세요.','편안했던 날의 일정을 너무 채우지 않는 것도 중요합니다. 회복된 여백을 그대로 유지해 보세요.'],
-    '감사':['감사한 대상을 구체적으로 떠올리고 가능하면 짧게 표현해 보세요.','사소한 감사 한 가지를 반복해서 적으면 좋은 경험을 더 빨리 알아차리는 연습이 됩니다.','감사가 느껴진 순간에 내가 받은 것뿐 아니라 내가 기여한 부분도 함께 살펴보세요.'],
-    '피곤함':['회복을 우선순위에 두고 해야 할 일을 줄여보세요. 수면·식사·수분·휴식 중 가장 부족한 한 가지부터 확인하는 편이 좋습니다.','피곤함이 반복되면 의지 문제로 보지 말고 에너지 예산을 점검해 보세요. 오늘 꼭 필요한 일 한 가지만 남기는 것도 방법입니다.','몸의 피로와 마음의 피로를 구분해 보세요. 몸이 지쳤다면 쉬고, 마음이 지쳤다면 자극을 줄이는 시간이 도움이 됩니다.'],
-    '불안':['걱정을 사실과 예상으로 나누고, 지금 통제할 수 있는 작은 행동 하나에 집중해 보세요.','숨을 길게 내쉬는 호흡을 몇 차례 반복한 뒤 다음 10분에 할 수 있는 일만 정해보세요.','불안이 커질수록 모든 가능성을 해결하려 하지 말고 오늘 확인할 수 있는 정보와 나중에 확인할 일을 분리해 보세요.'],
-    '짜증':['바로 해결하려 하기보다 자극에서 잠시 거리를 두고 몸의 긴장을 먼저 낮춰보세요.','짜증 뒤에 있는 필요를 찾아보세요. 휴식·공간·도움·명확한 경계 중 무엇이 부족했는지 확인하면 대응이 쉬워집니다.','사람을 평가하기보다 어떤 상황이 불편했고 무엇을 원했는지 문장으로 바꿔보세요.'],
-    '외로움':['완벽한 대화를 기다리지 말고 안전하다고 느끼는 사람에게 짧은 메시지를 보내보세요.','연결이 부담스럽다면 사람이 있는 공간에 머무르거나 가벼운 온라인 대화처럼 낮은 강도의 연결부터 시도해 보세요.','외로울 때 필요한 것이 대화인지 동행인지 위로인지 구분해 보면 더 맞는 연결을 선택하기 쉽습니다.'],
-    '슬픔':['슬픔을 빨리 없애려 하지 않아도 됩니다. 지금 필요한 것이 위로인지 해결인지 먼저 구분해 보세요.','감정을 억지로 바꾸기보다 몸을 따뜻하게 하고 일정의 강도를 낮추는 방식으로 안전한 시간을 만들어 보세요.','슬픔이 오래 지속되거나 일상 기능이 크게 떨어지면 혼자 견디기보다 믿을 수 있는 사람이나 전문가에게 도움을 요청하는 것이 좋습니다.']
-  };return map[mood]||['지금의 감정을 평가하기보다 알아차리고 몸과 마음에 필요한 작은 행동 하나를 선택해 보세요.']}
-  function emotionWantAdvice(want){const map={'쉬기':'쉬고 싶다는 기록이 함께 나타났어요. 짧게라도 아무것도 하지 않는 시간을 실제 일정에 넣어보고 전후의 감정 차이를 비교해 보세요.','산책':'산책 욕구가 함께 자주 나타났어요. 10~20분 정도 걷고 난 뒤 감정이 어떻게 달라지는지 다음 기록에서 확인해 보세요.','운동':'움직이고 싶은 욕구가 함께 나타났어요. 강도를 높이기보다 가볍게 몸을 움직인 뒤 에너지 변화가 있는지 관찰해 보세요.','대화':'대화하고 싶은 욕구가 함께 나타났어요. 해결보다 들어주기를 원하는지, 조언을 원하는지 먼저 정한 뒤 사람을 선택해 보세요.','혼자 있기':'혼자 있고 싶은 욕구가 함께 나타났어요. 고립이 아니라 회복을 위한 시간인지 확인하고 종료 시간을 정해두는 것도 도움이 됩니다.','먹기':'먹고 싶은 욕구가 함께 나타났어요. 배고픔인지 위로가 필요한지 잠깐 구분해 보고 천천히 선택해 보세요.','잠자기':'잠자고 싶은 욕구가 자주 연결돼 있어요. 수면 부족이 감정에 영향을 주는지 취침 시간과 다음 날 감정을 함께 살펴보세요.','쇼핑':'쇼핑 욕구가 함께 나타났어요. 바로 결제하기보다 사고 싶은 이유를 적고 하루 뒤에도 필요한지 확인해 보세요.','여행':'환경을 바꾸고 싶은 욕구가 함께 나타났어요. 큰 여행이 어렵다면 새로운 카페나 공원처럼 작은 장소 변화부터 시험해 볼 수 있습니다.','취미':'취미 욕구가 함께 나타났어요. 성과보다 몰입 자체를 목표로 15분 정도 시작해 보고 감정 변화가 있는지 확인해 보세요.'};return map[want]||`${want}을(를) 하고 싶다는 기록이 함께 나타났어요. 실제로 해본 날과 하지 않은 날의 감정 차이를 비교해 보면 나에게 도움이 되는 행동인지 확인할 수 있습니다.`}
-  function emotionAdaptiveCare(mood,rows,count,total,rank=0){const moodRows=(rows||[]).filter(r=>entryMoods(r).includes(mood)),recent7=moodRows.filter(r=>(r.date||'')>=dateKeyOffset(-6)).length,older=Math.max(0,count-recent7),expected=older/23*7,trend=recent7>Math.max(1,expected*1.35)?'최근 7일에 이 감정이 이전보다 더 자주 나타나는 흐름입니다.':recent7===0&&count>0?'최근 7일에는 이 감정이 나타나지 않았습니다.':'최근 기록에서는 큰 급증 없이 이어지고 있습니다.';const wants=countWantByMood(rows,mood).slice(0,2),bases=emotionCareBase(mood),seed=(count*7+rank*3+wants.reduce((n,[w,c])=>n+w.length+c,0))%bases.length,base=bases[seed]||bases[0],wantText=wants.length?emotionWantAdvice(wants[0][0]):'함께 기록된 “하고 싶은 것”이 아직 적습니다. 다음 기록에서 감정과 함께 원하는 행동을 남기면 나에게 맞는 회복 패턴을 더 구체적으로 볼 수 있습니다.';const pct=total?Math.round(count/total*100):0;return {text:`${trend} ${base} ${wantText}`,pct,wants}}
-  function buildMoodDonut(moodCounts,total){if(!total)return 'conic-gradient(#ecece6 0 100%)';let cursor=0,segments=[];EMOTION_MOODS.forEach(m=>{const c=moodCounts[m]||0;if(!c)return;const start=cursor,end=cursor+(c/total*100);segments.push(`${emotionMoodColor(m)} ${start.toFixed(2)}% ${end.toFixed(2)}%`);cursor=end});return `conic-gradient(${segments.join(',')})`}
-  function renderEmotionWantMindmap(rows,moodCounts){const active=Object.entries(moodCounts).sort((a,b)=>b[1]-a[1]||EMOTION_MOODS.indexOf(a[0])-EMOTION_MOODS.indexOf(b[0])).slice(0,5),moods=active.length?active:EMOTION_MOODS.slice(0,5).map(m=>[m,0]),wantCounts={};(rows||[]).forEach(r=>(r.wants||[]).forEach(w=>{w=cleanEmotionWant(w);if(w)wantCounts[w]=(wantCounts[w]||0)+1}));let wants=Object.entries(wantCounts).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0])).slice(0,7);if(!wants.length)wants=EMOTION_WANTS.slice(0,5).map(w=>[w,0]);const moodPos=moods.map((_,i)=>({x:i%2?28:18,y:14+(72*(i/(Math.max(1,moods.length-1))))})),wantPos=wants.map((_,i)=>({x:i%2?72:82,y:12+(76*(i/(Math.max(1,wants.length-1))))}));const lines=[];moods.forEach(([m,c],i)=>{const a=moodPos[i];lines.push(`<line x1="50" y1="50" x2="${a.x}" y2="${a.y}" stroke="${emotionMoodColor(m)}" stroke-opacity=".24" stroke-width="1.2"/>`);const links=countWantByMood(rows,m).slice(0,4);links.forEach(([w,n])=>{const j=wants.findIndex(x=>x[0]===w);if(j<0)return;const b=wantPos[j];lines.push(`<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" stroke="${emotionMoodColor(m)}" stroke-opacity="${Math.min(.7,.22+n*.1)}" stroke-width="${Math.min(4,1+n*.55)}"/>`)})});wants.forEach(([w,c],i)=>{const b=wantPos[i];lines.push(`<line x1="50" y1="50" x2="${b.x}" y2="${b.y}" stroke="#111" stroke-opacity=".08" stroke-width="1"/>`)});const moodNodes=moods.map(([m,c],i)=>{const a=moodPos[i],meta=emotionMoodMeta(m);return `<div class="mindmap-node mood ${c?'':'mindmap-empty-dot'}" style="left:${a.x}%;top:${a.y}%;background:${emotionMoodColor(m)}55">${meta.emoji} ${escapeHtml(m)}${c?`<em>${c}</em>`:''}</div>`}).join(''),wantNodes=wants.map(([w,c],i)=>{const a=wantPos[i];return `<div class="mindmap-node want ${c?'':'mindmap-empty-dot'}" style="left:${a.x}%;top:${a.y}%">${escapeHtml(w)}${c?`<em>${c}</em>`:''}</div>`}).join('');return `<div class="emotion-mindmap"><svg viewBox="0 0 100 100" preserveAspectRatio="none">${lines.join('')}</svg><div class="mindmap-core">EMOTION<br>×<br>WANT</div>${moodNodes}${wantNodes}</div>`}
-  function emotionTherapyDetail(mood,rows,count,total,rank){
-    const meta=emotionMoodMeta(mood),last7=rows.filter(r=>(r.date||'')>=dateKeyOffset(-6)),prev=rows.filter(r=>(r.date||'')<dateKeyOffset(-6)),a=last7.reduce((n,r)=>n+(entryMoods(r).includes(mood)?1:0),0),b=prev.reduce((n,r)=>n+(entryMoods(r).includes(mood)?1:0),0),prevWeekly=b/Math.max(1,23)*7,trend=a>prevWeekly+1?'최근 일주일에 더 자주 나타났어요.':a+1<prevWeekly?'최근 일주일에는 조금 잦아들었어요.':'최근 한 달 동안 비교적 비슷한 빈도로 나타났어요.';
-    const wants=countWantByMood(rows,mood).slice(0,3),primary=wants[0]?.[0]||'',base=emotionAdaptiveCare(mood,rows,count,total,rank),actionMap={
-      '기쁨':'좋았던 순간을 20초 정도 천천히 떠올리고, 그 감정을 만든 행동 하나를 다음 주 일정에 다시 넣어보세요.','행복':'지금의 만족을 만든 조건 하나를 골라 반복 가능한 작은 습관으로 남겨보세요.','설렘':'기대되는 일에서 내가 통제할 수 있는 준비 행동을 10분만 먼저 시작해 보세요.','편안함':'편안함을 만든 장소·사람·시간 중 하나를 표시하고 다음 회복 시간에 의도적으로 재현해 보세요.','감사':'감사한 대상을 한 사람 또는 한 장면으로 구체화하고 짧게 표현해 보세요.','피곤함':'오늘 할 일을 한 단계 줄이고 수면·식사·수분·휴식 중 가장 부족한 것 하나부터 채워보세요.','불안':'걱정을 “확인된 사실 / 예상” 두 칸으로 나눈 뒤 지금 할 수 있는 행동 하나만 선택해 보세요.','짜증':'반응하기 전에 10분의 간격을 두고, 내가 지키고 싶은 경계나 필요를 한 문장으로 정리해 보세요.','외로움':'부담이 가장 적은 사람 한 명에게 짧은 안부나 함께할 작은 약속을 제안해 보세요.','슬픔':'감정을 빨리 없애려 하기보다 몸을 편하게 두고, 오늘 견딜 수 있는 크기의 일 하나만 남겨보세요.'};
-    const questionMap={'기쁨':'이 기쁨을 만든 것은 사람, 장소, 성취, 휴식 중 무엇에 가장 가까웠나요?','행복':'행복했던 날에 반복해서 등장하는 생활 리듬은 무엇인가요?','설렘':'설렘이 커질 때 기대와 긴장 중 어느 쪽이 더 커지는지 살펴보세요.','편안함':'편안함을 깨뜨리는 직전의 자극은 무엇이었나요?','감사':'감사가 느껴진 순간에 내가 받은 것과 내가 기여한 것은 각각 무엇이었나요?','피곤함':'피로가 강했던 날은 수면 부족인지, 일정 과부하인지, 감정 소진인지 구분해 보세요.','불안':'불안 직전에 반복해서 나타나는 상황·생각·사람이 있나요?','짜증':'짜증이 올라온 순간에 사실은 어떤 필요나 경계가 지켜지지 않았나요?','외로움':'혼자 있고 싶은 외로움인지, 누군가와 연결되고 싶은 외로움인지 구분해 보세요.','슬픔':'슬픔이 올라올 때 더 필요한 것은 휴식, 표현, 위로, 거리두기 중 무엇인가요?'};
-    const wantNote=primary?`‘${primary}’를 하고 싶다는 기록이 함께 가장 자주 나타났어요. 실제로 그 행동을 했던 날의 다음 감정도 비교해 보면 나에게 도움이 되는 회복 행동인지 확인할 수 있어요.`:'하고 싶은 행동도 함께 기록하면 이 감정이 나타날 때 필요한 회복 패턴을 더 구체적으로 찾을 수 있어요.';
-    return {meta,trend,wants,action:actionMap[mood]||base.text,question:questionMap[mood]||'이 감정이 나타나기 직전에 어떤 일이 있었는지 한 가지 단서를 적어보세요.',wantNote,pct:total?Math.round(count/total*100):0};
-  }
-  function renderMoodWantNetwork(rows,moodCounts,total,donut){
-    const active=Object.entries(moodCounts).sort((a,b)=>b[1]-a[1]||EMOTION_MOODS.indexOf(a[0])-EMOTION_MOODS.indexOf(b[0])).slice(0,5),moods=active.length?active:EMOTION_MOODS.slice(0,5).map(m=>[m,0]),wantCounts={};rows.forEach(r=>(r.wants||[]).forEach(w=>{w=cleanEmotionWant(w);if(w)wantCounts[w]=(wantCounts[w]||0)+1}));let wants=Object.entries(wantCounts).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0])).slice(0,6);if(!wants.length)wants=EMOTION_WANTS.slice(0,6).map(w=>[w,0]);
-    const moodY=[16,33,50,67,84],wantY=[10,26,42,58,74,90],lines=[];moods.forEach(([m,c],i)=>{const y=moodY[i];lines.push(`<line x1="25" y1="50" x2="53" y2="${y}" stroke="${emotionMoodColor(m)}" stroke-opacity="${c?'.6':'.14'}" stroke-width="${c?Math.min(4,1+c*.35):1}"/>`);countWantByMood(rows,m).slice(0,4).forEach(([w,n])=>{const j=wants.findIndex(x=>x[0]===w);if(j<0)return;lines.push(`<path d="M53 ${y} C63 ${y},67 ${wantY[j]},78 ${wantY[j]}" fill="none" stroke="${emotionMoodColor(m)}" stroke-opacity="${Math.min(.78,.24+n*.12)}" stroke-width="${Math.min(4,1+n*.55)}"/>`)})});
-    const moodNodes=moods.map(([m,c],i)=>`<div class="balance-mood-node ${c?'':'balance-node-empty'}" style="left:53%;top:${moodY[i]}%;background:${emotionMoodColor(m)}55">${emotionMoodMeta(m).emoji} ${escapeHtml(m)}${c?`<em>${c}</em>`:''}</div>`).join(''),wantNodes=wants.map(([w,c],i)=>`<div class="balance-want-node ${c?'':'balance-node-empty'}" style="left:84%;top:${wantY[i]}%">${escapeHtml(w)}${c?`<em>${c}</em>`:''}</div>`).join('');
-    const legend=EMOTION_MOODS.map(m=>{const c=moodCounts[m]||0,p=total?Math.round(c/total*100):0;return `<div class="balance-mini-row"><i style="background:${emotionMoodColor(m)}"></i><b>${emotionMoodMeta(m).emoji} ${escapeHtml(m)}</b><span>${p}%</span></div>`}).join('');
-    return `<div class="balance-network"><svg viewBox="0 0 100 100" preserveAspectRatio="none">${lines.join('')}</svg><div class="balance-donut" style="background:${donut}"><div class="balance-donut-center"><strong>${total}</strong><span>MOOD MOMENTS</span></div></div><div class="balance-caption">EMOTION × WANT</div>${moodNodes}${wantNodes}<div class="balance-mini-legend">${legend}</div></div>`;
-  }
-  let selectedInsightEmotion='';
-  const INSIGHT_ACTIVITY_ICONS={'업무/작업':'▣','공부':'▤','혼자 있기':'○','대화':'◌','이동 중':'◇','식사':'□','휴식':'≈','기타':'·','산책':'♧','음악 듣기':'♫','대화하기':'◌','잠자기':'☾','운동':'↗','호흡':'≋','기록하기':'▧','대기':'◷','이동':'◇','관계/대화':'◌','혼자':'○'};
-  function insightOwnRows(rows=[]){return (rows||[]).filter(r=>!currentUserEmail||normalizeEmail(r.owner)===currentUserEmail)}
-  function insightLast30(rows=[]){return window.AiderLogInsightRangeV175.filterRows(insightOwnRows(rows))}
-  function insightMoodStats(rows=[]){const counts={};let total=0;rows.forEach(r=>entryMoods(r).forEach(m=>{counts[m]=(counts[m]||0)+1;total++}));return {counts,total}}
-  function insightMoodPct(count,total){return total?Math.round(count/total*100):0}
-  function insightArrayCounts(rows,key){const counts={};rows.forEach(r=>(Array.isArray(r?.[key])?r[key]:[]).forEach(v=>{v=emotionTokenClean(v);if(v)counts[v]=(counts[v]||0)+1}));return Object.entries(counts).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0]))}
-  function insightDistribution(rows,key,limit=4){const all=insightArrayCounts(rows,key),sum=all.reduce((n,[,c])=>n+c,0),items=all.slice(0,limit);return items.map(([label,count])=>({label,count,pct:sum?Math.round(count/sum*100):0}))}
-  function insightDateTime(row){if(!row?.date)return null;const t=/^\d{2}:\d{2}$/.test(row.time||'')?row.time:'';if(t){const d=new Date(`${row.date}T${t}:00`);if(!Number.isNaN(d.getTime()))return d}return null}
-  function insightTimeBand(row){const d=insightDateTime(row);if(!d)return '';const h=d.getHours();if(h<6)return '새벽 0–6시';if(h<9)return '오전 6–9시';if(h<12)return '오전 9–12시';if(h<15)return '오후 12–3시';if(h<18)return '오후 3–6시';if(h<21)return '저녁 6–9시';return '밤 9시 이후'}
-  function insightTopTime(rows){const counts={};rows.forEach(r=>{const k=insightTimeBand(r);if(k)counts[k]=(counts[k]||0)+1});const arr=Object.entries(counts).sort((a,b)=>b[1]-a[1]);if(!arr.length)return '시간 기록이 더 쌓이면 자주 나타나는 시간대를 보여드릴게요.';const max=arr[0][1],tops=arr.filter(x=>x[1]===max).slice(0,2).map(x=>x[0]);return `${tops.join(', ')}에 비교적 자주 기록되었어요.`}
-  function insightScalarCounts(rows,key){const counts={};rows.forEach(r=>{const v=emotionTokenClean(r?.[key]||'');if(v)counts[v]=(counts[v]||0)+1});return Object.entries(counts).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0]))}
-  function insightTopContexts(rows){const contexts=insightArrayCounts(rows,'context').slice(0,2).map(x=>x[0]),locations=insightScalarCounts(rows,'location').slice(0,2).map(x=>x[0]),companions=insightScalarCounts(rows,'companion').slice(0,2).map(x=>x[0]),parts=[];if(contexts.length)parts.push(`상황 ${contexts.join(', ')}`);if(locations.length)parts.push(`장소 ${locations.join(', ')}`);if(companions.length)parts.push(`함께 ${companions.join(', ')}`);return parts.length?`${parts.join(' · ')}에서 비교적 자주 기록되었어요.`:'상황·장소·동행 기록이 더 쌓이면 감정과 함께 나타나는 맥락을 보여드릴게요.'}
-  function insightNextMood(row,allRows){const saved=normalizeMoodValue(row?.nextEmotion||'');if(saved)return saved;const sameOwner=allRows.filter(r=>normalizeEmail(r.owner)===normalizeEmail(row.owner)&&r.id!==row.id&&r.date>=row.date).sort((a,b)=>(a.date||'').localeCompare(b.date||'')||(a.createdAt||0)-(b.createdAt||0));const next=sameOwner.find(r=>(r.date||'')>(row.date||'')||(r.createdAt||0)>(row.createdAt||0));return next?entryMoods(next)[0]||'':''}
-  function insightPatternText(mood,moodRows,allRows){if(!moodRows.length)return `‘${mood}’ 기록이 아직 없어요. 감정과 활동을 함께 남기면 나만의 패턴을 확인할 수 있습니다.`;const current=insightArrayCounts(moodRows,'currentActivities')[0],after=insightArrayCounts(moodRows,'afterActivities')[0],positive=new Set(['편안함','행복','기쁨','감사','설렘']);let afterEffect='';if(after){const affected=moodRows.filter(r=>(r.afterActivities||[]).includes(after[0])),known=affected.map(r=>insightNextMood(r,allRows)).filter(Boolean),better=known.filter(m=>positive.has(m)).length;if(known.length>=2)afterEffect=` ${after[0]} 후 다음 기록에서 편안하거나 긍정적인 감정이 ${better}/${known.length}회 함께 나타났어요.`}
-    if(current&&after)return `${current[0]} 중 ‘${mood}’을 비교적 자주 기록했고, 그 뒤에는 ${after[0]}을 가장 자주 선택했어요.${afterEffect}`;
-    if(current)return `${current[0]} 중 ‘${mood}’이 비교적 자주 함께 기록되는 경향이 보여요. 이후 행동도 함께 남기면 변화 패턴을 더 살펴볼 수 있습니다.`;
-    if(after)return `‘${mood}’ 이후에는 ${after[0]}을 비교적 자주 선택했어요.${afterEffect}`;
-    return `‘${mood}’ 기록은 있지만 활동 데이터가 아직 적어요. 그때와 그 후의 행동을 함께 기록하면 패턴을 더 구체적으로 볼 수 있습니다.`
-  }
-  function insightEmotionPattern(mood,moodRows){if(!moodRows.length)return `‘${mood}’에 대한 기록이 쌓이면 반복되는 시간·장소·사람을 함께 살펴볼 수 있어요.`;const contexts=insightArrayCounts(moodRows,'context').slice(0,2).map(x=>x[0]),location=insightScalarCounts(moodRows,'location')[0]?.[0]||'',companion=insightScalarCounts(moodRows,'companion')[0]?.[0]||'',signals=[...contexts,location&&`${location}에서`,companion&&`${companion}와(과)`].filter(Boolean),avg=moodRows.reduce((n,r)=>n+(Number(r.intensity)||3),0)/Math.max(1,moodRows.length);const c=signals.length?`${signals.join(', ')} 함께 나타났고, `:'';return `${c}기록된 평균 강도는 ${avg.toFixed(1)}/5였어요. 반복되는 기록을 바탕으로 자신의 패턴을 조금 더 살펴볼 수 있습니다.`}
-  function insightDonut(counts,total){if(!total)return 'conic-gradient(#efefeb 0 100%)';const ranked=Object.entries(counts).sort((a,b)=>b[1]-a[1]),visible=ranked.slice(0,EMOTION_MOODS.length);let cursor=0,parts=[];visible.forEach(([m,c])=>{const p=c/total*100;parts.push(`${emotionMoodColor(m)} ${cursor}% ${cursor+p}%`);cursor+=p});if(cursor<100)parts.push(`#e6e3df ${cursor}% 100%`);return `conic-gradient(${parts.join(',')})`}
-  function insightActivityHtml(items){if(!items.length)return '<div class="activity-v32-empty">—</div>';return `<div class="activity-v32-list">${items.map(x=>`<div class="activity-v32-row"><span class="act-icon">${escapeHtml(INSIGHT_ACTIVITY_ICONS[x.label]||'·')}</span><b>${escapeHtml(x.label)}</b><em>${x.pct}%</em><span class="activity-v32-meter"><i style="width:${x.pct}%"></i></span></div>`).join('')}</div>`}
-  function renderEmotionInsights(rows=[]){
-    const last30=insightLast30(rows),stats=insightMoodStats(last30),ranked=Object.entries(stats.counts).sort((a,b)=>b[1]-a[1]||EMOTION_MOODS.indexOf(a[0])-EMOTION_MOODS.indexOf(b[0]));
-    if(!selectedInsightEmotion||(!stats.counts[selectedInsightEmotion]&&ranked.length))selectedInsightEmotion=ranked[0]?.[0]||'불안';
-    const mood=selectedInsightEmotion,moodRows=last30.filter(r=>entryMoods(r).includes(mood)),selectedColor=emotionMoodColor(mood),selectedTint=`color-mix(in srgb, ${selectedColor} 24%, white 76%)`;
-    const display=[...ranked,...EMOTION_MOODS.filter(m=>!Object.prototype.hasOwnProperty.call(stats.counts,m)).map(m=>[m,0])].slice(0,EMOTION_MOODS.length);
-    const donut=insightDonut(stats.counts,stats.total);
-    const moodList=display.map(([m,c])=>`<button type="button" class="mood-v32-item ${m===mood?'active':''}" data-insight-emotion="${escapeHtml(m)}" style="--mood-color:${emotionMoodColor(m)};--mood-tint:color-mix(in srgb,${emotionMoodColor(m)} 23%,white 77%)"><i></i><b>${escapeHtml(m)}</b><span>${insightMoodPct(c,stats.total)}%</span><small>${c?`${c}회 기록`:''}</small></button>`).join('');
-    const current=insightDistribution(moodRows,'currentActivities'),after=insightDistribution(moodRows,'afterActivities');
-    const top3=ranked.slice(0,3),topCards=[0,1,2].map(i=>{const [m,c]=top3[i]||['',0],color=m?emotionMoodColor(m):'#ddd',pct=m?insightMoodPct(c,stats.total):0;return `<button type="button" class="top-v32-card ${m===mood?'active':''}" ${m?`data-insight-emotion="${escapeHtml(m)}"`:''} style="--top-color:${color};--top-tint:color-mix(in srgb,${color} 18%,white 82%)"><span class="top-v32-rank">${i+1}</span><b>${escapeHtml(m||'—')}</b><strong>${m?pct+'%':'—'}</strong><small>${m?c+'회 기록':'기록 없음'}</small></button>`}).join('');
-    const pattern=insightPatternText(mood,moodRows,last30),timeText=insightTopTime(moodRows),contextText=insightTopContexts(moodRows),emotionPattern=insightEmotionPattern(mood,moodRows);
-    return `<section class="insights-v32 insights-v46" style="--selected-color:${selectedColor};--selected-tint:${selectedTint}">
-      <article class="insights-v32-card insight-balance-v46">
-        <h3 class="insights-v32-section-title">MOOD BALANCE</h3>
-        <div class="mood-v32-donut-wrap"><div class="mood-v32-donut" style="background:${donut}"><div class="mood-v32-donut-center"><strong>${stats.total}</strong><span>MOOD MOMENTS</span></div></div></div>
-        <div class="mood-v32-list">${moodList}</div>
-      </article>
-      <article class="insights-v32-card insight-activity-v46">
-        <div class="activity-v32-head"><b>선택한 감정과 함께한 활동</b><span class="activity-v32-selected">선택한 감정 · ${escapeHtml(mood)}</span></div>
-        <div class="activity-v32-grid"><section class="activity-v32-panel"><h4>${escapeHtml(mood)}을 느낄 때 하고 있던 활동</h4>${insightActivityHtml(current)}</section><section class="activity-v32-panel"><h4>${escapeHtml(mood)}을 느낀 후 내가 한 행동</h4>${insightActivityHtml(after)}</section><aside class="pattern-v32"><div class="pattern-icon">⌁</div><h4>기록 기반 발견</h4><p>${escapeHtml(pattern)}</p></aside></div>
-      </article>
-      <aside class="insights-v32-card insight-summary-v46">
-        <section class="top-v32"><h3>최근 ${window.AiderLogInsightRangeV175.days()}일 동안 가장 많이 느낀 감정</h3><div class="top-v32-cards">${topCards}</div></section>
-        <section class="analysis-v32"><b class="analysis-v32-title">${escapeHtml(mood)} 분석</b><div class="analysis-v32-list"><div class="analysis-v32-row"><span class="analysis-v32-icon">◷</span><div><b>언제 자주 느꼈나요?</b><p>${escapeHtml(timeText)}</p></div></div><div class="analysis-v32-row"><span class="analysis-v32-icon">⌖</span><div><b>어디서, 누구와 자주 느꼈나요?</b><p>${escapeHtml(contextText)}</p></div></div><div class="analysis-v32-row"><span class="analysis-v32-icon">⌁</span><div><b>감정 패턴</b><p>${escapeHtml(emotionPattern)}</p></div></div></div></section>
-      </aside>
-    </section>`
-  }
-  function renderEmotion(){const owners=currentUser?emotionVisibleOwners():[],allRows=currentUser?owners.flatMap(emotionEntries).sort((a,b)=>(b.date||'').localeCompare(a.date||'')||(b.updatedAt||b.createdAt||0)-(a.updatedAt||a.createdAt||0)):[];renderEmotionMoodCalendar(allRows,owners);renderBucketList();const insights=$('#emotionInsightsPage'),ownRows=currentUserEmail?emotionEntries(currentUserEmail):[];if(insights)insights.innerHTML=renderEmotionInsights(ownRows);renderCalendar()}
-  window.addEventListener('aiderlog-insight-range-change',()=>{const host=$('#emotionInsightsPage');if(host)host.innerHTML=renderEmotionInsights(currentUserEmail?emotionEntries(currentUserEmail):[])});
-  function goEmotionPage(next,force=false){next=Math.max(0,Math.min(1,next));if((next===emotionPageIndex&&!force)||(emotionFlipLocked&&!force))return;emotionFlipLocked=true;[$('#emotionRecordPage'),$('#emotionInsightPage')].forEach((page,i)=>{page.classList.remove('current','next','prev');page.classList.add(i===next?'current':(i<next?'prev':'next'));page.setAttribute('aria-hidden',i===next?'false':'true')});$$('.emotion-dot').forEach((d,i)=>d.classList.toggle('active',i===next));emotionPageIndex=next;animateStandaloneFrame(next===0?'#emotionFrame':'#emotionInsightFrame');setTimeout(()=>emotionFlipLocked=false,760)}
-  $$('.emotion-dot').forEach(b=>b.addEventListener('click',()=>goEmotionPage(Number(b.dataset.emotionPage),true)));
-  $('#emotionPrevMonth').addEventListener('click',()=>{emotionShown=new Date(emotionShown.getFullYear(),emotionShown.getMonth()-1,1);renderEmotion()});
-  $('#emotionNextMonth').addEventListener('click',()=>{emotionShown=new Date(emotionShown.getFullYear(),emotionShown.getMonth()+1,1);renderEmotion()});
-  $('#emotionTodayMonth').addEventListener('click',()=>{emotionShown=new Date(today.getFullYear(),today.getMonth(),1);renderEmotion()});
-  function renderEmotionDayDetail(date){
-    const box=$('#emotionDayDetailList');if(!box)return;const owners=emotionVisibleOwners();const rows=owners.map(email=>entryForDate(email,date)).filter(Boolean);$('#emotionDayTitle').textContent=`${date.replaceAll('-','.')} 감정 기록`;
-    const cards=rows.map(r=>{const owner=normalizeEmail(r.owner),mine=owner===currentUserEmail,name=emotionData[owner]?.profile?.name||familyUser(owner).name||owner.split('@')[0],moods=entryMoods(r),moodHtml=moods.length?moods.map(m=>`<span style="background:${emotionMoodColor(m)}">${escapeHtml(EMOTION_FACES[m]||'')} ${escapeHtml(m)}</span>`).join(''):'<span>감정 기록 없음</span>',wants=(r.wants||[]).filter(Boolean),lines=emotionLinesText(r),placeMeta=[r.time,r.location,r.companion].filter(Boolean);
-      return `<article class="emotion-day-detail-card"><div class="emotion-day-detail-head"><b>${escapeHtml(name)}</b><span>${mine?'내 기록':'공유 기록'}</span></div><div class="emotion-day-detail-moods">${moodHtml}</div>${placeMeta.length?`<div class="emotion-day-detail-wants">시간·장소·동행 · ${escapeHtml(placeMeta.join(' · '))}</div>`:''}${(r.context||[]).length?`<div class="emotion-day-detail-wants">상황 · ${escapeHtml((r.context||[]).join(' · '))}</div>`:''}${(r.currentActivities||[]).length?`<div class="emotion-day-detail-wants">그때 · ${escapeHtml((r.currentActivities||[]).join(' · '))}</div>`:''}${(r.afterActivities||[]).length?`<div class="emotion-day-detail-wants">그 후 · ${escapeHtml((r.afterActivities||[]).join(' · '))}</div>`:''}${wants.length?`<div class="emotion-day-detail-wants">하고 싶은 것 · ${escapeHtml(wants.join(' · '))}</div>`:''}${lines?`<div class="emotion-day-detail-lines">${escapeHtml(lines)}</div>`:''}<div class="emotion-day-detail-actions">${mine?`<button type="button" class="primary-mini" data-emotion-day-edit="${escapeHtml(r.id)}">내 기록 수정</button>`:''}</div></article>`}).join('');
-    const my=entryForDate(currentUserEmail,date);box.innerHTML=(cards||'<div class="emotion-day-empty">이 날짜의 기록이 없습니다.</div>')+`<div class="emotion-day-detail-actions"><button type="button" class="primary-mini" data-emotion-day-add="${escapeHtml(date)}">${my?'내 감정기록 열기':'내 감정기록 추가'}</button></div>`;openModal('emotionDayModal')
-  }
-  $('#emotionMoodCalendar').addEventListener('click',e=>{const b=e.target.closest('[data-emotion-day-open]');if(!b)return;renderEmotionDayDetail(b.dataset.emotionDayOpen)});
-  $('#emotionDayDetailList').addEventListener('click',e=>{const edit=e.target.closest('[data-emotion-day-edit]');if(edit){const r=emotionData[currentUserEmail]?.entries?.find(x=>x.id===edit.dataset.emotionDayEdit);closeModal('emotionDayModal');if(r)openEmotionEditor(r,'journal');return}const add=e.target.closest('[data-emotion-day-add]');if(add){const date=add.dataset.emotionDayAdd;closeModal('emotionDayModal');openEmotionEditor(entryForDate(currentUserEmail,date),'journal',date)}});
-  function openTodayEmotionRecord(){if(!currentUser){requireLogin(openTodayEmotionRecord);return}const date=iso(today.getFullYear(),today.getMonth(),today.getDate());openEmotionEditor(entryForDate(currentUserEmail,date),'journal',date)}
-  $('#newEmotionDiaryBtn')?.addEventListener('click',openTodayEmotionRecord);
-  $('#addEmotionTop')?.addEventListener('click',openTodayEmotionRecord);
-  $('#emotionForm').addEventListener('submit',async e=>{
-    e.preventDefault();if(!currentUserEmail||!emotionRefs[currentUserEmail]?.writable)return;
-    const id=$('#emotionEntryId').value,d=emotionData[currentUserEmail],date=$('#emotionDate').value;if(!date)return;let existing=id?d.entries.find(x=>x.id===id):d.entries.find(x=>x.date===date);
-    if(!existing){existing={id:'em-'+Date.now(),owner:currentUserEmail,date,mood:'',moods:[],wants:[],context:[],currentActivities:[],afterActivities:[],nextEmotion:'',intensity:3,time:'',location:'',companion:'',lines:['','',''],createdAt:Date.now(),updatedAt:Date.now()};d.entries.push(existing)}
-    existing.date=date;existing.owner=currentUserEmail;existing.time=$('#emotionTime').value||'';existing.location=emotionTokenClean($('#emotionLocation').value||'');existing.companion=emotionTokenClean($('#emotionCompanion').value||'');
-    const moods=selectedEmotionMoods(),lines=[$('#emotionLine1').value.trim(),$('#emotionLine2').value.trim(),$('#emotionLine3').value.trim()],wants=selectedEmotionWants(),contexts=emotionTokenGet('#emotionContexts'),currentActivities=emotionTokenGet('#emotionCurrentActivities'),afterActivities=emotionTokenGet('#emotionAfterActivities'),nextEmotion=normalizeMoodValue($('#emotionNextEmotion').value||''),intensity=Math.max(1,Math.min(5,Number($('#emotionIntensity').value)||3));
-    if(!moods.length&&!lines.some(Boolean)&&!wants.length&&!contexts.length&&!currentActivities.length&&!afterActivities.length&&!existing.location&&!existing.companion){toast('기록할 내용을 선택하거나 입력해주세요.');return}
-    existing.moods=moods;existing.mood=moods[0]||'';existing.wants=wants;existing.context=contexts;existing.currentActivities=currentActivities;existing.afterActivities=afterActivities;existing.nextEmotion=nextEmotion;existing.intensity=intensity;existing.lines=lines;existing.updatedAt=Date.now();
-    try{await saveEmotionData(currentUserEmail);closeModal('emotionModal');renderEmotion();toast('감정기록 저장 완료')}catch(err){toast(googleErrorMessage(err))}
-  });
-  $('#deleteEmotion').addEventListener('click',async()=>{
-    const id=$('#emotionEntryId').value;if(!id||!currentUserEmail)return;const d=emotionData[currentUserEmail],entry=d?.entries?.find(x=>x.id===id);if(!entry)return;
-    if(!confirm(`${emotionViewLabel()}을 삭제할까요?`))return;
-    entry.mood='';entry.moods=[];entry.wants=[];entry.context=[];entry.currentActivities=[];entry.afterActivities=[];entry.nextEmotion='';entry.intensity=3;entry.time='';entry.location='';entry.companion='';entry.lines=['','',''];
-    // Preserve legacy private flags, if present, without editing them here.
-    if(!entryMoods(entry).length&&!(entry.lines||[]).some(Boolean)&&!(entry.wants||[]).length&&!(entry.context||[]).length&&!(entry.currentActivities||[]).length&&!(entry.afterActivities||[]).length&&!entry.location&&!entry.companion&&!entry.period&&!entry.intimacy)d.entries=d.entries.filter(x=>x.id!==id);
-    try{await saveEmotionData(currentUserEmail);closeModal('emotionModal');renderEmotion();toast(`${emotionViewLabel()} 삭제 완료`)}catch(err){toast(googleErrorMessage(err))}
-  });
-
-  /* Emotion Insights interactions */
-  $('#emotionInsightsPage').addEventListener('click',e=>{
-    const moodBtn=e.target.closest('[data-insight-emotion]');if(moodBtn&&moodBtn.dataset.insightEmotion){selectedInsightEmotion=normalizeMoodValue(moodBtn.dataset.insightEmotion)||moodBtn.dataset.insightEmotion;const ownRows=currentUserEmail?emotionEntries(currentUserEmail):[];$('#emotionInsightsPage').innerHTML=renderEmotionInsights(ownRows);return}
-    const care=e.target.closest('[data-care-action]');if(!care)return;if(care.dataset.careAction==='breath'){resetBreathingGuide();openModal('careBreathModal')}else if(care.dataset.careAction==='write'){loadCareWriting();openModal('careWriteModal')}else if(care.dataset.careAction==='meditate'){resetMeditation();openModal('careMeditationModal')}
-  });
-  let careBreathTimer=null,careBreathElapsed=0,careBreathPhaseIndex=0,careBreathPhaseElapsed=0;
-  const CARE_BREATH_PHASES=[{name:'들이마시기',seconds:4,cls:'inhale'},{name:'유지',seconds:4,cls:'hold'},{name:'내쉬기',seconds:6,cls:'exhale'}];
-  function renderBreathingGuide(){const phase=CARE_BREATH_PHASES[careBreathPhaseIndex],circle=$('#careBreathCircle');circle.classList.remove('inhale','hold','exhale');if(careBreathElapsed>0)circle.classList.add(phase.cls);$('#careBreathPhase').textContent=careBreathElapsed?phase.name:'준비';$('#careBreathTime').textContent=careBreathElapsed?`${Math.max(0,60-careBreathElapsed)}초 남음 · ${phase.seconds-careBreathPhaseElapsed}초`:'1분 · 4-4-6 호흡'}
-  function resetBreathingGuide(){if(careBreathTimer){clearInterval(careBreathTimer);careBreathTimer=null}careBreathElapsed=0;careBreathPhaseIndex=0;careBreathPhaseElapsed=0;renderBreathingGuide();if($('#careBreathStart'))$('#careBreathStart').textContent='START'}
-  function startBreathingGuide(){if(careBreathTimer){clearInterval(careBreathTimer);careBreathTimer=null;$('#careBreathStart').textContent='RESUME';return}if(careBreathElapsed>=60)resetBreathingGuide();careBreathElapsed=Math.max(1,careBreathElapsed);renderBreathingGuide();$('#careBreathStart').textContent='PAUSE';careBreathTimer=setInterval(()=>{careBreathElapsed++;careBreathPhaseElapsed++;const phase=CARE_BREATH_PHASES[careBreathPhaseIndex];if(careBreathPhaseElapsed>=phase.seconds){careBreathPhaseElapsed=0;careBreathPhaseIndex=(careBreathPhaseIndex+1)%CARE_BREATH_PHASES.length}if(careBreathElapsed>=60){clearInterval(careBreathTimer);careBreathTimer=null;$('#careBreathPhase').textContent='완료';$('#careBreathTime').textContent='1분 호흡을 마쳤어요.';$('#careBreathStart').textContent='AGAIN';return}renderBreathingGuide()},1000)}
-  $('#careBreathStart').addEventListener('click',startBreathingGuide);$('#careBreathReset').addEventListener('click',resetBreathingGuide);
-  function careWritingKey(){return `aiderdear_care_notes_${currentUserEmail||'local'}`}
-  function loadCareWriting(){let d={};try{d=JSON.parse(localStorage.getItem(careWritingKey())||'{}')}catch{};$('#careWrite1').value=d.a||'';$('#careWrite2').value=d.b||'';$('#careWrite3').value=d.c||''}
-  $('#careWriteSave').addEventListener('click',()=>{localStorage.setItem(careWritingKey(),JSON.stringify({a:$('#careWrite1').value.trim(),b:$('#careWrite2').value.trim(),c:$('#careWrite3').value.trim(),updatedAt:Date.now()}));closeModal('careWriteModal');toast('생각 정리를 이 브라우저에 저장했습니다.')});
-  let meditationTimer=null,meditationMinutes=3,meditationRemaining=180,meditationStarted=false;
-  const MEDITATION_PROMPTS=['편안한 자세를 잡고, 시선을 천천히 한 곳에 두세요.','숨이 들어오고 나가는 감각만 가볍게 알아차려 보세요.','생각이 떠오르면 없애려 하지 말고, 다시 호흡으로 돌아오세요.','어깨와 턱의 힘을 조금 풀어주세요.','지금 느껴지는 감정을 판단하지 않고 잠시 곁에 두어보세요.','마지막 몇 번의 호흡을 천천히 느껴보세요.'];
-  function meditationFormat(sec){sec=Math.max(0,sec|0);return `${String(Math.floor(sec/60)).padStart(2,'0')}:${String(sec%60).padStart(2,'0')}`}
-  function renderMeditation(){const total=meditationMinutes*60,elapsed=Math.max(0,total-meditationRemaining),ratio=total?elapsed/total:0;$('#meditationClock').textContent=meditationFormat(meditationRemaining);$('#meditationProgress').style.width=`${Math.min(100,ratio*100)}%`;const p=Math.min(MEDITATION_PROMPTS.length-1,Math.floor(ratio*MEDITATION_PROMPTS.length));$('#meditationPrompt').textContent=meditationRemaining<=0?'잠시 눈을 뜨고, 지금의 몸과 마음을 알아차려 보세요.':MEDITATION_PROMPTS[p];$('#meditationPhase').textContent=meditationRemaining<=0?'완료':meditationStarted?'명상 중':'준비';$('#meditationOrb').classList.toggle('active',meditationStarted&&meditationRemaining>0);$('#meditationStart').textContent=meditationRemaining<=0?'AGAIN':meditationStarted?'PAUSE':(elapsed>0?'RESUME':'START')}
-  function resetMeditation(){if(meditationTimer){clearInterval(meditationTimer);meditationTimer=null}meditationStarted=false;meditationRemaining=meditationMinutes*60;renderMeditation()}
-  function startMeditation(){if(meditationRemaining<=0){resetMeditation()}if(meditationStarted){meditationStarted=false;if(meditationTimer){clearInterval(meditationTimer);meditationTimer=null}renderMeditation();return}meditationStarted=true;renderMeditation();meditationTimer=setInterval(()=>{meditationRemaining--;if(meditationRemaining<=0){meditationRemaining=0;meditationStarted=false;clearInterval(meditationTimer);meditationTimer=null}renderMeditation()},1000)}
-  $$('[data-meditation-minutes]').forEach(btn=>btn.addEventListener('click',()=>{meditationMinutes=Number(btn.dataset.meditationMinutes)||3;$$('[data-meditation-minutes]').forEach(b=>b.classList.toggle('active',b===btn));resetMeditation()}));
-  $('#meditationStart').addEventListener('click',startMeditation);$('#meditationReset').addEventListener('click',resetMeditation);renderMeditation();
+  // Compatibility for old presentation wrappers; no mood data is loaded or rendered.
+  function renderEmotion(){renderBucketList()}
   function privateCanWrite(){return !!currentUserEmail&&currentUserEmail===privateOwner&&privateRefs[privateOwner]?.writable}
   function privateDateLabel(ts){try{return new Date(ts).toLocaleString('ko-KR',{year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'})}catch{return ''}}
   function dateKeyOffset(n){const d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()+n);return iso(d.getFullYear(),d.getMonth(),d.getDate())}
@@ -8308,7 +7877,7 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
 
   // Today bullet journal — every category stays visible, including empty ones.
   function journalSection(kind,title,rows,emptyText='아직 기록이 없습니다'){
-    const icons={schedule:'◷',emotion:'○',routine:'↻',health:'＋',reading:'Aa',workflow:'✓',finance:'₩',record:'✦',memo:'—'};
+    const icons={schedule:'◷',routine:'↻',health:'＋',reading:'Aa',workflow:'✓',finance:'₩',record:'✦',memo:'—'};
     const items=rows.length
       ?rows.map(row=>`<li><time>${escapeHtml(row.time||'TODAY')}</time><span>${escapeHtml(row.text||'')}</span></li>`).join('')
       :`<li class="today-journal-section-empty"><time>—</time><span>${escapeHtml(emptyText)}</span></li>`;
@@ -8316,7 +7885,7 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   }
   function journalWeekSummary(privateStore,todayKey){
     const anchor=new Date(`${todayKey}T12:00:00`),offset=(anchor.getDay()+6)%7,start=new Date(anchor);start.setDate(anchor.getDate()-offset);
-    return Array.from({length:7},(_,index)=>{const day=new Date(start);day.setDate(start.getDate()+index);const key=iso(day.getFullYear(),day.getMonth(),day.getDate()),scheduleCount=(events||[]).filter(row=>eventOccursOnDate(row,key)).length,emotionCount=(emotionData[currentUserEmail]?.entries||[]).filter(row=>row.date===key).length,routineCount=(privateStore.routines||[]).filter(row=>{const level=String(row.dailyLevels?.[key]||'').toUpperCase();return level&&level!=='SKIP'}).length,todos=(privateStore.checklists||[]).filter(row=>row.date===key),todoDone=todos.filter(row=>row.done).length,total=scheduleCount+emotionCount+routineCount+todos.length;return {key,label:day.toLocaleDateString('ko-KR',{weekday:'short'}),day:day.getDate(),scheduleCount,emotionCount,routineCount,todos:todos.length,todoDone,total}})
+    return Array.from({length:7},(_,index)=>{const day=new Date(start);day.setDate(start.getDate()+index);const key=iso(day.getFullYear(),day.getMonth(),day.getDate()),scheduleCount=(events||[]).filter(row=>eventOccursOnDate(row,key)).length,routineCount=(privateStore.routines||[]).filter(row=>{const level=String(row.dailyLevels?.[key]||'').toUpperCase();return level&&level!=='SKIP'}).length,todos=(privateStore.checklists||[]).filter(row=>row.date===key),todoDone=todos.filter(row=>row.done).length,total=scheduleCount+routineCount+todos.length;return {key,label:day.toLocaleDateString('ko-KR',{weekday:'short'}),day:day.getDate(),scheduleCount,routineCount,todos:todos.length,todoDone,total}})
   }
   function renderJournalCapture(privateStore){
     const memos=(privateStore.memos||[]).slice().sort((a,b)=>(b.updatedAt||b.createdAt||0)-(a.updatedAt||a.createdAt||0)).slice(0,4),todos=(privateStore.checklists||[]).filter(row=>!row.done).slice().sort((a,b)=>(a.date||'9999-99-99').localeCompare(b.date||'9999-99-99')).slice(0,6),box=$('#journalCaptureList');if(!box)return;
@@ -8329,9 +7898,6 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
     const schedule=(events||[])
       .filter(row=>row.date===key||(row.date<=key&&row.endDate>=key))
       .map(row=>({time:row.time||'종일',text:row.title||'일정'}));
-    const emotion=(emotionData[currentUserEmail]?.entries||[])
-      .filter(row=>row.date===key)
-      .map(row=>({time:row.time||'감정',text:[...(row.moods||[row.mood]).filter(Boolean),row.location,row.companion].filter(Boolean).join(' · ')}));
     const routine=(privateStore.routines||[])
       .map(row=>({row,level:String(row.dailyLevels?.[key]||'').toUpperCase()}))
       .filter(item=>item.level)
@@ -8347,7 +7913,6 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
       .map(row=>({time:'기록',text:row.title||row.body||'Record'}));
     const sections=[
       journalSection('schedule','SCHEDULE',schedule),
-      journalSection('emotion','EMOTION',emotion),
       journalSection('routine','ROUTINE',routine),
       journalSection('health','HEALTH',personalRows('health')),
       journalSection('reading','READING',personalRows('reading')),
@@ -8356,10 +7921,10 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
       journalSection('record','RECORD',records),
       journalSection('memo','MEMO · TO DO',todos)
     ];
-    const groups=[schedule,emotion,routine,personalRows('health'),personalRows('reading'),personalRows('workflow'),personalRows('finance'),records,todos],total=groups.reduce((sum,rows)=>sum+rows.length,0),active=groups.filter(rows=>rows.length).length,doneTodos=checklistToday.filter(row=>row.done).length,nextSchedule=schedule.find(row=>row.time&&row.time!=='종일');
+    const groups=[schedule,routine,personalRows('health'),personalRows('reading'),personalRows('workflow'),personalRows('finance'),records,todos],total=groups.reduce((sum,rows)=>sum+rows.length,0),active=groups.filter(rows=>rows.length).length,doneTodos=checklistToday.filter(row=>row.done).length,nextSchedule=schedule.find(row=>row.time&&row.time!=='종일');
     $('#todayJournalDate').textContent=dateLabel;
-    $('#todayJournalSummary').innerHTML=`<article><span>기록</span><b>${total}</b></article><article><span>활성 영역</span><b>${active}/9</b></article><article><span>할 일</span><b>${doneTodos}/${checklistToday.length}</b></article><article class="wide"><span>NEXT</span><b>${nextSchedule?`${escapeHtml(nextSchedule.time)} · ${escapeHtml(nextSchedule.text)}`:'예정된 일정 없음'}</b></article>`;
-    const week=journalWeekSummary(privateStore,key),weekTotal=week.reduce((sum,row)=>sum+row.total,0);$('#todayJournalWeek').innerHTML=`<header><div><span>THIS WEEK</span><b>${week[0].key.slice(5).replace('-','.')} — ${week[6].key.slice(5).replace('-','.')}</b></div><strong>${weekTotal}<small>주간 기록</small></strong></header><div>${week.map(row=>`<article class="${row.key===key?'is-current':''}"><span>${escapeHtml(row.label)}</span><b>${row.day}</b><i style="--week-load:${Math.min(100,row.total*14)}%"></i><small>일정 ${row.scheduleCount} · 감정 ${row.emotionCount} · 루틴 ${row.routineCount} · 할 일 ${row.todoDone}/${row.todos}</small></article>`).join('')}</div>`;
+    $('#todayJournalSummary').innerHTML=`<article><span>기록</span><b>${total}</b></article><article><span>활성 영역</span><b>${active}/8</b></article><article><span>할 일</span><b>${doneTodos}/${checklistToday.length}</b></article><article class="wide"><span>NEXT</span><b>${nextSchedule?`${escapeHtml(nextSchedule.time)} · ${escapeHtml(nextSchedule.text)}`:'예정된 일정 없음'}</b></article>`;
+    const week=journalWeekSummary(privateStore,key),weekTotal=week.reduce((sum,row)=>sum+row.total,0);$('#todayJournalWeek').innerHTML=`<header><div><span>THIS WEEK</span><b>${week[0].key.slice(5).replace('-','.')} — ${week[6].key.slice(5).replace('-','.')}</b></div><strong>${weekTotal}<small>주간 기록</small></strong></header><div>${week.map(row=>`<article class="${row.key===key?'is-current':''}"><span>${escapeHtml(row.label)}</span><b>${row.day}</b><i style="--week-load:${Math.min(100,row.total*14)}%"></i><small>일정 ${row.scheduleCount} · 루틴 ${row.routineCount} · 할 일 ${row.todoDone}/${row.todos}</small></article>`).join('')}</div>`;
     $('#journalTodoDate').value=$('#journalTodoDate').value||key;renderJournalCapture(privateStore);
     $('#todayJournalContent').innerHTML=sections.join('');
   }
@@ -8528,7 +8093,7 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
     $('#app').dataset.activeTab=tab;
     $$('.tab').forEach(t=>{const active=t.dataset.tab===tab;t.classList.toggle('active',active);t.setAttribute('aria-selected',String(active));t.tabIndex=active?0:-1});
     document.body.classList.remove('emotion-mode','event-mode');document.body.classList.toggle('record-mode',tab==='record');document.body.classList.toggle('private-mode',tab==='private');
-    $('#emotionStage').hidden=true;$('#emotionStage').setAttribute('aria-hidden','true');const sections={schedule:$('#stage'),private:$('#privateStage'),record:$('#recordStage'),personal:$('#personalStage'),paper:$('#paperStage'),task:$('#taskStage'),estate:$('#estateStage')};Object.entries(sections).forEach(([key,section])=>{if(!section)return;const active=key===tab;section.hidden=!active;section.setAttribute('aria-hidden',String(!active))});const recordSecondary=$('#eventStage');if(recordSecondary){recordSecondary.hidden=tab!=='record';if(tab!=='record')recordSecondary.setAttribute('aria-hidden','true')}
+    const sections={schedule:$('#stage'),private:$('#privateStage'),record:$('#recordStage'),personal:$('#personalStage'),paper:$('#paperStage'),task:$('#taskStage'),estate:$('#estateStage')};Object.entries(sections).forEach(([key,section])=>{if(!section)return;const active=key===tab;section.hidden=!active;section.setAttribute('aria-hidden',String(!active))});const recordSecondary=$('#eventStage');if(recordSecondary){recordSecondary.hidden=tab!=='record';if(tab!=='record')recordSecondary.setAttribute('aria-hidden','true')}
     document.title=`${tabLabels[tab]||'AiderLog'} · AiderLog`;
     if(tab==='schedule'){goPage(0,true);renderCalendar();renderPrivate();const mediaVideo=$('#coupleVideo2');if(mediaVideo&&!mediaVideo.hidden)mediaVideo.play().catch(()=>{});return}
     const v=$('#coupleVideo2');if(v&&!v.hidden)v.pause();
@@ -8622,23 +8187,23 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
     normalizeCloudData();selectAlbumFolderColor(ALBUM_PASTELS[0]);getAlbumFolders();refreshRecordAlbumSelect(DEFAULT_ALBUM_ID);renderAlbumFolders();renderEventArchive();renderTravelArchive();renderPrivate();renderPersonal();renderPaper();renderConsultingWorkspace();renderEmotion();applyLoginUI();setDday();renderDdayList();renderCalendar();if(location.hash==='#search')setTimeout(openSearchFromQuick,0);if('serviceWorker' in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'}).then(registration=>registration.update()).catch(()=>{}));
 })();
 </script>
-<script src="./paper-workspace-v121.js?v=178"></script>
-<script src="./paper-v159.js?v=178"></script>
-<link rel="stylesheet" href="./consult-v167.css?v=178">
-<script src="./consult-model-v167.js?v=178"></script>
-<script src="./work-calendar-v168.js?v=178"></script>
-<script src="./storage-maintenance-v168.js?v=178"></script>
-<script src="./consult-intake-v168.js?v=178"></script>
-<script src="./consult-deeplink-v168.js?v=178"></script>
-<script src="./consult-v167.js?v=178"></script>
-<script src="./work-client-v167.js?v=178"></script>
-<script src="./site-work-v167.js?v=178"></script>
-<script src="./site-polish-v158.js?v=178"></script>
-<script src="./site-editions-v164.js?v=178"></script>
-<script src="./site-layout-v165.js?v=178"></script>
-<link rel="stylesheet" href="./site-ui-v167.css?v=178">
-<script src="./site-ui-v167.js?v=178"></script>
-<script src="./widget-sync-v162.js?v=178"></script>
+<script src="./paper-workspace-v121.js?v=179"></script>
+<script src="./paper-v159.js?v=179"></script>
+<link rel="stylesheet" href="./consult-v167.css?v=179">
+<script src="./consult-model-v167.js?v=179"></script>
+<script src="./work-calendar-v168.js?v=179"></script>
+<script src="./storage-maintenance-v168.js?v=179"></script>
+<script src="./consult-intake-v168.js?v=179"></script>
+<script src="./consult-deeplink-v168.js?v=179"></script>
+<script src="./consult-v167.js?v=179"></script>
+<script src="./work-client-v167.js?v=179"></script>
+<script src="./site-work-v167.js?v=179"></script>
+<script src="./site-polish-v158.js?v=179"></script>
+<script src="./site-editions-v164.js?v=179"></script>
+<script src="./site-layout-v165.js?v=179"></script>
+<link rel="stylesheet" href="./site-ui-v167.css?v=179">
+<script src="./site-ui-v167.js?v=179"></script>
+<script src="./widget-sync-v162.js?v=179"></script>
 <script>
 (() => {
   const FALLBACK_FLOOR = 11;
@@ -8688,30 +8253,31 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   window.addEventListener('aiderlog-site-editionchange', () => applyFontFloor());
 })();
 </script>
-<link rel="stylesheet" href="./site-typography-v169.css?v=178">
-<script src="./site-typography-v169.js?v=178"></script>
-<link rel="stylesheet" href="./estate-v171.css?v=178">
-<link rel="stylesheet" href="./estate-directory-v171.css?v=178">
-<link rel="stylesheet" href="./estate-workflow-v171.css?v=178">
-<link rel="stylesheet" href="./estate-calendar-view-v172.css?v=178">
-<link rel="stylesheet" href="./estate-cobroker-v173.css?v=178">
-<script type="module" src="./estate-v171.js?v=178"></script>
-<script type="module" src="./estate-calendar-v171.js?v=178"></script>
-<link rel="stylesheet" href="./site-calendar-v172.css?v=178">
-<script src="./site-calendar-v172.js?v=178"></script>
-<link rel="stylesheet" href="./site-panels-v172.css?v=178">
-<script src="./site-panels-v172.js?v=178"></script>
-<link rel="stylesheet" href="./site-calendar-v175.css?v=178">
-<script src="./site-calendar-v175.js?v=178"></script>
-<link rel="stylesheet" href="./private-calendar-v175.css?v=178">
-<link rel="stylesheet" href="./business-calendar-v175.css?v=178">
-<link rel="stylesheet" href="./insight-range-v175.css?v=178">
-<script type="module" src="./private-calendar-ui-v175.js?v=178"></script>
-<link rel="stylesheet" href="./friend-schedule-v175.css?v=178">
-<link rel="stylesheet" href="./shared-schedule-v176.css?v=178">
-<link rel="stylesheet" href="./dday-display-v176.css?v=178">
-<script src="./friend-schedule-ui-v175.js?v=178"></script>
-<link rel="stylesheet" href="./photo-attachments-v176.css?v=178">
+<link rel="stylesheet" href="./site-typography-v169.css?v=179">
+<script src="./site-typography-v169.js?v=179"></script>
+<link rel="stylesheet" href="./estate-v171.css?v=179">
+<link rel="stylesheet" href="./estate-directory-v171.css?v=179">
+<link rel="stylesheet" href="./estate-workflow-v171.css?v=179">
+<link rel="stylesheet" href="./estate-calendar-view-v172.css?v=179">
+<link rel="stylesheet" href="./estate-cobroker-v173.css?v=179">
+<script type="module" src="./estate-v171.js?v=179"></script>
+<script type="module" src="./estate-calendar-v171.js?v=179"></script>
+<link rel="stylesheet" href="./site-calendar-v172.css?v=179">
+<script src="./site-calendar-v172.js?v=179"></script>
+<link rel="stylesheet" href="./site-panels-v172.css?v=179">
+<script src="./site-panels-v172.js?v=179"></script>
+<link rel="stylesheet" href="./site-calendar-v175.css?v=179">
+<script src="./site-calendar-v175.js?v=179"></script>
+<link rel="stylesheet" href="./private-calendar-v175.css?v=179">
+<link rel="stylesheet" href="./business-calendar-v175.css?v=179">
+<link rel="stylesheet" href="./site-calendar-v179.css?v=179">
+<link rel="stylesheet" href="./schedule-editor-v179.css?v=179">
+<script type="module" src="./private-calendar-ui-v175.js?v=179"></script>
+<link rel="stylesheet" href="./friend-schedule-v175.css?v=179">
+<link rel="stylesheet" href="./shared-schedule-v176.css?v=179">
+<link rel="stylesheet" href="./dday-display-v176.css?v=179">
+<script src="./friend-schedule-ui-v175.js?v=179"></script>
+<link rel="stylesheet" href="./photo-attachments-v176.css?v=179">
 <style id="site-search-icon-v176">
 html:not(.aiderlog-android) #app #searchBtn .site-search-icon-v176{display:block;width:22px!important;height:22px!important;flex:none;margin:auto;pointer-events:none}
 </style>

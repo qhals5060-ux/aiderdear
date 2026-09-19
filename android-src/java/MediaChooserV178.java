@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.MimeTypeMap;
@@ -95,16 +96,22 @@ public final class MediaChooserV178 {
         if (selection == null || selection.request != request) return true;
         ArrayList<Uri> uris = new ArrayList<>();
         boolean rejected = false;
+        int returnedCount = 0;
         if (result == Activity.RESULT_OK && data != null) {
             ClipData clips = data.getClipData();
             int count = clips == null ? (data.getData() == null ? 0 : 1) : clips.getItemCount();
+            returnedCount = count;
             for (int i = 0; i < count; i++) {
                 Uri uri = clips == null ? data.getData() : clips.getItemAt(i).getUri();
                 if (uri == null || !"content".equals(uri.getScheme())) { rejected = true; continue; }
                 try {
                     // A picker result is untrusted. Only pass granted readable content, never app-private file:// paths.
                     String type = activity.getContentResolver().getType(uri);
-                    if (type != null && !accepted(selection.types, type)) { rejected = true; continue; }
+                    // Some Android document providers return an empty/generic MIME even
+                    // for a .jpg or .mp4. Let WebView supply its display name to the
+                    // existing JS MIME/extension validator, just as for a null MIME.
+                    // A known, conflicting MIME remains rejected here.
+                    if (!unknownMime(type) && !accepted(selection.types, type.trim())) { rejected = true; continue; }
                     try (android.content.res.AssetFileDescriptor descriptor = activity.getContentResolver().openAssetFileDescriptor(uri, "r")) {
                         if (descriptor == null) { rejected = true; continue; }
                     }
@@ -113,9 +120,14 @@ public final class MediaChooserV178 {
                 if (!selection.multiple && !uris.isEmpty()) break;
             }
         }
+        // No URI, filename, account, or content is ever included in diagnostics.
+        Log.i("AiderLogMedia", "picker-result returned=" + returnedCount + " readable=" + uris.size() + " rejected=" + rejected);
         finish(activity, selection, uris.isEmpty() ? null : uris.toArray(new Uri[0]));
         if (rejected) Toast.makeText(activity, "읽을 수 없거나 지원하지 않는 파일은 제외했습니다.", Toast.LENGTH_LONG).show();
         return true;
+    }
+    private static boolean unknownMime(String type) {
+        return type == null || type.trim().isEmpty() || "application/octet-stream".equalsIgnoreCase(type.trim());
     }
     private static boolean accepted(String[] types, String actual) {
         for (String type : types) if ("*/*".equals(type) || type.equalsIgnoreCase(actual) ||

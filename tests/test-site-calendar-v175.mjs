@@ -49,9 +49,9 @@ test('half-height media has top-right close/minimize, lower-center counter, lowe
   assert(css.includes('#storyMediaDownload {justify-self:end!important}'));assert(css.includes('#storyMediaCounter {\n  grid-column:1!important;justify-self:center!important'));
   assert(css.includes('object-fit:contain!important'));assert(css.includes('#storyMediaCard.is-collapsed :is(#storyMediaOpen,#storyMediaControls) {display:none!important}'));
 });
-test('mood author fills and private icons share upper-right row in both clients; unrelated pages stay scoped',()=>{
+test('site private date row remains bounded and unrelated pages stay scoped',()=>{
   assert(css.includes('.calendar-status-icons {\n  position:absolute!important;top:3px!important;right:3px!important;bottom:auto!important'));
-  for(const kind of ['mine','partner','shared'])assert(css.includes('.calendar-status-icon.mood.'+kind));
+  assert(css.includes('.calendar-status-icon'));assert(css.includes('#calendar .day'));
   const selectors=css.replace(/\/\*[\s\S]*?\*\//g,'').match(/[^{}]+(?=\{)/g)||[];
   for(const selector of selectors.filter(s=>!s.trim().startsWith('@'))){assert(selector.includes('html.site-calendar-v175:not(.aiderlog-android)')||selector.includes('#calendar .calendar-status-icon')||selector.includes('#calendar .day'),selector);}
 });

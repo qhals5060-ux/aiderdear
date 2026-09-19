@@ -60,4 +60,15 @@ html body #wheel .global-wheel-item-v126[data-wheelbar-menu-v176] .wheelbar-name
   overflow:hidden!important;clip-path:inset(50%)!important;white-space:nowrap!important;border:0!important;pointer-events:none!important;
 }
 @media(prefers-reduced-motion:reduce){html body #wheel .global-wheel-item-v126[data-wheelbar-menu-v176],html body #wheel .global-wheel-item-v126[data-wheelbar-menu-v176]::before{transition:none!important}}
+/* Five entries: keep every 48px hit box inside the screen and on a concentric
+   arc around the unchanged planet. All adjacent boxes have >=48px separation
+   on at least one axis, including mouse and keyboard hit testing. */
+html body #wheel.open:has([data-page="todo"]) .global-wheel-item-v126.slot-0[data-wheelbar-menu-v176]{left:16px!important;top:177px!important}
+html body #wheel.open:has([data-page="todo"]) .global-wheel-item-v126.slot-1[data-wheelbar-menu-v176]{left:20px!important;top:121px!important}
+html body #wheel.open:has([data-page="todo"]) .global-wheel-item-v126.slot-2[data-wheelbar-menu-v176]{left:50px!important;top:73px!important}
+html body #wheel.open:has([data-page="todo"]) .global-wheel-item-v126.slot-3[data-wheelbar-menu-v176]{left:101px!important;top:27px!important}
+html body #wheel.open:has([data-page="todo"]) .global-wheel-item-v126.slot-4[data-wheelbar-menu-v176]{left:160px!important;top:17px!important}
+html body #wheel.open:has([data-page="todo"]) #wheelFan.global-wheel-field-v126::after,
+html body #wheel.open:has([data-page="todo"]) #wheelFan .global-wheel-orbits-v126{left:39px!important;top:40px!important;width:274px!important;height:274px!important}
+html body #wheel.open:has([data-page="todo"]) #wheelFan.global-wheel-field-v126::before{left:46px!important;top:47px!important;width:260px!important;height:260px!important}
 }

@@ -14,20 +14,21 @@ function fixture(){
   class FixedDate extends Date{constructor(...args){super(...(args.length?args:[Date.parse('2026-09-12T03:00:00Z')]));}}
   const rows=[incoming,outgoing,business],context={Date:FixedDate,window:{AiderSharedScheduleV176:shared},currentUser:()=>user,SCHEDULE_CATEGORY:{other:['기타','#456789']},safe:String,scheduleRowsV125:()=>rows,scheduleSelectedV125:'2026-09-12',dateKey:value=>`${value.getFullYear()}-${String(value.getMonth()+1).padStart(2,'0')}-${String(value.getDate()).padStart(2,'0')}`,eventSpansDateV125:(row,key)=>row.date===key};
   vm.runInNewContext(fs.readFileSync(path.join(root,'android-src/assets/app-calendar-view-v176.js'),'utf8'),context);
+  vm.runInNewContext(fs.readFileSync(path.join(root,'schedule-time-v179.js'),'utf8'),context);
   context.scheduleViewV176=context.window.AiderAppCalendarViewV176.create(null,()=>new FixedDate());
   const functions=source.match(/  function receivedScheduleV176[^\n]+/)[0]+'\n'+source.match(/  function eventColorV125[^\n]+/)[0];
   vm.createContext(context);vm.runInContext(functions+'\n'+source.slice(source.indexOf('  function scheduleCellsV125'),source.indexOf('  function renderScheduleV125')),context);return context;
 }
 test('app event colour and upcoming colour both distinguish received from outgoing shares',()=>{
   const context=fixture();assert.equal(context.eventColorV125(incoming),'#B58B00');assert.equal(context.eventColorV125(outgoing),'#456789');assert.equal(context.eventColorV125(business),'#123456');
-  const upcoming=context.scheduleUpcomingV125();assert.match(upcoming,/schedule-upcoming-line-v126 schedule-received-v176[^>]+data-schedule-edit-v125="received"[^>]+--owner-color:#B58B00/);
-  assert.match(upcoming,/class="uprow schedule-upcoming-line-v126"[^>]+data-schedule-edit-v125="outgoing"[^>]+--owner-color:var\(--theme-primary\)/);
-  assert.match(upcoming,/aria-label="상대가 공유한 일정 · 받은 일정"/);
+  const upcoming=context.scheduleUpcomingV125();assert.match(upcoming,/schedule-upcoming-line-v179 schedule-received-v176[^>]+data-schedule-edit-v125="received"[^>]+--owner-color:#B58B00/);
+  assert.match(upcoming,/class="schedule-upcoming-line-v179"[^>]+data-schedule-edit-v125="outgoing"[^>]+--owner-color:var\(--theme-primary\)/);
+  assert.match(upcoming,/title="2026-09-12 · 받은 일정"/);assert.match(upcoming,/>8시<\/time>/);assert.doesNotMatch(upcoming,/UPCOMING|<h3>|schedule-upcoming-v119/);
 });
 test('app calendar first event, dots, and day detail list expose incoming ownership consistently',()=>{
-  const context=fixture(),cells=context.scheduleCellsV125(2026,8);assert.match(cells,/schedule-event-name-v119 schedule-received-v176/);assert.match(cells,/class="schedule-received-v176" style="--event-color:#B58B00"/);assert.match(cells,/aria-label="상대가 공유한 일정 · 받은 일정"/);
-  const line=source.split('\n').find(row=>row.includes("$('[data-schedule-day-list-v125]',overlay).innerHTML=rows.map"));assert(line);
-  context.rows=[incoming,outgoing,business];vm.runInContext('globalThis.dayList='+line.slice(line.indexOf('rows.map')),context);
+  const context=fixture(),cells=context.scheduleCellsV125(2026,8);assert.match(cells,/schedule-event-name-v119 schedule-received-v176/);assert.doesNotMatch(cells,/schedule-event-dots-v119/);assert.match(cells,/aria-label="상대가 공유한 일정 · 받은 일정"/);
+  const line=source.split('\n').find(row=>row.includes("$('[data-schedule-day-list-v125]',overlay).innerHTML=dayEntries.map"));assert(line);
+  context.dayEntries=context.window.AiderScheduleTimeV179.entries([incoming,outgoing,business]);vm.runInContext('globalThis.dayList='+line.slice(line.indexOf('dayEntries.map')),context);
   assert.match(context.dayList,/article class="schedule-item-v125 schedule-received-v176" aria-label="상대가 공유한 일정 · 받은 일정"/);
   assert.match(context.dayList,/data-schedule-list-edit-v125="business">보기/);assert.doesNotMatch(context.dayList,/schedule-received-v176[^>]+업무 일정/);
 });

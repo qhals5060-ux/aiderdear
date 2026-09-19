@@ -18,6 +18,8 @@ export function createConsultSync({currentUid,readCurrent,commitRecord,writeRema
   function remember(uid,payload) { assert(uid);baselines.set(uid,clone(payload||{}));return payload; }
   function write(payload) {
     const uid=currentUid(), snapshot=clone(payload||{});assert(uid);
+    // Capture the caller's read version before queuing or another read changes it.
+    const noteBaseline=clone(baselines.get(uid)||{});
     const run=async()=>{
       assert(uid);
       let current=await readCurrent(uid)||{};assert(uid);
@@ -47,9 +49,9 @@ export function createConsultSync({currentUid,readCurrent,commitRecord,writeRema
         if((base[key]||[]).some(row=>!ids.has(String(row.id))))throw Error('컨설트 기록 삭제는 지원하지 않습니다. 원본을 보존했습니다. 컨설트 화면에서 상태를 변경해주세요.');
       }
       // The transaction re-reads Consult fields, so a simultaneous edit survives.
-      const finalPayload=await writeRemaining(uid,snapshot);assert(uid);
+      const finalPayload=await writeRemaining(uid,snapshot,noteBaseline);assert(uid);
       remember(uid,finalPayload);
-      for(const key of CONSULT_KEYS){
+      for(const key of [...CONSULT_KEYS,'checklists','memos']){
         if(canonical(payload[key]||[])===canonical(snapshot[key]||[]))payload[key]=clone(finalPayload[key]||[]);
       }
       return finalPayload;
@@ -58,5 +60,5 @@ export function createConsultSync({currentUid,readCurrent,commitRecord,writeRema
     tails.set(uid,task);task.finally(()=>{if(tails.get(uid)===task)tails.delete(uid);}).catch(()=>{});
     return task;
   }
-  return {remember,write,clear(){baselines.clear();pending.clear();}};
+  return {remember,rememberFields(uid,fields){assert(uid);baselines.set(uid,{...(baselines.get(uid)||{}),...clone(fields)});},write,clear(){baselines.clear();pending.clear();}};
 }

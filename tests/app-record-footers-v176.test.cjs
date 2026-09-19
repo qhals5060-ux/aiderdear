@@ -2,12 +2,11 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
+const vm = require('node:vm');
 const root = path.resolve(__dirname, '..');
 const read = name => fs.readFileSync(path.join(root, 'android-src/assets', name), 'utf8');
 const css = read('app-record-footers-v176.css');
 const declarations = css.replace(/\/\*[\s\S]*?\*\//g, '');
-const emotionForm = 'html body .emotion-dialog-v119 > section > form[data-emotion-form-v119]';
-const privateActions = 'html body #privateCalendarDialogV175 #privateCalendarEntryV175 > .private-calendar-entry-actions';
 function block(selector) {
   const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   const match = css.match(new RegExp(escaped + '\\s*\\{([^}]+)\\}'));
@@ -24,37 +23,28 @@ test('schedule keeps one scrolling body and full-bleed actions inside the origin
   assert.match(footer, /width:calc\(100% \+ 24px\)!important/);
   assert.match(footer, /margin:8px -12px 0!important/);
   assert.match(footer, /padding:9px 12px max\(9px,env\(safe-area-inset-bottom\)\)!important/);
-  assert.ok(read('index.html').includes('./app-record-footers-v176.css?v=178'));
-  assert.ok(read('sw.js').includes("'./app-record-footers-v176.css','./app-record-footers-v176.css?v=178'"));
+  assert.ok(read('index.html').includes('./app-record-footers-v176.css?v=179'));
+  const shell=vm.runInNewContext(read('sw.js')+';[...APP_SHELL]',{URL,self:{location:{href:'https://app.invalid/sw.js'},addEventListener(){}}});
+  for(const query of ['', '?v=179'])assert(shell.includes('./app-record-footers-v176.css'+query));
 });
 
-test('emotion actions span the exact form padding and remove the bottom gap', () => {
-  assert.match(block(emotionForm), /padding:16px 16px 0!important/);
-  const footer = block(emotionForm + ' > footer');
-  assert.match(footer, /width:calc\(100% \+ 32px\)!important/);
-  assert.match(footer, /margin:8px -16px 0!important/);
-  assert.match(footer, /max-width:none!important/);
-  assert.match(footer, /padding:12px 16px max\(12px,env\(safe-area-inset-bottom\)\)!important/);
-  assert.match(footer, /bottom:0!important/);
-  assert.match(footer, /flex-wrap:wrap!important/);
+test('Schedule Save/X stay in the header while deletion remains a full-bleed body action', () => {
+  const source=read('feature-system-v125.js'),form=source.slice(source.indexOf('  function ensureScheduleDialogV125'),source.indexOf('  function openScheduleV125'));
+  const header=form.slice(form.indexOf('<header'),form.indexOf('</header>'));
+  assert.match(header,/data-schedule-dialog-close-v125/);assert.match(header,/type="submit" form="appScheduleFormV179"/);assert.match(header,/data-private-header-v179/);
+  const footer=form.slice(form.indexOf('<div class="schedule-dialog-actions-v125"'),form.indexOf('</form>'));
+  assert.match(footer,/data-schedule-delete-v125/);assert.doesNotMatch(footer,/type="submit"|>취소<|>감정</);
 });
 
-test('emotion remains scrollable without a reserved scrollbar edge strip', () => {
-  assert.match(block(emotionForm), /overflow-y:auto!important/);
-  assert.match(block(emotionForm), /overflow-x:hidden!important/);
-  assert.match(block(emotionForm), /overscroll-behavior:contain!important/);
-  assert.match(block(emotionForm), /scrollbar-width:none!important/);
-  assert.ok(css.includes(emotionForm + '::-webkit-scrollbar'));
+test('removed emotion entry cannot be recreated by the private-calendar schedule integration', () => {
+  const source=read('private-calendar-ui-v175.js');assert.doesNotMatch(source,/AiderAppEmotionV176|openEmotionFromSchedule|emotion\.addEventListener/);
+  const editor=read('schedule-editor-v179.css');assert.match(editor,/schedule-dialog-actions-v125:not\(:has\(button:not\(\[hidden\]\)\)\)/);
 });
 
-test('private date action surface is full bleed but never covers the following records', () => {
-  const actions = block(privateActions);
-  assert.match(actions, /width:calc\(100% \+ 36px\)!important/);
-  assert.match(actions, /margin:12px -18px 0!important/);
-  assert.match(actions, /padding:12px 18px!important/);
-  assert.match(actions, /position:static!important/);
-  assert.doesNotMatch(actions, /\b(?:bottom|top|height|z-index):/);
-  assert.doesNotMatch(declarations, /#privateCalendarSettingsV175|#privateCalendarListV175/);
+test('private day actions are underlined header links in the same high-priority app theme layer', () => {
+  const editor=read('schedule-editor-v179.css');const layer=editor.slice(editor.indexOf('@layer appColour164'));
+  assert.match(layer,/\[data-private-schedule-kind\][^]*background:transparent!important[^]*border:0!important[^]*box-shadow:none!important/);
+  assert.match(layer,/font-size:11px!important;text-decoration:underline!important/);assert.doesNotMatch(layer,/position:(fixed|absolute)/);
 });
 
 test('existing full-width editors only receive a palette-following action surface', () => {
