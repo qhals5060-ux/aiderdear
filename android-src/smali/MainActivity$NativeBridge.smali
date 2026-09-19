@@ -97,7 +97,7 @@
     .end annotation
 
     .line 285
-    const-string v0, "1.9.70"
+    const-string v0, "1.9.71"
 
     return-object v0
 .end method

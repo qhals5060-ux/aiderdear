@@ -15,6 +15,9 @@
     const today=day(now),weekDates=week(today),items=list(personal.personalItems).filter(r=>r&&!['emotion','language'].includes(r.category)&&!r.demo),checks=list(personal.checklists).filter(r=>r&&r.category!=='emotion'&&!r.demo);
     const notes=[...checks.filter(r=>r.kind==='memo'||r.type==='memo'),...list(personal.memos||personal.notes)].filter(r=>r&&r.category!=='emotion'&&!r.demo).sort(latest).map(r=>({id:s(r.id),title:text(r),preview:s(r.preview||r.note||r.description),updatedAt:time(r),kind:'note'}));
     const todos=checks.filter(r=>r.kind!=='memo'&&r.type!=='memo').sort(todoCompare).map(r=>({id:s(r.id),title:text(r),done:!!r.done,dueAt:s(r.dueAt||r.date),createdAt:Number(r.createdAt||0),updatedAt:time(r),completedAt:Number(r.completedAt||0),kind:'todo'}));
+    // Calendar widgets show the entire actionable backlog, not only tasks whose
+    // deadline happens to fall on the selected date or within these two weeks.
+    const incompleteTodos=todos.filter(row=>!row.done&&row.id&&row.title);
     const routines=list(personal.routines).filter(r=>r&&!r.demo).map(r=>{const dates=unique(list(r.doneDates).map(x=>s(x).slice(0,10))),goal=num(r.goalDays),level=s(r.dailyLevels?.[today]).toUpperCase(),engine=routineEngine?.(r)||{};return {id:s(r.id),title:text(r),goalDays:goal,cycleDays:num(r.cycleDays),goalTracking:r.goalTracking||null,goalDerivedDates:r.goalDerivedDates||{},doneDates:dates,dailyLevels:r.dailyLevels||{},miniText:s(r.miniText),moreText:s(r.moreText),maxText:s(r.maxText),done:dates.length,percent:percent(dates.length,goal),level:['MINI','MORE','MAX','SKIP'].includes(level)?level:'',streak:num(engine.streak)??streak(dates,today,true),weekDates,week:weekDates.map(d=>dates.includes(d)),updatedAt:time(r),kind:'routine'};});
     const routineCounts=weekDates.map(d=>routines.filter(r=>r.doneDates.includes(d)).length),allRoutineDates=unique(routines.flatMap(r=>r.doneDates));
     const routineStats={todayDone:routines.filter(r=>r.doneDates.includes(today)).length,total:routines.length,weekDates,weekCounts:routineCounts,weekPercent:percent(routineCounts.reduce((a,b)=>a+b,0),routines.length*7),streak:streak(allRoutineDates,today,true),cumulative:routines.reduce((n,r)=>n+r.done,0)};
@@ -32,7 +35,7 @@
     items.filter(r=>r.category!=='workflow').forEach(r=>add(s(r.date).slice(0,10),{id:s(r.id),type:s(r.category),title:text(r),time:s(r.details?.time||r.time),createdAt:Number(r.createdAt||0)}));
     routines.forEach(r=>r.doneDates.forEach(d=>add(d,{id:`routine:${r.id}:${d}`,type:'routine',title:`${r.title} · ${s(r.dailyLevels[d]).toUpperCase()||'완료'}`,time:'',createdAt:r.updatedAt})));
     Object.values(dates).forEach(rows=>rows.sort((a,b)=>s(a.time||'99:99').localeCompare(s(b.time||'99:99'))||a.createdAt-b.createdAt));
-    return {schema:165,uid,today,weekDates,notes,todos,routines,routineStats,meals,workouts,challenges,inbody,books,currentBookId:books.find(r=>r.status==='reading')?.id||'',workflows,dates};
+    return {schema:165,uid,today,weekDates,notes,todos,incompleteTodos,routines,routineStats,meals,workouts,challenges,inbody,books,currentBookId:books.find(r=>r.status==='reading')?.id||'',workflows,dates};
   }
   return {build,todoCompare,bookKey,streak,week,day,shift,percent};
 });

@@ -11,7 +11,7 @@ foreach($taskTestInput169 in @($JavaPath,(Join-Path $ToolingPath 'ecj.jar'),(Joi
 if(Test-Path -LiteralPath $OutputPath){throw 'Choose a new OutputPath; existing outputs are never replaced.'}
 New-Item -ItemType Directory -Path $OutputPath | Out-Null
 $taskTestClasspath169=(Join-Path $ToolingPath 'json.jar') + ';' + $AndroidJar
-$taskTestSources169=@('WidgetProvider.java','WidgetNativeV164.java','WidgetDesignV165.java','WidgetRowsV164.java','WidgetNavV164.java','WidgetSizeV169.java','WidgetNativeContractTest.java') | ForEach-Object { Join-Path $PSScriptRoot $_ }
+$taskTestSources169=@('WidgetProvider.java','WidgetNativeV164.java','WidgetDesignV165.java','WidgetRowsV164.java','WidgetNavV164.java','WidgetSizeV169.java','WidgetCompactCalendarV181.java','WidgetPreviewFrameV181.java','WidgetNativeContractTest.java') | ForEach-Object { Join-Path $PSScriptRoot $_ }
 & $JavaPath -jar (Join-Path $ToolingPath 'ecj.jar') -1.8 -proc:none -encoding UTF-8 -classpath $taskTestClasspath169 -d $OutputPath @taskTestSources169
 if($LASTEXITCODE -ne 0){throw 'Native model test Java compilation failed.'}
 # Real org.json precedes the Android API stub; model tests call no Android UI methods.

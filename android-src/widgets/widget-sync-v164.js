@@ -51,14 +51,21 @@
     const api=window.AiderDearFirebase,expectedEpoch=epoch,expectedOwner=owner,run=++refreshRun;
     if(typeof api?.readAppData!=='function'||typeof api?.readPrivateData!=='function')return;
     try{
-      const [app,personal,schedule]=await Promise.all([api.readAppData(),api.readPrivateData(),typeof api.readScheduleData==='function'?api.readScheduleData():Promise.resolve(null)]);
+      const hasScheduleReader=typeof api.readScheduleData==='function';
+      const [app,personal,schedule]=await Promise.all([api.readAppData(),api.readPrivateData(),hasScheduleReader?api.readScheduleData():Promise.resolve(null)]);
       if(!stillCurrent(expectedEpoch,expectedOwner)||run!==refreshRun)return;
       // A successfully scoped null means this account has not created that
       // document yet. It is a verified empty component, never a reason to import
       // legacy A/P. Rejected reads reach catch and keep only this owner's cache.
       if((app!==null&&!object(app))||(personal!==null&&!object(personal)))return;
-      const cleanApp=copy(app||{}),scheduleRows=Array.isArray(schedule)?schedule:[...array(schedule?.own),...array(schedule?.shared)];
-      if(scheduleRows.length){const byId=new Map();[...array(cleanApp.scheduleEvents),...scheduleRows].forEach((row,index)=>{if(row&&typeof row==='object')byId.set(str(row.id)||`undated:${index}`,copy(row));});cleanApp.scheduleEvents=[...byId.values()];}
+      const cleanApp=copy(app||{});
+      if(hasScheduleReader){
+        // The dedicated schedule collection is authoritative even when empty.
+        // Merging app/main here resurrects deleted legacy rows and old edits.
+        if(!Array.isArray(schedule)&&!(object(schedule)&&Array.isArray(schedule.own)&&Array.isArray(schedule.shared)))return;
+        const scheduleRows=Array.isArray(schedule)?schedule:[...schedule.own,...schedule.shared],byId=new Map();
+        scheduleRows.forEach((row,index)=>{if(row&&typeof row==='object')byId.set(str(row.id)||`undated:${index}`,copy(row));});cleanApp.scheduleEvents=[...byId.values()];
+      }
       source={app:cleanApp,personal:copy(personal||{})};verified=true;
       try{localStorage.setItem(cacheKey(owner),JSON.stringify({owner,...source}));}catch{}
       sync();prepareMealPhotos();flushCommands();
@@ -109,7 +116,11 @@
     // Reuse the current owner's API projection; legacy workRecords are no longer
     // authoritative. Never join another account's cached Work rows to a widget.
     const projected=allowed.has(email)&&calendar?.status?.().uid===state.user.uid?array(calendar.rows(personal)):[];
-    const scheduleItems=[...new Map([...array(app.scheduleEvents),...projected].filter(row=>row?.date&&row?.title&&!row.demo).map(row=>[str(row.id),{id:str(row.id),date:date(row.date),endDate:date(row.endDate||row.date),time:str(row.time),title:str(row.title)}])).values()].sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
+    // This adapter only reads the friend controller's current, identity-checked
+    // projection. It neither creates a new subscription nor exports to Google.
+    const received=array(window.AiderFriendScheduleUIV175?.events?.());
+    const scheduleColor=row=>{const fallback=str(row.sourceColor||row.color),candidate=window.AiderSharedScheduleV176?.color?.(row,state.user,fallback)||fallback;return /^#[0-9a-f]{6}$/i.test(candidate)?candidate:'#6255E8';};
+    const scheduleItems=[...new Map([...array(app.scheduleEvents),...projected,...received].filter(row=>row?.date&&row?.title&&!row.demo).map(row=>[str(row.id),{id:str(row.id),date:date(row.date),endDate:date(row.endDate||row.date),time:row.allDay?'':str(row.time),allDay:!!row.allDay,title:str(row.title),color:scheduleColor(row),readOnly:!!(row.readOnly||row.projectionSource||row.friendShared),friendShared:!!row.friendShared,projectionSource:['work','consult','consulting','estate'].includes(str(row.projectionSource))?str(row.projectionSource):''}])).values()].sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
     const holidays={};
     for(let year=now.getFullYear()-1;year<=now.getFullYear()+2;year++)for(let day=new Date(year,0,1);day.getFullYear()===year;day.setDate(day.getDate()+1)){
       const k=key(day),label=window.AiderLogHolidayTitleV164?.(k);if(label)holidays[k]=label;
@@ -118,9 +129,11 @@
       const days=[...new Set(array(row.doneDates))].length,goal=Number(row.goalDays)||0,level=str(row.dailyLevels?.[today]);
       return `${text(row)}${goal?` · ${days} / ${goal}일`:''}${level?` · ${level.toUpperCase()}`:''}`;
     }).filter(Boolean);
-    const checks=array(personal.checklists).slice().sort((a,b)=>Number(Boolean(a.done))-Number(Boolean(b.done))||(a.done?newest(a,b):str(a.date||'9999').localeCompare(str(b.date||'9999'))||newest(a,b)));
-    const todos=checks.filter(row=>row.date).map(row=>`${row.done?'✓':'○'} ${text(row)} · ${date(row.date)}`);
-    const memos=[...checks.filter(row=>!row.date),...array(personal.memos||personal.notes)].slice().sort(newest).map(text).filter(Boolean);
+    const checks=array(personal.checklists).filter(row=>row&&!row.demo&&row.category!=='emotion').slice().sort((a,b)=>Number(Boolean(a.done))-Number(Boolean(b.done))||(a.done?newest(a,b):str(a.dueAt||a.date||'9999').localeCompare(str(b.dueAt||b.date||'9999'))||newest(a,b))),isMemo=row=>row.kind==='memo'||row.type==='memo';
+    // Undated legacy checklists are tasks too. Memo identity is explicit, never
+    // inferred from the absence of a deadline (same contract as the app page).
+    const todos=checks.filter(row=>!isMemo(row)).map(row=>`${row.done?'✓':'○'} ${text(row)}${row.dueAt||row.date?' · '+date(row.dueAt||row.date):''}`);
+    const memos=[...checks.filter(isMemo),...array(personal.memos||personal.notes)].filter(row=>row&&!row.demo&&row.category!=='emotion').slice().sort(newest).map(text).filter(Boolean);
     const items=array(personal.personalItems).filter(row=>row?.category!=='emotion');
     const health=items.filter(row=>row.category==='health'),workflows=items.filter(row=>row.category==='workflow').map(row=>`${text(row)}${row.details?.stage?` · ${row.details.stage}`:''}`);
     const mealItems=health.filter(row=>row.details?.healthType==='meal'&&date(row.date)===today).slice().sort(newest),uid=state?.user?.uid||'local';
@@ -219,6 +232,8 @@
   window.AiderWidgetSyncV164={snapshot,sync,refresh,prepareMealPhotos,commandAction,flushCommands,createIntakeFromWidget};
   addEventListener('online',()=>{requestRefresh(0);flushCommands()});
   addEventListener('aiderlog-calendar-projection-v168',()=>sync());
+  addEventListener('aiderlog-friend-schedule-data',()=>sync());
+  addEventListener('aiderlog:todo-changed-v179',()=>{sync();requestRefresh(0)});
   document.addEventListener('click',sync,{passive:true});document.addEventListener('change',sync,{passive:true});
   document.addEventListener('visibilitychange',()=>{if(!document.hidden){checkOwner();sync();requestRefresh();prepareMealPhotos()}});
   addEventListener('aiderlog:data-changed',()=>{sync();requestRefresh()});addEventListener('aiderdear-firebase-ready',()=>{bindAuth();sync()});addEventListener('pageshow',()=>{bindAuth();sync();requestRefresh()});

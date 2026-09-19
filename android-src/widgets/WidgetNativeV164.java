@@ -107,6 +107,7 @@ public final class WidgetNativeV164 {
             link.setContentDescription(id(c,"widget_root"),"새 고객정보 입력 링크 생성 및 복사");
             link.setOnClickPendingIntent(id(c,"widget_root"),open(c,widget,kind,"create-client-intake-v168:"+widget+":"+uid));return link;
         }
+        if(WidgetCompactCalendarV181.supports(kind))return WidgetCompactCalendarV181.render(c,widget,kind,preview,selectedTheme,opacity,selectedFont);
         if(!kind.startsWith("Calendar"))return WidgetDesignV165.render(c,widget,kind,preview,selectedTheme,opacity,selectedFont);
         JSONObject data=snapshot(c);
         Bundle options=AppWidgetManager.getInstance(c).getAppWidgetOptions(widget);
@@ -208,6 +209,7 @@ public final class WidgetNativeV164 {
         Collections.sort(out);return out;
     }
     static List<String> rows(Context c,int widget,String kind,JSONObject data){
+        if(WidgetCompactCalendarV181.supports(kind))return WidgetCompactCalendarV181.rows(c,widget,kind,data);
         if(!kind.startsWith("Calendar"))return WidgetDesignV165.rows(c,widget,kind,data);
         if(kind.startsWith("Calendar")){
             List<String> records=new ArrayList<String>();JSONArray events=data.optJSONArray("scheduleItems");String chosen=selected(c,widget);
@@ -223,6 +225,7 @@ public final class WidgetNativeV164 {
         }return out;
     }
     static RemoteViews row(Context c,int widget,String kind,String line,int index,String overrideTheme,int selectedFont){
+        if(WidgetCompactCalendarV181.supports(kind))return WidgetCompactCalendarV181.row(c,widget,kind,line,index,overrideTheme,selectedFont);
         if(!kind.startsWith("Calendar"))return WidgetDesignV165.row(c,widget,kind,line,index,overrideTheme,selectedFont);
         JSONObject record;try{record=new JSONObject(line);}catch(Exception e){record=new JSONObject();WidgetDesignV165.put(record,"title",line);}
         RemoteViews row=view(c,"widget_item_v164");boolean timed=record.optString("time").matches("^[0-9]{2}:[0-9]{2}.*");text(c,row,"widget_item_text_v164",record.optString("title"));text(c,row,"widget_item_time_v165",timed?record.optString("time"):"");show(c,row,"widget_item_time_v165",true);
@@ -248,7 +251,7 @@ public final class WidgetNativeV164 {
             Class<?> builderClass=Class.forName("android.widget.RemoteViews$RemoteCollectionItems$Builder");Object builder=builderClass.getDeclaredConstructor().newInstance();
             builderClass.getMethod("setHasStableIds",boolean.class).invoke(builder,true);
             builderClass.getMethod("setViewTypeCount",int.class).invoke(builder,16);
-            for(int i=0;i<rows.size();i++)builderClass.getMethod("addItem",long.class,RemoteViews.class).invoke(builder,((long)rows.get(i).hashCode()<<32)^i,row(c,widget,kind,rows.get(i),i,null,-1));
+            for(int i=0;i<rows.size();i++)builderClass.getMethod("addItem",long.class,RemoteViews.class).invoke(builder,WidgetDesignV165.stableId(rows.get(i),i),row(c,widget,kind,rows.get(i),i,null,-1));
             Object items=builderClass.getMethod("build").invoke(builder);
             RemoteViews.class.getMethod("setRemoteAdapter",int.class,items.getClass()).invoke(v,list,items);prefs(c).edit().putBoolean("widget_service_"+widget,false).apply();return;
         }catch(Exception error){Log.w("AiderLogWidget","Collection API unavailable; using RemoteViewsService",error);}}
@@ -277,9 +280,11 @@ public final class WidgetNativeV164 {
             Class<?> cls=activity.getClass();java.lang.reflect.Field wf=cls.getDeclaredField("appWidgetId"),kf=cls.getDeclaredField("providerClass"),tf=cls.getDeclaredField("selectedTheme"),of=cls.getDeclaredField("selectedOpacity"),ff=cls.getDeclaredField("selectedFont");
             for(java.lang.reflect.Field f:new java.lang.reflect.Field[]{wf,kf,tf,of,ff})f.setAccessible(true);
             ViewGroup host=(ViewGroup)activity.findViewById(id(activity,"widget_config_preview_v164"));if(host==null)return;
+            String previewKind=type((String)kf.get(activity));
+            if(!WidgetPreviewFrameV181.prepare(activity,host,previewKind))return;
             java.lang.reflect.Field content=cls.getDeclaredField("selectedContent");content.setAccessible(true);WidgetDesignV165.previewContent.set((String)content.get(activity));WidgetDesignV165.previewOpacity.set(of.getInt(activity));
-            RemoteViews remote=render(activity,wf.getInt(activity),type((String)kf.get(activity)),true,(String)tf.get(activity),of.getInt(activity),ff.getInt(activity));
+            RemoteViews remote=render(activity,wf.getInt(activity),previewKind,true,(String)tf.get(activity),of.getInt(activity),ff.getInt(activity));
             host.removeAllViews();host.addView(remote.apply(activity,host));
-        }catch(Throwable error){Log.w("AiderLogWidget","Settings preview unavailable",error);}finally{WidgetDesignV165.previewContent.remove();WidgetDesignV165.previewOpacity.remove();}
+        }catch(Throwable error){Log.w("AiderLogWidget","Settings preview unavailable",error);}finally{WidgetDesignV165.previewContent.remove();WidgetDesignV165.previewOpacity.remove();WidgetPreviewFrameV181.restore();}
     }
 }

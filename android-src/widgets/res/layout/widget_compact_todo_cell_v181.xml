@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/w181_row" android:layout_width="0dp" android:layout_height="21dp" android:layout_weight="1" android:forceDarkAllowed="false">
+  <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="horizontal" android:gravity="center_vertical" android:paddingLeft="4dp" android:paddingRight="4dp">
+    <FrameLayout android:id="@+id/w181_check_hit" android:layout_width="20dp" android:layout_height="match_parent">
+      <TextView android:id="@+id/w181_check" android:layout_width="12dp" android:layout_height="12dp" android:layout_gravity="center_vertical|left" android:background="@drawable/widget_compact_check_v181"/>
+    </FrameLayout>
+    <TextView android:id="@+id/w181_title" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center_vertical" android:textSize="10.5sp" android:textColor="#171A3A" android:singleLine="true" android:ellipsize="end" android:includeFontPadding="false" android:fontFamily="sans-serif"/>
+  </LinearLayout>
+  <ImageView android:layout_width="match_parent" android:layout_height="0.5dp" android:layout_gravity="bottom" android:background="#E4DFEE" android:contentDescription="@null"/>
+</FrameLayout>

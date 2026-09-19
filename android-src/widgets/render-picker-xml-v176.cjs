@@ -22,17 +22,24 @@ async function textImage(el,width){
   const text=get(el,'text');if(!text)return {width:0,height:0,data:''};
   const size=px(get(el,'textSize')||'14sp'),spacing=Math.round(size*(px(get(el,'lineSpacingMultiplier'))||1.3)-size+px(get(el,'lineSpacingExtra')));
   const ink=color(get(el,'textColor')||'#171A3A'),font=`Malgun Gothic${get(el,'textStyle')==='bold'?' Bold':''} ${size}`;
-  const key=JSON.stringify([text,width,spacing,ink,font]);if(cache.has(key))return cache.get(key);
-  const image=await sharp({text:{text:`<span foreground="${ink}">${escape(text)}</span>`,font,width:Math.max(1,Math.floor(width)),dpi:72,rgba:true,wrap:'word-char',spacing}}).png().toBuffer({resolveWithObject:true});
+  const single=get(el,'singleLine')==='true'||get(el,'maxLines')==='1',ellipsis=single&&get(el,'ellipsize')==='end';
+  const key=JSON.stringify([text,width,spacing,ink,font,single,ellipsis]);if(cache.has(key))return cache.get(key);
+  const render=value=>sharp({text:{text:`<span foreground="${ink}">${escape(value)}</span>`,font,...(single?{}:{width:Math.max(1,Math.floor(width))}),dpi:72,rgba:true,wrap:single?'none':'word-char',spacing}}).png().toBuffer({resolveWithObject:true});
+  let image=await render(single?text.replace(/[\r\n]+/g,' '):text);
+  if(ellipsis&&image.info.width>width){
+    const letters=Array.from(text);let lo=0,hi=letters.length;
+    while(lo<hi){const mid=Math.ceil((lo+hi)/2),candidate=await render(letters.slice(0,mid).join('')+'…');if(candidate.info.width<=width)lo=mid;else hi=mid-1;}
+    image=await render(letters.slice(0,lo).join('')+'…');
+  }
   const result={width:image.info.width,height:image.info.height,data:'data:image/png;base64,'+image.data.toString('base64')};cache.set(key,result);return result;
 }
-async function layout(el,availableW,availableH,forcedW){
+async function layout(el,availableW,availableH,forcedW,forcedH){
   const a=el.attributes||{},m=edge(el,'layout_margin'),p=edge(el,'padding'),weight=px(get(el,'layout_weight'));
   if(get(el,'visibility')==='gone')return {el,m,p,w:0,h:0,hidden:true,kids:[]};
   const lw=get(el,'layout_width'),lh=get(el,'layout_height');
   let w=forcedW??(lw==='match_parent'||lw==='wrap_content'||!lw?Math.max(0,availableW-m.l-m.r):px(lw));
   if(get(el,'maxWidth'))w=Math.min(w,px(get(el,'maxWidth')));
-  let fixedH=lh==='match_parent'?availableH===undefined?undefined:Math.max(0,availableH-m.t-m.b):/^\d/.test(lh)?px(lh):undefined;
+  let fixedH=forcedH??(lh==='match_parent'?availableH===undefined?undefined:Math.max(0,availableH-m.t-m.b):/^\d/.test(lh)?px(lh):undefined);
   const box={el,m,p,w,h:fixedH,kids:[],weight};const cw=Math.max(1,w-p.l-p.r);
   if(el.name==='TextView'){
     box.image=await textImage(el,cw);box.font=px(get(el,'textSize')||'14sp');
@@ -57,7 +64,7 @@ async function layout(el,availableW,availableH,forcedW){
   }else{
     let remaining=fixedH===undefined?undefined:fixedH-p.t-p.b,totalWeight=0;const pre=new Map();
     for(const n of nodes){const margin=edge(n,'layout_margin');if(px(get(n,'layout_weight'))&&remaining!==undefined){totalWeight+=px(get(n,'layout_weight'));remaining-=margin.t+margin.b;}else{const child=await layout(n,cw,undefined);pre.set(n,child);if(remaining!==undefined)remaining-=child.h+child.m.t+child.m.b;}}
-    for(const n of nodes){if(pre.has(n))box.kids.push(pre.get(n));else{const nheight=Math.max(0,remaining)*px(get(n,'layout_weight'))/Math.max(1,totalWeight),child=await layout(n,cw,nheight);child.h=nheight;box.kids.push(child);}}
+    for(const n of nodes){if(pre.has(n))box.kids.push(pre.get(n));else{const nheight=Math.max(0,remaining)*px(get(n,'layout_weight'))/Math.max(1,totalWeight);box.kids.push(await layout(n,cw,nheight,undefined,nheight));}}
     box.h=fixedH??Math.max(px(get(el,'minHeight')),box.kids.reduce((s,x)=>s+x.h+x.m.t+x.m.b,p.t+p.b));
   }
   // Android remeasures MATCH_PARENT children after a horizontal row's height is
@@ -68,8 +75,9 @@ async function layout(el,availableW,availableH,forcedW){
     if(get(kid.el,'layout_height')==='match_parent')box.kids[i]=await layout(kid.el,cw,Math.max(0,box.h-p.t-p.b),kid.w);
   }
   let cursor=horizontal?p.l:p.t;
+  if(!horizontal&&el.name!=='FrameLayout'&&get(el,'gravity').includes('center_vertical'))cursor+=Math.max(0,(box.h-p.t-p.b-box.kids.reduce((sum,k)=>sum+k.h+k.m.t+k.m.b,0))/2);
   for(const kid of box.kids){
-    if(el.name==='FrameLayout'){kid.x=p.l+kid.m.l;kid.y=p.t+kid.m.t;if(get(kid.el,'layout_gravity')==='bottom')kid.y=box.h-p.b-kid.h-kid.m.b;}
+    if(el.name==='FrameLayout'){const gravity=get(kid.el,'layout_gravity');kid.x=p.l+kid.m.l;kid.y=p.t+kid.m.t;if(gravity.includes('bottom'))kid.y=box.h-p.b-kid.h-kid.m.b;else if(gravity.includes('center_vertical'))kid.y=p.t+(box.h-p.t-p.b-kid.h)/2;if(gravity.includes('center_horizontal'))kid.x=p.l+(box.w-p.l-p.r-kid.w)/2;}
     else if(horizontal){kid.x=cursor+kid.m.l;kid.y=p.t+kid.m.t;if(get(el,'gravity').includes('center_vertical'))kid.y=(box.h-kid.h)/2;cursor+=kid.w+kid.m.l+kid.m.r;}
     else{kid.x=p.l+kid.m.l;kid.y=cursor+kid.m.t;if(get(kid.el,'layout_gravity')==='center_horizontal')kid.x=(box.w-kid.w)/2;cursor+=kid.h+kid.m.t+kid.m.b;}
     if(get(kid.el,'layout_height')==='match_parent'&&el.name==='FrameLayout')kid.h=Math.max(0,box.h-p.t-p.b-kid.m.t-kid.m.b);
@@ -102,7 +110,10 @@ function draw(box,x,y,report){
 }
 async function main(){
   const reports=[];
-  for(const spec of bundle.specs){
+  const kinds=process.argv.find(arg=>arg.startsWith('--kinds='))?.slice(8).split(',');
+  const specs=kinds?bundle.specs.filter(spec=>kinds.includes(spec.kind)):bundle.specs;
+  assert(specs.length>0,'At least one declared widget kind must be rendered');
+  for(const spec of specs){
     const target=path.resolve(spec.destination),allowed=[path.resolve(bundle.manifest.res,'drawable-nodpi'),qa];assert(allowed.includes(path.dirname(target)),'Preview output stays in declared directories');
     const tree=await layout(parse(spec.xml),spec.width,spec.height,spec.width),report={name:spec.name,width:spec.width,height:spec.height,outside:[]};
     const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${spec.width}" height="${spec.height}" viewBox="0 0 ${spec.width} ${spec.height}">${draw(tree,0,0,report)}</svg>`;
@@ -112,7 +123,7 @@ async function main(){
   const record={renderer:'Deterministic native XML measurement adapter; not Android/device screenshots',count:reports.length,reports};
   fs.writeFileSync(path.join(qa,'raster-report.json'),JSON.stringify(record,null,2));
   for(const wide of [false,true]){
-    const rows=bundle.specs.filter(s=>s.native!==wide),cellW=wide?500:260,cellH=wide?340:420,columns=wide?3:5,items=[];
+    const rows=specs.filter(s=>s.native!==wide),cellW=wide?500:260,cellH=wide?340:420,columns=wide?3:5,items=[];
     for(let i=0;i<rows.length;i++){const bytes=await sharp(rows[i].destination).resize({width:cellW-16,height:cellH-36,fit:'inside'}).png().toBuffer(),meta=await sharp(bytes).metadata();items.push({input:bytes,left:i%columns*cellW+8,top:Math.floor(i/columns)*cellH+28});const label=Buffer.from(`<svg width="${cellW}" height="24"><text x="8" y="17" font-family="Arial" font-size="11">${escape(rows[i].kind)}</text></svg>`);items.push({input:label,left:i%columns*cellW,top:Math.floor(i/columns)*cellH});}
     await sharp({create:{width:columns*cellW,height:cellH*Math.ceil(rows.length/columns),channels:4,background:'#e8e8ed'}}).composite(items).png().toFile(path.join(qa,'contact-'+(wide?'wide':'narrow')+'.png'));
   }

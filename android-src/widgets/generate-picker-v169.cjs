@@ -66,7 +66,47 @@ function header(title,{add=false,pager=false}={}){
 }
 function rootXml(conf){return `<FrameLayout ${ns} android:layout_width="match_parent" android:layout_height="match_parent" android:forceDarkAllowed="false" android:contentDescription="위젯 구성 미리보기 · 예시 데이터"><ImageView android:layout_width="match_parent" android:layout_height="match_parent" android:src="@drawable/widget_bg_aurora" android:scaleType="fitXY" android:contentDescription="@null"/><LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:padding="18dp">${header(conf.title||'',conf)}${conf.rows.map(stripNamespace).join('')}</LinearLayout></FrameLayout>`;}
 
+// Both compact picker fixtures embed the real RemoteViews layouts and row XML.
+// Only build-time sample text/selection changes; there is no separate mock design.
+function fillContainer(xml,id,items){
+  const rx=new RegExp('<([A-Za-z]+)\\b[^>]*android:id="@\\+?id/'+id+'"[^>]*\\/>');
+  if(!rx.test(xml))throw Error('Missing empty native preview container: '+id);
+  return xml.replace(rx,(tag,name)=>attrs(tag,{visibility:'visible'}).replace(/\/>$/,'>')+items.map(stripNamespace).join('')+`</${name}>`);
+}
+function compactCalendarPreview(kind){
+  const agenda=kind==='calendar_agenda',rows=['팀 미팅','자료 검토','병원 예약','운동','저녁 약속','공부'];
+  const times=['09:30','11:00','14:00','16:00','18:30','20:00'],colours=['#8E71DB','#557FC7','#C66C9C','#7561DC','#8E71DB','#557FC7'];
+  const titles=['논문 초안 작성','장비 점검 리스트','발표 자료 준비','구매 견적 확인','메일 회신','전시회 티켓 예매'];
+  let xml=read('layout',agenda?'widget_agenda_compact_v181':'widget_fortnight_compact_v181');
+  xml=el(xml,'widget_root',{contentDescription:'위젯 구성 미리보기 · 예시 데이터'});
+  xml=el(xml,'w165_secondary_list',{visibility:'gone'});
+  if(agenda){
+    const events=rows.map((title,i)=>el(el(el(read('layout','widget_compact_event_v181'),'w181_dot',{textColor:colours[i]}),'w181_time',{text:times[i]}),'w181_title',{text:title}));
+    xml=el(xml,'widget_items_v164',{visibility:'gone'});
+    xml=fillContainer(xml,'widget_preview_rows_v164',events);
+    return fillContainer(xml,'w181_todo_preview',titles.map(title=>el(read('layout','widget_compact_todo_v181'),'w181_title',{text:title})));
+  }
+  const calendar=[read('layout','widget_compact_weekday_v181')];
+  for(let week=0;week<2;week++){
+    const days=[];
+    for(let day=0;day<7;day++){
+      const index=week*7+day,date=7+index,entry=index<6?`${times[index]} ${rows[index]}`:'';
+      let item=read('layout','widget_compact_day_v181');
+      item=el(item,'w181_day',{text:date,textColor:day===6?'#C46779':day===5?'#557FC7':'#171A3A'});
+      item=el(item,'w181_event',{text:entry});
+      item=el(item,'w181_dot',{visibility:entry?'visible':'gone',textColor:colours[index%colours.length]});
+      item=el(item,'w181_cell_background',{src:'@drawable/'+(date===8?'widget_compact_selected_v181':'widget_compact_grid_v181')});
+      days.push(item);
+    }
+    calendar.push(fillContainer(read('layout','widget_week_v164'),'widget_week_cells_v164',days));
+  }
+  xml=fillContainer(xml,'widget_calendar_v164',calendar);
+  const pairs=[];
+  for(let row=0;row<3;row++)pairs.push(fillContainer(read('layout','widget_compact_todo_group_v181'),'w181_pair',titles.slice(row*2,row*2+2).map(title=>el(read('layout','widget_compact_todo_cell_v181'),'w181_title',{text:title}))));
+  return fillContainer(xml,'w181_todo_preview',pairs);
+}
 function calendarPreview(kind,width){
+  if(kind==='calendar_agenda'||kind==='calendar_fortnight')return compactCalendarPreview(kind);
   const large=kind==='calendar_split',monthOnly=kind==='calendar_month',agenda=kind==='calendar_agenda',fortnight=kind==='calendar_fortnight',wide=width>=560;
   const only=large||monthOnly,title=agenda?'9월 6일 일요일 · 3건':fortnight?'08.31 – 09.13':'2026. 09';
   const rows=['09:30 팀 미팅','14:00 병원 예약','19:30 공부'].map(line=>el(el(read('layout','widget_item_v164'),'widget_item_time_v165',{text:line.slice(0,5)}),'widget_item_text_v164',{text:line.slice(6)}));
@@ -115,13 +155,13 @@ async function generate(){
     personal_challenge:[2,224],personal_workout_challenge_all:[3,310],personal_workout_challenge_combined:[4,440],
     personal_workout_stats:[4,380],personal_workout_stats_inbody:[4,425],personal_reading:[5,520],personal_quote:[4,380],
     personal_today:[6,610],personal_bullet_three_workflow:[6,740],personal_bullet_seven:[5,530],personal_bullet_seven_workflow:[6,670],
-    calendar_agenda:[2,238],calendar_combined:[5,520],calendar_fortnight:[4,388],calendar_month:[4,320],calendar_split:[6,570],
+    calendar_agenda:[2,168],calendar_combined:[5,520],calendar_fortnight:[2,168],calendar_month:[4,320],calendar_split:[6,570],
     task_client_link:[1,80]
   };
   // Preview images must contain complete sample rows, not clipped labels. This
   // affects only launcher samples: installed collection widgets remain scrollable
   // and use the actual host bounds, never these demonstration bitmap heights.
-  const wideHeights={personal_todo:272,routine_cards:264,routine_stats:464,
+  const wideHeights={calendar_agenda:336,calendar_fortnight:336,personal_todo:272,routine_cards:264,routine_stats:464,
     personal_workout_stats:300,personal_workout_stats_inbody:292,
     personal_bullet_seven:408,personal_bullet_seven_workflow:592};
   function wideRows(kind,conf){
@@ -156,7 +196,8 @@ async function generate(){
     }
     let meta=read('xml','widget_'+kind);
     const initial=meta.match(/android:initialLayout="([^"]+)"/)?.[1];
-    meta=meta.replace(/<appwidget-provider\b[^>]*>/,tag=>attrs(tag,{minWidth:kind==='task_client_link'?'40dp':'250dp',minHeight:(Math.max(40,span*70-30))+'dp',targetCellWidth:kind==='task_client_link'?'1':'4',targetCellHeight:span,previewImage:'@drawable/'+name,previewLayout:'@layout/'+name}));
+    const compactCalendar=kind==='calendar_agenda'||kind==='calendar_fortnight';
+    meta=meta.replace(/<appwidget-provider\b[^>]*>/,tag=>attrs(tag,{minWidth:kind==='task_client_link'?'40dp':'250dp',minHeight:(Math.max(40,span*70-30))+'dp',targetCellWidth:kind==='task_client_link'?'1':'4',targetCellHeight:span,previewImage:'@drawable/'+name,previewLayout:'@layout/'+name,...(compactCalendar?{minResizeWidth:'250dp',minResizeHeight:'110dp'}:{})}));
     if(meta.match(/android:initialLayout="([^"]+)"/)?.[1]!==initial)throw Error('Do not replace runtime initialLayout with sample data.');
     write('xml','widget_'+kind,meta);
   }
@@ -179,4 +220,4 @@ function serve(bundle){
   http.createServer((req,res)=>{const u=new URL(req.url,'http://127.0.0.1');res.setHeader('Cache-Control','no-store');if(req.method!=='GET'){res.writeHead(405);return res.end();}if(u.pathname==='/fixtures.json'){res.setHeader('Content-Type','application/json');return res.end(JSON.stringify(bundle));}if(u.pathname==='/manifest.json'){res.setHeader('Content-Type','application/json');return res.end(JSON.stringify(bundle.manifest));}if(u.pathname!=='/'){res.writeHead(404);return res.end();}res.setHeader('Content-Type','text/html; charset=utf-8');res.end(html);}).listen(port,'127.0.0.1',()=>console.log('Picker fixture: http://127.0.0.1:'+port+'/?name=widget_picker_personal_challenge_v164'));
 }
 if(require.main===module)generate().then(bundle=>{if(args.includes('--serve'))serve(bundle);}).catch(error=>{console.error(error);process.exitCode=1;});
-module.exports={generate,graphSvg,calendarPreview,rootXml,attrs};
+module.exports={generate,graphSvg,calendarPreview,compactCalendarPreview,rootXml,attrs};

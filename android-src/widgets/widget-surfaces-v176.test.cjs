@@ -46,7 +46,8 @@ test('progress, star graph and statistic emphasis remain primary violet with a l
 });
 
 test('longpress settings still preview the actual renderer and alpha applies to each background',()=>{
-  assert.match(native,/RemoteViews remote=render\(activity,wf\.getInt\(activity\),type\(\(String\)kf\.get\(activity\)\),true,/);
+  assert.match(native,/String previewKind=type\(\(String\)kf.get\(activity\)\)/);
+  assert.match(native,/RemoteViews remote=render\(activity,wf\.getInt\(activity\),previewKind,true,/);
   assert.match(native,/remote\.apply\(activity,host\)/);
   assert.match(native,/getString\("widget_theme_"\+widget,"aurora"\)/);
   assert.match(java,/String chosen=overrideTheme==null\?theme\(c,w\):overrideTheme/);

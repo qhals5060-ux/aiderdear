@@ -22,7 +22,7 @@
 
 .field final context:Landroid/content/Context;
 
-.field items:Ljava/util/List;
+.field volatile items:Ljava/util/List;
     .annotation system Ldalvik/annotation/Signature;
         value = {
             "Ljava/util/List<",
@@ -33,6 +33,8 @@
 .end field
 
 .field final kind:Ljava/lang/String;
+
+.field volatile owner:Ljava/lang/String;
 
 .field final widget:I
 
@@ -50,6 +52,10 @@
     invoke-direct {v0}, Ljava/util/ArrayList;-><init>()V
 
     iput-object v0, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->items:Ljava/util/List;
+
+    const-string v0, ""
+
+    iput-object v0, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->owner:Ljava/lang/String;
 
     .line 13
     iput-object p1, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->context:Landroid/content/Context;
@@ -99,23 +105,73 @@
 
 
 # virtual methods
-.method public getCount()I
-    .locals 1
+.method currentOwner()Z
+    .locals 2
 
     .line 17
-    iget-object v0, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->items:Ljava/util/List;
+    iget-object v0, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->owner:Ljava/lang/String;
 
-    invoke-interface {v0}, Ljava/util/List;->size()I
+    iget-object v1, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->context:Landroid/content/Context;
+
+    invoke-static {v1}, Lcom/aiderlog/v22app/WidgetNativeV164;->snapshot(Landroid/content/Context;)Lorg/json/JSONObject;
+
+    move-result-object v1
+
+    invoke-static {v0, v1}, Lcom/aiderlog/v22app/WidgetCompactCalendarV181;->sameOwner(Ljava/lang/String;Lorg/json/JSONObject;)Z
 
     move-result v0
 
     return v0
 .end method
 
+.method public getCount()I
+    .locals 1
+
+    .line 18
+    invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->currentOwner()Z
+
+    move-result v0
+
+    if-eqz v0, :cond_0
+
+    iget-object v0, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->items:Ljava/util/List;
+
+    invoke-interface {v0}, Ljava/util/List;->size()I
+
+    move-result v0
+
+    goto :goto_0
+
+    :cond_0
+    const/4 v0, 0x0
+
+    :goto_0
+    return v0
+.end method
+
 .method public getItemId(I)J
     .locals 2
 
-    .line 21
+    .line 22
+    invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->currentOwner()Z
+
+    move-result v0
+
+    if-eqz v0, :cond_1
+
+    if-ltz p1, :cond_1
+
+    iget-object v0, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->items:Ljava/util/List;
+
+    invoke-interface {v0}, Ljava/util/List;->size()I
+
+    move-result v0
+
+    if-lt p1, v0, :cond_0
+
+    goto :goto_0
+
+    :cond_0
     iget-object v0, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->items:Ljava/util/List;
 
     invoke-interface {v0, p1}, Ljava/util/List;->get(I)Ljava/lang/Object;
@@ -128,13 +184,20 @@
 
     move-result-wide v0
 
+    goto :goto_1
+
+    :cond_1
+    :goto_0
+    int-to-long v0, p1
+
+    :goto_1
     return-wide v0
 .end method
 
 .method public getLoadingView()Landroid/widget/RemoteViews;
     .locals 1
 
-    .line 19
+    .line 20
     const/4 v0, 0x0
 
     return-object v0
@@ -143,16 +206,22 @@
 .method public getViewAt(I)Landroid/widget/RemoteViews;
     .locals 8
 
-    .line 18
+    .line 19
     sget-object v0, Lcom/aiderlog/v22app/WidgetSizeV169;->active:Ljava/lang/ThreadLocal;
 
     iget-object v1, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->bounds:Landroid/util/SizeF;
 
     invoke-virtual {v0, v1}, Ljava/lang/ThreadLocal;->set(Ljava/lang/Object;)V
 
+    :try_start_0
+    invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->currentOwner()Z
+
+    move-result v0
+
+    if-eqz v0, :cond_1
+
     if-ltz p1, :cond_1
 
-    :try_start_0
     iget-object v0, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->items:Ljava/util/List;
 
     invoke-interface {v0}, Ljava/util/List;->size()I
@@ -194,15 +263,6 @@
 
     goto :goto_1
 
-    :catchall_0
-    move-exception p1
-
-    sget-object v0, Lcom/aiderlog/v22app/WidgetSizeV169;->active:Ljava/lang/ThreadLocal;
-
-    invoke-virtual {v0}, Ljava/lang/ThreadLocal;->remove()V
-
-    throw p1
-
     :cond_1
     :goto_0
     const/4 p1, 0x0
@@ -213,12 +273,21 @@
     invoke-virtual {v0}, Ljava/lang/ThreadLocal;->remove()V
 
     return-object p1
+
+    :catchall_0
+    move-exception p1
+
+    sget-object v0, Lcom/aiderlog/v22app/WidgetSizeV169;->active:Ljava/lang/ThreadLocal;
+
+    invoke-virtual {v0}, Ljava/lang/ThreadLocal;->remove()V
+
+    throw p1
 .end method
 
 .method public getViewTypeCount()I
     .locals 1
 
-    .line 20
+    .line 21
     const/16 v0, 0x10
 
     return v0
@@ -227,7 +296,7 @@
 .method public hasStableIds()Z
     .locals 1
 
-    .line 22
+    .line 23
     const/4 v0, 0x1
 
     return v0
@@ -255,21 +324,31 @@
     :try_start_0
     iget-object v0, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->context:Landroid/content/Context;
 
-    iget v1, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->widget:I
-
-    iget-object v2, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->kind:Ljava/lang/String;
-
-    iget-object v3, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->context:Landroid/content/Context;
-
-    invoke-static {v3}, Lcom/aiderlog/v22app/WidgetNativeV164;->snapshot(Landroid/content/Context;)Lorg/json/JSONObject;
-
-    move-result-object v3
-
-    invoke-static {v0, v1, v2, v3}, Lcom/aiderlog/v22app/WidgetNativeV164;->rows(Landroid/content/Context;ILjava/lang/String;Lorg/json/JSONObject;)Ljava/util/List;
+    invoke-static {v0}, Lcom/aiderlog/v22app/WidgetNativeV164;->snapshot(Landroid/content/Context;)Lorg/json/JSONObject;
 
     move-result-object v0
 
-    iput-object v0, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->items:Ljava/util/List;
+    const-string v1, ""
+
+    iput-object v1, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->owner:Ljava/lang/String;
+
+    iget-object v1, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->context:Landroid/content/Context;
+
+    iget v2, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->widget:I
+
+    iget-object v3, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->kind:Ljava/lang/String;
+
+    invoke-static {v1, v2, v3, v0}, Lcom/aiderlog/v22app/WidgetNativeV164;->rows(Landroid/content/Context;ILjava/lang/String;Lorg/json/JSONObject;)Ljava/util/List;
+
+    move-result-object v1
+
+    iput-object v1, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->items:Ljava/util/List;
+
+    invoke-static {v0}, Lcom/aiderlog/v22app/WidgetCompactCalendarV181;->owner(Lorg/json/JSONObject;)Ljava/lang/String;
+
+    move-result-object v0
+
+    iput-object v0, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->owner:Ljava/lang/String;
     :try_end_0
     .catchall {:try_start_0 .. :try_end_0} :catchall_0
 
@@ -296,6 +375,10 @@
     iget-object v0, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->items:Ljava/util/List;
 
     invoke-interface {v0}, Ljava/util/List;->clear()V
+
+    const-string v0, ""
+
+    iput-object v0, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->owner:Ljava/lang/String;
 
     return-void
 .end method
