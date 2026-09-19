@@ -81,6 +81,8 @@ public final class WidgetCompactCalendarV181 {
         int[] palette={0xff7561dc,0xff5d83d5,0xffbd75b8,0xff9080d1};return palette[(row.optString("id",row.optString("title")).hashCode()&0x7fffffff)%palette.length];
     }
     static int softColor(int value,boolean night){return (night?0x50000000:0x22000000)|(value&0x00ffffff);}
+    // Secondary labels stay opaque and readable when the widget background is transparent.
+    static int secondaryInk(Context c,String chosen){return dark(c,chosen)?0xffc7bfd8:0xff716b80;}
     static int capacity(float cellHeight,float lineHeight,boolean holiday){return Math.max(0,Math.min(6,(int)((cellHeight-(cellHeight<32?13:22)-(holiday?12:0))/Math.max(13,lineHeight))));}
     static boolean small(float width,float height){return width<240||height<200;}
     static float cellHeight(String kind,float width,float height,int weeks){return Math.max(1,((height-(small(width,height)?32:42))*("CalendarSplit".equals(kind)?.75f:1)-(small(width,height)?12:16))/Math.max(1,weeks));}
@@ -109,7 +111,10 @@ public final class WidgetCompactCalendarV181 {
         text(c,result,"widget_title",title);text(c,result,"w184_caption",agenda?shortDate(from)+"부터":mini?"다가오는 일정":"CalendarFortnight".equals(kind)?"2주":todos?"일정 · 투두":"일정");
         show(c,result,"w184_caption",width>=300);show(c,result,"widget_previous",width>=180);show(c,result,"widget_next",width>=180);
         for(String key:new String[]{"widget_title","w184_caption","widget_previous","widget_next","w184_today"})color(c,result,key,ink(c,chosen));
-        result.setTextViewTextSize(id(c,"widget_title"),2,WidgetSizeV169.sp(c,widget,selectedFont,compact?11:13));
+        color(c,result,"w184_caption",secondaryInk(c,chosen));
+        result.setInt(id(c,"w184_today"),"setBackgroundResource",drawable(c,dark(c,chosen)?"widget_control_dark_v187":"widget_control_v187"));
+        result.setInt(id(c,"w187_section_divider"),"setBackgroundColor",dark(c,chosen)?0xff4b455e:0xffe8e3f0);
+        result.setTextViewTextSize(id(c,"widget_title"),2,WidgetSizeV169.sp(c,widget,selectedFont,compact?12:14));
         result.setTextViewTextSize(id(c,"w184_caption"),2,Math.max(8.5f,WidgetSizeV169.sp(c,widget,selectedFont,9)));
         result.setOnClickPendingIntent(id(c,"widget_root"),open(c,widget,kind,""));
         result.setOnClickPendingIntent(id(c,"widget_previous"),navigate(c,widget,kind,"month","-1"));result.setOnClickPendingIntent(id(c,"widget_next"),navigate(c,widget,kind,"month","1"));
@@ -120,7 +125,7 @@ public final class WidgetCompactCalendarV181 {
         if(!mini&&!agenda)show(c,result,"w184_todo_panel",todos);
         if(todos){
             show(c,result,"w184_todo_heading",height>=170);
-            color(c,result,"w184_todo_heading",ink(c,chosen));
+            color(c,result,"w184_todo_heading",secondaryInk(c,chosen));
             bind(c,result,widget,kind+"@todos",rows(c,widget,kind+"@todos",data),"w165_secondary_list","w181_todo_preview","w184_todo_empty",preview,chosen,selectedFont,agenda?5:4,data);
         }
         return result;
@@ -137,7 +142,7 @@ public final class WidgetCompactCalendarV181 {
         if(!fortnight)start.add(Calendar.DAY_OF_MONTH,1-start.get(Calendar.DAY_OF_WEEK));
         float width=WidgetSizeV169.current(c,widget).getWidth(),height=WidgetSizeV169.current(c,widget).getHeight();boolean compact=small(width,height);
         result.removeAllViews(id(c,"widget_calendar_v164"));RemoteViews weekdays=view(c,compact?"widget_weekdays_small_v185":"widget_weekdays_compact_v184");String[] labels={"일","월","화","수","목","금","토"};
-        for(int i=0;i<7;i++){text(c,weekdays,"widget_week_"+i,labels[i]);color(c,weekdays,"widget_week_"+i,i==0?night?0xffe3b4c5:0xffaa6077:i==6?night?0xffb2c4f1:0xff6080bc:ink(c,chosen));weekdays.setTextViewTextSize(id(c,"widget_week_"+i),2,Math.max(8.5f,WidgetSizeV169.sp(c,widget,selectedFont,9)));}
+        for(int i=0;i<7;i++){text(c,weekdays,"widget_week_"+i,labels[i]);color(c,weekdays,"widget_week_"+i,i==0?night?0xffe3b4c5:0xffaa6077:i==6?night?0xffb2c4f1:0xff6080bc:secondaryInk(c,chosen));weekdays.setTextViewTextSize(id(c,"widget_week_"+i),2,Math.max(8.5f,WidgetSizeV169.sp(c,widget,selectedFont,9)));}
         result.addView(id(c,"widget_calendar_v164"),weekdays);
         float cellHeight=cellHeight(kind,width,height,count);
         float baseSize=width>=500?11.5f:compact?9:10f;
@@ -194,6 +199,7 @@ public final class WidgetCompactCalendarV181 {
         RemoteViews item=view(c,inline?"widget_upcoming_inline_v186":"widget_upcoming_small_v185");
         text(c,item,"w184_event_date",dateLabel);text(c,item,"w184_event_title",record.optString("title"));text(c,item,"w184_event_time",timeLabel);
         for(String key:new String[]{"w184_event_date","w184_event_title","w184_event_time"})color(c,item,key,ink(c,chosen));
+        color(c,item,"w184_event_time",secondaryInk(c,chosen));
         item.setTextViewTextSize(id(c,"w184_event_title"),2,titleSize);
         item.setTextViewTextSize(id(c,"w184_event_date"),2,metaSize);item.setTextViewTextSize(id(c,"w184_event_time"),2,metaSize);
         item.setInt(id(c,"w184_event_mark"),"setBackgroundColor",eventColor(record));
@@ -205,9 +211,10 @@ public final class WidgetCompactCalendarV181 {
         RemoteViews item=view(c,compact?"widget_todo_small_v185":"widget_todo_row_v184");text(c,item,"w184_todo_title",record.optString("title"));color(c,item,"w184_todo_title",ink(c,chosen));
         item.setTextViewTextSize(id(c,"w184_todo_title"),2,WidgetSizeV169.sp(c,widget,selectedFont,compact?11:12));
         String due=record.optString("dueAt",record.optString("dueDate",record.optString("date")));if(due.length()>10)due=due.substring(0,10);
-        text(c,item,"w184_todo_due",shortDate(due));color(c,item,"w184_todo_due",ink(c,chosen));show(c,item,"w184_todo_due",dateKey(due));
+        text(c,item,"w184_todo_due",shortDate(due));color(c,item,"w184_todo_due",secondaryInk(c,chosen));show(c,item,"w184_todo_due",dateKey(due));
         item.setTextViewTextSize(id(c,"w184_todo_due"),2,WidgetSizeV169.sp(c,widget,selectedFont,10));
         item.setInt(id(c,"w184_check"),"setBackgroundResource",drawable(c,dark(c,chosen)?"widget_compact_check_dark_v181":"widget_compact_check_v181"));
+        item.setInt(id(c,"w187_row_divider"),"setBackgroundColor",dark(c,chosen)?0xff4b455e:0xffe8e3f0);
         item.setOnClickFillInIntent(id(c,"w184_check_hit"),WidgetDesignV165.action(data,widget,kind,record,"todo","true"));item.setOnClickFillInIntent(id(c,"w184_todo_title"),WidgetDesignV165.action(data,widget,kind,record,"open","todo"));item.setOnClickFillInIntent(id(c,"w184_todo_due"),WidgetDesignV165.action(data,widget,kind,record,"open","todo"));
         item.setContentDescription(id(c,"w184_check_hit"),record.optString("title")+" 완료");return item;
     }

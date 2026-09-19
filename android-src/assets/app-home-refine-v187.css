@@ -1,0 +1,76 @@
+/* One compact summary card on phones; a true second pane when unfolded. */
+@layer appColour164 {
+ html.app-readability-v184 body #app.app #home .schedule-summary-v179{
+  background:var(--app-surface,#faf7ff)!important;border:1px solid color-mix(in srgb,var(--app-primary,#6e4a8e) 14%,var(--app-surface,#faf7ff))!important;
+  border-radius:15px!important;margin:0 7px!important;padding:6px 9px!important;gap:0!important;
+ }
+ html.app-readability-v184 body #app.app #home .schedule-dashboard-v179 .dday-summary-v179{gap:9px!important;padding:1px 0 7px!important;min-height:37px!important}
+ html.app-readability-v184 body #app.app #home .dday-summary-v179>.week-overview-open-v184{
+  background:var(--app-primary,#6e4a8e)!important;color:var(--app-on-primary,#fff)!important;
+  border-radius:50%!important;width:25px!important;min-width:25px!important;flex-basis:25px!important;height:25px!important;min-height:25px!important;font-size:11px!important;font-weight:700!important;
+  box-shadow:0 0 0 4px var(--app-surface,#faf7ff)!important;
+ }
+ html.app-readability-v184 body #app.app #home .dday-summary-v179 .dday-main-v179{gap:6px!important}
+ html.app-readability-v184 body #app.app #home .dday-main-v179>strong{font-size:calc(23px * var(--app-type-scale-v185))!important;font-weight:700!important;letter-spacing:-.04em!important;color:var(--app-primary,#6e4a8e)!important}
+ html.app-readability-v184 body #app.app #home .dday-main-v179>b{font-size:calc(12px * var(--app-type-scale-v185))!important;font-weight:600!important}
+ html.app-readability-v184 body #app.app #home .dday-summary-v179 :is(.dday-main-v179,.dday-small-v179)>time{color:var(--app-text-muted,#756b82)!important;opacity:.85!important;font-size:calc(9px * var(--app-type-scale-v185))!important;font-variant-numeric:tabular-nums!important}
+ html.app-readability-v184 body #app.app #home .dday-summary-v179 .dday-others-v179{gap:10px!important}
+ html.app-readability-v184 body #app.app #home .dday-summary-v179 .dday-small-v179{border-left:0!important;padding-left:0!important;gap:5px!important}
+ html.app-readability-v184 body #app.app #home .dday-small-v179::before{content:'';width:3px;height:3px;border-radius:50%;margin-right:5px;flex:none;background:var(--app-border,#c4b4d4)}
+ html.app-readability-v184 body #app.app #home .dday-small-v179 strong{color:var(--app-primary,#6e4a8e)!important;font-size:var(--app-caption-v184)!important}
+ html.app-readability-v184 body #app.app #home .dday-small-v179 b{font-weight:550!important}
+ html.app-readability-v184 body #app.app #home .schedule-summary-v179 .schedule-upcoming-v179{
+  padding:6px 0 0!important;gap:6px!important;min-height:0!important;max-height:36px!important;
+  border-top:1px solid color-mix(in srgb,var(--app-primary,#6e4a8e) 12%,transparent)!important;
+ }
+ html.app-readability-v184 body #app.app #home .schedule-upcoming-line-v179{
+  display:flex!important;align-items:center!important;gap:6px!important;min-height:27px!important;padding:4px 7px!important;
+  border:0!important;border-radius:7px!important;background:color-mix(in srgb,var(--app-primary,#6e4a8e) 5%,var(--app-surface,#faf7ff))!important;
+  max-width:100%!important;box-shadow:none!important;
+ }
+ html.app-readability-v184 body #app.app #home .schedule-upcoming-line-v179>i{width:3px!important;height:14px!important;border-radius:2px!important;flex:none!important;background:var(--owner-color,var(--app-primary))!important}
+ html.app-readability-v184 body #app.app #home .schedule-upcoming-line-v179>.upcoming-date-v184{font-size:var(--app-caption-v184)!important;font-weight:650!important;white-space:nowrap!important;color:var(--app-primary,#6e4a8e)!important;font-variant-numeric:tabular-nums!important}
+ html.app-readability-v184 body #app.app #home .schedule-upcoming-line-v179>span{gap:5px!important}
+ html.app-readability-v184 body #app.app #home .schedule-upcoming-line-v179>span>time{font-size:calc(10px * var(--app-type-scale-v185))!important;opacity:.7!important}
+ html.app-readability-v184 body #app.app #home .schedule-upcoming-line-v179>span>b{font-size:var(--app-caption-v184)!important;font-weight:550!important}
+ .schedule-side-title-v187{display:none!important}
+ @media(min-width:600px) and (min-height:480px){
+  html.app-readability-v184 body #app.app #home .schedule-dashboard-v179,
+  html.app-readability-v184 body #app.app #home .schedule-dashboard-v179:has(.weekly-active-v184){
+   grid-template-columns:minmax(0,1.65fr) minmax(222px,1fr)!important;grid-template-rows:minmax(0,1fr)!important;gap:8px!important;padding:0 3px!important;
+  }
+  html.app-readability-v184 body #app.app #home .schedule-dashboard-v179>.schedule-calendar-v119,
+  html.app-readability-v184 body #app.app #home .schedule-dashboard-v179:has(.weekly-active-v184)>.schedule-calendar-v119{grid-column:1!important;grid-row:1!important;border-radius:17px!important}
+  html.app-readability-v184 body #app.app #home .schedule-dashboard-v179>.schedule-summary-v179,
+  html.app-readability-v184 body #app.app #home .schedule-dashboard-v179:has(.weekly-active-v184)>.schedule-summary-v179{
+   grid-column:2!important;grid-row:1!important;grid-template-rows:auto minmax(0,1fr) auto!important;align-self:stretch!important;height:100%!important;max-height:100%!important;margin:0!important;padding:9px!important;overflow:hidden!important;
+  }
+  html.app-readability-v184 body #app.app #home .schedule-dashboard-v179:has(.weekly-active-v184)>.schedule-summary-v179{grid-template-rows:auto minmax(0,1fr)!important}
+  html.app-readability-v184 body #app.app #home .schedule-summary-v179 .dday-summary-v179{min-width:0!important;min-height:40px!important;padding-bottom:9px!important}
+  html.app-readability-v184 body #app.app #home .schedule-summary-v179 .schedule-upcoming-v179,
+  html.app-readability-v184 body #app.app #home .schedule-dashboard-v179:has(.weekly-active-v184) .schedule-upcoming-v179{
+   display:flex!important;flex-direction:column!important;align-items:stretch!important;flex-wrap:nowrap!important;max-height:none!important;min-height:0!important;overflow-x:hidden!important;overflow-y:auto!important;padding:8px 0!important;gap:5px!important;scrollbar-width:thin!important;
+  }
+  html.app-readability-v184 body #app.app #home .schedule-side-title-v187{display:flex!important;align-items:center!important;justify-content:space-between!important;flex:none!important;font-size:var(--app-caption-v184)!important;font-weight:650!important;margin:0 0 3px!important;padding:1px 1px 5px!important;color:var(--app-text-muted,#756b82)!important}
+  html.app-readability-v184 body #app.app #home .schedule-side-title-v187 button{width:26px!important;height:26px!important;min-width:26px!important;min-height:26px!important;border:0!important;border-radius:6px!important;background:color-mix(in srgb,var(--app-primary) 8%,var(--app-surface))!important;color:var(--app-primary)!important;padding:0!important;font-size:16px!important}
+  html.app-readability-v184 body #app.app #home .schedule-upcoming-line-v179{width:100%!important;max-width:100%!important;flex:0 0 auto!important;min-height:38px!important;padding:7px 6px!important;gap:6px!important;align-items:baseline!important}
+  html.app-readability-v184 body #app.app #home .schedule-upcoming-line-v179>.upcoming-date-v184{min-width:30px!important;font-size:calc(10px * var(--app-type-scale-v185))!important}
+  html.app-readability-v184 body #app.app #home .schedule-upcoming-line-v179>span{flex:1!important;min-width:0!important;align-items:baseline!important;flex-wrap:wrap!important;column-gap:6px!important;row-gap:2px!important}
+  html.app-readability-v184 body #app.app #home .schedule-upcoming-line-v179>span>b{font-size:var(--app-body-v184)!important;white-space:normal!important;overflow-wrap:anywhere!important}
+  html.app-readability-v184 body #app.app #home .schedule-summary-v179>.calendar-todos-v179{display:block!important;height:auto!important;min-height:112px!important;max-height:clamp(112px,26dvh,240px)!important;border:0!important;border-top:1px solid var(--app-border,#c4b4d4)!important;grid-column:1!important;padding:9px 0 2px!important;background:transparent!important;overflow:auto!important}
+  html.app-readability-v184 body #app.app #home .schedule-summary-v179>.calendar-todos-v179 .todo-inline-grid-v179{grid-template-columns:minmax(0,1fr)!important;grid-auto-rows:minmax(32px,auto)!important;gap:0!important;min-height:0!important}
+  html.app-readability-v184 body #app.app #home .schedule-dashboard-v179:has(.weekly-active-v184) .schedule-summary-v179>.calendar-todos-v179{display:none!important}
+  html.app-readability-v184 body #app.app #home .schedule-event-name-v119{font-size:var(--app-calendar-v184)!important;padding:2px!important}
+  html.app-readability-v184 body #app.app #home .week-day-v184{grid-template-columns:61px minmax(0,1fr)!important;gap:5px!important}
+  html.app-readability-v184 body #app.app #home .week-event-v184{padding:4px 5px!important}
+  html.app-readability-v184 body #app.app #home .week-event-v184 b{font-size:var(--app-caption-v184)!important}
+  html.app-readability-v184 body #app.app #home .week-note-row-v184 button span{font-size:var(--app-calendar-v184)!important}
+ }
+ @media(min-width:600px) and (max-width:719px) and (min-height:480px){
+  html.app-readability-v184 body #app.app #home .schedule-calendar-v119{grid-template-rows:62px 22px minmax(0,1fr)!important}
+  html.app-readability-v184 body #app.app #home .schedule-calendar-v119.weekly-active-v184{grid-template-rows:62px minmax(0,1fr)!important}
+  html.app-readability-v184 body #app.app #home .schedule-calhead-v119{height:62px!important;flex-wrap:wrap!important;align-content:center!important;gap:3px!important;padding-block:3px!important}
+  html.app-readability-v184 body #app.app #home .schedule-calhead-v119 h1{flex-basis:100%!important;font-size:calc(16px * var(--app-type-scale-v185))!important}
+  html.app-readability-v184 body #app.app #home .schedule-calctl-v119{margin-left:auto!important}
+ }
+}

@@ -17,7 +17,7 @@ test('todo strip follows the currently shown current-week row, not a fixed secon
   assert.equal(todoPosition(dates,'2025-01-01').last,6);assert.equal(todoPosition(dates,'2027-01-01').last,41);
   assert.equal(todoPosition([]),null);
 });
-test('opening and closing Fold retains the same inline todo host without losing its contents',()=>{
+test('opening and closing Fold moves the same todo host between panes without losing contents',()=>{
   const h=harness(),today=new Date(),first=new Date(today.getFullYear(),today.getMonth(),1);first.setDate(first.getDate()-first.getDay());
   const dates=keys([first.getFullYear(),String(first.getMonth()+1).padStart(2,'0'),String(first.getDate()).padStart(2,'0')].join('-'));
   const days={children:[],style:{values:{},setProperty(key,value){this.values[key]=value}},querySelectorAll(){return this.children.filter(n=>n.dataset)}};
@@ -27,7 +27,7 @@ test('opening and closing Fold retains the same inline todo host without losing 
   const todo={children:[{text:'unchanged incomplete record'}],parentNode:null};move(todo,days,14);
   h.setHome({querySelector(selector){return selector.includes('data-todo-inline')?todo:selector.includes('schedule-days')?days:side}});
   h.api.refresh();const end=h.api.todoPosition(dates).last;assert.equal(days.children.indexOf(todo),end+1);
-  h.wide.matches=true;h.api.refresh();assert.equal(todo.parentNode,days);assert.equal(side.children.length,0);
+  h.wide.matches=true;h.api.refresh();assert.equal(todo.parentNode,side);assert.equal(side.children.length,1);
   h.wide.matches=false;h.api.refresh();assert.equal(todo.parentNode,days);assert.equal(days.children.indexOf(todo),end+1);
   assert.equal(todo.children[0].text,'unchanged incomplete record');assert.equal(days.children.filter(n=>n===todo).length,1);
 });
@@ -38,10 +38,10 @@ test('D-day title shares its value row and compact calendar controls follow text
   assert.match(css,/\.schedule-calctl-v119 button \{width:24px!important;[^}]*height:25px!important/);
   assert.match(css,/\.schedule-today-v119 \{width:auto!important;min-width:0!important;padding-inline:7px!important/);
 });
-test('empty todo strip is retained and the compact Fold overrides fill the calendar width',()=>{
+test('empty todo strip is retained and expanded Fold restores two panes',()=>{
   assert.match(css,/\.calendar-todos-v179 \{[^}]*min-height:78px;max-height:78px/);
   assert.match(css,/\.calendar-todos-v179 \.todo-inline-grid-v179 \{grid-auto-rows:24px!important;min-height:72px!important;max-height:none!important;overflow:visible!important/);
-  const compact=fs.readFileSync(path.join(root,'android-src/assets/app-compact-v186.css'),'utf8');assert.match(compact,/schedule-dashboard-v179\{grid-template-columns:minmax\(0,1fr\)/);
+  const compact=fs.readFileSync(path.join(root,'android-src/assets/app-home-refine-v187.css'),'utf8');assert.match(compact,/grid-template-columns:minmax\(0,1\.65fr\) minmax\(222px,1fr\)/);
   const todo=fs.readFileSync(path.join(root,'android-src/assets/app-todo-v179.js'),'utf8');
   assert.match(todo,/element\.hidden=false/);assert.doesNotMatch(todo,/element\.hidden=!incomplete\(\)\.length/);
 });

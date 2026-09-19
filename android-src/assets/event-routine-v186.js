@@ -1,13 +1,17 @@
 /* App presentation only. Keep the existing controls, handlers and saved records. */
 (() => {
   'use strict';
+  const eventWide = matchMedia('(min-width:600px) and (min-height:480px)');
+  let eventLayout = null;
   function compactControl(control, label) {
     if (!control || control.parentElement.classList.contains('er186-picker')) return;
     const shell = document.createElement('label');
     shell.className = 'er186-picker';
     const caption = document.createElement('span');
     const update = () => {
-      caption.textContent = control.type === 'date' && control.value ? control.value.slice(5).replace('-', '.') : label;
+      caption.textContent = control.type === 'date'
+        ? control.value ? control.value.replaceAll('-', '.') : '전체 날짜'
+        : control.selectedOptions?.[0]?.textContent || label;
       shell.title = control.type === 'date' ? control.value || label : control.selectedOptions?.[0]?.textContent || label;
       shell.classList.toggle('has-value', control.type === 'date' && !!control.value);
     };
@@ -15,6 +19,29 @@
     if (!control.getAttribute('aria-label')) control.setAttribute('aria-label', label);
     control.addEventListener('change', update); update();
   }
+  function arrangeEvent() {
+    const layout = eventLayout;
+    if (!layout?.workspace.isConnected) return;
+    for (const {node, placeholder} of layout.filters) {
+      if (eventWide.matches) {
+        if (node.parentElement !== layout.sidebar) layout.sidebar.append(node);
+      } else if (node.previousSibling !== placeholder) placeholder.after(node);
+    }
+  }
+  function eventWorkspace(root, content) {
+    const page = content.parentElement, tabs = page.querySelector(':scope > .event-word-tabs-v157');
+    if (!tabs || page.querySelector(':scope > .er187-workspace')) return;
+    const workspace = document.createElement('div'); workspace.className = 'er187-workspace';
+    const sidebar = document.createElement('aside'); sidebar.className = 'er187-sidebar';
+    sidebar.setAttribute('aria-label', '기록 유형과 필터');
+    const filters = [...content.querySelectorAll('.event-filter-scroll-v111,.travel-folder-strip-v111,.travel-v111>.quick')].map(node => {
+      const placeholder = document.createComment('Event filter position'); node.before(placeholder);
+      return {node, placeholder};
+    });
+    tabs.before(workspace); workspace.append(sidebar, content); sidebar.append(tabs);
+    eventLayout = {workspace, sidebar, filters}; arrangeEvent();
+  }
+  eventWide.addEventListener('change', arrangeEvent);
   function eventPresentation() {
     const root = document.getElementById('event');
     if (!root) return;
@@ -39,7 +66,10 @@
         toolbar.replaceChildren(...controls);
         toolbar.classList.add('er186-toolbar', 'er186-archive-tools');
         const want = toolbar.querySelector('[data-archive-wishlist]');
-        if (want) { want.textContent = 'want'; want.setAttribute('aria-label', 'want 목록'); want.setAttribute('aria-pressed', String(want.classList.contains('primary'))); }
+        if (want) {
+          want.textContent = 'want'; want.setAttribute('aria-label', 'want 목록'); want.setAttribute('aria-pressed', String(want.classList.contains('primary')));
+          archive.querySelector('.event-filter-scroll-v111')?.prepend(want);
+        }
         compactControl(toolbar.querySelector('#archiveSortV111'), '정렬');
       }
     }
@@ -67,6 +97,7 @@
       const ticket = travel.querySelector(':scope > .ticket');
       if (ticket && ticket.querySelector('h3')?.textContent.trim() === '여행 준비' && ticket.querySelector('p')?.textContent.trim() === '날짜 미정') ticket.remove();
     }
+    eventWorkspace(root, content);
   }
   function routinePresentation() {
     const root = document.getElementById('routine');

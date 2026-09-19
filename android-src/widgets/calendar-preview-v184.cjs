@@ -36,7 +36,7 @@ exports.render=function(kind,width,height,{read,el,fillContainer}){
     cell=el(cell,'w184_day',{text:n,background:'@drawable/'+(inMonth&&n===20?'widget_today_compact_v184':'widget_day_clear_v164'),textColor:inMonth&&n===20?'#FFFFFF':!inMonth?'#A9A2B5':c===0||holiday?'#AA6077':c===6?'#6080BC':'#171A3A'});
     if(mini)cell=el(cell,'w184_dots',{text:entries.length>1?'••':entries.length?'•':'',textColor:'#6255E8'});
     else{
-     cell=el(cell,'w184_holiday',{text:holiday,visibility:holiday&&cellHeight>=45?'visible':'gone'});
+     cell=el(cell,'w184_holiday',{text:holiday,textColor:inMonth?'#AA6077':'#A9A2B5',visibility:holiday&&cellHeight>=45?'visible':'gone'});
      const slots=Math.max(1,Math.min(6,Math.floor((cellHeight-22-(holiday&&cellHeight>=45?12:0))/Math.max(13,size*1.2+4))));
      const visible=Math.min(entries.length,entries.length>slots&&slots>1?slots-1:slots);
      cell=fillContainer(cell,'w184_events',entries.slice(0,visible).map((title,i)=>el(read('layout','widget_event_chip_v184'),'w184_event_title',{text:title,textSize:size+'sp',background:['#EAE3F7','#E4EBF8','#F2E3F0'][i%3]})));

@@ -8,12 +8,10 @@
  html body #app #event.event-ui-v186 .event-word-tabs-v157 button,html body #app #routine.routine-ui-v186 .r165-tabs button{min-height:35px!important;padding:6px 2px!important}
  html body #app #event.event-ui-v186 .event-content-v164,html body #app #routine.routine-ui-v186 .r165-content{font-size:var(--app-body-v184,13px)!important;padding-bottom:76px!important;scrollbar-width:thin!important}
  html body #app #event.event-ui-v186 .record-head:empty{display:none!important}
- html body #app #event.event-ui-v186 .er186-toolbar{display:grid!important;grid-template-columns:auto auto minmax(50px,1fr) minmax(48px,.7fr) auto!important;align-items:center!important;gap:5px!important;min-height:32px!important;width:100%!important;margin:0 0 8px!important;padding:0!important;border:0!important;background:transparent!important;flex:none!important;box-sizing:border-box!important}
- html body #app #event.event-ui-v186 .er186-record-tools.has-together{grid-template-columns:auto auto auto minmax(44px,1fr) minmax(42px,.8fr) auto!important;gap:4px!important}
- html body #app #event.event-ui-v186 .er186-archive-tools{grid-template-columns:1fr 1fr 1fr!important;margin:0!important}
- html body #app #event.event-ui-v186 .er186-travel-tools{grid-template-columns:minmax(38px,.65fr) minmax(70px,1.3fr) minmax(46px,.8fr) minmax(63px,1fr)!important;margin:0!important}
- html body #app #event.event-ui-v186 .er186-travel-tools.without-preparation{grid-template-columns:1fr 1fr 1.2fr!important}
- html body #app #event.event-ui-v186 .er186-toolbar>button,html body #app #event.event-ui-v186 .er186-picker{display:flex!important;align-items:center!important;justify-content:center!important;position:relative!important;box-sizing:border-box!important;min-width:0!important;width:100%!important;height:32px!important;min-height:32px!important;padding:4px 8px!important;border:1px solid var(--app-border,#c4b4d4)!important;border-radius:8px!important;background:var(--app-control,#e0d5eb)!important;color:var(--app-text,#30283b)!important;font-size:calc(12px * var(--app-type-scale-v185,1))!important;line-height:1.2!important;font-weight:550!important;white-space:nowrap!important;box-shadow:none!important;margin:0!important}
+ html body #app #event.event-ui-v186 .er187-workspace,html body #app #event.event-ui-v186 .er187-sidebar{display:contents!important}
+ html body #app #event.event-ui-v186 .er186-toolbar{display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;align-items:center!important;justify-content:flex-start!important;gap:5px!important;min-height:32px!important;width:max-content!important;max-width:100%!important;overflow-x:auto!important;overflow-y:hidden!important;scrollbar-width:none!important;margin:0 0 8px!important;padding:0!important;border:0!important;background:transparent!important;flex:none!important;box-sizing:border-box!important}
+ html body #app #event.event-ui-v186 :is(.er186-archive-tools,.er186-travel-tools){margin:0!important}
+ html body #app #event.event-ui-v186 .er186-toolbar>button,html body #app #event.event-ui-v186 .er186-picker{display:flex!important;flex:0 0 auto!important;align-items:center!important;justify-content:center!important;position:relative!important;box-sizing:border-box!important;min-width:0!important;width:max-content!important;height:32px!important;min-height:32px!important;padding:4px 8px!important;border:1px solid var(--app-border,#c4b4d4)!important;border-radius:8px!important;background:var(--app-control,#e0d5eb)!important;color:var(--app-text,#30283b)!important;font-size:calc(12px * var(--app-type-scale-v185,1))!important;line-height:1.2!important;font-weight:550!important;white-space:nowrap!important;box-shadow:none!important;margin:0!important}
  html body #app #event.event-ui-v186 .er186-toolbar>button.primary,html body #app #event.event-ui-v186 .er186-toolbar>button.active{background:var(--app-primary,#76509b)!important;color:var(--app-on-primary,#fff)!important;border-color:var(--app-primary,#76509b)!important}
  html body #app #event.event-ui-v186 .er186-picker:focus-within{outline:2px solid var(--app-focus,#76509b);outline-offset:1px}
  html body #app #event.event-ui-v186 .er186-picker>span{font-size:inherit!important;color:inherit!important;line-height:inherit!important;pointer-events:none!important}
@@ -21,12 +19,14 @@
  html body #app #event.event-ui-v186 .er186-picker>input,html body #app #event.event-ui-v186 .er186-picker>select{position:absolute!important;inset:0!important;box-sizing:border-box!important;width:100%!important;height:100%!important;min-height:0!important;margin:0!important;padding:0!important;opacity:0!important;cursor:pointer!important}
  html body #app #event.event-ui-v186 .er186-picker input::-webkit-calendar-picker-indicator{position:absolute;inset:0;width:auto;height:auto;margin:0;cursor:pointer}
  html body #app #event.event-ui-v186 :is(.archive-v111,.travel-v111){gap:8px!important}
- html body #app #event.event-ui-v186 .event-filter-scroll-v111{display:flex!important;gap:5px!important;overflow-x:auto!important;overflow-y:hidden!important;scrollbar-width:none!important}
- html body #app #event.event-ui-v186 .event-filter-scroll-v111 button{flex:0 0 auto!important;min-height:28px!important;height:28px!important;width:auto!important;padding:4px 8px!important;font-size:calc(10px * var(--app-type-scale-v185,1))!important;border-width:1px!important;border-radius:7px!important}
+ html body #app #event.event-ui-v186 .event-filter-scroll-v111{display:flex!important;flex-wrap:nowrap!important;justify-content:flex-start!important;gap:5px!important;max-width:100%!important;overflow-x:auto!important;overflow-y:hidden!important;scrollbar-width:none!important}
+ html body #app #event.event-ui-v186 .event-filter-scroll-v111 button{flex:0 0 auto!important;min-height:28px!important;height:28px!important;width:max-content!important;padding:4px 8px!important;font-size:calc(10px * var(--app-type-scale-v185,1))!important;border-width:1px!important;border-radius:7px!important;white-space:nowrap!important}
+ html body #app #event.event-ui-v186 .event-filter-scroll-v111 [data-archive-wishlist]{margin-right:4px!important;text-transform:lowercase!important}
+ html body #app #event.event-ui-v186 .event-filter-scroll-v111 [data-archive-wishlist].primary{background:var(--app-primary)!important;color:var(--app-on-primary)!important;border-color:var(--app-primary)!important}
  html body #app #event.event-ui-v186 .travel-folder-strip-v111{flex-wrap:nowrap!important;overflow-x:auto!important;gap:5px!important}
  html body #app #event.event-ui-v186 .travel-folder-strip-v111 button{flex:0 0 auto!important;min-height:30px!important;padding:4px 8px!important;font-size:var(--app-caption-v184,11px)!important}
- html body #app #event.event-ui-v186 .travel-v111>.quick{gap:5px!important}
- html body #app #event.event-ui-v186 .quick button{flex-direction:row!important;justify-content:center!important;min-height:34px!important;padding:5px 3px!important;gap:5px!important;font-size:calc(11px * var(--app-type-scale-v185,1))!important}
+ html body #app #event.event-ui-v186 .quick{display:flex!important;flex-wrap:nowrap!important;gap:5px!important;max-width:100%!important;overflow-x:auto!important;scrollbar-width:none!important}
+ html body #app #event.event-ui-v186 .quick button{flex:0 0 auto!important;flex-direction:row!important;justify-content:center!important;min-height:32px!important;width:max-content!important;padding:5px 8px!important;gap:5px!important;font-size:calc(11px * var(--app-type-scale-v185,1))!important;white-space:nowrap!important}
  html body #app #event.event-ui-v186 .quick button i{font-size:14px!important}
  html body #app #event.event-ui-v186 :is(.record-grid,.archive-grid-v111,.travel-feed-v148){gap:8px!important}
  html body #app #event.event-ui-v186 :is(.insta-card-v148,.event-archive-card-v111,.travel-log-card-v148){border-radius:11px!important;box-shadow:none!important}
@@ -71,12 +71,20 @@
  html body #app #routine.routine-ui-v186 .r165-comparison-row{padding:8px 0!important}
  @media(min-width:600px) and (min-height:480px){
   html body #app #event.event-ui-v186>.page,html body #app #routine.routine-ui-v186>.page{padding-inline:12px!important;max-width:none!important}
+  html body #app #event.event-ui-v186 .er187-workspace{display:grid!important;grid-template-columns:116px minmax(0,1fr)!important;gap:12px!important;flex:1 1 auto!important;min-height:0!important;min-width:0!important;overflow:hidden!important;padding-top:6px!important}
+  html body #app #event.event-ui-v186 .er187-sidebar{display:flex!important;flex-direction:column!important;align-items:flex-start!important;gap:12px!important;min-width:0!important;min-height:0!important;overflow-y:auto!important;overflow-x:hidden!important;padding-bottom:76px!important;border-right:1px solid color-mix(in srgb,var(--app-active-on-space) 25%,transparent)!important;padding-right:9px!important}
+  html body #app #event.event-ui-v186 .er187-sidebar .event-word-tabs-v157{display:flex!important;flex-direction:column!important;align-items:flex-start!important;gap:4px!important;margin:0!important;width:100%!important}
+  html body #app #event.event-ui-v186 .er187-sidebar .event-word-tabs-v157 button{width:max-content!important;min-width:0!important;padding:6px 8px!important;min-height:32px!important;border-bottom:0!important;border-radius:7px!important;text-align:left!important}
+  html body #app #event.event-ui-v186 .er187-sidebar .event-word-tabs-v157 button.active{background:color-mix(in srgb,var(--app-active-on-space) 15%,transparent)!important}
+  html body #app #event.event-ui-v186 .er187-sidebar :is(.event-filter-scroll-v111,.travel-folder-strip-v111,.quick){display:flex!important;flex-wrap:wrap!important;justify-content:flex-start!important;gap:5px!important;overflow:visible!important;width:100%!important;margin:0!important}
+  html body #app #event.event-ui-v186 .er187-sidebar .quick{flex-direction:column!important;align-items:flex-start!important}
+  html body #app #event.event-ui-v186 .er187-sidebar .event-filter-scroll-v111 [data-archive-wishlist]{margin-right:0!important;margin-bottom:4px!important}
+  html body #app #event.event-ui-v186 .er187-sidebar .travel-folder-strip-v111 button{max-width:100%!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
+  html body #app #event.event-ui-v186 .er187-workspace>.event-content-v164{height:100%!important;padding-bottom:76px!important}
   html body #app #event.event-ui-v186 :is(.record-grid,.archive-grid-v111,.travel-feed-v148),html body #app #routine.routine-ui-v186 :is(.r165-practice-list,.r165-mandalas){grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px!important}
-  html body #app #event.event-ui-v186 .er186-record-tools{grid-template-columns:auto auto minmax(90px,1fr) minmax(72px,.55fr) auto!important}
-  html body #app #event.event-ui-v186 .er186-record-tools.has-together{grid-template-columns:auto auto auto minmax(90px,1fr) minmax(72px,.55fr) auto!important}
   html body #app #routine.routine-ui-v186 .r165-content[data-tab="statistics"]{gap:9px!important}
  }
  @media(min-width:840px) and (min-height:480px){
-  html body #app #event.event-ui-v186 :is(.record-grid,.archive-grid-v111,.travel-feed-v148),html body #app #routine.routine-ui-v186 :is(.r165-practice-list,.r165-mandalas){grid-template-columns:repeat(3,minmax(0,1fr))!important}
+  html body #app #routine.routine-ui-v186 :is(.r165-practice-list,.r165-mandalas){grid-template-columns:repeat(3,minmax(0,1fr))!important}
  }
 }

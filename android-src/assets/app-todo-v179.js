@@ -42,7 +42,7 @@ import {todoRowsV179,todoKindV179,todoTextV179,filterTodosV179,sortTodosV179} fr
   }
   function inlineMarkup(){
     const rows=incomplete();
-    return `<div class="todo-inline-grid-v179" role="group" aria-label="미완료 할 일">${rows.map(row=>`<label class="todo-inline-item-v179" title="${safe(row.text+(row.date?' ('+due(row.date)+' 마감)':''))}"><input type="checkbox" data-todo-check-v179="${safe(row.id)}" data-source="${row.source}" ${busy?'disabled':''} aria-label="${safe(row.text)} 완료"><span>${safe(row.text)}</span>${row.date?`<small>(${due(row.date)} 마감)</small>`:''}</label>`).join('')}</div>${error?`<p class="todo-inline-error-v179" role="status">${safe(error)}</p>`:''}`;
+    return `<header class="schedule-side-title-v187"><b>TODO</b><button type="button" data-todo-add-v179="todo" aria-label="투두 추가">＋</button></header><div class="todo-inline-grid-v179" role="group" aria-label="미완료 할 일">${rows.map(row=>`<label class="todo-inline-item-v179" title="${safe(row.text+(row.date?' ('+due(row.date)+' 마감)':''))}"><input type="checkbox" data-todo-check-v179="${safe(row.id)}" data-source="${row.source}" ${busy?'disabled':''} aria-label="${safe(row.text)} 완료"><span>${safe(row.text)}</span>${row.date?`<small>(${due(row.date)} 마감)</small>`:''}</label>`).join('')}</div>${error?`<p class="todo-inline-error-v179" role="status">${safe(error)}</p>`:''}`;
   }
   function mountInline(element){if(!element)return;const markup=inlineMarkup();element.hidden=false;if(signatures.get(element)===markup)return;const scroll=element.firstElementChild?.scrollTop||0;element.innerHTML=markup;if(element.firstElementChild)element.firstElementChild.scrollTop=scroll;signatures.set(element,markup);}
   function mountAll(){$$('[data-todo-inline-v179]').forEach(mountInline);}

@@ -35,8 +35,34 @@ resources.widget_event_day_small_v185=resources.widget_event_day_v184.replace('a
 resources.widget_mini_day_small_v185=resources.widget_mini_day_v184.replace('android:minHeight="14dp"','android:minHeight="0dp"').replace('android:minWidth="18dp"','android:minWidth="0dp"');
 resources.widget_upcoming_small_v185=`<LinearLayout ${ns} android:id="@+id/w184_row" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="27dp" android:paddingTop="1dp" android:paddingBottom="2dp" android:orientation="horizontal" android:gravity="center_vertical"><ImageView android:id="@+id/w184_event_mark" android:layout_width="2dp" android:layout_height="21dp" android:layout_marginRight="3dp" android:background="#7561DC" android:contentDescription="@null"/><LinearLayout android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:orientation="vertical"><TextView android:id="@+id/w184_event_title" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="11sp" android:fontFamily="sans-serif" android:includeFontPadding="false" android:singleLine="true" android:ellipsize="end"/><LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">${text('w184_event_date','android:textSize="8.5sp" android:paddingRight="4dp"')}${text('w184_event_time','android:textSize="8.5sp"')}</LinearLayout></LinearLayout></LinearLayout>`;
 resources.widget_todo_small_v185=resources.widget_todo_row_v184.replaceAll('29dp','25dp').replace('android:layout_width="30dp"','android:layout_width="22dp"');
+// Polish the five existing compositions without spending any extra layout space.
+function styleElement(xml,id,values){
+ return xml.replace(new RegExp('<[A-Za-z]+\\b[^>]*android:id="@\\+id/'+id+'"[^>]*>'),tag=>{
+  for(const[key,value]of Object.entries(values)){
+   const attribute=new RegExp('android:'+key+'="[^"]*"');
+   tag=attribute.test(tag)?tag.replace(attribute,`android:${key}="${value}"`):tag.replace(/(\/?>)$/,` android:${key}="${value}"$1`);
+  }
+  return tag;
+ });
+}
+for(const name of Object.keys(resources)){
+ let xml=resources[name].replaceAll('android:background="#E4DFEE"','android:background="#E8E3F0"');
+ const divider=name.startsWith('widget_todo_')?'w187_row_divider':'w187_section_divider';
+ xml=xml.replace(/<ImageView\b[^>]*android:background="#E8E3F0"[^>]*>/,tag=>tag.replace('<ImageView ',`<ImageView android:id="@+id/${divider}" `));
+ xml=styleElement(xml,'widget_title',{textSize:name.includes('_small_v185')?'12sp':'14sp'});
+ xml=styleElement(xml,'w184_caption',{textColor:'#716B80',paddingRight:'4dp'});
+ xml=styleElement(xml,'w184_today',{background:'@drawable/widget_control_v187',textStyle:'bold'});
+ xml=styleElement(xml,'w184_day',{textStyle:'bold'});
+ for(const id of ['w184_todo_heading','w184_event_time','w184_todo_due'])xml=styleElement(xml,id,{textColor:'#716B80'});
+ for(let i=0;i<7;i++)xml=styleElement(xml,'widget_week_'+i,{textColor:i===0?'#AA6077':i===6?'#6080BC':'#716B80'});
+ resources[name]=xml;
+}
 for(const[name,xml]of Object.entries(resources))fs.writeFileSync(path.join(root,'layout',name+'.xml'),'<?xml version="1.0" encoding="utf-8"?>\n'+xml+'\n');
 fs.writeFileSync(path.join(root,'drawable','widget_today_compact_v184.xml'),`<?xml version="1.0" encoding="utf-8"?>\n<shape ${ns} android:shape="rectangle"><solid android:color="#7561AA"/><corners android:radius="5dp"/></shape>\n`);
+for(const[name,fill,stroke]of [['widget_control_v187','#117561AA','#237561AA'],['widget_control_dark_v187','#22C7BCF0','#33C7BCF0']])
+ fs.writeFileSync(path.join(root,'drawable',name+'.xml'),`<?xml version="1.0" encoding="utf-8"?>\n<shape ${ns} android:shape="rectangle"><solid android:color="${fill}"/><corners android:radius="7dp"/><stroke android:width="0.5dp" android:color="${stroke}"/></shape>\n`);
+for(const[name,stroke]of [['widget_compact_grid_v181','#ECE7F3'],['widget_compact_grid_dark_v181','#4B455E']])
+ fs.writeFileSync(path.join(root,'drawable',name+'.xml'),`<?xml version="1.0" encoding="utf-8"?>\n<shape ${ns} android:shape="rectangle"><solid android:color="#00000000"/><stroke android:width="0.5dp" android:color="${stroke}"/></shape>\n`);
 const configurations={
 calendar_combined:[3,180,180,110,'widget_split_compact_v184','왼쪽 이달 달력 · 오른쪽 다가오는 일정'],
 calendar_agenda:[4,250,110,110,'widget_agenda_compact_v184','다가오는 일정 · 하단 미완료 투두'],
