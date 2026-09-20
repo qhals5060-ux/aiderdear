@@ -11,8 +11,8 @@
 <meta name="description" content="">
 <meta name="format-detection" content="telephone=no">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="aiderlog-build" content="v190">
-<meta name="aiderlog-android-build" content="v190">
+<meta name="aiderlog-build" content="v191">
+<meta name="aiderlog-android-build" content="v191">
 <link rel="canonical" href="https://aiderdear1.vercel.app/">
 <script>
 (() => {
@@ -4056,18 +4056,18 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   html body #stage .calendar{min-height:488px!important}
 }
 </style>
-<link rel="stylesheet" href="./site-work-v167.css?v=190">
-<link rel="stylesheet" href="./site-polish-v158.css?v=190">
+<link rel="stylesheet" href="./site-work-v167.css?v=191">
+<link rel="stylesheet" href="./site-polish-v158.css?v=191">
 <script>(()=>{const h=document.documentElement;if(window.AiderLogNative){h.classList.add('aiderlog-android');h.classList.remove('modern-site');return}h.classList.add('modern-site');h.dataset.siteEdition='modern';h.dataset.siteDefaultEdition='modern';try{localStorage.setItem('aiderlog.site.edition','modern')}catch{}const u=new URL(location.href);if(u.searchParams.has('site-edition')&&u.searchParams.get('site-edition')!=='modern'){u.searchParams.set('site-edition','modern');history.replaceState(history.state,'',u)}})();</script>
-<link rel="stylesheet" href="./site-modern-v165.css?v=190">
-<link rel="stylesheet" href="./site-editions-v164.css?v=190">
-<script src="./schedule-time-v179.js?v=190"></script>
-<script src="./business-calendar-v175.js?v=190"></script>
-<script src="./retired-features-v178.js?v=190"></script>
-<script src="./photo-attachments-v176.js?v=190"></script>
-<script src="./shared-schedule-v176.js?v=190"></script>
-<script src="./dday-display-v176.js?v=190"></script>
-<link rel="stylesheet" href="./site-event-routine-v189.css?v=190">
+<link rel="stylesheet" href="./site-modern-v165.css?v=191">
+<link rel="stylesheet" href="./site-editions-v164.css?v=191">
+<script src="./schedule-time-v179.js?v=191"></script>
+<script src="./business-calendar-v175.js?v=191"></script>
+<script src="./retired-features-v178.js?v=191"></script>
+<script src="./photo-attachments-v176.js?v=191"></script>
+<script src="./shared-schedule-v176.js?v=191"></script>
+<script src="./dday-display-v176.js?v=191"></script>
+<link rel="stylesheet" href="./site-event-routine-v189.css?v=191">
 </head>
 <body>
 <a class="skip-link" href="#app">본문으로 건너뛰기</a>
@@ -4727,11 +4727,11 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
 <div class="app-install-grid app-install-v137 site-edition-downloads">
   <article class="app-install-card windows">
     <i>Windows PC</i><b>사이트 파일</b><p>PC에서 사이트를 열 수 있는 바로가기와 파일입니다.</p>
-    <a class="app-download-link app-download-v164" href="./AiderLog-v190-site-files.zip" download="AiderLog-v190-site-files.zip">사이트 파일 다운로드</a>
+    <a class="app-download-link app-download-v164" href="./AiderLog-v191-site-files.zip" download="AiderLog-v191-site-files.zip">사이트 파일 다운로드</a>
   </article>
   <article class="app-install-card android">
     <i>Android APK</i><b>Android 앱</b><p>Galaxy Fold·Flip 3–8 및 Android 8.0 이상용 최신 설치 파일입니다.</p>
-    <a class="app-download-link app-download-v164" href="./AiderLog-v190.apk" download="AiderLog-v190.apk">Android APK 다운로드</a>
+    <a class="app-download-link app-download-v164" href="./AiderLog-v191.apk" download="AiderLog-v191.apk">Android APK 다운로드</a>
   </article>
 </div>
           <div class="login-data-summary"><b>기록 저장 안내</b><span>일정은 본인 공간에 저장되며 ‘커플과 공유’를 선택한 일정만 상대 캘린더에 표시됩니다.</span><span>EVENT는 커플 연결 시 함께 보고, 루틴·PERSONAL·메모는 본인만 확인합니다.</span><span>PAPER·CONSULTING·WORK는 허용된 두 계정만 열 수 있으며, 각 계정의 연구·컨설팅·운영 기록은 서로 분리해 저장합니다.</span><span>사진·영상은 압축 저장되며, 오래된 일반 기록은 삭제 전에 반드시 확인을 요청합니다.</span></div>
@@ -5082,8 +5082,8 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script type="module" src="./firebase-app.js?v=190"></script>
-<script src="./brain-3d.js?v=190"></script>
+<script type="module" src="./firebase-app.js?v=191"></script>
+<script src="./brain-3d.js?v=191"></script>
 <script>
 (()=>{
   const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
@@ -5685,32 +5685,107 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   async function importRestrictedWorkspaceOnce(data){
     if(data.restrictedWorkspacePrivateV147||!canAccessRestrictedTab('paper')||!window.AiderDearFirebase?.readPaperTaskData)return data;
     try{
-      const shared=await window.AiderDearFirebase.readPaperTaskData(),ownerEmail=normalizeEmail(currentUserEmail),ownerUid=String(firebaseState.user?.uid||'');
+      const scope=siteScopeV191(),ownerEmail=normalizeEmail(currentUserEmail),ownerUid=String(firebaseState.user?.uid||''),shared=await window.AiderDearFirebase.readPaperTaskData();assertSiteScopeV191(scope);
       const belongs=row=>{const email=normalizeEmail(row?.ownerEmail||row?.createdByEmail||row?.userEmail||row?.email),uid=String(row?.ownerUid||row?.createdBy||row?.userUid||row?.uid||'');return Boolean((email&&email===ownerEmail)||(uid&&uid===ownerUid))};
       for(const key of PAPER_TASK_SHARED_KEYS){if(key==='researchWorkspaceSeeded')continue;const local=Array.isArray(data[key])?data[key]:[],legacy=Array.isArray(shared?.[key])?shared[key].filter(belongs):[];if(!local.length&&legacy.length)data[key]=structuredClone(legacy)}
       if(!data.researchWorkspaceSeeded&&data.paperItems?.length)data.researchWorkspaceSeeded=true;
-    }catch(error){console.warn('PAPER · TASK account migration skipped.',error)}
+    }catch(error){console.warn('PAPER · TASK account migration skipped.',error);return data}
     data.restrictedWorkspacePrivateV147=true;return data;
   }
-  async function loadPrivateData(){
-    stopPaperTaskWorkspaceWatch();privateData={};privateRefs={};if(!currentUserEmail||!window.AiderDearFirebase)return;const saved=await window.AiderDearFirebase.readPrivateData();let data=normalizePrivateData(saved||blankPrivateData(currentUserEmail,currentUserName),currentUserEmail,currentUserName);privateRefs[currentUserEmail]={folderId:'firebase-private',fileId:'firebase-private',writable:true};privateOwner=currentUserEmail;
-    data=await importRestrictedWorkspaceOnce(data);privateData[currentUserEmail]=normalizePrivateData(data,currentUserEmail,currentUserName);await window.AiderDearFirebase.writePrivateData(privateData[currentUserEmail]);syncGenderUI();renderPrivate();renderPersonal();renderPaper();renderConsultingWorkspace();startConsultingIntakeWatch().catch(console.warn);
+  // Snapshot payloads replace minute-by-minute full reads. Buffers are account scoped
+  // and never replace an open editor, an in-flight save, or a failed local save.
+  const siteSyncV191={private:null,app:null,privateApplied:'',appApplied:'',privateSaving:0,appSaving:0,privateGeneration:0,appGeneration:0,privateFailed:false,appFailed:false,booting:false,lastAttempt:0,blockedUntil:0,flight:null,privateLoad:null,scheduleLoad:null,scheduleScope:'',albumMembers:'',bridge:null};
+  function siteScopeV191(){return `${firebaseState.user?.uid||''}:${firebaseState.pair?.id||'solo'}`}
+  function assertSiteScopeV191(scope){if(!firebaseState.user?.uid||scope!==siteScopeV191())throw new Error('계정 또는 공유 공간이 변경되었습니다. 다시 시도해주세요.')}
+  function siteQuotaErrorV191(error){if(/resource-exhausted|quota|할당량|일일.*한도|사용량.*한도/i.test(String(error?.code||'')+' '+String(error?.message||error)))siteSyncV191.blockedUntil=Math.max(siteSyncV191.blockedUntil,Date.now()+30*60*1000)}
+  function siteEditorOpenV191(){return !!document.querySelector('.overlay.open,dialog[open],#privateMemoSlotText')||!!document.activeElement?.matches?.('input,textarea,[contenteditable="true"]')}
+  function renderPrivateSnapshotV191(){syncGenderUI();renderPrivate();renderPersonal();renderPaper();renderConsultingWorkspace()}
+  function renderAppSnapshotV191(){renderPartnerMatchStatus();renderSchedulePeopleFilters();renderCalendar();refreshRecordAlbumSelect($('#recordAlbumFolder')?.value||DEFAULT_ALBUM_ID);renderRecordFeed();renderAlbumFolders();renderEventArchive();renderTravelArchive();renderBucketList();setDday();renderDdayList();renderEmotion();renderMailbox();updateMailBadge()}
+  function acceptPrivateSnapshotV191(packet){
+    const uid=firebaseState.user?.uid;if(!uid||packet.uid!==uid)return false;
+    window.AiderDearFirebase.acceptPrivateSnapshot?.({uid,payload:structuredClone(packet.payload)});
+    privateData[currentUserEmail]=normalizePrivateData(structuredClone(packet.payload)||blankPrivateData(currentUserEmail,currentUserName),currentUserEmail,currentUserName);
+    siteSyncV191.privateApplied=JSON.stringify(packet.payload);packet.pending=false;return true;
   }
-  async function savePrivateData(email){email=normalizeEmail(email);if(!currentUser||currentUserEmail!==email||!privateRefs[email]?.fileId)throw new Error('이 개인 기록을 수정할 권한이 없습니다.');privateData[email]=normalizePrivateData(privateData[email],email,currentUserName);await window.AiderDearFirebase.writePrivateData(privateData[email])}
+  function flushSiteSnapshotsV191(){
+    if(!currentUser||siteSyncV191.booting||document.visibilityState==='hidden'||siteEditorOpenV191())return;
+    const p=siteSyncV191.private,a=siteSyncV191.app;
+    if(p?.pending&&p.uid===firebaseState.user?.uid&&privateRefs[currentUserEmail]?.fileId&&!siteSyncV191.privateSaving&&!siteSyncV191.privateFailed){
+      if(JSON.stringify(p.payload)!==siteSyncV191.privateApplied){if(acceptPrivateSnapshotV191(p))renderPrivateSnapshotV191()}else p.pending=false;
+    }
+    if(a?.pending&&a.scope===firebaseScopeKey&&driveDataFileId&&!siteSyncV191.appSaving&&!siteSyncV191.appFailed&&!cloudSaveTimer){
+      const signature=JSON.stringify(a.payload);a.pending=false;if(signature!==siteSyncV191.appApplied){cloudData={...cloudData,...structuredClone(a.payload||{})};normalizeCloudData();siteSyncV191.appApplied=signature;renderAppSnapshotV191()}
+    }
+  }
+  function receiveSiteSnapshotV191(kind,detail){
+    if(!Object.prototype.hasOwnProperty.call(detail,'payload')||detail.hasPendingWrites||(detail.fromCache&&detail.exists===false))return;
+    siteSyncV191[kind]={...detail,payload:structuredClone(detail.payload),pending:true,healthy:!detail.fromCache};flushSiteSnapshotsV191();
+  }
+  function receiveSiteListenerStatusV191(detail){
+    if(detail.uid&&detail.uid!==firebaseState.user?.uid)return;
+    if(detail.kind==='app'&&detail.scope&&detail.scope!==siteScopeV191())return;
+    if(detail.healthy===false){for(const kind of ['private','app'])if(siteSyncV191[kind]&&(detail.kind===kind||detail.kind==='other'))siteSyncV191[kind].healthy=false;siteSyncV191.blockedUntil=Math.max(siteSyncV191.blockedUntil,Number(detail.retryAt)||0);siteQuotaErrorV191(detail)}
+  }
+  function settleSiteSaveV191(kind,payload,scope,generation){
+    if(scope!==siteScopeV191()||generation!==siteSyncV191[kind+'Generation'])return;
+    const signature=JSON.stringify(payload);siteSyncV191[kind+'Applied']=signature;
+    if(kind==='private'){window.AiderDearFirebase.acceptPrivateSnapshot?.({uid:firebaseState.user.uid,payload:structuredClone(payload)});privateData[currentUserEmail]=normalizePrivateData(structuredClone(payload),currentUserEmail,currentUserName)}
+    const buffered=siteSyncV191[kind];if(!buffered?.pending)return;buffered.pending=false;
+    if(JSON.stringify(buffered.payload)===signature)return;
+    // Only a confirmed snapshot racing this write needs reconciliation. Do not
+    // display a pre-commit snapshot over the just-saved record while checking it.
+    const uid=firebaseState.user.uid,api=window.AiderDearFirebase;
+    Promise.resolve().then(()=>kind==='private'?api.readPrivateData({remember:false}):api.readAppData()).then(latest=>{
+      if(scope!==siteScopeV191()||generation!==siteSyncV191[kind+'Generation'])return;
+      receiveSiteSnapshotV191(kind,{uid,scope,payload:latest,exists:latest!=null});
+    }).catch(error=>{siteQuotaErrorV191(error);console.warn('Saved record refresh deferred',error)});
+  }
+  async function loadPrivateData(options={}){
+    if(!currentUserEmail||!window.AiderDearFirebase)return;
+    const scope=siteScopeV191(),email=currentUserEmail,name=currentUserName,uid=firebaseState.user?.uid,generation=siteSyncV191.privateGeneration;
+    if(siteSyncV191.privateLoad?.scope===scope)return siteSyncV191.privateLoad.promise;
+    const promise=(async()=>{
+      const cached=siteSyncV191.private;let packet=!options.forceRead&&cached?.uid===uid?cached:null;
+      let saved=packet?structuredClone(packet.payload):await window.AiderDearFirebase.readPrivateData({remember:false});assertSiteScopeV191(scope);
+      if(generation!==siteSyncV191.privateGeneration)return;
+      if(siteSyncV191.private!==cached&&siteSyncV191.private?.uid===uid){packet=siteSyncV191.private;saved=structuredClone(packet.payload)}
+      const original=structuredClone(saved),migrated=!!saved?.restrictedWorkspacePrivateV147;let data=normalizePrivateData(saved||blankPrivateData(email,name),email,name);
+      data=await importRestrictedWorkspaceOnce(data);assertSiteScopeV191(scope);
+      if(generation!==siteSyncV191.privateGeneration)return;
+      window.AiderDearFirebase.acceptPrivateSnapshot?.({uid,payload:original});
+      privateRefs[email]={folderId:'firebase-private',fileId:'firebase-private',writable:true};privateOwner=email;privateData[email]=normalizePrivateData(data,email,name);
+      siteSyncV191.privateApplied=JSON.stringify(original);if(packet)packet.pending=false;
+      // Create once, or persist the successful one-time legacy import. Reading an
+      // existing account is not itself an edit and must not issue a write.
+      if(!saved||(!migrated&&data.restrictedWorkspacePrivateV147))await savePrivateData(email);
+      assertSiteScopeV191(scope);renderPrivateSnapshotV191();startConsultingIntakeWatch().catch(console.warn);
+    })();siteSyncV191.privateLoad={scope,promise};
+    try{return await promise}catch(error){siteQuotaErrorV191(error);throw error}finally{if(siteSyncV191.privateLoad?.promise===promise)siteSyncV191.privateLoad=null}
+  }
+  async function savePrivateData(email){
+    email=normalizeEmail(email);if(!currentUser||currentUserEmail!==email||!privateRefs[email]?.fileId)throw new Error('이 개인 기록을 수정할 권한이 없습니다.');
+    const scope=siteScopeV191();privateData[email]=normalizePrivateData(privateData[email],email,currentUserName);siteSyncV191.privateSaving++;const generation=++siteSyncV191.privateGeneration;if(siteSyncV191.private?.uid===firebaseState.user?.uid)siteSyncV191.private.pending=false;
+    try{const result=await window.AiderDearFirebase.writePrivateData(privateData[email]);assertSiteScopeV191(scope);siteSyncV191.privateFailed=false;settleSiteSaveV191('private',result||privateData[email],scope,generation)}
+    catch(error){if(scope===siteScopeV191())siteSyncV191.privateFailed=true;siteQuotaErrorV191(error);throw error}
+    finally{if(scope===siteScopeV191())siteSyncV191.privateSaving=Math.max(0,siteSyncV191.privateSaving-1);queueMicrotask(flushSiteSnapshotsV191)}
+  }
 
-  async function driveLoadJsonFile(){
-    const parsed=firebaseState.pair?.id&&window.AiderDearFirebase.migrateEventWorkspace
+  async function driveLoadJsonFile(options={}){
+    const scope=siteScopeV191(),packet=siteSyncV191.app,generation=siteSyncV191.appGeneration;
+    const parsed=options.migrate!==false&&firebaseState.pair?.id&&window.AiderDearFirebase.migrateEventWorkspace
       ?await window.AiderDearFirebase.migrateEventWorkspace()
-      :await window.AiderDearFirebase.readAppData();
-    cloudData={...cloudData,...(parsed||{})};
-    normalizeCloudData();
+      :!options.forceRead&&packet?.scope===scope?structuredClone(packet.payload):await window.AiderDearFirebase.readAppData();
+    assertSiteScopeV191(scope);if(generation!==siteSyncV191.appGeneration)return;cloudData={...cloudData,...(parsed||{})};normalizeCloudData();siteSyncV191.appApplied=JSON.stringify(parsed);if(packet?.scope===scope)packet.pending=false;
   }
   function scheduleCloudSave(delay=450){
     if(!googleToken||!driveDataFileId)return;
     clearTimeout(cloudSaveTimer);cloudSaveTimer=setTimeout(()=>saveCloudData().catch(err=>setGoogleStatus(googleErrorMessage(err),'error')),delay);
   }
   async function saveCloudData(){
-    clearTimeout(cloudSaveTimer);cloudData.version=CLOUD_VERSION;await window.AiderDearFirebase.writeAppData(cloudData);
+    clearTimeout(cloudSaveTimer);cloudSaveTimer=null;const scope=siteScopeV191();cloudData.version=CLOUD_VERSION;const submitted=structuredClone(cloudData);siteSyncV191.appSaving++;const generation=++siteSyncV191.appGeneration;if(siteSyncV191.app?.scope===scope)siteSyncV191.app.pending=false;
+    try{await window.AiderDearFirebase.writeAppData(submitted);assertSiteScopeV191(scope);siteSyncV191.appFailed=false;settleSiteSaveV191('app',submitted,scope,generation)}
+    catch(error){if(scope===siteScopeV191())siteSyncV191.appFailed=true;siteQuotaErrorV191(error);throw error}
+    finally{if(scope===siteScopeV191())siteSyncV191.appSaving=Math.max(0,siteSyncV191.appSaving-1);queueMicrotask(flushSiteSnapshotsV191)}
   }
   async function driveUploadMedia(file,label='media'){
     if(!currentUser)throw new Error('Google 로그인이 필요합니다.');return await window.AiderDearFirebase.uploadMedia(file,label);
@@ -5866,18 +5941,24 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
     row.shareWithCouple=!!shared;row.owner=shared?'shared':'mine';row.pairKey=shared?currentPairKey():'';row.updatedAt=Date.now();
     await persistOwnScheduleEvents();
   }
-  async function loadCalendarEvents(){
-    try{scheduleWatchStop?.()}catch{}scheduleWatchStop=null;
-    let snapshot=await window.AiderDearFirebase.readScheduleData();
+  async function loadCalendarEvents(options={}){
+    const scope=siteScopeV191();if(!firebaseState.user?.uid)return;
+    if(siteSyncV191.scheduleLoad?.scope===scope)return siteSyncV191.scheduleLoad.promise;
+    if(!options.forceRead&&scheduleWatchStop&&siteSyncV191.scheduleScope===scope){renderCalendar();return}
+    const promise=(async()=>{
+    if(siteSyncV191.scheduleScope!==scope){try{scheduleWatchStop?.()}catch{}scheduleWatchStop=null;siteSyncV191.scheduleScope=scope}
+    let snapshot=await window.AiderDearFirebase.readScheduleData();assertSiteScopeV191(scope);
     let migrationChanged=false;
     if(!(snapshot.own||[]).length){
       const legacy=(Array.isArray(cloudData.scheduleEvents)?cloudData.scheduleEvents:[]).filter(row=>normalizeEmail(row.authorEmail)===currentUserEmail||(!row.authorEmail&&!mutualPartner()));
-      if(legacy.length){snapshot={...snapshot,own:legacy.map(row=>({...row,authorEmail:currentUserEmail,owner:row.owner==='shared'?'shared':'mine',pairKey:row.owner==='shared'?currentPairKey():''}))};await window.AiderDearFirebase.writeScheduleData(snapshot.own)}
+      if(legacy.length){snapshot={...snapshot,own:legacy.map(row=>({...row,authorEmail:currentUserEmail,owner:row.owner==='shared'?'shared':'mine',pairKey:row.owner==='shared'?currentPairKey():''}))};await window.AiderDearFirebase.writeScheduleData(snapshot.own);assertSiteScopeV191(scope)}
     }
     normalizeCloudData();if(!cloudData.scheduleMigrationByEmail[currentUserEmail]){cloudData.scheduleMigrationByEmail[currentUserEmail]=true;migrationChanged=true}
     const partnerEmail=normalizeEmail(sharedPartner()?.email||'');if((!partnerEmail||cloudData.scheduleMigrationByEmail[partnerEmail])&&cloudData.scheduleEvents.length){cloudData.scheduleEvents=[];migrationChanged=true}
     if(migrationChanged)await saveCloudData();
-    applyScheduleDataSnapshot(snapshot);scheduleWatchStop=window.AiderDearFirebase.watchScheduleData(applyScheduleDataSnapshot);
+    assertSiteScopeV191(scope);applyScheduleDataSnapshot(snapshot);if(!scheduleWatchStop)scheduleWatchStop=window.AiderDearFirebase.watchScheduleData(next=>{if(scope===siteScopeV191())applyScheduleDataSnapshot(next)});
+    })();siteSyncV191.scheduleLoad={scope,promise};
+    try{return await promise}catch(error){siteQuotaErrorV191(error);throw error}finally{if(siteSyncV191.scheduleLoad?.promise===promise)siteSyncV191.scheduleLoad=null}
   }
   async function createCalendarEvent(data){const id='schedule-'+Date.now()+'-'+Math.random().toString(36).slice(2,7),item={id,googleEventId:id,calendarId:'firebase-calendar',sourceTitle:'AiderLog',isAiderDear:true,isHoliday:false,...data,authorEmail:currentUserEmail,pairKey:data.owner==='shared'?currentPairKey():'',createdAt:Date.now(),updatedAt:Date.now()};ownScheduleEvents.push(item);await persistOwnScheduleEvents();return item}
   async function updateCalendarEvent(id,data){const index=ownScheduleEvents.findIndex(item=>item.id===id||item.googleEventId===id);if(index<0)throw new Error('수정할 일정을 찾지 못했습니다.');ownScheduleEvents[index]={...ownScheduleEvents[index],...data,pairKey:data.owner==='shared'?currentPairKey():'',updatedAt:Date.now()};await persistOwnScheduleEvents();return ownScheduleEvents[index]}
@@ -5915,16 +5996,16 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
 
   async function bootstrapGoogleData(){
     setGoogleStatus('AiderLog 데이터를 불러오는 중입니다…');
-    await refreshDdayData();
+    const bootScope=siteScopeV191();await refreshDdayData();assertSiteScopeV191(bootScope);
     const optionalErrors=[];cloudData={version:CLOUD_VERSION,calendarId:'',userCalendars:{},albumsBySpace:{},travelFoldersBySpace:{},records:[],coupleMediaBySpace:{},ddays:[],activeDdayBySpace:{},letters:[],bucketItems:[],eventReviews:[],partnerChoices:{},scheduleEvents:[]};try{await ensureCloudDrive();normalizeCloudData()}catch(error){optionalErrors.push(error);console.warn('Shared app data load skipped',error);normalizeCloudData()}
     // Private records are essential. Load them before optional calendar/media
     // integrations so a failed OAuth or sync request can never blank routines.
-    await loadPrivateData();
+    assertSiteScopeV191(bootScope);await loadPrivateData();assertSiteScopeV191(bootScope);
     try{await ensureCalendar();await loadCalendarList();await loadCalendarEvents()}catch(error){optionalErrors.push(error);console.warn('Calendar data load skipped',error)}
-    try{await refreshExternalCalendarStatus();startExternalCalendarAutoSync();await runExternalCalendarAutoSync(true)}catch(error){optionalErrors.push(error);console.warn('Automatic calendar sync bootstrap skipped',error)}
+    assertSiteScopeV191(bootScope);try{await refreshExternalCalendarStatus();assertSiteScopeV191(bootScope);startExternalCalendarAutoSync();await runExternalCalendarAutoSync(true)}catch(error){optionalErrors.push(error);console.warn('Automatic calendar sync bootstrap skipped',error)}
     try{await scanDriveMedia()}catch(error){optionalErrors.push(error);console.warn('Media scan skipped',error)}
-    try{await loadCoupleMedia()}catch(error){optionalErrors.push(error);console.warn('Shared media load skipped',error)}
-    try{friendAlbumWatchStop?.();friendAlbumWatchStop=window.AiderDearFirebase.watchSharedAlbums(rows=>{friendSharedAlbums=rows||[];renderAlbumFolders()});if(getAlbumFolders().some(folder=>folder.sharedWithFriends))await syncFriendAlbums()}catch(error){optionalErrors.push(error);console.warn('Friend album sync skipped',error)}
+    assertSiteScopeV191(bootScope);try{await loadCoupleMedia()}catch(error){optionalErrors.push(error);console.warn('Shared media load skipped',error)}
+    assertSiteScopeV191(bootScope);try{friendAlbumWatchStop?.();friendAlbumWatchStop=window.AiderDearFirebase.watchSharedAlbums(rows=>{if(bootScope!==siteScopeV191())return;friendSharedAlbums=rows||[];renderAlbumFolders()});if(getAlbumFolders().some(folder=>folder.sharedWithFriends))await syncFriendAlbums()}catch(error){optionalErrors.push(error);console.warn('Friend album sync skipped',error)}assertSiteScopeV191(bootScope);
     refreshRecordAlbumSelect(DEFAULT_ALBUM_ID);renderAlbumFolders();renderRecordFeed();renderEventArchive();renderTravelArchive();setDday();renderDdayList();renderPrivate();renderPersonal();renderEmotion();
     lastSyncAt=new Date();applyLoginUI();updateMailBadge();setGoogleStatus(`${googleProfile?.email||''}\nAiderLog 연결 완료 · ${lastSyncAt.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'})}${optionalErrors.length?' · 일부 연동은 설정에서 다시 연결':''}`,'ok');setTimeout(showUnreadLetterPopup,180);setTimeout(runMaintenancePrompts,950);
   }
@@ -6202,7 +6283,7 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   }
   async function calendarSyncRequest(action,payload={}){
     if(!window.AiderDearFirebase?.calendarSync)throw new Error('캘린더 연결 모듈을 불러오는 중입니다.');
-    return window.AiderDearFirebase.calendarSync.call(action,payload);
+    try{return await window.AiderDearFirebase.calendarSync.call(action,payload)}catch(error){siteQuotaErrorV191(error);throw error}
   }
   function renderExternalCalendarStatus(){
     const google=externalCalendarStatus.google||{connected:false},notion=externalCalendarStatus.notion||{connected:false};
@@ -6228,7 +6309,7 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
     externalCalendarStatus.google={connected:false,clientMode:false,needsReconnect:true,lastSyncedAt:Date.now(),calendarCount:sources.length,itemCount:result.added,lastError:''};renderExternalCalendarStatus();
   }
   async function runExternalCalendarAutoSync(force=false){
-    if(!currentUser||externalCalendarAutoSyncBusy||document.visibilityState==='hidden'||navigator.onLine===false)return;if(!force&&Date.now()-externalCalendarAutoSyncAt<300000)return;
+    if(!currentUser||externalCalendarAutoSyncBusy||document.visibilityState==='hidden'||navigator.onLine===false||siteSyncV191.blockedUntil>Date.now())return;if(!force&&Date.now()-externalCalendarAutoSyncAt<300000)return;
     const providers=['google','notion'].filter(provider=>externalCalendarStatus[provider]?.connected&&!(provider==='google'&&externalCalendarStatus.google?.clientMode));if(!providers.length)return;
     externalCalendarAutoSyncBusy=true;externalCalendarAutoSyncAt=Date.now();const actor=currentUserEmail;
     try{for(const provider of providers){if(actor!==currentUserEmail)return;await calendarSyncRequest('sync',{provider,force:false})}const snapshot=await window.AiderDearFirebase.readScheduleData();if(actor!==currentUserEmail)return;applyScheduleDataSnapshot(snapshot);externalCalendarStatus=await calendarSyncRequest('status');externalCalendarStatus.google=restoreGoogleClientStatus(externalCalendarStatus.google);renderExternalCalendarStatus()}catch(error){if(actor!==currentUserEmail)return;console.warn('Automatic calendar sync failed',error);if(externalCalendarStatus.google?.connected)externalCalendarStatus.google={...externalCalendarStatus.google,lastError:`자동 동기화 실패 · ${error.message||String(error)}`};renderExternalCalendarStatus()}finally{if(actor===currentUserEmail)externalCalendarAutoSyncBusy=false}
@@ -6390,6 +6471,7 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   }
   function resetFirebaseLocalSession(){
     clearPersonalMediaCacheV178();
+    Object.assign(siteSyncV191,{private:null,app:null,privateApplied:'',appApplied:'',privateSaving:0,appSaving:0,privateGeneration:0,appGeneration:0,privateFailed:false,appFailed:false,booting:false,lastAttempt:0,flight:null,privateLoad:null,scheduleLoad:null,scheduleScope:'',albumMembers:''});clearTimeout(cloudSaveTimer);cloudSaveTimer=null;
     stopPaperTaskWorkspaceWatch();try{scheduleWatchStop?.()}catch{}scheduleWatchStop=null;try{ephemeralMediaWatchStop?.()}catch{}ephemeralMediaWatchStop=null;try{friendAlbumWatchStop?.()}catch{}friendAlbumWatchStop=null;friendSharedAlbums=[];clearTimeout(ephemeralExpiryTimer);ephemeralMediaRows=[];ephemeralMediaIndex=0;googleToken='';googleProfile=null;currentUser='';currentUserEmail='';currentUserName='';isAdmin=false;events=[];ownScheduleEvents=[];partnerSharedScheduleEvents=[];driveRootId='';driveMediaFolderId='';driveDataFileId='';firebaseScopeKey='';
     privateData={};privateRefs={};privateOwner='';privateFeature='memo';schedulePersonFilters=new Set();showCoupleAgenda=true;clearInterval(clientGoogleSyncTimer);clientGoogleSyncTimer=null;clientGoogleSyncSources=[];googleCalendarWriteSources=[];clearInterval(externalCalendarAutoSyncTimer);externalCalendarAutoSyncTimer=null;externalCalendarAutoSyncBusy=false;externalCalendarAutoSyncAt=0;externalCalendarStatus={google:null,notion:null};calendarSyncReturnHandled=false;selectedConsultingClientId='';consultingClientQuery='';consultingFilterYear='';consultingFilterSemester='';consultingFileClientId='';taskPageIndex=0;try{consultingIntakeStop?.()}catch{}consultingIntakeStop=null;personalOverviewDays=7;personalComparePhotoIds=['',''];pomodoroTaskName='';if($('#pomodoroTaskName'))$('#pomodoroTaskName').value='';if(pomodoroTimer){clearInterval(pomodoroTimer);pomodoroTimer=null}pomodoroMode='focus';pomodoroSeconds=25*60;pomodoroInitialSeconds=25*60;if(personalPendingPreviewUrl)URL.revokeObjectURL(personalPendingPreviewUrl);personalPendingPreviewUrl='';personalPendingFile=null;for(const url of personalMediaUrlCache.values())URL.revokeObjectURL(url);personalMediaUrlCache.clear();
     cloudData={version:CLOUD_VERSION,calendarId:'',userCalendars:{},albumsBySpace:{},travelFoldersBySpace:{},records:[],coupleMediaBySpace:{},ddays:[],activeDdayBySpace:{},letters:[],bucketItems:[],eventReviews:[],partnerChoices:{},scheduleEvents:[]};activeCalendarId='';calendarSources=[];calendarImportSources=[];selectedCalendarIds=new Set();driveLooseMedia=[];
@@ -6421,15 +6503,21 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
     if(!firebaseState.user){if(currentUser)resetFirebaseLocalSession();applyLoginUI();window.AiderConsultV167?.render();return}
     const user=firebaseState.user,scope=`${user.uid}:${firebaseState.pair?.id||'solo'}`;
     googleProfile={email:user.email,name:user.name,picture:user.photoURL};currentUserEmail=normalizeEmail(user.email);currentUserName=storedDisplayName(currentUserEmail)||user.name||normalizeName('',currentUserEmail);currentUser='mine';isAdmin=false;googleToken='firebase-session';googleConfig.adminEmail='';googleConfig.partnerEmail=firebaseState.partner?.email||'';googleConfig.familyUsers=normalizeFamilyUsers([{email:currentUserEmail,name:currentUserName},...(firebaseState.partner?[{email:firebaseState.partner.email,name:firebaseState.partner.name}]:[])]);applyLoginUI();if(firebaseState.error)setGoogleStatus(firebaseState.error,'error');
-    if(scope===firebaseScopeKey){handleCalendarSyncReturn();if(currentUser&&getAlbumFolders().some(folder=>folder.sharedWithFriends))syncFriendAlbums().catch(()=>{});return}
+    const albumMembers=JSON.stringify([scope,...(firebaseState.friends||[]).map(row=>row.uid).sort()]);
+    const albumMembersChanged=siteSyncV191.albumMembers!==albumMembers;siteSyncV191.albumMembers=albumMembers;
+    if(scope===firebaseScopeKey){handleCalendarSyncReturn();if(albumMembersChanged&&currentUser&&!siteSyncV191.booting&&getAlbumFolders().some(folder=>folder.sharedWithFriends))syncFriendAlbums().catch(()=>{});return}
     firebaseScopeKey=scope;firebaseBootstrapPromise=(firebaseBootstrapPromise||Promise.resolve()).catch(()=>{}).then(async()=>{
-      try{await bootstrapGoogleData();syncGenderUI();if(currentUserGender()&&firebaseState.user?.birthDate){closeModal('loginModal');setTimeout(showAccountGuides,120)}else{selectAccountSettings('profile');openModal('loginModal');setTimeout(()=>$('#loginGenderSelect')?.focus(),80);toast('닉네임·성별·생년월일을 저장해주세요.')}await handleCalendarSyncReturn();toast(`${currentUserName}님, 환영합니다.`);const pending=pendingAfterLogin;pendingAfterLogin=null;if(pending)setTimeout(pending,80)}catch(err){setGoogleStatus(googleErrorMessage(err),'error')}
+      if(scope!==siteScopeV191())return;siteSyncV191.booting=true;
+      try{await bootstrapGoogleData();assertSiteScopeV191(scope);syncGenderUI();if(currentUserGender()&&firebaseState.user?.birthDate){closeModal('loginModal');setTimeout(showAccountGuides,120)}else{selectAccountSettings('profile');openModal('loginModal');setTimeout(()=>$('#loginGenderSelect')?.focus(),80);toast('닉네임·성별·생년월일을 저장해주세요.')}await handleCalendarSyncReturn();toast(`${currentUserName}님, 환영합니다.`);const pending=pendingAfterLogin;pendingAfterLogin=null;if(pending)setTimeout(pending,80)}catch(err){siteQuotaErrorV191(err);if(scope===siteScopeV191())setGoogleStatus(googleErrorMessage(err),'error')}
+      finally{if(scope===siteScopeV191()){siteSyncV191.booting=false;queueMicrotask(flushSiteSnapshotsV191)}}
     });
     await firebaseBootstrapPromise;
   }
-  function attachFirebaseBridge(){const api=window.AiderDearFirebase;if(!api)return false;api.subscribe(handleFirebaseState);return true}
+  function attachFirebaseBridge(){const api=window.AiderDearFirebase;if(!api)return false;if(siteSyncV191.bridge===api)return true;siteSyncV191.bridge=api;api.subscribe(handleFirebaseState);return true}
   window.addEventListener('aiderdear-firebase-ready',attachFirebaseBridge,{once:true});attachFirebaseBridge();
-  window.addEventListener('aiderdear-firebase-data',event=>{const detail=event.detail||{};if(!currentUser||!driveDataFileId||detail.scope!==firebaseScopeKey||detail.updatedBy===firebaseState.user?.uid)return;syncFromGoogle(false)});
+  window.addEventListener('aiderdear-firebase-data',event=>receiveSiteSnapshotV191('app',event.detail||{}));
+  window.addEventListener('aiderdear-firebase-private-data',event=>receiveSiteSnapshotV191('private',event.detail||{}));
+  window.addEventListener('aiderdear-firebase-listener-status',event=>receiveSiteListenerStatusV191(event.detail||{}));
   $('#googleLoginBtn').addEventListener('click',async()=>{try{setGoogleStatus('Google 로그인 창을 여는 중입니다…');await window.AiderDearFirebase.login()}catch(err){setGoogleStatus(err.message||String(err),'error')}});
   $('#loginNicknameForm').addEventListener('submit',async e=>{e.preventDefault();if(!currentUserEmail)return;const name=$('#loginNicknameInput').value.trim(),gender=$('#loginGenderSelect').value,birthDate=$('#loginBirthDate').value,birthCalendar=$('#loginBirthCalendar').value,birthLeap=$('#loginBirthLeap').checked;if(!['female','male'].includes(gender)){toast('성별을 선택해주세요.');return}if(!/^\d{4}-\d{2}-\d{2}$/.test(birthDate)){toast('생년월일을 입력해주세요.');return}try{currentUserName=name||currentUserName;localStorage.setItem(displayNameStorageKey(currentUserEmail),currentUserName);const profile=await window.AiderDearFirebase.updateProfileSettings({name:currentUserName,gender,birthDate,birthCalendar,birthLeap});currentUserName=profile.name;const data=privateData[currentUserEmail]||(privateData[currentUserEmail]=blankPrivateData(currentUserEmail,currentUserName));data.profile={...data.profile,name:profile.name,gender:profile.gender,birthDate:profile.birthDate,birthCalendar:profile.birthCalendar,birthLeap:profile.birthLeap};await savePrivateData(currentUserEmail);applyLoginUI();renderPersonal();renderCalendar();closeModal('loginModal');setTimeout(showAccountGuides,120);toast('프로필과 생일을 저장했습니다. 연결된 사람의 AiderLog 캘린더에 생일이 표시됩니다.')}catch(err){toast(googleErrorMessage(err))}});
   $('#firebaseInviteForm').addEventListener('submit',async e=>{e.preventDefault();const input=$('#firebaseInviteEmail');try{await window.AiderDearFirebase.createInvite(input.value);const site=location.origin+location.pathname;input.value='';try{await navigator.clipboard.writeText(site);toast('커플 요청을 보냈고 앱 주소를 복사했습니다.')}catch{toast('커플 요청을 보냈습니다. 상대에게 이 앱 주소를 알려주세요.')}}catch(err){toast(err.message||String(err))}});
@@ -6843,21 +6931,27 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   $('[data-close="albumLightbox"]')?.addEventListener('click',()=>$('#albumLightboxVideo').pause());
 
   async function syncFromGoogle(force=false){
-    if(!currentUser||!googleToken||!driveDataFileId)return;
-    if(!force&&document.querySelector('.overlay.open'))return;
-    try{
-      await loadPrivateData();await driveLoadJsonFile();renderPartnerMatchStatus();await ensureCalendar();await loadCalendarList();await loadCalendarEvents();await scanDriveMedia();refreshRecordAlbumSelect($('#recordAlbumFolder')?.value||DEFAULT_ALBUM_ID);renderRecordFeed();renderAlbumFolders();renderEventArchive();renderTravelArchive();renderBucketList();setDday();renderDdayList();renderPrivate();renderPersonal();renderEmotion();renderMailbox();updateMailBadge();
+    if(!currentUser||!googleToken||!driveDataFileId||document.visibilityState==='hidden'||navigator.onLine===false)return;
+    flushSiteSnapshotsV191();const scope=siteScopeV191();
+    if(siteSyncV191.flight?.scope===scope)return siteSyncV191.flight.promise;
+    if(siteSyncV191.blockedUntil>Date.now()){if(force)toast('Firebase 일일 사용량 제한으로 잠시 기다리는 중입니다. 입력한 기록은 그대로 유지됩니다.');return}
+    if(siteSyncV191.booting||siteSyncV191.privateSaving||siteSyncV191.appSaving||siteSyncV191.privateFailed||siteSyncV191.appFailed||cloudSaveTimer)return;
+    if(!force&&(siteEditorOpenV191()||Date.now()-siteSyncV191.lastAttempt<10*60*1000||(siteSyncV191.private?.healthy&&siteSyncV191.app?.healthy&&siteSyncV191.private.uid===firebaseState.user?.uid&&siteSyncV191.app.scope===scope)))return;
+    siteSyncV191.lastAttempt=Date.now();const promise=(async()=>{try{
+      if(force||!siteSyncV191.private?.healthy||siteSyncV191.private.uid!==firebaseState.user?.uid)await loadPrivateData({forceRead:true});assertSiteScopeV191(scope);
+      if(force||!siteSyncV191.app?.healthy||siteSyncV191.app.scope!==scope)await driveLoadJsonFile({forceRead:true,migrate:false});assertSiteScopeV191(scope);await ensureCalendar();await loadCalendarList();await loadCalendarEvents({forceRead:force});assertSiteScopeV191(scope);renderAppSnapshotV191();renderPrivateSnapshotV191();
       lastSyncAt=new Date();setGoogleStatus(`${googleProfile?.email||''}\n동기화 완료 · ${lastSyncAt.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'})}`,'ok');if(force)toast('데이터를 새로고침했습니다.');
-    }catch(err){setGoogleStatus(googleErrorMessage(err),'error');if(force)toast(googleErrorMessage(err))}
+    }catch(err){siteQuotaErrorV191(err);if(scope===siteScopeV191()){setGoogleStatus(googleErrorMessage(err),'error');if(force)toast(googleErrorMessage(err))}}})();siteSyncV191.flight={scope,promise};
+    try{return await promise}finally{if(siteSyncV191.flight?.promise===promise)siteSyncV191.flight=null}
   }
   $('#syncBtn').addEventListener('click',()=>{if(!currentUser){requireLogin(()=>syncFromGoogle(true));return}syncFromGoogle(true)});
   $('#syncNowBtn').addEventListener('click',()=>syncFromGoogle(true));
-  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'){syncFromGoogle();runExternalCalendarAutoSync(false)}});
-  window.addEventListener('online',()=>runExternalCalendarAutoSync(false));
-  window.addEventListener('focus',()=>runExternalCalendarAutoSync(false));
-  window.addEventListener('focus',()=>runExternalCalendarAutoSync(false));
-  window.addEventListener('online',()=>runExternalCalendarAutoSync(true));
-  setInterval(syncFromGoogle,60000);
+  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'){flushSiteSnapshotsV191();syncFromGoogle();runExternalCalendarAutoSync(false)}});
+  window.addEventListener('online',()=>{syncFromGoogle();runExternalCalendarAutoSync(false)});
+  window.addEventListener('focus',()=>{flushSiteSnapshotsV191();runExternalCalendarAutoSync(false)});
+  document.addEventListener('focusout',()=>setTimeout(flushSiteSnapshotsV191,0));
+  document.addEventListener('click',()=>queueMicrotask(flushSiteSnapshotsV191));
+  setInterval(()=>syncFromGoogle(false),10*60*1000);
 
   let recordPageIndex=0,recordFlipLocked=false;
   function goRecordPage(next,force=false){
@@ -8030,9 +8124,10 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   function consultingNoteField(note,label){const match=String(note||'').match(new RegExp(`${label}\\s*·\\s*([^\\n]+)`));return String(match?.[1]||'').trim()}
   function consultingUniversityYears(value){const text=String(value||'').trim();return ({'2':'2','2년제':'2','3':'3','3년제':'3','4':'4','4년제':'4','5':'5','5년제':'5','6':'6','6년제':'6',other:'other','기타':'other'})[text]||''}
   function consultingMilitaryStatus(value){const text=String(value||'').trim();return ({completed:'completed','군필':'completed',pending:'pending','미필':'pending',exempt:'exempt','면제':'exempt',serving:'serving','복무 중':'serving'})[text]||''}
-  async function startConsultingIntakeWatch(){
+  async function startConsultingIntakeWatch(force=false){
     try{consultingIntakeStop?.()}catch{}consultingIntakeStop=null;
-    return window.AiderConsultIntakeV168?.sync(true);
+    if(document.visibilityState==='hidden'||siteSyncV191.blockedUntil>Date.now())return;
+    return window.AiderConsultIntakeV168?.sync(force);
   }
   window.addEventListener('aiderlog-intakes-imported-v168',async event=>{
     if(event.detail.uid!==firebaseState.user?.uid)return;
@@ -8177,7 +8272,7 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
     },
     refresh:async()=>{const uid=firebaseState.user?.uid,payload=await window.AiderDearFirebase.readPrivateData();if(!uid||uid!==firebaseState.user?.uid)throw Error('계정이 변경되었습니다.');privateData[currentUserEmail]=normalizePrivateData(payload,currentUserEmail,currentUserName);return structuredClone(privateData[currentUserEmail]);},
     openIntake:()=>openConsultingShare(),
-    importIntake:()=>startConsultingIntakeWatch(),
+    importIntake:()=>startConsultingIntakeWatch(true),
     openAdmissions:()=>goTaskPage(1,true),
     legacyAnalysis:clientId=>{selectedConsultingClientId=clientId;graduateFitSelectedClientId=clientId;openGraduateFit();},
     selectedId:()=>selectedConsultingClientId,
@@ -8188,55 +8283,55 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
     normalizeCloudData();selectAlbumFolderColor(ALBUM_PASTELS[0]);getAlbumFolders();refreshRecordAlbumSelect(DEFAULT_ALBUM_ID);renderAlbumFolders();renderEventArchive();renderTravelArchive();renderPrivate();renderPersonal();renderPaper();renderConsultingWorkspace();renderEmotion();applyLoginUI();setDday();renderDdayList();renderCalendar();if(location.hash==='#search')setTimeout(openSearchFromQuick,0);if('serviceWorker' in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'}).then(registration=>registration.update()).catch(()=>{}));
 })();
 </script>
-<script src="./paper-workspace-v121.js?v=190"></script>
-<script src="./paper-v159.js?v=190"></script>
-<link rel="stylesheet" href="./consult-v167.css?v=190">
-<script src="./consult-model-v167.js?v=190"></script>
-<script src="./work-calendar-v168.js?v=190"></script>
-<script src="./storage-maintenance-v168.js?v=190"></script>
-<script src="./consult-intake-v168.js?v=190"></script>
-<script src="./consult-deeplink-v168.js?v=190"></script>
-<script src="./consult-v167.js?v=190"></script>
-<script src="./work-client-v167.js?v=190"></script>
-<script src="./site-work-v167.js?v=190"></script>
-<script src="./site-polish-v158.js?v=190"></script>
-<script src="./site-editions-v164.js?v=190"></script>
-<script src="./site-layout-v165.js?v=190"></script>
-<link rel="stylesheet" href="./site-ui-v167.css?v=190">
-<script src="./site-ui-v167.js?v=190"></script>
-<script src="./widget-sync-v162.js?v=190"></script>
+<script src="./paper-workspace-v121.js?v=191"></script>
+<script src="./paper-v159.js?v=191"></script>
+<link rel="stylesheet" href="./consult-v167.css?v=191">
+<script src="./consult-model-v167.js?v=191"></script>
+<script src="./work-calendar-v168.js?v=191"></script>
+<script src="./storage-maintenance-v168.js?v=191"></script>
+<script src="./consult-intake-v168.js?v=191"></script>
+<script src="./consult-deeplink-v168.js?v=191"></script>
+<script src="./consult-v167.js?v=191"></script>
+<script src="./work-client-v167.js?v=191"></script>
+<script src="./site-work-v167.js?v=191"></script>
+<script src="./site-polish-v158.js?v=191"></script>
+<script src="./site-editions-v164.js?v=191"></script>
+<script src="./site-layout-v165.js?v=191"></script>
+<link rel="stylesheet" href="./site-ui-v167.css?v=191">
+<script src="./site-ui-v167.js?v=191"></script>
+<script src="./widget-sync-v162.js?v=191"></script>
 
-<link rel="stylesheet" href="./site-typography-v169.css?v=190">
-<script src="./site-typography-v169.js?v=190"></script>
-<link rel="stylesheet" href="./estate-v171.css?v=190">
-<link rel="stylesheet" href="./estate-directory-v171.css?v=190">
-<link rel="stylesheet" href="./estate-workflow-v171.css?v=190">
-<link rel="stylesheet" href="./estate-calendar-view-v172.css?v=190">
-<link rel="stylesheet" href="./estate-cobroker-v173.css?v=190">
-<script type="module" src="./estate-v171.js?v=190"></script>
-<script type="module" src="./estate-calendar-v171.js?v=190"></script>
-<script src="./app-estate-handoff-v180.js?v=190"></script>
-<link rel="stylesheet" href="./site-calendar-v172.css?v=190">
-<script src="./site-calendar-v172.js?v=190"></script>
-<link rel="stylesheet" href="./site-panels-v172.css?v=190">
-<script src="./site-panels-v172.js?v=190"></script>
-<link rel="stylesheet" href="./site-calendar-v175.css?v=190">
-<script src="./site-calendar-v175.js?v=190"></script>
-<link rel="stylesheet" href="./private-calendar-v175.css?v=190">
-<link rel="stylesheet" href="./business-calendar-v175.css?v=190">
-<link rel="stylesheet" href="./site-calendar-v179.css?v=190">
-<link rel="stylesheet" href="./schedule-editor-v179.css?v=190">
-<script type="module" src="./private-calendar-ui-v175.js?v=190"></script>
-<link rel="stylesheet" href="./friend-schedule-v175.css?v=190">
-<link rel="stylesheet" href="./shared-schedule-v176.css?v=190">
-<link rel="stylesheet" href="./dday-display-v176.css?v=190">
-<script src="./friend-schedule-ui-v175.js?v=190"></script>
-<link rel="stylesheet" href="./photo-attachments-v176.css?v=190">
+<link rel="stylesheet" href="./site-typography-v169.css?v=191">
+<script src="./site-typography-v169.js?v=191"></script>
+<link rel="stylesheet" href="./estate-v171.css?v=191">
+<link rel="stylesheet" href="./estate-directory-v171.css?v=191">
+<link rel="stylesheet" href="./estate-workflow-v171.css?v=191">
+<link rel="stylesheet" href="./estate-calendar-view-v172.css?v=191">
+<link rel="stylesheet" href="./estate-cobroker-v173.css?v=191">
+<script type="module" src="./estate-v171.js?v=191"></script>
+<script type="module" src="./estate-calendar-v171.js?v=191"></script>
+<script src="./app-estate-handoff-v180.js?v=191"></script>
+<link rel="stylesheet" href="./site-calendar-v172.css?v=191">
+<script src="./site-calendar-v172.js?v=191"></script>
+<link rel="stylesheet" href="./site-panels-v172.css?v=191">
+<script src="./site-panels-v172.js?v=191"></script>
+<link rel="stylesheet" href="./site-calendar-v175.css?v=191">
+<script src="./site-calendar-v175.js?v=191"></script>
+<link rel="stylesheet" href="./private-calendar-v175.css?v=191">
+<link rel="stylesheet" href="./business-calendar-v175.css?v=191">
+<link rel="stylesheet" href="./site-calendar-v179.css?v=191">
+<link rel="stylesheet" href="./schedule-editor-v179.css?v=191">
+<script type="module" src="./private-calendar-ui-v175.js?v=191"></script>
+<link rel="stylesheet" href="./friend-schedule-v175.css?v=191">
+<link rel="stylesheet" href="./shared-schedule-v176.css?v=191">
+<link rel="stylesheet" href="./dday-display-v176.css?v=191">
+<script src="./friend-schedule-ui-v175.js?v=191"></script>
+<link rel="stylesheet" href="./photo-attachments-v176.css?v=191">
 <style id="site-search-icon-v176">
 html:not(.aiderlog-android) #app #searchBtn .site-search-icon-v176{display:block;width:22px!important;height:22px!important;flex:none;margin:auto;pointer-events:none}
 </style>
-<link rel="stylesheet" href="./site-investment-v190.css?v=190">
-<script type="module" src="./assets-client-v190.js?v=190"></script>
-<script src="./site-investment-v190.js?v=190"></script>
+<link rel="stylesheet" href="./site-investment-v190.css?v=191">
+<script type="module" src="./assets-client-v190.js?v=191"></script>
+<script src="./site-investment-v190.js?v=191"></script>
 </body>
 </html>

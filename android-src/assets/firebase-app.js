@@ -31,11 +31,11 @@ import {
   deleteDoc,
   deleteField,
   doc,
-  getDoc,
+  getDoc as firebaseGetDocV191,
   getDocs,
   getFirestore,
   limit,
-  onSnapshot,
+  onSnapshot as firebaseOnSnapshotV191,
   orderBy,
   query,
   runTransaction,
@@ -59,6 +59,114 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 auth.languageCode = 'ko';
+
+// Share simultaneous reads only; discard their results after an auth change.
+const pendingDocumentReadsV191 = new Map();
+let readGenerationV191 = 0;
+function getDoc(ref) {
+  const generation = readGenerationV191, uid = auth.currentUser?.uid || '';
+  const key = `${generation}:${uid}:${ref.path}`;
+  if (pendingDocumentReadsV191.has(key)) return pendingDocumentReadsV191.get(key);
+  const task = firebaseGetDocV191(ref).then(snapshot => {
+    if (generation !== readGenerationV191 || uid !== (auth.currentUser?.uid || '')) {
+      throw Object.assign(new Error('계정이 변경되었습니다. 다시 불러와주세요.'), {code:'cancelled'});
+    }
+    return snapshot;
+  });
+  pendingDocumentReadsV191.set(key, task);
+  task.finally(() => { if (pendingDocumentReadsV191.get(key) === task) pendingDocumentReadsV191.delete(key); }).catch(() => {});
+  return task;
+}
+
+// Managed snapshot recovery. A quota failure pauses new/retried listeners for
+// thirty minutes; permission errors stay terminal. No persisted data cache.
+const managedSnapshotListenersV191 = new Set();
+const LISTENER_QUOTA_DELAY_V191 = 30 * 60 * 1000;
+let listenerQuotaUntilV191 = 0;
+let listenerRecoveryEventsV191 = false;
+function recoverSnapshotsV191() {
+  for (const listener of managedSnapshotListenersV191) listener.recover();
+}
+function listenerStatusV191(ref, uid, healthy, retryAt, code) {
+  const path = String(ref?.path || ''), privateMatch = /^users\/([^/]+)\/private\/main$/.exec(path);
+  const soloMatch = /^users\/([^/]+)\/app\/main$/.exec(path), pairMatch = /^pairs\/([^/]+)\/app\/main$/.exec(path);
+  const kind = privateMatch ? 'private' : soloMatch || pairMatch ? 'app' : 'other';
+  const scope = kind === 'app' ? `${uid}:${pairMatch?.[1] || 'solo'}` : `${uid}:solo`;
+  window.dispatchEvent(new CustomEvent('aiderdear-firebase-listener-status', {detail:{
+    kind, uid, scope, healthy, retryAt, code: String(code || ''),
+  }}));
+}
+function onSnapshot(ref, next, failed) {
+  const uid = auth.currentUser?.uid || '', generation = readGenerationV191;
+  const record = {closed:false, stop:null, timer:null, attempt:0, retryAt:0, quota:false, recover:null, unsubscribe:null};
+  const current = () => !record.closed && generation === readGenerationV191 && uid === (auth.currentUser?.uid || '');
+  const available = () => document.visibilityState !== 'hidden' && navigator.onLine !== false;
+  const clearTimer = () => { if (record.timer !== null) clearTimeout(record.timer); record.timer = null; };
+  const stopNative = () => { record.attempt++; try { record.stop?.(); } catch {} record.stop = null; };
+  const schedule = () => {
+    clearTimer();
+    if (!current() || !record.quota) return;
+    record.retryAt = Math.max(record.retryAt, listenerQuotaUntilV191);
+    const delay = record.retryAt - Date.now();
+    if (delay > 0) record.timer = setTimeout(() => { record.timer = null; record.recover(); }, delay);
+  };
+  const fail = error => {
+    if (!current()) return;
+    stopNative(); clearTimer();
+    record.quota = /resource-exhausted|quota|할당량|일일.*한도/i.test(String(error?.code || '') + ' ' + String(error?.message || ''));
+    if (record.quota) listenerQuotaUntilV191 = Math.max(listenerQuotaUntilV191, Date.now() + LISTENER_QUOTA_DELAY_V191);
+    record.retryAt = record.quota ? listenerQuotaUntilV191 : 0;
+    listenerStatusV191(ref, uid, false, record.retryAt, error?.code);
+    schedule();
+    if (typeof failed === 'function') failed(error);
+  };
+  const start = () => {
+    if (!current()) { record.unsubscribe(); return; }
+    clearTimer();
+    if (listenerQuotaUntilV191 > Date.now()) {
+      record.quota = true; record.retryAt = listenerQuotaUntilV191;
+      listenerStatusV191(ref, uid, false, record.retryAt, 'resource-exhausted'); schedule(); return;
+    }
+    record.quota = false; record.retryAt = 0;
+    const attempt = ++record.attempt;
+    const receive = snapshot => {
+      if (!current() || attempt !== record.attempt) return;
+      listenerStatusV191(ref, uid, true, 0, '');
+      next(snapshot);
+    };
+    const failure = error => { if (current() && attempt === record.attempt) fail(error); };
+    try {
+      // Confirmed metadata transitions must follow ignored local-pending data.
+      const metadata = /^(?:users|pairs)\/[^/]+\/(?:app|private)\/main$/.test(String(ref?.path || ''));
+      const stop = metadata ? firebaseOnSnapshotV191(ref, {includeMetadataChanges:true}, receive, failure) : firebaseOnSnapshotV191(ref, receive, failure);
+      if (!current() || attempt !== record.attempt) { try { stop?.(); } catch {} }
+      else record.stop = stop;
+    } catch (error) { failure(error); }
+  };
+  record.recover = () => {
+    if (!current()) { record.unsubscribe(); return; }
+    if (!record.quota || !record.retryAt) return;
+    if (Math.max(record.retryAt, listenerQuotaUntilV191) > Date.now()) { schedule(); return; }
+    if (available()) start();
+  };
+  record.unsubscribe = () => {
+    if (record.closed) return;
+    record.closed = true; clearTimer(); stopNative(); managedSnapshotListenersV191.delete(record);
+    if (!managedSnapshotListenersV191.size && listenerRecoveryEventsV191) {
+      document.removeEventListener('visibilitychange', recoverSnapshotsV191);
+      window.removeEventListener('online', recoverSnapshotsV191);
+      listenerRecoveryEventsV191 = false;
+    }
+  };
+  managedSnapshotListenersV191.add(record);
+  if (!listenerRecoveryEventsV191) {
+    listenerRecoveryEventsV191 = true;
+    document.addEventListener('visibilitychange', recoverSnapshotsV191);
+    window.addEventListener('online', recoverSnapshotsV191);
+  }
+  start();
+  return record.unsubscribe;
+}
 
 let persistenceSetupV176=null;
 function prepareLoginPersistenceV176(){
@@ -96,6 +204,8 @@ let unsubscribeFriendIncoming = null;
 let unsubscribeFriendOutgoing = null;
 let unsubscribeDirectLetters = null;
 let unsubscribeAppData = null;
+let unsubscribePrivateDataV191 = null;
+let privateDataScopeV191 = '';
 let unsubscribeOwnSchedule = null;
 let unsubscribePartnerSchedule = null;
 let appDataScopeKey = '';
@@ -147,11 +257,16 @@ function emit() {
 }
 
 function stopListeners() {
-  [unsubscribePairs, unsubscribeIncoming, unsubscribeOutgoing, unsubscribeFriends, unsubscribeFriendIncoming, unsubscribeFriendOutgoing, unsubscribeDirectLetters, unsubscribeAppData, unsubscribeOwnSchedule, unsubscribePartnerSchedule].forEach(stop => {
+  for (const listener of [...managedSnapshotListenersV191]) listener.unsubscribe();
+  [unsubscribePairs, unsubscribeIncoming, unsubscribeOutgoing, unsubscribeFriends, unsubscribeFriendIncoming, unsubscribeFriendOutgoing, unsubscribeDirectLetters, unsubscribeAppData, unsubscribePrivateDataV191, unsubscribeOwnSchedule, unsubscribePartnerSchedule].forEach(stop => {
     try { stop?.(); } catch {}
   });
   unsubscribePairs = unsubscribeIncoming = unsubscribeOutgoing = unsubscribeFriends = unsubscribeFriendIncoming = unsubscribeFriendOutgoing = unsubscribeDirectLetters = unsubscribeAppData = unsubscribeOwnSchedule = unsubscribePartnerSchedule = null;
   appDataScopeKey = '';
+  unsubscribePrivateDataV191 = null;
+  privateDataScopeV191 = '';
+  readGenerationV191 += 1;
+  pendingDocumentReadsV191.clear();
   pairRows = [];
   incomingRows = [];
   outgoingRows = [];
@@ -171,19 +286,45 @@ function watchAppData() {
     ? doc(db, 'pairs', state.pair.id, 'app', 'main')
     : doc(db, 'users', state.user.uid, 'app', 'main');
   unsubscribeAppData = onSnapshot(ref, snapshot => {
-    if (!snapshot.exists()) return;
-    const data = snapshot.data();
+    if (scopeKey !== appDataScopeKey || !state.user || !scopeKey.startsWith(state.user.uid + ':')) return;
+    const data = snapshot.data() || {};
     window.dispatchEvent(new CustomEvent('aiderdear-firebase-data', {
       detail: {
         scope: scopeKey,
         updatedBy: String(data.updatedBy || ''),
         updatedAt: timestampValue(data.updatedAt),
+        exists: snapshot.exists(),
+        payload: snapshot.exists() ? decodeArchive(data.payload) || null : null,
+        hasPendingWrites: Boolean(snapshot.metadata?.hasPendingWrites),
+        fromCache: Boolean(snapshot.metadata?.fromCache),
       },
     }));
   }, error => {
     state.error = error.message;
     emit();
   });
+}
+
+function watchPrivateDataV191() {
+  const uid = state.user?.uid;
+  if (!uid || privateDataScopeV191 === uid) return;
+  try { unsubscribePrivateDataV191?.(); } catch {}
+  privateDataScopeV191 = uid;
+  unsubscribePrivateDataV191 = onSnapshot(doc(db, 'users', uid, 'private', 'main'), snapshot => {
+    if (privateDataScopeV191 !== uid || state.user?.uid !== uid || auth.currentUser?.uid !== uid) return;
+    const data = snapshot.data() || {};
+    window.dispatchEvent(new CustomEvent('aiderdear-firebase-private-data', {detail: {
+      uid, exists: snapshot.exists(), payload: snapshot.exists() ? decodeArchive(data.payload) || null : null,
+      updatedAt: timestampValue(data.updatedAt),
+      hasPendingWrites: Boolean(snapshot.metadata?.hasPendingWrites),
+      fromCache: Boolean(snapshot.metadata?.fromCache),
+    }}));
+  }, error => { if (state.user?.uid === uid) { state.error = error.message; emit(); } });
+}
+
+function acceptPrivateSnapshot({uid, payload} = {}) {
+  if (uid !== requireUser().uid) throw new Error('계정이 변경되었습니다.');
+  return consultSyncV167.remember(uid, payload == null ? null : JSON.parse(JSON.stringify(payload)));
 }
 
 function recomputeState() {
@@ -224,6 +365,7 @@ function recomputeState() {
   state.friendOutgoing = friendOutgoingRows.filter(row => row.status === 'pending').sort((a, b) => timestampValue(b.createdAt) - timestampValue(a.createdAt));
   state.directLetters = directLetterRows.sort((a, b) => Number(b.createdAt || 0) - Number(a.createdAt || 0));
   watchAppData();
+  watchPrivateDataV191();
   emit();
 }
 
@@ -231,10 +373,9 @@ async function ensureUserProfile(user) {
   const ref = doc(db, 'users', user.uid);
   const saved = plainDoc(await getDoc(ref)) || {};
   const profile = publicUser(user, saved);
-  await setDoc(ref, {
-    ...profile,
-    updatedAt: serverTimestamp(),
-  }, { merge: true });
+  if (Object.entries(profile).some(([key,value]) => saved[key] !== value)) {
+    await setDoc(ref, {...profile, updatedAt: serverTimestamp()}, { merge: true });
+  }
   return profile;
 }
 
@@ -261,6 +402,7 @@ async function propagateMemberProfile(profile) {
           } : member)
         : [];
       if (!memberProfiles.some(member => member.uid === profile.uid)) return;
+      if (JSON.stringify(memberProfiles) === JSON.stringify(data.memberProfiles)) return;
       batch.update(snapshot.ref, { memberProfiles, updatedAt: serverTimestamp() });
       changed += 1;
     });
@@ -1424,10 +1566,14 @@ async function getFirebaseIdToken(forceRefresh = false) {
   return auth.currentUser.getIdToken(Boolean(forceRefresh));
 }
 
-async function readPrivateData() {
+async function readPrivateData({remember = true} = {}) {
   const user = requireUser();
   const snapshot = await getDoc(doc(db, 'users', user.uid, 'private', 'main'));
-  return consultSyncV167.remember(user.uid, snapshot.exists() ? decodeArchive(snapshot.data().payload) || null : null);
+  const payload = snapshot.exists() ? decodeArchive(snapshot.data().payload) || null : null;
+  if (remember) return acceptPrivateSnapshot({uid:user.uid, payload});
+  // Buffered reads must not advance the edit baseline before the UI accepts them.
+  if (requireUser().uid !== user.uid || auth.currentUser?.uid !== user.uid) throw new Error('계정이 변경되었습니다.');
+  return payload == null ? null : JSON.parse(JSON.stringify(payload));
 }
 
 const consultSyncV167 = createConsultSync({
@@ -1449,6 +1595,7 @@ const consultSyncV167 = createConsultSync({
       if(auth.currentUser?.uid!==uid)throw Error('계정이 변경되었습니다.');
       for(const key of CONSULT_KEYS){if(Object.hasOwn(current,key))next[key]=current[key];else delete next[key];}
       Object.assign(next,mergePrivateNotesV179(current,incoming,noteBaseline));
+      if (snap.exists() && JSON.stringify(current) === JSON.stringify(next)) return next;
       if(snap.exists()){
         const fields=[new FieldPath('updatedAt'),serverTimestamp(),new FieldPath('storageVersion'),168,new FieldPath('formatWrittenAt'),serverTimestamp()];
         for(const [key,value] of Object.entries(next))if(!CONSULT_KEYS.includes(key))fields.push(new FieldPath('payload',key),encodeArchive(value));
@@ -2475,6 +2622,7 @@ const api = {
   removeFriendSchedule: friendScheduleAdapterV175.remove,
   getFirebaseIdToken,
   readPrivateData,
+  acceptPrivateSnapshot,
   writePrivateData,
   applyWidgetActionV165,
   mutateChecklistV179,

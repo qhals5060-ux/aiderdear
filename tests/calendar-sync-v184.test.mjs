@@ -32,6 +32,15 @@ test('pending refresh is shared and stale account response is rejected',async()=
  f.user('bob');resolve({ok:true,json:async()=>({google:{connected:true,serverMode:true}})});
  await assert.rejects(one,/계정이 변경/);await assert.rejects(two,/계정이 변경/);
 });
+
+test('quota failure pauses automatic calendar requests for 30 minutes and account changes clear the pause',async()=>{
+ let calls=0;const f=fixture({fetch:async()=>{calls++;return {ok:false,status:503,json:async()=>({code:'resource-exhausted',error:'Firebase 무료 사용량 한도'})}}});
+ await assert.rejects(f.client.refresh(),e=>e.code==='resource-exhausted');assert.equal(calls,1);
+ f.tick(CALENDAR_REFRESH_MS);await f.client.refresh();assert.equal(calls,1);
+ await assert.rejects(f.client.refresh({force:true}),e=>e.code==='resource-exhausted');assert.equal(calls,1);
+ f.tick(30*60*1000);await assert.rejects(f.client.refresh());assert.equal(calls,2);
+ f.user('bob');await assert.rejects(f.client.refresh());assert.equal(calls,3);
+});
 test('revoked server connection is not represented as live by a cached import',()=>{
  assert.equal(restoredCalendarStatus({connected:false,serverMode:true},true).connected,false);
  assert.equal(restoredCalendarStatus({},true).needsReconnect,true);
@@ -48,6 +57,13 @@ test('server merge preserves concurrent local records, replaces deleted imports 
 });
 const source=fs.readFileSync(new URL('../api/calendar-sync.mjs',import.meta.url),'utf8');
 function sourceFunction(name,next){const a=source.indexOf(`async function ${name}(`),b=source.indexOf(`\n${next}`,a);assert(a>=0&&b>a);return source.slice(a,b);}
+
+test('Notion automatic sync reuses recent result but explicit sync still fetches and preserves records',async()=>{
+ let fetches=0,writes=0;const now=Date.now(),context={Date,integrationRef:()=>({get:async()=>({data:()=>({accessToken:'fixture-token',sourceId:'db',itemCount:4,lastSyncedAt:{toMillis:()=>now}})}),set:async()=>{writes++}}),notionJson:async()=>{fetches++;return {results:[],has_more:false}},replaceProviderRows:async()=>{},FieldValue:{serverTimestamp:()=>now}};
+ vm.createContext(context);vm.runInContext(sourceFunction('syncNotion','async function startConnection'),context);
+ const result=await context.syncNotion('owner',{force:false});assert.equal(result.itemCount,4);assert.equal(result.unchanged,true);assert.equal(fetches,0);assert.equal(writes,0);
+ await context.syncNotion('owner',{force:true});assert.equal(fetches,1);assert.equal(writes,1);
+});
 test('unchanged refresh commits no schedule writes or pair mirrors',async()=>{
  const row={id:'g',externalSource:'google',date:'2026-09-20',updatedAt:2};
  const previous=mergeProviderRows([],'google',[row],'alice','a@example.test');let writes=0,mirrors=0;

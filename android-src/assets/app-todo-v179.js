@@ -58,7 +58,7 @@ import {todoRowsV179,todoKindV179,todoTextV179,filterTodosV179,sortTodosV179} fr
     const actor=uid();if(!actor){changeOwner('');return false;}
     if(owner!==actor)changeOwner(actor);
     const run=++loadRun;loading=true;render();
-    try{const payload=await api().readPrivateData();if(owner!==actor||uid()!==actor||run!==loadRun)return false;data=fields(payload);loaded=true;error='';preserveLocal();return true;}
+    try{const payload=await api().readPrivateData({remember:false});if(owner!==actor||uid()!==actor||run!==loadRun)return false;data=fields(payload);loaded=true;error='';preserveLocal();return true;}
     catch(e){if(owner===actor&&uid()===actor&&run===loadRun)error='메모를 불러오지 못했습니다. 연결을 확인하고 새로고침해주세요.';return false;}
     finally{if(owner===actor&&uid()===actor&&run===loadRun){loading=false;render();}}
   }
@@ -163,9 +163,14 @@ import {todoRowsV179,todoKindV179,todoTextV179,filterTodosV179,sortTodosV179} fr
   }
   window.addEventListener('aiderdear-firebase-ready',bind);
   window.addEventListener('pageshow',bind);
-  window.addEventListener('aiderlog:widget-private-changed',()=>refresh());
-  window.addEventListener('aiderlog-native-resume',()=>{if(!busy)refresh();});
-  document.addEventListener('visibilitychange',()=>{if(!document.hidden&&owner&&!busy)refresh();});
+  function acceptRemoteV191(detail){
+    const actor=uid();if(!actor||detail?.uid!==actor||!detail.payload||detail.hasPendingWrites||busy)return;
+    if(owner!==actor)changeOwner(actor);++loadRun;data=fields(detail.payload);loaded=true;loading=false;error='';preserveLocal();render();
+  }
+  window.addEventListener('aiderlog:widget-private-changed',event=>acceptRemoteV191(event.detail));
+  window.addEventListener('aiderdear-firebase-private-data',event=>acceptRemoteV191(event.detail));
+  window.addEventListener('aiderlog-native-resume',()=>{if(!busy&&!loaded)refresh();});
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden&&owner&&!busy&&!loaded)refresh();});
   new MutationObserver(queue).observe(document.body,{childList:true,subtree:true});
   window.AiderTodoV179=Object.freeze({open,refresh,incomplete,inlineMarkup,mountInline,mountAll,edit,close:closeManagerV182,snapshot:()=>owner&&owner===uid()?copy(data):{checklists:[],memos:[]}});
   ensurePage();bind();render();

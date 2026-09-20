@@ -6,7 +6,7 @@ export function restoredCalendarStatus(server = {}, cached = false) {
   return {...server, connected:false, clientMode:false, needsReconnect:cached};
 }
 export function createCalendarSyncClient({getUser, getToken, fetch:request, bridge=()=>null, navigate=url=>location.assign(url), visible=()=>true, online=()=>true, now=Date.now}) {
-  let running=null,lastAt=0,lastUid='';
+  let running=null,lastAt=0,lastUid='',blockedUntil=0;
   async function call(action,payload={}) {
     const uid=String(getUser()?.uid||'');
     if(!uid)throw new Error('로그인이 필요합니다.');
@@ -15,7 +15,7 @@ export function createCalendarSyncClient({getUser, getToken, fetch:request, brid
     const response=await request(`/api/calendar-sync?action=${encodeURIComponent(action)}`,{method:'POST',cache:'no-store',headers:{Authorization:`Bearer ${token}`,'Content-Type':'application/json'},body:JSON.stringify(payload)});
     const data=await response.json().catch(()=>({}));
     if(uid!==String(getUser()?.uid||''))throw new Error('로그인 계정이 변경되었습니다.');
-    if(!response.ok)throw Object.assign(new Error(data.error||`캘린더 연결 오류 (${response.status})`),{code:data.code==='calendar/reconnect-required'?data.code:'calendar/request-failed',status:response.status});
+    if(!response.ok)throw Object.assign(new Error(data.error||`캘린더 연결 오류 (${response.status})`),{code:['calendar/reconnect-required','resource-exhausted'].includes(data.code)?data.code:'calendar/request-failed',status:response.status});
     return data;
   }
   async function connect() {
@@ -31,9 +31,13 @@ export function createCalendarSyncClient({getUser, getToken, fetch:request, brid
   }
   function refresh({force=false}={}) {
     const uid=String(getUser()?.uid||'');
-    if(uid!==lastUid){lastUid=uid;lastAt=0;running=null;}
+    if(uid!==lastUid){lastUid=uid;lastAt=0;running=null;blockedUntil=0;}
     if(!uid||!visible()||!online())return Promise.resolve(null);
     if(running)return running;
+    if(now()<blockedUntil){
+      if(force)return Promise.reject(Object.assign(new Error('Firebase 무료 사용량 한도로 동기화를 잠시 쉬고 있습니다. 입력한 기록은 유지됩니다.'),{code:'resource-exhausted'}));
+      return Promise.resolve(null);
+    }
     if(!force&&lastAt&&now()-lastAt<CALENDAR_REFRESH_MS)return Promise.resolve(null);
     lastAt=now();
     const operation=(async()=>{
@@ -45,7 +49,10 @@ export function createCalendarSyncClient({getUser, getToken, fetch:request, brid
       return status;
     })();
     running=operation;
-    return operation.finally(()=>{if(running===operation)running=null;});
+    return operation.catch(error=>{
+      if(uid===lastUid&&(error.code==='resource-exhausted'||/quota|resource.exhausted|사용량.*한도/i.test(error.message||'')))blockedUntil=now()+30*60*1000;
+      throw error;
+    }).finally(()=>{if(running===operation)running=null;});
   }
-  return {call,connect,refresh,restoreStatus:restoredCalendarStatus,reset(){lastUid='';lastAt=0;running=null;}};
+  return {call,connect,refresh,restoreStatus:restoredCalendarStatus,reset(){lastUid='';lastAt=0;running=null;blockedUntil=0;}};
 }

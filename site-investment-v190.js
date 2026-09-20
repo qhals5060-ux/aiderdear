@@ -31,8 +31,8 @@
     if (frame) return;
     frame = document.createElement('iframe');
     frame.className = 'personal-investment-frame';
-    frame.title = '재테크 관심 상품 관리';
-    frame.src = './finance-v190.html?embedded=1&v=190';
+    frame.title = '재테크 미리보기';
+    frame.src = './finance-v190.html?embedded=1&template=1&v=190';
     frame.addEventListener('load', () => { lastVisible = null; refresh(); });
     pane.append(frame);
   }
@@ -63,11 +63,13 @@
     if (event.target.closest('[data-overview-category]')) close();
   }, true);
   window.addEventListener('aider-assets-identity', () => {
+    if (window.AiderAssetsBridgeV184?.templateMode !== false) return;
     childEvent('aider-assets-identity');
     frame?.remove(); frame = null; lastVisible = null;
     refresh();
   });
   window.addEventListener('message', event => {
+    if (window.AiderAssetsBridgeV184?.templateMode !== false) return;
     if (event.origin !== location.origin || event.source !== frame?.contentWindow || event.data?.type !== 'aider-assets-login') return;
     document.getElementById('loginBtn')?.click();
   });

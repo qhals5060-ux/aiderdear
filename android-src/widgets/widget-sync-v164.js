@@ -19,7 +19,8 @@
   const identity=state=>state?.user?.uid?`${state.user.uid}|${state.pair?.id||'solo'}`:'';
   const cacheKey=owner=>`aiderlog.widgets.verified.v164:${encodeURIComponent(owner)}`;
   let owner='',ownerState={},epoch=0,source={app:{},personal:{}},verified=false;
-  let apiBound=null,refreshTimer=0,refreshRun=0,logoutPending=false,logoutOwner='';
+  let apiBound=null,refreshTimer=0,refreshRun=0,logoutPending=false,logoutOwner='',refreshFlight=null,refreshFlightKinds=new Set(),refreshForce=false;
+  let parts={app:false,personal:false,schedule:false},versions={app:0,personal:0,schedule:0};const refreshScopes=new Set();
   const photoCache=new Map();let photoRun=0;
   // A/P and the v20 local keys are legacy, unscoped data. They can still contain
   // another user's fields while the app merges a new cloud response. Never read
@@ -29,13 +30,13 @@
   function changeOwner(state){
     const next=identity(state);if(next===owner)return;
     epoch++;refreshRun++;photoRun++;clearTimeout(timer);clearTimeout(refreshTimer);
-    owner=next;ownerState=state||{};source={app:{},personal:{}};verified=false;photoCache.clear();
+    owner=next;ownerState=state||{};source={app:{},personal:{}};verified=false;photoCache.clear();refreshFlight=null;refreshFlightKinds.clear();refreshForce=false;refreshScopes.clear();parts={app:false,personal:false,schedule:false};versions={app:0,personal:0,schedule:0};
     // This bypasses the normal debounce: an old account must disappear immediately.
     sendBlank();
     if(!next)return;
     const cached=read(cacheKey(next));
     if(cached.owner===next&&object(cached.app)&&object(cached.personal)){
-      source={app:cached.app,personal:cached.personal};verified=true;sync();prepareMealPhotos();
+      source={app:cached.app,personal:cached.personal};verified=true;parts={app:true,personal:true,schedule:true};sync();prepareMealPhotos();
     }
     requestRefresh(0);
   }
@@ -45,31 +46,46 @@
     return Boolean(owner&&identity(state)===owner);
   }
   function stillCurrent(expectedEpoch,expectedOwner){return !logoutPending&&epoch===expectedEpoch&&owner===expectedOwner&&identity(auth())===expectedOwner;}
-  function requestRefresh(delay=500){clearTimeout(refreshTimer);refreshTimer=setTimeout(refresh,delay);}
-  async function refresh(){
+  function publish(){
+    verified=parts.app&&parts.personal&&parts.schedule;
+    if(verified)try{localStorage.setItem(cacheKey(owner),JSON.stringify({owner,...source}));}catch{}
+    sync();if(verified){prepareMealPhotos();flushCommands();}
+  }
+  function scheduleRows(value){if(!Array.isArray(value)&&!(object(value)&&Array.isArray(value.own)&&Array.isArray(value.shared)))return null;const rows=Array.isArray(value)?value:[...value.own,...value.shared],byId=new Map();rows.forEach((row,index)=>{if(object(row))byId.set(str(row.id)||'undated:'+index,copy(row));});return [...byId.values()];}
+  function acceptPart(kind,payload){
+    if(kind==='schedule'){if(payload!==undefined){const rows=scheduleRows(payload);if(!rows)return false;source.app.scheduleEvents=rows;}}
+    else {if(payload!==null&&!object(payload))return false;const value=copy(payload||{});if(kind==='app'&&typeof window.AiderDearFirebase?.readScheduleData==='function')value.scheduleEvents=source.app.scheduleEvents||[];source[kind]=value;}
+    parts[kind]=true;versions[kind]++;return true;
+  }
+  function receive(kind,detail){
+    if(!checkOwner()||!detail||detail.hasPendingWrites||detail.fromCache&&detail.exists===false)return;
+    const uid=str(ownerState.user?.uid),pair=str(ownerState.pair?.id);
+    if(kind==='app'?detail.scope!==uid+':'+(pair||'solo'):detail.uid!==uid)return;
+    if(kind==='schedule'&&str(detail.pairId)!==pair)return;
+    if(!Object.hasOwn(detail,'payload')||!acceptPart(kind,detail.payload))return;
+    refreshScopes.delete(kind);publish();
+  }
+  function requestRefresh(delay=500,scopes=['app','personal','schedule'],force=false){scopes.forEach(kind=>refreshScopes.add(kind));refreshForce=refreshForce||force;clearTimeout(refreshTimer);refreshTimer=setTimeout(()=>{const kinds=[...refreshScopes],forced=refreshForce;refreshScopes.clear();refreshForce=false;return refresh(kinds,forced);},delay);}
+  async function refresh(scopes=['app','personal','schedule'],force=false){
     if(!checkOwner())return;
+    if(refreshFlight){scopes.filter(kind=>force||!refreshFlightKinds.has(kind)).forEach(kind=>refreshScopes.add(kind));refreshForce=refreshForce||force;return refreshFlight;}
+    clearTimeout(refreshTimer);refreshScopes.clear();
     const api=window.AiderDearFirebase,expectedEpoch=epoch,expectedOwner=owner,run=++refreshRun;
     if(typeof api?.readAppData!=='function'||typeof api?.readPrivateData!=='function')return;
-    try{
-      const hasScheduleReader=typeof api.readScheduleData==='function';
-      const [app,personal,schedule]=await Promise.all([api.readAppData(),api.readPrivateData(),hasScheduleReader?api.readScheduleData():Promise.resolve(null)]);
+    const captured={...versions};
+    const task=(async()=>{try{
+      const methods={app:'readAppData',personal:'readPrivateData',schedule:'readScheduleData'};
+      const result=await Promise.all(scopes.map(async kind=>{
+        if(kind==='schedule'){const cached=window.AiderAppScheduleV191?.snapshot?.();if(cached?.uid===ownerState.user?.uid&&str(cached.pairId)===str(ownerState.pair?.id))return[kind,cached.payload];if(typeof api.readScheduleData!=='function')return[kind,undefined];}
+        return[kind,await api[methods[kind]](kind==='personal'?{remember:false}:undefined)];
+      }));
       if(!stillCurrent(expectedEpoch,expectedOwner)||run!==refreshRun)return;
-      // A successfully scoped null means this account has not created that
-      // document yet. It is a verified empty component, never a reason to import
-      // legacy A/P. Rejected reads reach catch and keep only this owner's cache.
-      if((app!==null&&!object(app))||(personal!==null&&!object(personal)))return;
-      const cleanApp=copy(app||{});
-      if(hasScheduleReader){
-        // The dedicated schedule collection is authoritative even when empty.
-        // Merging app/main here resurrects deleted legacy rows and old edits.
-        if(!Array.isArray(schedule)&&!(object(schedule)&&Array.isArray(schedule.own)&&Array.isArray(schedule.shared)))return;
-        const scheduleRows=Array.isArray(schedule)?schedule:[...schedule.own,...schedule.shared],byId=new Map();
-        scheduleRows.forEach((row,index)=>{if(row&&typeof row==='object')byId.set(str(row.id)||`undated:${index}`,copy(row));});cleanApp.scheduleEvents=[...byId.values()];
-      }
-      source={app:cleanApp,personal:copy(personal||{})};verified=true;
-      try{localStorage.setItem(cacheKey(owner),JSON.stringify({owner,...source}));}catch{}
-      sync();prepareMealPhotos();flushCommands();
-    }catch{/* Offline: retain only the already verified snapshot for this owner. */}
+      if(result.some(([kind,payload])=>kind==='schedule'?payload!==undefined&&!scheduleRows(payload):payload!==null&&!object(payload)))return;
+      for(const [kind,payload]of result)if(captured[kind]===versions[kind])acceptPart(kind,payload);
+      publish();
+    }catch{/* Offline: retain only this owner's verified snapshot. */}})();
+    refreshFlight=task;refreshFlightKinds=new Set(scopes);
+    try{return await task;}finally{if(refreshFlight===task){refreshFlight=null;refreshFlightKinds.clear();if(refreshScopes.size)requestRefresh(50,[]);}}
   }
   function bindAuth(){
     const api=window.AiderDearFirebase;if(!api||apiBound===api)return;apiBound=api;
@@ -79,7 +95,7 @@
     });
     for(const method of ['writeAppData','writePrivateData','writeScheduleData']){
       const original=api[method];if(typeof original!=='function')continue;
-      api[method]=function(...args){const expectedEpoch=epoch,expectedOwner=owner;return Promise.resolve(original.apply(this,args)).then(result=>{if(stillCurrent(expectedEpoch,expectedOwner))requestRefresh(50);return result;});};
+      api[method]=function(...args){const expectedEpoch=epoch,expectedOwner=owner;return Promise.resolve(original.apply(this,args)).then(result=>{if(stillCurrent(expectedEpoch,expectedOwner)){const kind=method==='writePrivateData'?'personal':method==='writeScheduleData'?'schedule':'app';if(kind==='personal'&&object(result)){acceptPart(kind,result);publish();}else if(kind==='app'&&object(args[0])){acceptPart(kind,args[0]);publish();}else{versions[kind]++;requestRefresh(50,[kind],true);}}return result;});};
     }
     if(typeof api.logout==='function'){
       const logout=api.logout;api.logout=function(...args){logoutOwner=identity(auth());logoutPending=true;changeOwner({});return logout.apply(this,args);};
@@ -194,8 +210,8 @@
       const result=await window.AiderDearFirebase.applyWidgetActionV165(command);if(!stillCurrent(expectedEpoch,expectedOwner))break;
       localStorage.setItem(name,JSON.stringify(array(read(name)).filter(row=>row.key!==command.key)));
       if(object(result?.payload)){source.personal=copy(result.payload);try{localStorage.setItem(cacheKey(owner),JSON.stringify({owner,...source}))}catch{}}
-      sync();requestRefresh(50);window.dispatchEvent(new CustomEvent('aiderlog:widget-private-changed',{detail:{uid,payload:result?.payload,command,localBefore}}));
-    }catch(error){if(!stillCurrent(expectedEpoch,expectedOwner))break;const code=String(error?.code||error?.message||''),terminal=['stale-action','invalid-action','not-found','replay-mismatch','invalid-data','goal-linked','permission-denied','unauthenticated'].some(value=>code.includes(value));if(code.includes('goal-linked')){window.AiderLogAppShell?.openTarget?.('routine','');notify('목표 연동 루틴은 앱에서 목표별 수행을 수정해주세요.');}if(terminal){localStorage.setItem(name,JSON.stringify(array(read(name)).filter(row=>row.key!==command.key)));const draftsKey=`${name}:failed`;localStorage.setItem(draftsKey,JSON.stringify([...array(read(draftsKey)),{command,error:code,at:Date.now()}]));notify(code.includes('stale-action')?'기록이 변경되어 다시 불러왔습니다. 위젯에서 다시 선택해주세요.':'저장할 수 없는 작업입니다. 입력 내용은 기기에 보관했습니다. 앱에서 확인해주세요.');requestRefresh(0);continue;}notify('기기에 저장했습니다. 연결되면 동기화합니다.');break;}}}finally{executing=false;}
+      sync();if(!object(result?.payload))requestRefresh(50,['personal']);window.dispatchEvent(new CustomEvent('aiderlog:widget-private-changed',{detail:{uid,payload:result?.payload,command,localBefore}}));
+    }catch(error){if(!stillCurrent(expectedEpoch,expectedOwner))break;const code=String(error?.code||error?.message||''),terminal=['stale-action','invalid-action','not-found','replay-mismatch','invalid-data','goal-linked','permission-denied','unauthenticated'].some(value=>code.includes(value));if(code.includes('goal-linked')){window.AiderLogAppShell?.openTarget?.('routine','');notify('목표 연동 루틴은 앱에서 목표별 수행을 수정해주세요.');}if(terminal){localStorage.setItem(name,JSON.stringify(array(read(name)).filter(row=>row.key!==command.key)));const draftsKey=`${name}:failed`;localStorage.setItem(draftsKey,JSON.stringify([...array(read(draftsKey)),{command,error:code,at:Date.now()}]));notify(code.includes('stale-action')?'기록이 변경되어 다시 불러왔습니다. 위젯에서 다시 선택해주세요.':'저장할 수 없는 작업입니다. 입력 내용은 기기에 보관했습니다. 앱에서 확인해주세요.');requestRefresh(0,['personal'],true);continue;}notify('기기에 저장했습니다. 연결되면 동기화합니다.');break;}}}finally{executing=false;}
   }
   function quickAdd(command){
     const dialog=document.createElement('dialog');dialog.style.cssText='width:min(92vw,480px);max-height:60dvh;padding:20px;border:1px solid var(--line,#ded9ff);border-radius:20px;background:var(--card,#f7f6ff);color:var(--ink,#171a3a)';
@@ -233,10 +249,13 @@
   addEventListener('online',()=>{requestRefresh(0);flushCommands()});
   addEventListener('aiderlog-calendar-projection-v168',()=>sync());
   addEventListener('aiderlog-friend-schedule-data',()=>sync());
-  addEventListener('aiderlog:todo-changed-v179',()=>{sync();requestRefresh(0)});
+  addEventListener('aiderlog:todo-changed-v179',event=>{if(object(event.detail?.payload))receive('personal',event.detail);sync();});
+  addEventListener('aiderdear-firebase-data',event=>receive('app',event.detail));
+  addEventListener('aiderdear-firebase-private-data',event=>receive('personal',event.detail));
+  addEventListener('aiderlog:verified-schedule-data-v191',event=>receive('schedule',event.detail));
   document.addEventListener('click',sync,{passive:true});document.addEventListener('change',sync,{passive:true});
-  document.addEventListener('visibilitychange',()=>{if(!document.hidden){checkOwner();sync();requestRefresh();prepareMealPhotos()}});
-  addEventListener('aiderlog:data-changed',()=>{sync();requestRefresh()});addEventListener('aiderdear-firebase-ready',()=>{bindAuth();sync()});addEventListener('pageshow',()=>{bindAuth();sync();requestRefresh()});
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden){checkOwner();sync();if(!verified)requestRefresh();prepareMealPhotos()}});
+  addEventListener('aiderlog:data-changed',()=>sync());addEventListener('aiderdear-firebase-ready',()=>{bindAuth();sync()});addEventListener('pageshow',()=>{bindAuth();sync();if(!verified)requestRefresh()});
   new MutationObserver(()=>{hook();sync()}).observe(document.body,{childList:true,subtree:true,characterData:true});
-  sendBlank();bindAuth();hook();sync();setTimeout(()=>{bindAuth();hook();sync();prepareMealPhotos()},1000);document.addEventListener('change',()=>{requestRefresh(700)}, {passive:true});
+  sendBlank();bindAuth();hook();sync();setTimeout(()=>{bindAuth();hook();sync();prepareMealPhotos()},1000);
 })();

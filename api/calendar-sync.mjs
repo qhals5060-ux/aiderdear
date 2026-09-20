@@ -506,12 +506,14 @@ async function notionJson(token, url, options = {}) {
   return body;
 }
 
-async function syncNotion(uid) {
+async function syncNotion(uid,{force=true}={}) {
   const ref = integrationRef(uid, 'notion');
   const snapshot = await ref.get();
   const connection = snapshot.data() || {};
   if (!connection.accessToken) throw new Error('Notion이 연결되지 않았습니다.');
   if (!connection.sourceId) throw new Error('Notion 데이터베이스를 먼저 지정해주세요.');
+  const lastSyncedAt=connection.lastSyncedAt?.toMillis?.()||0;
+  if(!force&&Date.now()-lastSyncedAt<5*60*1000)return {itemCount:Number(connection.itemCount||0),lastSyncedAt,unchanged:true};
   const pages = [];
   let cursor = '';
   do {
@@ -733,7 +735,7 @@ export default async function handler(req, res) {
     if (action === 'start') return json(res, 200, { url: await startConnection(user.uid, parsed.value.provider,parsed.value.native===true) });
     if (action === 'sync') {
       const provider = parsed.value.provider;
-      const result = provider === 'google' ? await syncGoogle(user.uid,{force:parsed.value.force===true}) : await syncNotion(user.uid);
+      const result = provider === 'google' ? await syncGoogle(user.uid,{force:parsed.value.force===true}) : await syncNotion(user.uid,{force:parsed.value.force===true});
       trace('manual-sync', { user: String(user.uid).slice(0, 8), provider, calendars: result.calendarCount || 0, items: result.itemCount || 0 });
       return json(res, 200, result);
     }
@@ -763,6 +765,10 @@ export default async function handler(req, res) {
     return json(res, 404, { error: 'unknown action' });
   } catch (error) {
     console.error('calendar-sync', action, error);
+    if(error.code===8||/resource.exhausted|quota exceeded|사용량.*한도/i.test(String(error.code||'')+' '+String(error.message||''))){
+      res.setHeader('Retry-After','1800');
+      return json(res,503,{code:'resource-exhausted',error:'Firebase 무료 사용량 한도로 동기화를 잠시 쉬고 있습니다. 기존 기록은 유지됩니다.'});
+    }
     return json(res, Number(error.status || 500), { error: error.message || String(error),...(error.code==='calendar/reconnect-required'?{code:error.code}:{}) });
   }
 }

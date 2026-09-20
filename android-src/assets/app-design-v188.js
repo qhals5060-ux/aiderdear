@@ -7,5 +7,5 @@
  }
  function queue(){if(!frame)frame=requestAnimationFrame(refresh)}
  new MutationObserver(records=>{if(records.some(r=>r.type==='childList'))queue()}).observe(document.body,{subtree:true,childList:true});
- root.dataset.designRevision='190';queue();window.AiderDesignV188=Object.freeze({refresh:queue});
+ root.dataset.designRevision='191';queue();window.AiderDesignV188=Object.freeze({refresh:queue});
 })();
