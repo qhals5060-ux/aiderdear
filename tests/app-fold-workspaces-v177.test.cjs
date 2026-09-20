@@ -70,18 +70,11 @@ test('Consult retains existing filters, stage actions and detail records', () =>
   assert.match(source, /class="c167-detail-body"/);
 });
 
-test('Work shows existing list and selected detail together with only the mobile gate lifted', () => {
-  assert.match(block(work + '.work-split-v167'), /grid-template-columns:minmax\(210px,\.82fr\) minmax\(0,1\.18fr\)/);
-  assert.match(block(work + '.cw168-list-tools[hidden]'), /display:block!important/);
-  assert.match(plain, /\.work-split-v167\.is-detail>\.work-list-v167,/);
-  assert.match(block(work + '.work-split-v167:not(.is-detail)>.work-detail-v167'), /display:block!important/);
-  assert.match(block(work + '.work-split-v167 .work-rows-v167'), /grid-template-columns:minmax\(0,1fr\)/);
-  const hiddenRules = plain.match(/[^{}]+\[hidden\][^{}]*\{/g) || [];
-  assert.equal(hiddenRules.length, 1);
-  assert.match(hiddenRules[0], /\.cw168-list-tools\[hidden\]/);
+test('retired Work has no controller at either Fold width', () => {
   const source = read('app-consult-work-v168.js');
-  assert.ok(source.includes('class="cw168-list-tools" ${state.mobileDetail?\'hidden\':\'\'}'));
-  assert.match(source, /renderList\(\);renderDetail\(\)/);
+  assert.doesNotMatch(source, /function createWork|newWorkTask|AiderWorkClientV167/);
+  assert.doesNotMatch(read('my-workspaces-v128.js'), /mode === 'work'|\['work','calendar'/);
+  assert.match(source, /function createConsult/);
 });
 
 test('Fold CSS does not modify fonts, colors, data, editors or scroll ownership', () => {

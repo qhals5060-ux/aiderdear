@@ -61,7 +61,6 @@
     move($('#personalCategoryTabs'),side);move($('.pomodoro-card',frame),side);
     const display=$('.pomodoro-mini-display',side);if(display&&!$('#pomodoroClock')){const clock=make('strong','modern-pomodoro-clock',display);clock.id='pomodoroClock';clock.textContent=String($('#pomodoroCustomMinutes')?.value||25).padStart(2,'0')+':00';clock.setAttribute('aria-label','남은 집중 시간');}
   }
-  function arrangeWork(){const stage=$('#siteWorkStageV146'),workHead=$('.site-work-head-v146',stage);if(workHead)move($('.site-work-nav-v146',stage),workHead,workHead.firstElementChild);}
   function arrangeConsult(){
     if(document.getElementById('consultV167'))return;
     const rail=$('.consulting-client-rail'),actions=$('#taskStage .task-toolbar-actions');if(!rail)return;
@@ -122,7 +121,7 @@
     scheduled=0;if(applying)return;applying=true;
     try{
       for(const node of created)node.hidden=false;
-      arrangeHeader();arrangeCalendar();applyEvent();arrangePersonal();arrangeWork();arrangeConsult();arrangeSettings();restoreDrafts();
+      arrangeHeader();arrangeCalendar();applyEvent();arrangePersonal();arrangeConsult();arrangeSettings();restoreDrafts();
       document.querySelectorAll('aider-paper-workspace-v121').forEach(mountPaper);
     }finally{applying=false;}
   }

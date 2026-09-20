@@ -28,13 +28,13 @@
   const currentEmail = () => String(currentUserV180()?.email || '').trim().toLowerCase();
   const currentUid = () => String(currentUserV180()?.uid || '').trim();
   const myRoutesV180 = Object.freeze({
-    'qhals5060@gmail.com':Object.freeze(['paper','task','work','lab','estate','speech','brain','study']),
-    'aidway55@gmail.com':Object.freeze(['paper','task','work','lab']),
+    'qhals5060@gmail.com':Object.freeze(['paper','task','lab','estate','speech','brain','study']),
+    'aidway55@gmail.com':Object.freeze(['paper','task','lab']),
     'abckms5698@naver.com':Object.freeze(['estate'])
   });
   const canUseModeV180 = route => Boolean(currentUid() && (route==='youtube'||(myRoutesV180[currentEmail()] || []).includes(route)));
   const canUsePaper = () => canUseModeV180('paper');
-  const canUseWork = () => canUseModeV180('work');
+  const canUseConsult = () => canUseModeV180('task');
   const canUseTraining = () => canUseModeV180('speech');
   const canUseStudy = () => canUseModeV180('study');
   const icon = (name, size = 24) => {
@@ -143,7 +143,7 @@
     if (sharedWorkspaceLoading) return;
     const api = window.AiderDearFirebase || (typeof fb !== 'undefined' ? fb : null);
     const signedIn = typeof authState !== 'undefined' && authState?.user;
-    if (!api?.readPaperTaskData || !signedIn || !canUseWork()) return;
+    if (!api?.readPaperTaskData || !signedIn || !canUseConsult()) return;
     sharedWorkspaceLoading = true;
     try {
       const remote = await api.readPaperTaskData();
@@ -263,10 +263,8 @@
     const research = [], learning = [], personal = [];
     if(canUseModeV180('youtube'))personal.push(['youtube','youtube','유튜브 보관함','레시피 · 어학 · 링크']);
     if (canUsePaper()) research.push(['paper','paper','Paper',`논문 ${data.paperItems.length}편 · 검토 완료 ${data.paperItems.filter(row=>row.status==='reviewed').length}편`]);
-    if (canUseWork()) research.push(
-      ['task','task','Consulting',`고객 ${data.consultingClients.length}명 · 진행할 업무 ${pending}건`],
-      ['work','calendar','Work',`업무 기록 ${data.workRecords.length}건`],
-      ['lab','file','실험노트',`기록 ${data.labNotebookEntries.length}건 · 링크 ${data.labNotebookLinks.length}개`]
+    if (canUseConsult()) research.push(
+      ['task','task','Consulting',`고객 ${data.consultingClients.length}명 · 진행할 업무 ${pending}건`],      ['lab','file','실험노트',`기록 ${data.labNotebookEntries.length}건 · 링크 ${data.labNotebookLinks.length}개`]
     );
     if (canUseModeV180('estate')) research.push(['estate','estate','Estate','매물 · 고객 · 거래 · 업무 일정']);
     if (canUseTraining()) learning.push(['speech','speech','Speech Training',`훈련 기록 ${speechCount}회`],['brain','brain','Brain Training',`훈련 기록 ${brainCount}회`]);
@@ -397,7 +395,7 @@
     ensureData(); installPaperBridge();
     q('#fifthLabel') && (q('#fifthLabel').textContent='My');
     if (mode === 'paper' && !canUsePaper()) mode = 'hub';
-    if ((mode === 'task' || mode === 'work' || mode === 'lab') && !canUseWork()) mode = 'hub';
+    if ((mode === 'task' || mode === 'lab') && !canUseConsult()) mode = 'hub';
     if ((mode === 'speech' || mode === 'brain') && !canUseTraining()) mode = 'hub';
     if (mode === 'study' && !canUseStudy()) mode = 'hub';
     if (mode === 'youtube' && !canUseModeV180('youtube')) mode = 'hub';
@@ -407,7 +405,7 @@
       window.AiderYoutubeUIV189.render(host,()=>{mode='hub';modal=null;renderMy();});
       return;
     }
-    if ((mode === 'task' || mode === 'work') && window.AiderAppConsultWorkV168) {
+    if (mode === 'task' && window.AiderAppConsultWorkV168) {
       window.AiderAppConsultWorkV168.render(mode,host,()=>{mode='hub';modal=null;renderMy();});
       return;
     }
@@ -429,10 +427,6 @@
     }
     if (mode === 'brain' && window.AiderOfflineTrainingV129) {
       window.AiderOfflineTrainingV129.renderBrain(host, () => { mode='hub'; modal=null; renderMy(); });
-      return;
-    }
-    if (mode === 'work' && window.AiderLogSuiteV145) {
-      window.AiderLogSuiteV145.renderWork(host, () => { mode='hub'; modal=null; renderMy(); });
       return;
     }
     if (mode === 'lab' && window.AiderLogSuiteV145) {
