@@ -1,7 +1,7 @@
 /* Flat wheelbar silhouettes. Navigation and the planet remain owned by v151. */
 (() => {
   'use strict';
-  const names=Object.freeze({personal:'금융 · 워크플로우',routine:'ROUTINE',event:'EVENT',fifth:'PAPER'});
+  const names=Object.freeze({fifth:'PAPER',event:'EVENT',routine:'ROUTINE',personal:'금융 · 워크플로우'});
   const shapes=Object.freeze({
     personal:'<rect x="3" y="5" width="18" height="15" rx="2.2"/><path d="M3 9h18M13 13h8M7 14v3M5.5 15.5h3"/><circle cx="16.5" cy="14.5" r=".7" fill="currentColor" stroke="none"/>',
     event:'<rect x="3" y="5.5" width="18" height="13" rx="2.2"/><path d="m6.3 15.5 3.9-4.3 4.5 4.3"/><circle cx="16.5" cy="9.3" r="1.25" fill="currentColor" stroke="none"/>',

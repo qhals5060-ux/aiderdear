@@ -92,7 +92,7 @@
 
     if-nez v0, :cond_0
 
-    invoke-static {p0}, Lcom/aiderlog/v22app/WidgetApprovedV188;->supports(Ljava/lang/String;)Z
+    invoke-static {p0}, Lcom/aiderlog/v22app/WidgetRoutineV195;->supports(Ljava/lang/String;)Z
 
     move-result p0
 
@@ -357,13 +357,13 @@
     .locals 1
 
     .line 15
-    invoke-static {p0}, Lcom/aiderlog/v22app/WidgetRoutineV194;->supports(Ljava/lang/String;)Z
+    invoke-static {p0}, Lcom/aiderlog/v22app/WidgetRoutineV195;->supports(Ljava/lang/String;)Z
 
     move-result v0
 
     if-eqz v0, :cond_0
 
-    invoke-static {p0}, Lcom/aiderlog/v22app/WidgetRoutineV194;->ratio(Ljava/lang/String;)F
+    invoke-static {p0}, Lcom/aiderlog/v22app/WidgetRoutineV195;->ratio(Ljava/lang/String;)F
 
     move-result p0
 

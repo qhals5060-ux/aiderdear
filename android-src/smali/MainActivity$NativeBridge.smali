@@ -445,3 +445,23 @@
     :goto_0
     return-void
 .end method
+
+.method public calendarPendingV195(Ljava/lang/String;)Ljava/lang/String;
+    .locals 1
+    .annotation runtime Landroid/webkit/JavascriptInterface;
+    .end annotation
+    iget-object v0, p0, Lcom/aiderlog/v22app/MainActivity$NativeBridge;->this$0:Lcom/aiderlog/v22app/MainActivity;
+    invoke-static {v0, p1}, Lcom/aiderlog/v22app/WidgetCalendarV195;->pending(Landroid/content/Context;Ljava/lang/String;)Ljava/lang/String;
+    move-result-object v0
+    return-object v0
+.end method
+
+.method public calendarAckV195(Ljava/lang/String;Ljava/lang/String;)Z
+    .locals 1
+    .annotation runtime Landroid/webkit/JavascriptInterface;
+    .end annotation
+    iget-object v0, p0, Lcom/aiderlog/v22app/MainActivity$NativeBridge;->this$0:Lcom/aiderlog/v22app/MainActivity;
+    invoke-static {v0, p1, p2}, Lcom/aiderlog/v22app/WidgetCalendarV195;->ack(Landroid/content/Context;Ljava/lang/String;Ljava/lang/String;)Z
+    move-result v0
+    return v0
+.end method

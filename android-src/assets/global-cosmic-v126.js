@@ -25,7 +25,7 @@
   }
   function fixWheel(){
     const wheel=$('#wheel');if(!wheel)return;wheel.dataset.globalV126='1';
-    const order=[['personal','금융 · 워크플로우','finance'],['routine','ROUTINE','routine'],['event','EVENT','event'],['fifth','PAPER','paper']];
+    const order=[['fifth','PAPER','paper'],['event','EVENT','event'],['routine','ROUTINE','routine'],['personal','금융 · 워크플로우','finance']];
     $$('.global-wheel-item-v126',wheel).forEach((button,index)=>{
       if(!order[index])return;const [page,oldLabel,iconName]=order[index],label=window.AiderWheelbarV176?.names[page]||oldLabel;
       if(button.dataset.page!==page)button.dataset.page=page;if(button.dataset.index!==String(index))button.dataset.index=String(index);

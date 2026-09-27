@@ -12,20 +12,18 @@ import android.util.Log;
 public class WidgetProvider extends AppWidgetProvider {
     public static boolean supports(String name){
         String kind=WidgetNativeV164.type(name);
-        return "CalendarMonth".equals(kind)||"CalendarCombined".equals(kind)||"CalendarSplit".equals(kind)||"CalendarFortnight".equals(kind)||"RoutineAll".equals(kind)||"RoutineCards".equals(kind)||"RoutineStats".equals(kind);
+        return "CalendarMonth".equals(kind)||"CalendarCombined".equals(kind)||"CalendarSplit".equals(kind)||"CalendarFortnight".equals(kind)||"RoutineAll".equals(kind);
     }
     public static class CalendarMonth extends WidgetProvider {}
     public static class CalendarCombined extends WidgetProvider {}
     public static class CalendarSplit extends WidgetProvider {}
     public static class CalendarFortnight extends WidgetProvider {}
     public static class RoutineAll extends WidgetProvider {}
-    public static class RoutineCards extends WidgetProvider {}
-    public static class RoutineStats extends WidgetProvider {}
     public static void safeUpdateWidget(Context c,AppWidgetManager manager,int widget,String name){
         if(!supports(name))return;
         try{
             if(WidgetNativeV164.update(c,manager,widget,name))
-                WidgetNativeV164.prefs(c).edit().putLong("widget_update_at_"+widget,System.currentTimeMillis()).putInt("widget_renderer_"+widget,194).apply();
+                WidgetNativeV164.prefs(c).edit().putLong("widget_update_at_"+widget,System.currentTimeMillis()).putInt("widget_renderer_"+widget,195).apply();
         }catch(Throwable error){
             Log.e("AiderLogWidget","provider update failed "+WidgetNativeV164.type(name)+" #"+widget,error);
             WidgetNativeV164.prefs(c).edit().putString("widget_render_error_"+widget,error.getClass().getSimpleName()).apply();

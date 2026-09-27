@@ -11,7 +11,7 @@
     <string name="widget_desc_bullet_seven">최근 7일 일정·메모·할 일</string>
     <string name="widget_desc_bullet_three_workflow">최근 3일 기록과 워크플로우</string>
     <string name="widget_desc_bullet_seven_workflow">최근 7일 기록과 워크플로우</string>
-    <string name="widget_desc_routine_all">오늘의 루틴 목록</string>
+    <string name="widget_desc_routine_all">오늘의 루틴과 이번 주 전체 실천 통계</string>
     <string name="widget_desc_routine_one">선택한 루틴</string>
     <string name="widget_desc_routine_stats">주간 실천율 · 일별 횟수와 연속 실천</string>
     <string name="widget_desc_meal">오늘 먹은 식사 사진</string>

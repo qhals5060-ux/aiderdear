@@ -1,4 +1,4 @@
-/* v194: original Schedule layout; tools live in the wheel and Weekly uses a swipe. */
+/* v195: original Schedule layout; tools live in the wheel and Weekly uses a swipe. */
 (() => {
   'use strict';
   const $=(s,r=document)=>r.querySelector(s);
@@ -22,7 +22,9 @@
     if(id==='personal'){personalCategory=['finance','workflow'].includes(personalCategory)?personalCategory:'finance';preserveSub=true;}
     const result=previousGo.call(this,id,false,preserveSub);refresh();return result;
   };
-  // A horizontal gesture changes pages only after deliberate movement. Forms,
+  // Swipe left from the month to Weekly, and right from Weekly to the month.
+  // Non-passive move handlers claim horizontal motion before WebView scrolling.
+  // A horizontal gesture changes views only after deliberate movement. Forms,
   // controls, horizontal scrollers and active overlays keep their gestures.
   let gesture=null,suppressUntil=0;
   function blocked(target){
@@ -33,9 +35,9 @@
   }
   function begin(x,y,id,target){gesture=null;if(current()!=='home'||blocked(target))return;gesture={x,y,id,page:current(),at:Date.now()};}
   function move(event,x,y,id){if(!gesture||gesture.id!==id)return;const dx=x-gesture.x,dy=y-gesture.y;if(Math.abs(dy)>18&&Math.abs(dy)>Math.abs(dx)){gesture=null;return;}if(Math.abs(dx)>18&&Math.abs(dx)>Math.abs(dy)*1.7&&event.cancelable)event.preventDefault();}
-  function end(event,x,y,id){const g=gesture;gesture=null;if(!g||g.id!==id||Date.now()-g.at>1100)return;const dx=x-g.x,dy=y-g.y;if(Math.abs(dx)<70||Math.abs(dy)>Math.abs(dx)*.4)return;if(event.cancelable)event.preventDefault();suppressUntil=Date.now()+400;if(g.page==='home')window.AiderScheduleUIV184?.setWeekly(dx>0);}
+  function end(event,x,y,id){const g=gesture;gesture=null;if(!g||g.id!==id||current()!==g.page||Date.now()-g.at>1100)return;const dx=x-g.x,dy=y-g.y;if(Math.abs(dx)<70||Math.abs(dy)>Math.abs(dx)*.4)return;if(event.cancelable)event.preventDefault();suppressUntil=Date.now()+400;if(g.page==='home')window.AiderScheduleUIV184?.setWeekly(dx<0);}
   window.addEventListener('touchstart',e=>{if(e.touches.length!==1){gesture=null;return;}const t=e.touches[0];begin(t.clientX,t.clientY,t.identifier,e.target);},{capture:true,passive:true});
-  window.addEventListener('touchmove',e=>{const t=e.touches[0];if(t)move(e,t.clientX,t.clientY,t.identifier);},{capture:true,passive:false});
+  window.addEventListener('touchmove',e=>{if(e.touches.length!==1){gesture=null;return;}const t=e.touches[0];if(t)move(e,t.clientX,t.clientY,t.identifier);},{capture:true,passive:false});
   window.addEventListener('touchend',e=>{const t=e.changedTouches[0];if(t)end(e,t.clientX,t.clientY,t.identifier);},{capture:true,passive:false});
   window.addEventListener('touchcancel',()=>{gesture=null;},{passive:true});
   window.addEventListener('pointerdown',e=>{if(e.pointerType!=='touch'&&e.button===0)begin(e.clientX,e.clientY,e.pointerId,e.target);},{capture:true,passive:true});
@@ -59,6 +61,6 @@
     if(current()==='home'&&window.AiderScheduleUIV184?.isWeekly()&&!modal&&!$('#wheel')?.classList.contains('open')){window.AiderScheduleUIV184.setWeekly(false);return true;}
     return previousBack?.apply(this,arguments)||false;
   };}
-  window.AiderCoreV194=Object.freeze({openTools,refresh,pages:pages.map(([id])=>id)});
+  window.AiderCoreV195=Object.freeze({openTools,refresh,pages:pages.map(([id])=>id)});
   go(current()==='personal'?'home':current(),false);
 })();

@@ -52,6 +52,8 @@
   function setOpen(open) {
     const next = Boolean(open);
     wheel.classList.toggle('open', next);
+    // Keyboard availability changes with the wheel, before an observer's RAF.
+    items().forEach(item => { item.tabIndex = next ? 0 : -1; });
     core.setAttribute('aria-expanded', String(next));
     core.setAttribute('aria-label', '홈으로 이동 · 길게 눌러 페이지 선택');
     if (!next) wheel.classList.remove('arming');
@@ -257,14 +259,14 @@
       return;
     }
     consume(event);
-    if (Date.now() < suppressClickUntil || Date.now() < touchInputUntil) return;
+    if (event.detail !== 0 && (Date.now() < suppressClickUntil || Date.now() < touchInputUntil)) return;
     navigate(item?.dataset.page || 'home');
   }, true);
 
   wheel.addEventListener('contextmenu', event => event.preventDefault(), true);
   core.addEventListener('keydown', event => {
     if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); navigate('home'); }
-    else if (event.key === 'ArrowUp') { event.preventDefault(); setOpen(true); }
+    else if (event.key === 'ArrowUp') { event.preventDefault(); setOpen(true); items()[0]?.focus({ preventScroll: true }); }
     else if (event.key === 'Escape') setOpen(false);
   });
 

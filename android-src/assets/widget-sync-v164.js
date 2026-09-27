@@ -27,7 +27,7 @@
   // them here: only atomically owner-tagged, scoped Firebase responses are used.
   const widgetApp=value=>({scheduleEvents:array(value?.scheduleEvents)});
   const widgetPrivate=value=>({routines:array(value?.routines),checklists:array(value?.checklists),memos:array(value?.memos).filter(row=>row&&row.category!=='emotion'&&!row.demo).sort(newest).slice(0,100).map(row=>({id:str(row.id),text:text(row).slice(0,180),notes:str(row.notes||row.note||row.preview||row.description).slice(0,240),updatedAt:Number(row.updatedAt||row.createdAt||0)}))});
-  function blankSnapshot(){return {version:194,uid:'',v165:{},email:'',theme:themeMap[document.documentElement.dataset.theme]||'aurora',syncState:'account-unverified',accessState:owner&&!logoutPending?'sync-required':'needs-login',scheduleItems:[],schedule:[],holidays:{},routines:[],routineStats:[],todos:[]};}
+  function blankSnapshot(){return {version:195,uid:'',v165:{},email:'',theme:themeMap[document.documentElement.dataset.theme]||'aurora',syncState:'account-unverified',accessState:owner&&!logoutPending?'sync-required':'needs-login',scheduleItems:[],schedule:[],holidays:{},routines:[],routineStats:[],todos:[]};}
   function sendBlank(){try{const payload=JSON.stringify(blankSnapshot());native.syncWidgets(payload);last=payload;}catch{last='';}}
   function changeOwner(state){
     const next=identity(state);if(next===owner)return;
@@ -116,7 +116,7 @@
     // projection. It neither creates a new subscription nor exports to Google.
     const received=array(window.AiderFriendScheduleUIV175?.events?.());
     const scheduleColor=row=>{const fallback=str(row.sourceColor||row.color),candidate=window.AiderSharedScheduleV176?.color?.(row,state.user,fallback)||fallback;return /^#[0-9a-f]{6}$/i.test(candidate)?candidate:'#6255E8';};
-    const scheduleItems=[...new Map([...array(app.scheduleEvents),...projected,...received].filter(row=>row?.date&&row?.title&&!row.demo).map(row=>[str(row.id),{id:str(row.id),date:date(row.date),endDate:date(row.endDate||row.date),time:row.allDay?'':str(row.time),allDay:!!row.allDay,title:str(row.title),color:scheduleColor(row),readOnly:!!(row.readOnly||row.projectionSource||row.friendShared),friendShared:!!row.friendShared,projectionSource:['work','consult','consulting','estate'].includes(str(row.projectionSource))?str(row.projectionSource):''}])).values()].sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
+    const scheduleItems=[...new Map([...array(app.scheduleEvents),...projected,...received].filter(row=>row?.date&&row?.title&&!row.demo).map(row=>[str(row.id),{id:str(row.id),date:date(row.date),endDate:date(row.endDate||row.date),time:row.allDay?'':str(row.time),allDay:!!row.allDay,title:str(row.title),color:scheduleColor(row),readOnly:!!(row.readOnly||row.projectionSource||row.friendShared),friendShared:!!row.friendShared,projectionSource:['work','consult','consulting','estate'].includes(str(row.projectionSource))?str(row.projectionSource):'',...(row.widgetCreatedV195===true&&str(row.authorUid)===state.user.uid&&!row.readOnly&&!row.projectionSource&&!row.friendShared?{widgetCreatedV195:true,authorUid:state.user.uid}:{})}])).values()].sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
     const holidays={};
     for(let year=now.getFullYear()-1;year<=now.getFullYear()+2;year++)for(let day=new Date(year,0,1);day.getFullYear()===year;day.setDate(day.getDate()+1)){
       const k=key(day),label=window.AiderLogHolidayTitleV164?.(k);if(label)holidays[k]=label;
@@ -128,12 +128,13 @@
     const uid=state.user.uid;
     const checks=array(personal.checklists).filter(row=>row&&!row.demo&&row.kind!=='memo'&&row.type!=='memo'&&row.category!=='emotion');
     const todos=checks.map(row=>`${row.done?'✓':'○'} ${text(row)}${row.dueAt||row.date?' · '+date(row.dueAt||row.date):''}`);
-    return {version:194,uid,v165:window.AiderWidgetModelsV165?.build({app,personal,uid,now})||{},email,theme:themeMap[document.documentElement.dataset.theme]||'aurora',today:new Intl.DateTimeFormat('ko-KR',{month:'long',day:'numeric',weekday:'short'}).format(now),month:new Intl.DateTimeFormat('ko-KR',{year:'numeric',month:'long'}).format(now),scheduleItems,holidays,schedule:scheduleItems.map(row=>`${row.date} ${row.time} ${row.title}`),routines,routineStats:routines,todos};
+    return {version:195,uid,v165:window.AiderWidgetModelsV165?.build({app,personal,uid,now})||{},email,theme:themeMap[document.documentElement.dataset.theme]||'aurora',today:new Intl.DateTimeFormat('ko-KR',{month:'long',day:'numeric',weekday:'short'}).format(now),month:new Intl.DateTimeFormat('ko-KR',{year:'numeric',month:'long'}).format(now),scheduleItems,holidays,schedule:scheduleItems.map(row=>`${row.date} ${row.time} ${row.title}`),routines,routineStats:routines,todos};
   }
   let timer=0,last='';
   const commandQueueKey=uid=>`aiderlog.widget-actions.v165:${encodeURIComponent(uid)}`;
-  const retainedKinds=new Set(['CalendarMonth','CalendarCombined','CalendarSplit','CalendarFortnight','RoutineAll','RoutineCards','RoutineStats']);
-  const retainedCommand=command=>retainedKinds.has(str(command?.kind))&&(['todo','routine','add-todo'].includes(command.op)||command.op==='open'&&['routine','todo','note'].includes(command.value));
+  const retainedKinds=new Set(['CalendarMonth','CalendarCombined','CalendarSplit','CalendarFortnight','RoutineAll']);
+  const compatibleCommand=command=>['RoutineCards','RoutineStats'].includes(str(command?.kind))?{...command,kind:'RoutineAll'}:command;
+  const retainedCommand=command=>retainedKinds.has(str(command?.kind))&&(['todo','routine','add-todo'].includes(command.op)||command.op==='open'&&['routine','routine-stats','todo','note'].includes(command.value));
   let executing=false;
   function enqueue(command){const name=commandQueueKey(command.uid),rows=array(read(name)),remaining=rows.filter(row=>row.key!==command.key&&!(row.id===command.id&&row.op===command.op));remaining.push(command);localStorage.setItem(name,JSON.stringify(remaining));}
   function notify(message){if(typeof window.toast==='function')window.toast(message);else if(typeof window.AiderLogAppShell?.toast==='function')window.AiderLogAppShell.toast(message);}
@@ -146,7 +147,7 @@
   async function flushCommands(){
     if(executing||!checkOwner()||!verified||typeof window.AiderDearFirebase?.applyWidgetActionV165!=='function')return;
     executing=true;const uid=ownerState.user.uid,expectedEpoch=epoch,expectedOwner=owner,name=commandQueueKey(uid);
-    try{for(const command of array(read(name))){if(!stillCurrent(expectedEpoch,expectedOwner))break;if(!retainedCommand(command)){localStorage.setItem(name,JSON.stringify(array(read(name)).filter(row=>row.key!==command.key)));const archiveKey=name+':retired-v193';localStorage.setItem(archiveKey,JSON.stringify([...array(read(archiveKey)),command]));continue;}try{
+    try{for(const originalCommand of array(read(name))){const command=compatibleCommand(originalCommand);if(!stillCurrent(expectedEpoch,expectedOwner))break;if(!retainedCommand(command)){localStorage.setItem(name,JSON.stringify(array(read(name)).filter(row=>row.key!==command.key)));const archiveKey=name+':retired-v193';localStorage.setItem(archiveKey,JSON.stringify([...array(read(archiveKey)),command]));continue;}try{
       const localRows=typeof P!=='undefined'?array(P[command.op==='routine'?'routines':'checklists']):[],localRow=localRows.find(row=>str(row.id)===str(command.id)),localBefore=JSON.stringify(localRow||null);
       const result=await window.AiderDearFirebase.applyWidgetActionV165(command);if(!stillCurrent(expectedEpoch,expectedOwner))break;
       localStorage.setItem(name,JSON.stringify(array(read(name)).filter(row=>row.key!==command.key)));
@@ -161,7 +162,7 @@
     buttons.style.cssText='display:flex;justify-content:flex-end;gap:12px;margin-top:14px';save.type='submit';save.textContent='저장';cancel.type='button';cancel.textContent='취소';for(const b of [save,cancel])b.style.cssText='min-width:68px;min-height:44px;font:inherit';buttons.append(cancel,save);form.append(label,input,dateInput,buttons);dialog.append(form);document.body.append(dialog);dialog.addEventListener('close',()=>dialog.remove());cancel.onclick=()=>dialog.close();form.onsubmit=e=>{e.preventDefault();if(!str(input.value))return;const uid=auth()?.user?.uid;if(uid!==command.uid){dialog.close();return;}const id='widget-'+crypto.randomUUID();enqueue({...command,id,key:id,value:str(input.value),date:dateInput.value||''});dialog.close();flushCommands();};dialog.showModal();
   }
   async function commandAction(raw){
-    let command;try{command=JSON.parse(decodeURIComponent(String(raw).slice(12)));}catch{return;}
+    let command;try{command=compatibleCommand(JSON.parse(decodeURIComponent(String(raw).slice(12))));}catch{return;}
     if(!object(command)||!retainedCommand(command)||str(command.uid)!==str(auth()?.user?.uid)||!checkOwner())return;
     if(command.op==='add-todo'){quickAdd(command);return;}
     if(['todo','routine'].includes(command.op)){if(!str(command.id)||!str(command.key)||command.key.length>1000)return;enqueue(command);if(!verified)await refresh();flushCommands();return;}
@@ -172,7 +173,7 @@
         await notebook.refresh?.();if(str(auth()?.user?.uid)!==str(command.uid))return;
         notebook.open?.('memo');if(str(command.id))notebook.edit?.(command.source,command.id,'memo');return;
       }
-      const target=command.value==='routine'?'routine':'schedule';window.AiderLogAppShell?.openTarget?.(target,'');if(command.value==='todo')document.querySelector('#quickMemoBtn')?.click();
+      const target=['routine','routine-stats'].includes(command.value)?'routine':'schedule';window.AiderLogAppShell?.openTarget?.(target,'');if(command.value==='routine-stats'&&str(auth()?.user?.uid)===str(command.uid))document.querySelector('#routine [data-r165-tab="statistics"]')?.click();if(command.value==='todo')document.querySelector('#quickMemoBtn')?.click();
     }
   }
   function sync(){clearTimeout(timer);timer=setTimeout(()=>{try{const payload=JSON.stringify(snapshot());if(payload!==last&&payload.length<=4194304){native.syncWidgets(payload);last=payload}else if(payload.length>4194304){sendBlank();console.warn('[widgets-v164] Snapshot exceeds native transfer limit.');}}catch{sendBlank();console.warn('[widgets-v164] Snapshot sync failed.');}},250)}

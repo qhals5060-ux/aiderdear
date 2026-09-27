@@ -43,7 +43,7 @@ async function layout(el,availableW,availableH,forcedW,forcedH){
   const box={el,m,p,w,h:fixedH,kids:[],weight};const cw=Math.max(1,w-p.l-p.r);
   if(el.name==='TextView'){
     box.image=await textImage(el,cw);box.font=px(get(el,'textSize')||'14sp');
-    if(lw==='wrap_content'&&forcedW===undefined)box.w=Math.min(w,box.image.width+p.l+p.r+1);
+    if(lw==='wrap_content'&&forcedW===undefined)box.w=Math.min(w,Math.max(px(get(el,'minWidth')),box.image.width+p.l+p.r+1));
     box.naturalH=box.image.height?box.image.height+Math.ceil(box.font*.25)+p.t+p.b:0;
     box.h=fixedH??Math.max(px(get(el,'minHeight')),box.naturalH);return box;
   }
@@ -64,7 +64,7 @@ async function layout(el,availableW,availableH,forcedW,forcedH){
     box.h=fixedH??Math.max(px(get(el,'minHeight')),p.t+p.b,...box.kids.map(x=>x.h+x.m.t+x.m.b+p.t+p.b));
   }else{
     let remaining=fixedH===undefined?undefined:fixedH-p.t-p.b,totalWeight=0;const pre=new Map();
-    for(const n of nodes){const margin=edge(n,'layout_margin');if(px(get(n,'layout_weight'))&&remaining!==undefined){totalWeight+=px(get(n,'layout_weight'));remaining-=margin.t+margin.b;}else{const child=await layout(n,cw,undefined);pre.set(n,child);if(remaining!==undefined)remaining-=child.h+child.m.t+child.m.b;}}
+    for(const n of nodes){const margin=edge(n,'layout_margin');if(px(get(n,'layout_weight'))&&remaining!==undefined){totalWeight+=px(get(n,'layout_weight'));remaining-=margin.t+margin.b;}else{const child=await layout(n,cw,get(n,'layout_height')==='match_parent'?remaining:undefined);pre.set(n,child);if(remaining!==undefined)remaining-=child.h+child.m.t+child.m.b;}}
     for(const n of nodes){if(pre.has(n))box.kids.push(pre.get(n));else{const nheight=Math.max(0,remaining)*px(get(n,'layout_weight'))/Math.max(1,totalWeight);box.kids.push(await layout(n,cw,nheight,undefined,nheight));}}
     box.h=fixedH??Math.max(px(get(el,'minHeight')),box.kids.reduce((s,x)=>s+x.h+x.m.t+x.m.b,p.t+p.b));
   }
@@ -100,7 +100,7 @@ function drawable(ref,x,y,w,h){
 function draw(box,x,y,report){
   if(box.hidden)return '';const {el,w,h,p}=box;let out=drawable(get(el,'background'),x,y,w,h);
   if(el.name==='ImageView')return out+drawable(get(el,'src'),x,y,w,h);
-  if(el.name==='ProgressBar'){const value=Math.max(0,Math.min(100,px(get(el,'progress'))));return out+`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="4" fill="${get(el,'progressBackgroundTint')||'#DED9FF'}"/><rect x="${x}" y="${y}" width="${w*value/100}" height="${h}" rx="4" fill="${get(el,'progressTint')||'#6255E8'}"/>`;}
+  if(el.name==='ProgressBar'){const maximum=Math.max(1,px(get(el,'max'))||100),value=Math.max(0,Math.min(100,px(get(el,'progress'))/maximum*100));return out+`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="4" fill="${get(el,'progressBackgroundTint')||'#DED9FF'}"/><rect x="${x}" y="${y}" width="${w*value/100}" height="${h}" rx="4" fill="${get(el,'progressTint')||'#6255E8'}"/>`;}
   if(el.name==='TextView'&&box.image.data){
     const i=box.image,gravity=get(el,'gravity'),tx=gravity.includes('right')?x+w-p.r-i.width:gravity==='center'?x+(w-i.width)/2:x+p.l;
     const ty=gravity.includes('center')?y+(h-i.height)/2:y+p.t+box.font*.12;

@@ -1,4 +1,6 @@
-@layer core194 {
+@layer core195 {
+/* Let WebView keep vertical scroll/pinch while the calendar owns horizontal swipes. */
+#home .schedule-calendar-v119{touch-action:pan-y pinch-zoom}
 /* Finance/workflow keep their existing editors; Schedule uses the original sizing. */
 html body #app #personal .personal-page{display:flex!important;flex-direction:column!important;padding:8px!important;gap:8px!important}
 html body #app #personal .personal-title{height:auto!important;min-height:85px!important;flex-shrink:0!important;align-content:flex-start!important;margin:0!important}

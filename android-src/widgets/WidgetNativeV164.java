@@ -33,7 +33,7 @@ public final class WidgetNativeV164 {
     static int drawable(Context c,String name){return c.getResources().getIdentifier(name,"drawable",c.getPackageName());}
     static SharedPreferences prefs(Context c){return c.getSharedPreferences(PREF,0);}
     static String type(String name){return name==null?"":name.substring(name.lastIndexOf('$')+1);}
-    static JSONObject snapshot(Context c){try{return new JSONObject(prefs(c).getString("widget_snapshot","{}"));}catch(Exception e){return new JSONObject();}}
+    static JSONObject snapshot(Context c){try{return WidgetCalendarV195.overlay(c,new JSONObject(prefs(c).getString("widget_snapshot","{}")));}catch(Exception e){return new JSONObject();}}
     static String day(Calendar value){synchronized(DATE){return DATE.format(value.getTime());}}
     static Calendar date(String key){Calendar value=Calendar.getInstance();try{synchronized(DATE){value.setTime(DATE.parse(key));}}catch(Exception ignored){}return value;}
     static String selected(Context c,int widget){return prefs(c).getString("widget_date_"+widget,day(Calendar.getInstance()));}
@@ -107,7 +107,7 @@ public final class WidgetNativeV164 {
             link.setContentDescription(id(c,"widget_root"),"새 고객정보 입력 링크 생성 및 복사");
             link.setOnClickPendingIntent(id(c,"widget_root"),open(c,widget,kind,"create-client-intake-v168:"+widget+":"+uid));return link;
         }
-        if(WidgetRoutineV194.supports(kind))return WidgetRoutineV194.render(c,widget,kind,preview,selectedTheme,opacity,selectedFont);
+        if(WidgetRoutineV195.supports(kind))return WidgetRoutineV195.render(c,widget,kind,preview,selectedTheme,opacity,selectedFont);
         if(WidgetCompactCalendarV181.supports(kind))return WidgetCompactCalendarV181.render(c,widget,kind,preview,selectedTheme,opacity,selectedFont);
         if(!kind.startsWith("Calendar"))return WidgetDesignV165.render(c,widget,kind,preview,selectedTheme,opacity,selectedFont);
         JSONObject data=snapshot(c);
@@ -217,7 +217,7 @@ public final class WidgetNativeV164 {
     }
     static List<String> rows(Context c,int widget,String kind,JSONObject data){
         if(!WidgetProvider.supports(WidgetDesignV165.base(kind)))return new ArrayList<String>();
-        if(WidgetRoutineV194.supports(kind))return WidgetRoutineV194.rows(kind,data,WidgetDesignV165.options(c,widget));
+        if(WidgetRoutineV195.supports(kind))return WidgetRoutineV195.rowsAt(kind,data,WidgetDesignV165.options(c,widget),day(Calendar.getInstance()));
         if(WidgetCompactCalendarV181.supports(kind))return WidgetCompactCalendarV181.rows(c,widget,kind,data);
         if(!kind.startsWith("Calendar"))return WidgetDesignV165.rows(c,widget,kind,data);
         if(kind.startsWith("Calendar")){
@@ -235,7 +235,7 @@ public final class WidgetNativeV164 {
     }
     static RemoteViews row(Context c,int widget,String kind,String line,int index,String overrideTheme,int selectedFont){
         if(!WidgetProvider.supports(WidgetDesignV165.base(kind)))return null;
-        if(WidgetRoutineV194.supports(kind))return WidgetRoutineV194.row(c,widget,kind,line,overrideTheme,selectedFont);
+        if(WidgetRoutineV195.supports(kind))return WidgetRoutineV195.row(c,widget,kind,line,overrideTheme,selectedFont);
         if(WidgetCompactCalendarV181.supports(kind))return WidgetCompactCalendarV181.row(c,widget,kind,line,index,overrideTheme,selectedFont);
         if(!kind.startsWith("Calendar"))return WidgetDesignV165.row(c,widget,kind,line,index,overrideTheme,selectedFont);
         JSONObject record;try{record=new JSONObject(line);}catch(Exception e){record=new JSONObject();WidgetDesignV165.put(record,"title",line);}
@@ -257,7 +257,7 @@ public final class WidgetNativeV164 {
     static void collection(Context c,RemoteViews v,int widget,String kind,List<String> rows,int list)throws RuntimeException{
         String target=kind.startsWith("Calendar")?"home":kind.startsWith("Routine")?"private":"personal";
         Intent open=new Intent().setClassName(c,c.getPackageName()+".MainActivity").setAction("aiderlog.widget.collection."+widget+"."+kind).putExtra("target",target).addFlags(0x14000000);
-        v.setPendingIntentTemplate(list,PendingIntent.getActivity(c,widget*17+kind.hashCode(),open,android.os.Build.VERSION.SDK_INT>=31?0x0a000000:0x08000000));
+        v.setPendingIntentTemplate(list,kind.startsWith("Calendar")&&!kind.contains("@")?WidgetCalendarV195.collection(c,widget,kind,WidgetCalendarV195.owner(snapshot(c))):PendingIntent.getActivity(c,widget*17+kind.hashCode(),open,android.os.Build.VERSION.SDK_INT>=31?0x0a000000:0x08000000));
         if(android.os.Build.VERSION.SDK_INT>=31&&kind.startsWith("Calendar")&&rows.size()<=40){try{
             Class<?> builderClass=Class.forName("android.widget.RemoteViews$RemoteCollectionItems$Builder");Object builder=builderClass.getDeclaredConstructor().newInstance();
             builderClass.getMethod("setHasStableIds",boolean.class).invoke(builder,true);

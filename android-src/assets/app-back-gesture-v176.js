@@ -85,7 +85,7 @@
 
   function begin(event, point, kind) {
     gesture = null;
-    if (current() === 'home' && window.AiderCoreV194) return;
+    if (current() === 'home' && window.AiderCoreV195) return;
     // An edge-only gesture does not steal card carousels or horizontal lessons.
     if (!point || point.x > Math.min(48, Math.max(32, window.innerWidth * .12)) || point.x < 0 || blocked(event)) return;
     gesture = { ...point, startX: point.x, startY: point.y, at: Date.now(), kind, locked: false };

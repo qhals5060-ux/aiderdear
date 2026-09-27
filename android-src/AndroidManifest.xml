@@ -27,6 +27,7 @@
         <data android:host="calendar-sync" android:scheme="aiderlog" />
       </intent-filter>
     </activity>
+    <activity android:exported="false" android:name=".WidgetDayActivityV195" android:theme="@style/WidgetDayThemeV195" android:excludeFromRecents="true" android:taskAffinity="" android:windowSoftInputMode="adjustResize" />
     <activity android:exported="true" android:name=".WidgetConfigActivity" android:theme="@style/ConfigTheme" />
     <receiver android:exported="false" android:name=".WidgetNavV164" />
     <service android:exported="false" android:name=".WidgetRowsV164" android:permission="android.permission.BIND_REMOTEVIEWS" />
@@ -55,23 +56,11 @@
       </intent-filter>
       <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_calendar_fortnight" />
     </receiver>
-    <receiver android:exported="true" android:label="루틴 · 체크리스트" android:name=".WidgetProvider$RoutineAll">
+    <receiver android:exported="true" android:label="전체 루틴 · 주간 기록" android:name=".WidgetProvider$RoutineAll">
       <intent-filter>
         <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
       </intent-filter>
       <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_routine_all" />
-    </receiver>
-    <receiver android:exported="true" android:label="루틴 · 하나의 루틴" android:name=".WidgetProvider$RoutineCards">
-      <intent-filter>
-        <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-      </intent-filter>
-      <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_routine_cards" />
-    </receiver>
-    <receiver android:exported="true" android:label="루틴 · 통계" android:name=".WidgetProvider$RoutineStats">
-      <intent-filter>
-        <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-      </intent-filter>
-      <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_routine_stats" />
     </receiver>
   </application>
 </manifest>

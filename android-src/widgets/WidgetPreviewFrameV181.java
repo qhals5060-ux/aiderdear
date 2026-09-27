@@ -11,8 +11,8 @@ public final class WidgetPreviewFrameV181 {
     private static final WeakHashMap<ViewGroup,Boolean> awaiting=new WeakHashMap<ViewGroup,Boolean>();
     private static final ThreadLocal<SizeF> previous=new ThreadLocal<SizeF>();
     private static final ThreadLocal<Boolean> applied=new ThreadLocal<Boolean>();
-    static boolean compact(String kind){return WidgetCompactCalendarV181.supports(kind)||WidgetApprovedV188.supports(kind);}
-    static float ratio(String kind){return WidgetRoutineV194.supports(kind)?WidgetRoutineV194.ratio(kind):WidgetCompactCalendarV181.ratio(kind);}
+    static boolean compact(String kind){return WidgetCompactCalendarV181.supports(kind)||WidgetRoutineV195.supports(kind);}
+    static float ratio(String kind){return WidgetRoutineV195.supports(kind)?WidgetRoutineV195.ratio(kind):WidgetCompactCalendarV181.ratio(kind);}
     static int heightForWidth(int width,int left,int right,int top,int bottom){
         return Math.max(1,Math.round(Math.max(1,width-left-right)/2f))+top+bottom;
     }
