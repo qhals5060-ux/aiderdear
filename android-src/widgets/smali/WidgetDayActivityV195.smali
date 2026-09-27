@@ -1281,15 +1281,23 @@
 
     invoke-direct {v11}, Landroid/graphics/drawable/GradientDrawable;-><init>()V
 
-    iget-object v12, p0, Lcom/aiderlog/v22app/WidgetDayActivityV195;->chosen:Ljava/lang/String;
-
-    const/4 v13, 0x2
-
-    invoke-static {v12, v13}, Lcom/aiderlog/v22app/WidgetThemeV190;->color(Ljava/lang/String;I)I
+    invoke-static {v10}, Lcom/aiderlog/v22app/WidgetCompactCalendarV181;->dayCardColor(Lorg/json/JSONObject;)I
 
     move-result v12
 
     invoke-virtual {v11, v12}, Landroid/graphics/drawable/GradientDrawable;->setColor(I)V
+
+    const/high16 v12, 0x3f800000    # 1.0f
+
+    invoke-virtual {p0, v12}, Lcom/aiderlog/v22app/WidgetDayActivityV195;->dp(F)I
+
+    move-result v12
+
+    invoke-static {v10}, Lcom/aiderlog/v22app/WidgetCompactCalendarV181;->eventColor(Lorg/json/JSONObject;)I
+
+    move-result v13
+
+    invoke-virtual {v11, v12, v13}, Landroid/graphics/drawable/GradientDrawable;->setStroke(II)V
 
     invoke-virtual {p0, v5}, Lcom/aiderlog/v22app/WidgetDayActivityV195;->dp(F)I
 

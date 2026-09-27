@@ -1,0 +1,1 @@
+package android.graphics;public class Paint {private float size=12;public Paint(){}public void setTextSize(float s){size=s;}public float measureText(String s){return s.length()*size*.6f;}public Typeface setTypeface(Typeface t){return t;}}

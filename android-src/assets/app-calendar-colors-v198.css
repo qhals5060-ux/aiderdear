@@ -1,0 +1,34 @@
+/* Calendar identity colours do not alter date cells or the saved app theme. */
+@layer core195 {
+  html body #home .schedule-upcoming-line-v179[data-calendar-owner-v198]>i {background:var(--owner-color)!important}
+  html.app-readability-v184 body #app.app #home .schedule-event-name-v119[data-calendar-event-v198] {
+    background:color-mix(in srgb,var(--calendar-event-color-v198) 14%,var(--app-surface,#fff))!important;
+    border-left:2px solid var(--calendar-event-color-v198)!important;
+    color:var(--app-text,#2d2538)!important;
+    -webkit-text-fill-color:currentColor!important;
+  }
+  html body :is(.weekly-view-v184,.week-overview-dialog-v184) .week-event-v184[data-calendar-event-v198] {
+    background:color-mix(in srgb,var(--calendar-event-color-v198) 14%,var(--app-surface,#fff))!important;
+    border-color:color-mix(in srgb,var(--calendar-event-color-v198) 35%,var(--app-border,#ddd))!important;
+    border-left:3px solid var(--calendar-event-color-v198)!important;
+    color:var(--app-text,#2d2538)!important;
+    -webkit-text-fill-color:currentColor!important;
+  }
+  html body .calendar-source-list-v125 .calendar-source-row-v198 {
+    display:grid;grid-template-columns:minmax(0,1fr) 110px;gap:8px;align-items:center;
+    padding:6px 8px;border:1px solid var(--app-border);border-radius:9px;background:var(--app-surface)!important;
+  }
+  html body .calendar-source-list-v125 .calendar-source-row-v198>label {
+    min-width:0;margin:0;padding:0;border:0;background:transparent!important;color:var(--app-text)!important;
+  }
+  html body .calendar-source-row-v198 .calendar-source-name-v198 {grid-template-columns:18px 10px minmax(0,1fr)}
+  html body .calendar-source-name-v198 span {min-width:0;overflow-wrap:anywhere;line-height:1.4}
+  html body .calendar-source-row-v198 .calendar-color-choice-v198 {display:block!important;width:110px!important;padding:0!important;font-size:10px}
+  html body .calendar-color-choice-v198>span {position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+  html body .calendar-color-choice-v198>select {
+    width:100%!important;min-width:0!important;min-height:36px;padding:4px 5px;border-radius:7px;border:1px solid var(--app-control-border);
+    background:var(--app-control)!important;color:var(--app-text)!important;-webkit-text-fill-color:currentColor!important;font:inherit;font-size:11px;
+  }
+  html body .calendar-color-help-v198 {margin:2px 0;color:var(--app-text-muted)!important;font-size:11px;line-height:1.5}
+}
+

@@ -1,0 +1,16 @@
+package com.aiderlog.v22app;
+import java.util.*;import org.json.*;
+/** Native color fidelity: row.color is resolved once by the shared web publisher. */
+public final class WidgetColorContractV198 {
+ static int checks;static void check(boolean ok,String label){checks++;if(!ok)throw new AssertionError(label);}
+ static JSONObject event(String id,String color)throws Exception{return new JSONObject().put("id",id).put("title",id).put("date","2026-09-27").put("color",color);}
+ public static void main(String[] args)throws Exception{
+  String[] colors={"#966B4B","#765545","#A88A68","#C2A578","#000000","#ffffff","#1a73e8"};
+  for(String color:colors){JSONObject row=event("brown",color);int expected=0xff000000|(int)Long.parseLong(color.substring(1),16);check(WidgetCompactCalendarV181.eventColor(row)==expected,"hex fidelity "+color);check((WidgetCompactCalendarV181.dayCardColor(row)&0xffffff)==(expected&0xffffff),"daycard retains hue "+color);check((WidgetCompactCalendarV181.softColor(expected,true)&0xffffff)==(expected&0xffffff),"darktint retains hue "+color);}
+  JSONObject first=event("calendar-a-1","#966B4B"),same=event("calendar-a-2","#966B4B"),second=event("calendar-b-1","#1a73e8");List<String> rows=Arrays.asList(first.toString(),same.toString(),second.toString());int[] marks=WidgetCompactCalendarV181.dotColors(rows);check(marks.length==2,"mini geometry remains twodots");check(marks[0]==0xff966b4b&&marks[1]==0xff1a73e8,"mini prioritizes different calendars beyond firsttwoevents");check(WidgetCompactCalendarV181.dotColors(Collections.<String>emptyList()).length==0,"emptycalendar hasnodots");check(WidgetCompactCalendarV181.dotColors(Arrays.asList(first.toString())).length==1,"single event onedot");marks=WidgetCompactCalendarV181.dotColors(Arrays.asList(first.toString(),same.toString()));check(marks.length==2&&marks[0]==marks[1],"samecalendar multipleevents retain samecolor");
+  JSONArray events=new JSONArray().put(first).put(second);List<String> day=WidgetCompactCalendarV181.scheduleRows(events,"2026-09-27"),upcoming=WidgetCompactCalendarV181.upcomingRows(events,"2026-09-27");check(day.size()==2&&upcoming.size()==2,"both calendarrecords survive routing");for(List<String> list:Arrays.asList(day,upcoming))for(String json:list){JSONObject row=new JSONObject(json);check(row.optString("color").equals(row.optString("id").startsWith("calendar-a")?"#966B4B":"#1a73e8"),"collection/date sheet projection preserves color");}
+  JSONObject noColor=event("stable-id","");int fallback=WidgetCompactCalendarV181.eventColor(noColor);for(String invalid:new String[]{"brown","#xyz123","#12345","#12345678","red; background:url(x)"})check(WidgetCompactCalendarV181.eventColor(event("stable-id",invalid))==fallback,"invalid color safe deterministic fallback");check(WidgetCompactCalendarV181.eventColor(event("different-id","#966B4B"))==WidgetCompactCalendarV181.eventColor(first),"explicit samecalendar hue not overridden byeventID");
+  for(String theme:WidgetThemeV190.KEYS){check(WidgetThemeV190.color(theme,4)!=WidgetThemeV190.color(theme,1),"theme text remains distinct "+theme);check((WidgetThemeV190.color(theme,4)>>>24)==255,"opaque theme text "+theme);}
+  System.out.println("PASS "+checks+" native calendar color contracts");
+ }
+}

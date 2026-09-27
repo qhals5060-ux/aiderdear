@@ -1,6 +1,7 @@
 import {decodeArchive,encodeStoredPayload} from '../archive-codec-v168.js';
 import crypto from 'node:crypto';
 import {mergeProviderRows,sameRows} from '../server/calendar-rows-v184.mjs';
+import {googleColorState,colorGoogleRows} from '../server/calendar-color-prefs-v198.mjs';
 import { applicationDefault, cert, getApps, initializeApp } from 'firebase-admin/app';
 import { getAuth } from 'firebase-admin/auth';
 import { FieldValue, getFirestore } from 'firebase-admin/firestore';
@@ -181,7 +182,18 @@ async function replaceProviderRows(uid, provider, rows, coverage = null) {
     const ref = scheduleRef(uid);
     const snapshot = await transaction.get(ref);
     const previous = decodeArchive(snapshot.data()?.payload) || [];
-    const merged = mergeProviderRows(previous,provider,rows,uid,email,coverage);
+    let merged = mergeProviderRows(previous,provider,rows,uid,email,coverage);
+    if(provider==='google'&&coverage?.colorCalendars){
+      // Fetches can finish after a newer color choice. Use the latest owner-bound
+      // preference in this same commit, including retained dates outside coverage.
+      const colorRef=integrationRef(uid,'google'),colorSnapshot=await transaction.get(colorRef);
+      const colorData=colorSnapshot.data()||{},colorState=googleColorState(coverage.colorCalendars,colorData);
+      merged=colorGoogleRows(merged,colorState);
+      const preferences={};
+      if(!sameRows(colorData.calendarAutoColors||{},colorState.calendarAutoColors))preferences.calendarAutoColors=colorState.calendarAutoColors;
+      if(!Array.isArray(colorData.selectedCalendarIds)||!colorData.selectedCalendarIds.length)preferences.selectedCalendarIds=coverage.selectedCalendarIds||[];
+      if(Object.keys(preferences).length)transaction.set(colorRef,preferences,{mergeFields:Object.keys(preferences)});
+    }
     savedRows = merged;
     changed = !sameRows(previous,merged);
     if(!changed)return;
@@ -278,7 +290,8 @@ async function listGoogleEvents(token, calendar, start, end, sharedEventKeys = n
         googleEventId: item.id,
         calendarId: `google:${calendar.id}`,
         sourceTitle: cleanText(calendar.summary || 'Google Calendar', 80),
-        sourceColor: calendar.backgroundColor || '#4285F4',
+        sourceColor: calendar.displayColor || calendar.backgroundColor || '#4285F4',
+        ...(calendar.displayColor ? {sourceColorVersion:198} : {}),
         externalSource: 'google',
         externalId: item.id,
         isAiderDear: false,
@@ -325,8 +338,11 @@ async function googleCalendarChoices(uid) {
   const connection = await googleAccess(uid);
   const calendars = await availableGoogleCalendars(connection);
   const selectedIds = selectedGoogleCalendars(connection, calendars).map(calendar => String(calendar.id));
+  const colorState = googleColorState(calendars, connection.data);
   return {
     selectedCalendarIds: selectedIds,
+    calendarColorOverrides:colorState.calendarColorOverrides,
+    calendarAutoColors:colorState.calendarAutoColors,
     calendars: calendars.map(calendar => ({
       id: String(calendar.id),
       summary: cleanText(calendar.summary || 'Google Calendar', 100),
@@ -335,6 +351,7 @@ async function googleCalendarChoices(uid) {
       writable: ['owner', 'writer'].includes(String(calendar.accessRole || 'reader')),
       backgroundColor: String(calendar.backgroundColor || '#4285F4'),
       foregroundColor: String(calendar.foregroundColor || '#FFFFFF'),
+      displayColor:colorState.colors[String(calendar.id)],
     })),
   };
 }
@@ -345,14 +362,15 @@ async function syncGoogle(uid,{force=true}={}) {
   if(!force&&Date.now()-lastSyncedAt<5*60*1000)return {itemCount:Number(connection.data.itemCount||0),calendarCount:Number(connection.data.calendarCount||0),selectedCalendarIds:connection.data.selectedCalendarIds||[],lastSyncedAt,unchanged:true};
   const calendars = await availableGoogleCalendars(connection);
   const selected = selectedGoogleCalendars(connection, calendars);
+  const colorState = googleColorState(calendars, connection.data);
   const start = new Date(Date.now() - 366 * 86400000).toISOString();
   const end = new Date(Date.now() + 732 * 86400000).toISOString();
   const sharedEventKeys = new Set((Array.isArray(connection.data.sharedEventKeys) ? connection.data.sharedEventKeys : []).map(String));
-  const batches = await Promise.all(selected.map(calendar => listGoogleEvents(connection, calendar, start, end, sharedEventKeys)));
+  const batches = await Promise.all(selected.map(calendar => listGoogleEvents(connection, {...calendar,displayColor:colorState.colors[String(calendar.id)]}, start, end, sharedEventKeys)));
   const rows = batches.flat().sort((a, b) => String(a.date).localeCompare(String(b.date)));
-  const changed=await replaceProviderRows(uid, 'google', rows, {from:start,to:end,calendarIds:selected.map(calendar=>'google:'+calendar.id)});
+  const changed=await replaceProviderRows(uid, 'google', rows, {from:start,to:end,calendarIds:selected.map(calendar=>'google:'+calendar.id),selectedCalendarIds:selected.map(calendar=>String(calendar.id)),colorCalendars:calendars});
   const selectedCalendarIds = selected.map(calendar => String(calendar.id));
-  await connection.ref.set({ provider: 'google', connected: true, selectedCalendarIds, calendarCount: selected.length, itemCount: rows.length, lastSyncedAt: FieldValue.serverTimestamp(), lastError: '' }, { merge: true });
+  await connection.ref.set({ provider: 'google', connected: true, calendarCount: selected.length, itemCount: rows.length, lastSyncedAt: FieldValue.serverTimestamp(), lastError: '' }, { merge: true });
   return { itemCount: rows.length, calendarCount: selected.length, selectedCalendarIds,lastSyncedAt:Date.now(),unchanged:!changed };
 }
 
@@ -468,13 +486,20 @@ async function watchGoogle(uid) {
   return channels.length;
 }
 
-async function configureGoogle(uid, calendarIds = []) {
+async function configureGoogle(uid, calendarIds = [], colorOverrides) {
   const connection = await googleAccess(uid);
   const calendars = await availableGoogleCalendars(connection);
   const allowed = new Set(calendars.map(calendar => String(calendar.id)));
   const selectedCalendarIds = [...new Set((Array.isArray(calendarIds) ? calendarIds : []).map(String).filter(id => allowed.has(id)))].slice(0, 20);
   if (!selectedCalendarIds.length) throw new Error('자동 동기화할 Google 캘린더를 하나 이상 선택해주세요.');
-  await connection.ref.set({ selectedCalendarIds, updatedAt: FieldValue.serverTimestamp() }, { merge: true });
+  // Replace the two map fields atomically: an explicit reset must remove a key,
+  // while concurrent requests must not erase unrelated calendar preferences.
+  await db.runTransaction(async transaction => {
+    const snapshot = await transaction.get(connection.ref);
+    if (!snapshot.exists) throw new Error('Google Calendar를 먼저 연결해주세요.');
+    const colorState = googleColorState(calendars, snapshot.data(), colorOverrides);
+    transaction.set(connection.ref, {selectedCalendarIds,calendarColorOverrides:colorState.calendarColorOverrides,calendarAutoColors:colorState.calendarAutoColors,updatedAt:FieldValue.serverTimestamp()}, {mergeFields:['selectedCalendarIds','calendarColorOverrides','calendarAutoColors','updatedAt']});
+  });
   const result = await syncGoogle(uid);
   try { await watchGoogle(uid); } catch (error) {
     await connection.ref.set({ watchError: error.message || String(error), watchUpdatedAt: FieldValue.serverTimestamp() }, { merge: true });
@@ -740,7 +765,7 @@ export default async function handler(req, res) {
       return json(res, 200, result);
     }
     if (action === 'configure') {
-      if (parsed.value.provider === 'google') return json(res, 200, await configureGoogle(user.uid, parsed.value.calendarIds));
+      if (parsed.value.provider === 'google') return json(res, 200, await configureGoogle(user.uid, parsed.value.calendarIds, parsed.value.calendarColorOverrides));
       if (parsed.value.provider !== 'notion') throw new Error('지원하지 않는 설정입니다.');
       const sourceId = notionSourceId(parsed.value.source);
       const ref = integrationRef(user.uid, 'notion');

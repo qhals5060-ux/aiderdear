@@ -1,7 +1,9 @@
 package com.aiderlog.v22app;
 
 import android.content.Context;
-import android.graphics.Color;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.graphics.Paint;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -83,9 +85,13 @@ public final class WidgetCompactCalendarV181 {
     static String selectedDay(Context c,int widget,String kind){Calendar today=Calendar.getInstance();if("CalendarAgenda".equals(WidgetDesignV165.base(kind)))today.add(Calendar.DAY_OF_MONTH,prefs(c).getInt("widget_agenda_offset_"+widget,0));return day(today);}
     static int opacity(Context c,int widget,int override) {return Math.max(0,Math.min(100,override<0?prefs(c).getInt("widget_opacity_"+widget,100):override));}
     static int eventColor(JSONObject row) {
-        String value=row.optString("color");if(value.matches("#[0-9a-fA-F]{6}"))try{return Color.parseColor(value);}catch(Exception ignored){}
+        String value=row.optString("color");if(value.matches("#[0-9a-fA-F]{6}"))try{return 0xff000000|(int)Long.parseLong(value.substring(1),16);}catch(Exception ignored){}
         int[] palette={0xff7561dc,0xff5d83d5,0xffbd75b8,0xff9080d1};return palette[(row.optString("id",row.optString("title")).hashCode()&0x7fffffff)%palette.length];
     }
+    /** Preserve the two-dot footprint while preferring two different calendar colors. */
+    static int[] dotColors(List<String> events){List<Integer> colors=new ArrayList<Integer>();for(String json:events)try{colors.add(eventColor(new JSONObject(json)));}catch(Exception ignored){}if(colors.isEmpty())return new int[0];int first=colors.get(0),second=first;if(colors.size()==1)return new int[]{first};for(int color:colors)if(color!=first){second=color;break;}return new int[]{first,second};}
+    static CharSequence eventDots(List<String> events){int[] colors=dotColors(events);SpannableString text=new SpannableString(colors.length==0?"":colors.length==1?"•":"••");for(int i=0;i<colors.length;i++)text.setSpan(new ForegroundColorSpan(colors[i]),i,i+1,Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);return text;}
+    static int dayCardColor(JSONObject row){return softColor(eventColor(row),false);}
     static int softColor(int value,boolean night){return (night?0x50000000:0x22000000)|(value&0x00ffffff);}
     // Secondary labels stay opaque and readable when the widget background is transparent.
     static int secondaryInk(Context c,String chosen){return WidgetThemeV190.muted(chosen);}
@@ -174,7 +180,7 @@ public final class WidgetCompactCalendarV181 {
                 float holidaySize=Math.max(8,WidgetSizeV169.sp(c,widget,selectedFont,8.5f));String holidayLabel=holiday;
                 if(mini&&!holiday.isEmpty()){Paint dateMeasure=new Paint();dateMeasure.setTypeface(android.graphics.Typeface.DEFAULT_BOLD);dateMeasure.setTextSize(WidgetSizeV169.sp(c,widget,selectedFont,compact?8.5f:11.5f)*scaled);float dayWidth=Math.max(9,dateMeasure.measureText(String.valueOf(start.get(Calendar.DAY_OF_MONTH))));float cellWidth=((width-(compact?8:12)-.5f)*.48f-4)/7;Paint labelMeasure=new Paint();labelMeasure.setTextSize(holidaySize*scaled);int fit=(int)Math.floor(Math.max(0,cellWidth-dayWidth-1)/Math.max(1,labelMeasure.measureText("공")));holidayLabel=inlineHoliday(holiday,fit);}
                 text(c,cell,"w184_holiday",holidayLabel);color(c,cell,"w184_holiday",foreground);show(c,cell,"w184_holiday",!holiday.isEmpty());cell.setTextViewTextSize(id(c,"w184_holiday"),2,holidaySize);cell.setContentDescription(id(c,"w184_holiday"),holiday);
-                if(mini){boolean dots=cellHeight>=19;text(c,cell,"w184_dots",dated.isEmpty()?"":dated.size()>1?"••":"•");show(c,cell,"w184_dots",dots);if(!dots&&!dated.isEmpty()&&!key.equals(today))color(c,cell,"w184_day",WidgetThemeV190.accent(chosen));color(c,cell,"w184_dots",WidgetThemeV190.accent(chosen));}
+                if(mini){boolean dots=cellHeight>=19;cell.setTextViewText(id(c,"w184_dots"),eventDots(dated));show(c,cell,"w184_dots",dots);int[] marks=dotColors(dated);if(!dots&&marks.length>0&&!key.equals(today))color(c,cell,"w184_day",marks[0]);}
                 else{
                     cell.setImageViewResource(id(c,"w184_cell_background"),drawable(c,WidgetThemeV190.resource(chosen,"grid")));
                     cell.setInt(id(c,"w184_cell_background"),"setImageAlpha",Math.round(255*opacity(c,widget,overrideOpacity)/100f));

@@ -1,11 +1,11 @@
 {
   "name": "aiderlog-v121",
   "private": true,
-  "version": "197.0.0",
+  "version": "198.0.0",
   "type": "module",
   "scripts": {
-    "test:core": "node --test tests/core-scope-v193.test.mjs tests/core-cache-v197.test.cjs tests/firebase-quota-v191.test.mjs tests/calendar-sync-v184.test.mjs tests/app-data-quota-v191.test.cjs tests/site-quota-v191.test.cjs tests/site-single-design-v189.test.cjs tests/private-calendar-v175.test.mjs tests/private-calendar-days-v178.test.mjs tests/friend-schedule-firebase-v175.mjs android-src/widgets/test-widget-core-v196.cjs android-src/widgets/test-widget-routing-v196.cjs android-src/widgets/test-widget-resources-v195.cjs tests/routine-steps-v195.test.cjs tests/widget-calendar-sync-v195.test.mjs android-src/widgets/test-widget-calendar-v195.cjs tests/widget-private-v196.test.mjs android-src/widgets/test-widget-note-v197.cjs",
-    "test:ui": "node tests/site-core-v195.ui.cjs && node tests/app-core-v195.ui.cjs && node tests/routine-steps-v195.ui.cjs && node tests/widget-calendar-v195.ui.cjs && node tests/widget-private-v196.ui.cjs"
+    "test:core": "node --test tests/core-scope-v193.test.mjs tests/core-cache-v198.test.cjs tests/firebase-quota-v191.test.mjs tests/calendar-sync-v184.test.mjs tests/app-data-quota-v191.test.cjs tests/site-quota-v191.test.cjs tests/site-single-design-v189.test.cjs tests/private-calendar-v175.test.mjs tests/private-calendar-days-v178.test.mjs tests/friend-schedule-firebase-v175.mjs android-src/widgets/test-widget-core-v196.cjs android-src/widgets/test-widget-routing-v196.cjs android-src/widgets/test-widget-resources-v195.cjs tests/routine-steps-v195.test.cjs tests/widget-calendar-sync-v195.test.mjs android-src/widgets/test-widget-calendar-v195.cjs tests/widget-private-v196.test.mjs android-src/widgets/test-widget-note-v197.cjs tests/calendar-colors-v198.test.cjs tests/calendar-color-prefs-v198.test.mjs",
+    "test:ui": "node tests/site-core-v195.ui.cjs && node tests/app-core-v195.ui.cjs && node tests/routine-steps-v195.ui.cjs && node tests/widget-calendar-v195.ui.cjs && node tests/widget-private-v196.ui.cjs && node tests/site-calendar-colors-v198.ui.cjs && node tests/app-calendar-colors-v198.ui.cjs"
   },
   "engines": {
     "node": ">=20"

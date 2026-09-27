@@ -1,5 +1,5 @@
-const CACHE='aiderlog-v197-site-core';
-const APP_SHELL=[
+const CACHE='aiderlog-v198-site-core';
+const APP_SHELL=["./calendar-colors-v198.js", "./site-calendar-colors-v198.css",
   "./aiderdear-icon-180.png",
   "./aiderdear-icon-192.png",
   "./aiderdear-icon-512.png",

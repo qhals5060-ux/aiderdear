@@ -185,23 +185,36 @@
     };
   }
 
-  let googleSourcesV125 = [];
+  let googleSourcesV125 = [],googleColorOverridesV198={},googleAutoColorsV198={},googleColorEditsV198={},googlePickerOwnerV198='';
+  window.addEventListener('aiderdear-firebase-state',()=>{if(googlePickerOwnerV198&&googlePickerOwnerV198!==String(currentUser()?.uid||'')){googlePickerOwnerV198='';googleSourcesV125=[];googleColorOverridesV198={};googleAutoColorsV198={};googleColorEditsV198={};const host=$('[data-calendar-sources-v125]');if(host){host.innerHTML='';host.classList.remove('on');}}});
   function calendarSelection() {
     try { const value = JSON.parse(localStorage.getItem(CALENDAR_KEY) || '[]'); return new Set(Array.isArray(value) ? value.map(String) : []); }
     catch (_) { return new Set(); }
   }
-  function calendarColor(source) { return String(source?.backgroundColor || source?.color || '#6255E8'); }
+  function calendarColor(source) { return window.AiderCalendarColorsV198?.sanitize(source?.displayColor)||'#8B6B4F'; }
+  function calendarColorChoicesV198(source,index) {
+    const colors=window.AiderCalendarColorsV198,selected=colors?.sanitize(googleColorOverridesV198[String(source.id)])||'';
+    return `<label class="calendar-color-choice-v198"><span>색상</span><select data-calendar-color-v198="${index}" aria-label="${safe(source.summary||'Calendar')} 색상"><option value="" ${selected?'':'selected'}>자동</option>${(colors?.palette||[]).map(row=>`<option value="${safe(row.color)}" ${selected===row.color?'selected':''}>${safe(row.label)}</option>`).join('')}${selected&&!(colors?.palette||[]).some(row=>row.color===selected)?`<option value="${selected}" selected>사용자 색상</option>`:''}</select></label>`;
+  }
+  function previewCalendarColorsV198(host) {
+    const colors=window.AiderCalendarColorsV198;if(!colors)return;
+    const overrides=Object.fromEntries($$('[data-calendar-color-v198]',host).map(select=>[String(googleSourcesV125[Number(select.dataset.calendarColorV198)]?.id||''),select.value]));
+    const resolved=colors.allocate(googleSourcesV125.map(source=>String(source.id)),{overrides,automatic:googleAutoColorsV198}).colors;
+    $$('[data-calendar-source-row-v198]',host).forEach(row=>{const source=googleSourcesV125[Number(row.dataset.calendarSourceRowV198)];row.style.setProperty('--source-color',resolved[String(source.id)]||calendarColor(source));});
+  }
   async function connectGoogleCalendars() {
-    const api=window.AiderDearFirebase,host=$('[data-calendar-sources-v125]');
+    const api=window.AiderDearFirebase,host=$('[data-calendar-sources-v125]'),actor=currentUser()?.uid;
     if(!currentUser())return api?.login?.();
     if(!api?.calendarSync||!host)return;
     host.classList.add('on');host.innerHTML='<p class="shorts-transcript-state-v125">Google Calendar 연결 상태를 확인하고 있습니다…</p>';
     try{
-      const status=await api.calendarSync.call('status');
+      const status=await api.calendarSync.call('status');if(actor!==currentUser()?.uid)return;
       if(!status.google?.connected){await api.calendarSync.connect();calendarConnectPendingV184=true;host.innerHTML='<p class="shorts-transcript-state-v125">시스템 브라우저에서 연결한 뒤 앱으로 돌아와주세요.</p>';return;}
-      const result=await api.calendarSync.call('calendars');googleSourcesV125=result.calendars||[];
+      const result=await api.calendarSync.call('calendars');if(actor!==currentUser()?.uid)return;googleSourcesV125=result.calendars||[];
+      googleColorOverridesV198=result.calendarColorOverrides||{};googleAutoColorsV198=result.calendarAutoColors||{};googleColorEditsV198={};googlePickerOwnerV198=String(actor);
       const selected=new Set(result.selectedCalendarIds||[]);
-      host.innerHTML=googleSourcesV125.map((source,index)=>`<label><input type="checkbox" data-calendar-source-v125="${index}" ${selected.has(String(source.id))?'checked':''}><i style="--source-color:${safe(calendarColor(source))}"></i><span>${safe(source.summary||'Calendar')}</span></label>`).join('')+'<div class="calendar-source-actions-v125"><button type="button" data-calendar-source-cancel-v125>취소</button><button type="button" data-calendar-sync-selected-v125>선택 저장 · 자동 동기화</button></div>';
+      host.innerHTML='<p class="calendar-color-help-v198">캘린더마다 자동으로 색상을 구분합니다. 원하는 색상으로 바꿀 수도 있어요.</p>'+googleSourcesV125.map((source,index)=>`<div class="calendar-source-row-v198" data-calendar-source-row-v198="${index}" style="--source-color:${safe(calendarColor(source))}"><label class="calendar-source-name-v198"><input type="checkbox" data-calendar-source-v125="${index}" ${selected.has(String(source.id))?'checked':''}><i aria-hidden="true"></i><span>${safe(source.summary||'Calendar')}</span></label>${calendarColorChoicesV198(source,index)}</div>`).join('')+'<div class="calendar-source-actions-v125"><button type="button" data-calendar-source-cancel-v125>취소</button><button type="button" data-calendar-sync-selected-v125>선택 저장 · 자동 동기화</button></div>';
+      previewCalendarColorsV198(host);host.onchange=event=>{if(!event.target.matches('[data-calendar-color-v198]'))return;const select=event.target,id=String(googleSourcesV125[Number(select.dataset.calendarColorV198)]?.id||'');if(select.value===(window.AiderCalendarColorsV198?.sanitize(googleColorOverridesV198[id])||''))delete googleColorEditsV198[id];else googleColorEditsV198[id]=select.value;previewCalendarColorsV198(host);};
     }catch(error){
       if(error.code==='calendar/reconnect-required')try{await api.calendarSync.connect();calendarConnectPendingV184=true;host.innerHTML='<p class="shorts-transcript-state-v125">Google 권한을 확인한 뒤 앱으로 돌아와주세요.</p>';return;}catch(next){error=next;}
       host.innerHTML=`<p class="shorts-transcript-state-v125">${safe(error.message||'연결을 확인해주세요.')}</p>`;
@@ -218,17 +231,18 @@
   function mapGoogleEvent(raw,source,user) {
     const allDay = !!raw?.start?.date;
     return {
-      id:`google:${source.id}:${raw.id}`,googleEventId:raw.id,calendarId:String(source.id),sourceTitle:source.summary || 'Google Calendar',sourceColor:calendarColor(source),externalSource:'google',readOnly:true,
+      id:`google:${source.id}:${raw.id}`,googleEventId:raw.id,calendarId:String(source.id),sourceTitle:source.summary || 'Google Calendar',sourceColor:calendarColor(source),sourceColorVersion:198,externalSource:'google',readOnly:true,
       title:String(raw.summary || '(제목 없음)'),date:googleDate(raw.start),endDate:googleDate(raw.end),time:allDay ? '' : googleTime(raw.start),endTime:allDay ? '' : googleTime(raw.end),allDay,
       category:'other',note:String(raw.description || ''),location:String(raw.location || ''),owner:'mine',shareWithCouple:false,authorEmail:user.email || '',authorUid:user.uid || '',createdAt:Date.now(),updatedAt:Date.now()
     };
   }
   async function syncSelectedGoogleCalendars() {
-    const api=window.AiderDearFirebase,host=$('[data-calendar-sources-v125]');if(!currentUser()||!api?.calendarSync)return;
+    const api=window.AiderDearFirebase,host=$('[data-calendar-sources-v125]'),actor=currentUser()?.uid;if(!actor||actor!==googlePickerOwnerV198||!api?.calendarSync)return;
     const ids=$$('[data-calendar-source-v125]:checked',host).map(input=>googleSourcesV125[Number(input.dataset.calendarSourceV125)]?.id).filter(Boolean);
     if(!ids.length){host.insertAdjacentHTML('afterbegin','<p>동기화할 캘린더를 하나 이상 선택해주세요.</p>');return;}
+    const calendarColorOverrides={...googleColorEditsV198};
     host.innerHTML='<p class="shorts-transcript-state-v125">선택한 일정을 동기화하고 있습니다…</p>';
-    try{await api.calendarSync.call('configure',{provider:'google',calendarIds:ids});api.calendarSync.reset();await refreshCalendarV184();host.innerHTML='<p class="shorts-transcript-state-v125">선택한 캘린더의 자동 동기화를 시작했습니다.</p>';}
+    try{await api.calendarSync.call('configure',{provider:'google',calendarIds:ids,calendarColorOverrides});if(actor!==currentUser()?.uid)return;api.calendarSync.reset();await refreshCalendarV184();if(actor!==currentUser()?.uid)return;host.innerHTML='<p class="shorts-transcript-state-v125">선택한 캘린더의 자동 동기화를 시작했습니다.</p>';}
     catch(error){host.innerHTML=`<p class="shorts-transcript-state-v125">${safe(error.message||'동기화하지 못했습니다.')}</p>`;}
   }
   let calendarBoundV184=false,calendarScopeV184='',calendarTimerV184=null,googleRowsV184=null,calendarConnectPendingV184=false;
@@ -313,29 +327,29 @@
   window.addEventListener('aiderlog-friend-schedule-data',()=>{if(typeof activePage!=='undefined'&&activePage==='home')renderHome()});
   function eventSpansDateV125(row,key) { const start = row.date || '', end = row.endDate || start; return !!start && key >= start && key <= (end || start); }
   function receivedScheduleV176(row) { return window.AiderSharedScheduleV176?.isReceived(row,currentUser())===true; }
-  function eventColorV125(row) { const fallback=row.sourceColor || SCHEDULE_CATEGORY[row.category]?.[1] || SCHEDULE_CATEGORY.other[1];return window.AiderSharedScheduleV176?.color(row,currentUser(),fallback)||fallback; }
+  function eventColorV125(row,colors) { const fallback=row.sourceColor || SCHEDULE_CATEGORY[row.category]?.[1] || SCHEDULE_CATEGORY.other[1],resolved=window.AiderCalendarColorsV198?.color(row,colors,fallback)||fallback;return window.AiderSharedScheduleV176?.color(row,currentUser(),resolved)||resolved; }
   function selectedDdayV125() { return window.AiderAppDdayV175?.selected()||null; }
   function ddayCountV125(row) { return window.AiderAppDdayV175?.count(row)||'—'; }
-  function scheduleCellsV125(year,month) {
+  function scheduleCellsV125(year,month,allRows,colors) {
     const range=scheduleViewV176.current(),start=range.start,previewLimit=3;
     return Array.from({length:range.count},(_,index) => {
-      const date = new Date(start.getFullYear(),start.getMonth(),start.getDate()+index), key = dateKey(date), matches = scheduleRowsV125().filter(row => eventSpansDateV125(row,key)), time=window.AiderScheduleTimeV179, rows=time?time.ordered(matches):matches, outside=date.getMonth()!==month;
+      const date = new Date(start.getFullYear(),start.getMonth(),start.getDate()+index), key = dateKey(date), matches = allRows.filter(row => eventSpansDateV125(row,key)), time=window.AiderScheduleTimeV179, rows=time?time.ordered(matches):matches, outside=date.getMonth()!==month;
       const entries=time?time.entries(rows.slice(0,previewLimit)):rows.slice(0,previewLimit).map(row=>({row}));
       const todos=index===13?'<div class="calendar-todos-v179" data-todo-inline-v179 role="region" aria-label="완료하지 않은 전체 할 일"></div>':'';
-      return `<button type="button" class="day schedule-day-v119${outside?' outside':''}${key===scheduleSelectedV125?' selected':''}${key===dateKey(new Date())?' today':''}" data-schedule-date-v125="${key}" data-date="${key}" aria-label="${key} 일정 관리"><span class="schedule-day-number-v119">${date.getDate()}</span><span class="calendar-status-icons" aria-label="날짜 기록"></span>${entries.map(({row,separatorBefore})=>`${separatorBefore?'<span class="schedule-halfday-v179" aria-label="오후 일정">-</span>':''}<small class="schedule-event-name-v119${row.allDay?' is-all-day':''}${receivedScheduleV176(row)?' schedule-received-v176':''}" title="${safe(row.title||'일정')}"${receivedScheduleV176(row)?` aria-label="상대가 공유한 일정 · ${safe(row.title||'일정')}"`:''}><span class="schedule-event-time-v176">${safe(time?.format(row)||'')}</span><span class="schedule-event-title-v176">${safe(row.title||'일정')}</span></small>`).join('')}${rows.length>previewLimit?`<small class="schedule-more-v176" aria-label="일정 ${rows.length-previewLimit}개 더 보기">+${rows.length-previewLimit}</small>`:''}</button>${todos}`;
+      return `<button type="button" class="day schedule-day-v119${outside?' outside':''}${key===scheduleSelectedV125?' selected':''}${key===dateKey(new Date())?' today':''}" data-schedule-date-v125="${key}" data-date="${key}" aria-label="${key} 일정 관리"><span class="schedule-day-number-v119">${date.getDate()}</span><span class="calendar-status-icons" aria-label="날짜 기록"></span>${entries.map(({row,separatorBefore})=>`${separatorBefore?'<span class="schedule-halfday-v179" aria-label="오후 일정">-</span>':''}<small ${window.AiderCalendarColorsV198?.googleId(row)?`data-calendar-event-v198="${safe(row.id)}" style="--calendar-event-color-v198:${safe(eventColorV125(row,colors))}"`:""} class="schedule-event-name-v119${row.allDay?' is-all-day':''}${receivedScheduleV176(row)?' schedule-received-v176':''}" title="${safe(row.title||'일정')}"${receivedScheduleV176(row)?` aria-label="상대가 공유한 일정 · ${safe(row.title||'일정')}"`:''}><span class="schedule-event-time-v176">${safe(time?.format(row)||'')}</span><span class="schedule-event-title-v176">${safe(row.title||'일정')}</span></small>`).join('')}${rows.length>previewLimit?`<small class="schedule-more-v176" aria-label="일정 ${rows.length-previewLimit}개 더 보기">+${rows.length-previewLimit}</small>`:''}</button>${todos}`;
     }).join('');
   }
-  function scheduleUpcomingV125() {
-    const now = dateKey(new Date()), time=window.AiderScheduleTimeV179, rows = time.ordered(scheduleRowsV125().filter(row => (row.endDate || row.date || '') >= now)).slice(0,12);
-    const ownerColor=row=>window.AiderSharedScheduleV176?.color(row,currentUser(),row.sourceColor||'var(--theme-primary)')||row.sourceColor||'var(--theme-primary)';
-    return `<section class="schedule-upcoming-v179" aria-label="가까운 일정"><h2 class="schedule-side-title-v187">다가오는 일정</h2>${time.entries(rows).map(({row,separatorBefore})=>`${separatorBefore?'<span class="upcoming-halfday-v179" aria-label="오후 일정">-</span>':''}<button class="schedule-upcoming-line-v179${receivedScheduleV176(row)?' schedule-received-v176':''}" type="button" data-schedule-jump-v180="${safe(row.id)}" style="--owner-color:${safe(ownerColor(row))}" title="${safe(row.date||'')} · ${safe(row.title||'일정')}"><i aria-hidden="true"></i><span>${row.allDay?'':`<time>${safe(time.format(row)||'')}</time>`}<b>${safe(row.title||'일정')}</b></span></button>`).join('')}</section>`;
+  function scheduleUpcomingV125(allRows,colors) {
+    const now = dateKey(new Date()), time=window.AiderScheduleTimeV179, rows = time.ordered(allRows.filter(row => (row.endDate || row.date || '') >= now)).slice(0,12);
+    const ownerColor=row=>eventColorV125(row,colors);
+    return `<section class="schedule-upcoming-v179" aria-label="가까운 일정"><h2 class="schedule-side-title-v187">다가오는 일정</h2>${time.entries(rows).map(({row,separatorBefore})=>`${separatorBefore?'<span class="upcoming-halfday-v179" aria-label="오후 일정">-</span>':''}<button class="schedule-upcoming-line-v179${receivedScheduleV176(row)?' schedule-received-v176':''}" type="button" data-schedule-jump-v180="${safe(row.id)}" ${window.AiderCalendarColorsV198?.googleId(row)?'data-calendar-owner-v198':''} style="--owner-color:${safe(ownerColor(row))}" title="${safe(row.date||'')} · ${safe(row.title||'일정')}"><i aria-hidden="true"></i><span>${row.allDay?'':`<time>${safe(time.format(row)||'')}</time>`}<b>${safe(row.title||'일정')}</b></span></button>`).join('')}</section>`;
   }
   function renderScheduleV125() {
     const range=scheduleViewV176.current();scheduleCursorV125=range.anchor;
-    const year=scheduleCursorV125.getFullYear(),month=scheduleCursorV125.getMonth(),dday=selectedDdayV125();
+    const year=scheduleCursorV125.getFullYear(),month=scheduleCursorV125.getMonth(),dday=selectedDdayV125(),allRows=scheduleRowsV125(),colors=window.AiderCalendarColorsV198?.forRows(allRows);
     home.dataset.calendarViewV176=range.mode;
     home.classList.add('schedule-cosmic-v119','schedule-feature-v125');
-    home.innerHTML=`<div class="home schedule-home-v119 schedule-dashboard-v179"><aside class="schedule-summary-v179">${window.AiderAppDdayV175?.cardMarkup?.()||'<button type="button" data-dday-open-v125>D-DAY</button>'}${scheduleUpcomingV125()}</aside><article class="calendar card schedule-calendar-v119"><div class="calhead schedule-calhead-v119"><h1><span>${MONTHS[month]}</span><small>${year}</small></h1><div class="calctl schedule-calctl-v119" aria-label="캘린더 조작"><button type="button" data-calendar-shift-v125="-1" aria-label="이전 달">${icon('previous')}</button><button type="button" class="schedule-today-v119" data-calendar-today-v125>Today</button><button type="button" data-calendar-shift-v125="1" aria-label="다음 달">${icon('next')}</button></div></div><div class="week schedule-week-v119">${WEEK.map(day=>`<span>${day}</span>`).join('')}</div><div class="days schedule-days-v119">${scheduleCellsV125(year,month)}</div></article></div>`;
+    home.innerHTML=`<div class="home schedule-home-v119 schedule-dashboard-v179"><aside class="schedule-summary-v179">${window.AiderAppDdayV175?.cardMarkup?.()||'<button type="button" data-dday-open-v125>D-DAY</button>'}${scheduleUpcomingV125(allRows,colors)}</aside><article class="calendar card schedule-calendar-v119"><div class="calhead schedule-calhead-v119"><h1><span>${MONTHS[month]}</span><small>${year}</small></h1><div class="calctl schedule-calctl-v119" aria-label="캘린더 조작"><button type="button" data-calendar-shift-v125="-1" aria-label="이전 달">${icon('previous')}</button><button type="button" class="schedule-today-v119" data-calendar-today-v125>Today</button><button type="button" data-calendar-shift-v125="1" aria-label="다음 달">${icon('next')}</button></div></div><div class="week schedule-week-v119">${WEEK.map(day=>`<span>${day}</span>`).join('')}</div><div class="days schedule-days-v119">${scheduleCellsV125(year,month,allRows,colors)}</div></article></div>`;
     bindScheduleV125();window.AiderPrivateCalendarUIV175?.calendarChanged();window.AiderEstateCalendarV171?.refresh();window.AiderFriendScheduleUIV175?.refresh();window.AiderCalendarLayoutV179?.refresh();
   }
 
@@ -353,12 +367,12 @@
   function openScheduleV125(date,id='') {
     const projected=id?scheduleRowsV125().find(row=>String(row.id)===String(id)&&row.projectionSource):null;
     if(projected){closeScheduleV125();window.AiderBusinessCalendarV175?.open(projected);return}
-    const overlay=ensureScheduleDialogV125(),form=$('[data-schedule-form-v125]',overlay),rows=scheduleRowsV125().filter(row=>eventSpansDateV125(row,date)),row=id?scheduleRowsV125().find(item=>String(item.id)===String(id)):null;
+    const allRows=scheduleRowsV125(),colors=window.AiderCalendarColorsV198?.forRows(allRows),overlay=ensureScheduleDialogV125(),form=$('[data-schedule-form-v125]',overlay),rows=allRows.filter(row=>eventSpansDateV125(row,date)),row=id?allRows.find(item=>String(item.id)===String(id)):null;
     if(form.dataset.savingV179==='1')return;
     form.dataset.openedActorUidV179=String(currentUser()?.uid||'');form.dataset.openedExistingIdV179=String(id||'');
     const editable=editableScheduleV179(row);scheduleSelectedV125=date||row?.date||scheduleSelectedV125;form.reset();form.elements.id.value=row?.id||'';form.elements.recordScope.value='schedule';form.elements.date.value=row?.date||scheduleSelectedV125;form.elements.endDate.value=row?.endDate||'';form.elements.time.value=row?.time||'';form.elements.endTime.value=row?.endTime||'';form.elements.allDay.checked=row?!!row.allDay:!form.elements.time.value;form.elements.reminderMinutes.value=String(row?.reminderMinutes??30);form.elements.title.value=row?.title||'';form.elements.location.value=row?.location||'';form.elements.note.value=row?.note||row?.memo||'';form.elements.shareWithCouple.checked=!!(row?.shareWithCouple||row?.owner==='shared');$('[data-schedule-title-v125]',overlay).textContent=`${form.elements.date.value} · 일정 ${row?(editable?'수정':'보기'):'추가'}`;$('[data-schedule-delete-v125]',overlay).hidden=!row||!editable;$('[data-schedule-error-v179]',overlay).textContent='';
     const dayEntries=window.AiderScheduleTimeV179?.entries(rows)||rows.map(row=>({row}));
-    $('[data-schedule-day-list-v125]',overlay).innerHTML=dayEntries.map(({row:item,separatorBefore})=>`${separatorBefore?'<span class="schedule-period-separator-v179" aria-label="오후 일정">-</span>':''}<article class="schedule-item-v125${receivedScheduleV176(item)?' schedule-received-v176':''}"${receivedScheduleV176(item)?` aria-label="상대가 공유한 일정 · ${safe(item.title||'일정')}"`:''}><i style="--event-color:${safe(eventColorV125(item))}"></i><div><b>${safe(item.title||'일정')}</b><span>${safe(window.AiderScheduleTimeV179?.format(item)||'')}${item.sourceTitle?` · ${safe(item.sourceTitle)}`:''}</span></div><button type="button" data-schedule-list-edit-v125="${safe(item.id)}">${item.readOnly||receivedScheduleV176(item)?'보기':'수정'}</button></article>`).join('');
+    $('[data-schedule-day-list-v125]',overlay).innerHTML=dayEntries.map(({row:item,separatorBefore})=>`${separatorBefore?'<span class="schedule-period-separator-v179" aria-label="오후 일정">-</span>':''}<article class="schedule-item-v125${receivedScheduleV176(item)?' schedule-received-v176':''}"${receivedScheduleV176(item)?` aria-label="상대가 공유한 일정 · ${safe(item.title||'일정')}"`:''}><i style="--event-color:${safe(eventColorV125(item,colors))}"></i><div><b>${safe(item.title||'일정')}</b><span>${safe(window.AiderScheduleTimeV179?.format(item)||'')}${item.sourceTitle?` · ${safe(item.sourceTitle)}`:''}</span></div><button type="button" data-schedule-list-edit-v125="${safe(item.id)}">${item.readOnly||receivedScheduleV176(item)?'보기':'수정'}</button></article>`).join('');
     $$('input,textarea,select',form).forEach(control=>control.disabled=!editable);
     form.elements.recordScope.disabled=Boolean(row);
     for(const name of ['time','endTime'])form.elements[name].disabled=!editable||form.elements.allDay.checked;

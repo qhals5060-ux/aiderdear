@@ -1,0 +1,34 @@
+/* Google source colors win over the site's generic personal-event theme.
+   Incoming shared events retain their existing gold sharing semantics. */
+html.modern-site body #app #calendar .ev[data-google-color-v198]:not(.schedule-received-v176){
+  background:color-mix(in srgb,var(--source-color) 20%,#fff 80%)!important;
+  border-left:3px solid var(--source-color)!important;
+  color:#30251e!important;
+}
+html body #app #page0 .agenda-row[data-google-color-v198]:not(.schedule-received-v176) .agenda-owner-dot{
+  background:var(--source-color)!important;border-color:var(--source-color)!important;
+}
+html body>.calendar-event-tooltip>.calendar-tooltip-event-v182[data-google-color-v198]:not(.schedule-received-v176){
+  border-left:3px solid var(--source-color)!important;
+}
+html body #calendarImportModal .calendar-color-choice-v198{
+  display:grid!important;grid-template-columns:minmax(0,1fr) 160px!important;align-items:center;gap:12px!important;
+}
+html body #calendarImportModal .calendar-color-select-v198{
+  display:grid;grid-template-columns:auto 12px minmax(0,1fr);gap:10px;align-items:center;min-width:0;cursor:pointer;
+}
+html body #calendarImportModal .calendar-color-select-v198>span{min-width:0;display:grid;gap:4px}
+html body #calendarImportModal .calendar-color-select-v198 b{overflow-wrap:anywhere}
+html body #calendarImportModal .calendar-color-field-v198{display:grid;gap:4px;min-width:0;font-size:11px}
+html body #calendarImportModal .calendar-color-field-v198 select{
+  display:block!important;width:100%;min-width:0;height:36px!important;margin:0;padding:5px 8px!important;
+  border:1px solid #b5a79c!important;background:#fff!important;color:#38291f!important;font:inherit!important;
+}
+html body #calendarImportModal #googleCalendarConnect{
+  flex:none;min-width:104px!important;height:36px!important;padding:5px 10px!important;
+  white-space:nowrap!important;font-size:12px!important;line-height:1.2!important;
+}
+@media(max-width:560px){
+  html body #calendarImportModal .calendar-color-choice-v198{grid-template-columns:minmax(0,1fr)!important;gap:9px!important}
+  html body #calendarImportModal .calendar-color-field-v198{grid-template-columns:auto minmax(0,1fr);align-items:center;margin-left:26px;gap:12px}
+}
