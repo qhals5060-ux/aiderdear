@@ -68,6 +68,16 @@
     move-result-object p2
 
     .line 12
+    invoke-static {v2}, Lcom/aiderlog/v22app/WidgetProvider;->supports(Ljava/lang/String;)Z
+
+    move-result v4
+
+    if-nez v4, :cond_2
+
+    return-void
+
+    .line 13
+    :cond_2
     const-string v4, "month"
 
     invoke-virtual {v4, v3}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
@@ -86,23 +96,23 @@
 
     const/4 v10, 0x0
 
-    if-eqz v4, :cond_5
+    if-eqz v4, :cond_6
 
-    .line 13
+    .line 14
     invoke-virtual {v9, p2}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result p2
 
     const/4 v3, 0x1
 
-    if-eqz p2, :cond_2
+    if-eqz p2, :cond_3
 
     goto :goto_0
 
-    :cond_2
+    :cond_3
     move v1, v3
 
-    .line 14
+    .line 15
     :goto_0
     const-string p2, "CalendarFortnight"
 
@@ -110,9 +120,9 @@
 
     move-result p2
 
-    if-eqz p2, :cond_3
+    if-eqz p2, :cond_4
 
-    .line 15
+    .line 16
     invoke-static {p1}, Lcom/aiderlog/v22app/WidgetNativeV164;->prefs(Landroid/content/Context;)Landroid/content/SharedPreferences;
 
     move-result-object p2
@@ -135,7 +145,7 @@
 
     add-int/2addr p2, v1
 
-    .line 16
+    .line 17
     invoke-static {p1}, Lcom/aiderlog/v22app/WidgetNativeV164;->prefs(Landroid/content/Context;)Landroid/content/SharedPreferences;
 
     move-result-object v1
@@ -162,7 +172,7 @@
 
     invoke-interface {p2}, Landroid/content/SharedPreferences$Editor;->apply()V
 
-    .line 17
+    .line 18
     invoke-static {p1}, Landroid/appwidget/AppWidgetManager;->getInstance(Landroid/content/Context;)Landroid/appwidget/AppWidgetManager;
 
     move-result-object p2
@@ -171,17 +181,17 @@
 
     return-void
 
-    .line 19
-    :cond_3
+    .line 20
+    :cond_4
     const-string p2, "CalendarAgenda"
 
     invoke-virtual {p2, v2}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result p2
 
-    if-eqz p2, :cond_4
+    if-eqz p2, :cond_5
 
-    .line 20
+    .line 21
     invoke-static {p1}, Lcom/aiderlog/v22app/WidgetNativeV164;->prefs(Landroid/content/Context;)Landroid/content/SharedPreferences;
 
     move-result-object p2
@@ -204,7 +214,7 @@
 
     add-int/2addr p2, v1
 
-    .line 21
+    .line 22
     invoke-static {p1}, Lcom/aiderlog/v22app/WidgetNativeV164;->prefs(Landroid/content/Context;)Landroid/content/SharedPreferences;
 
     move-result-object v1
@@ -231,7 +241,7 @@
 
     invoke-interface {p2}, Landroid/content/SharedPreferences$Editor;->apply()V
 
-    .line 22
+    .line 23
     invoke-static {p1}, Landroid/appwidget/AppWidgetManager;->getInstance(Landroid/content/Context;)Landroid/appwidget/AppWidgetManager;
 
     move-result-object p2
@@ -240,8 +250,8 @@
 
     return-void
 
-    .line 24
-    :cond_4
+    .line 25
+    :cond_5
     invoke-static {p1}, Lcom/aiderlog/v22app/WidgetNativeV164;->prefs(Landroid/content/Context;)Landroid/content/SharedPreferences;
 
     move-result-object p2
@@ -264,7 +274,7 @@
 
     add-int/2addr p2, v1
 
-    .line 25
+    .line 26
     invoke-static {}, Ljava/util/Calendar;->getInstance()Ljava/util/Calendar;
 
     move-result-object v1
@@ -277,7 +287,7 @@
 
     invoke-virtual {v1, v3, p2}, Ljava/util/Calendar;->add(II)V
 
-    .line 26
+    .line 27
     invoke-static {p1}, Lcom/aiderlog/v22app/WidgetNativeV164;->prefs(Landroid/content/Context;)Landroid/content/SharedPreferences;
 
     move-result-object v3
@@ -324,19 +334,19 @@
 
     invoke-interface {p2}, Landroid/content/SharedPreferences$Editor;->apply()V
 
-    .line 27
+    .line 28
     goto/16 :goto_6
 
-    :cond_5
+    :cond_6
     const-string v1, "today"
 
     invoke-virtual {v1, v3}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result v1
 
-    if-eqz v1, :cond_6
+    if-eqz v1, :cond_7
 
-    .line 28
+    .line 29
     invoke-static {p1}, Lcom/aiderlog/v22app/WidgetNativeV164;->prefs(Landroid/content/Context;)Landroid/content/SharedPreferences;
 
     move-result-object p2
@@ -419,17 +429,17 @@
 
     invoke-interface {p2}, Landroid/content/SharedPreferences$Editor;->apply()V
 
-    .line 29
+    .line 30
     goto/16 :goto_6
 
-    :cond_6
+    :cond_7
     const-string v1, "bullet"
 
     invoke-virtual {v1, v3}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result v1
 
-    if-eqz v1, :cond_a
+    if-eqz v1, :cond_b
 
     invoke-static {p1}, Lcom/aiderlog/v22app/WidgetNativeV164;->prefs(Landroid/content/Context;)Landroid/content/SharedPreferences;
 
@@ -459,24 +469,24 @@
 
     const/4 v3, 0x3
 
-    if-eqz p2, :cond_7
+    if-eqz p2, :cond_8
 
-    if-le v1, v3, :cond_9
+    if-le v1, v3, :cond_a
 
     goto :goto_1
 
-    :cond_7
-    if-ge v1, v3, :cond_8
+    :cond_8
+    if-ge v1, v3, :cond_9
 
     :goto_1
     move v10, v3
 
     goto :goto_2
 
-    :cond_8
+    :cond_9
     const/4 v10, 0x4
 
-    :cond_9
+    :cond_a
     :goto_2
     invoke-static {p1}, Lcom/aiderlog/v22app/WidgetNativeV164;->prefs(Landroid/content/Context;)Landroid/content/SharedPreferences;
 
@@ -506,15 +516,15 @@
 
     goto/16 :goto_6
 
-    .line 30
-    :cond_a
+    .line 31
+    :cond_b
     const-string v1, "challenge"
 
     invoke-virtual {v1, v3}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result v1
 
-    if-eqz v1, :cond_e
+    if-eqz v1, :cond_f
 
     invoke-static {p1}, Lcom/aiderlog/v22app/WidgetNativeV164;->snapshot(Landroid/content/Context;)Lorg/json/JSONObject;
 
@@ -544,13 +554,13 @@
 
     move-result-object v1
 
-    if-nez v1, :cond_b
+    if-nez v1, :cond_c
 
     move v1, v10
 
     goto :goto_3
 
-    :cond_b
+    :cond_c
     const-string v3, "nodes"
 
     invoke-static {v1, v3}, Lcom/aiderlog/v22app/WidgetDesignV165;->a(Lorg/json/JSONObject;Ljava/lang/String;)Lorg/json/JSONArray;
@@ -598,17 +608,17 @@
 
     move-result p2
 
-    if-eqz p2, :cond_d
+    if-eqz p2, :cond_e
 
     rem-int/lit8 p2, v3, 0x7
 
-    if-nez p2, :cond_c
+    if-nez p2, :cond_d
 
     add-int/lit8 v3, v3, -0x7
 
     goto :goto_4
 
-    :cond_c
+    :cond_d
     sub-int/2addr v3, p2
 
     :goto_4
@@ -618,7 +628,7 @@
 
     goto :goto_5
 
-    :cond_d
+    :cond_e
     add-int/lit8 v3, v3, 0x7
 
     invoke-static {v1, v3}, Ljava/lang/Math;->min(II)I
@@ -654,17 +664,17 @@
 
     goto :goto_6
 
-    .line 31
-    :cond_e
+    .line 32
+    :cond_f
     const-string v1, "date"
 
     invoke-virtual {v1, v3}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result v1
 
-    if-eqz v1, :cond_f
+    if-eqz v1, :cond_10
 
-    if-eqz p2, :cond_f
+    if-eqz p2, :cond_10
 
     const-string v1, "\\d{4}-\\d{2}-\\d{2}"
 
@@ -672,7 +682,7 @@
 
     move-result v1
 
-    if-eqz v1, :cond_f
+    if-eqz v1, :cond_10
 
     invoke-static {p1}, Lcom/aiderlog/v22app/WidgetNativeV164;->prefs(Landroid/content/Context;)Landroid/content/SharedPreferences;
 
@@ -700,8 +710,8 @@
 
     invoke-interface {p2}, Landroid/content/SharedPreferences$Editor;->apply()V
 
-    .line 32
-    :cond_f
+    .line 33
+    :cond_10
     :goto_6
     invoke-static {p1}, Landroid/appwidget/AppWidgetManager;->getInstance(Landroid/content/Context;)Landroid/appwidget/AppWidgetManager;
 
@@ -709,6 +719,6 @@
 
     invoke-static {p1, p2, v0, v2}, Lcom/aiderlog/v22app/WidgetNativeV164;->update(Landroid/content/Context;Landroid/appwidget/AppWidgetManager;ILjava/lang/String;)Z
 
-    .line 33
+    .line 34
     return-void
 .end method

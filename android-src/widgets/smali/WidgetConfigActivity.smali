@@ -53,7 +53,7 @@
 
     move-result v1
 
-    if-eqz v1, :cond_1
+    if-eqz v1, :cond_0
 
     const/4 v1, 0x5
 
@@ -91,14 +91,14 @@
 
     return-object v1
 
-    :cond_1
+    :cond_0
     const-string v1, "PersonalMeal"
 
     invoke-virtual {v0, v1}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
 
     move-result v1
 
-    if-eqz v1, :cond_2
+    if-eqz v1, :cond_1
 
     const/4 v1, 0x5
 
@@ -136,14 +136,14 @@
 
     return-object v1
 
-    :cond_2
+    :cond_1
     const-string v1, "PersonalWorkout"
 
     invoke-virtual {v0, v1}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
 
     move-result v1
 
-    if-eqz v1, :cond_3
+    if-eqz v1, :cond_2
 
     const/4 v1, 0x5
 
@@ -181,14 +181,14 @@
 
     return-object v1
 
-    :cond_3
+    :cond_2
     const-string v1, "PersonalToday"
 
     invoke-virtual {v0, v1}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
 
     move-result v1
 
-    if-eqz v1, :cond_4
+    if-eqz v1, :cond_3
 
     const/4 v1, 0x4
 
@@ -220,7 +220,7 @@
 
     return-object v1
 
-    :cond_4
+    :cond_3
     const/4 v1, 0x4
 
     new-array v1, v1, [Ljava/lang/CharSequence;
@@ -250,65 +250,6 @@
     aput-object v2, v1, v3
 
     return-object v1
-.end method
-
-.method private loadSavedAppearanceV150()V
-    .locals 4
-
-    const-string v0, "aiderlog_native"
-    const/4 v1, 0x0
-    invoke-virtual {p0, v0, v1}, Lcom/aiderlog/v22app/WidgetConfigActivity;->getSharedPreferences(Ljava/lang/String;I)Landroid/content/SharedPreferences;
-    move-result-object v0
-
-    new-instance v1, Ljava/lang/StringBuilder;
-    const-string v2, "widget_theme_"
-    invoke-direct {v1, v2}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
-    iget v2, p0, Lcom/aiderlog/v22app/WidgetConfigActivity;->appWidgetId:I
-    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
-    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
-    move-result-object v1
-    iget-object v2, p0, Lcom/aiderlog/v22app/WidgetConfigActivity;->selectedTheme:Ljava/lang/String;
-    invoke-interface {v0, v1, v2}, Landroid/content/SharedPreferences;->getString(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
-    move-result-object v1
-    iput-object v1, p0, Lcom/aiderlog/v22app/WidgetConfigActivity;->selectedTheme:Ljava/lang/String;
-
-    new-instance v1, Ljava/lang/StringBuilder;
-    const-string v2, "widget_content_"
-    invoke-direct {v1, v2}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
-    iget v2, p0, Lcom/aiderlog/v22app/WidgetConfigActivity;->appWidgetId:I
-    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
-    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
-    move-result-object v1
-    iget-object v2, p0, Lcom/aiderlog/v22app/WidgetConfigActivity;->selectedContent:Ljava/lang/String;
-    invoke-interface {v0, v1, v2}, Landroid/content/SharedPreferences;->getString(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
-    move-result-object v1
-    iput-object v1, p0, Lcom/aiderlog/v22app/WidgetConfigActivity;->selectedContent:Ljava/lang/String;
-
-    new-instance v1, Ljava/lang/StringBuilder;
-    const-string v2, "widget_opacity_"
-    invoke-direct {v1, v2}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
-    iget v2, p0, Lcom/aiderlog/v22app/WidgetConfigActivity;->appWidgetId:I
-    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
-    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
-    move-result-object v1
-    iget v2, p0, Lcom/aiderlog/v22app/WidgetConfigActivity;->selectedOpacity:I
-    invoke-interface {v0, v1, v2}, Landroid/content/SharedPreferences;->getInt(Ljava/lang/String;I)I
-    move-result v1
-    iput v1, p0, Lcom/aiderlog/v22app/WidgetConfigActivity;->selectedOpacity:I
-
-    new-instance v1, Ljava/lang/StringBuilder;
-    const-string v2, "widget_font_"
-    invoke-direct {v1, v2}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
-    iget v2, p0, Lcom/aiderlog/v22app/WidgetConfigActivity;->appWidgetId:I
-    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
-    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
-    move-result-object v1
-    iget v2, p0, Lcom/aiderlog/v22app/WidgetConfigActivity;->selectedFont:I
-    invoke-interface {v0, v1, v2}, Landroid/content/SharedPreferences;->getInt(Ljava/lang/String;I)I
-    move-result v1
-    iput v1, p0, Lcom/aiderlog/v22app/WidgetConfigActivity;->selectedFont:I
-
-    return-void
 .end method
 
 .method private finishWidgetInternalV143()V
@@ -437,9 +378,304 @@
     return-void
 .end method
 
+.method private loadSavedAppearanceV150()V
+    .locals 4
+
+    const-string v0, "aiderlog_native"
+
+    const/4 v1, 0x0
+
+    invoke-virtual {p0, v0, v1}, Lcom/aiderlog/v22app/WidgetConfigActivity;->getSharedPreferences(Ljava/lang/String;I)Landroid/content/SharedPreferences;
+
+    move-result-object v0
+
+    new-instance v1, Ljava/lang/StringBuilder;
+
+    const-string v2, "widget_theme_"
+
+    invoke-direct {v1, v2}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+
+    iget v2, p0, Lcom/aiderlog/v22app/WidgetConfigActivity;->appWidgetId:I
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v1
+
+    iget-object v2, p0, Lcom/aiderlog/v22app/WidgetConfigActivity;->selectedTheme:Ljava/lang/String;
+
+    invoke-interface {v0, v1, v2}, Landroid/content/SharedPreferences;->getString(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
+
+    iput-object v1, p0, Lcom/aiderlog/v22app/WidgetConfigActivity;->selectedTheme:Ljava/lang/String;
+
+    new-instance v1, Ljava/lang/StringBuilder;
+
+    const-string v2, "widget_content_"
+
+    invoke-direct {v1, v2}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+
+    iget v2, p0, Lcom/aiderlog/v22app/WidgetConfigActivity;->appWidgetId:I
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v1
+
+    iget-object v2, p0, Lcom/aiderlog/v22app/WidgetConfigActivity;->selectedContent:Ljava/lang/String;
+
+    invoke-interface {v0, v1, v2}, Landroid/content/SharedPreferences;->getString(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
+
+    iput-object v1, p0, Lcom/aiderlog/v22app/WidgetConfigActivity;->selectedContent:Ljava/lang/String;
+
+    new-instance v1, Ljava/lang/StringBuilder;
+
+    const-string v2, "widget_opacity_"
+
+    invoke-direct {v1, v2}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+
+    iget v2, p0, Lcom/aiderlog/v22app/WidgetConfigActivity;->appWidgetId:I
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v1
+
+    iget v2, p0, Lcom/aiderlog/v22app/WidgetConfigActivity;->selectedOpacity:I
+
+    invoke-interface {v0, v1, v2}, Landroid/content/SharedPreferences;->getInt(Ljava/lang/String;I)I
+
+    move-result v1
+
+    iput v1, p0, Lcom/aiderlog/v22app/WidgetConfigActivity;->selectedOpacity:I
+
+    new-instance v1, Ljava/lang/StringBuilder;
+
+    const-string v2, "widget_font_"
+
+    invoke-direct {v1, v2}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+
+    iget v2, p0, Lcom/aiderlog/v22app/WidgetConfigActivity;->appWidgetId:I
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v1
+
+    iget v2, p0, Lcom/aiderlog/v22app/WidgetConfigActivity;->selectedFont:I
+
+    invoke-interface {v0, v1, v2}, Landroid/content/SharedPreferences;->getInt(Ljava/lang/String;I)I
+
+    move-result v1
+
+    iput v1, p0, Lcom/aiderlog/v22app/WidgetConfigActivity;->selectedFont:I
+
+    return-void
+.end method
+
 .method private onCreateInternalV143(Landroid/os/Bundle;)V
     .locals 0
+
     invoke-direct {p0, p1}, Lcom/aiderlog/v22app/WidgetConfigActivity;->onCreateScreenV157(Landroid/os/Bundle;)V
+
+    return-void
+.end method
+
+.method private onCreateScreenV157(Landroid/os/Bundle;)V
+    .locals 8
+
+    invoke-super {p0, p1}, Landroid/app/Activity;->onCreate(Landroid/os/Bundle;)V
+
+    new-instance v0, Landroid/content/Intent;
+
+    invoke-direct {v0}, Landroid/content/Intent;-><init>()V
+
+    const/4 v1, 0x0
+
+    invoke-virtual {p0, v1, v0}, Lcom/aiderlog/v22app/WidgetConfigActivity;->setResult(ILandroid/content/Intent;)V
+
+    invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetConfigActivity;->getIntent()Landroid/content/Intent;
+
+    move-result-object v0
+
+    const-string v2, "appWidgetId"
+
+    invoke-virtual {v0, v2, v1}, Landroid/content/Intent;->getIntExtra(Ljava/lang/String;I)I
+
+    move-result v0
+
+    iput v0, p0, Lcom/aiderlog/v22app/WidgetConfigActivity;->appWidgetId:I
+
+    if-nez v0, :cond_0
+
+    invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetConfigActivity;->finish()V
+
+    return-void
+
+    :cond_0
+    invoke-static {p0}, Landroid/appwidget/AppWidgetManager;->getInstance(Landroid/content/Context;)Landroid/appwidget/AppWidgetManager;
+
+    move-result-object v2
+
+    invoke-virtual {v2, v0}, Landroid/appwidget/AppWidgetManager;->getAppWidgetInfo(I)Landroid/appwidget/AppWidgetProviderInfo;
+
+    move-result-object v2
+
+    const-string v3, ""
+
+    if-eqz v2, :cond_1
+
+    iget-object v2, v2, Landroid/appwidget/AppWidgetProviderInfo;->provider:Landroid/content/ComponentName;
+
+    if-eqz v2, :cond_1
+
+    invoke-virtual {v2}, Landroid/content/ComponentName;->getClassName()Ljava/lang/String;
+
+    move-result-object v3
+
+    :cond_1
+    iput-object v3, p0, Lcom/aiderlog/v22app/WidgetConfigActivity;->providerClass:Ljava/lang/String;
+
+    const-string v2, "$Task"
+
+    invoke-virtual {v3, v2}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
+
+    move-result v2
+
+    if-eqz v2, :cond_2
+
+    const-string v2, "aiderlog_native"
+
+    invoke-virtual {p0, v2, v1}, Lcom/aiderlog/v22app/WidgetConfigActivity;->getSharedPreferences(Ljava/lang/String;I)Landroid/content/SharedPreferences;
+
+    move-result-object v2
+
+    const-string v4, "active_email"
+
+    const-string v5, ""
+
+    invoke-interface {v2, v4, v5}, Landroid/content/SharedPreferences;->getString(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v2
+
+    const-string v4, "aidway55@gmail.com"
+
+    invoke-virtual {v4, v2}, Ljava/lang/String;->equalsIgnoreCase(Ljava/lang/String;)Z
+
+    move-result v4
+
+    if-nez v4, :cond_2
+
+    const-string v4, "qhals5060@gmail.com"
+
+    invoke-virtual {v4, v2}, Ljava/lang/String;->equalsIgnoreCase(Ljava/lang/String;)Z
+
+    move-result v2
+
+    if-nez v2, :cond_2
+
+    const-string v0, "Consulting \uc704\uc82f\uc740 \uc9c0\uc815\ub41c \uacc4\uc815\uc5d0\uc11c\ub9cc \uc0ac\uc6a9\ud560 \uc218 \uc788\uc5b4\uc694."
+
+    const/4 v1, 0x1
+
+    invoke-static {p0, v0, v1}, Landroid/widget/Toast;->makeText(Landroid/content/Context;Ljava/lang/CharSequence;I)Landroid/widget/Toast;
+
+    move-result-object v0
+
+    invoke-virtual {v0}, Landroid/widget/Toast;->show()V
+
+    invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetConfigActivity;->finish()V
+
+    return-void
+
+    :cond_2
+    invoke-direct {p0}, Lcom/aiderlog/v22app/WidgetConfigActivity;->loadSavedAppearanceV150()V
+
+    const v0, 0x7f04001a
+
+    invoke-virtual {p0, v0}, Lcom/aiderlog/v22app/WidgetConfigActivity;->setContentView(I)V
+
+    const v0, 0x7f030009
+
+    invoke-virtual {p0, v0}, Lcom/aiderlog/v22app/WidgetConfigActivity;->findViewById(I)Landroid/view/View;
+
+    move-result-object v0
+
+    new-instance v2, Lcom/aiderlog/v22app/WidgetConfigActivity$10;
+
+    invoke-direct {v2, p0}, Lcom/aiderlog/v22app/WidgetConfigActivity$10;-><init>(Lcom/aiderlog/v22app/WidgetConfigActivity;)V
+
+    invoke-virtual {v0, v2}, Landroid/view/View;->setOnClickListener(Landroid/view/View$OnClickListener;)V
+
+    const v0, 0x7f03000a
+
+    invoke-virtual {p0, v0}, Lcom/aiderlog/v22app/WidgetConfigActivity;->findViewById(I)Landroid/view/View;
+
+    move-result-object v0
+
+    new-instance v2, Lcom/aiderlog/v22app/WidgetConfigActivity$11;
+
+    invoke-direct {v2, p0}, Lcom/aiderlog/v22app/WidgetConfigActivity$11;-><init>(Lcom/aiderlog/v22app/WidgetConfigActivity;)V
+
+    invoke-virtual {v0, v2}, Landroid/view/View;->setOnClickListener(Landroid/view/View$OnClickListener;)V
+
+    const v0, 0x7f03000b
+
+    invoke-virtual {p0, v0}, Lcom/aiderlog/v22app/WidgetConfigActivity;->findViewById(I)Landroid/view/View;
+
+    move-result-object v0
+
+    new-instance v2, Lcom/aiderlog/v22app/WidgetConfigActivity$12;
+
+    invoke-direct {v2, p0}, Lcom/aiderlog/v22app/WidgetConfigActivity$12;-><init>(Lcom/aiderlog/v22app/WidgetConfigActivity;)V
+
+    invoke-virtual {v0, v2}, Landroid/view/View;->setOnClickListener(Landroid/view/View$OnClickListener;)V
+
+    const v0, 0x7f03000c
+
+    invoke-virtual {p0, v0}, Lcom/aiderlog/v22app/WidgetConfigActivity;->findViewById(I)Landroid/view/View;
+
+    move-result-object v0
+
+    new-instance v2, Lcom/aiderlog/v22app/WidgetConfigActivity$13;
+
+    invoke-direct {v2, p0}, Lcom/aiderlog/v22app/WidgetConfigActivity$13;-><init>(Lcom/aiderlog/v22app/WidgetConfigActivity;)V
+
+    invoke-virtual {v0, v2}, Landroid/view/View;->setOnClickListener(Landroid/view/View$OnClickListener;)V
+
+    const v0, 0x7f03000d
+
+    invoke-virtual {p0, v0}, Lcom/aiderlog/v22app/WidgetConfigActivity;->findViewById(I)Landroid/view/View;
+
+    move-result-object v0
+
+    new-instance v2, Lcom/aiderlog/v22app/WidgetConfigActivity$14;
+
+    invoke-direct {v2, p0}, Lcom/aiderlog/v22app/WidgetConfigActivity$14;-><init>(Lcom/aiderlog/v22app/WidgetConfigActivity;)V
+
+    invoke-virtual {v0, v2}, Landroid/view/View;->setOnClickListener(Landroid/view/View$OnClickListener;)V
+
+    const v0, 0x7f03000e
+
+    invoke-virtual {p0, v0}, Lcom/aiderlog/v22app/WidgetConfigActivity;->findViewById(I)Landroid/view/View;
+
+    move-result-object v0
+
+    new-instance v2, Lcom/aiderlog/v22app/WidgetConfigActivity$15;
+
+    invoke-direct {v2, p0}, Lcom/aiderlog/v22app/WidgetConfigActivity$15;-><init>(Lcom/aiderlog/v22app/WidgetConfigActivity;)V
+
+    invoke-virtual {v0, v2}, Landroid/view/View;->setOnClickListener(Landroid/view/View$OnClickListener;)V
+
+    invoke-static {p0}, Lcom/aiderlog/v22app/WidgetNativeV164;->preview(Landroid/app/Activity;)V
+
     return-void
 .end method
 
@@ -467,6 +703,7 @@
     iput-object v0, p0, Lcom/aiderlog/v22app/WidgetConfigActivity;->selectedContent:Ljava/lang/String;
 
     invoke-static {p0}, Lcom/aiderlog/v22app/WidgetNativeV164;->preview(Landroid/app/Activity;)V
+
     return-void
 
     :cond_0
@@ -475,12 +712,69 @@
     iput-object v0, p0, Lcom/aiderlog/v22app/WidgetConfigActivity;->selectedContent:Ljava/lang/String;
 
     invoke-static {p0}, Lcom/aiderlog/v22app/WidgetNativeV164;->preview(Landroid/app/Activity;)V
+
+    return-void
+.end method
+
+.method public chooseFont(I)V
+    .locals 1
+
+    if-ltz p1, :cond_0
+
+    const/4 v0, 0x4
+
+    if-gt p1, v0, :cond_0
+
+    add-int/lit8 v0, p1, 0x1
+
+    iput v0, p0, Lcom/aiderlog/v22app/WidgetConfigActivity;->selectedFont:I
+
+    invoke-static {p0}, Lcom/aiderlog/v22app/WidgetNativeV164;->preview(Landroid/app/Activity;)V
+
+    return-void
+
+    :cond_0
+    const/4 v0, 0x3
+
+    iput v0, p0, Lcom/aiderlog/v22app/WidgetConfigActivity;->selectedFont:I
+
+    invoke-static {p0}, Lcom/aiderlog/v22app/WidgetNativeV164;->preview(Landroid/app/Activity;)V
+
+    return-void
+.end method
+
+.method public chooseOpacity(I)V
+    .locals 1
+
+    if-ltz p1, :cond_0
+
+    const/4 v0, 0x5
+
+    if-gt p1, v0, :cond_0
+
+    mul-int/lit8 v0, p1, 0x14
+
+    iput v0, p0, Lcom/aiderlog/v22app/WidgetConfigActivity;->selectedOpacity:I
+
+    invoke-static {p0}, Lcom/aiderlog/v22app/WidgetNativeV164;->preview(Landroid/app/Activity;)V
+
+    return-void
+
+    :cond_0
+    const/16 v0, 0x64
+
+    iput v0, p0, Lcom/aiderlog/v22app/WidgetConfigActivity;->selectedOpacity:I
+
+    invoke-static {p0}, Lcom/aiderlog/v22app/WidgetNativeV164;->preview(Landroid/app/Activity;)V
+
     return-void
 .end method
 
 .method public chooseTheme(I)V
     .locals 0
+
     invoke-static {p0, p1}, Lcom/aiderlog/v22app/WidgetThemeV190;->choose(Landroid/app/Activity;I)V
+
     return-void
 .end method
 
@@ -558,253 +852,6 @@
     return-void
 .end method
 
-.method private onCreateScreenV157(Landroid/os/Bundle;)V
-    .locals 8
-
-    invoke-super {p0, p1}, Landroid/app/Activity;->onCreate(Landroid/os/Bundle;)V
-
-    new-instance v0, Landroid/content/Intent;
-    invoke-direct {v0}, Landroid/content/Intent;-><init>()V
-    const/4 v1, 0x0
-    invoke-virtual {p0, v1, v0}, Lcom/aiderlog/v22app/WidgetConfigActivity;->setResult(ILandroid/content/Intent;)V
-
-    invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetConfigActivity;->getIntent()Landroid/content/Intent;
-    move-result-object v0
-    const-string v2, "appWidgetId"
-    invoke-virtual {v0, v2, v1}, Landroid/content/Intent;->getIntExtra(Ljava/lang/String;I)I
-    move-result v0
-    iput v0, p0, Lcom/aiderlog/v22app/WidgetConfigActivity;->appWidgetId:I
-    if-nez v0, :cond_v157_widget_id
-    invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetConfigActivity;->finish()V
-    return-void
-
-    :cond_v157_widget_id
-    invoke-static {p0}, Landroid/appwidget/AppWidgetManager;->getInstance(Landroid/content/Context;)Landroid/appwidget/AppWidgetManager;
-    move-result-object v2
-    invoke-virtual {v2, v0}, Landroid/appwidget/AppWidgetManager;->getAppWidgetInfo(I)Landroid/appwidget/AppWidgetProviderInfo;
-    move-result-object v2
-    const-string v3, ""
-    if-eqz v2, :cond_v157_provider_ready
-    iget-object v2, v2, Landroid/appwidget/AppWidgetProviderInfo;->provider:Landroid/content/ComponentName;
-    if-eqz v2, :cond_v157_provider_ready
-    invoke-virtual {v2}, Landroid/content/ComponentName;->getClassName()Ljava/lang/String;
-    move-result-object v3
-
-    :cond_v157_provider_ready
-    iput-object v3, p0, Lcom/aiderlog/v22app/WidgetConfigActivity;->providerClass:Ljava/lang/String;
-
-    const-string v2, "$Task"
-    invoke-virtual {v3, v2}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
-    move-result v2
-    if-eqz v2, :cond_v157_access_ok
-    const-string v2, "aiderlog_native"
-    invoke-virtual {p0, v2, v1}, Lcom/aiderlog/v22app/WidgetConfigActivity;->getSharedPreferences(Ljava/lang/String;I)Landroid/content/SharedPreferences;
-    move-result-object v2
-    const-string v4, "active_email"
-    const-string v5, ""
-    invoke-interface {v2, v4, v5}, Landroid/content/SharedPreferences;->getString(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
-    move-result-object v2
-    const-string v4, "aidway55@gmail.com"
-    invoke-virtual {v4, v2}, Ljava/lang/String;->equalsIgnoreCase(Ljava/lang/String;)Z
-    move-result v4
-    if-nez v4, :cond_v157_access_ok
-    const-string v4, "qhals5060@gmail.com"
-    invoke-virtual {v4, v2}, Ljava/lang/String;->equalsIgnoreCase(Ljava/lang/String;)Z
-    move-result v2
-    if-nez v2, :cond_v157_access_ok
-    const-string v0, "Consulting 위젯은 지정된 계정에서만 사용할 수 있어요."
-    const/4 v1, 0x1
-    invoke-static {p0, v0, v1}, Landroid/widget/Toast;->makeText(Landroid/content/Context;Ljava/lang/CharSequence;I)Landroid/widget/Toast;
-    move-result-object v0
-    invoke-virtual {v0}, Landroid/widget/Toast;->show()V
-    invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetConfigActivity;->finish()V
-    return-void
-
-    :cond_v157_access_ok
-    invoke-direct {p0}, Lcom/aiderlog/v22app/WidgetConfigActivity;->loadSavedAppearanceV150()V
-    const v0, 0x7f04001a
-    invoke-virtual {p0, v0}, Lcom/aiderlog/v22app/WidgetConfigActivity;->setContentView(I)V
-
-    const v0, 0x7f030009
-    invoke-virtual {p0, v0}, Lcom/aiderlog/v22app/WidgetConfigActivity;->findViewById(I)Landroid/view/View;
-    move-result-object v0
-    new-instance v2, Lcom/aiderlog/v22app/WidgetConfigActivity$10;
-    invoke-direct {v2, p0}, Lcom/aiderlog/v22app/WidgetConfigActivity$10;-><init>(Lcom/aiderlog/v22app/WidgetConfigActivity;)V
-    invoke-virtual {v0, v2}, Landroid/view/View;->setOnClickListener(Landroid/view/View$OnClickListener;)V
-
-    const v0, 0x7f03000a
-    invoke-virtual {p0, v0}, Lcom/aiderlog/v22app/WidgetConfigActivity;->findViewById(I)Landroid/view/View;
-    move-result-object v0
-    new-instance v2, Lcom/aiderlog/v22app/WidgetConfigActivity$11;
-    invoke-direct {v2, p0}, Lcom/aiderlog/v22app/WidgetConfigActivity$11;-><init>(Lcom/aiderlog/v22app/WidgetConfigActivity;)V
-    invoke-virtual {v0, v2}, Landroid/view/View;->setOnClickListener(Landroid/view/View$OnClickListener;)V
-
-    const v0, 0x7f03000b
-    invoke-virtual {p0, v0}, Lcom/aiderlog/v22app/WidgetConfigActivity;->findViewById(I)Landroid/view/View;
-    move-result-object v0
-    new-instance v2, Lcom/aiderlog/v22app/WidgetConfigActivity$12;
-    invoke-direct {v2, p0}, Lcom/aiderlog/v22app/WidgetConfigActivity$12;-><init>(Lcom/aiderlog/v22app/WidgetConfigActivity;)V
-    invoke-virtual {v0, v2}, Landroid/view/View;->setOnClickListener(Landroid/view/View$OnClickListener;)V
-
-    const v0, 0x7f03000c
-    invoke-virtual {p0, v0}, Lcom/aiderlog/v22app/WidgetConfigActivity;->findViewById(I)Landroid/view/View;
-    move-result-object v0
-    new-instance v2, Lcom/aiderlog/v22app/WidgetConfigActivity$13;
-    invoke-direct {v2, p0}, Lcom/aiderlog/v22app/WidgetConfigActivity$13;-><init>(Lcom/aiderlog/v22app/WidgetConfigActivity;)V
-    invoke-virtual {v0, v2}, Landroid/view/View;->setOnClickListener(Landroid/view/View$OnClickListener;)V
-
-    const v0, 0x7f03000d
-    invoke-virtual {p0, v0}, Lcom/aiderlog/v22app/WidgetConfigActivity;->findViewById(I)Landroid/view/View;
-    move-result-object v0
-    new-instance v2, Lcom/aiderlog/v22app/WidgetConfigActivity$14;
-    invoke-direct {v2, p0}, Lcom/aiderlog/v22app/WidgetConfigActivity$14;-><init>(Lcom/aiderlog/v22app/WidgetConfigActivity;)V
-    invoke-virtual {v0, v2}, Landroid/view/View;->setOnClickListener(Landroid/view/View$OnClickListener;)V
-
-    const v0, 0x7f03000e
-    invoke-virtual {p0, v0}, Lcom/aiderlog/v22app/WidgetConfigActivity;->findViewById(I)Landroid/view/View;
-    move-result-object v0
-    new-instance v2, Lcom/aiderlog/v22app/WidgetConfigActivity$15;
-    invoke-direct {v2, p0}, Lcom/aiderlog/v22app/WidgetConfigActivity$15;-><init>(Lcom/aiderlog/v22app/WidgetConfigActivity;)V
-    invoke-virtual {v0, v2}, Landroid/view/View;->setOnClickListener(Landroid/view/View$OnClickListener;)V
-    invoke-static {p0}, Lcom/aiderlog/v22app/WidgetNativeV164;->preview(Landroid/app/Activity;)V
-    return-void
-.end method
-
-.method public chooseOpacity(I)V
-    .locals 1
-
-    if-ltz p1, :cond_default
-
-    const/4 v0, 0x5
-
-    if-gt p1, v0, :cond_default
-
-    mul-int/lit8 v0, p1, 0x14
-
-    iput v0, p0, Lcom/aiderlog/v22app/WidgetConfigActivity;->selectedOpacity:I
-
-    invoke-static {p0}, Lcom/aiderlog/v22app/WidgetNativeV164;->preview(Landroid/app/Activity;)V
-    return-void
-
-    :cond_default
-    const/16 v0, 0x64
-
-    iput v0, p0, Lcom/aiderlog/v22app/WidgetConfigActivity;->selectedOpacity:I
-
-    invoke-static {p0}, Lcom/aiderlog/v22app/WidgetNativeV164;->preview(Landroid/app/Activity;)V
-    return-void
-.end method
-
-.method public chooseFont(I)V
-    .locals 1
-
-    if-ltz p1, :cond_default
-
-    const/4 v0, 0x4
-
-    if-gt p1, v0, :cond_default
-
-    add-int/lit8 v0, p1, 0x1
-
-    iput v0, p0, Lcom/aiderlog/v22app/WidgetConfigActivity;->selectedFont:I
-
-    invoke-static {p0}, Lcom/aiderlog/v22app/WidgetNativeV164;->preview(Landroid/app/Activity;)V
-    return-void
-
-    :cond_default
-    const/4 v0, 0x3
-
-    iput v0, p0, Lcom/aiderlog/v22app/WidgetConfigActivity;->selectedFont:I
-
-    invoke-static {p0}, Lcom/aiderlog/v22app/WidgetNativeV164;->preview(Landroid/app/Activity;)V
-    return-void
-.end method
-
-.method public showThemeDialog()V
-    .locals 0
-    invoke-static {p0}, Lcom/aiderlog/v22app/WidgetThemeV190;->showDialog(Landroid/app/Activity;)V
-    return-void
-.end method
-
-.method public showOpacityDialog()V
-    .locals 6
-
-    const/4 v0, 0x6
-
-    new-array v0, v0, [Ljava/lang/CharSequence;
-
-    const-string v1, "0% \u00b7 \uc644\uc804 \ud22c\uba85"
-    const/4 v2, 0x0
-    aput-object v1, v0, v2
-    const-string v1, "20%"
-    const/4 v3, 0x1
-    aput-object v1, v0, v3
-    const-string v1, "40%"
-    const/4 v3, 0x2
-    aput-object v1, v0, v3
-    const-string v1, "60%"
-    const/4 v3, 0x3
-    aput-object v1, v0, v3
-    const-string v1, "80%"
-    const/4 v3, 0x4
-    aput-object v1, v0, v3
-    const-string v1, "100% \u00b7 \ubd88\ud22c\uba85"
-    const/4 v3, 0x5
-    aput-object v1, v0, v3
-
-    new-instance v1, Landroid/app/AlertDialog$Builder;
-    invoke-direct {v1, p0}, Landroid/app/AlertDialog$Builder;-><init>(Landroid/content/Context;)V
-    const-string v3, "2/4 \u00b7 \uc704\uc82f \ud22c\uba85\ub3c4"
-    invoke-virtual {v1, v3}, Landroid/app/AlertDialog$Builder;->setTitle(Ljava/lang/CharSequence;)Landroid/app/AlertDialog$Builder;
-    new-instance v3, Lcom/aiderlog/v22app/WidgetConfigActivity$6;
-    invoke-direct {v3, p0}, Lcom/aiderlog/v22app/WidgetConfigActivity$6;-><init>(Lcom/aiderlog/v22app/WidgetConfigActivity;)V
-    const/4 v4, 0x5
-    invoke-virtual {v1, v0, v4, v3}, Landroid/app/AlertDialog$Builder;->setSingleChoiceItems([Ljava/lang/CharSequence;ILandroid/content/DialogInterface$OnClickListener;)Landroid/app/AlertDialog$Builder;
-    const-string v0, "\uc644\ub8cc"
-    const/4 v3, 0x0
-    invoke-virtual {v1, v0, v3}, Landroid/app/AlertDialog$Builder;->setPositiveButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Landroid/app/AlertDialog$Builder;
-    invoke-virtual {v1, v2}, Landroid/app/AlertDialog$Builder;->setCancelable(Z)Landroid/app/AlertDialog$Builder;
-    invoke-virtual {v1}, Landroid/app/AlertDialog$Builder;->show()Landroid/app/AlertDialog;
-    return-void
-.end method
-
-.method public showFontDialog()V
-    .locals 6
-
-    const/4 v0, 0x5
-    new-array v0, v0, [Ljava/lang/CharSequence;
-    const-string v1, "1 \u00b7 \uc544\uc8fc \uc791\uac8c"
-    const/4 v2, 0x0
-    aput-object v1, v0, v2
-    const-string v1, "2 \u00b7 \uc791\uac8c"
-    const/4 v3, 0x1
-    aput-object v1, v0, v3
-    const-string v1, "3 \u00b7 \ubcf4\ud1b5"
-    const/4 v3, 0x2
-    aput-object v1, v0, v3
-    const-string v1, "4 \u00b7 \ud06c\uac8c"
-    const/4 v3, 0x3
-    aput-object v1, v0, v3
-    const-string v1, "5 \u00b7 \uc544\uc8fc \ud06c\uac8c"
-    const/4 v3, 0x4
-    aput-object v1, v0, v3
-
-    new-instance v1, Landroid/app/AlertDialog$Builder;
-    invoke-direct {v1, p0}, Landroid/app/AlertDialog$Builder;-><init>(Landroid/content/Context;)V
-    const-string v3, "3/4 \u00b7 \uc704\uc82f \uae00\uc790 \ud06c\uae30"
-    invoke-virtual {v1, v3}, Landroid/app/AlertDialog$Builder;->setTitle(Ljava/lang/CharSequence;)Landroid/app/AlertDialog$Builder;
-    new-instance v3, Lcom/aiderlog/v22app/WidgetConfigActivity$8;
-    invoke-direct {v3, p0}, Lcom/aiderlog/v22app/WidgetConfigActivity$8;-><init>(Lcom/aiderlog/v22app/WidgetConfigActivity;)V
-    const/4 v4, 0x2
-    invoke-virtual {v1, v0, v4, v3}, Landroid/app/AlertDialog$Builder;->setSingleChoiceItems([Ljava/lang/CharSequence;ILandroid/content/DialogInterface$OnClickListener;)Landroid/app/AlertDialog$Builder;
-    const-string v0, "\uc644\ub8cc"
-    const/4 v3, 0x0
-    invoke-virtual {v1, v0, v3}, Landroid/app/AlertDialog$Builder;->setPositiveButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Landroid/app/AlertDialog$Builder;
-    invoke-virtual {v1, v2}, Landroid/app/AlertDialog$Builder;->setCancelable(Z)Landroid/app/AlertDialog$Builder;
-    invoke-virtual {v1}, Landroid/app/AlertDialog$Builder;->show()Landroid/app/AlertDialog;
-    return-void
-.end method
-
 .method public showContentDialog()V
     .locals 5
 
@@ -841,6 +888,152 @@
     invoke-virtual {v1, v2}, Landroid/app/AlertDialog$Builder;->setCancelable(Z)Landroid/app/AlertDialog$Builder;
 
     invoke-virtual {v1}, Landroid/app/AlertDialog$Builder;->show()Landroid/app/AlertDialog;
+
+    return-void
+.end method
+
+.method public showFontDialog()V
+    .locals 6
+
+    const/4 v0, 0x5
+
+    new-array v0, v0, [Ljava/lang/CharSequence;
+
+    const-string v1, "1 \u00b7 \uc544\uc8fc \uc791\uac8c"
+
+    const/4 v2, 0x0
+
+    aput-object v1, v0, v2
+
+    const-string v1, "2 \u00b7 \uc791\uac8c"
+
+    const/4 v3, 0x1
+
+    aput-object v1, v0, v3
+
+    const-string v1, "3 \u00b7 \ubcf4\ud1b5"
+
+    const/4 v3, 0x2
+
+    aput-object v1, v0, v3
+
+    const-string v1, "4 \u00b7 \ud06c\uac8c"
+
+    const/4 v3, 0x3
+
+    aput-object v1, v0, v3
+
+    const-string v1, "5 \u00b7 \uc544\uc8fc \ud06c\uac8c"
+
+    const/4 v3, 0x4
+
+    aput-object v1, v0, v3
+
+    new-instance v1, Landroid/app/AlertDialog$Builder;
+
+    invoke-direct {v1, p0}, Landroid/app/AlertDialog$Builder;-><init>(Landroid/content/Context;)V
+
+    const-string v3, "3/4 \u00b7 \uc704\uc82f \uae00\uc790 \ud06c\uae30"
+
+    invoke-virtual {v1, v3}, Landroid/app/AlertDialog$Builder;->setTitle(Ljava/lang/CharSequence;)Landroid/app/AlertDialog$Builder;
+
+    new-instance v3, Lcom/aiderlog/v22app/WidgetConfigActivity$8;
+
+    invoke-direct {v3, p0}, Lcom/aiderlog/v22app/WidgetConfigActivity$8;-><init>(Lcom/aiderlog/v22app/WidgetConfigActivity;)V
+
+    const/4 v4, 0x2
+
+    invoke-virtual {v1, v0, v4, v3}, Landroid/app/AlertDialog$Builder;->setSingleChoiceItems([Ljava/lang/CharSequence;ILandroid/content/DialogInterface$OnClickListener;)Landroid/app/AlertDialog$Builder;
+
+    const-string v0, "\uc644\ub8cc"
+
+    const/4 v3, 0x0
+
+    invoke-virtual {v1, v0, v3}, Landroid/app/AlertDialog$Builder;->setPositiveButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Landroid/app/AlertDialog$Builder;
+
+    invoke-virtual {v1, v2}, Landroid/app/AlertDialog$Builder;->setCancelable(Z)Landroid/app/AlertDialog$Builder;
+
+    invoke-virtual {v1}, Landroid/app/AlertDialog$Builder;->show()Landroid/app/AlertDialog;
+
+    return-void
+.end method
+
+.method public showOpacityDialog()V
+    .locals 6
+
+    const/4 v0, 0x6
+
+    new-array v0, v0, [Ljava/lang/CharSequence;
+
+    const-string v1, "0% \u00b7 \uc644\uc804 \ud22c\uba85"
+
+    const/4 v2, 0x0
+
+    aput-object v1, v0, v2
+
+    const-string v1, "20%"
+
+    const/4 v3, 0x1
+
+    aput-object v1, v0, v3
+
+    const-string v1, "40%"
+
+    const/4 v3, 0x2
+
+    aput-object v1, v0, v3
+
+    const-string v1, "60%"
+
+    const/4 v3, 0x3
+
+    aput-object v1, v0, v3
+
+    const-string v1, "80%"
+
+    const/4 v3, 0x4
+
+    aput-object v1, v0, v3
+
+    const-string v1, "100% \u00b7 \ubd88\ud22c\uba85"
+
+    const/4 v3, 0x5
+
+    aput-object v1, v0, v3
+
+    new-instance v1, Landroid/app/AlertDialog$Builder;
+
+    invoke-direct {v1, p0}, Landroid/app/AlertDialog$Builder;-><init>(Landroid/content/Context;)V
+
+    const-string v3, "2/4 \u00b7 \uc704\uc82f \ud22c\uba85\ub3c4"
+
+    invoke-virtual {v1, v3}, Landroid/app/AlertDialog$Builder;->setTitle(Ljava/lang/CharSequence;)Landroid/app/AlertDialog$Builder;
+
+    new-instance v3, Lcom/aiderlog/v22app/WidgetConfigActivity$6;
+
+    invoke-direct {v3, p0}, Lcom/aiderlog/v22app/WidgetConfigActivity$6;-><init>(Lcom/aiderlog/v22app/WidgetConfigActivity;)V
+
+    const/4 v4, 0x5
+
+    invoke-virtual {v1, v0, v4, v3}, Landroid/app/AlertDialog$Builder;->setSingleChoiceItems([Ljava/lang/CharSequence;ILandroid/content/DialogInterface$OnClickListener;)Landroid/app/AlertDialog$Builder;
+
+    const-string v0, "\uc644\ub8cc"
+
+    const/4 v3, 0x0
+
+    invoke-virtual {v1, v0, v3}, Landroid/app/AlertDialog$Builder;->setPositiveButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Landroid/app/AlertDialog$Builder;
+
+    invoke-virtual {v1, v2}, Landroid/app/AlertDialog$Builder;->setCancelable(Z)Landroid/app/AlertDialog$Builder;
+
+    invoke-virtual {v1}, Landroid/app/AlertDialog$Builder;->show()Landroid/app/AlertDialog;
+
+    return-void
+.end method
+
+.method public showThemeDialog()V
+    .locals 0
+
+    invoke-static {p0}, Lcom/aiderlog/v22app/WidgetThemeV190;->showDialog(Landroid/app/Activity;)V
 
     return-void
 .end method

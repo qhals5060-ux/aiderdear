@@ -1,0 +1,21 @@
+{
+  "name": "AiderLog",
+  "short_name": "AiderLog",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f5f7fb",
+  "theme_color": "#f5f7fb",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "aiderdear-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "aiderdear-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

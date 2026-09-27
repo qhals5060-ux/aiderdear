@@ -13,3 +13,8 @@ pglite-debug.log
 AiderLog-v*.apk
 AiderLog-*-site-files.zip
 work/
+
+# Distribute binaries as release assets only.
+*.apk
+*.zip
+outputs/

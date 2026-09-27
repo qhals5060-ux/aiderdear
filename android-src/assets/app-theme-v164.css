@@ -210,7 +210,7 @@ body > :not(#wheel):not(script):not(style):not(link) {
 html[data-app-palette],html[data-app-palette] body {background:var(--app-space-base)!important}
 html[data-app-palette] body::before {
   background-color:var(--app-space-base)!important;
-  background-image:url("./cosmic-wallpaper-v134.png")!important;
+  background-image:none!important;
   background-blend-mode:luminosity!important;filter:none!important;
 }
 html[data-app-palette] body::after {

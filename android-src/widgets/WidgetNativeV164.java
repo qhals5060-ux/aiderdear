@@ -61,7 +61,7 @@ public final class WidgetNativeV164 {
         v.setTextViewTextSize(id(c,"widget_empty"),2,size);
     }
     static PendingIntent open(Context c,int widget,String kind,String action){
-        String target=kind.startsWith("Calendar")?"home":kind.startsWith("Routine")?"private":kind.startsWith("Task")?"task":"personal";
+        String target=kind.startsWith("Routine")?"private":"home";
         if("add-schedule".equals(action))action="add-schedule:"+selected(c,widget);
         Intent i=new Intent().setClassName(c,c.getPackageName()+".MainActivity").setAction("aiderlog.widget."+widget+"."+kind+"."+action);
         i.putExtra("target",target).putExtra("action",action).addFlags(0x14000000);
@@ -75,7 +75,7 @@ public final class WidgetNativeV164 {
     }
     public static boolean update(Context c,AppWidgetManager manager,int widget,String name){
         String kind=type(name);
-        if(kind.startsWith("Task")&&!kind.equals("TaskClientLink"))return false;
+        if(!WidgetProvider.supports(kind))return false;
         try{
             RemoteViews v=WidgetSizeV169.render(c,widget,kind);
             manager.updateAppWidget(widget,v);
@@ -94,6 +94,7 @@ public final class WidgetNativeV164 {
         }
     }
     public static RemoteViews render(Context c,int widget,String kind,boolean preview,String selectedTheme,int opacity,int selectedFont){
+        if(!WidgetProvider.supports(kind))throw new IllegalArgumentException("Unsupported widget");
         if(kind.equals("TaskClientLink")){
             RemoteViews link=view(c,"widget_client_link_v168");String chosen=selectedTheme==null?theme(c,widget):selectedTheme;
             link.setImageViewResource(id(c,"widget_background"),drawable(c,WidgetThemeV190.resource(chosen,"surface")));
@@ -214,6 +215,7 @@ public final class WidgetNativeV164 {
         Collections.sort(out);return out;
     }
     static List<String> rows(Context c,int widget,String kind,JSONObject data){
+        if(!WidgetProvider.supports(WidgetDesignV165.base(kind)))return new ArrayList<String>();
         if(WidgetApprovedV188.supports(kind))return WidgetApprovedV188.rows(c,widget,kind,data);
         if(WidgetCompactCalendarV181.supports(kind))return WidgetCompactCalendarV181.rows(c,widget,kind,data);
         if(!kind.startsWith("Calendar"))return WidgetDesignV165.rows(c,widget,kind,data);
@@ -231,6 +233,7 @@ public final class WidgetNativeV164 {
         }return out;
     }
     static RemoteViews row(Context c,int widget,String kind,String line,int index,String overrideTheme,int selectedFont){
+        if(!WidgetProvider.supports(WidgetDesignV165.base(kind)))return null;
         if(WidgetApprovedV188.supports(kind))return WidgetApprovedV188.renderRow(c,widget,kind,line,overrideTheme,selectedFont);
         if(WidgetCompactCalendarV181.supports(kind))return WidgetCompactCalendarV181.row(c,widget,kind,line,index,overrideTheme,selectedFont);
         if(!kind.startsWith("Calendar"))return WidgetDesignV165.row(c,widget,kind,line,index,overrideTheme,selectedFont);

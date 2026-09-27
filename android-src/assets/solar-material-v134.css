@@ -30,7 +30,7 @@ html[data-theme="pluto"]{--cosmos-base:#2a211d;--cosmos-wash:rgba(71,50,36,.3);-
 
 html,html[data-theme] body{background:var(--cosmos-base)!important}
 body{position:relative;isolation:isolate;color:var(--theme-text)!important}
-html[data-theme] body::before{content:"";position:fixed;inset:0;z-index:0;background:url("./cosmic-wallpaper-v134.png") center 44%/cover no-repeat!important;filter:var(--wallpaper-filter)!important;transform:scale(1.012);pointer-events:none}
+html[data-theme] body::before{content:"";position:fixed;inset:0;z-index:0;background:none center 44%/cover no-repeat!important;filter:var(--wallpaper-filter)!important;transform:scale(1.012);pointer-events:none}
 html[data-theme] body::after{content:"";position:fixed;inset:0;z-index:0;background:linear-gradient(var(--cosmos-wash),var(--cosmos-wash))!important;pointer-events:none}
 .app{position:relative;z-index:1;background:transparent!important}
 .app::before{display:none!important}
@@ -64,7 +64,7 @@ html[data-theme] body::after{content:"";position:fixed;inset:0;z-index:0;backgro
 #home.schedule-cosmic-v119 .schedule-dday-v119{
   position:relative;isolation:isolate;overflow:hidden;
   background-color:var(--planet-shadow)!important;
-  background-image:linear-gradient(118deg,rgba(255,255,255,.14),transparent 44%,rgba(0,0,0,.22)),url("./planet-surface-v134.png")!important;
+  background-image:linear-gradient(118deg,rgba(255,255,255,.14),transparent 44%,rgba(0,0,0,.22)),none!important;
   background-size:100% 100%,460px 460px!important;background-position:center,63% 48%!important;background-blend-mode:screen,soft-light!important;
   border:1px solid rgba(255,255,255,.24)!important;box-shadow:0 18px 44px rgba(14,8,31,.2),inset 0 1px rgba(255,255,255,.26)!important;
 }
@@ -75,7 +75,7 @@ html[data-theme] body::after{content:"";position:fixed;inset:0;z-index:0;backgro
 .global-wheel-planet-v126{
   isolation:isolate!important;overflow:visible!important;
   background-color:var(--planet-tint)!important;
-  background-image:radial-gradient(circle at 29% 21%,rgba(255,255,255,.78) 0 4%,rgba(255,255,255,.22) 10%,transparent 28%),url("./planet-surface-v134.png")!important;
+  background-image:radial-gradient(circle at 29% 21%,rgba(255,255,255,.78) 0 4%,rgba(255,255,255,.22) 10%,transparent 28%),none!important;
   background-size:100% 100%,142px 142px!important;background-position:center,58% 42%!important;background-blend-mode:screen,soft-light!important;
   border:1px solid rgba(255,255,255,.38)!important;
   box-shadow:0 0 0 1px color-mix(in srgb,var(--planet-tint) 52%,transparent),0 0 18px color-mix(in srgb,var(--theme-star) 52%,transparent),0 0 42px color-mix(in srgb,var(--planet-tint) 48%,transparent),inset -14px -15px 22px color-mix(in srgb,var(--planet-shadow) 70%,transparent),inset 5px 5px 10px rgba(255,255,255,.22)!important;
@@ -149,8 +149,8 @@ html body #event .event-editor-sheet-v111{width:min(650px,calc(100vw - clamp(58p
 :is(.page-title,.schedule-calhead-v119 h1,.language-edu-head h1){font-size:var(--type-xl)!important;line-height:1.08!important}
 .settings-v125 :is(p,small,span,button,label){font-size:var(--type-sm)!important}
 .settings-v125 h3{font-size:var(--type-md)!important}.settings-v125 h2{font-size:var(--type-xl)!important}
-.theme-card-v125{min-height:96px!important;padding:16px!important;border:1px solid rgba(255,255,255,.38)!important;background-color:var(--preview-a)!important;background-image:url("./planet-surface-v134.png")!important;background-size:220px 220px!important;background-position:68% 42%!important;background-blend-mode:soft-light!important;box-shadow:0 9px 20px color-mix(in srgb,var(--preview-a) 22%,transparent),inset 0 1px rgba(255,255,255,.25)!important}
-.theme-card-v125::before{content:"";position:absolute;right:15px;top:16px;width:42px;height:42px;border-radius:50%;background-color:var(--preview-b);background-image:url("./planet-surface-v134.png");background-size:92px 92px;background-blend-mode:soft-light;box-shadow:inset -7px -8px 11px rgba(15,8,24,.2),0 0 0 1px rgba(255,255,255,.28)}
+.theme-card-v125{min-height:96px!important;padding:16px!important;border:1px solid rgba(255,255,255,.38)!important;background-color:var(--preview-a)!important;background-image:none!important;background-size:220px 220px!important;background-position:68% 42%!important;background-blend-mode:soft-light!important;box-shadow:0 9px 20px color-mix(in srgb,var(--preview-a) 22%,transparent),inset 0 1px rgba(255,255,255,.25)!important}
+.theme-card-v125::before{content:"";position:absolute;right:15px;top:16px;width:42px;height:42px;border-radius:50%;background-color:var(--preview-b);background-image:none;background-size:92px 92px;background-blend-mode:soft-light;box-shadow:inset -7px -8px 11px rgba(15,8,24,.2),0 0 0 1px rgba(255,255,255,.28)}
 .theme-card-v125::after{right:7px!important;top:26px!important;width:58px!important;height:17px!important;border-color:rgba(255,255,255,.66)!important;transform:rotate(-17deg)!important}
 .theme-card-v125>b,.theme-card-v125>small{max-width:calc(100% - 62px)}
 .theme-card-v125:is([data-theme-choice-v125="system"],[data-theme-choice-v125="mars"],[data-theme-choice-v125="saturn"],[data-theme-choice-v125="pluto"]){color:#241c38!important;text-shadow:0 1px rgba(255,255,255,.45)!important}

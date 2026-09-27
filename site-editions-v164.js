@@ -8,8 +8,6 @@
   const sectionNavs=[
     ['.page-dots',['캘린더','감정 인사이트']],
     ['.record-page-dots',['기록 · 앨범','아카이브 · 여행']],
-    ['.personal-page-dots',['개인 기록','통합 대시보드']],
-    ['.task-page-dots',['고객 관리','입시요강']],
   ];
   // Only public installation links are cloned into the guest account area.
   const downloads=document.querySelector('[data-account-panel="app"] .site-edition-downloads'),loginStatus=document.getElementById('googleStatus');

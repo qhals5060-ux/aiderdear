@@ -1,0 +1,32 @@
+/* AiderLog v147 · small-screen calendar, quiet wheel and My workspace separation */
+html body{padding-top:1.89px!important}
+html body #app{height:calc(100dvh - 1.89px)!important}
+
+/* Keep the date and Korean holiday name on one compact line. */
+#home .schedule-day-v119{padding:2.5px!important;overflow:hidden!important}
+#home.schedule-cosmic-v119 .schedule-day-v119 .schedule-day-number-v119{left:3px!important;top:4px!important;width:11px!important;height:11px!important;font-size:8px!important;line-height:1!important;letter-spacing:-.04em!important}
+#home.schedule-cosmic-v119 .schedule-day-v119 .schedule-holiday-v144{display:block!important;left:15px!important;right:1px!important;top:4px!important;width:auto!important;max-width:none!important;margin:0!important;overflow:hidden!important;text-overflow:clip!important;white-space:nowrap!important;font-size:5.7px!important;line-height:1!important;letter-spacing:-.09em!important;font-weight:850!important;word-break:keep-all!important}
+#home.schedule-cosmic-v119 .schedule-day-v119 .schedule-holiday-v144.compact-long{font-size:4.4px!important;letter-spacing:-.14em!important}
+
+/* The signature planet stays present, but rests quietly until it is touched. */
+.global-wheel-v126:not(.open) .global-wheel-planet-v126#wheelCore:not(.pressing){opacity:.78!important;filter:brightness(.72) saturate(.76) blur(.22px)!important;box-shadow:0 0 9px color-mix(in srgb,var(--theme-glow) 52%,transparent),0 0 20px color-mix(in srgb,var(--theme-glow) 28%,transparent)!important}
+.global-wheel-v126.open .global-wheel-planet-v126#wheelCore,.global-wheel-planet-v126#wheelCore.pressing{opacity:1!important;filter:brightness(1.05) saturate(1)!important}
+.global-wheel-v126:not(.open) .wheel-art-v140{opacity:.83;filter:brightness(.78) saturate(.78) blur(.16px);transition:opacity .2s ease,filter .2s ease}
+.global-wheel-v126.open .wheel-art-v140,.global-wheel-planet-v126#wheelCore.pressing .wheel-art-v140{opacity:1;filter:brightness(1.04) saturate(1)}
+
+/* Task, Work and Study are independent tools in My Space. */
+#fifth .my128-tool.work{--tool:#4f7080}
+#fifth .my128-tool.study{--tool:var(--theme-primary,#6255e8);grid-column:1/-1;min-height:132px}
+#fifth .my128-tool.study p{max-width:84%}
+#fifth .my128-summary{grid-template-columns:repeat(auto-fit,minmax(82px,1fr))}
+#fifth .my128-summary article.study{border-color:color-mix(in srgb,var(--theme-primary) 23%,var(--theme-border));background:linear-gradient(145deg,#fff,color-mix(in srgb,var(--theme-accent-soft) 24%,#fff))}
+
+@media(max-width:390px){
+  #home .schedule-day-v119{padding:2px!important}
+  #home.schedule-cosmic-v119 .schedule-day-v119 .schedule-day-number-v119{left:2px!important;top:3px!important;width:10px!important;height:10px!important;font-size:7.4px!important}
+  #home.schedule-cosmic-v119 .schedule-day-v119 .schedule-holiday-v144{left:12px!important;top:3px!important;right:1px!important;font-size:5.1px!important;letter-spacing:-.1em!important}
+  #home.schedule-cosmic-v119 .schedule-day-v119 .schedule-holiday-v144.compact-long{font-size:3.9px!important;letter-spacing:-.15em!important}
+  #fifth .my128-summary{grid-template-columns:repeat(3,minmax(0,1fr))}
+  #fifth .my128-tool.study{min-height:138px}
+}
+@media(prefers-reduced-motion:reduce){.global-wheel-v126 .wheel-art-v140,.global-wheel-planet-v126#wheelCore{transition:none!important}}

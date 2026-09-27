@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@id/widget_root" android:layout_width="match_parent" android:layout_height="match_parent">
-    <ImageView android:id="@id/widget_background" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@drawable/widget_bg_aurora" android:scaleType="fitXY" android:src="@android:color/transparent" />
-    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:paddingLeft="15dp" android:paddingTop="13dp" android:paddingRight="15dp" android:paddingBottom="13dp">
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical" android:orientation="horizontal">
-            <TextView android:layout_width="38dp" android:layout_height="38dp" android:background="@drawable/widget_icon_v154" android:gravity="center" android:text="•" android:textColor="#FFFFFFFF" android:textSize="18sp" />
-            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginLeft="10dp" android:layout_weight="1" android:orientation="vertical">
-                <TextView android:id="@id/widget_title" android:layout_width="match_parent" android:layout_height="wrap_content" android:ellipsize="end" android:maxLines="1" android:text="오늘의 일정" android:textColor="#FF151329" android:textSize="18sp" android:textStyle="bold" />
-                <TextView android:id="@id/widget_subtitle" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp" android:ellipsize="end" android:maxLines="1" android:text="9월 6일 일요일" android:textColor="#FF68627C" android:textSize="10sp" />
+<FrameLayout android:id="@id/widget_root" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView android:id="@id/widget_background" android:background="@drawable/widget_bg_aurora" android:layout_width="fill_parent" android:layout_height="fill_parent" android:src="@android:color/transparent" android:scaleType="fitXY" />
+    <LinearLayout android:orientation="vertical" android:paddingLeft="15.0dip" android:paddingTop="13.0dip" android:paddingRight="15.0dip" android:paddingBottom="13.0dip" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <TextView android:textSize="18.0sp" android:textColor="#ffffffff" android:gravity="center" android:background="@drawable/widget_icon_v154" android:layout_width="38.0dip" android:layout_height="38.0dip" android:text="•" />
+            <LinearLayout android:orientation="vertical" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:layout_weight="1.0">
+                <TextView android:textSize="18.0sp" android:textStyle="bold" android:textColor="#ff151329" android:ellipsize="end" android:id="@id/widget_title" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="오늘의 일정" android:maxLines="1" />
+                <TextView android:textSize="10.0sp" android:textColor="#ff68627c" android:ellipsize="end" android:id="@id/widget_subtitle" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="1.0dip" android:text="9월 6일 일요일" android:maxLines="1" />
             </LinearLayout>
-            <TextView android:id="@id/widget_action" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone" />
+            <TextView android:id="@id/widget_action" android:visibility="gone" android:layout_width="0.0dip" android:layout_height="0.0dip" />
         </LinearLayout>
-        <TextView android:id="@id/widget_body" android:layout_width="match_parent" android:layout_height="0dp" android:layout_marginTop="9dp" android:layout_weight="1" android:background="@drawable/widget_panel_v154" android:ellipsize="end" android:gravity="center_vertical" android:lineSpacingExtra="6dp" android:maxLines="4" android:paddingLeft="15dp" android:paddingTop="9dp" android:paddingRight="15dp" android:paddingBottom="9dp" android:text="● 09:30   팀 미팅\n● 14:00   병원 예약\n● 19:30   영어 공부" android:textColor="#FF28243C" android:textSize="14sp" android:textStyle="bold" />
+        <TextView android:textSize="14.0sp" android:textStyle="bold" android:textColor="#ff28243c" android:ellipsize="end" android:gravity="center_vertical" android:id="@id/widget_body" android:background="@drawable/widget_panel_v154" android:paddingLeft="15.0dip" android:paddingTop="9.0dip" android:paddingRight="15.0dip" android:paddingBottom="9.0dip" android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_marginTop="9.0dip" android:text="● 09:30   팀 미팅\n● 14:00   병원 예약\n● 19:30   영어 공부" android:maxLines="4" android:layout_weight="1.0" android:lineSpacingExtra="6.0dip" />
     </LinearLayout>
 </FrameLayout>

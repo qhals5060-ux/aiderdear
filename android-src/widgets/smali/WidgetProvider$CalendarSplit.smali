@@ -18,7 +18,7 @@
 .method public constructor <init>()V
     .locals 0
 
-    .line 258
+    .line 19
     invoke-direct {p0}, Lcom/aiderlog/v22app/WidgetProvider;-><init>()V
 
     return-void

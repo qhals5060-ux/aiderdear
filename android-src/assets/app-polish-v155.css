@@ -1,0 +1,194 @@
+/* AiderLog v155 · calendar alignment, compact wheel arc, event sheets,
+   and one coherent visual language for every Private Universe workspace. */
+
+/* Calendar — the neon ring belongs to the numeral, never to the whole cell. */
+#home.schedule-feature-v125 .schedule-day-v119.selected::before,
+#home.schedule-feature-v125 .schedule-day-v119.selected::after,
+#home.schedule-cosmic-v119 .schedule-day-v119.selected::before,
+#home.schedule-cosmic-v119 .schedule-day-v119.selected::after{
+  content:none!important;display:none!important;
+}
+#home.schedule-feature-v125 .schedule-day-number-v119,
+#home.schedule-cosmic-v119 .schedule-day-number-v119{
+  position:absolute!important;z-index:6!important;left:3px!important;top:3px!important;
+  width:16px!important;height:16px!important;display:grid!important;place-items:center!important;
+  box-sizing:border-box!important;margin:0!important;padding:0!important;border-radius:50%!important;
+  line-height:1!important;transform:none!important;
+}
+#home.schedule-feature-v125 .schedule-day-v119:is(.today,.selected) .schedule-day-number-v119,
+#home.schedule-cosmic-v119 .schedule-day-v119:is(.today,.selected) .schedule-day-number-v119{
+  border:1.2px solid color-mix(in srgb,var(--theme-primary) 78%,#fff)!important;
+  background:color-mix(in srgb,var(--theme-primary) 88%,#fff)!important;color:#fff!important;
+  box-shadow:0 0 0 1px rgba(255,255,255,.72),0 0 8px var(--theme-glow),inset 0 0 5px rgba(255,255,255,.55)!important;
+}
+#home .schedule-holiday-v144{left:22px!important;top:5px!important;max-width:calc(100% - 25px)!important}
+
+/* Wheel — preserve the core position and pull its fan down toward the core. */
+html .global-wheel-v126.open .global-wheel-field-v126::before{inset:30px 18px 10px 26px!important}
+html .global-wheel-v126.open .global-wheel-field-v126::after,
+html .global-wheel-v126 .global-wheel-orbits-v126{
+  left:24px!important;top:38px!important;width:212px!important;height:212px!important;
+}
+html .global-wheel-v126.open .global-wheel-item-v126.slot-0{left:4px!important;top:148px!important}
+html .global-wheel-v126.open .global-wheel-item-v126.slot-1{left:15px!important;top:108px!important}
+html .global-wheel-v126.open .global-wheel-item-v126.slot-2{left:43px!important;top:72px!important}
+html .global-wheel-v126.open .global-wheel-item-v126.slot-3{left:84px!important;top:47px!important}
+html .global-wheel-v126.open .global-wheel-item-v126.slot-4{left:132px!important;top:37px!important}
+
+/* Empty record states — keep the message, remove decorative planets/stars. */
+#event.event-cosmic-v120 .event-empty-v111::before,
+#event.event-cosmic-v120 .event-empty-v111::after,
+#event .event-empty-v111::before,
+#event .event-empty-v111::after{
+  content:none!important;display:none!important;background:none!important;box-shadow:none!important;
+}
+#event.event-cosmic-v120 .event-empty-v111{
+  min-height:150px!important;padding:26px 18px!important;place-content:center!important;
+  background:rgba(255,255,255,.8)!important;overflow:hidden!important;
+}
+
+/* Event editors — flush to the right and bottom, one rounded top-left corner. */
+html body #event .event-editor-overlay-v111{
+  inset:var(--app-frame-v153,18px) 0 var(--app-frame-v153,18px) 0!important;
+  width:auto!important;height:auto!important;display:flex!important;align-items:stretch!important;
+  justify-content:flex-end!important;place-items:stretch end!important;padding:0!important;
+  background:rgba(10,7,29,.43)!important;backdrop-filter:blur(7px)!important;
+}
+html body #event .event-editor-sheet-v111,
+html body #event .event-editor-sheet-v111.event-editor-sheet-v113{
+  position:relative!important;right:0!important;flex:0 0 auto!important;display:flex!important;
+  flex-direction:column!important;width:min(535px,calc(100vw - 18px))!important;height:100%!important;
+  max-width:none!important;max-height:100%!important;margin:0!important;overflow:hidden!important;
+  border:0!important;border-left:1px solid rgba(255,255,255,.78)!important;
+  border-radius:28px 0 0 0!important;background:linear-gradient(155deg,#fff 0%,#fbfaff 62%,color-mix(in srgb,var(--theme-accent-soft) 18%,#fff))!important;
+  box-shadow:-28px 0 78px rgba(10,6,31,.32),inset 1px 0 rgba(255,255,255,.75)!important;
+}
+html body #event .event-editor-sheet-v111::before{display:none!important;content:none!important}
+html body #event .event-editor-head-v111{
+  flex:0 0 auto!important;border-radius:27px 0 0 0!important;
+  background:linear-gradient(135deg,var(--theme-deep),var(--theme-primary) 68%,var(--theme-secondary))!important;
+  color:#fff!important;-webkit-text-fill-color:#fff!important;
+}
+html body #event .event-editor-head-v111 :is(small,h1,h2,strong,span){color:#fff!important;-webkit-text-fill-color:#fff!important}
+html body #event .event-editor-head-v111>button,
+html body #event .event-editor-close-v111{
+  display:grid!important;visibility:visible!important;opacity:1!important;pointer-events:auto!important;
+  color:#241d3e!important;-webkit-text-fill-color:#241d3e!important;font-size:22px!important;
+}
+html body #event .event-editor-form-v111,
+html body #event .event-editor-form-v111.compact-v148,
+html body #event .event-purpose-form-v113{
+  flex:1 1 auto!important;min-height:0!important;align-content:start!important;overflow-x:hidden!important;
+  overflow-y:auto!important;padding:13px 14px 0 17px!important;overscroll-behavior:contain!important;
+}
+html body #event .event-editor-actions-v111,
+html body #event .event-purpose-form-v113 .event-editor-actions-v111{
+  position:sticky!important;z-index:8!important;bottom:0!important;align-self:end!important;
+  margin:0!important;padding:10px 0 max(10px,env(safe-area-inset-bottom))!important;
+  border-top:1px solid color-mix(in srgb,var(--theme-primary) 12%,transparent)!important;
+  background:transparent!important;box-shadow:none!important;backdrop-filter:none!important;
+}
+
+/* Private Universe hub — luminous, compact planetary dashboard. */
+#fifth .my128-head,
+#fifth .my128-subhead,
+#fifth .suite145-head,
+#fifth .study-head-v1{
+  position:relative!important;overflow:hidden!important;border:1px solid color-mix(in srgb,var(--theme-primary) 20%,var(--theme-border))!important;
+  border-radius:18px!important;background:radial-gradient(circle at 86% 8%,color-mix(in srgb,var(--theme-accent-soft) 56%,transparent),transparent 30%),rgba(255,255,255,.92)!important;
+  box-shadow:0 10px 28px rgba(15,17,48,.09),inset 0 1px rgba(255,255,255,.9)!important;
+  backdrop-filter:blur(18px) saturate(112%)!important;
+}
+#fifth .my128-head::after,
+#fifth .my128-subhead::after,
+#fifth .suite145-head::after,
+#fifth .study-head-v1::after{
+  content:"";position:absolute;right:12%;top:-31px;width:82px;height:82px;border:1px solid color-mix(in srgb,var(--theme-primary) 16%,transparent);border-radius:50%;pointer-events:none;
+}
+#fifth :is(.my128-head,.my128-subhead,.suite145-head,.study-head-v1) h1{
+  position:relative;z-index:1;color:var(--theme-text)!important;-webkit-text-fill-color:var(--theme-text)!important;
+}
+#fifth .my128-summary article{
+  position:relative!important;overflow:hidden!important;border:1px solid color-mix(in srgb,var(--theme-primary) 16%,var(--theme-border))!important;
+  background:linear-gradient(150deg,rgba(255,255,255,.98),color-mix(in srgb,var(--theme-accent-soft) 20%,#fff))!important;
+  box-shadow:0 7px 19px rgba(18,21,58,.065)!important;
+}
+#fifth .my128-summary article::before{content:"";position:absolute;left:0;top:9px;bottom:9px;width:2px;border-radius:9px;background:linear-gradient(var(--theme-star),var(--theme-primary));box-shadow:0 0 8px var(--theme-glow)}
+#fifth .my128-tool,#fifth .my128-tool.study{
+  isolation:isolate!important;overflow:hidden!important;border:1px solid color-mix(in srgb,var(--theme-primary) 18%,var(--theme-border))!important;
+  background:radial-gradient(circle at 84% 25%,color-mix(in srgb,var(--theme-accent-soft) 62%,transparent),transparent 30%),linear-gradient(150deg,rgba(255,255,255,.98),rgba(255,255,255,.87))!important;
+  box-shadow:0 11px 28px rgba(13,17,50,.085),inset 0 1px rgba(255,255,255,.92)!important;
+}
+#fifth .my128-tool::after{content:"";position:absolute;z-index:-1;right:-27px;bottom:-39px;width:101px;height:101px;border:1px solid color-mix(in srgb,var(--theme-primary) 18%,transparent);border-radius:50%;box-shadow:0 0 18px color-mix(in srgb,var(--theme-glow) 24%,transparent);pointer-events:none}
+
+/* Shared workspace surfaces: Paper, Consulting, Work, Brain and Speech. */
+#fifth .suite145-tabs,#fifth .study-tabs-v1{
+  border-color:color-mix(in srgb,var(--theme-primary) 15%,var(--theme-border))!important;
+  background:rgba(255,255,255,.84)!important;box-shadow:0 5px 16px rgba(18,21,58,.055)!important;
+  backdrop-filter:blur(14px)!important;
+}
+#fifth :is(.suite145-tabs,.study-tabs-v1) button.active{
+  border-color:rgba(255,255,255,.42)!important;background:linear-gradient(135deg,var(--theme-primary),var(--theme-secondary))!important;
+  color:#fff!important;box-shadow:0 0 0 2px color-mix(in srgb,var(--theme-primary) 10%,transparent),0 7px 16px color-mix(in srgb,var(--theme-glow) 58%,transparent)!important;
+}
+#fifth .suite145-scroll{gap:8px!important;padding-bottom:max(74px,calc(env(safe-area-inset-bottom) + 64px))!important}
+#fifth .suite145-card,
+#fifth .paper-stage-v128,
+#fifth .study-focus-v1,#fifth .study-next-v1,#fifth .study-question-v1,#fifth .study-concept-v1,#fifth .study-connection-v1,#fifth .study-review-v1,#fifth .study-progress-v1{
+  border-color:color-mix(in srgb,var(--theme-primary) 15%,var(--theme-border))!important;
+  background:radial-gradient(circle at 94% 0,color-mix(in srgb,var(--theme-accent-soft) 34%,transparent),transparent 30%),rgba(255,255,255,.95)!important;
+  box-shadow:0 9px 25px rgba(15,19,51,.065),inset 0 1px rgba(255,255,255,.9)!important;
+}
+#fifth .paper-stage-v128{border-radius:21px!important}
+#fifth .my128-paper-actions{position:relative;z-index:2;gap:5px!important}
+#fifth .my128-paper-page .my128-subhead>div{flex:1 1 auto!important;min-width:0!important}
+#fifth .my128-paper-page .my128-subhead>div>span{min-width:0!important;overflow:hidden!important}
+#fifth .my128-paper-page .my128-subhead small{overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
+#fifth .my128-collect-action{min-width:64px!important;height:35px!important;display:flex!important;align-items:center!important;justify-content:center!important;gap:3px!important;padding:0 7px!important;border:0!important;border-radius:11px!important;background:linear-gradient(135deg,var(--theme-primary),var(--theme-secondary))!important;color:#fff!important;-webkit-text-fill-color:#fff!important;font-size:9px!important;font-weight:900!important;white-space:nowrap!important;box-shadow:0 6px 14px color-mix(in srgb,var(--theme-glow) 55%,transparent)!important}
+#fifth .my128-task-shell{gap:8px!important}
+#fifth .my128-task-shell>aside,#fifth .my128-task-shell>main{
+  border-color:color-mix(in srgb,var(--theme-primary) 17%,var(--theme-border))!important;
+  background:rgba(255,255,255,.93)!important;box-shadow:0 9px 25px rgba(15,19,51,.065)!important;
+}
+#fifth .my128-task-empty{
+  height:auto!important;min-height:235px!important;margin:auto!important;padding:24px!important;border-radius:18px!important;
+  background:radial-gradient(circle at 50% 40%,color-mix(in srgb,var(--theme-accent-soft) 50%,transparent),transparent 55%)!important;
+}
+#fifth .my128-task-empty>i{border:1px solid color-mix(in srgb,var(--theme-primary) 22%,white)!important;border-radius:50%!important;background:radial-gradient(circle at 31% 26%,#fff 0 7%,var(--theme-accent-soft) 26%,var(--theme-primary) 90%)!important;color:#fff!important;box-shadow:0 0 0 8px color-mix(in srgb,var(--theme-primary) 5%,transparent),0 0 24px var(--theme-glow)!important}
+#fifth .work145-brief article{position:relative!important;overflow:hidden!important;background:linear-gradient(150deg,#fff,color-mix(in srgb,var(--theme-accent-soft) 19%,#fff))!important}
+#fifth .work145-brief article::before{content:"";position:absolute;left:0;top:9px;bottom:9px;width:3px;border-radius:8px;background:var(--theme-primary);box-shadow:0 0 9px var(--theme-glow)}
+#fifth :is(.brain145-program-head,.speech145-hero,.study-hero-v1){
+  border:1px solid rgba(255,255,255,.35)!important;
+  background:radial-gradient(circle at 78% 18%,rgba(255,255,255,.3),transparent 20%),radial-gradient(circle at 34% 120%,color-mix(in srgb,var(--theme-secondary) 76%,transparent),transparent 52%),linear-gradient(135deg,var(--theme-deep),var(--theme-primary) 58%,var(--theme-secondary))!important;
+  box-shadow:0 15px 34px color-mix(in srgb,var(--theme-glow) 72%,transparent),inset 0 1px rgba(255,255,255,.42)!important;
+}
+#fifth :is(.brain145-program-head,.speech145-hero,.study-hero-v1)::before{content:"";position:absolute;right:9%;bottom:-33px;width:104px;height:104px;border:1px solid rgba(255,255,255,.18);border-radius:50%;pointer-events:none}
+#fifth .study-scroll-v1{padding-bottom:max(74px,calc(env(safe-area-inset-bottom) + 64px))!important}
+
+@media(max-width:559px){
+  html body #event .event-editor-sheet-v111,
+  html body #event .event-editor-sheet-v111.event-editor-sheet-v113{width:calc(100vw - 12px)!important;border-radius:26px 0 0 0!important}
+  html body #event .event-editor-head-v111{border-radius:25px 0 0 0!important}
+  #fifth .my128-task-shell{grid-template-rows:108px minmax(0,1fr)!important}
+  #fifth .my128-task-empty{min-height:220px!important}
+}
+@media(max-width:430px){
+  #fifth .my128-paper-page .my128-subhead{gap:5px!important;padding-inline:6px!important}
+  #fifth .my128-paper-page .my128-subhead>div{gap:6px!important}
+  #fifth .my128-paper-page .my128-subhead small{font-size:6.4px!important;letter-spacing:.08em!important}
+  #fifth .my128-paper-page .my128-subhead h1{font-size:18px!important}
+  #fifth .my128-paper-page .my128-paper-actions{gap:3px!important}
+  #fifth .my128-paper-page .my128-collect-action{min-width:55px!important;padding-inline:5px!important;font-size:8px!important}
+}
+@media(max-width:370px){
+  #home.schedule-feature-v125 .schedule-day-number-v119,
+  #home.schedule-cosmic-v119 .schedule-day-number-v119{left:2px!important;top:2px!important;width:14px!important;height:14px!important}
+  #home .schedule-holiday-v144{left:18px!important;top:4px!important;font-size:5.7px!important}
+  html body #event .event-editor-form-v111,
+  html body #event .event-editor-form-v111.compact-v148,
+  html body #event .event-purpose-form-v113{padding-inline:12px 10px!important}
+}
+
+@media(prefers-reduced-motion:reduce){
+  #fifth .suite145-tabs button,#fifth .study-tabs-v1 button{transition:none!important}
+}

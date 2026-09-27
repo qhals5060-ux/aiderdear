@@ -15,7 +15,7 @@
   function make(tag,className,parent){const node=document.createElement(tag);node.className=className;parent.append(node);created.add(node);return node;}
   const dock=make('div','modern-header-pages',head),choice=document.createElement('select');
   choice.className='modern-header-page-select';choice.setAttribute('aria-label','현재 메뉴의 세부 화면');dock.append(choice);
-  const groups=[['record','.record-page-dots',['Record','Archive','Travel']],['personal','.personal-page-dots',['개인 기록','통합 대시보드']],['task','.task-page-dots',['고객 관리','입시요강']]].map(([tab,selector,names])=>({tab,node:$(selector),names})).filter(row=>row.node);
+  const groups=[['record','.record-page-dots',['Record','Archive','Travel']]].map(([tab,selector,names])=>({tab,node:$(selector),names})).filter(row=>row.node);
   function currentEvent(){return $('.record-dot[data-record-page="0"]')?.classList.contains('active')?'record':eventView==='record'?'archive':eventView;}
   function selectEvent(view){eventView=['archive','travel'].includes(view)?view:'record';$(`.record-dot[data-record-page="${eventView==='record'?0:1}"]`)?.click();apply();}
   choice.addEventListener('change',()=>{if(app.dataset.activeTab==='record'){selectEvent(choice.value);return;}const group=groups.find(row=>row.tab===app.dataset.activeTab);group?.node.querySelectorAll('button')[Number(choice.value)]?.click();});
@@ -121,7 +121,7 @@
     scheduled=0;if(applying)return;applying=true;
     try{
       for(const node of created)node.hidden=false;
-      arrangeHeader();arrangeCalendar();applyEvent();arrangePersonal();arrangeConsult();arrangeSettings();restoreDrafts();
+      arrangeHeader();arrangeCalendar();applyEvent();arrangeSettings();restoreDrafts();
       document.querySelectorAll('aider-paper-workspace-v121').forEach(mountPaper);
     }finally{applying=false;}
   }

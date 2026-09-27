@@ -2,6 +2,8 @@
 .super Lcom/aiderlog/v22app/WidgetProvider;
 .source "WidgetProvider.java"
 
+
+# annotations
 .annotation system Ldalvik/annotation/EnclosingClass;
     value = Lcom/aiderlog/v22app/WidgetProvider;
 .end annotation
@@ -11,8 +13,13 @@
     name = "RoutineStats"
 .end annotation
 
+
+# direct methods
 .method public constructor <init>()V
     .locals 0
+
+    .line 24
     invoke-direct {p0}, Lcom/aiderlog/v22app/WidgetProvider;-><init>()V
+
     return-void
 .end method

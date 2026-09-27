@@ -29,7 +29,7 @@ html[data-app-font-size="large"]{--postcard-height:412px;--postcard-rise:-157px}
 html body .app#app{padding-top:max(var(--v143-safe-edge),env(safe-area-inset-top))!important;padding-bottom:max(var(--v143-safe-edge),env(safe-area-inset-bottom))!important}
 html[data-background-mode="light"] body{background-color:var(--theme-background)!important;color:var(--theme-deep)!important}
 html[data-background-mode="light"] body::before{
-  background-image:linear-gradient(color-mix(in srgb,var(--theme-background) 36%,transparent),color-mix(in srgb,#fff 24%,transparent)),url("./cosmic-wallpaper-v134.png")!important;
+  background-image:linear-gradient(color-mix(in srgb,var(--theme-background) 36%,transparent),color-mix(in srgb,#fff 24%,transparent)),none!important;
   background-position:center,center 44%!important;background-size:100% 100%,cover!important;background-repeat:no-repeat!important;
   background-blend-mode:screen,normal!important;filter:var(--wallpaper-filter) brightness(1.42) saturate(.8)!important;opacity:.88!important;
 }
@@ -140,12 +140,12 @@ html body #event .event-editor-head-v111>button,html body #event .event-editor-h
 .insight-letter-mascot-v133,#introMascotV133,#introMascot{display:none!important}
 .insight-letter-scene-v132{height:min(660px,calc(100dvh - 24px))!important;min-height:0!important}
 .insight-envelope-v132{height:198px!important;bottom:42px!important}
-.insight-letter-card-v132.intro-card{height:var(--postcard-height)!important;min-height:0!important;max-height:calc(100dvh - 220px)!important;padding:18px 18px 20px!important;background-color:#f7efd9!important;background-image:url("./paper-postcard-v144.png")!important;background-size:470px 470px!important;background-position:center!important;border:1px solid rgba(108,81,52,.25)!important;border-radius:3px!important;box-shadow:0 18px 42px rgba(51,35,20,.23),inset 0 0 28px rgba(113,79,45,.055)!important}
+.insight-letter-card-v132.intro-card{height:var(--postcard-height)!important;min-height:0!important;max-height:calc(100dvh - 220px)!important;padding:18px 18px 20px!important;background-color:#f7efd9!important;background-image:none!important;background-size:470px 470px!important;background-position:center!important;border:1px solid rgba(108,81,52,.25)!important;border-radius:3px!important;box-shadow:0 18px 42px rgba(51,35,20,.23),inset 0 0 28px rgba(113,79,45,.055)!important}
 .insight-letter-card-v132.intro-card::before{content:none!important;display:none!important}
 .insight-letter-card-v132.intro-card::after{content:"AIDERLOG  ·  POST"!important;display:grid!important;place-items:center!important;position:absolute!important;right:19px!important;top:18px!important;width:68px!important;height:52px!important;border:2px double color-mix(in srgb,var(--theme-primary) 55%,#725b46)!important;background:transparent!important;color:color-mix(in srgb,var(--theme-primary) 60%,#725b46)!important;font:800 7px/1.3 Georgia,serif!important;letter-spacing:.12em!important}
 .insight-letter-card-v132 .intro-pill{border:0!important;background:transparent!important;color:#6f5843!important}.insight-letter-card-v132 h2{padding-right:86px!important;font-family:Georgia,"Noto Serif KR",serif!important}
 .insight-letter-summary-v132{width:100%!important;margin:130px 0 0!important;gap:0!important}.insight-letter-summary-v132 article{grid-template-columns:88px minmax(0,1fr)!important;min-height:43px!important;padding:5px 1px!important}.insight-letter-summary-v132 p{margin-top:0!important;font-size:9px!important;line-height:1.25!important}.insight-postcard-art-v135{position:absolute!important;width:auto!important;height:116px!important;left:18px!important;right:18px!important;top:82px!important;border-radius:2px!important;filter:sepia(.08) saturate(.8)!important}
-.insight-envelope-back-v132,.insight-envelope-front-v132,.insight-envelope-flap-v132{background-color:#cda36c!important;background-image:url("./paper-envelope-v144.png")!important;background-size:430px 430px!important;background-position:center!important;background-blend-mode:multiply!important}
+.insight-envelope-back-v132,.insight-envelope-front-v132,.insight-envelope-flap-v132{background-color:#cda36c!important;background-image:none!important;background-size:430px 430px!important;background-position:center!important;background-blend-mode:multiply!important}
 .insight-envelope-flap-v132::after{content:none!important;display:none!important}
 
 

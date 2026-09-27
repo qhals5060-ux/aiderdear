@@ -12,7 +12,7 @@ function comparable(row) {
   for(const key of ['revision','schemaVersion','updatedAt','updatedBy','createdBy'])delete value[key];
   return canonical(value);
 }
-export function createConsultSync({currentUid,readCurrent,commitRecord,writeRemaining}) {
+export function createConsultSync({currentUid,readCurrent,commitRecord,writeRemaining,retired=false}) {
   const baselines=new Map(), tails=new Map(), pending=new Map();
   function assert(uid) { if(!uid || currentUid()!==uid)throw Error('계정이 변경되었습니다. 다시 로그인해주세요.'); }
   function remember(uid,payload) { assert(uid);baselines.set(uid,clone(payload||{}));return payload; }
@@ -22,9 +22,9 @@ export function createConsultSync({currentUid,readCurrent,commitRecord,writeRema
     const noteBaseline=clone(baselines.get(uid)||{});
     const run=async()=>{
       assert(uid);
-      let current=await readCurrent(uid)||{};assert(uid);
+      let current=retired ? {} : await readCurrent(uid)||{};assert(uid);
       const base=baselines.get(uid)||current;
-      for(const key of CONSULT_KEYS){
+      for(const key of retired ? [] : CONSULT_KEYS){
         const incoming=Array.isArray(snapshot[key])?snapshot[key]:[], currentRows=()=>Array.isArray(current[key])?current[key]:[];
         const ids=new Set();
         for(const row of incoming){

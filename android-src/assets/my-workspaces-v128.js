@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  let mode = 'hub';
+  let mode = 'paper';
   let selectedClientId = '';
   let modal = null;
   let speechState = 'ready';
@@ -32,7 +32,7 @@
     'aidway55@gmail.com':Object.freeze(['paper','task','lab']),
     'abckms5698@naver.com':Object.freeze(['estate'])
   });
-  const canUseModeV180 = route => Boolean(currentUid() && (route==='youtube'||(myRoutesV180[currentEmail()] || []).includes(route)));
+  const canUseModeV180 = route => Boolean(route==='paper' && currentUid() && (myRoutesV180[currentEmail()] || []).includes('paper'));
   const canUsePaper = () => canUseModeV180('paper');
   const canUseConsult = () => canUseModeV180('task');
   const canUseTraining = () => canUseModeV180('speech');
@@ -143,7 +143,7 @@
     if (sharedWorkspaceLoading) return;
     const api = window.AiderDearFirebase || (typeof fb !== 'undefined' ? fb : null);
     const signedIn = typeof authState !== 'undefined' && authState?.user;
-    if (!api?.readPaperTaskData || !signedIn || !canUseConsult()) return;
+    if (!api?.readPaperTaskData || !signedIn || !canUsePaper() || P.paperTaskPrivateMigrationV145) return;
     sharedWorkspaceLoading = true;
     try {
       const remote = await api.readPaperTaskData();
@@ -264,7 +264,8 @@
     if(canUseModeV180('youtube'))personal.push(['youtube','youtube','유튜브 보관함','레시피 · 어학 · 링크']);
     if (canUsePaper()) research.push(['paper','paper','Paper',`논문 ${data.paperItems.length}편 · 검토 완료 ${data.paperItems.filter(row=>row.status==='reviewed').length}편`]);
     if (canUseConsult()) research.push(
-      ['task','task','Consulting',`고객 ${data.consultingClients.length}명 · 진행할 업무 ${pending}건`],      ['lab','file','실험노트',`기록 ${data.labNotebookEntries.length}건 · 링크 ${data.labNotebookLinks.length}개`]
+      ['task','task','Consulting',`고객 ${data.consultingClients.length}명 · 진행할 업무 ${pending}건`],
+      ['lab','file','실험노트',`기록 ${data.labNotebookEntries.length}건 · 링크 ${data.labNotebookLinks.length}개`]
     );
     if (canUseModeV180('estate')) research.push(['estate','estate','Estate','매물 · 고객 · 거래 · 업무 일정']);
     if (canUseTraining()) learning.push(['speech','speech','Speech Training',`훈련 기록 ${speechCount}회`],['brain','brain','Brain Training',`훈련 기록 ${brainCount}회`]);
@@ -389,57 +390,10 @@
   }
 
   function renderMy() {
-    const host = q('#fifth'); if (!host) return;
-    const identity=currentUid()+'|'+currentEmail();
-    if(renderedIdentityV180!==identity){mode='hub';modal=null;renderedIdentityV180=identity;}
-    ensureData(); installPaperBridge();
-    q('#fifthLabel') && (q('#fifthLabel').textContent='My');
-    if (mode === 'paper' && !canUsePaper()) mode = 'hub';
-    if ((mode === 'task' || mode === 'lab') && !canUseConsult()) mode = 'hub';
-    if ((mode === 'speech' || mode === 'brain') && !canUseTraining()) mode = 'hub';
-    if (mode === 'study' && !canUseStudy()) mode = 'hub';
-    if (mode === 'youtube' && !canUseModeV180('youtube')) mode = 'hub';
-    if (mode !== 'youtube') window.AiderYoutubeUIV189?.close?.();
-    if (mode !== 'paper') window.AiderMobilePaperV159?.close?.();
-    if (mode === 'youtube' && window.AiderYoutubeUIV189) {
-      window.AiderYoutubeUIV189.render(host,()=>{mode='hub';modal=null;renderMy();});
-      return;
-    }
-    if (mode === 'task' && window.AiderAppConsultWorkV168) {
-      window.AiderAppConsultWorkV168.render(mode,host,()=>{mode='hub';modal=null;renderMy();});
-      return;
-    }
-    if (mode === 'paper' && window.AiderMobilePaperV159) {
-      window.AiderMobilePaperV159.render(host, () => { mode='hub'; modal=null; renderMy(); });
-      return;
-    }
-    if (mode === 'speech' && window.AiderLogSuiteV145) {
-      window.AiderLogSuiteV145.renderSpeech(host, () => { mode='hub'; modal=null; renderMy(); });
-      return;
-    }
-    if (mode === 'speech' && window.AiderOfflineTrainingV129) {
-      window.AiderOfflineTrainingV129.renderSpeech(host, () => { mode='hub'; modal=null; renderMy(); });
-      return;
-    }
-    if (mode === 'brain' && window.AiderLogSuiteV145) {
-      window.AiderLogSuiteV145.renderBrain(host, () => { mode='hub'; modal=null; renderMy(); });
-      return;
-    }
-    if (mode === 'brain' && window.AiderOfflineTrainingV129) {
-      window.AiderOfflineTrainingV129.renderBrain(host, () => { mode='hub'; modal=null; renderMy(); });
-      return;
-    }
-    if (mode === 'lab' && window.AiderLogSuiteV145) {
-      window.AiderLogSuiteV145.renderLabNotebook(host, () => { mode='hub'; modal=null; renderMy(); });
-      return;
-    }
-    if (mode === 'study' && window.AiderStudyCardV1) {
-      window.AiderStudyCardV1.render(host, () => { mode='hub'; modal=null; renderMy(); });
-      return;
-    }
-    host.innerHTML = (mode==='paper'?paperHtml():mode==='task'?taskHtml():mode==='speech'?speechHtml():hubHtml()) + modalHtml();
-    bind();
-    if (mode === 'paper') requestAnimationFrame(() => window.initAiderPaperWorkspaceV128?.());
+    const host=q('#fifth');if(!host)return;mode='paper';ensureData();installPaperBridge();
+    if(!canUsePaper()){host.innerHTML='<div class="page core-paper-locked"><h1>PAPER</h1><p>'+ (currentUid()?'이 계정은 PAPER 이용 권한이 없습니다.':'PAPER를 사용하려면 로그인해주세요.')+'</p><button type="button" data-paper-login>계정 확인</button></div>';q('[data-paper-login]',host).onclick=()=>q('#loginBtn')?.click();return;}
+    if(window.AiderMobilePaperV159){window.AiderMobilePaperV159.render(host,()=>go('home',false));return;}
+    host.innerHTML=paperHtml()+modalHtml();bind();requestAnimationFrame(()=>window.initAiderPaperWorkspaceV128?.());
   }
 
   function openEstateAppV183(){
@@ -497,8 +451,8 @@
   window.AiderLogMyV128 = Object.freeze({
     render: renderMy,
     open(nextMode='hub') {
-      if(nextMode==='estate'){return openEstateAppV183();}
-      mode = nextMode==='hub'||canUseModeV180(nextMode) ? nextMode : 'hub';
+      if(nextMode!=='paper'&&nextMode!=='hub')return false;
+      mode = 'paper';
       modal = null;
       renderMy();
     }

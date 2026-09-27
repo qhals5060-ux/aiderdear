@@ -18,7 +18,7 @@ import static com.aiderlog.v22app.WidgetDesignV165.*;
 /** Revision 05 approved designs rendered as native, owner-scoped RemoteViews.
  * Existing providers, selected content and transactional actions remain intact. */
 public final class WidgetApprovedV188 {
-    static boolean supports(String kind){String k=base(kind);return k.equals("RoutineAll")||k.equals("RoutineCards")||k.equals("RoutineStats")||k.equals("PersonalWorkoutMeal")||k.equals("PersonalQuote")||k.equals("PersonalWorkflowAll")||k.equals("PersonalToday")||k.equals("PersonalWorkoutChallengeOnly");}
+    static boolean supports(String kind){String k=base(kind);return k.equals("RoutineAll")||k.equals("RoutineCards")||k.equals("RoutineStats");}
     static String label(String k){return k.equals("RoutineAll")?"루틴":k.equals("RoutineCards")?"하나의 루틴":k.equals("RoutineStats")?"루틴 통계":k.equals("PersonalWorkoutMeal")?"식사 · 운동":k.equals("PersonalQuote")?"독서":k.equals("PersonalWorkflowAll")?"투두 · 메모":k.equals("PersonalToday")?"오늘의 기록":"운동 챌린지";}
     static float ratio(String k){return k.equals("RoutineAll")?.64f:k.equals("RoutineCards")?.61f:k.equals("RoutineStats")?.68f:k.equals("PersonalWorkoutMeal")?.76f:k.equals("PersonalQuote")?.69f:k.equals("PersonalWorkflowAll")||k.equals("PersonalToday")?.58f:.67f;}
     static int accent(String theme){return WidgetThemeV190.accent(theme);}

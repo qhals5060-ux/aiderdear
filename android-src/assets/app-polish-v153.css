@@ -1,0 +1,47 @@
+/* AiderLog v153 · explicit 5 mm Android content frame.
+   1 dp is 1/160 inch, so 5 mm is approximately 31.5 dp/CSS px in WebView. */
+html{--app-frame-v153:31.5px!important}
+html body{
+  width:100vw!important;
+  height:100dvh!important;
+  min-height:100dvh!important;
+  margin:0!important;
+  padding-top:var(--app-frame-v153)!important;
+  padding-bottom:var(--app-frame-v153)!important;
+  box-sizing:border-box!important;
+  overflow:hidden!important;
+}
+html body .app#app{
+  width:min(1120px,100%)!important;
+  height:calc(100dvh - 63px)!important;
+  min-height:0!important;
+  max-height:calc(100dvh - 63px)!important;
+  margin:0 auto!important;
+  padding-top:0!important;
+  padding-bottom:0!important;
+}
+html body .app#app>.views{
+  height:calc(100% - 45px)!important;
+  min-height:0!important;
+  max-height:calc(100% - 45px)!important;
+}
+html body .app#app>.views>.view{min-height:0!important}
+
+/* Fixed navigation and app-owned sheets remain inside the same physical frame. */
+html .global-wheel-v126,
+html .global-wheel-v126.open{
+  bottom:max(var(--app-frame-v153),env(safe-area-inset-bottom))!important;
+}
+html .emotion-dialog-v119{
+  top:var(--app-frame-v153)!important;
+  bottom:var(--app-frame-v153)!important;
+  height:auto!important;
+  padding-top:0!important;
+}
+html .emotion-dialog-v119>section{
+  max-height:100%!important;
+}
+
+@media(min-width:600px){
+  html{--app-frame-v153:31.5px!important}
+}

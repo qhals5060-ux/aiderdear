@@ -21,3 +21,13 @@ finance-src-v190/
 RECORD_RETENTION*.md
 BIO_ADMIN*.md
 FIREBASE_QUOTA*.md
+
+# v193 retired server modules and source-only documentation
+server/bio-admin-store-v192.mjs
+server/estate-media.mjs
+server/estate-model.mjs
+server/intake-v168.mjs
+server/youtube-library-store-v189.mjs
+server/youtube-source-v189.mjs
+CORE_SCOPE*.md
+FREE_TIER*.md

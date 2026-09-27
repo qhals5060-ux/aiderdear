@@ -39,7 +39,7 @@
   const wheelMarkupV175 = new WeakMap();
   function applyFixedWheelV125() {
     const wheel=$('#wheel');if(!wheel)return;
-    const order=['fifth','personal','routine','event'],labels={event:'Event',routine:'Routine',personal:'Personal',fifth:'My'},icons={event:'event',routine:'routine',personal:'profile',fifth:'my'};
+    const order=['home','routine','event','fifth'],labels={home:'SCHEDULE',routine:'ROUTINE',event:'EVENT',fifth:'PAPER'},icons={home:'calendar',routine:'routine',event:'event',fifth:'paper'};
     $$('.global-wheel-item-v126',wheel).forEach((button,index)=>{
       const page=order[index];if(!page)return;const label=window.AiderWheelbarV176?.names[page]||labels[page];
       if(button.dataset.page!==page)button.dataset.page=page;if(button.dataset.index!==String(index))button.dataset.index=String(index);

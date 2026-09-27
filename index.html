@@ -2,6 +2,7 @@
 <html lang="ko" class="modern-site" data-site-edition="modern" data-site-default-edition="modern">
 <head>
 <meta charset="utf-8">
+<script>if(location.protocol==="file:"){location.replace("https://aiderdear1.vercel.app/?release=193");}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="only light">
 <meta name="theme-color" content="#46444D">
@@ -11,13 +12,16 @@
 <meta name="description" content="">
 <meta name="format-detection" content="telephone=no">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="aiderlog-build" content="v192">
-<meta name="aiderlog-android-build" content="v192">
+<meta name="aiderlog-build" content="v193">
+<meta name="aiderlog-android-build" content="v193">
 <link rel="canonical" href="https://aiderdear1.vercel.app/">
 <script>
 (() => {
   const url = new URL(location.href);
-  if (url.searchParams.has('client-intake')) document.documentElement.classList.add('client-intake-only');
+  if (url.searchParams.has('client-intake')) {
+    url.searchParams.delete('client-intake');
+    history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`);
+  }
   if (['v67','v68','v69','v70','v71','v72','v73','v74','v75','v76','v77','v78','v79','v80','v81','v82','v83','v84','v85','v86','v87','v88','v89','v90','v91','v92','v93','v94','v95','v96','v97','v98','v99','v100','v101','v102','v103','v104','v105','v106','v107','v108','v109','v110','v111','v112','v113','v114','v115','v116','v117','v118','v119'].includes(url.searchParams.get('aiderlog-main'))) {
     url.searchParams.delete('aiderlog-main');
     history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`);
@@ -4056,17 +4060,18 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   html body #stage .calendar{min-height:488px!important}
 }
 </style>
-<link rel="stylesheet" href="./site-polish-v158.css?v=192">
+<link rel="stylesheet" href="./site-polish-v158.css?v=193">
 <script>(()=>{const h=document.documentElement;if(window.AiderLogNative){h.classList.add('aiderlog-android');h.classList.remove('modern-site');return}h.classList.add('modern-site');h.dataset.siteEdition='modern';h.dataset.siteDefaultEdition='modern';try{localStorage.setItem('aiderlog.site.edition','modern')}catch{}const u=new URL(location.href);if(u.searchParams.has('site-edition')&&u.searchParams.get('site-edition')!=='modern'){u.searchParams.set('site-edition','modern');history.replaceState(history.state,'',u)}})();</script>
-<link rel="stylesheet" href="./site-modern-v165.css?v=192">
-<link rel="stylesheet" href="./site-editions-v164.css?v=192">
-<script src="./schedule-time-v179.js?v=192"></script>
-<script src="./business-calendar-v175.js?v=192"></script>
-<script src="./retired-features-v178.js?v=192"></script>
-<script src="./photo-attachments-v176.js?v=192"></script>
-<script src="./shared-schedule-v176.js?v=192"></script>
-<script src="./dday-display-v176.js?v=192"></script>
-<link rel="stylesheet" href="./site-event-routine-v189.css?v=192">
+<link rel="stylesheet" href="./site-modern-v165.css?v=193">
+<link rel="stylesheet" href="./site-editions-v164.css?v=193">
+<script src="./schedule-time-v179.js?v=193"></script>
+<script src="./business-calendar-v175.js?v=193"></script>
+<script src="./retired-features-v178.js?v=193"></script>
+<script src="./photo-attachments-v176.js?v=193"></script>
+<script src="./shared-schedule-v176.js?v=193"></script>
+<script src="./dday-display-v176.js?v=193"></script>
+<link rel="stylesheet" href="./site-event-routine-v189.css?v=193">
+<link rel="stylesheet" href="./schedule-tools-v193.css?v=193">
 </head>
 <body>
 <a class="skip-link" href="#app">본문으로 건너뛰기</a>
@@ -4080,10 +4085,7 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
       <button class="tab active" type="button" role="tab" data-tab="schedule" aria-controls="stage" aria-selected="true" tabindex="0">SCHEDULE</button>
       <button class="tab" type="button" role="tab" data-tab="private" aria-controls="privateStage" aria-selected="false" tabindex="-1">ROUTINE</button>
       <button class="tab" type="button" role="tab" data-tab="record" aria-controls="recordStage" aria-selected="false" tabindex="-1">EVENT</button>
-      <button class="tab" type="button" role="tab" data-tab="personal" aria-controls="personalStage" aria-selected="false" tabindex="-1">PERSONAL</button>
-      <button class="tab" type="button" role="tab" data-tab="estate" aria-controls="estateStage" aria-selected="false" tabindex="-1" hidden>ESTATE</button>
-      <button class="tab" type="button" role="tab" data-tab="paper" aria-controls="paperStage" aria-selected="false" tabindex="-1" hidden>PAPER</button>
-      <button class="tab" type="button" role="tab" data-tab="task" aria-controls="taskStage" aria-selected="false" tabindex="-1" hidden>CONSULT</button>
+      <button class="tab" type="button" role="tab" data-tab="paper" aria-controls="paperStage" aria-selected="false" tabindex="-1">PAPER</button>
     </nav>
     <div class="nav-tools" aria-label="빠른 도구">
       <button class="masthead-date" id="todayJournalBtn" type="button" aria-haspopup="dialog" aria-controls="todayJournalModal"></button>
@@ -4111,6 +4113,11 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
             <button class="mini-btn" id="prevMonth" aria-label="이전 달">←</button>
             <button class="today" id="todayBtn">TODAY</button>
             <button class="mini-btn" id="nextMonth" aria-label="다음 달">→</button>
+            <div class="schedule-tools-v193" role="group" aria-label="스케쥴 세부 화면">
+              <button type="button" data-schedule-view="calendar" class="active" aria-pressed="true">캘린더</button>
+              <button type="button" data-schedule-view="finance" aria-pressed="false">금융</button>
+              <button type="button" data-schedule-view="workflow" aria-pressed="false">워크플로우</button>
+            </div>
             <div class="filters" id="schedulePeopleFilters" aria-label="함께 보는 사용자" hidden></div>
 
 
@@ -4281,14 +4288,12 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
     </section>
   </section>
 
-  <section class="personal-stage" id="personalStage" aria-label="개인 생활 관리" hidden aria-hidden="true">
+  <section class="personal-stage" id="personalStage" aria-label="스케쥴 금융·워크플로우" hidden aria-hidden="true">
     <section class="personal-shell personal-page current" id="personalMainShell" aria-hidden="false"><section class="personal-frame">
       <div class="personal-toolbar">
-        <div><h2>DayLog</h2></div>
+        <div><span class="schedule-tool-eyebrow-v193">SCHEDULE</span><h2 id="scheduleToolTitleV193">금융</h2></div>
         <div class="personal-toolbar-tools">
           <div class="personal-category-tabs" id="personalCategoryTabs">
-            <button type="button" data-personal-category="health" class="active"><span>♡</span>건강</button>
-            <button type="button" data-personal-category="reading"><span>▤</span>독서</button>
             <button type="button" data-personal-category="workflow"><span>✓</span>워크플로우</button>
             <button type="button" data-personal-category="finance"><span>₩</span>금융</button>
           </div>
@@ -4309,10 +4314,9 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
         <div class="personal-overview-dashboard" id="personalOverviewDashboard" aria-live="polite"></div>
       </section>
     </section>
-    <div class="personal-page-dots" aria-label="PERSONAL 페이지 위치"><button class="personal-dot active" type="button" data-personal-page="0" aria-label="개인 기록"></button><button class="personal-dot" type="button" data-personal-page="1" aria-label="통합 대시보드"></button></div>
     <div class="personal-entry-overlay" id="personalEntryOverlay" hidden>
       <div class="personal-entry-dialog" role="dialog" aria-modal="true" aria-labelledby="personalEntryDialogTitle">
-        <header><div><span>PERSONAL</span><h3 id="personalEntryDialogTitle">기록 추가</h3></div><button type="button" id="personalEntryClose" aria-label="닫기">×</button></header>
+        <header><div><span>SCHEDULE</span><h3 id="personalEntryDialogTitle">기록 추가</h3></div><button type="button" id="personalEntryClose" aria-label="닫기">×</button></header>
         <form class="personal-entry-form" id="personalEntryForm">
           <div class="personal-form-common"><input type="date" id="personalEntryDate" required><input type="text" id="personalEntryTitle" maxlength="100" placeholder="기록 제목" required></div>
           <section class="personal-specific-fields personal-health-fields" data-personal-only="health">
@@ -4725,11 +4729,11 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
 <div class="app-install-grid app-install-v137 site-edition-downloads">
   <article class="app-install-card windows">
     <i>Windows PC</i><b>사이트 파일</b><p>PC에서 사이트를 열 수 있는 바로가기와 파일입니다.</p>
-    <a class="app-download-link app-download-v164" href="./AiderLog-v192-site-files.zip" download="AiderLog-v192-site-files.zip">사이트 파일 다운로드</a>
+    <a class="app-download-link app-download-v164" href="https://aiderdear1.vercel.app/AiderLog-v193-site-files.zip" download="AiderLog-v193-site-files.zip">사이트 파일 다운로드</a>
   </article>
   <article class="app-install-card android">
     <i>Android APK</i><b>Android 앱</b><p>Galaxy Fold·Flip 3–8 및 Android 8.0 이상용 최신 설치 파일입니다.</p>
-    <a class="app-download-link app-download-v164" href="./AiderLog-v192.apk" download="AiderLog-v192.apk">Android APK 다운로드</a>
+    <a class="app-download-link app-download-v164" href="https://aiderdear1.vercel.app/AiderLog-v193.apk" download="AiderLog-v193.apk">Android APK 다운로드</a>
   </article>
 </div>
           <div class="login-data-summary"><b>기록 저장 안내</b><span>일정은 본인 공간에 저장되며 ‘커플과 공유’를 선택한 일정만 상대 캘린더에 표시됩니다.</span><span>EVENT는 커플 연결 시 함께 보고, 루틴·PERSONAL·메모는 본인만 확인합니다.</span><span>PAPER·CONSULTING·WORK는 허용된 두 계정만 열 수 있으며, 각 계정의 연구·컨설팅·운영 기록은 서로 분리해 저장합니다.</span><span>사진·영상은 압축 저장되며, 오래된 일반 기록은 삭제 전에 반드시 확인을 요청합니다.</span></div>
@@ -5080,8 +5084,8 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script type="module" src="./firebase-app.js?v=192"></script>
-<script src="./brain-3d.js?v=192"></script>
+<script type="module" src="./firebase-app.js?v=193"></script>
+<script src="./brain-3d.js?v=193"></script>
 <script>
 (()=>{
   const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
@@ -5148,7 +5152,7 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   const PRIVATE_FOLDER_PREFIX='AiderDear Private - ';
   const PRIVATE_VERSION=14;
   const PERSONAL_CATEGORIES={health:{label:'건강',icon:'♡',placeholder:'식사 또는 운동을 기록하세요'},reading:{label:'독서',icon:'📚',placeholder:'읽은 책이나 분량을 기록하세요'},workflow:{label:'워크플로우',icon:'✓',placeholder:'완료한 업무 흐름을 기록하세요'},finance:{label:'금융',icon:'₩',placeholder:'지출·적금·예금을 기록하세요'}};
-  let personalCategory='health',personalEntryPreset={},personalPendingFile=null,personalPendingPreviewUrl='',personalOverviewDays=7,personalOverviewMode='period',personalComparePhotoIds=['',''],personalChallengeSelectedDay={},personalChallengeVariant={},personalChallengeEditingId={},challengeAnimationToken=0,challengeCelebrationTimer=null,pomodoroMode='focus',pomodoroSeconds=25*60,pomodoroInitialSeconds=25*60,pomodoroTimer=null,pomodoroTaskName='';
+  let personalCategory='finance',personalEntryPreset={},personalPendingFile=null,personalPendingPreviewUrl='',personalOverviewDays=7,personalOverviewMode='period',personalComparePhotoIds=['',''],personalChallengeSelectedDay={},personalChallengeVariant={},personalChallengeEditingId={},challengeAnimationToken=0,challengeCelebrationTimer=null,pomodoroMode='focus',pomodoroSeconds=25*60,pomodoroInitialSeconds=25*60,pomodoroTimer=null,pomodoroTaskName='';
   const personalMediaUrlCache=new Map();let personalMediaEpochV178=0;
   let researchView='home',researchLibraryView='table',researchActivePaperId='',researchPaperDetailTab='overview',researchActiveNoteId='',researchConnectionNodeId='',researchImportEditingId='',researchGlobalQuery='',researchInsightFilter='all',researchConnectionFilter='all',researchLandscapePopulation='',researchLandscapeTopic='',researchLandscapeMethod='',researchIdeaSeedCache=[],researchDesignEditingId='',researchDesignSeedIdeaId='',researchBrainRegion='frontal',researchBrainSubregion='',researchBrainStudyIndex=0,researchBrainRotation=-18,researchBrainPitch=-7,researchBrainLayer='surface',researchBrainDisorderIndex=-1,researchBrainFocused=false,selectedConsultingClientId='',consultingClientQuery='',consultingFilterYear='',consultingFilterSemester='',consultingIntakeStop=null,consultingIntakeBusy=false,consultingFileClientId='',taskPageIndex=0;
   const researchLibraryFilters={query:'',author:'',year:'',status:'',method:'',importance:'',tag:''};
@@ -5378,9 +5382,9 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   function syncGenderUI(){const profile=firebaseState.user||privateData?.[currentUserEmail]?.profile||{},select=$('#loginGenderSelect'),birth=$('#loginBirthDate'),calendar=$('#loginBirthCalendar'),leap=$('#loginBirthLeap'),leapField=$('#loginBirthLeapField');if(select)select.value=currentUserGender();if(birth)birth.value=profile.birthDate||'';if(calendar)calendar.value=profile.birthCalendar==='lunar'?'lunar':'solar';if(leap)leap.checked=!!profile.birthLeap;if(leapField)leapField.hidden=(calendar?.value||'solar')!=='lunar';const section=$('#emotionCycleSection');if(section)section.hidden=true;if($('#emotionPeriod')){$('#emotionPeriod').checked=false;$('#emotionPeriod').disabled=true}}
   function updateRestrictedTabVisibility(){
     const paperTab=$('.tab[data-tab="paper"]'),taskTab=$('.tab[data-tab="task"]'),estateTab=$('.tab[data-tab="estate"]');
-    if(paperTab)paperTab.hidden=!canAccessRestrictedTab('paper');
-    if(taskTab)taskTab.hidden=!canAccessRestrictedTab('task');
-    if(estateTab)estateTab.hidden=!canAccessRestrictedTab('estate');
+    if(paperTab)paperTab.hidden=false;
+    if(taskTab)taskTab.hidden=true;
+    if(estateTab)estateTab.hidden=true;
     const active=$('.tab.active')?.dataset.tab;
     if((active==='paper'||active==='task'||active==='estate')&&!canAccessRestrictedTab(active))showMainTab('schedule');
   }
@@ -5676,7 +5680,7 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   function applyPaperTaskPayload(target,payload={}){PAPER_TASK_SHARED_KEYS.forEach(key=>{target[key]=structuredClone(payload?.[key]??(key==='researchWorkspaceSeeded'?false:[]))});return target}
   async function migrateConsultingFilesToWorkspace(payload={}){if(!window.AiderDearFirebase?.uploadPaperTaskMedia)return payload;for(const file of (payload.consultingFiles||[])){if(file.storageScope==='paper-task'||normalizeEmail(file.ownerEmail)!==currentUserEmail)continue;try{const blob=await window.AiderDearFirebase.readPrivateMedia(file.fileId),uploadFile=new File([blob],file.name||'client-file',{type:file.type||blob.type||'application/octet-stream'}),uploaded=await window.AiderDearFirebase.uploadPaperTaskMedia(uploadFile,'consulting-client-file-migration');file.fileId=uploaded.id;file.storageScope='paper-task';file.ownerEmail=currentUserEmail;file.size=uploaded.size||file.size}catch(error){console.warn('Legacy TASK file migration skipped',file.name,error)}}return payload}
   function stopPaperTaskWorkspaceWatch(){try{paperTaskWorkspaceStop?.()}catch{}paperTaskWorkspaceStop=null;paperTaskWorkspaceSignature='';paperTaskWorkspaceMigratedEmails=[]}
-  function renderPaperTaskWorkspace(){renderPaper();renderConsultingWorkspace();startConsultingIntakeWatch().catch(console.warn)}
+  function renderPaperTaskWorkspace(){renderPaper()}
   function startPaperTaskWorkspaceWatch(){stopPaperTaskWorkspaceWatch()}
   async function importRestrictedWorkspaceOnce(data){
     if(data.restrictedWorkspacePrivateV147||!canAccessRestrictedTab('paper')||!window.AiderDearFirebase?.readPaperTaskData)return data;
@@ -5754,7 +5758,7 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
       // Create once, or persist the successful one-time legacy import. Reading an
       // existing account is not itself an edit and must not issue a write.
       if(!saved||(!migrated&&data.restrictedWorkspacePrivateV147))await savePrivateData(email);
-      assertSiteScopeV191(scope);renderPrivateSnapshotV191();startConsultingIntakeWatch().catch(console.warn);
+      assertSiteScopeV191(scope);renderPrivateSnapshotV191();
     })();siteSyncV191.privateLoad={scope,promise};
     try{return await promise}catch(error){siteQuotaErrorV191(error);throw error}finally{if(siteSyncV191.privateLoad?.promise===promise)siteSyncV191.privateLoad=null}
   }
@@ -6220,10 +6224,7 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
     void page.offsetWidth;
     page.classList.add('line-active');
   }
-  function goPage(next,force=false){next=Math.max(0,Math.min(1,next));if((next===pageIndex&&!force)||(locked&&!force))return;if(force)locked=false;locked=true;
-    [0,1].forEach(i=>{const p=$(`#page${i}`);p.className=p.className.replace(/\b(current|next|prev)\b/g,'').replace(/\s+/g,' ').trim();p.classList.add(i===next?'current':(i<next?'prev':'next'));p.setAttribute('aria-hidden',i===next?'false':'true');setSitePaneVisibilityV169(p,i===next)});
-    $$('.dotnav').forEach((d,i)=>d.classList.toggle('active',i===next));pageIndex=next;animateLines($(`#page${next}`));const mediaVideo=$('#coupleVideo2');if(mediaVideo&&!mediaVideo.hidden){if(next===0)mediaVideo.play().catch(()=>{});else mediaVideo.pause()}setTimeout(()=>locked=false,760)
-  }
+  function goPage(){const page=$('#page0');if(!page)return;page.classList.remove('next','prev');page.classList.add('current');page.setAttribute('aria-hidden','false');setSitePaneVisibilityV169(page,true);pageIndex=0;locked=false;}
   $$('.dotnav').forEach(b=>b.addEventListener('click',()=>goPage(Number(b.dataset.page),true)));
 
   // calendar controls
@@ -7374,10 +7375,10 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
     const rows=personalRows(items,'workflow'),statuses=['planned','ongoing','done'],open=rows.filter(row=>row.status!=='done'),sortRows=list=>[...list].sort((a,b)=>(WORKFLOW_PRIORITY[b.details?.priority||'normal']?.rank||2)-(WORKFLOW_PRIORITY[a.details?.priority||'normal']?.rank||2)||(a.details?.dueDate||'9999').localeCompare(b.details?.dueDate||'9999'));
     const dueSoon=open.filter(row=>{const days=workflowDueMeta(row.details?.dueDate).days;return days!==null&&days<=3}).length,blocked=open.filter(row=>row.details?.blocker).length,totalMinutes=open.reduce((sum,row)=>sum+(Number(row.details?.estimateMinutes)||0),0),average=rows.length?Math.round(rows.reduce((sum,row)=>sum+workflowProgress(row),0)/rows.length):0,focus=sortRows(open).slice(0,3);
     const card=row=>{const d=row.details||{},priority=d.priority||'normal',meta=WORKFLOW_PRIORITY[priority]||WORKFLOW_PRIORITY.normal,due=workflowDueMeta(d.dueDate),steps=Array.isArray(d.steps)?d.steps:[],checks=d.completedSteps||{},progress=workflowProgress(row);return `<article class="workflow-card-v59 workflow-card-v103 priority-${priority}${d.blocker?' is-blocked':''}" data-workflow-id="${escapeHtml(row.id)}"><header><span class="workflow-priority">${meta.label}</span><small>${escapeHtml(d.project||'개인 작업')}</small><button type="button" data-workflow-edit="${escapeHtml(row.id)}" aria-label="${escapeHtml(row.title)} 수정">EDIT</button></header><b>${escapeHtml(row.title)}</b><div class="workflow-card-meta"><span>${escapeHtml(WORKFLOW_TYPE[d.workType]||'집중')}</span><span>${escapeHtml(workflowEstimate(d.estimateMinutes))}</span><span class="due-${due.tone}">${escapeHtml(due.label)}</span></div><div class="workflow-progress-v59"><i style="--progress:${progress}%"></i></div><footer><span>${progress}%</span><span>${steps.filter((_,index)=>checks[index]).length}/${steps.length||'—'} 단계</span></footer>${d.successCriteria?`<p class="workflow-success"><strong>완료</strong>${escapeHtml(d.successCriteria)}</p>`:''}${d.nextAction?`<p class="workflow-next">→ ${escapeHtml(d.nextAction)}</p>`:''}${d.blocker?`<p class="workflow-blocker">! ${escapeHtml(d.blocker)}</p>`:''}${steps.length?`<div class="workflow-steps-v103">${steps.slice(0,5).map((step,index)=>`<button type="button" class="${checks[index]?'done':''}" data-workflow-step="${escapeHtml(row.id)}|${index}" aria-pressed="${checks[index]?'true':'false'}"><i>${checks[index]?'✓':''}</i><span>${escapeHtml(step)}</span></button>`).join('')}</div>`:''}${Array.isArray(d.tags)&&d.tags.length?`<div class="workflow-tags-v103">${d.tags.slice(0,4).map(tag=>`<span>#${escapeHtml(tag)}</span>`).join('')}</div>`:''}</article>`};
-    return `<div class="workflow-dashboard-v59 workflow-dashboard-v103"><div class="personal-v59-head"><div><b>WORKFLOW</b><span>다음 행동이 분명한 실행 보드</span></div><button type="button" data-personal-add="workflow">+ 작업</button></div><section class="workflow-command-v103"><article><small>OPEN</small><strong>${open.length}</strong></article><article class="${dueSoon?'warn':''}"><small>DUE ≤ 3D</small><strong>${dueSoon}</strong></article><article class="${blocked?'danger':''}"><small>BLOCKED</small><strong>${blocked}</strong></article><article><small>LOAD</small><strong>${escapeHtml(workflowEstimate(totalMinutes))}</strong></article><article><small>AVG</small><strong>${average}%</strong></article></section><section class="workflow-focus-v103"><header><b>TODAY FOCUS</b><span>우선순위와 마감을 기준으로 자동 정렬</span></header><div>${focus.length?focus.map(row=>`<button type="button" data-workflow-edit="${escapeHtml(row.id)}"><span>${WORKFLOW_PRIORITY[row.details?.priority||'normal']?.label||'보통'}</span><b>${escapeHtml(row.title)}</b><small>${escapeHtml(workflowDueMeta(row.details?.dueDate).label)}</small></button>`).join(''):'<p>진행할 작업을 추가하면 오늘의 집중 순서가 표시됩니다.</p>'}</div></section><div class="workflow-board-v59">${statuses.map(status=>{const list=sortRows(rows.filter(row=>row.status===status));return `<section class="workflow-lane-v59"><header><b>${personalStatusLabel(status)}</b><span>${status==='ongoing'?`WIP ${list.length}/3`:list.length}</span></header><div class="workflow-lane-scroll">${list.slice(0,8).map(card).join('')||'<div class="personal-dashboard-empty">비어 있음</div>'}</div></section>`}).join('')}</div></div>`}
+    return `<div class="workflow-dashboard-v59 workflow-dashboard-v103"><div class="personal-v59-head"><div><b>WORKFLOW</b><span>다음 행동이 분명한 실행 보드</span></div><button type="button" data-personal-add="workflow">+ 작업</button></div><section class="workflow-command-v103"><article><small>OPEN</small><strong>${open.length}</strong></article><article class="${dueSoon?'warn':''}"><small>DUE ≤ 3D</small><strong>${dueSoon}</strong></article><article class="${blocked?'danger':''}"><small>BLOCKED</small><strong>${blocked}</strong></article><article><small>LOAD</small><strong>${escapeHtml(workflowEstimate(totalMinutes))}</strong></article><article><small>AVG</small><strong>${average}%</strong></article></section><section class="workflow-focus-v103"><header><b>TODAY FOCUS</b><span>우선순위와 마감을 기준으로 자동 정렬</span></header><div>${focus.length?focus.map(row=>`<button type="button" data-workflow-edit="${escapeHtml(row.id)}"><span>${WORKFLOW_PRIORITY[row.details?.priority||'normal']?.label||'보통'}</span><b>${escapeHtml(row.title)}</b><small>${escapeHtml(workflowDueMeta(row.details?.dueDate).label)}</small></button>`).join(''):'<p>진행할 작업을 추가하면 오늘의 집중 순서가 표시됩니다.</p>'}</div></section><div class="workflow-board-v59">${statuses.map(status=>{const list=sortRows(rows.filter(row=>row.status===status));return `<section class="workflow-lane-v59"><header><b>${personalStatusLabel(status)}</b><span>${status==='ongoing'?`WIP ${list.length}/3`:list.length}</span></header><div class="workflow-lane-scroll">${list.map(card).join('')||'<div class="personal-dashboard-empty">비어 있음</div>'}</div></section>`}).join('')}</div></div>`}
   function renderFinanceDashboard(items){
-    const rows=personalRows(items,'finance'),assets=rows.filter(row=>['saving','deposit'].includes(row.details?.financeType)),cashFlow=rows.filter(row=>['flexible','income'].includes(row.details?.financeType)),expenses=rows.filter(row=>row.details?.financeType==='expense'),card=row=>{const goal=Number(row.details?.goalAmount)||0,pct=goal?Math.min(100,Math.round((Number(row.amount)||0)/goal*100)):0,flow=['flexible','income'].includes(row.details?.financeType)?[row.details?.destination,row.details?.expectedDate,row.details?.flowStatus?personalStatusLabel(row.details.flowStatus):''].filter(Boolean).join(' · '):'';return `<article class="finance-v59-card ${row.details?.financeType==='income'?'income':''}"><em>${financeTypeLabel(row.details?.financeType)}</em><strong>₩ ${personalAmount(row.amount)}</strong><b>${escapeHtml(row.title)}</b><small>${escapeHtml(flow||row.details?.source||'계좌 미입력')}${flow&&row.details?.source?` · ${escapeHtml(row.details.source)}`:''}${!flow&&row.details?.financeType==='expense'?` · ${expenseCycleLabel(row.details?.cycle)}`:''}${row.details?.maturityDate?` · ${escapeHtml(row.details.maturityDate)}`:''}</small>${goal?`<div class="finance-progress"><i style="--progress:${pct}%"></i></div>`:''}</article>`};
-    return `<div class="finance-dashboard-v61"><div class="finance-left-v61"><section class="finance-v59-panel"><div class="personal-v59-head"><b>적금 및 예금</b><div class="personal-v59-actions"><button type="button" data-personal-add="finance" data-finance-type="saving">+ 적금</button><button type="button" data-personal-add="finance" data-finance-type="deposit">+ 예금</button></div></div><div class="finance-v59-body">${assets.slice(0,4).map(card).join('')||'<div class="personal-dashboard-empty">적금과 예금을 추가해보세요.</div>'}</div></section><section class="finance-v59-panel"><div class="personal-v59-head"><b>유동 지출·수익</b><div class="personal-v59-actions"><button type="button" data-personal-add="finance" data-finance-type="flexible">+ 지출</button><button type="button" data-personal-add="finance" data-finance-type="income">+ 수익</button></div></div><div class="finance-v59-body">${cashFlow.slice(0,4).map(card).join('')||'<div class="personal-dashboard-empty">유동 지출이나 수익을 추가해보세요.</div>'}</div></section></div><section class="finance-v59-panel"><div class="personal-v59-head"><b>고정 지출</b><button type="button" data-personal-add="finance" data-finance-type="expense">+ 고정 지출</button></div><div class="finance-v59-body">${expenses.slice(0,7).map(card).join('')||'<div class="personal-dashboard-empty">정기 지출을 추가해보세요.</div>'}</div></section></div>`
+    const rows=personalRows(items,'finance'),assets=rows.filter(row=>['saving','deposit'].includes(row.details?.financeType)),cashFlow=rows.filter(row=>['flexible','income'].includes(row.details?.financeType)),expenses=rows.filter(row=>row.details?.financeType==='expense'),card=row=>{const goal=Number(row.details?.goalAmount)||0,pct=goal?Math.min(100,Math.round((Number(row.amount)||0)/goal*100)):0,flow=['flexible','income'].includes(row.details?.financeType)?[row.details?.destination,row.details?.expectedDate,row.details?.flowStatus?personalStatusLabel(row.details.flowStatus):''].filter(Boolean).join(' · '):'';return `<article class="finance-v59-card ${row.details?.financeType==='income'?'income':''}"><button type="button" class="finance-edit-v193" data-personal-edit="${escapeHtml(row.id)}" aria-label="${escapeHtml(row.title)} 수정">수정</button><em>${financeTypeLabel(row.details?.financeType)}</em><strong>₩ ${personalAmount(row.amount)}</strong><b>${escapeHtml(row.title)}</b><small>${escapeHtml(flow||row.details?.source||'계좌 미입력')}${flow&&row.details?.source?` · ${escapeHtml(row.details.source)}`:''}${!flow&&row.details?.financeType==='expense'?` · ${expenseCycleLabel(row.details?.cycle)}`:''}${row.details?.maturityDate?` · ${escapeHtml(row.details.maturityDate)}`:''}</small>${goal?`<div class="finance-progress"><i style="--progress:${pct}%"></i></div>`:''}</article>`};
+    return `<div class="finance-dashboard-v61"><div class="finance-left-v61"><section class="finance-v59-panel"><div class="personal-v59-head"><b>적금 및 예금</b><div class="personal-v59-actions"><button type="button" data-personal-add="finance" data-finance-type="saving">+ 적금</button><button type="button" data-personal-add="finance" data-finance-type="deposit">+ 예금</button></div></div><div class="finance-v59-body">${assets.map(card).join('')||'<div class="personal-dashboard-empty">적금과 예금을 추가해보세요.</div>'}</div></section><section class="finance-v59-panel"><div class="personal-v59-head"><b>유동 지출·수익</b><div class="personal-v59-actions"><button type="button" data-personal-add="finance" data-finance-type="flexible">+ 지출</button><button type="button" data-personal-add="finance" data-finance-type="income">+ 수익</button></div></div><div class="finance-v59-body">${cashFlow.map(card).join('')||'<div class="personal-dashboard-empty">유동 지출이나 수익을 추가해보세요.</div>'}</div></section></div><section class="finance-v59-panel"><div class="personal-v59-head"><b>고정 지출</b><button type="button" data-personal-add="finance" data-finance-type="expense">+ 고정 지출</button></div><div class="finance-v59-body">${expenses.map(card).join('')||'<div class="personal-dashboard-empty">정기 지출을 추가해보세요.</div>'}</div></section></div>`
   }
   function personalDateObject(key){const [year,month,day]=String(key||'').split('-').map(Number);return new Date(year||2000,(month||1)-1,day||1,12)}
   function personalDateKey(date){return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`}
@@ -7409,8 +7410,17 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
       <section class="personal-overview-card reading-overview-card"><header><span>▤</span><b>문장 기록</b>${open('reading')}</header><div class="overview-card-body reading-quote-list">${quotes.slice(0,5).map(row=>`<article class="reading-quote-row"><b>${escapeHtml(row.title)}</b><span>${row.details?.quotePage?`${row.details.quotePage}p`:escapeHtml(row.date)}</span><p>“${escapeHtml(row.details.quote)}”</p></article>`).join('')||'<div class="overview-empty">기억하고 싶은 문장이 여기에 나열됩니다.</div>'}</div></section>
       <section class="personal-overview-card finance-overview-card"><header><span>₩</span><b>지출 완료 확인</b>${open('finance')}</header><div class="overview-card-body finance-check-list">${financeDue.slice(0,12).map(({row,date,done})=>`<label class="finance-check-row ${done?'done':''}"><input type="checkbox" data-finance-check="${escapeHtml(row.id)}|${date}" ${done?'checked':''}><span><b>${escapeHtml(row.title)}</b><small>${expenseCycleLabel(row.details?.cycle)} · ${escapeHtml(row.details?.source||'결제 수단 미입력')}</small></span><time>${escapeHtml(date.slice(5).replace('-','.'))}</time></label>`).join('')||'<div class="overview-empty">지출을 등록하면 이 목록에서 납부 완료 여부를 체크할 수 있습니다.</div>'}</div></section>`;
   }
-  function renderPersonalDashboard(data,items,today){const dashboard=$('#personalDashboard');if(!dashboard)return;dashboard.className=`personal-dashboard personal-dashboard-${personalCategory}`;dashboard.innerHTML=personalCategory==='health'?renderHealthDashboard(items,today):personalCategory==='reading'?renderReadingDashboard(items):personalCategory==='workflow'?renderWorkflowDashboard(items):renderFinanceDashboard(items);decoratePersonalDeletes(items,today);decoratePersonalEdits(items)}
-  function decoratePersonalDeletes(items,today){const host=$('#personalDashboard'),add=(element,id)=>{if(!element||!id||element.querySelector('[data-personal-delete]'))return;const button=document.createElement('button');button.type='button';button.className='personal-record-delete';button.dataset.personalDelete=id;button.setAttribute('aria-label','기록 삭제');button.textContent='×';element.appendChild(button)};if(personalCategory==='health'){host.querySelectorAll('.meal-slot-v59').forEach(slot=>add(slot,slot.querySelector('[data-personal-media]')?.dataset.personalMedia));const rows=personalRows(items,'health').filter(row=>row.details?.healthType==='exercise').slice(0,4);host.querySelectorAll('.exercise-recent-card').forEach((card,index)=>add(card,rows[index]?.id))}else if(personalCategory==='reading'){host.querySelectorAll('.book-cover-v59').forEach(card=>add(card,card.querySelector('[data-personal-media]')?.dataset.personalMedia));const quotes=personalRows(items,'reading').filter(row=>row.details?.quote&&row.details?.readingStatus!=='want').slice(0,7);host.querySelectorAll('.quote-v59').forEach((card,index)=>add(card,quotes[index]?.id))}else if(personalCategory==='workflow'){host.querySelectorAll('.workflow-card-v59').forEach(card=>add(card,card.dataset.workflowId))}else{const rows=personalRows(items,'finance'),groups=[rows.filter(row=>['saving','deposit'].includes(row.details?.financeType)).slice(0,4),rows.filter(row=>['flexible','income'].includes(row.details?.financeType)).slice(0,4),rows.filter(row=>row.details?.financeType==='expense').slice(0,7)];host.querySelectorAll('.finance-v59-panel').forEach((panel,panelIndex)=>panel.querySelectorAll('.finance-v59-card').forEach((card,index)=>add(card,groups[panelIndex]?.[index]?.id)))}}
+  function renderPersonalDashboard(data,items,today){
+    const dashboard=$('#personalDashboard');if(!dashboard)return;
+    dashboard.className=`personal-dashboard personal-dashboard-${personalCategory}`;
+    dashboard.innerHTML=personalCategory==='workflow'?renderWorkflowDashboard(items):renderFinanceDashboard(items)+renderFinancePaymentsV193(items);
+    decoratePersonalDeletes(items,today);
+  }
+  function renderFinancePaymentsV193(items){
+    const start=iso(shown.getFullYear(),shown.getMonth(),1),end=iso(shown.getFullYear(),shown.getMonth(),new Date(shown.getFullYear(),shown.getMonth()+1,0).getDate()),rows=personalFinanceDueRows(items,start,end);
+    return `<section class="finance-payments-v193"><header><b>${shown.getMonth()+1}월 납부 확인</b><span>${rows.filter(item=>item.done).length} / ${rows.length} 완료</span></header><div class="finance-check-list">${rows.map(({row,date,done})=>`<label class="finance-check-row ${done?'done':''}"><input type="checkbox" data-finance-check="${escapeHtml(row.id)}|${date}" ${done?'checked':''}><span><b>${escapeHtml(row.title)}</b><small>${escapeHtml(row.details?.source||'결제 수단 미입력')} · ₩ ${personalAmount(row.amount)}</small></span><time>${escapeHtml(date.slice(5).replace('-','.'))}</time></label>`).join('')||'<div class="personal-dashboard-empty">이번 달 고정 지출이 없습니다.</div>'}</div></section>`;
+  }
+  function decoratePersonalDeletes(items,today){const host=$('#personalDashboard'),add=(element,id)=>{if(!element||!id||element.querySelector('[data-personal-delete]'))return;const button=document.createElement('button');button.type='button';button.className='personal-record-delete';button.dataset.personalDelete=id;button.setAttribute('aria-label','기록 삭제');button.textContent='×';element.appendChild(button)};if(personalCategory==='health'){host.querySelectorAll('.meal-slot-v59').forEach(slot=>add(slot,slot.querySelector('[data-personal-media]')?.dataset.personalMedia));const rows=personalRows(items,'health').filter(row=>row.details?.healthType==='exercise').slice(0,4);host.querySelectorAll('.exercise-recent-card').forEach((card,index)=>add(card,rows[index]?.id))}else if(personalCategory==='reading'){host.querySelectorAll('.book-cover-v59').forEach(card=>add(card,card.querySelector('[data-personal-media]')?.dataset.personalMedia));const quotes=personalRows(items,'reading').filter(row=>row.details?.quote&&row.details?.readingStatus!=='want').slice(0,7);host.querySelectorAll('.quote-v59').forEach((card,index)=>add(card,quotes[index]?.id))}else if(personalCategory==='workflow'){host.querySelectorAll('.workflow-card-v59').forEach(card=>add(card,card.dataset.workflowId))}else{const rows=personalRows(items,'finance'),groups=[rows.filter(row=>['saving','deposit'].includes(row.details?.financeType)),rows.filter(row=>['flexible','income'].includes(row.details?.financeType)),rows.filter(row=>row.details?.financeType==='expense')];host.querySelectorAll('.finance-v59-panel').forEach((panel,panelIndex)=>panel.querySelectorAll('.finance-v59-card').forEach((card,index)=>add(card,groups[panelIndex]?.[index]?.id)))}}
   function decoratePersonalEdits(items){if(personalCategory!=='health')return;const rows=personalRows(items,'health').filter(row=>row.details?.healthType==='exercise').slice(0,4);$('#personalDashboard').querySelectorAll('.exercise-recent-card').forEach((card,index)=>{const row=rows[index];if(!row)return;const button=document.createElement('button');button.type='button';button.className='personal-record-edit';button.dataset.personalEdit=row.id;button.setAttribute('aria-label',`${row.title} 수정`);button.textContent='EDIT';card.appendChild(button)})}
   async function deletePersonalEntry(id){const data=personalStore(),actor=currentUserEmail,previous=[...(data.personalItems||[])],row=previous.find(item=>item.id===id);if(!row||!confirm(`“${row.title}” 기록을 삭제할까요?`))return;data.personalItems=previous.filter(item=>item.id!==id);try{await savePrivateData(actor);if(actor!==currentUserEmail)throw Error('계정이 변경되었습니다.');const used=new Set(data.personalItems.flatMap(item=>window.AiderLogPhotosV176.mediaItems(item).map(media=>media.fileId)));for(const media of window.AiderLogPhotosV176.mediaItems(row))if(media.fileId&&!used.has(media.fileId)&&actor===currentUserEmail)try{await window.AiderDearFirebase.deletePrivateMedia(media.fileId);}catch{}renderPersonal();toast('개인 기록을 삭제했습니다.')}catch(err){if(actor===currentUserEmail)privateData[actor].personalItems=previous;toast(err.message||googleErrorMessage(err))}}
   function personalEntryDetails(row){const d=row.details||{};if(row.category==='health'){if(d.healthType==='exercise')return `<div class="workout-entry-sets">${(d.exercises||[]).map(ex=>`<div><b>${escapeHtml(ex.name)}</b><span>${(ex.sets||[]).map((set,i)=>`${i+1} ${set.weight||0}kg×${set.reps||0}`).join(' · ')||'세트 없음'}</span></div>`).join('')}</div>`;return `<div class="personal-entry-facts"><span>${mealTypeLabel(d.mealType)}</span><b>식사 기록</b></div>`}if(row.category==='reading'){const pct=d.totalPages?Math.min(100,Math.round((d.currentPage||0)/d.totalPages*100)):0;return `<div class="reading-entry-progress"><span>${escapeHtml(d.author||'저자 미입력')}</span><b>${d.currentPage||0} / ${d.totalPages||0}p · ${pct}%</b>${d.quote?`<blockquote>“${escapeHtml(d.quote)}”</blockquote>`:''}</div>`}if(row.category==='workflow')return `<div class="workflow-entry-detail"><p><b>${WORKFLOW_PRIORITY[d.priority||'normal']?.label||'보통'}</b> · ${escapeHtml(WORKFLOW_TYPE[d.workType]||'집중')} · ${escapeHtml(workflowEstimate(d.estimateMinutes))}</p>${d.successCriteria?`<p>완료 기준 · ${escapeHtml(d.successCriteria)}</p>`:''}<ol class="workflow-entry-steps">${(d.steps||[]).map((step,index)=>`<li class="${d.completedSteps?.[index]?'done':''}">${d.completedSteps?.[index]?'✓ ':''}${escapeHtml(step)}</li>`).join('')}</ol></div>`;const extra=['flexible','income'].includes(d.financeType)?[d.destination,d.expectedDate,d.flowStatus?personalStatusLabel(d.flowStatus):''].filter(Boolean).join(' · '):d.financeType==='expense'?expenseCycleLabel(d.cycle):d.maturityDate?`만기 ${d.maturityDate}`:'';return `<div class="expense-entry-detail"><b>₩ ${personalAmount(row.amount)}</b><span>${financeTypeLabel(d.financeType)} · ${escapeHtml(d.source||'카드·계좌 미입력')}${extra?` · ${escapeHtml(extra)}`:''}</span></div>`}
@@ -7432,6 +7442,7 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   function configurePersonalForm(){const meta=PERSONAL_CATEGORIES[personalCategory],healthType=$('#personalHealthType')?.value||personalEntryPreset.healthType||'meal';$$('[data-personal-only]').forEach(section=>section.hidden=section.dataset.personalOnly!==personalCategory);$('#personalEntryTitle').placeholder=meta.placeholder;$('#personalEntryNote').placeholder=personalCategory==='workflow'?'현재 상황, 다음 행동과 막힌 부분을 기록하세요.':personalCategory==='health'?(healthType==='exercise'?'운동 느낌과 컨디션, 신체 변화 사진을 함께 남겨보세요.':'식사 사진과 기억할 내용을 적어주세요.'):personalCategory==='reading'?'책에 대한 생각과 감상을 적어주세요.':personalCategory==='finance'?'금융 기록을 적어주세요.':'기록을 남겨주세요.';$('#personalEntryDialogTitle').textContent=personalCategory==='health'?(healthType==='exercise'?'운동 기록 추가':'식사 기록 추가'):`${meta.label} 기록 추가`;$('#personalPhotoPick').hidden=personalCategory==='finance'||personalCategory==='workflow';if(personalCategory==='health')updatePersonalHealthFields();if(personalCategory==='finance')updatePersonalFinanceFields()}
   function resetPersonalEntryForm(){const form=$('#personalEntryForm');form.reset();clearPersonalPhotoPreview();$('#personalEntryDate').value=dateKeyOffset(0);resetPersonalExerciseBuilder();updatePersonalHealthFields()}
   function openPersonalEntry(category,preset={}){
+    if(!['finance','workflow'].includes(category))return;
     if(!currentUserEmail){requireLogin(()=>openPersonalEntry(category,preset));return}
     personalCategory=category;personalEntryPreset={...preset};resetPersonalEntryForm();const editing=preset.existingId?(personalStore().personalItems||[]).find(row=>row.id===preset.existingId):null;$('#personalEntryOverlay').dataset.category=category;$('#personalEntryOverlay').dataset.healthType=preset.healthType||editing?.details?.healthType||'';if(editing){$('#personalEntryDate').value=editing.date;$('#personalEntryTitle').value=editing.title||'';$('#personalEntryNote').value=editing.note||''}
     if(category==='health'){
@@ -7447,13 +7458,33 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
       const d=editing.details||{};
       $('#personalWorkflowProject').value=d.project||'';$('#personalEntryStatus').value=editing.status||'planned';$('#personalWorkflowPriority').value=d.priority||'normal';$('#personalWorkflowType').value=d.workType||'deep';$('#personalWorkflowProgress').value=workflowProgress(editing);$('#personalWorkflowEstimate').value=d.estimateMinutes||'';$('#personalWorkflowDueDate').value=d.dueDate||'';$('#personalWorkflowTags').value=(d.tags||[]).join(', ');$('#personalWorkflowNext').value=d.nextAction||'';$('#personalWorkflowSuccess').value=d.successCriteria||'';$('#personalWorkflowBlocker').value=d.blocker||'';$('#personalWorkflowSteps').value=(d.steps||[]).join('\n');
     }
-    if(category==='finance'&&preset.financeType)$('#personalFinanceType').value=preset.financeType;
+    if(category==='finance'){
+      const d=editing?.details||{};
+      $('#personalFinanceType').value=preset.financeType||d.financeType||'saving';
+      if(editing){
+        $('#personalEntryAmount').value=editing.amount||0;
+        $('#personalFinanceSource').value=d.source||'';
+        $('#personalFinanceCycle').value=d.cycle||'once';
+        $('#personalFinanceDueDay').value=d.dueDay||'';
+        $('#personalFinanceGoal').value=d.goalAmount||'';
+        $('#personalFinanceMaturity').value=d.maturityDate||'';
+        $('#personalFinanceDestination').value=d.destination||'';
+        $('#personalFinanceExpectedDate').value=d.expectedDate||'';
+        $('#personalFinanceFlowStatus').value=d.flowStatus||'planned';
+      }
+    }
     resetSiteMediaPickerV178('personalPhotoInput');personalPhotosV176.reset(window.AiderLogPhotosV176.mediaItems((personalStore().personalItems||[]).find(row=>row.id===personalEntryPreset.existingId)));refreshPersonalPhotosV176();
     configurePersonalForm();updatePersonalHealthFields();if(editing)$('#personalEntryDialogTitle').textContent=editing.details?.healthType==='exercise'?'운동 기록 수정':`${PERSONAL_CATEGORIES[category]?.label||'기록'} 수정`;$('#personalEntryOverlay').hidden=false;setTimeout(()=>$('#personalEntryTitle')?.focus(),0)
   }
   function closePersonalEntry(force=false){if(personalPhotoSavingV176&&force!==true)return;const overlay=$('#personalEntryOverlay');if(overlay)overlay.hidden=true;personalEntryPreset={};clearPersonalPhotoPreview()}
   function personalRowIcon(row){if(row.category==='health')return row.details?.healthType==='exercise'?'🏃':'🍽';return PERSONAL_CATEGORIES[row.category]?.icon||'•'}
-  function renderPersonal(){const stage=$('#personalStage');if(!stage)return;if(!currentUserEmail){$('#personalDashboard').innerHTML='';$('#personalOverviewDashboard').innerHTML='';updatePomodoroClock();return}const data=personalStore(),items=data.personalItems||[],today=dateKeyOffset(0);$$('#personalCategoryTabs [data-personal-category]').forEach(button=>button.classList.toggle('active',button.dataset.personalCategory===personalCategory));renderPersonalDashboard(data,items,today);renderPersonalOverview(data);hydratePersonalMedia([...items]);const todaySessions=(data.pomodoroSessions||[]).filter(x=>x.date===today).length;$('#pomodoroTodayCount').textContent=`${todaySessions} SESSION${todaySessions===1?'':'S'}`;updatePomodoroClock()}
+  function renderPersonal(){
+    if(!$('#personalStage'))return;
+    if(!['finance','workflow'].includes(personalCategory))personalCategory='finance';
+    const data=personalStore(),items=(data.personalItems||[]).filter(row=>['finance','workflow'].includes(row.category));
+    renderPersonalDashboard(data,items,dateKeyOffset(0));
+    $('#scheduleToolTitleV193').textContent=personalCategory==='finance'?'금융':'워크플로우';
+  }
   function updatePomodoroClock(){const m=Math.floor(pomodoroSeconds/60),s=pomodoroSeconds%60;if($('#pomodoroClock'))$('#pomodoroClock').textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;if($('#pomodoroModeLabel'))$('#pomodoroModeLabel').textContent=pomodoroMode==='focus'?'🍅':pomodoroMode==='short'?'SHORT BREAK':'LONG BREAK';if($('#pomodoroStart'))$('#pomodoroStart').textContent=pomodoroTimer?'PAUSE':pomodoroSeconds===pomodoroInitialSeconds?'START':'RESUME'}
   function setPomodoroPreset(minutes,mode){if(pomodoroTimer){clearInterval(pomodoroTimer);pomodoroTimer=null}const safeMinutes=Math.max(1,Math.min(180,Number(minutes)||25));pomodoroMode=mode||'focus';pomodoroInitialSeconds=safeMinutes*60;pomodoroSeconds=pomodoroInitialSeconds;if($('#pomodoroCustomMinutes'))$('#pomodoroCustomMinutes').value=String(safeMinutes);$$('[data-pomodoro-minutes]').forEach(button=>button.classList.toggle('active',Number(button.dataset.pomodoroMinutes)===safeMinutes&&button.dataset.pomodoroMode===pomodoroMode));updatePomodoroClock()}
   async function completePomodoro(){if(pomodoroMode==='focus'&&currentUserEmail){const data=personalStore();data.pomodoroSessions=Array.isArray(data.pomodoroSessions)?data.pomodoroSessions:[];data.pomodoroSessions.push({id:'pomo-'+Date.now(),date:dateKeyOffset(0),minutes:Math.round(pomodoroInitialSeconds/60),task:pomodoroTaskName||'집중 세션',completedAt:Date.now()});try{await savePrivateData(currentUserEmail);renderPersonal()}catch(err){toast(googleErrorMessage(err))}}toast(pomodoroMode==='focus'?'집중 세션을 완료했습니다.':'휴식 시간이 끝났습니다.');pomodoroSeconds=pomodoroInitialSeconds;updatePomodoroClock()}
@@ -7508,12 +7539,12 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
     }catch(err){if(currentUserEmail===photoOwnerV176)privateData[photoOwnerV176].personalItems=priorRowsV176;refreshPersonalPhotosV176();toast(err.message||googleErrorMessage(err))}finally{personalPhotoSavingV176=false;if(submitV176)submitV176.disabled=false;refreshPersonalPhotosV176();}
   });
   $('#personalInbodyForm').addEventListener('submit',async e=>{e.preventDefault();if(!currentUserEmail)return;const data=personalStore(),id=$('#personalInbodyId').value,date=$('#personalInbodyDate').value,weight=personalNumber('#personalInbodyWeight');if(!date||!weight){toast('측정 날짜와 체중을 입력해주세요.');return}data.personalItems=Array.isArray(data.personalItems)?data.personalItems:[];const existingIndex=id?data.personalItems.findIndex(row=>row.id===id):-1,existing=existingIndex>=0?data.personalItems[existingIndex]:null,details={healthType:'inbody',inbodyWeight:weight,inbodyMuscle:personalNumber('#personalInbodyMuscle'),inbodyFatMass:personalNumber('#personalInbodyFatMass'),inbodyFatPercent:personalNumber('#personalInbodyFatPercent'),inbodyBmi:personalNumber('#personalInbodyBmi'),inbodyVisceral:personalNumber('#personalInbodyVisceral')},row={id:existing?.id||`personal-inbody-${Date.now()}`,category:'health',date,title:'InBody 측정',note:$('#personalInbodyNote').value.trim(),status:'done',minutes:0,amount:0,details,media:null,createdAt:existing?.createdAt||Date.now()};if(existingIndex>=0)data.personalItems.splice(existingIndex,1,row);else data.personalItems.push(row);try{await savePrivateData(currentUserEmail);resetPersonalInbodyForm();renderPersonalInbodyHistory();renderPersonal();toast(`InBody 기록을 ${existing?'수정':'저장'}했습니다.`)}catch(err){toast(googleErrorMessage(err))}});
-  $('#personalDashboard').addEventListener('click',async e=>{const remove=e.target.closest('[data-personal-delete]');if(remove){e.preventDefault();e.stopPropagation();deletePersonalEntry(remove.dataset.personalDelete);return}const workflowEdit=e.target.closest('[data-workflow-edit]');if(workflowEdit){e.preventDefault();e.stopPropagation();openPersonalEntry('workflow',{existingId:workflowEdit.dataset.workflowEdit});return}const workflowStep=e.target.closest('[data-workflow-step]');if(workflowStep){e.preventDefault();e.stopPropagation();const [id,indexText]=workflowStep.dataset.workflowStep.split('|'),index=Number(indexText),data=personalStore(),row=(data.personalItems||[]).find(item=>item.id===id);if(!row)return;row.details=row.details||{};row.details.completedSteps={...(row.details.completedSteps||{})};if(row.details.completedSteps[index])delete row.details.completedSteps[index];else row.details.completedSteps[index]=Date.now();const steps=row.details.steps||[],done=steps.filter((_,stepIndex)=>row.details.completedSteps[stepIndex]).length;row.details.progress=steps.length?Math.round(done/steps.length*100):row.details.progress||0;if(steps.length&&done===steps.length)row.status='done';else if(done&&row.status==='planned')row.status='ongoing';else if(done<steps.length&&row.status==='done')row.status='ongoing';try{await savePrivateData(currentUserEmail);renderPersonal()}catch(err){toast(googleErrorMessage(err))}return}const edit=e.target.closest('[data-personal-edit]');if(edit){e.preventDefault();e.stopPropagation();const row=(personalStore().personalItems||[]).find(item=>item.id===edit.dataset.personalEdit);if(!row)return;if(row.details?.challengeId){openPersonalChallenge();personalChallengeSelectedDay[row.details.challengeId]=Number(row.details.challengeDay)||1;personalChallengeVariant[row.details.challengeId]=row.details.challengeVariantId||PERSONAL_CHALLENGES[row.details.challengeId]?.variants?.[0]?.id;personalChallengeEditingId[row.details.challengeId]=row.id;$('#personalChallengeDate').value=row.date;renderPersonalChallenge()}else openPersonalEntry('health',{existingId:row.id,healthType:'exercise'});return}if(e.target.closest('[data-inbody-open]')){openPersonalInbody();return}if(e.target.closest('[data-challenge-open]')){openPersonalChallenge();return}const button=e.target.closest('[data-personal-add]');if(!button)return;openPersonalEntry(button.dataset.personalAdd,{healthType:button.dataset.healthType||'',mealType:button.dataset.mealType||'',financeType:button.dataset.financeType||''})});
+  $('#personalDashboard').addEventListener('click',async e=>{const remove=e.target.closest('[data-personal-delete]');if(remove){e.preventDefault();e.stopPropagation();deletePersonalEntry(remove.dataset.personalDelete);return}const workflowEdit=e.target.closest('[data-workflow-edit]');if(workflowEdit){e.preventDefault();e.stopPropagation();openPersonalEntry('workflow',{existingId:workflowEdit.dataset.workflowEdit});return}const workflowStep=e.target.closest('[data-workflow-step]');if(workflowStep){e.preventDefault();e.stopPropagation();const [id,indexText]=workflowStep.dataset.workflowStep.split('|'),index=Number(indexText),data=personalStore(),row=(data.personalItems||[]).find(item=>item.id===id);if(!row)return;row.details=row.details||{};row.details.completedSteps={...(row.details.completedSteps||{})};if(row.details.completedSteps[index])delete row.details.completedSteps[index];else row.details.completedSteps[index]=Date.now();const steps=row.details.steps||[],done=steps.filter((_,stepIndex)=>row.details.completedSteps[stepIndex]).length;row.details.progress=steps.length?Math.round(done/steps.length*100):row.details.progress||0;if(steps.length&&done===steps.length)row.status='done';else if(done&&row.status==='planned')row.status='ongoing';else if(done<steps.length&&row.status==='done')row.status='ongoing';try{await savePrivateData(currentUserEmail);renderPersonal()}catch(err){toast(googleErrorMessage(err))}return}const edit=e.target.closest('[data-personal-edit]');if(edit){e.preventDefault();e.stopPropagation();const row=(personalStore().personalItems||[]).find(item=>item.id===edit.dataset.personalEdit);if(!row)return;if(row.details?.challengeId){openPersonalChallenge();personalChallengeSelectedDay[row.details.challengeId]=Number(row.details.challengeDay)||1;personalChallengeVariant[row.details.challengeId]=row.details.challengeVariantId||PERSONAL_CHALLENGES[row.details.challengeId]?.variants?.[0]?.id;personalChallengeEditingId[row.details.challengeId]=row.id;$('#personalChallengeDate').value=row.date;renderPersonalChallenge()}else openPersonalEntry(row.category,{existingId:row.id,healthType:row.details?.healthType||'',financeType:row.details?.financeType||''});return}if(e.target.closest('[data-inbody-open]')){openPersonalInbody();return}if(e.target.closest('[data-challenge-open]')){openPersonalChallenge();return}const button=e.target.closest('[data-personal-add]');if(!button)return;openPersonalEntry(button.dataset.personalAdd,{healthType:button.dataset.healthType||'',mealType:button.dataset.mealType||'',financeType:button.dataset.financeType||''})});
   let personalPageIndex=0,personalFlipLocked=false;
   function goPersonalPage(next,force=false){next=Math.max(0,Math.min(1,next));if((next===personalPageIndex&&!force)||(personalFlipLocked&&!force))return;if(force)personalFlipLocked=false;personalFlipLocked=true;[$('#personalMainShell'),$('#personalOverviewShell')].forEach((page,i)=>{page.classList.remove('current','next','prev');page.classList.add(i===next?'current':(i<next?'prev':'next'));page.setAttribute('aria-hidden',i===next?'false':'true');setSitePaneVisibilityV169(page,i===next)});$$('.personal-dot').forEach((dot,i)=>dot.classList.toggle('active',i===next));personalPageIndex=next;renderPersonal();animateStandaloneFrame(next===0?'#personalMainShell .personal-frame':'#personalOverviewFrame');setTimeout(()=>personalFlipLocked=false,760)}
   $$('.personal-dot').forEach(button=>button.addEventListener('click',()=>goPersonalPage(Number(button.dataset.personalPage),true)));
   $('#personalOverviewDashboard').addEventListener('click',e=>{if(e.target.closest('[data-inbody-open]')){openPersonalInbody();return}const button=e.target.closest('[data-overview-category]');if(!button)return;personalCategory=button.dataset.overviewCategory;goPersonalPage(0,true);renderPersonal()});
-  $('#personalOverviewDashboard').addEventListener('change',async e=>{
+  $('#personalStage').addEventListener('change',async e=>{
     const compare=e.target.closest('[data-body-compare-slot]');if(compare){personalComparePhotoIds[Number(compare.dataset.bodyCompareSlot)||0]=compare.value;renderPersonal();return}
     const check=e.target.closest('[data-finance-check]');if(!check)return;const [id,date]=check.dataset.financeCheck.split('|'),data=personalStore(),row=(data.personalItems||[]).find(item=>item.id===id);if(!row)return;row.details=row.details||{};row.details.paymentChecks={...(row.details.paymentChecks||{})};if(check.checked)row.details.paymentChecks[date]=Date.now();else delete row.details.paymentChecks[date];try{await savePrivateData(currentUserEmail);renderPersonal();toast(check.checked?'납부 완료로 표시했습니다.':'납부 확인을 취소했습니다.')}catch(err){check.checked=!check.checked;toast(googleErrorMessage(err))}
   });
@@ -8005,16 +8036,14 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
     const sections=[
       journalSection('schedule','SCHEDULE',schedule),
       journalSection('routine','ROUTINE',routine),
-      journalSection('health','HEALTH',personalRows('health')),
-      journalSection('reading','READING',personalRows('reading')),
       journalSection('workflow','WORKFLOW',personalRows('workflow')),
       journalSection('finance','FINANCE',personalRows('finance')),
       journalSection('record','RECORD',records),
       journalSection('memo','MEMO · TO DO',todos)
     ];
-    const groups=[schedule,routine,personalRows('health'),personalRows('reading'),personalRows('workflow'),personalRows('finance'),records,todos],total=groups.reduce((sum,rows)=>sum+rows.length,0),active=groups.filter(rows=>rows.length).length,doneTodos=checklistToday.filter(row=>row.done).length,nextSchedule=schedule.find(row=>row.time&&row.time!=='종일');
+    const groups=[schedule,routine,personalRows('workflow'),personalRows('finance'),records,todos],total=groups.reduce((sum,rows)=>sum+rows.length,0),active=groups.filter(rows=>rows.length).length,doneTodos=checklistToday.filter(row=>row.done).length,nextSchedule=schedule.find(row=>row.time&&row.time!=='종일');
     $('#todayJournalDate').textContent=dateLabel;
-    $('#todayJournalSummary').innerHTML=`<article><span>기록</span><b>${total}</b></article><article><span>활성 영역</span><b>${active}/8</b></article><article><span>할 일</span><b>${doneTodos}/${checklistToday.length}</b></article><article class="wide"><span>NEXT</span><b>${nextSchedule?`${escapeHtml(nextSchedule.time)} · ${escapeHtml(nextSchedule.text)}`:'예정된 일정 없음'}</b></article>`;
+    $('#todayJournalSummary').innerHTML=`<article><span>기록</span><b>${total}</b></article><article><span>활성 영역</span><b>${active}/6</b></article><article><span>할 일</span><b>${doneTodos}/${checklistToday.length}</b></article><article class="wide"><span>NEXT</span><b>${nextSchedule?`${escapeHtml(nextSchedule.time)} · ${escapeHtml(nextSchedule.text)}`:'예정된 일정 없음'}</b></article>`;
     const week=journalWeekSummary(privateStore,key),weekTotal=week.reduce((sum,row)=>sum+row.total,0);$('#todayJournalWeek').innerHTML=`<header><div><span>THIS WEEK</span><b>${week[0].key.slice(5).replace('-','.')} — ${week[6].key.slice(5).replace('-','.')}</b></div><strong>${weekTotal}<small>주간 기록</small></strong></header><div>${week.map(row=>`<article class="${row.key===key?'is-current':''}"><span>${escapeHtml(row.label)}</span><b>${row.day}</b><i style="--week-load:${Math.min(100,row.total*14)}%"></i><small>일정 ${row.scheduleCount} · 루틴 ${row.routineCount} · 할 일 ${row.todoDone}/${row.todos}</small></article>`).join('')}</div>`;
     $('#journalTodoDate').value=$('#journalTodoDate').value||key;renderJournalCapture(privateStore);
     $('#todayJournalContent').innerHTML=sections.join('');
@@ -8114,7 +8143,7 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
     $('#consultingClientForm').reset();$('#consultingClientId').value=safeConsultingValue(row.id);$('#consultingClientName').value=safeConsultingValue(row.name);$('#consultingClientPhone').value=safeConsultingValue(row.phone)||(!contact.includes('@')?contact:'');$('#consultingClientEmail').value=safeConsultingValue(row.email)||(contact.includes('@')?contact:'');$('#consultingClientBirthYear').value=safeConsultingValue(row.birthYear);$('#consultingClientGender').value=safeConsultingValue(row.gender);$('#consultingClientCurrentSchool').value=safeConsultingValue(row.currentSchool||row.institution);$('#consultingClientCurrentMajor').value=safeConsultingValue(row.currentMajor||row.program);$('#consultingClientAdditionalMajors').value=safeConsultingValue(row.additionalMajors);$('#consultingClientDoubleMajor').value=safeConsultingValue(row.doubleMajor);$('#consultingClientMinor').value=safeConsultingValue(row.minor);$('#consultingClientUniversityYears').value=safeConsultingValue(row.universityYears);$('#consultingClientMilitaryStatus').value=safeConsultingValue(row.militaryStatus);$('#consultingClientTargetUniversity').value=safeConsultingValue(row.targetUniversity||row.university);$('#consultingClientTargetMajor').value=safeConsultingValue(row.targetMajor||row.major);$('#consultingClientDegree').value=safeConsultingValue(row.degree);$('#consultingClientGpa').value=safeConsultingValue(row.gpa);$('#consultingClientGpaScale').value=safeConsultingValue(row.gpaScale);$('#consultingClientYear').value=safeConsultingValue(row.applicationYear)||new Date().getFullYear()+1;$('#consultingClientSemester').value=safeConsultingValue(row.applicationSemester);$('#consultingClientAdvisors').value=consultingAdvisorNames(row.advisorNames).join('\n');$('#consultingClientTopic').value=safeConsultingValue(row.topic);$('#consultingClientLanguageSpec').value=safeConsultingValue(row.languageSpec);$('#consultingClientCertifications').value=safeConsultingValue(row.certifications);$('#consultingClientActivities').value=safeConsultingValue(row.activities);$('#consultingClientResearchExperience').value=safeConsultingValue(row.researchExperience);$('#consultingClientOutputs').value=safeConsultingValue(row.outputs);$('#consultingClientInquiry').value=safeConsultingValue(row.inquiry);setMajorFields('consulting',!!(row.additionalMajors||row.doubleMajor||row.minor));$('#consultingDialogTitle').textContent=row.id?'고객 수정':'고객 직접 추가';$('#consultingClientOverlay').hidden=false;setTimeout(()=>{$('#consultingClientOverlay').scrollTop=0;$('#consultingClientName').focus()},0)
   }
   function closeConsultingClient(){$('#consultingClientOverlay').hidden=true}
-  async function persistConsulting(message){try{await savePrivateData(currentUserEmail);renderConsultingWorkspace();toast(message)}catch(err){toast(googleErrorMessage(err))}}
+  async function persistConsulting(message){try{await savePrivateData(currentUserEmail);toast(message)}catch(err){toast(googleErrorMessage(err))}}
   function consultingIntakeUrl(token){const url=new URL('client-intake.html',location.origin+location.pathname);url.searchParams.set('client-intake',token);return url.href}
   function consultingMajorFromNote(note,label){const match=String(note||'').match(new RegExp(`${label}\\s+([^·\\n]+)`));return String(match?.[1]||'').trim()}
   function consultingNoteField(note,label){const match=String(note||'').match(new RegExp(`${label}\\s*·\\s*([^\\n]+)`));return String(match?.[1]||'').trim()}
@@ -8123,11 +8152,11 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   async function startConsultingIntakeWatch(force=false){
     try{consultingIntakeStop?.()}catch{}consultingIntakeStop=null;
     if(document.visibilityState==='hidden'||siteSyncV191.blockedUntil>Date.now())return;
-    return window.AiderConsultIntakeV168?.sync(force);
+    return; // v193: consulting synchronization is retired.
   }
   window.addEventListener('aiderlog-intakes-imported-v168',async event=>{
     if(event.detail.uid!==firebaseState.user?.uid)return;
-    await window.AiderConsultBridge.refresh();renderConsultingWorkspace();toast(`${event.detail.count}명의 고객 작성 정보가 추가되었습니다.`);
+    await window.AiderConsultBridge.refresh();toast(`${event.detail.count}명의 고객 작성 정보가 추가되었습니다.`);
   });
   async function ensureConsultingIntakeLink(){if(!currentUserEmail)throw new Error('로그인이 필요합니다.');const data=consultingStore(),oldToken=data.consultingIntakeToken||'',token=await window.AiderDearFirebase.createClientIntakeLink('',oldToken);data.consultingIntakeToken=token;await savePrivateData(currentUserEmail);await startConsultingIntakeWatch();return token}
   async function openConsultingShare(){const overlay=$('#consultingShareOverlay'),status=$('#consultingShareStatus'),input=$('#consultingShareUrl');overlay.hidden=false;status.textContent='새 외부 작성 링크를 발급하는 중입니다.';input.value='';try{const token=await ensureConsultingIntakeLink();input.value=consultingIntakeUrl(token);status.textContent='새 링크가 발급되었습니다. 고객이 제출하면 Consulting 목록에 자동으로 반영됩니다.'}catch(err){status.textContent=err.message||String(err)}}
@@ -8155,7 +8184,7 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
     const data=consultingStore(),taskAdd=e.target.closest('[data-consulting-task-add]'),sessionAdd=e.target.closest('[data-consulting-session-add]'),nextAdd=e.target.closest('[data-consulting-next-add]'),fileAdd=e.target.closest('[data-consulting-file-add]'),fileOpen=e.target.closest('[data-consulting-file-open]'),fileDelete=e.target.closest('[data-consulting-file-delete]'),clientDelete=e.target.closest('[data-consulting-delete]'),taskDelete=e.target.closest('[data-consulting-task-delete]'),sessionDelete=e.target.closest('[data-consulting-session-delete]');
     if(fileAdd){consultingFileClientId=fileAdd.dataset.consultingFileAdd;$('#consultingFileInput').value='';$('#consultingFileInput').click();return}
     if(fileOpen){const row=(data.consultingFiles||[]).find(item=>item.id===fileOpen.dataset.consultingFileOpen);if(!row)return;try{toast('파일을 불러오는 중…');const blob=row.storageScope==='paper-task'?await window.AiderDearFirebase.readPaperTaskMedia(row.fileId):await window.AiderDearFirebase.readPrivateMedia(row.fileId),url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download=row.name||'client-file';document.body.appendChild(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1500)}catch(err){toast(googleErrorMessage(err))}return}
-    if(fileDelete){const row=(data.consultingFiles||[]).find(item=>item.id===fileDelete.dataset.consultingFileDelete);if(!row||!confirm(`“${row.name}” 파일을 삭제할까요?`))return;data.consultingFiles=data.consultingFiles.filter(item=>item.id!==row.id);try{await savePrivateData(currentUserEmail);if(row.storageScope==='paper-task')await window.AiderDearFirebase.deletePaperTaskMedia(row.fileId);else await window.AiderDearFirebase.deletePrivateMedia(row.fileId);renderConsultingWorkspace();toast('고객 파일을 삭제했습니다.')}catch(err){toast(googleErrorMessage(err))}return}
+    if(fileDelete){const row=(data.consultingFiles||[]).find(item=>item.id===fileDelete.dataset.consultingFileDelete);if(!row||!confirm(`“${row.name}” 파일을 삭제할까요?`))return;data.consultingFiles=data.consultingFiles.filter(item=>item.id!==row.id);try{await savePrivateData(currentUserEmail);if(row.storageScope==='paper-task')await window.AiderDearFirebase.deletePaperTaskMedia(row.fileId);else await window.AiderDearFirebase.deletePrivateMedia(row.fileId);toast('고객 파일을 삭제했습니다.')}catch(err){toast(googleErrorMessage(err))}return}
     if(nextAdd){const client=(data.consultingClients||[]).find(row=>row.id===nextAdd.dataset.consultingNextAdd);if(!client)return;const value=prompt('다음 상담 일시를 YYYY-MM-DDTHH:MM 형식으로 입력하세요.',client.nextSession||'');if(value===null)return;if(value&&!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(value)){toast('날짜와 시간을 YYYY-MM-DDTHH:MM 형식으로 입력해주세요.');return}client.nextSession=value;client.updatedAt=Date.now();await persistConsulting(value?'다음 상담을 저장했습니다.':'다음 상담을 비웠습니다.');return}
     if(taskAdd){const title=prompt('고객에게 전달하거나 확인할 과업을 입력하세요.');if(!title?.trim())return;const dueDate=prompt('마감일을 YYYY-MM-DD 형식으로 입력하세요. (선택)','')||'';data.consultingTasks.push({id:`consult-task-${Date.now()}`,clientId:taskAdd.dataset.consultingTaskAdd,title:title.trim(),dueDate:/^\d{4}-\d{2}-\d{2}$/.test(dueDate)?dueDate:'',done:false,createdAt:Date.now()});await persistConsulting('상담 과업을 추가했습니다.');return}
     if(sessionAdd){const summary=prompt('상담 내용과 다음 행동을 기록하세요.');if(!summary?.trim())return;const now=new Date(),date=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}T${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;data.consultingSessions.push({id:`consult-session-${Date.now()}`,clientId:sessionAdd.dataset.consultingSessionAdd,date,summary:summary.trim(),createdAt:Date.now()});await persistConsulting('상담 기록을 추가했습니다.');return}
@@ -8163,7 +8192,7 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
     if(sessionDelete){data.consultingSessions=data.consultingSessions.filter(row=>row.id!==sessionDelete.dataset.consultingSessionDelete);await persistConsulting('상담 기록을 삭제했습니다.');return}
     if(clientDelete){const client=data.consultingClients.find(row=>row.id===clientDelete.dataset.consultingDelete);if(!client||!confirm(`“${client.name}” 고객과 연결된 상담·과업·파일을 모두 삭제할까요?`))return;const mediaRows=(data.consultingFiles||[]).filter(row=>row.clientId===client.id);data.consultingClients=data.consultingClients.filter(row=>row.id!==client.id);data.consultingTasks=data.consultingTasks.filter(row=>row.clientId!==client.id);data.consultingSessions=data.consultingSessions.filter(row=>row.clientId!==client.id);data.consultingFiles=(data.consultingFiles||[]).filter(row=>row.clientId!==client.id);selectedConsultingClientId=data.consultingClients[0]?.id||'';await persistConsulting('상담 고객을 삭제했습니다.');await Promise.allSettled(mediaRows.map(row=>row.storageScope==='paper-task'?window.AiderDearFirebase.deletePaperTaskMedia(row.fileId):window.AiderDearFirebase.deletePrivateMedia(row.fileId)))}
   });
-  $('#consultingFileInput').addEventListener('change',async e=>{const clientId=consultingFileClientId,files=[...(e.target.files||[])].slice(0,10);consultingFileClientId='';e.target.value='';if(!clientId||!files.length)return;const data=consultingStore();if(!(data.consultingClients||[]).some(row=>row.id===clientId))return;data.consultingFiles=Array.isArray(data.consultingFiles)?data.consultingFiles:[];const uploaded=[];try{for(const file of files){toast(`${file.name} 저장 중…`);const result=await window.AiderDearFirebase.uploadPaperTaskMedia(file,'consulting-client-file');uploaded.push(result.id);data.consultingFiles.push({id:`consult-file-${Date.now()}-${crypto.randomUUID().slice(0,6)}`,clientId,fileId:result.id,name:result.name||file.name,type:result.mimeType||file.type||'application/octet-stream',size:result.size||file.size,storageScope:'paper-task',ownerEmail:currentUserEmail,createdAt:Date.now()})}await savePrivateData(currentUserEmail);renderConsultingWorkspace();toast(`${uploaded.length}개 고객 파일을 추가했습니다.`)}catch(err){const failed=new Set(uploaded);data.consultingFiles=data.consultingFiles.filter(row=>!failed.has(row.fileId));await Promise.allSettled(uploaded.map(id=>window.AiderDearFirebase.deletePaperTaskMedia(id)));toast(googleErrorMessage(err))}});
+  $('#consultingFileInput').addEventListener('change',async e=>{const clientId=consultingFileClientId,files=[...(e.target.files||[])].slice(0,10);consultingFileClientId='';e.target.value='';if(!clientId||!files.length)return;const data=consultingStore();if(!(data.consultingClients||[]).some(row=>row.id===clientId))return;data.consultingFiles=Array.isArray(data.consultingFiles)?data.consultingFiles:[];const uploaded=[];try{for(const file of files){toast(`${file.name} 저장 중…`);const result=await window.AiderDearFirebase.uploadPaperTaskMedia(file,'consulting-client-file');uploaded.push(result.id);data.consultingFiles.push({id:`consult-file-${Date.now()}-${crypto.randomUUID().slice(0,6)}`,clientId,fileId:result.id,name:result.name||file.name,type:result.mimeType||file.type||'application/octet-stream',size:result.size||file.size,storageScope:'paper-task',ownerEmail:currentUserEmail,createdAt:Date.now()})}await savePrivateData(currentUserEmail);toast(`${uploaded.length}개 고객 파일을 추가했습니다.`)}catch(err){const failed=new Set(uploaded);data.consultingFiles=data.consultingFiles.filter(row=>!failed.has(row.fileId));await Promise.allSettled(uploaded.map(id=>window.AiderDearFirebase.deletePaperTaskMedia(id)));toast(googleErrorMessage(err))}});
   function goTaskPage(next,instant=false){next=Math.max(0,Math.min(1,next));taskPageIndex=next;$$('#taskStage .task-page').forEach((page,index)=>{page.classList.remove('current','next','prev');page.classList.add(index===next?'current':index<next?'prev':'next');page.setAttribute('aria-hidden',String(index!==next));setSitePaneVisibilityV169(page,index===next);if(instant){page.style.transition='none';requestAnimationFrame(()=>page.style.transition='')}});$$('[data-task-page]').forEach(button=>button.classList.toggle('active',Number(button.dataset.taskPage)===next));if(next===0)animateStandaloneFrame('#taskStage .task-frame');else renderGraduateConsultingCalendar()}
   $$('[data-task-page]').forEach(button=>button.addEventListener('click',()=>goTaskPage(Number(button.dataset.taskPage),true)));
   document.addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'&&!$('#paperStage').hidden){e.preventDefault();window.AiderPaperWorkspace?.focusSearch?.()}if(e.key!=='Escape')return;if(!$('#personalEntryOverlay').hidden)closePersonalEntry();if(!$('#personalChallengeOverlay').hidden)closePersonalChallenge();if(!$('#personalInbodyOverlay').hidden)closePersonalInbody();if(!$('#graduateFitOverlay').hidden)closeGraduateFit();$$('.research-modal').forEach(modal=>modal.hidden=true)});
@@ -8177,31 +8206,50 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
   $('#desktopSetupBtn')?.addEventListener('click',openDesktopSetup);
   $('#desktopInstallConfirm').addEventListener('click',async()=>{const prefs={autoStart:$('#desktopAutoStart').checked,taskbar:$('#desktopTaskbar').checked};localStorage.setItem(DESKTOP_PREF_KEY,JSON.stringify(prefs));if(deferredInstallPrompt){deferredInstallPrompt.prompt();const choice=await deferredInstallPrompt.userChoice;deferredInstallPrompt=null;if(choice.outcome==='accepted'){$('#desktopInstallStatus').textContent='설치를 마친 뒤 Edge의 확인 화면에서 자동 시작과 작업표시줄 고정을 허용하세요.'}else $('#desktopInstallStatus').textContent='앱 설치를 취소했습니다. 설정은 저장되었습니다.'}else if(matchMedia('(display-mode: standalone)').matches){$('#desktopInstallStatus').textContent='설정을 저장했습니다. 작업표시줄 고정은 Windows 앱 메뉴에서 적용해주세요.'}else $('#desktopInstallStatus').textContent='Edge 메뉴의 “앱 → AiderLog 설치”를 선택한 뒤 다시 설정해주세요.'});
   function animateStandaloneFrame(id){const el=$(id);if(!el)return;el.classList.remove('line-active');void el.offsetWidth;el.classList.add('line-active')}
+  function showScheduleViewV193(view){
+    view=['finance','workflow'].includes(view)?view:'calendar';
+    if(view!=='calendar'&&!currentUser&&!localPreviewMode()){requireLogin(()=>showScheduleViewV193(view));return}
+    const page=$('#page0'),personal=$('#personalStage'),active=view!=='calendar';
+    const stage=$('#stage');stage.scrollTop=0;page.scrollTop=0;personal.scrollTop=0;
+    page.dataset.scheduleView=view;
+    for(const node of [page.querySelector(':scope>.frame'),page.querySelector(':scope>.side')])setSitePaneVisibilityV169(node,!active);
+    setSitePaneVisibilityV169(personal,active);
+    $$('.schedule-tools-v193 [data-schedule-view]').forEach(button=>{const selected=button.dataset.scheduleView===view;button.classList.toggle('active',selected);button.setAttribute('aria-pressed',String(selected))});
+    if(active){personalCategory=view;goPersonalPage(0,true);renderPersonal();$('#coupleVideo2')?.pause()}
+    else {closePersonalEntry();const video=$('#coupleVideo2');if(video&&!video.hidden&&$('#app').dataset.activeTab==='schedule')video.play().catch(()=>{})}
+    document.title=active?`${view==='finance'?'금융':'워크플로우'} · Schedule · AiderLog`:'Schedule · AiderLog';
+  }
+  function initializeScheduleToolsV193(){
+    const page=$('#page0'),personal=$('#personalStage');
+    page.append(personal);
+    $$('.schedule-tools-v193 [data-schedule-view]').forEach(button=>button.addEventListener('click',()=>showScheduleViewV193(button.dataset.scheduleView)));
+    for(const id of ['prevMonth','todayBtn','nextMonth'])$('#'+id).addEventListener('click',()=>{if(page.dataset.scheduleView==='finance')renderPersonal()});
+    showScheduleViewV193('calendar');
+  }
   function showMainTab(tab){
-    if(tab==='estate'&&!canAccessRestrictedTab('estate')){toast('ESTATE는 지정된 두 계정에서만 사용할 수 있습니다.');showMainTab('schedule');return}
-    if((tab==='record'||tab==='private'||tab==='personal'||tab==='paper'||tab==='task'||tab==='estate')&&!currentUser&&!localPreviewMode()){requireLogin(()=>showMainTab(tab));return}
-    if((tab==='paper'||tab==='task')&&!canAccessRestrictedTab(tab)){toast(tab==='paper'?'PAPER는 지정된 연구 계정에서만 사용할 수 있습니다.':'Consulting은 지정된 컨설팅 계정에서만 사용할 수 있습니다.');showMainTab('schedule');return}
-    const tabLabels={schedule:'Schedule',private:'Routine',record:'Event',personal:'Personal',paper:'Paper',task:'Consulting',estate:'Estate'};
+    if(tab==='personal'){showMainTab('schedule');showScheduleViewV193('finance');return}
+    if(!['schedule','private','record','paper'].includes(tab))tab='schedule';
+    if(tab!=='schedule'&&!currentUser&&!localPreviewMode()){requireLogin(()=>showMainTab(tab));return}
+    if(tab==='paper'&&!canAccessRestrictedTab('paper')){toast('PAPER는 지정된 연구 계정에서만 사용할 수 있습니다.');return}
+    const tabLabels={schedule:'Schedule',private:'Routine',record:'Event',paper:'Paper'};
     $('#app').dataset.activeTab=tab;
     $$('.tab').forEach(t=>{const active=t.dataset.tab===tab;t.classList.toggle('active',active);t.setAttribute('aria-selected',String(active));t.tabIndex=active?0:-1});
     document.body.classList.remove('emotion-mode','event-mode');document.body.classList.toggle('record-mode',tab==='record');document.body.classList.toggle('private-mode',tab==='private');
-    const sections={schedule:$('#stage'),private:$('#privateStage'),record:$('#recordStage'),personal:$('#personalStage'),paper:$('#paperStage'),task:$('#taskStage'),estate:$('#estateStage')};Object.entries(sections).forEach(([key,section])=>{if(!section)return;const active=key===tab;section.hidden=!active;section.setAttribute('aria-hidden',String(!active))});const recordSecondary=$('#eventStage');if(recordSecondary){recordSecondary.hidden=tab!=='record';if(tab!=='record')recordSecondary.setAttribute('aria-hidden','true')}
-    document.title=`${tabLabels[tab]||'AiderLog'} · AiderLog`;
-    if(tab==='schedule'){goPage(0,true);renderCalendar();renderPrivate();const mediaVideo=$('#coupleVideo2');if(mediaVideo&&!mediaVideo.hidden)mediaVideo.play().catch(()=>{});return}
-    const v=$('#coupleVideo2');if(v&&!v.hidden)v.pause();
+    const sections={schedule:$('#stage'),private:$('#privateStage'),record:$('#recordStage'),paper:$('#paperStage')};Object.entries(sections).forEach(([key,section])=>{if(!section)return;const active=key===tab;section.hidden=!active;section.setAttribute('aria-hidden',String(!active))});
+    const recordSecondary=$('#eventStage');if(recordSecondary){recordSecondary.hidden=tab!=='record';if(tab!=='record')recordSecondary.setAttribute('aria-hidden','true')}
+    document.title=`${tabLabels[tab]} · AiderLog`;
+    if(tab==='schedule'){goPage(0,true);showScheduleViewV193('calendar');renderCalendar();renderPrivate();const video=$('#coupleVideo2');if(video&&!video.hidden)video.play().catch(()=>{});return}
+    const video=$('#coupleVideo2');if(video&&!video.hidden)video.pause();
     if(tab==='record'){goRecordPage(0,true);return}
     if(tab==='private'){privateOwner=currentUserEmail||privateOwner;renderPrivate();goPrivatePage(0,true);return}
-    if(tab==='personal'){goPersonalPage(0,true);return}
-    if(tab==='paper'){researchView='home';renderPaper();window.AiderPaperWorkspace?.activate?.();return}
-    if(tab==='task'){renderConsultingWorkspace();goTaskPage(0,true);return}
-    if(tab==='estate'){window.AiderEstateV171?.activate();return}
+    if(tab==='paper'){researchView='home';renderPaper();window.AiderPaperWorkspace?.activate?.()}
   }
   $$('.tab').forEach(t=>t.addEventListener('click',()=>showMainTab(t.dataset.tab)));
   $('.tabs').addEventListener('keydown',e=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;e.preventDefault();const tabs=$$('.tab').filter(tab=>!tab.hidden);let i=tabs.indexOf(document.activeElement);if(e.key==='Home')i=0;else if(e.key==='End')i=tabs.length-1;else i=(i+(e.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length;tabs[i].focus();showMainTab(tabs[i].dataset.tab)});
   function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._timer);t._timer=setTimeout(()=>t.classList.remove('show'),1800)}
   window.addEventListener('appinstalled',()=>{toast('AiderLog 앱 설치가 완료되었습니다.');const prefs=desktopPreferences();if(prefs.autoStart||prefs.taskbar){openDesktopSetup();$('#desktopInstallStatus').textContent='Edge의 설치 완료 화면에서 선택한 자동 시작·작업표시줄 고정을 최종 허용해주세요.'}});
   $('#stage').addEventListener('pointerdown',e=>{if(e.target.closest('button,input,select,textarea,label,a'))e.stopPropagation()});
-  const clientIntakeToken=new URLSearchParams(location.search).get('client-intake')||'';
+  const clientIntakeToken=''; // v193: retired intake routes do not read or write cloud data.
   async function initializeClientIntake(){if(!clientIntakeToken)return;document.documentElement.classList.add('client-intake-only');document.title='AidWay 상담 접수';const page=$('#clientIntakePage'),form=$('#clientIntakeForm'),result=$('#clientIntakeResult');page.hidden=false;form.hidden=false;result.hidden=true;$('#app').setAttribute('aria-hidden','true');try{const link=await window.AiderDearFirebase.getClientIntakeLink(clientIntakeToken);if(!link?.active)throw new Error('유효하지 않거나 만료된 작성 링크입니다.')}catch(err){form.hidden=true;result.hidden=false;result.innerHTML=`<div><b>작성 링크를 확인해주세요</b><p>${escapeHtml(err.message||'유효하지 않은 작성 링크입니다.')}</p></div>`}}
   $('#clientIntakeForm').addEventListener('submit',async e=>{e.preventDefault();const error=$('#clientIntakeError'),button=e.currentTarget.querySelector('button[type="submit"]');error.textContent='';button.disabled=true;button.textContent='제출 중…';const gpa=Math.max(0,Math.min(100,Number($('#intakeGpa').value)||0)),gpaScale=[4,4.3,4.5,100].includes(Number($('#intakeGpaScale').value))?Number($('#intakeGpaScale').value):0,payload={name:$('#intakeName').value.trim(),phone:$('#intakePhone').value.trim(),email:$('#intakeEmail').value.trim(),birthYear:Number($('#intakeBirthYear').value)||0,gender:$('#intakeGender').value,currentSchool:$('#intakeCurrentSchool').value.trim(),currentMajor:$('#intakeCurrentMajor').value.trim(),additionalMajors:$('#intakeAdditionalMajors').value.trim(),doubleMajor:$('#intakeDoubleMajor').value.trim(),minor:$('#intakeMinor').value.trim(),universityYears:consultingUniversityYears($('#intakeUniversityYears').value),militaryStatus:consultingMilitaryStatus($('#intakeMilitaryStatus').value),targetUniversity:$('#intakeTargetUniversity').value.trim(),targetMajor:$('#intakeTargetMajor').value.trim(),advisorNames:consultingAdvisorNames($('#intakeAdvisors').value),degree:$('#intakeDegree').value,gpa,gpaScale,applicationYear:Number($('#intakeYear').value)||0,applicationSemester:$('#intakeSemester').value,topic:$('#intakeTopic').value.trim(),languageSpec:$('#intakeLanguageSpec').value.trim(),certifications:$('#intakeCertifications').value.trim(),activities:$('#intakeActivities').value.trim(),researchExperience:$('#intakeResearchExperience').value.trim(),outputs:$('#intakeOutputs').value.trim(),inquiry:$('#intakeInquiry').value.trim()};if(!payload.name||!payload.phone||!payload.email||!payload.birthYear||!payload.gender||!payload.currentSchool||!payload.currentMajor||!payload.gpa||!payload.gpaScale||!payload.degree||!payload.applicationYear||!payload.applicationSemester){error.textContent='개인 정보와 학교·주전공·학점·희망 과정·지원 시기는 필수입니다.';button.disabled=false;button.textContent='정보 제출';return}if(gpa>gpaScale){error.textContent='학점은 선택한 만점보다 클 수 없습니다.';button.disabled=false;button.textContent='정보 제출';return}payload.note=consultingIntakeNote(payload);try{await window.AiderDearFirebase.submitClientIntake(clientIntakeToken,payload);e.currentTarget.hidden=true;const result=$('#clientIntakeResult');result.hidden=false;result.innerHTML='<div><b>제출되었습니다</b><p>창을 닫아도 됩니다.</p></div>'}catch(err){error.textContent=err.message||'제출하지 못했습니다. 잠시 후 다시 시도해주세요.';button.disabled=false;button.textContent='정보 제출'}});
   if(clientIntakeToken){if(window.AiderDearFirebase)initializeClientIntake();else window.addEventListener('aiderdear-firebase-ready',initializeClientIntake,{once:true})}
@@ -8272,61 +8320,43 @@ body.graduate-fit-open{overflow:hidden!important;overscroll-behavior:none!import
     openAdmissions:()=>goTaskPage(1,true),
     legacyAnalysis:clientId=>{selectedConsultingClientId=clientId;graduateFitSelectedClientId=clientId;openGraduateFit();},
     selectedId:()=>selectedConsultingClientId,
-    setStage:async(clientId,stage)=>{const row=(consultingStore().consultingClients||[]).find(item=>item.id===clientId);if(!row)return false;row.stage=stage;row.updatedAt=Date.now();await savePrivateData(currentUserEmail);renderConsultingWorkspace();return true},
+    setStage:async(clientId,stage)=>{const row=(consultingStore().consultingClients||[]).find(item=>item.id===clientId);if(!row)return false;row.stage=stage;row.updatedAt=Date.now();await savePrivateData(currentUserEmail);return true},
     notify:toast,
     errorMessage:googleErrorMessage,
   };
-    normalizeCloudData();selectAlbumFolderColor(ALBUM_PASTELS[0]);getAlbumFolders();refreshRecordAlbumSelect(DEFAULT_ALBUM_ID);renderAlbumFolders();renderEventArchive();renderTravelArchive();renderPrivate();renderPersonal();renderPaper();renderConsultingWorkspace();renderEmotion();applyLoginUI();setDday();renderDdayList();renderCalendar();if(location.hash==='#search')setTimeout(openSearchFromQuick,0);if('serviceWorker' in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'}).then(registration=>registration.update()).catch(()=>{}));
+    initializeScheduleToolsV193();normalizeCloudData();selectAlbumFolderColor(ALBUM_PASTELS[0]);getAlbumFolders();refreshRecordAlbumSelect(DEFAULT_ALBUM_ID);renderAlbumFolders();renderEventArchive();renderTravelArchive();renderPrivate();renderPersonal();renderPaper();renderEmotion();applyLoginUI();setDday();renderDdayList();renderCalendar();if(location.hash==='#search')setTimeout(openSearchFromQuick,0);if('serviceWorker' in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'}).then(registration=>registration.update()).catch(()=>{}));
 })();
 </script>
-<script src="./paper-workspace-v121.js?v=192"></script>
-<script src="./paper-v159.js?v=192"></script>
-<link rel="stylesheet" href="./consult-v167.css?v=192">
-<script src="./consult-model-v167.js?v=192"></script>
-<script src="./work-calendar-v168.js?v=192"></script>
-<script src="./storage-maintenance-v168.js?v=192"></script>
-<script src="./consult-intake-v168.js?v=192"></script>
-<script src="./consult-deeplink-v168.js?v=192"></script>
-<script src="./consult-v167.js?v=192"></script>
-<script src="./site-polish-v158.js?v=192"></script>
-<script src="./site-editions-v164.js?v=192"></script>
-<script src="./site-layout-v165.js?v=192"></script>
-<link rel="stylesheet" href="./site-ui-v167.css?v=192">
-<script src="./site-ui-v167.js?v=192"></script>
-<script src="./widget-sync-v162.js?v=192"></script>
+<script src="./paper-workspace-v121.js?v=193"></script>
+<script src="./paper-v159.js?v=193"></script>
+<script src="./storage-maintenance-v168.js?v=193"></script>
+<script src="./site-polish-v158.js?v=193"></script>
+<script src="./site-editions-v164.js?v=193"></script>
+<script src="./site-layout-v165.js?v=193"></script>
+<link rel="stylesheet" href="./site-ui-v167.css?v=193">
+<script src="./site-ui-v167.js?v=193"></script>
+<script src="./widget-sync-v162.js?v=193"></script>
 
-<link rel="stylesheet" href="./site-typography-v169.css?v=192">
-<script src="./site-typography-v169.js?v=192"></script>
-<link rel="stylesheet" href="./estate-v171.css?v=192">
-<link rel="stylesheet" href="./estate-directory-v171.css?v=192">
-<link rel="stylesheet" href="./estate-workflow-v171.css?v=192">
-<link rel="stylesheet" href="./estate-calendar-view-v172.css?v=192">
-<link rel="stylesheet" href="./estate-cobroker-v173.css?v=192">
-<script type="module" src="./estate-v171.js?v=192"></script>
-<script type="module" src="./estate-calendar-v171.js?v=192"></script>
-<script src="./app-estate-handoff-v180.js?v=192"></script>
-<link rel="stylesheet" href="./site-calendar-v172.css?v=192">
-<script src="./site-calendar-v172.js?v=192"></script>
-<link rel="stylesheet" href="./site-panels-v172.css?v=192">
-<script src="./site-panels-v172.js?v=192"></script>
-<link rel="stylesheet" href="./site-calendar-v175.css?v=192">
-<script src="./site-calendar-v175.js?v=192"></script>
-<link rel="stylesheet" href="./private-calendar-v175.css?v=192">
-<link rel="stylesheet" href="./business-calendar-v175.css?v=192">
-<link rel="stylesheet" href="./site-calendar-v179.css?v=192">
-<link rel="stylesheet" href="./schedule-editor-v179.css?v=192">
-<script type="module" src="./private-calendar-ui-v175.js?v=192"></script>
-<link rel="stylesheet" href="./friend-schedule-v175.css?v=192">
-<link rel="stylesheet" href="./shared-schedule-v176.css?v=192">
-<link rel="stylesheet" href="./dday-display-v176.css?v=192">
-<script src="./friend-schedule-ui-v175.js?v=192"></script>
-<link rel="stylesheet" href="./photo-attachments-v176.css?v=192">
+<link rel="stylesheet" href="./site-typography-v169.css?v=193">
+<script src="./site-typography-v169.js?v=193"></script>
+<link rel="stylesheet" href="./site-calendar-v172.css?v=193">
+<script src="./site-calendar-v172.js?v=193"></script>
+<link rel="stylesheet" href="./site-panels-v172.css?v=193">
+<script src="./site-panels-v172.js?v=193"></script>
+<link rel="stylesheet" href="./site-calendar-v175.css?v=193">
+<script src="./site-calendar-v175.js?v=193"></script>
+<link rel="stylesheet" href="./private-calendar-v175.css?v=193">
+<link rel="stylesheet" href="./business-calendar-v175.css?v=193">
+<link rel="stylesheet" href="./site-calendar-v179.css?v=193">
+<link rel="stylesheet" href="./schedule-editor-v179.css?v=193">
+<script type="module" src="./private-calendar-ui-v175.js?v=193"></script>
+<link rel="stylesheet" href="./friend-schedule-v175.css?v=193">
+<link rel="stylesheet" href="./shared-schedule-v176.css?v=193">
+<link rel="stylesheet" href="./dday-display-v176.css?v=193">
+<script src="./friend-schedule-ui-v175.js?v=193"></script>
+<link rel="stylesheet" href="./photo-attachments-v176.css?v=193">
 <style id="site-search-icon-v176">
 html:not(.aiderlog-android) #app #searchBtn .site-search-icon-v176{display:block;width:22px!important;height:22px!important;flex:none;margin:auto;pointer-events:none}
 </style>
-<link rel="stylesheet" href="./bio-admin-v192.css?v=192">
-<script src="./bio-admin-domain-v192.js?v=192"></script>
-<script type="module" src="./bio-admin-client-v192.js?v=192"></script>
-<script src="./bio-admin-v192.js?v=192"></script>
 </body>
 </html>

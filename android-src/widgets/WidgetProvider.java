@@ -10,10 +10,23 @@ import android.util.Log;
 /** One compiled update path for all retained provider component names.
  * No legacy text-only fallback, hard-coded resource numbers or 32-class register array. */
 public class WidgetProvider extends AppWidgetProvider {
+    public static boolean supports(String name){
+        String kind=WidgetNativeV164.type(name);
+        return "CalendarMonth".equals(kind)||"CalendarCombined".equals(kind)||"CalendarSplit".equals(kind)||"CalendarFortnight".equals(kind)||"CalendarAgenda".equals(kind)||"RoutineAll".equals(kind)||"RoutineCards".equals(kind)||"RoutineStats".equals(kind);
+    }
+    public static class CalendarMonth extends WidgetProvider {}
+    public static class CalendarCombined extends WidgetProvider {}
+    public static class CalendarSplit extends WidgetProvider {}
+    public static class CalendarFortnight extends WidgetProvider {}
+    public static class CalendarAgenda extends WidgetProvider {}
+    public static class RoutineAll extends WidgetProvider {}
+    public static class RoutineCards extends WidgetProvider {}
+    public static class RoutineStats extends WidgetProvider {}
     public static void safeUpdateWidget(Context c,AppWidgetManager manager,int widget,String name){
+        if(!supports(name))return;
         try{
             if(WidgetNativeV164.update(c,manager,widget,name))
-                WidgetNativeV164.prefs(c).edit().putLong("widget_update_at_"+widget,System.currentTimeMillis()).putInt("widget_renderer_"+widget,190).apply();
+                WidgetNativeV164.prefs(c).edit().putLong("widget_update_at_"+widget,System.currentTimeMillis()).putInt("widget_renderer_"+widget,193).apply();
         }catch(Throwable error){
             Log.e("AiderLogWidget","provider update failed "+WidgetNativeV164.type(name)+" #"+widget,error);
             WidgetNativeV164.prefs(c).edit().putString("widget_render_error_"+widget,error.getClass().getSimpleName()).apply();
@@ -23,7 +36,7 @@ public class WidgetProvider extends AppWidgetProvider {
     public static void updateAll(Context c){
         AppWidgetManager manager=AppWidgetManager.getInstance(c);
         for(AppWidgetProviderInfo info:manager.getInstalledProviders()){
-            if(info.provider==null||!c.getPackageName().equals(info.provider.getPackageName())||!info.provider.getClassName().contains("WidgetProvider$"))continue;
+            if(info.provider==null||!c.getPackageName().equals(info.provider.getPackageName())||!supports(info.provider.getClassName()))continue;
             for(int widget:manager.getAppWidgetIds(info.provider))safeUpdateWidget(c,manager,widget,info.provider.getClassName());
         }
     }

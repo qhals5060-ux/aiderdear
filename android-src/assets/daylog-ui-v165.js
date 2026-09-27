@@ -2,7 +2,7 @@
    delegated actions and save engines remain the authoritative implementation. */
 (function () {
   'use strict';
-  const $ = (s,r=document)=>r.querySelector(s), $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+  const $ = (s,r=document)=>r?.querySelector(s), $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
   const root=$('#personal'); if(!root || typeof renderPersonal!=='function') return;
   const scrollByCategory=new Map(); let renderedCategory='',lastTrigger=null,toolWasOpen=false;
   root.classList.add('daylog-ui-v165');

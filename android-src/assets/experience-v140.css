@@ -1,0 +1,187 @@
+/*
+ * AiderLog v140 — themed wheel artwork, tactile paper and compact insight orbit.
+ * This file intentionally loads last so every rule is a reversible refinement.
+ */
+:root{
+  --wheel-art-filter:saturate(1.04) contrast(1.03);
+  --wheel-art-glow:rgba(160,117,255,.58);
+  --wheel-art-tone:#8068ee;
+}
+html[data-theme="system"],html[data-theme="neptune"]{
+  --wheel-art-filter:saturate(1.08) contrast(1.04);
+  --wheel-art-glow:rgba(135,116,255,.62);
+  --wheel-art-tone:#7162e8;
+}
+html[data-theme="sun"]{
+  --wheel-art-filter:saturate(.82) brightness(1.02) contrast(1.06);
+  --wheel-art-glow:rgba(239,118,48,.62);
+  --wheel-art-tone:#e66c2c;
+}
+html[data-theme="mercury"]{
+  --wheel-art-filter:grayscale(.88) saturate(.24) brightness(.94) contrast(1.12);
+  --wheel-art-glow:rgba(188,184,171,.5);
+  --wheel-art-tone:#989691;
+}
+html[data-theme="venus"]{
+  --wheel-art-filter:saturate(.56) brightness(1.08);
+  --wheel-art-glow:rgba(225,175,126,.56);
+  --wheel-art-tone:#d9b28b;
+}
+html[data-theme="earth"]{
+  --wheel-art-filter:saturate(.86) brightness(.98) contrast(1.04);
+  --wheel-art-glow:rgba(68,164,174,.6);
+  --wheel-art-tone:#277f88;
+}
+html[data-theme="mars"]{
+  --wheel-art-filter:saturate(.8) sepia(.08) contrast(1.09);
+  --wheel-art-glow:rgba(205,89,58,.58);
+  --wheel-art-tone:#be4f3b;
+}
+html[data-theme="jupiter"]{
+  --wheel-art-filter:saturate(.52) brightness(.99);
+  --wheel-art-glow:rgba(194,139,81,.52);
+  --wheel-art-tone:#b17a48;
+}
+html[data-theme="saturn"]{
+  --wheel-art-filter:saturate(.52) brightness(1.07);
+  --wheel-art-glow:rgba(214,181,113,.58);
+  --wheel-art-tone:#d0af69;
+}
+html[data-theme="uranus"]{
+  --wheel-art-filter:saturate(.56) brightness(1.13);
+  --wheel-art-glow:rgba(111,194,199,.57);
+  --wheel-art-tone:#79bdc2;
+}
+html[data-theme="pluto"]{
+  --wheel-art-filter:grayscale(.62) sepia(.22) saturate(.54) brightness(.96);
+  --wheel-art-glow:rgba(167,147,128,.48);
+  --wheel-art-tone:#8e7d70;
+}
+
+/* Only about a quarter peeks from the lower-right corner until the wheel opens. */
+.global-wheel-v126{
+  right:-28px!important;
+  bottom:-25px!important;
+  transition:right .32s cubic-bezier(.2,.82,.2,1),bottom .32s cubic-bezier(.2,.82,.2,1),opacity .2s ease,visibility .2s ease!important;
+  transform:none!important;
+}
+.global-wheel-v126.open{
+  right:max(5px,env(safe-area-inset-right))!important;
+  bottom:max(5px,env(safe-area-inset-bottom))!important;
+}
+.global-wheel-planet-v126#wheelCore{
+  width:100px!important;
+  height:100px!important;
+  border-radius:50%!important;
+  border:0!important;
+  background:none!important;
+  box-shadow:none!important;
+  overflow:visible!important;
+  isolation:isolate!important;
+  transition:transform .26s cubic-bezier(.18,.86,.2,1),filter .2s ease!important;
+}
+.global-wheel-planet-v126#wheelCore::after,
+.global-wheel-planet-v126#wheelCore>em,
+.global-wheel-planet-v126#wheelCore>.wheel-ring-back-v137,
+.global-wheel-planet-v126#wheelCore>.wheel-sphere-v137,
+.global-wheel-planet-v126#wheelCore>.wheel-ring-front-v137{
+  display:none!important;
+}
+.global-wheel-planet-v126#wheelCore::before{
+  content:""!important;
+  display:block!important;
+  position:absolute!important;
+  z-index:5!important;
+  left:50%!important;
+  top:50%!important;
+  width:138px!important;
+  height:124px!important;
+  border:0!important;
+  border-radius:0!important;
+  background:var(--wheel-art-tone)!important;
+  opacity:.82!important;
+  mix-blend-mode:color!important;
+  -webkit-mask:url("./wheel-planet-v140.png") center/contain no-repeat!important;
+  mask:url("./wheel-planet-v140.png") center/contain no-repeat!important;
+  transform:translate(-50%,-50%)!important;
+  pointer-events:none!important;
+}
+.wheel-art-v140{
+  position:absolute;
+  z-index:4;
+  left:50%;
+  top:50%;
+  width:138px;
+  height:124px;
+  max-width:none;
+  object-fit:contain;
+  pointer-events:none;
+  transform:translate(-50%,-50%);
+  transform-origin:center;
+  filter:var(--wheel-art-filter) drop-shadow(0 0 5px rgba(255,255,255,.7)) drop-shadow(0 0 17px var(--wheel-art-glow));
+  transition:filter .34s ease,transform .3s cubic-bezier(.18,.86,.2,1);
+}
+.global-wheel-v126.open .global-wheel-planet-v126#wheelCore,
+.global-wheel-planet-v126#wheelCore.holo-hold-v135,
+.global-wheel-planet-v126#wheelCore.stellar-hold-v134{
+  transform:scale(1.09)!important;
+  filter:none!important;
+}
+.global-wheel-v126.open .wheel-art-v140,
+.global-wheel-planet-v126#wheelCore.holo-hold-v135 .wheel-art-v140{
+  transform:translate(-50%,-50%) scale(1.035);
+  filter:var(--wheel-art-filter) brightness(1.08) drop-shadow(0 0 7px rgba(255,255,255,.82)) drop-shadow(0 0 23px var(--wheel-art-glow));
+}
+.global-wheel-item-v126{z-index:9!important}
+@media(max-width:720px){
+  .global-wheel-v126{right:-28px!important;bottom:-25px!important;transform:none!important}
+  .global-wheel-v126.open{right:max(4px,env(safe-area-inset-right))!important;bottom:max(4px,env(safe-area-inset-bottom))!important}
+}
+
+/* Natural fibre replaces the flat digital gradients on the envelope. */
+.insight-envelope-v132{filter:drop-shadow(0 17px 22px rgba(50,31,15,.2))!important}
+.insight-envelope-back-v132,
+.insight-envelope-front-v132,
+.insight-envelope-flap-v132{
+  background-blend-mode:multiply,screen,normal!important;
+}
+.insight-envelope-back-v132{
+  background-color:var(--envelope,#caa574)!important;
+  background-image:
+    repeating-linear-gradient(4deg,rgba(67,44,24,.055) 0 1px,transparent 1px 5px),
+    repeating-linear-gradient(94deg,rgba(255,255,255,.12) 0 1px,transparent 1px 7px),
+    radial-gradient(circle at 22% 19%,rgba(255,255,255,.34),transparent 42%)!important;
+  background-size:31px 31px,43px 43px,100% 100%!important;
+}
+.insight-envelope-front-v132{
+  background-color:color-mix(in srgb,var(--envelope,#caa574) 90%,#8a613b)!important;
+  background-image:
+    repeating-linear-gradient(7deg,rgba(70,45,24,.06) 0 1px,transparent 1px 6px),
+    repeating-linear-gradient(97deg,rgba(255,255,255,.1) 0 1px,transparent 1px 8px),
+    linear-gradient(145deg,rgba(255,255,255,.2),rgba(77,48,25,.08))!important;
+  background-size:37px 37px,51px 51px,100% 100%!important;
+}
+.insight-envelope-flap-v132{
+  background-color:color-mix(in srgb,var(--envelope,#caa574) 94%,#f1d1a0)!important;
+  background-image:
+    repeating-linear-gradient(5deg,rgba(66,43,23,.052) 0 1px,transparent 1px 5px),
+    repeating-linear-gradient(95deg,rgba(255,255,255,.12) 0 1px,transparent 1px 8px),
+    linear-gradient(160deg,rgba(255,255,255,.28),rgba(87,54,28,.09))!important;
+  background-size:33px 33px,47px 47px,100% 100%!important;
+}
+
+/* The Milky Way trajectory remains prominent without taking over the page. */
+#insights .ins-hero-v126{
+  min-height:190px!important;
+  padding:20px 22px!important;
+  border-radius:23px!important;
+}
+#insights .ins-hero-v126 h1{margin:4px 0 7px!important;font-size:clamp(22px,var(--type-xl),30px)!important}
+#insights .ins-hero-v126 p{margin:0!important;max-width:62%!important}
+@media(max-width:520px){
+  #insights .ins-hero-v126{min-height:174px!important;padding:17px!important;border-radius:20px!important}
+  #insights .ins-hero-v126 p{max-width:76%!important}
+}
+@media(prefers-reduced-motion:reduce){
+  .global-wheel-v126,.wheel-art-v140{transition:none!important}
+}

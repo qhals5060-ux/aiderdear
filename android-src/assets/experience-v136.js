@@ -26,7 +26,7 @@
         if(typeof window.AiderDearFirebase?.completeAndroidGoogleSignIn==='function')finish();else addEventListener('aiderdear-firebase-ready',finish,{once:true});return;
       }
       if(!String(target||'').trim()&&!String(action||'').trim())return;
-      const page={schedule:'home',private:'routine',record:'event',personal:'personal',fifth:'fifth'}[target]||'home';
+      const page={schedule:'home',private:'routine',record:'event',personal:'personal',fifth:'fifth',paper:'fifth',routine:'routine',event:'event'}[target]||'home';
       if(typeof go==='function')go(page,false);else location.hash=page;
     };
     shell.handleBack=()=>{const open=$$('.intro.on,.schedule-dialog-v125.on,.emotion-dialog-v119.on,.event-editor-overlay-v111').reverse().find(node=>{const style=getComputedStyle(node);return node.getClientRects().length&&style.display!=='none'&&style.visibility!=='hidden'});if(!open)return false;const close=$('[aria-label="닫기"],[data-schedule-dialog-close-v125]',open);if(!close)return false;close.click();return true};
@@ -45,11 +45,11 @@
     let splash=$('.app-splash-v136');
     if(!splash){
       splash=document.createElement('div');splash.className='app-splash-v136 app-splash-v145';splash.setAttribute('aria-label','AiderLog 시작 화면');
-      splash.innerHTML='<div class="splash-media-v145"><img src="./aiderlog-launch-v145.gif" alt="빛나는 행성과 궤도"><div class="splash-copy-v149"><strong>AiderLog</strong><span>오늘의 기록이 모여 나의 우주가 됩니다.</span></div><span class="splash-progress-v145" aria-label="앱을 준비하고 있어요"><i></i></span></div>';
+      splash.innerHTML='<div class="splash-media-v145"><img src="./aiderdear-icon-192.png" alt="AiderLog"><div class="splash-copy-v149"><strong>AiderLog</strong><span>오늘의 기록이 모여 나의 우주가 됩니다.</span></div><span class="splash-progress-v145" aria-label="앱을 준비하고 있어요"><i></i></span></div>';
       document.body.prepend(splash);
     }
     const shownAt=performance.now();
-    const finish=()=>setTimeout(()=>{splash.classList.add('is-hidden');setTimeout(()=>{splash.remove();window.dispatchEvent(new CustomEvent('aiderlog-splash-complete'))},560)},Math.max(0,5600-(performance.now()-shownAt)));
+    const finish=()=>setTimeout(()=>{splash.classList.add('is-hidden');setTimeout(()=>{splash.remove();window.dispatchEvent(new CustomEvent('aiderlog-splash-complete'))},560)},Math.max(0,450-(performance.now()-shownAt)));
     document.readyState==='complete'?finish():addEventListener('load',finish,{once:true});
   }
 

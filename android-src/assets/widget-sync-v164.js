@@ -25,7 +25,9 @@
   // A/P and the v20 local keys are legacy, unscoped data. They can still contain
   // another user's fields while the app merges a new cloud response. Never read
   // them here: only atomically owner-tagged, scoped Firebase responses are used.
-  function blankSnapshot(){return {version:165,uid:'',v165:{},email:'',theme:themeMap[document.documentElement.dataset.theme]||'aurora',syncState:'account-unverified',accessState:owner&&!logoutPending?'sync-required':'needs-login',scheduleItems:[],schedule:[],holidays:{},routines:[],routineStats:[],memos:[],todos:[],memoTodos:[],readingBooks:[],readingCurrent:[],quote:'',workouts:[],workoutStats:[],workoutStatsInbody:[],challengeSelected:[],challengeAll:[],challengeCombined:[],workoutChallenges:[],mealWorkouts:[],mealPhotos:['','','',''],mealTimes:['','','',''],mealRatings:['','','',''],meals:[],workflows:[],bullet3:[],bullet7:[],bullet3Workflow:[],bullet7Workflow:[]};}
+  const widgetApp=value=>({scheduleEvents:array(value?.scheduleEvents)});
+  const widgetPrivate=value=>({routines:array(value?.routines),checklists:array(value?.checklists).filter(row=>row&&row.kind!=='memo'&&row.type!=='memo')});
+  function blankSnapshot(){return {version:193,uid:'',v165:{},email:'',theme:themeMap[document.documentElement.dataset.theme]||'aurora',syncState:'account-unverified',accessState:owner&&!logoutPending?'sync-required':'needs-login',scheduleItems:[],schedule:[],holidays:{},routines:[],routineStats:[],todos:[]};}
   function sendBlank(){try{const payload=JSON.stringify(blankSnapshot());native.syncWidgets(payload);last=payload;}catch{last='';}}
   function changeOwner(state){
     const next=identity(state);if(next===owner)return;
@@ -36,7 +38,7 @@
     if(!next)return;
     const cached=read(cacheKey(next));
     if(cached.owner===next&&object(cached.app)&&object(cached.personal)){
-      source={app:cached.app,personal:cached.personal};verified=true;parts={app:true,personal:true,schedule:true};sync();prepareMealPhotos();
+      source={app:widgetApp(cached.app),personal:widgetPrivate(cached.personal)};verified=true;parts={app:true,personal:true,schedule:true};sync();prepareMealPhotos();
     }
     requestRefresh(0);
   }
@@ -54,7 +56,7 @@
   function scheduleRows(value){if(!Array.isArray(value)&&!(object(value)&&Array.isArray(value.own)&&Array.isArray(value.shared)))return null;const rows=Array.isArray(value)?value:[...value.own,...value.shared],byId=new Map();rows.forEach((row,index)=>{if(object(row))byId.set(str(row.id)||'undated:'+index,copy(row));});return [...byId.values()];}
   function acceptPart(kind,payload){
     if(kind==='schedule'){if(payload!==undefined){const rows=scheduleRows(payload);if(!rows)return false;source.app.scheduleEvents=rows;}}
-    else {if(payload!==null&&!object(payload))return false;const value=copy(payload||{});if(kind==='app'&&typeof window.AiderDearFirebase?.readScheduleData==='function')value.scheduleEvents=source.app.scheduleEvents||[];source[kind]=value;}
+    else {if(payload!==null&&!object(payload))return false;const value=copy(payload||{});if(kind==='app'&&typeof window.AiderDearFirebase?.readScheduleData==='function')value.scheduleEvents=source.app.scheduleEvents||[];source[kind]=kind==='app'?widgetApp(value):widgetPrivate(value);}
     parts[kind]=true;versions[kind]++;return true;
   }
   function receive(kind,detail){
@@ -101,29 +103,7 @@
       const logout=api.logout;api.logout=function(...args){logoutOwner=identity(auth());logoutPending=true;changeOwner({});return logout.apply(this,args);};
     }
   }
-  async function prepareMealPhotos(){
-    if(!checkOwner()||!verified)return;
-    const run=++photoRun,expectedEpoch=epoch,expectedOwner=owner,personal=source.personal,user=ownerState.user.uid;
-    try{
-      const meals=array(personal.personalItems).filter(row=>row.category==='health'&&row.details?.healthType==='meal'&&date(row.date)===key(new Date())).slice().sort(newest);
-      const selected=['breakfast','lunch','dinner','snack'].map(slot=>meals.find(row=>row.details?.mealType===slot)).filter(Boolean);
-      const coverKeys=new Set();array(personal.personalItems).filter(row=>row.category==='reading'&&!row.demo).sort((a,b)=>str(b.date).localeCompare(str(a.date))||Number(b.createdAt||0)-Number(a.createdAt||0)).forEach(row=>{const id=window.AiderWidgetModelsV165?.bookKey?.(row)||row.id;if(!coverKeys.has(id)&&(row.media?.fileId||row.localImage)){coverKeys.add(id);selected.push(row)}});
-      for(const row of selected){
-        if(!stillCurrent(expectedEpoch,expectedOwner)||run!==photoRun)return;
-        const cacheKey=`${user}:${row.id}:${row.media?.fileId||row.updatedAt||row.createdAt||''}`;
-        if(photoCache.has(cacheKey))continue;
-        let url=str(row.localImage),revoke=false;
-        if(!url&&row.media?.fileId&&typeof window.AiderDearFirebase?.readPrivateMedia==='function'){try{const blob=await window.AiderDearFirebase.readPrivateMedia(row.media.fileId);if(!stillCurrent(expectedEpoch,expectedOwner)||run!==photoRun)return;url=URL.createObjectURL(blob);revoke=true}catch{continue}}
-        if(!url)continue;
-        try{
-          const image=await new Promise((resolve,reject)=>{const image=new Image();image.onload=()=>resolve(image);image.onerror=reject;image.src=url});
-          if(!stillCurrent(expectedEpoch,expectedOwner)||run!==photoRun)return;
-          const canvas=document.createElement('canvas'),cover=row.category==='reading',width=cover?100:180,height=cover?140:180;canvas.width=width;canvas.height=height;const scale=(cover?Math.min:Math.max)(width/image.width,height/image.height),context=canvas.getContext('2d');if(cover){context.fillStyle='#F7F6FF';context.fillRect(0,0,width,height)}context.drawImage(image,(width-image.width*scale)/2,(height-image.height*scale)/2,image.width*scale,image.height*scale);
-          photoCache.set(cacheKey,canvas.toDataURL('image/jpeg',cover?.4:.5));
-        }catch{}finally{if(revoke)URL.revokeObjectURL(url)}
-      }
-    }finally{if(stillCurrent(expectedEpoch,expectedOwner)&&run===photoRun)sync()}
-  }
+  function prepareMealPhotos(){} // v193: retained widgets contain no photos.
   function snapshot(){
     if(!checkOwner()||!verified)return blankSnapshot();
     const {app,personal}=source,state=ownerState;
@@ -131,7 +111,7 @@
     const calendar=window.AiderWorkCalendarV168;
     // Reuse the current owner's API projection; legacy workRecords are no longer
     // authoritative. Never join another account's cached Work rows to a widget.
-    const projected=allowed.has(email)&&calendar?.status?.().uid===state.user.uid?array(calendar.rows(personal)):[];
+    const projected=[];
     // This adapter only reads the friend controller's current, identity-checked
     // projection. It neither creates a new subscription nor exports to Google.
     const received=array(window.AiderFriendScheduleUIV175?.events?.());
@@ -145,57 +125,18 @@
       const days=[...new Set(array(row.doneDates))].length,goal=Number(row.goalDays)||0,level=str(row.dailyLevels?.[today]);
       return `${text(row)}${goal?` · ${days} / ${goal}일`:''}${level?` · ${level.toUpperCase()}`:''}`;
     }).filter(Boolean);
-    const checks=array(personal.checklists).filter(row=>row&&!row.demo&&row.category!=='emotion').slice().sort((a,b)=>Number(Boolean(a.done))-Number(Boolean(b.done))||(a.done?newest(a,b):str(a.dueAt||a.date||'9999').localeCompare(str(b.dueAt||b.date||'9999'))||newest(a,b))),isMemo=row=>row.kind==='memo'||row.type==='memo';
-    // Undated legacy checklists are tasks too. Memo identity is explicit, never
-    // inferred from the absence of a deadline (same contract as the app page).
-    const todos=checks.filter(row=>!isMemo(row)).map(row=>`${row.done?'✓':'○'} ${text(row)}${row.dueAt||row.date?' · '+date(row.dueAt||row.date):''}`);
-    const memos=[...checks.filter(isMemo),...array(personal.memos||personal.notes)].filter(row=>row&&!row.demo&&row.category!=='emotion').slice().sort(newest).map(text).filter(Boolean);
-    const items=array(personal.personalItems).filter(row=>row?.category!=='emotion');
-    const health=items.filter(row=>row.category==='health'),workflows=items.filter(row=>row.category==='workflow').map(row=>`${text(row)}${row.details?.stage?` · ${row.details.stage}`:''}`);
-    const mealItems=health.filter(row=>row.details?.healthType==='meal'&&date(row.date)===today).slice().sort(newest),uid=state?.user?.uid||'local';
-    const mealSlots=['breakfast','lunch','dinner','snack'].map(slot=>mealItems.find(row=>row.details?.mealType===slot));
-    const mealPhotos=mealSlots.map(row=>row?photoCache.get(`${uid}:${row.id}:${row.media?.fileId||row.updatedAt||row.createdAt||''}`)||'':'');
-    const mealTimes=mealSlots.map(row=>str(row?.details?.time||row?.details?.mealTime)),mealRatings=mealSlots.map(row=>row?.details?.rating==null?'':Math.max(0,Math.min(5,Number(row.details.rating))));
-    const workouts=health.filter(row=>row.details?.healthType==='exercise'&&date(row.date)===today).map(row=>{
-      const d=row.details||{},minutes=Number(row.minutes??d.minutes),exercises=array(d.exercises).map(ex=>str(ex.name)).filter(Boolean);
-      return `${text(row)}${minutes?` · ${minutes}분`:''}${exercises.length?` · ${exercises.join(', ')}`:''}`;
-    });
-    const exerciseHistory=health.filter(row=>row.details?.healthType==='exercise'),recent=exerciseHistory.filter(row=>{const value=Date.parse(date(row.date));return Number.isFinite(value)&&value>=Date.now()-7*86400000});
-    const minutes=recent.map(row=>Number(row.minutes??row.details?.minutes)).filter(Number.isFinite);
-    const workoutStats=recent.length?[`최근 7일 · 운동 ${recent.length}회`,...(minutes.length?[`총 ${minutes.reduce((a,b)=>a+b,0)}분 · 평균 ${Math.round(minutes.reduce((a,b)=>a+b,0)/minutes.length)}분`,`최장 ${Math.max(...minutes)}분`]:[])]:[];
-    const inbody=health.filter(row=>row.details?.healthType==='inbody').slice().sort((a,b)=>str(b.date).localeCompare(str(a.date))).slice(0,4).map(row=>{const d=row.details||{};return `${date(row.date)} · ${[['체중',d.inbodyWeight,'kg'],['골격근량',d.inbodyMuscle,'kg'],['체지방률',d.inbodyFatPercent,'%']].filter(([,value])=>value!=null&&value!=='').map(([label,value,unit])=>`${label} ${value}${unit}`).join(' · ')}`});
-    const challenges=health.filter(row=>row.details?.challengeId).map(row=>`${text(row)} · DAY ${row.details.challengeDay||'—'}${row.details.challengeTarget?` · ${row.details.challengeTarget}${row.details.challengeUnit||''}`:''}`);
-    const books=new Map();items.filter(row=>row.category==='reading').slice().sort(newest).forEach(row=>{const d=row.details||{},book=str(d.bookId||row.bookId)||(str(row.title).toLowerCase()+'|'+str(d.author).toLowerCase());if(!books.has(book))books.set(book,row)});
-    const reading=[...books.values()].map(row=>{const d=row.details||{},total=Number(d.totalPages),current=Number(d.currentPage);return `${text(row)}${d.author?` · ${d.author}`:''}${total>0?` · ${current||0} / ${total}쪽 · ${Math.min(100,Math.max(0,Math.round((current||0)/total*100)))}%`:''}`});
-    const quotes=[...books.values()].filter(row=>str(row.details?.quote)).map(row=>`${str(row.details.quote)}${row.details.quotePage?` · p.${row.details.quotePage}`:''}`);
-    const bullet=days=>{
-      const result=[];for(let offset=0;offset<days;offset++){const day=new Date();day.setDate(day.getDate()+offset);const d=key(day);
-        result.push(...scheduleItems.filter(row=>row.date<=d&&(row.endDate||row.date)>=d).map(row=>`${d.slice(5)} · ${row.time} ${row.title}`));
-        result.push(...items.filter(row=>date(row.date)===d&&row.category!=='emotion').map(row=>`${d.slice(5)} · ${text(row)}`));
-      }return [...result,...memos,...todos];
-    };
-    return {version:165,uid,v165:window.AiderWidgetModelsV165?.build({app,personal,uid,now,photo:row=>photoCache.get(`${uid}:${row.id}:${row.media?.fileId||row.updatedAt||row.createdAt||''}`)||''})||{},email,theme:themeMap[document.documentElement.dataset.theme]||'aurora',today:new Intl.DateTimeFormat('ko-KR',{month:'long',day:'numeric',weekday:'short'}).format(now),month:new Intl.DateTimeFormat('ko-KR',{year:'numeric',month:'long'}).format(now),scheduleItems,holidays,schedule:scheduleItems.map(row=>`${row.date} ${row.time} ${row.title}`),routines,routineStats:routines,memos,todos,memoTodos:[...memos,...todos],readingBooks:reading,readingCurrent:[...reading,...quotes],quote:quotes[0]||'',workouts,workoutStats,workoutStatsInbody:[...workoutStats,...inbody],challengeSelected:challenges,challengeAll:challenges,challengeCombined:challenges,workoutChallenges:[...workouts,...challenges],mealWorkouts:workouts,mealPhotos,mealTimes,mealRatings,meals:[],workflows,bullet3:bullet(3),bullet7:bullet(7),bullet3Workflow:[...bullet(3),...workflows],bullet7Workflow:[...bullet(7),...workflows]};
+    const uid=state.user.uid;
+    const checks=array(personal.checklists).filter(row=>row&&!row.demo&&row.kind!=='memo'&&row.type!=='memo'&&row.category!=='emotion');
+    const todos=checks.map(row=>`${row.done?'✓':'○'} ${text(row)}${row.dueAt||row.date?' · '+date(row.dueAt||row.date):''}`);
+    return {version:193,uid,v165:window.AiderWidgetModelsV165?.build({app,personal,uid,now})||{},email,theme:themeMap[document.documentElement.dataset.theme]||'aurora',today:new Intl.DateTimeFormat('ko-KR',{month:'long',day:'numeric',weekday:'short'}).format(now),month:new Intl.DateTimeFormat('ko-KR',{year:'numeric',month:'long'}).format(now),scheduleItems,holidays,schedule:scheduleItems.map(row=>`${row.date} ${row.time} ${row.title}`),routines,routineStats:routines,todos};
   }
   let timer=0,last='';
   const commandQueueKey=uid=>`aiderlog.widget-actions.v165:${encodeURIComponent(uid)}`;
+  const retainedKinds=new Set(['CalendarMonth','CalendarCombined','CalendarSplit','CalendarFortnight','CalendarAgenda','RoutineAll','RoutineCards','RoutineStats']);
+  const retainedCommand=command=>retainedKinds.has(str(command?.kind))&&(['todo','routine','add-todo'].includes(command.op)||command.op==='open'&&['routine','todo'].includes(command.value));
   let executing=false;
   function enqueue(command){const name=commandQueueKey(command.uid),rows=array(read(name)),remaining=rows.filter(row=>row.key!==command.key&&!(row.id===command.id&&row.op===command.op));remaining.push(command);localStorage.setItem(name,JSON.stringify(remaining));}
   function notify(message){if(typeof window.toast==='function')window.toast(message);else if(typeof window.AiderLogAppShell?.toast==='function')window.AiderLogAppShell.toast(message);}
-  let linkTail=Promise.resolve();
-  function createIntakeFromWidget(raw){
-    const [,widgetId,expectedUid]=String(raw).split(':');
-    const run=async()=>{
-      const state=auth(),uid=str(state?.user?.uid),email=str(state?.user?.email).toLowerCase();
-      if(!uid||!allowed.has(email)||!expectedUid||uid!==expectedUid){notify('컨설트 계정으로 로그인하고 위젯을 다시 눌러주세요.');return;}
-      const captured=identity(state),api=window.AiderDearFirebase;if(typeof api?.createClientIntakeLink!=='function'){notify('고객정보 링크를 준비 중입니다. 잠시 후 다시 눌러주세요.');return;}
-      try{
-        await window.AiderConsultIntakeV168.createAndCopy(uid);
-        if(identity(auth())!==captured)return;
-        window.dispatchEvent(new CustomEvent('aiderlog:widget-intake-created',{detail:{widgetId:Number(widgetId),uid}}));
-      }catch(error){if(identity(auth())===captured)notify('링크 생성 또는 복사에 실패했습니다. 연결을 확인한 뒤 다시 눌러주세요.');}
-    };
-    linkTail=linkTail.then(run,run);return linkTail;
-  }
   function openScheduleWidget(raw){
     let record;try{record=JSON.parse(decodeURIComponent(raw));}catch{return;}
     if(str(record.uid)!==str(auth()?.user?.uid))return;
@@ -205,11 +146,11 @@
   async function flushCommands(){
     if(executing||!checkOwner()||!verified||typeof window.AiderDearFirebase?.applyWidgetActionV165!=='function')return;
     executing=true;const uid=ownerState.user.uid,expectedEpoch=epoch,expectedOwner=owner,name=commandQueueKey(uid);
-    try{for(const command of array(read(name))){if(!stillCurrent(expectedEpoch,expectedOwner))break;try{
+    try{for(const command of array(read(name))){if(!stillCurrent(expectedEpoch,expectedOwner))break;if(!retainedCommand(command)){localStorage.setItem(name,JSON.stringify(array(read(name)).filter(row=>row.key!==command.key)));const archiveKey=name+':retired-v193';localStorage.setItem(archiveKey,JSON.stringify([...array(read(archiveKey)),command]));continue;}try{
       const localRows=typeof P!=='undefined'?array(P[command.op==='routine'?'routines':'checklists']):[],localRow=localRows.find(row=>str(row.id)===str(command.id)),localBefore=JSON.stringify(localRow||null);
       const result=await window.AiderDearFirebase.applyWidgetActionV165(command);if(!stillCurrent(expectedEpoch,expectedOwner))break;
       localStorage.setItem(name,JSON.stringify(array(read(name)).filter(row=>row.key!==command.key)));
-      if(object(result?.payload)){source.personal=copy(result.payload);try{localStorage.setItem(cacheKey(owner),JSON.stringify({owner,...source}))}catch{}}
+      if(object(result?.payload)){source.personal=widgetPrivate(copy(result.payload));try{localStorage.setItem(cacheKey(owner),JSON.stringify({owner,...source}))}catch{}}
       sync();if(!object(result?.payload))requestRefresh(50,['personal']);window.dispatchEvent(new CustomEvent('aiderlog:widget-private-changed',{detail:{uid,payload:result?.payload,command,localBefore}}));
     }catch(error){if(!stillCurrent(expectedEpoch,expectedOwner))break;const code=String(error?.code||error?.message||''),terminal=['stale-action','invalid-action','not-found','replay-mismatch','invalid-data','goal-linked','permission-denied','unauthenticated'].some(value=>code.includes(value));if(code.includes('goal-linked')){window.AiderLogAppShell?.openTarget?.('routine','');notify('목표 연동 루틴은 앱에서 목표별 수행을 수정해주세요.');}if(terminal){localStorage.setItem(name,JSON.stringify(array(read(name)).filter(row=>row.key!==command.key)));const draftsKey=`${name}:failed`;localStorage.setItem(draftsKey,JSON.stringify([...array(read(draftsKey)),{command,error:code,at:Date.now()}]));notify(code.includes('stale-action')?'기록이 변경되어 다시 불러왔습니다. 위젯에서 다시 선택해주세요.':'저장할 수 없는 작업입니다. 입력 내용은 기기에 보관했습니다. 앱에서 확인해주세요.');requestRefresh(0,['personal'],true);continue;}notify('기기에 저장했습니다. 연결되면 동기화합니다.');break;}}}finally{executing=false;}
   }
@@ -221,17 +162,17 @@
   }
   async function commandAction(raw){
     let command;try{command=JSON.parse(decodeURIComponent(String(raw).slice(12)));}catch{return;}
-    if(!object(command)||str(command.uid)!==str(auth()?.user?.uid)||!checkOwner())return;
-    if(['add-memo','add-todo'].includes(command.op)){quickAdd(command);return;}
+    if(!object(command)||!retainedCommand(command)||str(command.uid)!==str(auth()?.user?.uid)||!checkOwner())return;
+    if(command.op==='add-todo'){quickAdd(command);return;}
     if(['todo','routine'].includes(command.op)){if(!str(command.id)||!str(command.key)||command.key.length>1000)return;enqueue(command);if(!verified)await refresh();flushCommands();return;}
-    if(command.op==='open'){const target=command.value==='routine'?'routine':'personal';window.AiderLogAppShell?.openTarget?.(target,'');if(['note','todo'].includes(command.value))document.querySelector('#quickMemoBtn')?.click();}
+    if(command.op==='open'){const target=command.value==='routine'?'routine':'schedule';window.AiderLogAppShell?.openTarget?.(target,'');if(['note','todo'].includes(command.value))document.querySelector('#quickMemoBtn')?.click();}
   }
   function sync(){clearTimeout(timer);timer=setTimeout(()=>{try{const payload=JSON.stringify(snapshot());if(payload!==last&&payload.length<=4194304){native.syncWidgets(payload);last=payload}else if(payload.length>4194304){sendBlank();console.warn('[widgets-v164] Snapshot exceeds native transfer limit.');}}catch{sendBlank();console.warn('[widgets-v164] Snapshot sync failed.');}},250)}
   function hook(){
     const shell=window.AiderLogAppShell;if(!shell||shell.widgetV164)return;
     shell.widgetV164=true;shell.syncWidgets=sync;const open=shell.openTarget;
     shell.openTarget=function(target,action){
-      if(String(action||'').startsWith('create-client-intake-v168:')){open?.call(this,'task','');createIntakeFromWidget(action);return;}
+      if(String(action||'').startsWith('create-client-intake-v168:'))return;
       if(String(action||'').startsWith('open-schedule-item-v168:')){openScheduleWidget(String(action).slice(24));return;}
       if(String(action||'').startsWith('open-schedule-date-v168:')){const requested=String(action).slice(24);if(typeof go==='function')go('home',false);setTimeout(()=>window.AiderLogCalendarV125?.openSchedule?.(requested),250);return;}
       if(String(action||'').startsWith('widget-v165:')){commandAction(action);return;}
@@ -241,11 +182,12 @@
         setTimeout(()=>{if(/^\d{4}-\d{2}-\d{2}$/.test(requested))window.AiderLogCalendarV125?.openSchedule?.(requested)},300);
         return;
       }
-      if(action==='add-memo'||action==='add-todo'){document.querySelector('#quickMemoBtn')?.click();return;}
+      if(action==='add-memo')return;
+      if(action==='add-todo'){document.querySelector('#quickMemoBtn')?.click();return;}
       return open?.call(this,target,action);
     };
   }
-  window.AiderWidgetSyncV164={snapshot,sync,refresh,prepareMealPhotos,commandAction,flushCommands,createIntakeFromWidget};
+  window.AiderWidgetSyncV164={snapshot,sync,refresh,prepareMealPhotos,commandAction,flushCommands};
   addEventListener('online',()=>{requestRefresh(0);flushCommands()});
   addEventListener('aiderlog-calendar-projection-v168',()=>sync());
   addEventListener('aiderlog-friend-schedule-data',()=>sync());

@@ -9,6 +9,7 @@ public final class WidgetNavV164 extends BroadcastReceiver {
         if(!WidgetNativeV164.ACTION.equals(intent.getAction()))return;
         int id=intent.getIntExtra("appWidgetId",-1);if(id<0)return;
         String kind=intent.getStringExtra("kind"),operation=intent.getStringExtra("operation"),value=intent.getStringExtra("value");
+        if(!WidgetProvider.supports(kind))return;
         if("month".equals(operation)){
             int delta="-1".equals(value)?-1:1;
             if("CalendarFortnight".equals(kind)){

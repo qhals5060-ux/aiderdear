@@ -495,21 +495,9 @@ function startListeners(user) {
     snapshot => { friendOutgoingRows = snapshot.docs.map(plainDoc); recomputeState(); },
     error => { state.error = error.message; emit(); },
   );
-  unsubscribeDirectLetters = onSnapshot(
-    query(collection(db, 'directLetters'), where('memberUids', 'array-contains', user.uid)),
-    snapshot => {
-      // Mail is permanent until the user explicitly deletes it.
-      directLetterRows = snapshot.docs.map(item => {
-        const row = plainDoc(item) || {};
-        let photoDataUrl = '';
-        try { if (row.photoBytes?.toBase64) photoDataUrl = `data:${row.photoMimeType || 'image/jpeg'};base64,${row.photoBytes.toBase64()}`; } catch {}
-        const photoDataUrls = [photoDataUrl, ...(Array.isArray(row.additionalPhotos) ? row.additionalPhotos.map(photo => { try { return photo.photoBytes?.toBase64 ? `data:${photo.photoMimeType || 'image/jpeg'};base64,${photo.photoBytes.toBase64()}` : ''; } catch { return ''; } }) : [])].filter(Boolean);
-        return { ...row, transport: 'direct', photoDataUrl, photoDataUrls, createdAt: timestampValue(row.createdAt) };
-      });
-      recomputeState();
-    },
-    error => { state.error = error.message; emit(); },
-  );
+  // v193: retired mail never subscribes or downloads attached photos.
+  directLetterRows = [];
+
 }
 
 function requireUser() {
@@ -1577,6 +1565,7 @@ async function readPrivateData({remember = true} = {}) {
 }
 
 const consultSyncV167 = createConsultSync({
+  retired: true, // Preserve legacy Consult records without reading or writing that API.
   currentUid:()=>auth.currentUser?.uid,
   readCurrent:async uid=>decodeArchive((await getDoc(doc(db,'users',uid,'private','main'))).data()?.payload)||{},
   commitRecord:async(uid,input)=>{
@@ -1598,7 +1587,7 @@ const consultSyncV167 = createConsultSync({
       if (snap.exists() && JSON.stringify(current) === JSON.stringify(next)) return next;
       if(snap.exists()){
         const fields=[new FieldPath('updatedAt'),serverTimestamp(),new FieldPath('storageVersion'),168,new FieldPath('formatWrittenAt'),serverTimestamp()];
-        for(const [key,value] of Object.entries(next))if(!CONSULT_KEYS.includes(key))fields.push(new FieldPath('payload',key),encodeArchive(value));
+        for(const [key,value] of Object.entries(next))if(!CONSULT_KEYS.includes(key) && JSON.stringify(value)!==JSON.stringify(current[key]))fields.push(new FieldPath('payload',key),encodeArchive(value));
         transaction.update(ref,...fields);
       }else transaction.set(ref,{payload:encodeStoredPayload(next),...storageStampV168(),updatedAt:serverTimestamp()});
       return next;
@@ -2691,14 +2680,7 @@ onAuthStateChanged(auth, async user => {
   emit();
   if (user) {
     try {
-      // Employee accounts never enter the general site's profile/listener boot.
-      // This self-only lookup contains no employee private records.
-      const workIdentity=await getDoc(doc(db,'workIdentities',user.uid));
-      if(!stillCurrent())return;
-      if(workIdentity.data()?.kind==='employee'){
-        state.ready=true;state.error='직원 개인 페이지로 이동합니다.';emit();
-        location.replace(new URL('./employee.html',location.href).href);return;
-      }
+      // v193 uses the same four personal screens for every signed-in account.
       const profile=await ensureUserProfile(user);
       if(!stillCurrent())return;
       state.user = profile;

@@ -1,20 +1,20 @@
 <!doctype html>
 <html lang="ko">
 <head>
-<style>@layer appLife188,appWorkspaces188,app188;</style>
+<style>@layer core193,appLife188,appWorkspaces188,app188;</style>
 <meta charset="utf-8">
-<meta name="aiderlog-android-build" content="v192">
-<script src="./file-transfer-v163.js?v=192"></script>
+<meta name="aiderlog-android-build" content="v193">
+<script src="./file-transfer-v163.js?v=193"></script>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <meta name="theme-color" content="#231E35">
 <meta name="color-scheme" content="light dark">
 <link rel="icon" href="./aiderdear-icon.svg" type="image/svg+xml">
 <script>(function(){var root=document.documentElement;try{var id=localStorage.getItem('aiderlogTheme'),legacy={sun:'rose',mercury:'charcoal',venus:'rose',earth:'slate',mars:'rose',jupiter:'system',saturn:'rose',uranus:'sage',neptune:'slate',pluto:'charcoal','cosmic-violet':'system','nebula-blue':'slate','solar-dust':'rose','aurora-pink':'rose','eclipse-mono':'charcoal',aurora:'system',lavender:'system',ocean:'slate',mint:'sage',sunset:'system',midnight:'charcoal',mono:'charcoal',terracotta:'rose',apricot:'system',peach:'rose'};if(!/^(system|sage|rose|slate|charcoal)$/.test(id||'')&&!legacy[id])id='system';root.dataset.theme=id;root.dataset.appPalette=legacy[id]||id;var size=localStorage.getItem('aiderlogFontSize');root.dataset.appFontSize=/^(small|normal|large)$/.test(size||'')?size:'normal';root.dataset.backgroundMode=localStorage.getItem('aiderlog-background-mode-v143')==='light'?'light':'cosmic'}catch(_){root.dataset.theme='system';root.dataset.appPalette='system';root.dataset.appFontSize='normal'}var nativeScheme='';try{nativeScheme=window.AiderLogNative&&window.AiderLogNative.getSystemScheme?window.AiderLogNative.getSystemScheme():''}catch(_){}if(/^(light|dark)$/.test(nativeScheme))root.dataset.nativeScheme=nativeScheme;root.dataset.systemScheme=root.dataset.nativeScheme||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light')})();</script>
 <title>AiderLog</title>
-<link rel="stylesheet" href="./app-design-v188.css?v=192">
-<link rel="stylesheet" href="./enhancements-v118.css?v=192">
-<link rel="stylesheet" href="./schedule-v119.css?v=192">
-<link rel="stylesheet" href="./event-cosmic-v120.css?v=192">
+<link rel="stylesheet" href="./app-design-v188.css?v=193">
+<link rel="stylesheet" href="./enhancements-v118.css?v=193">
+<link rel="stylesheet" href="./schedule-v119.css?v=193">
+<link rel="stylesheet" href="./event-cosmic-v120.css?v=193">
 <style>
 :root{--ink:#171a28;--muted:#858b99;--line:#e8ebf2;--blue:#3159e8;--violet:#7a61ef;--bg:#f5f7fb;--white:#fff;--shadow:0 16px 42px rgba(31,45,92,.09)}
 *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;-webkit-tap-highlight-color:transparent}button,input,textarea,select{font:inherit}button{cursor:pointer}.app{height:100%;max-width:1120px;margin:auto;padding:env(safe-area-inset-top) 12px 0}.top{height:62px;display:flex;align-items:center;justify-content:space-between}.brand{display:flex;align-items:center;gap:10px;font-weight:850;font-size:21px;letter-spacing:-.04em}.brandmark{width:42px;height:42px;border-radius:15px;background:linear-gradient(145deg,#3158e8,#8c69ff);position:relative;box-shadow:0 10px 22px rgba(70,78,224,.24)}.brandmark:after{content:"";position:absolute;inset:10px;border:2px solid white;border-radius:50%}.tools{display:flex;gap:6px}.iconbtn{width:40px;height:40px;border:1px solid var(--line);border-radius:14px;background:#fff;display:grid;place-items:center}.iconbtn svg{width:19px;height:19px;stroke:#202431;fill:none;stroke-width:1.8}.views{height:calc(100% - 62px);position:relative}.view{display:none;height:100%;overflow:auto;padding:4px 2px calc(96px + env(safe-area-inset-bottom));scrollbar-width:none}.view::-webkit-scrollbar{display:none}.view.on{display:block;animation:pagein .28s ease both}
@@ -649,45 +649,44 @@
 }
 
 </style>
-<link rel="stylesheet" href="./cosmic-final-v121.css?v=192">
-<link rel="stylesheet" href="./routine-cosmic-v122.css?v=192">
-<link rel="stylesheet" href="./feature-system-v125.css?v=192">
-<link rel="stylesheet" href="./global-cosmic-v126.css?v=192">
-<link rel="stylesheet" href="./feature-fixes-v126.css?v=192">
-<link rel="stylesheet" href="./feature-polish-v127.css?v=192">
-<link rel="stylesheet" href="./paper-workspace-v128.css?v=192">
-<link rel="stylesheet" href="./feature-polish-v128.css?v=192">
-<link rel="stylesheet" href="./offline-training-v129.css?v=192">
-<link rel="stylesheet" href="./design-polish-v129.css?v=192">
-<link rel="stylesheet" href="./space-ui-v131.css?v=192">
-<link rel="stylesheet" href="./planet-system-v133.css?v=192">
-<link rel="stylesheet" href="./solar-material-v134.css?v=192">
-<link rel="stylesheet" href="./holographic-editorial-v135.css?v=192">
-<link rel="stylesheet" href="./experience-v136.css?v=192">
-<link rel="stylesheet" href="./experience-v137.css?v=192">
-<link rel="stylesheet" href="./experience-v138.css?v=192">
-<link rel="stylesheet" href="./experience-v139.css?v=192">
+<link rel="stylesheet" href="./cosmic-final-v121.css?v=193">
+<link rel="stylesheet" href="./routine-cosmic-v122.css?v=193">
+<link rel="stylesheet" href="./feature-system-v125.css?v=193">
+<link rel="stylesheet" href="./global-cosmic-v126.css?v=193">
+<link rel="stylesheet" href="./feature-fixes-v126.css?v=193">
+<link rel="stylesheet" href="./feature-polish-v127.css?v=193">
+<link rel="stylesheet" href="./paper-workspace-v128.css?v=193">
+<link rel="stylesheet" href="./feature-polish-v128.css?v=193">
+<link rel="stylesheet" href="./design-polish-v129.css?v=193">
+<link rel="stylesheet" href="./space-ui-v131.css?v=193">
+<link rel="stylesheet" href="./planet-system-v133.css?v=193">
+<link rel="stylesheet" href="./solar-material-v134.css?v=193">
+<link rel="stylesheet" href="./holographic-editorial-v135.css?v=193">
+<link rel="stylesheet" href="./experience-v136.css?v=193">
+<link rel="stylesheet" href="./experience-v137.css?v=193">
+<link rel="stylesheet" href="./experience-v138.css?v=193">
+<link rel="stylesheet" href="./experience-v139.css?v=193">
 </head>
 <body data-css-typography="v185">
 <div class="app home-mode" id="app">
 <header class="top"><div class="brand"><i class="brandmark" aria-hidden="true"></i>AiderLog</div><div class="tools">
 <button class="iconbtn" id="loginBtn" aria-label="login"><svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M5 21v-2a7 7 0 0 1 14 0v2"/></svg></button>
 <button class="iconbtn" aria-label="memo"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></button>
-<button class="iconbtn" aria-label="mail"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg></button>
+
 <button class="iconbtn" id="searchBtn" aria-label="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="m16 16 5 5"/></svg></button>
 </div></header>
 <main class="views">
 <section class="view on" id="home"></section><section class="view" id="event"></section><section class="view" id="routine"></section><section class="view" id="personal"></section><section class="view" id="fifth"></section><section class="view" id="todo"></section>
-<section class="view" id="estate" aria-label="부동산 업무" data-css-typography="estate183"><header class="app-estate-header"><button type="button" data-estate-back aria-label="My로 돌아가기">‹</button><div><h1>Estate</h1><p>매물 · 고객 · 거래 · 업무 일정</p></div></header><div id="estateStage" data-estate-host="app"></div></section>
+
 </main>
 </div>
 <div class="global-wheel-v126" id="wheel" aria-label="AiderLog 글로벌 행성 휠">
   <div class="global-wheel-field-v126" id="wheelFan">
     <div class="global-wheel-orbits-v126" aria-hidden="true"></div>
-    <button class="global-wheel-item-v126 slot-0" data-index="0" data-page="fifth"><i></i><b id="fifthLabel">My</b></button>
-    <button class="global-wheel-item-v126 slot-1" data-index="1" data-page="personal"><i></i><b>Personal</b></button>
-    <button class="global-wheel-item-v126 slot-2" data-index="2" data-page="routine"><i></i><b>Routine</b></button>
-    <button class="global-wheel-item-v126 slot-3" data-index="3" data-page="event"><i></i><b>Event</b></button>
+    <button class="global-wheel-item-v126 slot-0" data-index="0" data-page="home"><i></i><b>SCHEDULE</b></button>
+    <button class="global-wheel-item-v126 slot-1" data-index="1" data-page="routine"><i></i><b>ROUTINE</b></button>
+    <button class="global-wheel-item-v126 slot-2" data-index="2" data-page="event"><i></i><b>EVENT</b></button>
+    <button class="global-wheel-item-v126 slot-3" data-index="3" data-page="fifth"><i></i><b>PAPER</b></button>
   </div>
   <button class="global-wheel-planet-v126" id="wheelCore" aria-label="글로벌 메뉴 열기"><span></span><em></em><i></i></button>
 </div>
@@ -704,9 +703,9 @@
   </form>
 </div></div>
 <div class="searchsheet" id="searchSheet"><div class="searchbox"><input id="globalSearch" placeholder="전체 검색"><div class="searchres" id="searchResults"></div><button id="closeSearch">닫기</button></div></div>
-<script src="./retired-features-v178.js?v=192"></script>
-<script src="./photo-attachments-v176.js?v=192"></script>
-<script src="./app-data-sync-v191.js?v=192"></script>
+<script src="./retired-features-v178.js?v=193"></script>
+<script src="./photo-attachments-v176.js?v=193"></script>
+<script src="./app-data-sync-v191.js?v=193"></script>
 <script>
 const $=q=>document.querySelector(q),$$=q=>[...document.querySelectorAll(q)];
 let fb=null,authState=null,A={scheduleEvents:[],ddays:[],records:[],albums:[],travelFolders:[],eventReviews:[]},P={routines:[]},E={entries:[]};let eventMode='record',selectedAlbum='';
@@ -714,7 +713,7 @@ const home=$('#home'),event=$('#event'),routine=$('#routine'),personal=$('#perso
 function today(){return new Date().toISOString().slice(0,10)}
 function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
 function ponyo(kind='hero',star=false){
-  if(kind==='hero')return `<div class="mascot3d hero insights-wave" role="img" aria-label="손을 흔드는 AiderLog 젤리 마스코트"><img src="./mascot-wave-insights-v1.png" alt=""></div>`;
+  if(kind==='hero')return `<div class="mascot3d hero insights-wave" role="img" aria-label="손을 흔드는 AiderLog 젤리 마스코트"><img src="./aiderdear-icon-192.png" alt=""></div>`;
   const u='j'+Math.random().toString(36).slice(2,8);
   return `<div class="mascot3d live-jelly jelly26 ${kind}${star?' with-star':''}" aria-hidden="true"><div class="mascot-aura"></div><svg class="jelly-svg" viewBox="0 0 140 154" role="img" aria-label="AiderLog jelly mascot"><defs>
   <radialGradient id="${u}body" cx="31%" cy="18%" r="92%"><stop offset="0" stop-color="#fff5e8"/><stop offset=".15" stop-color="#ffd2cc"/><stop offset=".43" stop-color="#ff9fae"/><stop offset=".68" stop-color="#f58fbd"/><stop offset=".84" stop-color="#d8a6e9"/><stop offset="1" stop-color="#a8d8f4"/></radialGradient>
@@ -752,7 +751,7 @@ function ponyo(kind='hero',star=false){
 let activePage='home';
 function resetPageEntry(id){
   if(id==='event'){eventMode='record';selectedAlbum='';$('#drawer')?.classList.remove('on');$('#recordModal')?.classList.remove('on')}
-  if(id==='personal'){personalCategory='health';personalOverview=false;personalPomodoro=false;$('#personalModal')?.classList.remove('on')}
+  if(id==='personal'){personalCategory='finance';personalOverview=false;personalPomodoro=false;$('#personalModal')?.classList.remove('on')}
 }
 function go(id,showIntro=true,preserveSub=false){if(!document.getElementById(id))id='home';if(activePage!==id&&!preserveSub)resetPageEntry(id);activePage=id;$$('.view').forEach(v=>v.classList.toggle('on',v.id===id));const appEl=$('#app');appEl.classList.toggle('home-mode',id==='home');history.replaceState(null,'',location.pathname+location.search+'#'+id);render();setWheel(false)}
 function renderHome(){const n=new Date(),y=n.getFullYear(),m=n.getMonth(),first=new Date(y,m,1).getDay(),last=new Date(y,m+1,0).getDate();let cells='';for(let i=0;i<42;i++){let d=i-first+1,out=d<1||d>last,num=out?(d<1?new Date(y,m,0).getDate()+d:d-last):d,ds=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`,ev=(A.scheduleEvents||[]).filter(x=>x.date===ds).slice(0,1);cells+=`<div class="day ${d===n.getDate()&&!out?'today':''}" style="opacity:${out?.32:1}">${num}${ev.map(x=>`<span class="evt">${esc(x.time)} ${esc(x.title)}</span>`).join('')}</div>`}let dd=A.ddays?.[0],up=(A.scheduleEvents||[]).filter(x=>!x.date||x.date>=today()).slice(0,4);home.innerHTML=`<div class="home"><article class="calendar card"><div class="calhead"><h1>${['January','February','March','April','May','June','July','August','September','October','November','December'][m]} <small>${y}</small></h1><div class="calctl"><button>‹</button><button>Today</button><button>›</button></div></div><div class="week">${['SUN','MON','TUE','WED','THU','FRI','SAT'].map(x=>`<span>${x}</span>`).join('')}</div><div class="days">${cells}</div></article><aside class="homeside"><section class="dday"><small>NEXT D-DAY</small><h2>${esc(dd?.title||'D-Day')}</h2><strong>${dd?.date?'D-'+Math.max(0,Math.ceil((new Date(dd.date)-n)/86400000)):'—'}</strong><span>${esc(dd?.date||'사이트와 동기화됩니다.')}</span></section><section class="upcoming card"><h3>예정된 일정</h3>${up.length?up.map(x=>`<div class="uprow"><i>${esc((x.date||'').slice(5).replace('-','.'))}</i><b>${esc(x.title||'일정')}</b><span>${esc(x.time||'')}</span></div>`).join(''):'<p>예정 일정이 없습니다.</p>'}</section></aside></div>`}
@@ -770,7 +769,7 @@ function renderRoutine(){let rs=(P.routines||[]).slice(0,4);routine.innerHTML=`<
 async function setRoutine(id,level){let r=(P.routines||[]).find(x=>String(x.id)===String(id));if(!r)return;r.dailyLevels=r.dailyLevels||{};r.doneDates=r.doneDates||[];r.dailyLevels[today()]=level;if(level==='SKIP')r.doneDates=r.doneDates.filter(x=>x!==today());else if(!r.doneDates.includes(today()))r.doneDates.push(today());await savePrivate();renderRoutine()}
 async function addRoutine(){let el=$('#newRoutine'),v=el?.value.trim();if(!v)return;P.routines=P.routines||[];P.routines.push({id:'r-'+Date.now(),text:v,icon:'✨',goalDays:20,miniText:'5분만 시작',moreText:'20분 집중',maxText:'충분히 끝내기',doneDates:[],dailyLevels:{}});el.value='';await savePrivate();renderRoutine()}
 function streak(ds){let set=new Set(ds||[]),d=new Date(),n=0;if(!set.has(today()))d.setDate(d.getDate()-1);for(;n<730;n++){let k=d.toISOString().slice(0,10);if(!set.has(k))break;d.setDate(d.getDate()-1)}return n}
-let personalCategory='health',personalOverview=false,personalPomodoro=false,personalOverviewDays=7,personalPreset={},personalPhotoFile=null,personalPhotoData='',pomoTimer=null,pomoRemaining=25*60,pomoInitial=25*60,pomoMode='focus',pomoRunning=false;
+let personalCategory='finance',personalOverview=false,personalPomodoro=false,personalOverviewDays=7,personalPreset={},personalPhotoFile=null,personalPhotoData='',pomoTimer=null,pomoRemaining=25*60,pomoInitial=25*60,pomoMode='focus',pomoRunning=false;
 function personalItems(){P.personalItems=Array.isArray(P.personalItems)?P.personalItems:[];return P.personalItems}
 function pRows(cat){return personalItems().filter(x=>x.category===cat).slice().sort((a,b)=>(b.date||'').localeCompare(a.date||'')+(b.createdAt||0)-(a.createdAt||0))}
 function stars(n){n=Math.max(0,Math.min(5,Number(n)||0));return '★'.repeat(n)+'☆'.repeat(5-n)}
@@ -780,7 +779,7 @@ function mealLabel(x){return({breakfast:'아침',lunch:'점심',dinner:'저녁',
 function financeLabel(x){return({saving:'적금',deposit:'예금',flexible:'유동 지출',income:'수익',expense:'고정 지출'})[x]||'금융'}
 function itemPhoto(row,cls='personal-photo'){if(row.localImage)return `<div class="${cls}"><img src="${row.localImage}" alt=""></div>`;if(row.media?.fileId)return `<div class="${cls}" data-pmedia="${esc(row.id)}"><span>▧</span></div>`;return `<div class="${cls}"><span>${row.category==='reading'?'▤':row.category==='health'?'♡':'✦'}</span></div>`}
 async function hydratePersonalMedia(){if(!fb?.readPrivateMedia)return;for(const row of personalItems().filter(x=>x.media?.fileId)){let hosts=$$(`[data-pmedia="${CSS.escape(String(row.id))}"]`);if(!hosts.length)continue;try{let blob=await fb.readPrivateMedia(row.media.fileId),url=URL.createObjectURL(blob);hosts.forEach(h=>h.innerHTML=`<img src="${url}" alt="">`)}catch{}}}
-function personalTabs(){return `<div class="personal-tabs">${[['health','♡','건강'],['reading','▤','독서'],['workflow','✓','워크플로우'],['finance','₩','금융']].map(([k,i,l])=>`<button data-pcat="${k}" class="${personalCategory===k&&!personalOverview&&!personalPomodoro?'active':''}"><i>${i}</i><span>${l}</span></button>`).join('')}</div>`}
+function personalTabs(){return `<div class="personal-tabs">${[['finance','₩','금융'],['workflow','✓','워크플로우']].map(([k,i,l])=>`<button data-pcat="${k}" class="${personalCategory===k&&!personalOverview&&!personalPomodoro?'active':''}"><i>${i}</i><span>${l}</span></button>`).join('')}</div>`}
 function pomodoroHTML(){let mm=String(Math.floor(pomoRemaining/60)).padStart(2,'0'),ss=String(pomoRemaining%60).padStart(2,'0'),sessions=(P.pomodoroSessions||[]).filter(x=>x.date===today()).length;return `<section class="pomo"><div><small>${pomoMode==='focus'?'FOCUS':pomoMode==='short'?'SHORT BREAK':'LONG BREAK'}</small><strong id="pomoClock">${mm}:${ss}</strong><span>${sessions} SESSION</span></div><input id="pomoTask" maxlength="80" placeholder="집중할 작업 이름" value="${esc(P.pomodoroTask||'')}"><div class="pomo-presets"><button data-pomo="25,focus" class="${pomoInitial===1500?'active':''}">25</button><button data-pomo="5,short" class="${pomoInitial===300?'active':''}">5</button><button data-pomo="15,long" class="${pomoInitial===900?'active':''}">15</button></div><div class="pomo-actions"><button id="pomoStart">${pomoRunning?'PAUSE':'START'}</button><button id="pomoReset">↺</button></div></section>`}
 function healthHTML(){let rows=pRows('health'),todayMeals=rows.filter(x=>x.details?.healthType==='meal'&&x.date===today()),allMeals=rows.filter(x=>x.details?.healthType==='meal').slice(0,3),workouts=rows.filter(x=>x.details?.healthType==='exercise').slice(0,3),allw=rows.filter(x=>x.details?.healthType==='exercise'),sets=allw.reduce((n,r)=>n+(r.details?.exercises||[]).reduce((m,e)=>m+(e.sets||[]).length,0),0),vol=allw.reduce((n,r)=>n+(r.details?.exercises||[]).reduce((m,e)=>m+(e.sets||[]).reduce((v,s)=>v+(+s.weight||0)*(+s.reps||0),0),0),0);let slots=['breakfast','lunch','dinner','snack'].map(t=>{let r=todayMeals.find(x=>x.details?.mealType===t);return `<button class="meal-slot ${r?'filled':''}" data-padd="health" data-health="meal" data-meal="${t}">${r?itemPhoto(r,'meal-pic'):`<div class="meal-pic"><span>${({breakfast:'☀',lunch:'◐',dinner:'☾',snack:'◇'})[t]}</span></div>`}<b>${mealLabel(t)}</b><small>${r?`${esc(r.title)} · ${stars(r.details?.rating)}`:'눌러서 기록'}</small></button>`}).join('');let mealHistory=allMeals.length?allMeals.map(r=>`<article>${itemPhoto(r,'health-thumb')}<div><time>${esc((r.date||'').slice(5).replace('-','.'))} ${esc(r.details?.time||'')}</time><b>${esc(r.title||mealLabel(r.details?.mealType))}</b><small>${mealLabel(r.details?.mealType)} · ${stars(r.details?.rating||0)}${r.details?.location?` · ${esc(r.details.location)}`:''}</small></div><button data-pdelete="${esc(r.id)}">×</button></article>`).join(''):'<p class="personal-empty">식사를 기록하면 이곳에서 최근 기록을 볼 수 있어요.</p>';let workoutHistory=workouts.length?workouts.map(r=>`<article>${itemPhoto(r,'health-thumb')}<div><time>${esc((r.date||'').slice(5).replace('-','.'))}</time><b>${esc(r.title)}</b><small>${r.minutes||0}분 · ${(r.details?.exercises||[]).map(e=>esc(e.name)).join(', ')}</small></div><button data-pdelete="${esc(r.id)}">×</button></article>`).join(''):'<p class="personal-empty">운동 종목과 세트를 기록하면 이곳에 쌓여요.</p>';return `<div class="personal-health"><section class="personal-panel"><header><div><small>MEAL</small><h3>식사</h3></div><button data-padd="health" data-health="meal">＋ 기록</button></header><div class="meal-grid">${slots}</div><div class="health-history"><h4>최근 식사 기록</h4><div class="health-record-list">${mealHistory}</div></div></section><section class="personal-panel"><header><div><small>EXERCISE</small><h3>운동</h3></div><button data-padd="health" data-health="exercise">＋ 기록</button></header><div class="health-metrics"><div><small>운동</small><b>${allw.length}<em>회</em></b></div><div><small>세트</small><b>${sets}<em>set</em></b></div><div><small>볼륨</small><b>${money(Math.round(vol))}<em>kg</em></b></div></div><div class="health-history"><h4>최근 운동 기록</h4><div class="health-record-list">${workoutHistory}</div></div></section></div>`}
 let readingView='all',readingTimer=null,readingRemaining=15*60,readingRunning=false;'remember',readingTimer=null,readingRemaining=15*60,readingRunning=false;
@@ -789,7 +788,7 @@ function workflowHTML(){let rows=pRows('workflow');return `<section class="perso
 function financeCheckKey(r){let d=new Date(),day=Math.max(1,Math.min(31,+r.details?.dueDay||1));return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`}
 function financeHTML(){let rows=pRows('finance'),total=rows.reduce((n,r)=>n+(+r.amount||0),0);let group=(types,title)=>`<section class="finance-group"><h4>${title}</h4>${rows.filter(r=>types.includes(r.details?.financeType)).slice(0,3).map(r=>{let d=r.details||{},key=financeCheckKey(r),check=['saving','deposit','expense'].includes(d.financeType)?`<label class="paycheck"><input type="checkbox" data-fcheck="${esc(r.id)}" ${(d.paymentChecks||{})[key]?'checked':''}> 이번 납부</label>`:'';return `<article><button data-pdelete="${esc(r.id)}">×</button><small>${financeLabel(d.financeType)}</small><b>${esc(r.title)}</b><strong>₩ ${money(r.amount)}</strong><span>${esc(d.source||'카드·계좌 미입력')}${d.dueDay?` · 매월 ${d.dueDay}일`:''}</span>${d.goal?`<i><em style="width:${Math.min(100,(+r.amount||0)/(+d.goal||1)*100)}%"></em></i>`:''}${check}</article>`}).join('')||'<p class="personal-empty">기록이 없습니다.</p>'}</section>`;return `<section class="personal-panel"><header><div><small>MONEY</small><h3>Finance</h3></div><button data-padd="finance">＋ 기록</button></header><div class="finance-summary"><span>전체 관리 금액</span><b>₩ ${money(total)}</b></div><div class="finance-grid">${group(['saving','deposit'],'적금 · 예금')}${group(['flexible','income'],'유동 · 수익')}${group(['expense'],'고정 지출')}</div></section>`}
 function overviewHTML(){let cutoff=new Date();cutoff.setDate(cutoff.getDate()-personalOverviewDays+1);let ck=cutoff.toISOString().slice(0,10),items=personalItems().filter(x=>(x.date||'')>=ck),sessions=(P.pomodoroSessions||[]).filter(x=>(x.date||'')>=ck),exercise=items.filter(x=>x.category==='health'&&x.details?.healthType==='exercise'),photos=exercise.filter(x=>x.localImage||x.media?.fileId).slice(0,2),quotes=items.filter(x=>x.category==='reading'&&x.details?.quote).slice(0,4);return `<div class="overview-head"><div><small>OVERVIEW</small><h2>나의 ${personalOverviewDays}일</h2></div><div><button data-odays="7" class="${personalOverviewDays===7?'active':''}">7일</button><button data-odays="30" class="${personalOverviewDays===30?'active':''}">30일</button></div></div><div class="overview-metrics">${[['♡','건강',items.filter(x=>x.category==='health').length],['▤','독서',items.filter(x=>x.category==='reading').length],['✓','워크플로우',items.filter(x=>x.category==='workflow').length],['₩','금융',items.filter(x=>x.category==='finance').length],['🍅','집중',sessions.length]].map(x=>`<article><i>${x[0]}</i><span>${x[1]}</span><b>${x[2]}</b></article>`).join('')}</div><section class="personal-panel"><header><div><small>BODY</small><h3>운동일 신체 변화</h3></div></header><div class="body-compare">${photos.length?photos.map(r=>`${itemPhoto(r,'body-photo')}<small>${esc(r.date)}</small>`).join(''):'<p class="personal-empty">운동 기록에 사진을 추가하면 최근 두 날짜를 비교합니다.</p>'}</div></section><section class="personal-panel"><header><div><small>QUOTES</small><h3>문장 기록</h3></div></header><div class="quote-list">${quotes.length?quotes.map(r=>`<blockquote><b>${esc(r.title)}</b><p>“${esc(r.details?.quote)}”</p></blockquote>`).join(''):'<p class="personal-empty">독서 문장이 없습니다.</p>'}</div></section>`}
-function renderPersonal(){P.personalItems=Array.isArray(P.personalItems)?P.personalItems:[];P.pomodoroSessions=Array.isArray(P.pomodoroSessions)?P.pomodoroSessions:[];let content=personalPomodoro?`<div class="pomo-page"><div class="pomo-page-head"><span>POMODORO</span><h2>집중 타이머</h2></div>${pomodoroHTML()}</div>`:personalOverview?overviewHTML():personalCategory==='health'?healthHTML():personalCategory==='reading'?readingHTML():personalCategory==='workflow'?workflowHTML():financeHTML();personal.innerHTML=`<div class="page personal-page"><div class="personal-title"><div><h1 class="page-title">Daylog</h1></div>${personalPomodoro||personalOverview?'':personalTabs()}<div class="personal-title-actions"><button data-poverview class="${personalOverview?'active':''}" aria-label="Overview"><i>▥</i><span>Overview</span></button><button data-ppomodoro class="${personalPomodoro?'active':''}" aria-label="Pomodoro"><i>🍅</i><span>Pomodoro</span></button></div></div><div class="personal-dashboard">${content}</div></div>`;bindPersonal();setTimeout(hydratePersonalMedia,0);$('#fifthLabel').textContent='Private';fifth.innerHTML=`<div class="page"><div class="barebar"><h1 class="page-title">Private Universe</h1></div></div>`}
+function renderPersonal(){personalCategory=['finance','workflow'].includes(personalCategory)?personalCategory:'finance';personalOverview=false;personalPomodoro=false;personal.innerHTML=`<div class="page personal-page"><div class="personal-title"><div><h1 class="page-title">SCHEDULE</h1></div>${personalTabs()}<div class="personal-title-actions"></div></div><div class="personal-dashboard">${personalCategory==='workflow'?workflowHTML():financeHTML()}</div></div>`;bindPersonal();setTimeout(hydratePersonalMedia,0)}
 function render(){renderHome();renderEvent();renderRoutine();renderPersonal()}
 async function persistRecordV190(key,value,writer){let localError=null;try{localStorage.setItem(key,JSON.stringify(value))}catch(error){localError=error}try{if(writer&&authState?.user)return await writer(value);else if(localError)throw localError}catch(error){toast('저장하지 못했습니다. 기존 기록과 현재 입력은 유지됩니다. 연결과 저장 공간을 확인해주세요.');throw error}}
 async function saveApp(){const finish=appDataSyncV191.beginWrite('app',A);try{const result=await persistRecordV190('aiderlog-app-v20',A,fb?.writeAppData?value=>fb.writeAppData(value):null);finish(true,result)}catch(error){finish(false);throw error}}
@@ -804,7 +803,7 @@ const appDataSyncV191=window.createAppDataSyncV191({
   apply:(kind,payload,detail)=>{if(kind==='app'){if(payload)A={...A,...payload};window.AiderAppScheduleV191?.applyCached?.();window.AiderCalendarSyncV184?.applyCached?.()}else{const actor=String(authState?.user?.uid||'');if(!actor)return;const own=privateDataOwnerV179===actor&&privateDataValueV179===P?P:{routines:[]};P=window.AiderLogRetiredFeaturesV178?.cleanPrivate({...own,...(payload||{})})||{...own,...(payload||{})};privateDataOwnerV179=actor;privateDataValueV179=P;fb?.acceptPrivateSnapshot?.({uid:actor,payload})}render()}
 });
 async function sync(request){if(request?.kind)return appDataSyncV191.receive(request.kind,request.detail);if(request?.flush)return appDataSyncV191.flush();return appDataSyncV191.request(request?.kinds)}
-function connect(){if(fb)return;fb=window.AiderDearFirebase;if(!fb)return;fb.subscribe(s=>{authState=s;$('#fifthLabel').textContent=s?.pair?'Together':'My';appDataSyncV191.observe()})}addEventListener('aiderdear-firebase-ready',connect,{once:true});setTimeout(connect,1000);
+function connect(){if(fb)return;fb=window.AiderDearFirebase;if(!fb)return;fb.subscribe(s=>{authState=s;if($('#fifthLabel'))$('#fifthLabel').textContent='PAPER';appDataSyncV191.observe()})}addEventListener('aiderdear-firebase-ready',connect,{once:true});setTimeout(connect,1000);
 addEventListener('aiderdear-firebase-data',event=>sync({kind:'app',detail:event.detail}));
 addEventListener('aiderdear-firebase-private-data',event=>sync({kind:'private',detail:event.detail}));
 addEventListener('online',()=>sync());
@@ -831,149 +830,122 @@ $('#searchBtn').onclick=()=>{$('#searchSheet').classList.add('on');$('#globalSea
 loadLocal();let h=location.hash.slice(1);try{if(!h)h=sessionStorage.getItem('aiderlog-active-page-v157')||sessionStorage.getItem('aiderlog-active-page-v154')||''}catch{}go(document.getElementById(h)?h:'home',false);
 </script>
 
-<script src="./routine-v110.js?v=192"></script>
-<script src="./event-v111.js?v=192"></script>
-<script src="./polish-v112.js?v=192"></script>
-<script src="./routine-v111.js?v=192"></script>
-<script src="./features-v113.js?v=192"></script>
-<script src="./my-v115.js?v=192"></script>
-<script src="./enhancements-v118.js?v=192"></script>
-<script src="./schedule-v119.js?v=192"></script>
-<script src="./event-cosmic-v120.js?v=192"></script>
-<script src="./event-support-v126.js?v=192"></script>
-<script src="./global-icons-v126.js?v=192"></script>
+<script src="./routine-v110.js?v=193"></script>
+<script src="./event-v111.js?v=193"></script>
+<script src="./polish-v112.js?v=193"></script>
+<script src="./routine-v111.js?v=193"></script>
+<script src="./features-v113.js?v=193"></script>
+<script src="./enhancements-v118.js?v=193"></script>
+<script src="./schedule-v119.js?v=193"></script>
+<script src="./event-cosmic-v120.js?v=193"></script>
+<script src="./event-support-v126.js?v=193"></script>
+<script src="./global-icons-v126.js?v=193"></script>
 
-<script src="./business-calendar-v175.js?v=192"></script>
-<script src="./shared-schedule-v176.js?v=192"></script>
-<script src="./dday-display-v176.js?v=192"></script>
-<script src="./app-dday-v175.js?v=192"></script>
-<script src="./app-calendar-view-v176.js?v=192"></script>
-<script src="./schedule-time-v179.js?v=192"></script>
-<script src="./feature-system-v125.js?v=192"></script>
-<script src="./global-cosmic-v126.js?v=192"></script>
+<script src="./business-calendar-v175.js?v=193"></script>
+<script src="./shared-schedule-v176.js?v=193"></script>
+<script src="./dday-display-v176.js?v=193"></script>
+<script src="./app-dday-v175.js?v=193"></script>
+<script src="./app-calendar-view-v176.js?v=193"></script>
+<script src="./schedule-time-v179.js?v=193"></script>
+<script src="./feature-system-v125.js?v=193"></script>
+<script src="./global-cosmic-v126.js?v=193"></script>
 
-<script src="./feature-polish-v127.js?v=192"></script>
-<script src="./paper-workspace-v128.js?v=192"></script>
-<script src="./offline-training-v129.js?v=192"></script>
-<script src="./mobile-paper-v159.js?v=192"></script>
-<script src="./my-workspaces-v128.js?v=192"></script>
-<script src="./feature-polish-v128.js?v=192"></script>
+<script src="./feature-polish-v127.js?v=193"></script>
+<script src="./paper-workspace-v128.js?v=193"></script>
+<script src="./mobile-paper-v159.js?v=193"></script>
+<script src="./my-workspaces-v128.js?v=193"></script>
+<script src="./feature-polish-v128.js?v=193"></script>
 
-<script src="./planet-system-v133.js?v=192"></script>
-<script src="./solar-material-v134.js?v=192"></script>
-<script src="./holographic-editorial-v135.js?v=192"></script>
-<script src="./experience-v136.js?v=192"></script>
-<script src="./experience-v137.js?v=192"></script>
-<script src="./experience-v138.js?v=192"></script>
-<script src="./experience-v139.js?v=192"></script>
-<link rel="stylesheet" href="./experience-v140.css?v=192">
-<script src="./experience-v140.js?v=192"></script>
-<link rel="stylesheet" href="./experience-v141.css?v=192">
-<script src="./experience-v141.js?v=192"></script>
-<link rel="stylesheet" href="./experience-v142.css?v=192">
-<script src="./wheel-owner-v154.js?v=192"></script>
-<script src="./experience-v142.js?v=192"></script>
-<link rel="stylesheet" href="./experience-v143.css?v=192">
-<link rel="stylesheet" href="./experience-v145.css?v=192">
-<link rel="stylesheet" href="./study-card-v1.css?v=192">
-<link rel="stylesheet" href="./app-polish-v147.css?v=192">
-<link rel="stylesheet" href="./app-feature-v148.css?v=192">
-<link rel="stylesheet" href="./app-polish-v149.css?v=192">
-<link rel="stylesheet" href="./app-polish-v150.css?v=192">
-<link rel="stylesheet" href="./app-polish-v152.css?v=192">
-<link rel="stylesheet" href="./app-polish-v153.css?v=192">
-<link rel="stylesheet" href="./app-polish-v154.css?v=192">
-<link rel="stylesheet" href="./app-polish-v155.css?v=192">
-<link rel="stylesheet" href="./app-feature-v156.css?v=192">
-<link rel="stylesheet" href="./app-polish-v157.css?v=192">
-<link rel="stylesheet" href="./app-polish-v158.css?v=192">
-<link rel="stylesheet" href="./app-polish-v159.css?v=192">
-<link rel="stylesheet" href="./app-polish-v160.css?v=192">
-<link rel="stylesheet" href="./app-polish-v161.css?v=192">
-<link rel="stylesheet" href="./app-files-v163.css?v=192">
-<link rel="stylesheet" href="./app-theme-v164.css?v=192">
-<link rel="stylesheet" href="./event-ui-v164.css?v=192">
-<link rel="stylesheet" href="./routine-ui-v165.css?v=192">
-<link rel="stylesheet" href="./daylog-ui-v165.css?v=192">
-<link rel="stylesheet" href="./training-presentation-v166.css?v=192">
-<link rel="stylesheet" href="./my-paper-v166.css?v=192">
-<script src="./experience-v143.js?v=192"></script>
-<script src="./my-suite-v145.js?v=192"></script>
-<script src="./world-lab-year1-data.js?v=192"></script>
-<script src="./study-card-v1.js?v=192"></script>
+<script src="./planet-system-v133.js?v=193"></script>
+<script src="./solar-material-v134.js?v=193"></script>
+<script src="./holographic-editorial-v135.js?v=193"></script>
+<script src="./experience-v136.js?v=193"></script>
+<script src="./experience-v137.js?v=193"></script>
+<script src="./experience-v138.js?v=193"></script>
+<script src="./experience-v139.js?v=193"></script>
+<link rel="stylesheet" href="./experience-v140.css?v=193">
+<script src="./experience-v140.js?v=193"></script>
+<link rel="stylesheet" href="./experience-v141.css?v=193">
+<script src="./experience-v141.js?v=193"></script>
+<link rel="stylesheet" href="./experience-v142.css?v=193">
+<script src="./wheel-owner-v154.js?v=193"></script>
+<script src="./experience-v142.js?v=193"></script>
+<link rel="stylesheet" href="./experience-v143.css?v=193">
+<link rel="stylesheet" href="./experience-v145.css?v=193">
+<link rel="stylesheet" href="./app-polish-v147.css?v=193">
+<link rel="stylesheet" href="./app-feature-v148.css?v=193">
+<link rel="stylesheet" href="./app-polish-v149.css?v=193">
+<link rel="stylesheet" href="./app-polish-v150.css?v=193">
+<link rel="stylesheet" href="./app-polish-v152.css?v=193">
+<link rel="stylesheet" href="./app-polish-v153.css?v=193">
+<link rel="stylesheet" href="./app-polish-v154.css?v=193">
+<link rel="stylesheet" href="./app-polish-v155.css?v=193">
+<link rel="stylesheet" href="./app-feature-v156.css?v=193">
+<link rel="stylesheet" href="./app-polish-v157.css?v=193">
+<link rel="stylesheet" href="./app-polish-v158.css?v=193">
+<link rel="stylesheet" href="./app-polish-v159.css?v=193">
+<link rel="stylesheet" href="./app-polish-v160.css?v=193">
+<link rel="stylesheet" href="./app-polish-v161.css?v=193">
+<link rel="stylesheet" href="./app-files-v163.css?v=193">
+<link rel="stylesheet" href="./app-theme-v164.css?v=193">
+<link rel="stylesheet" href="./event-ui-v164.css?v=193">
+<link rel="stylesheet" href="./routine-ui-v165.css?v=193">
+<link rel="stylesheet" href="./daylog-ui-v165.css?v=193">
+<link rel="stylesheet" href="./my-paper-v166.css?v=193">
+<script src="./experience-v143.js?v=193"></script>
 
-<script src="./app-feature-v152b.js?v=192"></script>
-<script src="./wheel-navigation-v151.js?v=192"></script>
-<script src="./app-polish-v157.js?v=192"></script>
-<script src="./app-polish-v160.js?v=192"></script>
-<script src="./app-polish-v161.js?v=192"></script>
-<script src="./event-ui-v164.js?v=192"></script>
-<script src="./routine-ui-v165.js?v=192"></script>
-<script src="./daylog-ui-v165.js?v=192"></script>
-<script src="./storage-maintenance-v168.js?v=192"></script>
-<script src="./consult-intake-v168.js?v=192"></script>
-<script src="./work-calendar-v168.js?v=192"></script>
-<script src="./consult-model-v167.js?v=192"></script>
-<link rel="stylesheet" href="./app-consult-work-v168.css?v=192">
-<script src="./app-consult-work-v168.js?v=192"></script>
-<script src="./widget-models-v165.js?v=192"></script>
-<script src="./widget-ui-v165.js?v=192"></script>
-<script src="./widget-sync-v164.js?v=192"></script>
-<link rel="stylesheet" href="./private-calendar-v175.css?v=192">
-<link rel="stylesheet" href="./business-calendar-v175.css?v=192">
+<script src="./app-feature-v152b.js?v=193"></script>
+<script src="./wheel-navigation-v151.js?v=193"></script>
+<script src="./app-polish-v157.js?v=193"></script>
+<script src="./app-polish-v160.js?v=193"></script>
+<script src="./app-polish-v161.js?v=193"></script>
+<script src="./event-ui-v164.js?v=193"></script>
+<script src="./routine-ui-v165.js?v=193"></script>
+<script src="./daylog-ui-v165.js?v=193"></script>
+<script src="./storage-maintenance-v168.js?v=193"></script>
+<script src="./widget-models-v165.js?v=193"></script>
+<script src="./widget-ui-v165.js?v=193"></script>
+<script src="./widget-sync-v164.js?v=193"></script>
+<link rel="stylesheet" href="./private-calendar-v175.css?v=193">
+<link rel="stylesheet" href="./business-calendar-v175.css?v=193">
 
-<link rel="stylesheet" href="./shared-schedule-v176.css?v=192">
-<link rel="stylesheet" href="./dday-display-v176.css?v=192">
-<link rel="stylesheet" href="./app-calendar-v175.css?v=192">
-<link rel="stylesheet" href="./app-record-footers-v176.css?v=192">
-<link rel="stylesheet" href="./app-fold-layout-v177.css?v=192">
-<link rel="stylesheet" href="./app-fold-daily-v177.css?v=192">
-<link rel="stylesheet" href="./app-fold-workspaces-v177.css?v=192">
-<script type="module" src="./private-calendar-ui-v175.js?v=192"></script>
-<script type="module" src="./estate-calendar-v171.js?v=192"></script>
-<script type="module" src="./firebase-app.js?v=192"></script>
-<link rel="stylesheet" href="./app-theme-primary-v176.css?v=192">
-<link rel="stylesheet" href="./wheelbar-v176.css?v=192">
-<script src="./wheelbar-v176.js?v=192"></script>
-<link rel="stylesheet" href="./app-system-surfaces-v176.css?v=192">
-<link rel="stylesheet" href="./photo-attachments-v176.css?v=192">
-<script src="./app-photo-attachments-v176.js?v=192"></script>
-<script src="./app-back-gesture-v176.js?v=192"></script>
-<link rel="stylesheet" href="./app-calendar-v179.css?v=192">
-<link rel="stylesheet" href="./schedule-editor-v179.css?v=192">
-<script type="module" src="./friend-schedule-ui-v175.js?v=192"></script>
-<script src="./app-calendar-v179.js?v=192"></script>
-<link rel="stylesheet" href="./app-todo-v179.css?v=192">
-<script type="module" src="./app-todo-v179.js?v=192"></script>
-<link rel="stylesheet" href="./estate-v171.css?v=192">
-<link rel="stylesheet" href="./estate-directory-v171.css?v=192">
-<link rel="stylesheet" href="./estate-workflow-v171.css?v=192">
-<link rel="stylesheet" href="./estate-calendar-view-v172.css?v=192">
-<link rel="stylesheet" href="./estate-cobroker-v173.css?v=192">
-<link rel="stylesheet" href="./app-estate-v183.css?v=192">
-<script type="module" src="./app-estate-v183.js?v=192"></script>
-<link rel="stylesheet" href="./schedule-ui-v184.css?v=192">
-<link rel="stylesheet" href="./app-readability-v184.css?v=192">
-<script src="./schedule-ui-v184.js?v=192"></script>
-<script src="./app-readability-v184.js?v=192"></script>
-<link rel="stylesheet" href="./app-compact-v186.css?v=192">
-<script src="./app-compact-v186.js?v=192"></script>
-<link rel="stylesheet" href="./event-routine-v186.css?v=192">
-<script src="./event-routine-v186.js?v=192"></script>
-<link rel="stylesheet" href="./routine-refine-v187.css?v=192">
-<script src="./routine-refine-v187.js?v=192"></script>
-<link rel="stylesheet" href="./app-home-refine-v187.css?v=192">
-<script src="./app-design-v188.js?v=192"></script>
-<link rel="stylesheet" href="./app-life-v188.css?v=192">
-<script src="./app-life-v188.js?v=192"></script>
-<link rel="stylesheet" href="./app-workspaces-v188.css?v=192">
-<script src="./app-workspaces-v188.js?v=192"></script>
-<link rel="stylesheet" href="./app-youtube-v189.css?v=192">
-<script type="module" src="./youtube-client-v189.js?v=192"></script>
-<script src="./app-youtube-v189.js?v=192"></script>
-<link rel="stylesheet" href="./bio-admin-v192.css?v=192">
-<script src="./bio-admin-domain-v192.js?v=192"></script>
-<script type="module" src="./bio-admin-client-v192.js?v=192"></script>
-<script src="./bio-admin-v192.js?v=192"></script>
+<link rel="stylesheet" href="./shared-schedule-v176.css?v=193">
+<link rel="stylesheet" href="./dday-display-v176.css?v=193">
+<link rel="stylesheet" href="./app-calendar-v175.css?v=193">
+<link rel="stylesheet" href="./app-record-footers-v176.css?v=193">
+<link rel="stylesheet" href="./app-fold-layout-v177.css?v=193">
+<link rel="stylesheet" href="./app-fold-daily-v177.css?v=193">
+<link rel="stylesheet" href="./app-fold-workspaces-v177.css?v=193">
+<script type="module" src="./private-calendar-ui-v175.js?v=193"></script>
+<script type="module" src="./firebase-app.js?v=193"></script>
+<link rel="stylesheet" href="./app-theme-primary-v176.css?v=193">
+<link rel="stylesheet" href="./wheelbar-v176.css?v=193">
+<script src="./wheelbar-v176.js?v=193"></script>
+<link rel="stylesheet" href="./app-system-surfaces-v176.css?v=193">
+<link rel="stylesheet" href="./photo-attachments-v176.css?v=193">
+<script src="./app-photo-attachments-v176.js?v=193"></script>
+<script src="./app-back-gesture-v176.js?v=193"></script>
+<link rel="stylesheet" href="./app-calendar-v179.css?v=193">
+<link rel="stylesheet" href="./schedule-editor-v179.css?v=193">
+<script type="module" src="./friend-schedule-ui-v175.js?v=193"></script>
+<script src="./app-calendar-v179.js?v=193"></script>
+<link rel="stylesheet" href="./app-todo-v179.css?v=193">
+<script type="module" src="./app-todo-v179.js?v=193"></script>
+<link rel="stylesheet" href="./schedule-ui-v184.css?v=193">
+<link rel="stylesheet" href="./app-readability-v184.css?v=193">
+<script src="./schedule-ui-v184.js?v=193"></script>
+<script src="./app-readability-v184.js?v=193"></script>
+<link rel="stylesheet" href="./app-compact-v186.css?v=193">
+<script src="./app-compact-v186.js?v=193"></script>
+<link rel="stylesheet" href="./event-routine-v186.css?v=193">
+<script src="./event-routine-v186.js?v=193"></script>
+<link rel="stylesheet" href="./routine-refine-v187.css?v=193">
+<script src="./routine-refine-v187.js?v=193"></script>
+<link rel="stylesheet" href="./app-home-refine-v187.css?v=193">
+<script src="./app-design-v188.js?v=193"></script>
+<link rel="stylesheet" href="./app-life-v188.css?v=193">
+<script src="./app-life-v188.js?v=193"></script>
+<link rel="stylesheet" href="./app-core-v193.css?v=193">
+<script src="./app-core-v193.js?v=193"></script>
 </body>
 </html>

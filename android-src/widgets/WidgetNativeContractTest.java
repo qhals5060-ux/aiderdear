@@ -180,7 +180,7 @@ public final class WidgetNativeContractTest {
         List<String> emptyHealth=WidgetApprovedV188.buildRows("PersonalWorkoutMeal",false,new JSONObject(),new JSONObject(),emptyOptions);
         require(emptyHealth.size()==3&&new JSONObject(emptyHealth.get(0)).optBoolean("_emptyV189")&&new JSONObject(emptyHealth.get(2)).optBoolean("_emptyV189"),"new install preserves empty measure/meal/exercise forms without invented values");
         require(!WidgetApprovedV188.supports("PersonalBulletSeven"),"retired bullet provider remains isolated compatibility renderer");
-        require(WidgetApprovedV188.supports("PersonalWorkflowAll@right"),"secondary collection routes into approved native renderer");
+        require(!WidgetApprovedV188.supports("PersonalWorkflowAll@right"),"retired workflow collection is not supported in v193");
         require(approved.getJSONArray("routines").getJSONObject(1).optBoolean("detail")==false,"native composition does not mutate saved model");
         JSONObject accountA=new JSONObject().put("v165",new JSONObject().put("uid","account-A")),accountB=new JSONObject().put("v165",new JSONObject().put("uid","account-B"));
         JSONObject ownerBound=new JSONObject().put("id","same-row-id").put("children",new JSONArray().put(new JSONObject().put("kind","meal").put("id","meal-A")));

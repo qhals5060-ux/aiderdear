@@ -1,0 +1,132 @@
+/* AiderLog v119 · schedule-only restrained cosmic refinement */
+#home.schedule-cosmic-v119{overflow:hidden!important;padding-bottom:calc(54px + env(safe-area-inset-bottom))!important;background:
+  radial-gradient(circle at 10% 13%,rgba(98,93,245,.055) 0 1px,transparent 2px),
+  radial-gradient(circle at 92% 73%,rgba(80,104,245,.05) 0 1px,transparent 2px),
+  linear-gradient(145deg,#fafbff,#f7f8fc 58%,#fbfaff)}
+#home.schedule-cosmic-v119 .schedule-home-v119{position:relative;min-height:0}
+#home.schedule-cosmic-v119 .schedule-calendar-v119{position:relative;isolation:isolate;overflow:hidden;border-color:#e8eaf2;box-shadow:0 12px 34px rgba(30,36,82,.055)}
+#home.schedule-cosmic-v119 .schedule-calendar-v119:before{content:"";position:absolute;right:-92px;top:-108px;width:238px;height:238px;border:1px solid rgba(98,93,245,.065);border-radius:50%;z-index:-1}
+#home.schedule-cosmic-v119 .schedule-calendar-v119:after{content:"";position:absolute;right:36px;top:41px;width:3px;height:3px;background:#625df5;border-radius:50%;box-shadow:-33px 23px 0 rgba(80,104,245,.28),25px 39px 0 rgba(98,93,245,.17);opacity:.42;z-index:-1}
+#home.schedule-cosmic-v119 .schedule-calhead-v119 h1{color:#10121c;font-weight:850;letter-spacing:-.055em}
+#home.schedule-cosmic-v119 .schedule-calhead-v119 h1 small{letter-spacing:0;color:#8a8e9e}
+#home.schedule-cosmic-v119 .schedule-calctl-v119{align-items:center}
+#home.schedule-cosmic-v119 .schedule-calctl-v119 button{display:grid;place-items:center;flex:0 0 auto;min-width:30px;border:1px solid #e8eaf2;background:#f6f7fb;color:#4e5363;font-weight:750;box-shadow:none;transition:.16s ease}
+#home.schedule-cosmic-v119 .schedule-calctl-v119 .schedule-today-v119{min-width:43px}
+#home.schedule-cosmic-v119 .schedule-calctl-v119 button:active{transform:scale(.94)}
+#home.schedule-cosmic-v119 .schedule-calctl-v119 .schedule-icon-v119{width:34px;min-width:34px;padding:0;border-radius:11px;color:#fff;border:0;background:linear-gradient(145deg,#5068f5,#7460ef)}
+#home.schedule-cosmic-v119 .schedule-calctl-v119 .schedule-icon-v119.emotion{color:#625df5;background:#f0eeff;border:1px solid rgba(98,93,245,.12)}
+#home.schedule-cosmic-v119 .schedule-icon-v119 svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+#home.schedule-cosmic-v119 .schedule-week-v119{position:relative;z-index:1}
+#home.schedule-cosmic-v119 .schedule-week-v119 span:first-child{color:#e08293}
+#home.schedule-cosmic-v119 .schedule-week-v119 span:last-child{color:#5c70d2}
+#home.schedule-cosmic-v119 .schedule-days-v119{position:relative;z-index:1;min-height:0}
+#home.schedule-cosmic-v119 .schedule-day-v119{position:relative;display:block;width:100%;min-width:0;min-height:0;padding:6px;border:1px solid #eceef4;border-radius:12px;background:rgba(255,255,255,.92);color:#202331;text-align:left;font:700 10px/1 system-ui,-apple-system,"Noto Sans KR",sans-serif;overflow:hidden;cursor:pointer;isolation:isolate}
+#home.schedule-cosmic-v119 .schedule-day-v119.outside{opacity:.34}
+#home.schedule-cosmic-v119 .schedule-day-v119:hover{border-color:#d9d6fb;background:#fbfaff}
+#home.schedule-cosmic-v119 .schedule-day-number-v119{position:relative;z-index:2;display:grid;place-items:center;width:22px;height:22px;border-radius:50%}
+#home.schedule-cosmic-v119 .schedule-day-v119.today:not(.selected) .schedule-day-number-v119{background:#f0eeff;color:#625df5}
+#home.schedule-cosmic-v119 .schedule-day-v119.selected{border-color:rgba(98,93,245,.28);background:linear-gradient(145deg,#fff,#faf9ff);box-shadow:inset 0 0 0 1px rgba(98,93,245,.06),0 4px 12px rgba(98,93,245,.06)}
+#home.schedule-cosmic-v119 .schedule-day-v119.selected:before{content:"";position:absolute;left:4px;top:4px;width:28px;height:28px;border:1.5px solid rgba(98,93,245,.55);border-radius:50%;box-shadow:0 0 0 4px rgba(98,93,245,.055),0 0 14px rgba(98,93,245,.11);z-index:1}
+#home.schedule-cosmic-v119 .schedule-day-v119.selected:after{content:"";position:absolute;left:29px;top:15px;width:3px;height:3px;border-radius:50%;background:#625df5;box-shadow:-17px -11px 0 -1px #8e86f6;z-index:3}
+#home.schedule-cosmic-v119 .schedule-event-name-v119{display:block;margin:4px 1px 0;padding:3px 5px;border-radius:6px;background:#f1f2ff;color:#5960ae;font-size:7px;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#home.schedule-cosmic-v119 .schedule-event-dots-v119{position:absolute;left:7px;bottom:6px;display:flex;gap:3px;z-index:2}
+#home.schedule-cosmic-v119 .schedule-event-dots-v119 i{width:4px;height:4px;border-radius:50%;background:var(--event-color,#625df5);box-shadow:0 0 5px color-mix(in srgb,var(--event-color,#625df5) 36%,transparent)}
+#home.schedule-cosmic-v119 .schedule-dday-v119{position:relative;isolation:isolate;overflow:hidden;background:linear-gradient(145deg,#5068f5,#625df5 53%,#795ee8);box-shadow:0 16px 36px rgba(80,85,220,.18)}
+#home.schedule-cosmic-v119 .schedule-dday-v119:before{content:"";position:absolute;right:-20px;top:-16px;width:78px;height:78px;border:1px solid rgba(255,255,255,.2);border-radius:50%;z-index:-1}
+#home.schedule-cosmic-v119 .schedule-dday-v119:after{content:"";position:absolute;right:13px;top:14px;width:11px;height:11px;border-radius:50%;background:linear-gradient(145deg,#fff8c9,#c9ddff);box-shadow:0 0 14px rgba(255,255,255,.35);opacity:.82;z-index:-1}
+#home.schedule-cosmic-v119 .schedule-constellation-v119{position:absolute;left:15px;bottom:16px;width:45px;height:1px;background:rgba(255,255,255,.16);transform:rotate(-18deg);z-index:-1}
+#home.schedule-cosmic-v119 .schedule-constellation-v119:before,#home.schedule-cosmic-v119 .schedule-constellation-v119:after{content:"";position:absolute;width:3px;height:3px;border-radius:50%;background:#fff;top:-1px;box-shadow:19px -6px 0 rgba(255,255,255,.75),34px 3px 0 rgba(255,255,255,.55)}
+#home.schedule-cosmic-v119 .schedule-dday-v119 small{font-weight:800;opacity:.8}
+#home.schedule-cosmic-v119 .schedule-dday-v119>span:last-child{font-size:8px;opacity:.76}
+#home.schedule-cosmic-v119 .schedule-upcoming-v119{border-color:#e8eaf2;box-shadow:0 12px 30px rgba(31,36,74,.05)}
+#home.schedule-cosmic-v119 .schedule-upcoming-v119>header{display:flex;align-items:center;justify-content:space-between;gap:8px}
+#home.schedule-cosmic-v119 .schedule-upcoming-v119>header h3{margin:0}
+#home.schedule-cosmic-v119 .schedule-upcoming-v119>header small{font-size:7px;font-weight:850;letter-spacing:.08em;color:#9a9eac}
+#home.schedule-cosmic-v119 .schedule-upcoming-v119 .uprow i{position:relative;background:#f7f7fc;color:#73798b;font-weight:750}
+#home.schedule-cosmic-v119 .schedule-upcoming-v119 .uprow i span{display:inline-block;width:5px;height:5px;margin-right:3px;border-radius:50%;background:var(--event-color,#625df5)}
+#home.schedule-cosmic-v119 .schedule-upcoming-v119 .uprow time{font-size:9px;color:#8c92a0}
+#home.schedule-cosmic-v119 .schedule-empty-v119{height:calc(100% - 28px);display:grid;place-content:center;justify-items:center;text-align:center;color:#818697}
+#home.schedule-cosmic-v119 .schedule-empty-v119>span{position:relative;width:62px;height:62px;margin-bottom:13px;border:1px solid rgba(98,93,245,.16);border-radius:50%;box-shadow:0 0 0 8px rgba(98,93,245,.035)}
+#home.schedule-cosmic-v119 .schedule-empty-v119>span:before{content:"";position:absolute;inset:12px;border-radius:50%;background:linear-gradient(145deg,#f0eeff,#e8f1ff);box-shadow:0 8px 16px rgba(98,93,245,.09)}
+#home.schedule-cosmic-v119 .schedule-empty-v119>span i{position:absolute;right:1px;top:13px;width:7px;height:7px;border-radius:50%;background:#625df5;box-shadow:0 0 9px rgba(98,93,245,.25)}
+#home.schedule-cosmic-v119 .schedule-empty-v119 p{margin:0;color:#4e5363;font-size:12px;font-weight:800}
+#home.schedule-cosmic-v119 .schedule-empty-v119 small{margin-top:5px;font-size:8px;color:#9a9eac}
+
+.schedule-dialog-v119,.emotion-dialog-v119{position:fixed;inset:0;z-index:900;display:grid;place-items:center;padding:18px;background:rgba(28,31,60,.24);backdrop-filter:blur(9px);opacity:0;visibility:hidden;transition:.17s ease}
+.schedule-dialog-v119.on,.emotion-dialog-v119.on{opacity:1;visibility:visible}
+.schedule-dialog-v119>section,.emotion-dialog-v119>section{width:min(440px,100%);max-height:min(680px,calc(100dvh - 28px));overflow:auto;border:1px solid rgba(255,255,255,.9);border-radius:25px;background:#fff;box-shadow:0 24px 70px rgba(29,31,79,.2);transform:translateY(12px) scale(.98);transition:.2s ease}
+.schedule-dialog-v119.on>section,.emotion-dialog-v119.on>section{transform:none}
+.schedule-dialog-v119 header,.emotion-dialog-v119 header{display:flex;align-items:center;justify-content:space-between;padding:19px 20px 13px;background:linear-gradient(145deg,#fbfbff,#f5f4ff)}
+.schedule-dialog-v119 header small,.emotion-dialog-v119 header small{display:block;margin-bottom:3px;color:#625df5;font-size:8px;font-weight:900;letter-spacing:.15em}
+.schedule-dialog-v119 header h2,.emotion-dialog-v119 header h2{margin:0;color:#161925;font-size:20px;letter-spacing:-.04em}
+.schedule-dialog-v119 header button,.emotion-dialog-v119 header button{width:34px;height:34px;border:1px solid #e6e7ef;border-radius:11px;background:#fff;color:#64697a;font-size:21px}
+.schedule-dialog-v119 form,.emotion-dialog-v119 form{display:grid;gap:11px;padding:16px 20px 20px}
+.schedule-dialog-v119 label,.emotion-dialog-v119 label{display:grid;gap:6px;color:#585e70;font-size:9px;font-weight:800}
+.schedule-dialog-v119 input,.schedule-dialog-v119 select,.schedule-dialog-v119 textarea,.emotion-dialog-v119 input,.emotion-dialog-v119 textarea{width:100%;min-width:0;border:1px solid #e3e5ed;border-radius:11px;background:#fbfbfd;color:#202331;padding:10px 11px;font:600 11px/1.35 system-ui,-apple-system,"Noto Sans KR",sans-serif;outline:none}
+.schedule-dialog-v119 input:focus,.schedule-dialog-v119 select:focus,.schedule-dialog-v119 textarea:focus,.emotion-dialog-v119 input:focus,.emotion-dialog-v119 textarea:focus{border-color:#8b84ed;box-shadow:0 0 0 3px rgba(98,93,245,.08)}
+.schedule-dialog-v119 textarea,.emotion-dialog-v119 textarea{min-height:70px;resize:vertical}
+.schedule-form-grid-v119{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.schedule-sync-note-v119{display:flex;align-items:center;gap:9px;margin:0;padding:10px;border:1px solid #e4e2fb;border-radius:12px;background:#f7f6ff;color:#737789;font-size:8px;line-height:1.45}
+.schedule-sync-note-v119 i{width:22px;height:22px;border:1.5px solid #756cef;border-radius:50%;box-shadow:inset 0 0 0 5px #f7f6ff,0 0 0 3px rgba(98,93,245,.06)}
+.schedule-sync-note-v119 span{display:grid}.schedule-sync-note-v119 b{color:#4f48cb;font-size:9px}
+.schedule-dialog-v119 footer,.emotion-dialog-v119 footer{display:flex;justify-content:flex-end;gap:7px;margin-top:2px}
+.schedule-dialog-v119 footer button,.emotion-dialog-v119 footer button{height:37px;padding:0 16px;border:1px solid #e3e5ed;border-radius:11px;background:#fff;color:#656a7a;font-size:10px;font-weight:800}
+.schedule-dialog-v119 footer button[type="submit"],.emotion-dialog-v119 footer button[type="submit"]{border:0;background:linear-gradient(145deg,#5068f5,#7460ef);color:#fff;box-shadow:0 8px 18px rgba(98,93,245,.18)}
+.emotion-dialog-v119 fieldset{margin:0;padding:0;border:0}.emotion-dialog-v119 legend{margin-bottom:7px;color:#585e70;font-size:9px;font-weight:800}
+.emotion-options-v119{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}.emotion-options-v119 label{display:block}.emotion-options-v119 input{position:absolute;opacity:0;pointer-events:none}.emotion-options-v119 span{display:grid;place-items:center;gap:3px;min-height:53px;border:1px solid #e8e9f0;border-radius:12px;background:#fbfbfd;color:#737789;font-size:8px;cursor:pointer}.emotion-options-v119 span i{font-style:normal;color:#7469e9;font-size:15px}.emotion-options-v119 input:checked+span{border-color:#766ef0;background:#f1efff;color:#4e47c9;box-shadow:0 0 0 3px rgba(98,93,245,.07)}
+.emotion-range-v119>span{display:block}.emotion-range-v119>span b{color:#625df5;font-size:13px}.emotion-range-v119 input[type="range"]{padding:0;accent-color:#625df5}
+
+@media(max-width:720px){
+  #home.schedule-cosmic-v119 .schedule-home-v119{grid-template-rows:minmax(0,1fr) 104px!important;gap:8px}
+  #home.schedule-cosmic-v119 .schedule-calendar-v119{padding:9px}
+  #home.schedule-cosmic-v119 .schedule-calhead-v119 h1{font-size:23px}
+  #home.schedule-cosmic-v119 .schedule-calctl-v119{gap:3px}
+  #home.schedule-cosmic-v119 .schedule-calctl-v119 button{height:30px;padding:0 7px;font-size:8px}
+  #home.schedule-cosmic-v119 .schedule-calctl-v119 .schedule-icon-v119{width:30px;min-width:30px;padding:0;border-radius:10px}
+  #home.schedule-cosmic-v119 .schedule-icon-v119 svg{width:15px;height:15px}
+  #home.schedule-cosmic-v119 .schedule-week-v119{margin:7px 0 4px}
+  #home.schedule-cosmic-v119 .schedule-days-v119{gap:4px}
+  #home.schedule-cosmic-v119 .schedule-day-v119{padding:3px;border-radius:10px}
+  #home.schedule-cosmic-v119 .schedule-day-number-v119{width:20px;height:20px}
+  #home.schedule-cosmic-v119 .schedule-day-v119.selected:before{left:2px;top:2px;width:24px;height:24px}
+  #home.schedule-cosmic-v119 .schedule-day-v119.selected:after{left:24px;top:12px}
+  #home.schedule-cosmic-v119 .schedule-event-name-v119{display:none}
+  #home.schedule-cosmic-v119 .schedule-event-dots-v119{left:5px;bottom:4px}
+  #home.schedule-cosmic-v119 .schedule-homeside-v119{gap:8px}
+  #home.schedule-cosmic-v119 .schedule-dday-v119{padding:9px 10px}
+  #home.schedule-cosmic-v119 .schedule-dday-v119 h2{margin:3px 0 0;font-size:12px}
+  #home.schedule-cosmic-v119 .schedule-dday-v119 strong{font-size:25px;line-height:.9}
+  #home.schedule-cosmic-v119 .schedule-dday-v119>span:last-child{font-size:6.7px}
+  #home.schedule-cosmic-v119 .schedule-upcoming-v119{padding:8px}
+  #home.schedule-cosmic-v119 .schedule-upcoming-v119>header h3{font-size:11px}
+  #home.schedule-cosmic-v119 .schedule-upcoming-v119 .uprow{grid-template-columns:37px 1fr auto;gap:4px;padding:4px 0}
+  #home.schedule-cosmic-v119 .schedule-upcoming-v119 .uprow:nth-of-type(n+4){display:none}
+  #home.schedule-cosmic-v119 .schedule-upcoming-v119 .uprow i{padding:5px 2px;font-size:7px}
+  #home.schedule-cosmic-v119 .schedule-upcoming-v119 .uprow b{font-size:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  #home.schedule-cosmic-v119 .schedule-upcoming-v119 .uprow time{font-size:7px}
+  #home.schedule-cosmic-v119 .schedule-empty-v119{height:auto;display:block;text-align:left}
+  #home.schedule-cosmic-v119 .schedule-empty-v119>span,#home.schedule-cosmic-v119 .schedule-empty-v119 small{display:none}
+  #home.schedule-cosmic-v119 .schedule-empty-v119 p{margin:11px 0 0;font-size:9px}
+}
+@media(max-width:350px){
+  #home.schedule-cosmic-v119 .schedule-calhead-v119 h1{font-size:19px}
+  #home.schedule-cosmic-v119 .schedule-calhead-v119 h1 small{display:block;margin-top:2px}
+  #home.schedule-cosmic-v119 .schedule-calctl-v119 button{height:28px;padding:0 5px;font-size:7px}
+  #home.schedule-cosmic-v119 .schedule-calctl-v119 .schedule-icon-v119{width:27px;min-width:27px}
+  #home.schedule-cosmic-v119 .schedule-days-v119{gap:3px}
+  #home.schedule-cosmic-v119 .schedule-day-number-v119{width:18px;height:18px;font-size:8px}
+  #home.schedule-cosmic-v119 .schedule-day-v119.selected:before{width:22px;height:22px}
+  #home.schedule-cosmic-v119 .schedule-upcoming-v119>header small{display:none}
+  .schedule-dialog-v119,.emotion-dialog-v119{padding:8px}.schedule-form-grid-v119{grid-template-columns:1fr}.emotion-options-v119{grid-template-columns:repeat(5,1fr);gap:4px}.emotion-options-v119 span{min-height:48px;font-size:7px}
+}
+@media(max-height:650px) and (max-width:720px){
+  #home.schedule-cosmic-v119 .schedule-home-v119{grid-template-rows:minmax(0,1fr) 88px!important}
+  #home.schedule-cosmic-v119 .schedule-week-v119{margin:5px 0 3px}
+  #home.schedule-cosmic-v119 .schedule-days-v119{gap:3px}
+  #home.schedule-cosmic-v119 .schedule-dday-v119 strong{font-size:21px}
+  #home.schedule-cosmic-v119 .schedule-upcoming-v119 .uprow:nth-of-type(n+3){display:none}
+}
+@media(min-width:721px) and (max-width:1050px){
+  #home.schedule-cosmic-v119 .schedule-home-v119{grid-template-columns:minmax(0,1.4fr) minmax(210px,.6fr)}
+}
+@media(prefers-reduced-motion:reduce){.schedule-dialog-v119,.schedule-dialog-v119>section,.emotion-dialog-v119,.emotion-dialog-v119>section{transition:none!important}}

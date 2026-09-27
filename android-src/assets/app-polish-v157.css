@@ -1,0 +1,117 @@
+/* AiderLog v157 · faster wheel feedback, bottom record sheets and Event tabs. */
+
+/* The wheel answers immediately while the long-press threshold is being met. */
+html .global-wheel-v126.arming #wheelCore::before,
+html .global-wheel-v126.arming #wheelCore>.wheel-art-v140,
+html .global-wheel-v126 #wheelCore.pressing::before,
+html .global-wheel-v126 #wheelCore.pressing>.wheel-art-v140{
+  transform:translate(-50%,-50%) scale(1.035)!important;
+  filter:var(--wheel-art-filter) brightness(1.16) saturate(1.1)
+    drop-shadow(0 0 9px rgba(255,255,255,.94))
+    drop-shadow(0 0 24px var(--wheel-art-glow))!important;
+}
+html .global-wheel-v126 .global-wheel-field-v126{
+  transition:opacity .1s ease,visibility 0s linear .1s!important
+}
+html .global-wheel-v126.open .global-wheel-field-v126{
+  transition:opacity .1s ease,visibility 0s!important
+}
+html .global-wheel-v126 .global-wheel-orbits-v126{transition-duration:.1s!important}
+html .global-wheel-v126 .global-wheel-item-v126{
+  /* The hit target must not move after it becomes tappable.  Only its light
+     treatment fades in; the final orbital position is committed at once. */
+  transition:opacity .1s ease,filter .1s ease,background-color .1s ease,box-shadow .1s ease!important
+}
+/* Keep every 58px touch disc separate. The earlier compact arc overlapped
+   My and Language, so elementFromPoint could select the adjacent page. */
+html .global-wheel-v126.open .global-wheel-item-v126.slot-0{left:-6px!important;top:142px!important}
+html .global-wheel-v126.open .global-wheel-item-v126.slot-1{left:12px!important;top:88px!important}
+html .global-wheel-v126.open .global-wheel-item-v126.slot-2{left:44px!important;top:41px!important}
+html .global-wheel-v126.open .global-wheel-item-v126.slot-3{left:91px!important;top:9px!important}
+html .global-wheel-v126.open .global-wheel-item-v126.slot-4{left:146px!important;top:-7px!important}
+html .global-wheel-v126.open .global-wheel-item-v126{z-index:8!important}
+
+/* Event modes read as quiet text tabs directly beside the page title. */
+#event .barebar{justify-content:flex-start!important;gap:10px!important}
+#event .barebar .event-word-tabs-v157{
+  display:flex!important;align-items:center!important;gap:2px!important;
+  min-width:0!important;margin:0!important;
+}
+#event .barebar .event-word-tabs-v157 button{
+  width:auto!important;min-width:0!important;height:31px!important;padding:0 8px!important;
+  border:0!important;border-radius:999px!important;background:transparent!important;
+  box-shadow:none!important;color:rgba(255,255,255,.72)!important;
+  font-size:9px!important;font-weight:850!important;letter-spacing:.015em!important;
+}
+#event .barebar .event-word-tabs-v157 button.active{
+  background:color-mix(in srgb,var(--theme-primary) 78%,rgba(255,255,255,.22))!important;
+  color:#fff!important;box-shadow:0 0 14px color-mix(in srgb,var(--theme-glow) 58%,transparent)!important;
+}
+
+/* Every record/create editor is a true 3/5-height bottom sheet. */
+@media(max-width:700px){
+  html body #app.event-editor-open-v157,
+  html body #app:has(.schedule-dialog-v125.on,.schedule-dialog-v119.on,.emotion-dialog-v119.on,
+    #recordModal.modal.on,#personalModal.modal.on,.travel-folder-dialog-v125.on){overflow:visible!important}
+  html body #event.event-editor-open-v157,
+  html body #event.event-editor-open-v157>.page,
+  html body .view:has(.schedule-dialog-v125.on,.schedule-dialog-v119.on,.emotion-dialog-v119.on,
+    #recordModal.modal.on,#personalModal.modal.on,.travel-folder-dialog-v125.on),
+  html body .view:has(.schedule-dialog-v125.on,.schedule-dialog-v119.on,.emotion-dialog-v119.on,
+    #recordModal.modal.on,#personalModal.modal.on,.travel-folder-dialog-v125.on)>.page{
+    transform:none!important;overflow:visible!important
+  }
+  html body :is(.schedule-dialog-v125.on,.schedule-dialog-v119.on,.emotion-dialog-v119.on,
+    #recordModal.modal.on,#personalModal.modal.on,.travel-folder-dialog-v125.on),
+  html body #event.event-editor-open-v157 .event-editor-overlay-v111{
+    position:fixed!important;z-index:950!important;inset:0!important;width:100vw!important;height:100dvh!important;
+    padding:0!important;margin:0!important;display:flex!important;align-items:flex-end!important;
+    justify-content:center!important;place-items:end center!important;
+    translate:0 var(--aiderlog-overlay-shift-v157,0px)!important;
+    background:rgba(10,7,29,.42)!important;backdrop-filter:blur(7px) saturate(92%)!important;
+  }
+  html body :is(.schedule-dialog-v125,.schedule-dialog-v119,.emotion-dialog-v119,
+    #recordModal.modal,#personalModal.modal,.travel-folder-dialog-v125)>:is(section,.box),
+  html body #event.event-editor-open-v157 .event-editor-overlay-v111>.event-editor-sheet-v111{
+    position:relative!important;inset:auto!important;display:flex!important;flex-direction:column!important;
+    width:100%!important;min-width:0!important;max-width:700px!important;
+    height:60dvh!important;min-height:60dvh!important;max-height:60dvh!important;
+    margin:0!important;border:1px solid rgba(255,255,255,.76)!important;border-bottom:0!important;
+    border-radius:26px 26px 0 0!important;overflow:hidden!important;
+    background:linear-gradient(165deg,#fff 0%,#fbfaff 68%,color-mix(in srgb,var(--theme-accent-soft) 18%,#fff))!important;
+    box-shadow:0 -22px 72px rgba(10,7,35,.28),inset 0 1px rgba(255,255,255,.92)!important;
+    translate:0 0;transform:translateY(0)!important;animation:aiderlogSheetUpV157 .22s cubic-bezier(.2,.82,.28,1) both!important;
+  }
+  html body :is(.schedule-dialog-v125,.schedule-dialog-v119,.emotion-dialog-v119,
+    .travel-folder-dialog-v125) :is(.feature-dialog-head-v125,header),
+  html body #event .event-editor-head-v111{
+    position:sticky!important;z-index:8!important;top:0!important;flex:0 0 auto!important;
+    min-height:72px!important;padding:14px 17px 12px!important;border-radius:25px 25px 0 0!important;
+  }
+  html body :is(.schedule-dialog-body-v125,.schedule-dialog-v119 form,.emotion-dialog-v119 form,
+    #personalModal .personal-entry-box>form,#recordModal .box,.travel-folder-dialog-v125 form,
+    #event .event-editor-form-v111){
+    flex:1 1 auto!important;min-height:0!important;overflow-x:hidden!important;overflow-y:auto!important;
+    overscroll-behavior:contain!important;-webkit-overflow-scrolling:touch!important;
+  }
+  html body #event .event-editor-form-v111{padding:13px 15px 0!important}
+  html body #event .event-editor-actions-v111,
+  html body .schedule-dialog-actions-v125,
+  html body .emotion-dialog-v119 footer,
+  html body :is(#recordModal,#personalModal) footer{
+    flex:0 0 auto!important;position:sticky!important;bottom:0!important;margin-top:8px!important;
+    padding:9px 0 max(9px,env(safe-area-inset-bottom))!important;border:0!important;
+    background:transparent!important;background-image:none!important;box-shadow:none!important;backdrop-filter:none!important;
+  }
+}
+
+@keyframes aiderlogSheetUpV157{
+  from{opacity:.72;translate:0 100%}
+  to{opacity:1;translate:0 0}
+}
+
+@media(prefers-reduced-motion:reduce){
+  html body #event .event-editor-overlay-v111>.event-editor-sheet-v111,
+  html body :is(.schedule-dialog-v125,.schedule-dialog-v119,.emotion-dialog-v119,
+    #recordModal.modal,#personalModal.modal,.travel-folder-dialog-v125)>:is(section,.box){animation:none!important}
+}

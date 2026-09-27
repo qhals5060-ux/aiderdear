@@ -1,0 +1,16 @@
+/* AiderLog v159 · four-orbit wheel and private research cards */
+html .global-wheel-v126{right:-22px!important;bottom:-20px!important}
+html .global-wheel-v126.open{right:max(2px,env(safe-area-inset-right))!important;bottom:max(2px,env(safe-area-inset-bottom))!important}
+html .global-wheel-v126.open .global-wheel-field-v126{inset:-38px -22px -18px -38px!important}
+html .global-wheel-v126.open .global-wheel-field-v126::after,
+html .global-wheel-v126.open .global-wheel-orbits-v126{left:35px!important;top:34px!important;width:196px!important;height:196px!important}
+html .global-wheel-v126.open .global-wheel-item-v126{width:64px!important;height:64px!important;pointer-events:auto!important}
+html .global-wheel-v126.open .global-wheel-item-v126::before{inset:8px!important}
+html .global-wheel-v126.open .global-wheel-item-v126.slot-0{left:34px!important;top:145px!important}
+html .global-wheel-v126.open .global-wheel-item-v126.slot-1{left:54px!important;top:82px!important}
+html .global-wheel-v126.open .global-wheel-item-v126.slot-2{left:106px!important;top:42px!important}
+html .global-wheel-v126.open .global-wheel-item-v126.slot-3{left:172px!important;top:39px!important}
+html .global-wheel-v126.open .global-wheel-item-v126 b{font-size:9px!important;background:color-mix(in srgb,var(--theme-surface) 94%,transparent)!important}
+#fifth .lab145-page .suite145-scroll{height:calc(100% - 58px)!important;padding:8px 9px max(7px,env(safe-area-inset-bottom))!important}
+#fifth .my128-tools{padding-bottom:max(8px,env(safe-area-inset-bottom))!important}
+@media(min-width:600px){#fifth .my128-tool h2,#fifth .suite145-page h2{font-size:calc(1em + 1px)!important}}
