@@ -257,8 +257,8 @@ public final class WidgetNativeV164 {
     static void collection(Context c,RemoteViews v,int widget,String kind,List<String> rows,int list)throws RuntimeException{
         String target=kind.startsWith("Calendar")?"home":kind.startsWith("Routine")?"private":"personal";
         Intent open=new Intent().setClassName(c,c.getPackageName()+".MainActivity").setAction("aiderlog.widget.collection."+widget+"."+kind).putExtra("target",target).addFlags(0x14000000);
-        v.setPendingIntentTemplate(list,kind.equals("RoutineAll")||kind.endsWith("@todos")?WidgetPrivateV196.collection(c,widget,kind,WidgetPrivateV196.owner(snapshot(c))):kind.startsWith("Calendar")&&!kind.contains("@")?WidgetCalendarV195.collection(c,widget,kind,WidgetCalendarV195.owner(snapshot(c))):PendingIntent.getActivity(c,widget*17+kind.hashCode(),open,android.os.Build.VERSION.SDK_INT>=31?0x0a000000:0x08000000));
-        if(android.os.Build.VERSION.SDK_INT>=31&&kind.startsWith("Calendar")&&rows.size()<=40){try{
+        v.setPendingIntentTemplate(list,kind.equals("RoutineAll")?WidgetPrivateV196.collection(c,widget,kind,WidgetPrivateV196.owner(snapshot(c))):(kind.endsWith("@todos")||kind.endsWith("@notes"))?WidgetPrivateV196.noteCollection(c,widget,kind,WidgetPrivateV196.owner(snapshot(c))):kind.startsWith("Calendar")&&!kind.contains("@")?WidgetCalendarV195.collection(c,widget,kind,WidgetCalendarV195.owner(snapshot(c))):PendingIntent.getActivity(c,widget*17+kind.hashCode(),open,android.os.Build.VERSION.SDK_INT>=31?0x0a000000:0x08000000));
+        if(inlineCollection(android.os.Build.VERSION.SDK_INT,kind,rows.size())){try{
             Class<?> builderClass=Class.forName("android.widget.RemoteViews$RemoteCollectionItems$Builder");Object builder=builderClass.getDeclaredConstructor().newInstance();
             builderClass.getMethod("setHasStableIds",boolean.class).invoke(builder,true);
             builderClass.getMethod("setViewTypeCount",int.class).invoke(builder,16);
@@ -269,10 +269,13 @@ public final class WidgetNativeV164 {
         Intent service=new Intent().setClassName(c,c.getPackageName()+".WidgetRowsV164").putExtra("appWidgetId",widget).putExtra("kind",kind);
         android.util.SizeF bounds=WidgetSizeV169.current(c,widget);
         service.putExtra("widthDp",bounds.getWidth()).putExtra("heightDp",bounds.getHeight());
-        service.setData(Uri.parse("aiderlog-widget-rows://"+widget+"/"+kind+"/"+selected(c,widget)+"/"+bounds.getWidth()+"x"+bounds.getHeight()));
+        service.setData(Uri.parse("aiderlog-widget-rows://"+widget+"/v197/"+kind+"/"+selected(c,widget)+"/"+bounds.getWidth()+"x"+bounds.getHeight()+"/"+collectionFingerprint(rows)));
         v.setRemoteAdapter(list,service);
         prefs(c).edit().putBoolean("widget_service_"+widget,true).apply();
     }
+    static boolean inlineCollection(int sdk,String kind,int count){return sdk>=31&&(kind.startsWith("Calendar")||kind.equals("RoutineAll"))&&count<=40;}
+    /** Content identity prevents a launcher retaining a previous owner/revision factory. */
+    static String collectionFingerprint(List<String> rows){try{java.security.MessageDigest digest=java.security.MessageDigest.getInstance("SHA-256");for(String row:rows){digest.update(row.getBytes(java.nio.charset.StandardCharsets.UTF_8));digest.update((byte)0);}StringBuilder out=new StringBuilder();for(byte b:digest.digest())out.append(String.format(java.util.Locale.US,"%02x",b&255));return out.toString();}catch(java.security.NoSuchAlgorithmException error){throw new IllegalStateException(error);}}
     static void mealPhotos(Context c,RemoteViews v,JSONObject data){
         JSONArray photos=data.optJSONArray("mealPhotos"),times=data.optJSONArray("mealTimes"),ratings=data.optJSONArray("mealRatings");
         for(int i=0;i<4;i++){

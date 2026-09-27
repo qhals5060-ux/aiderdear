@@ -1669,7 +1669,7 @@
 .end method
 
 .method static collection(Landroid/content/Context;Landroid/widget/RemoteViews;ILjava/lang/String;Ljava/util/List;I)V
-    .locals 20
+    .locals 21
     .annotation system Ldalvik/annotation/Signature;
         value = {
             "(",
@@ -1698,240 +1698,257 @@
 
     move-object/from16 v11, p3
 
-    move-object/from16 v0, p4
+    move-object/from16 v12, p4
 
-    move/from16 v12, p5
+    move/from16 v13, p5
 
-    const-string v1, "Calendar"
+    const-string v0, "Calendar"
 
-    invoke-virtual {v11, v1}, Ljava/lang/String;->startsWith(Ljava/lang/String;)Z
+    invoke-virtual {v11, v0}, Ljava/lang/String;->startsWith(Ljava/lang/String;)Z
 
-    move-result v2
+    move-result v1
 
-    if-eqz v2, :cond_0
+    if-eqz v1, :cond_0
 
-    const-string v2, "home"
+    const-string v1, "home"
 
     goto :goto_0
 
     :cond_0
-    const-string v2, "Routine"
-
-    invoke-virtual {v11, v2}, Ljava/lang/String;->startsWith(Ljava/lang/String;)Z
-
-    move-result v2
-
-    if-eqz v2, :cond_1
-
-    const-string v2, "private"
-
-    goto :goto_0
-
-    :cond_1
-    const-string v2, "personal"
-
-    .line 259
-    :goto_0
-    new-instance v3, Landroid/content/Intent;
-
-    invoke-direct {v3}, Landroid/content/Intent;-><init>()V
-
-    new-instance v4, Ljava/lang/StringBuilder;
-
-    invoke-virtual/range {p0 .. p0}, Landroid/content/Context;->getPackageName()Ljava/lang/String;
-
-    move-result-object v5
-
-    invoke-static {v5}, Ljava/lang/String;->valueOf(Ljava/lang/Object;)Ljava/lang/String;
-
-    move-result-object v5
-
-    invoke-direct {v4, v5}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
-
-    const-string v5, ".MainActivity"
-
-    invoke-virtual {v4, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v4
-
-    invoke-virtual {v4}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
-
-    move-result-object v4
-
-    invoke-virtual {v3, v8, v4}, Landroid/content/Intent;->setClassName(Landroid/content/Context;Ljava/lang/String;)Landroid/content/Intent;
-
-    move-result-object v3
-
-    new-instance v4, Ljava/lang/StringBuilder;
-
-    const-string v5, "aiderlog.widget.collection."
-
-    invoke-direct {v4, v5}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
-
-    invoke-virtual {v4, v10}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
-
-    move-result-object v4
-
-    const-string v5, "."
-
-    invoke-virtual {v4, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v4
-
-    invoke-virtual {v4, v11}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v4
-
-    invoke-virtual {v4}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
-
-    move-result-object v4
-
-    invoke-virtual {v3, v4}, Landroid/content/Intent;->setAction(Ljava/lang/String;)Landroid/content/Intent;
-
-    move-result-object v3
-
-    const-string v4, "target"
-
-    invoke-virtual {v3, v4, v2}, Landroid/content/Intent;->putExtra(Ljava/lang/String;Ljava/lang/String;)Landroid/content/Intent;
-
-    move-result-object v2
-
-    const/high16 v3, 0x14000000
-
-    invoke-virtual {v2, v3}, Landroid/content/Intent;->addFlags(I)Landroid/content/Intent;
-
-    move-result-object v2
-
-    .line 260
-    const-string v3, "RoutineAll"
-
-    invoke-virtual {v11, v3}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
-
-    move-result v3
-
-    const/16 v4, 0x1f
-
-    if-nez v3, :cond_5
-
-    const-string v3, "@todos"
-
-    invoke-virtual {v11, v3}, Ljava/lang/String;->endsWith(Ljava/lang/String;)Z
-
-    move-result v3
-
-    if-eqz v3, :cond_2
-
-    goto :goto_2
-
-    :cond_2
-    invoke-virtual {v11, v1}, Ljava/lang/String;->startsWith(Ljava/lang/String;)Z
-
-    move-result v3
-
-    if-eqz v3, :cond_3
-
-    const-string v3, "@"
-
-    invoke-virtual {v11, v3}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
-
-    move-result v3
-
-    if-nez v3, :cond_3
-
-    invoke-static/range {p0 .. p0}, Lcom/aiderlog/v22app/WidgetNativeV164;->snapshot(Landroid/content/Context;)Lorg/json/JSONObject;
-
-    move-result-object v2
-
-    invoke-static {v2}, Lcom/aiderlog/v22app/WidgetCalendarV195;->owner(Lorg/json/JSONObject;)Ljava/lang/String;
-
-    move-result-object v2
-
-    invoke-static {v8, v10, v11, v2}, Lcom/aiderlog/v22app/WidgetCalendarV195;->collection(Landroid/content/Context;ILjava/lang/String;Ljava/lang/String;)Landroid/app/PendingIntent;
-
-    move-result-object v2
-
-    goto :goto_3
-
-    :cond_3
-    mul-int/lit8 v3, v10, 0x11
-
-    invoke-virtual/range {p3 .. p3}, Ljava/lang/String;->hashCode()I
-
-    move-result v5
-
-    add-int/2addr v3, v5
-
-    sget v5, Landroid/os/Build$VERSION;->SDK_INT:I
-
-    if-lt v5, v4, :cond_4
-
-    const/high16 v5, 0xa000000
-
-    goto :goto_1
-
-    :cond_4
-    const/high16 v5, 0x8000000
-
-    :goto_1
-    invoke-static {v8, v3, v2, v5}, Landroid/app/PendingIntent;->getActivity(Landroid/content/Context;ILandroid/content/Intent;I)Landroid/app/PendingIntent;
-
-    move-result-object v2
-
-    goto :goto_3
-
-    :cond_5
-    :goto_2
-    invoke-static/range {p0 .. p0}, Lcom/aiderlog/v22app/WidgetNativeV164;->snapshot(Landroid/content/Context;)Lorg/json/JSONObject;
-
-    move-result-object v2
-
-    invoke-static {v2}, Lcom/aiderlog/v22app/WidgetPrivateV196;->owner(Lorg/json/JSONObject;)Ljava/lang/String;
-
-    move-result-object v2
-
-    invoke-static {v8, v10, v11, v2}, Lcom/aiderlog/v22app/WidgetPrivateV196;->collection(Landroid/content/Context;ILjava/lang/String;Ljava/lang/String;)Landroid/app/PendingIntent;
-
-    move-result-object v2
-
-    :goto_3
-    invoke-virtual {v9, v12, v2}, Landroid/widget/RemoteViews;->setPendingIntentTemplate(ILandroid/app/PendingIntent;)V
-
-    .line 261
-    sget v2, Landroid/os/Build$VERSION;->SDK_INT:I
-
-    const-string v13, "widget_service_"
-
-    const/4 v14, 0x1
-
-    if-lt v2, v4, :cond_7
+    const-string v1, "Routine"
 
     invoke-virtual {v11, v1}, Ljava/lang/String;->startsWith(Ljava/lang/String;)Z
 
     move-result v1
 
-    if-eqz v1, :cond_7
+    if-eqz v1, :cond_1
+
+    const-string v1, "private"
+
+    goto :goto_0
+
+    :cond_1
+    const-string v1, "personal"
+
+    .line 259
+    :goto_0
+    new-instance v2, Landroid/content/Intent;
+
+    invoke-direct {v2}, Landroid/content/Intent;-><init>()V
+
+    new-instance v3, Ljava/lang/StringBuilder;
+
+    invoke-virtual/range {p0 .. p0}, Landroid/content/Context;->getPackageName()Ljava/lang/String;
+
+    move-result-object v4
+
+    invoke-static {v4}, Ljava/lang/String;->valueOf(Ljava/lang/Object;)Ljava/lang/String;
+
+    move-result-object v4
+
+    invoke-direct {v3, v4}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+
+    const-string v4, ".MainActivity"
+
+    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v3
+
+    invoke-virtual {v3}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v3
+
+    invoke-virtual {v2, v8, v3}, Landroid/content/Intent;->setClassName(Landroid/content/Context;Ljava/lang/String;)Landroid/content/Intent;
+
+    move-result-object v2
+
+    new-instance v3, Ljava/lang/StringBuilder;
+
+    const-string v4, "aiderlog.widget.collection."
+
+    invoke-direct {v3, v4}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+
+    invoke-virtual {v3, v10}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    move-result-object v3
+
+    const-string v4, "."
+
+    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v3
+
+    invoke-virtual {v3, v11}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v3
+
+    invoke-virtual {v3}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v3
+
+    invoke-virtual {v2, v3}, Landroid/content/Intent;->setAction(Ljava/lang/String;)Landroid/content/Intent;
+
+    move-result-object v2
+
+    const-string v3, "target"
+
+    invoke-virtual {v2, v3, v1}, Landroid/content/Intent;->putExtra(Ljava/lang/String;Ljava/lang/String;)Landroid/content/Intent;
+
+    move-result-object v1
+
+    const/high16 v2, 0x14000000
+
+    invoke-virtual {v1, v2}, Landroid/content/Intent;->addFlags(I)Landroid/content/Intent;
+
+    move-result-object v1
+
+    .line 260
+    const-string v2, "RoutineAll"
+
+    invoke-virtual {v11, v2}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v2
+
+    if-eqz v2, :cond_2
+
+    invoke-static/range {p0 .. p0}, Lcom/aiderlog/v22app/WidgetNativeV164;->snapshot(Landroid/content/Context;)Lorg/json/JSONObject;
+
+    move-result-object v0
+
+    invoke-static {v0}, Lcom/aiderlog/v22app/WidgetPrivateV196;->owner(Lorg/json/JSONObject;)Ljava/lang/String;
+
+    move-result-object v0
+
+    invoke-static {v8, v10, v11, v0}, Lcom/aiderlog/v22app/WidgetPrivateV196;->collection(Landroid/content/Context;ILjava/lang/String;Ljava/lang/String;)Landroid/app/PendingIntent;
+
+    move-result-object v0
+
+    goto :goto_3
+
+    :cond_2
+    const-string v2, "@todos"
+
+    invoke-virtual {v11, v2}, Ljava/lang/String;->endsWith(Ljava/lang/String;)Z
+
+    move-result v2
+
+    if-nez v2, :cond_6
+
+    const-string v2, "@notes"
+
+    invoke-virtual {v11, v2}, Ljava/lang/String;->endsWith(Ljava/lang/String;)Z
+
+    move-result v2
+
+    if-eqz v2, :cond_3
+
+    goto :goto_2
+
+    :cond_3
+    invoke-virtual {v11, v0}, Ljava/lang/String;->startsWith(Ljava/lang/String;)Z
+
+    move-result v0
+
+    if-eqz v0, :cond_4
+
+    const-string v0, "@"
+
+    invoke-virtual {v11, v0}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
+
+    move-result v0
+
+    if-nez v0, :cond_4
+
+    invoke-static/range {p0 .. p0}, Lcom/aiderlog/v22app/WidgetNativeV164;->snapshot(Landroid/content/Context;)Lorg/json/JSONObject;
+
+    move-result-object v0
+
+    invoke-static {v0}, Lcom/aiderlog/v22app/WidgetCalendarV195;->owner(Lorg/json/JSONObject;)Ljava/lang/String;
+
+    move-result-object v0
+
+    invoke-static {v8, v10, v11, v0}, Lcom/aiderlog/v22app/WidgetCalendarV195;->collection(Landroid/content/Context;ILjava/lang/String;Ljava/lang/String;)Landroid/app/PendingIntent;
+
+    move-result-object v0
+
+    goto :goto_3
+
+    :cond_4
+    mul-int/lit8 v0, v10, 0x11
+
+    invoke-virtual/range {p3 .. p3}, Ljava/lang/String;->hashCode()I
+
+    move-result v2
+
+    add-int/2addr v0, v2
+
+    sget v2, Landroid/os/Build$VERSION;->SDK_INT:I
+
+    const/16 v3, 0x1f
+
+    if-lt v2, v3, :cond_5
+
+    const/high16 v2, 0xa000000
+
+    goto :goto_1
+
+    :cond_5
+    const/high16 v2, 0x8000000
+
+    :goto_1
+    invoke-static {v8, v0, v1, v2}, Landroid/app/PendingIntent;->getActivity(Landroid/content/Context;ILandroid/content/Intent;I)Landroid/app/PendingIntent;
+
+    move-result-object v0
+
+    goto :goto_3
+
+    :cond_6
+    :goto_2
+    invoke-static/range {p0 .. p0}, Lcom/aiderlog/v22app/WidgetNativeV164;->snapshot(Landroid/content/Context;)Lorg/json/JSONObject;
+
+    move-result-object v0
+
+    invoke-static {v0}, Lcom/aiderlog/v22app/WidgetPrivateV196;->owner(Lorg/json/JSONObject;)Ljava/lang/String;
+
+    move-result-object v0
+
+    invoke-static {v8, v10, v11, v0}, Lcom/aiderlog/v22app/WidgetPrivateV196;->noteCollection(Landroid/content/Context;ILjava/lang/String;Ljava/lang/String;)Landroid/app/PendingIntent;
+
+    move-result-object v0
+
+    :goto_3
+    invoke-virtual {v9, v13, v0}, Landroid/widget/RemoteViews;->setPendingIntentTemplate(ILandroid/app/PendingIntent;)V
+
+    .line 261
+    sget v0, Landroid/os/Build$VERSION;->SDK_INT:I
 
     invoke-interface/range {p4 .. p4}, Ljava/util/List;->size()I
 
     move-result v1
 
-    const/16 v2, 0x28
+    invoke-static {v0, v11, v1}, Lcom/aiderlog/v22app/WidgetNativeV164;->inlineCollection(ILjava/lang/String;I)Z
 
-    if-gt v1, v2, :cond_7
+    move-result v0
+
+    const-string v14, "widget_service_"
+
+    const/4 v15, 0x1
+
+    if-eqz v0, :cond_8
 
     .line 262
     :try_start_0
-    const-string v1, "android.widget.RemoteViews$RemoteCollectionItems$Builder"
+    const-string v0, "android.widget.RemoteViews$RemoteCollectionItems$Builder"
 
-    invoke-static {v1}, Ljava/lang/Class;->forName(Ljava/lang/String;)Ljava/lang/Class;
+    invoke-static {v0}, Ljava/lang/Class;->forName(Ljava/lang/String;)Ljava/lang/Class;
 
-    move-result-object v15
+    move-result-object v0
 
     const/4 v7, 0x0
 
     new-array v1, v7, [Ljava/lang/Class;
 
-    invoke-virtual {v15, v1}, Ljava/lang/Class;->getDeclaredConstructor([Ljava/lang/Class;)Ljava/lang/reflect/Constructor;
+    invoke-virtual {v0, v1}, Ljava/lang/Class;->getDeclaredConstructor([Ljava/lang/Class;)Ljava/lang/reflect/Constructor;
 
     move-result-object v1
 
@@ -1944,19 +1961,19 @@
     .line 263
     const-string v1, "setHasStableIds"
 
-    new-array v2, v14, [Ljava/lang/Class;
+    new-array v2, v15, [Ljava/lang/Class;
 
     sget-object v3, Ljava/lang/Boolean;->TYPE:Ljava/lang/Class;
 
     aput-object v3, v2, v7
 
-    invoke-virtual {v15, v1, v2}, Ljava/lang/Class;->getMethod(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;
+    invoke-virtual {v0, v1, v2}, Ljava/lang/Class;->getMethod(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;
 
     move-result-object v1
 
-    new-array v2, v14, [Ljava/lang/Object;
+    new-array v2, v15, [Ljava/lang/Object;
 
-    invoke-static {v14}, Ljava/lang/Boolean;->valueOf(Z)Ljava/lang/Boolean;
+    invoke-static {v15}, Ljava/lang/Boolean;->valueOf(Z)Ljava/lang/Boolean;
 
     move-result-object v3
 
@@ -1967,17 +1984,17 @@
     .line 264
     const-string v1, "setViewTypeCount"
 
-    new-array v2, v14, [Ljava/lang/Class;
+    new-array v2, v15, [Ljava/lang/Class;
 
     sget-object v3, Ljava/lang/Integer;->TYPE:Ljava/lang/Class;
 
     aput-object v3, v2, v7
 
-    invoke-virtual {v15, v1, v2}, Ljava/lang/Class;->getMethod(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;
+    invoke-virtual {v0, v1, v2}, Ljava/lang/Class;->getMethod(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;
 
     move-result-object v1
 
-    new-array v2, v14, [Ljava/lang/Object;
+    new-array v2, v15, [Ljava/lang/Object;
 
     const/16 v3, 0x10
 
@@ -1999,14 +2016,14 @@
 
     const/4 v2, 0x2
 
-    if-lt v5, v1, :cond_6
+    if-lt v5, v1, :cond_7
 
     .line 266
-    const-string v0, "build"
+    const-string v1, "build"
 
-    new-array v1, v7, [Ljava/lang/Class;
+    new-array v3, v7, [Ljava/lang/Class;
 
-    invoke-virtual {v15, v0, v1}, Ljava/lang/Class;->getMethod(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;
+    invoke-virtual {v0, v1, v3}, Ljava/lang/Class;->getMethod(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;
 
     move-result-object v0
 
@@ -2031,7 +2048,7 @@
 
     move-result-object v5
 
-    aput-object v5, v4, v14
+    aput-object v5, v4, v15
 
     invoke-virtual {v1, v3, v4}, Ljava/lang/Class;->getMethod(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;
 
@@ -2045,7 +2062,7 @@
 
     aput-object v3, v2, v7
 
-    aput-object v0, v2, v14
+    aput-object v0, v2, v15
 
     invoke-virtual {v1, v9, v2}, Ljava/lang/reflect/Method;->invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
 
@@ -2059,7 +2076,7 @@
 
     new-instance v1, Ljava/lang/StringBuilder;
 
-    invoke-direct {v1, v13}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+    invoke-direct {v1, v14}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
 
     invoke-virtual {v1, v10}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
 
@@ -2078,7 +2095,7 @@
     return-void
 
     .line 265
-    :cond_6
+    :cond_7
     const-string v1, "addItem"
 
     new-array v3, v2, [Ljava/lang/Class;
@@ -2089,15 +2106,15 @@
 
     const-class v4, Landroid/widget/RemoteViews;
 
-    aput-object v4, v3, v14
+    aput-object v4, v3, v15
 
-    invoke-virtual {v15, v1, v3}, Ljava/lang/Class;->getMethod(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;
+    invoke-virtual {v0, v1, v3}, Ljava/lang/Class;->getMethod(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;
 
     move-result-object v4
 
     new-array v3, v2, [Ljava/lang/Object;
 
-    invoke-interface {v0, v5}, Ljava/util/List;->get(I)Ljava/lang/Object;
+    invoke-interface {v12, v5}, Ljava/util/List;->get(I)Ljava/lang/Object;
 
     move-result-object v1
 
@@ -2113,7 +2130,7 @@
 
     aput-object v1, v3, v7
 
-    invoke-interface {v0, v5}, Ljava/util/List;->get(I)Ljava/lang/Object;
+    invoke-interface {v12, v5}, Ljava/util/List;->get(I)Ljava/lang/Object;
 
     move-result-object v1
 
@@ -2129,7 +2146,7 @@
 
     move/from16 v2, p2
 
-    move-object v14, v3
+    move-object v15, v3
 
     move-object/from16 v3, p3
 
@@ -2138,6 +2155,8 @@
     move-object/from16 v4, v16
 
     move/from16 v16, v5
+
+    move-object/from16 v20, v0
 
     move-object v0, v6
 
@@ -2153,11 +2172,11 @@
 
     const/4 v2, 0x1
 
-    aput-object v1, v14, v2
+    aput-object v1, v15, v2
 
     move-object/from16 v1, v19
 
-    invoke-virtual {v1, v0, v14}, Ljava/lang/reflect/Method;->invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
+    invoke-virtual {v1, v0, v15}, Ljava/lang/reflect/Method;->invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
     :try_end_0
     .catch Ljava/lang/Exception; {:try_start_0 .. :try_end_0} :catch_0
 
@@ -2167,9 +2186,9 @@
 
     move/from16 v7, v17
 
-    const/4 v14, 0x1
+    move-object/from16 v0, v20
 
-    move-object/from16 v0, p4
+    const/4 v15, 0x1
 
     goto/16 :goto_4
 
@@ -2184,7 +2203,7 @@
     invoke-static {v1, v2, v0}, Landroid/util/Log;->w(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I
 
     .line 269
-    :cond_7
+    :cond_8
     new-instance v0, Landroid/content/Intent;
 
     invoke-direct {v0}, Landroid/content/Intent;-><init>()V
@@ -2262,7 +2281,7 @@
 
     move-result-object v2
 
-    const-string v3, "/"
+    const-string v3, "/v197/"
 
     invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
@@ -2271,6 +2290,8 @@
     invoke-virtual {v2, v11}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v2
+
+    const-string v3, "/"
 
     invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
@@ -2290,15 +2311,15 @@
 
     invoke-virtual {v1}, Landroid/util/SizeF;->getWidth()F
 
-    move-result v3
+    move-result v4
 
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(F)Ljava/lang/StringBuilder;
+    invoke-virtual {v2, v4}, Ljava/lang/StringBuilder;->append(F)Ljava/lang/StringBuilder;
 
     move-result-object v2
 
-    const-string v3, "x"
+    const-string v4, "x"
 
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v2, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v2
 
@@ -2307,6 +2328,18 @@
     move-result v1
 
     invoke-virtual {v2, v1}, Ljava/lang/StringBuilder;->append(F)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    invoke-virtual {v1, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    invoke-static/range {p4 .. p4}, Lcom/aiderlog/v22app/WidgetNativeV164;->collectionFingerprint(Ljava/util/List;)Ljava/lang/String;
+
+    move-result-object v2
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v1
 
@@ -2321,7 +2354,7 @@
     invoke-virtual {v0, v1}, Landroid/content/Intent;->setData(Landroid/net/Uri;)Landroid/content/Intent;
 
     .line 273
-    invoke-virtual {v9, v12, v0}, Landroid/widget/RemoteViews;->setRemoteAdapter(ILandroid/content/Intent;)V
+    invoke-virtual {v9, v13, v0}, Landroid/widget/RemoteViews;->setRemoteAdapter(ILandroid/content/Intent;)V
 
     .line 274
     invoke-static/range {p0 .. p0}, Lcom/aiderlog/v22app/WidgetNativeV164;->prefs(Landroid/content/Context;)Landroid/content/SharedPreferences;
@@ -2334,7 +2367,7 @@
 
     new-instance v1, Ljava/lang/StringBuilder;
 
-    invoke-direct {v1, v13}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+    invoke-direct {v1, v14}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
 
     invoke-virtual {v1, v10}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
 
@@ -2354,6 +2387,120 @@
 
     .line 275
     return-void
+.end method
+
+.method static collectionFingerprint(Ljava/util/List;)Ljava/lang/String;
+    .locals 8
+    .annotation system Ldalvik/annotation/Signature;
+        value = {
+            "(",
+            "Ljava/util/List<",
+            "Ljava/lang/String;",
+            ">;)",
+            "Ljava/lang/String;"
+        }
+    .end annotation
+
+    .line 278
+    :try_start_0
+    const-string v0, "SHA-256"
+
+    invoke-static {v0}, Ljava/security/MessageDigest;->getInstance(Ljava/lang/String;)Ljava/security/MessageDigest;
+
+    move-result-object v0
+
+    invoke-interface {p0}, Ljava/util/List;->iterator()Ljava/util/Iterator;
+
+    move-result-object p0
+
+    :goto_0
+    invoke-interface {p0}, Ljava/util/Iterator;->hasNext()Z
+
+    move-result v1
+
+    const/4 v2, 0x0
+
+    if-nez v1, :cond_1
+
+    new-instance p0, Ljava/lang/StringBuilder;
+
+    invoke-direct {p0}, Ljava/lang/StringBuilder;-><init>()V
+
+    invoke-virtual {v0}, Ljava/security/MessageDigest;->digest()[B
+
+    move-result-object v0
+
+    array-length v1, v0
+
+    move v3, v2
+
+    :goto_1
+    if-lt v3, v1, :cond_0
+
+    invoke-virtual {p0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object p0
+
+    return-object p0
+
+    :cond_0
+    aget-byte v4, v0, v3
+
+    sget-object v5, Ljava/util/Locale;->US:Ljava/util/Locale;
+
+    const-string v6, "%02x"
+
+    const/4 v7, 0x1
+
+    new-array v7, v7, [Ljava/lang/Object;
+
+    and-int/lit16 v4, v4, 0xff
+
+    invoke-static {v4}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
+
+    move-result-object v4
+
+    aput-object v4, v7, v2
+
+    invoke-static {v5, v6, v7}, Ljava/lang/String;->format(Ljava/util/Locale;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+
+    move-result-object v4
+
+    invoke-virtual {p0, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    add-int/lit8 v3, v3, 0x1
+
+    goto :goto_1
+
+    :cond_1
+    invoke-interface {p0}, Ljava/util/Iterator;->next()Ljava/lang/Object;
+
+    move-result-object v1
+
+    check-cast v1, Ljava/lang/String;
+
+    sget-object v3, Ljava/nio/charset/StandardCharsets;->UTF_8:Ljava/nio/charset/Charset;
+
+    invoke-virtual {v1, v3}, Ljava/lang/String;->getBytes(Ljava/nio/charset/Charset;)[B
+
+    move-result-object v1
+
+    invoke-virtual {v0, v1}, Ljava/security/MessageDigest;->update([B)V
+
+    invoke-virtual {v0, v2}, Ljava/security/MessageDigest;->update(B)V
+    :try_end_0
+    .catch Ljava/security/NoSuchAlgorithmException; {:try_start_0 .. :try_end_0} :catch_0
+
+    goto :goto_0
+
+    :catch_0
+    move-exception p0
+
+    new-instance v0, Ljava/lang/IllegalStateException;
+
+    invoke-direct {v0, p0}, Ljava/lang/IllegalStateException;-><init>(Ljava/lang/Throwable;)V
+
+    throw v0
 .end method
 
 .method static color(Landroid/content/Context;Landroid/widget/RemoteViews;Ljava/lang/String;I)V
@@ -2698,6 +2845,45 @@
     return p0
 .end method
 
+.method static inlineCollection(ILjava/lang/String;I)Z
+    .locals 1
+
+    .line 276
+    const/16 v0, 0x1f
+
+    if-lt p0, v0, :cond_1
+
+    const-string p0, "Calendar"
+
+    invoke-virtual {p1, p0}, Ljava/lang/String;->startsWith(Ljava/lang/String;)Z
+
+    move-result p0
+
+    if-nez p0, :cond_0
+
+    const-string p0, "RoutineAll"
+
+    invoke-virtual {p1, p0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result p0
+
+    if-eqz p0, :cond_1
+
+    :cond_0
+    const/16 p0, 0x28
+
+    if-gt p2, p0, :cond_1
+
+    const/4 p0, 0x1
+
+    return p0
+
+    :cond_1
+    const/4 p0, 0x0
+
+    return p0
+.end method
+
 .method static layout(Landroid/content/Context;Ljava/lang/String;)I
     .locals 2
 
@@ -2722,7 +2908,7 @@
 .method static mealPhotos(Landroid/content/Context;Landroid/widget/RemoteViews;Lorg/json/JSONObject;)V
     .locals 12
 
-    .line 277
+    .line 280
     const-string v0, "mealPhotos"
 
     invoke-virtual {p2, v0}, Lorg/json/JSONObject;->optJSONArray(Ljava/lang/String;)Lorg/json/JSONArray;
@@ -2741,7 +2927,7 @@
 
     move-result-object p2
 
-    .line 278
+    .line 281
     const/4 v2, 0x0
 
     move v3, v2
@@ -2751,10 +2937,10 @@
 
     if-lt v3, v4, :cond_0
 
-    .line 287
+    .line 290
     return-void
 
-    .line 281
+    .line 284
     :cond_0
     new-instance v4, Ljava/lang/StringBuilder;
 
@@ -2776,7 +2962,7 @@
 
     invoke-virtual {p1, v4, v2}, Landroid/widget/RemoteViews;->setImageViewResource(II)V
 
-    .line 282
+    .line 285
     const-string v4, ""
 
     if-nez v1, :cond_1
@@ -2829,7 +3015,7 @@
 
     invoke-static {p0, p1, v7, v6}, Lcom/aiderlog/v22app/WidgetNativeV164;->show(Landroid/content/Context;Landroid/widget/RemoteViews;Ljava/lang/String;Z)V
 
-    .line 283
+    .line 286
     if-eqz p2, :cond_4
 
     invoke-virtual {p2, v3, v4}, Lorg/json/JSONArray;->optString(ILjava/lang/String;)Ljava/lang/String;
@@ -2916,7 +3102,7 @@
 
     invoke-static {p0, p1, v6, v10}, Lcom/aiderlog/v22app/WidgetNativeV164;->text(Landroid/content/Context;Landroid/widget/RemoteViews;Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 284
+    .line 287
     if-nez v0, :cond_5
 
     goto :goto_5
@@ -2937,7 +3123,7 @@
 
     goto :goto_6
 
-    .line 285
+    .line 288
     :cond_6
     const/16 v6, 0x2c
 
@@ -3005,7 +3191,7 @@
     :catch_0
     move-exception v4
 
-    .line 278
+    .line 281
     :cond_7
     :goto_6
     add-int/lit8 v3, v3, 0x1
@@ -3482,11 +3668,11 @@
 .method public static preview(Landroid/app/Activity;)V
     .locals 12
 
-    .line 291
+    .line 294
     :try_start_0
     invoke-static {p0}, Lcom/aiderlog/v22app/WidgetThemeV190;->refresh(Landroid/app/Activity;)V
 
-    .line 292
+    .line 295
     invoke-virtual {p0}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
 
     move-result-object v1
@@ -3521,7 +3707,7 @@
 
     move-result-object v6
 
-    .line 293
+    .line 296
     const/4 v7, 0x5
 
     new-array v8, v7, [Ljava/lang/reflect/Field;
@@ -3549,7 +3735,7 @@
     :goto_0
     if-lt v9, v7, :cond_2
 
-    .line 294
+    .line 297
     const-string v7, "widget_config_preview_v164"
 
     invoke-static {p0, v7}, Lcom/aiderlog/v22app/WidgetNativeV164;->id(Landroid/content/Context;Ljava/lang/String;)I
@@ -3568,7 +3754,7 @@
 
     if-nez v8, :cond_0
 
-    .line 300
+    .line 303
     sget-object v0, Lcom/aiderlog/v22app/WidgetDesignV165;->previewContent:Ljava/lang/ThreadLocal;
 
     invoke-virtual {v0}, Ljava/lang/ThreadLocal;->remove()V
@@ -3579,10 +3765,10 @@
 
     invoke-static {}, Lcom/aiderlog/v22app/WidgetPreviewFrameV181;->restore()V
 
-    .line 294
+    .line 297
     return-void
 
-    .line 295
+    .line 298
     :cond_0
     :try_start_1
     invoke-virtual {v3, p0}, Ljava/lang/reflect/Field;->get(Ljava/lang/Object;)Ljava/lang/Object;
@@ -3595,7 +3781,7 @@
 
     move-result-object v3
 
-    .line 296
+    .line 299
     invoke-static {p0, v8, v3}, Lcom/aiderlog/v22app/WidgetPreviewFrameV181;->prepare(Landroid/app/Activity;Landroid/view/ViewGroup;Ljava/lang/String;)Z
 
     move-result v7
@@ -3604,7 +3790,7 @@
 
     if-nez v7, :cond_1
 
-    .line 300
+    .line 303
     sget-object v0, Lcom/aiderlog/v22app/WidgetDesignV165;->previewContent:Ljava/lang/ThreadLocal;
 
     invoke-virtual {v0}, Ljava/lang/ThreadLocal;->remove()V
@@ -3615,10 +3801,10 @@
 
     invoke-static {}, Lcom/aiderlog/v22app/WidgetPreviewFrameV181;->restore()V
 
-    .line 296
+    .line 299
     return-void
 
-    .line 297
+    .line 300
     :cond_1
     :try_start_2
     const-string v7, "selectedContent"
@@ -3651,7 +3837,7 @@
 
     invoke-virtual {v1, v7}, Ljava/lang/ThreadLocal;->set(Ljava/lang/Object;)V
 
-    .line 298
+    .line 301
     invoke-virtual {v2, p0}, Ljava/lang/reflect/Field;->getInt(Ljava/lang/Object;)I
 
     move-result v2
@@ -3688,7 +3874,7 @@
 
     move-result-object v1
 
-    .line 299
+    .line 302
     invoke-virtual {v8}, Landroid/view/ViewGroup;->removeAllViews()V
 
     invoke-virtual {v1, p0, v8}, Landroid/widget/RemoteViews;->apply(Landroid/content/Context;Landroid/view/ViewGroup;)Landroid/view/View;
@@ -3697,10 +3883,10 @@
 
     invoke-virtual {v8, v0}, Landroid/view/ViewGroup;->addView(Landroid/view/View;)V
 
-    .line 300
+    .line 303
     goto :goto_1
 
-    .line 293
+    .line 296
     :cond_2
     aget-object v11, v8, v9
 
@@ -3712,7 +3898,7 @@
 
     goto/16 :goto_0
 
-    .line 300
+    .line 303
     :catchall_0
     move-exception v0
 
@@ -3736,10 +3922,10 @@
 
     invoke-static {}, Lcom/aiderlog/v22app/WidgetPreviewFrameV181;->restore()V
 
-    .line 301
+    .line 304
     return-void
 
-    .line 300
+    .line 303
     :catchall_1
     move-exception v0
 

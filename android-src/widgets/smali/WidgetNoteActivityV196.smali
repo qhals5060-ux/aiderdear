@@ -94,10 +94,39 @@
     return-void
 .end method
 
+.method static addFill(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Landroid/content/Intent;
+    .locals 2
+
+    .line 40
+    new-instance v0, Landroid/content/Intent;
+
+    invoke-direct {v0}, Landroid/content/Intent;-><init>()V
+
+    const-string v1, "uid"
+
+    invoke-virtual {v0, v1, p0}, Landroid/content/Intent;->putExtra(Ljava/lang/String;Ljava/lang/String;)Landroid/content/Intent;
+
+    move-result-object p0
+
+    const-string v0, "noteType"
+
+    invoke-virtual {p0, v0, p1}, Landroid/content/Intent;->putExtra(Ljava/lang/String;Ljava/lang/String;)Landroid/content/Intent;
+
+    move-result-object p0
+
+    const-string p1, "date"
+
+    invoke-virtual {p0, p1, p2}, Landroid/content/Intent;->putExtra(Ljava/lang/String;Ljava/lang/String;)Landroid/content/Intent;
+
+    move-result-object p0
+
+    return-object p0
+.end method
+
 .method static command(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;I)Lorg/json/JSONObject;
     .locals 3
 
-    .line 39
+    .line 41
     if-eqz p0, :cond_4
 
     invoke-virtual {p0}, Ljava/lang/String;->isEmpty()Z
@@ -526,7 +555,7 @@
 .method build(Ljava/lang/String;Z)V
     .locals 9
 
-    .line 44
+    .line 46
     const/4 v0, 0x0
 
     iput-object v0, p0, Lcom/aiderlog/v22app/WidgetNoteActivityV196;->dated:Landroid/widget/CheckBox;
@@ -819,7 +848,7 @@
 
     invoke-virtual {p1, v0, v1}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 45
+    .line 47
     iget-object p1, p0, Lcom/aiderlog/v22app/WidgetNoteActivityV196;->type:Ljava/lang/String;
 
     const-string v0, "todo"
@@ -912,7 +941,7 @@
 
     invoke-virtual {p1, p2}, Landroid/widget/CheckBox;->setOnCheckedChangeListener(Landroid/widget/CompoundButton$OnCheckedChangeListener;)V
 
-    .line 46
+    .line 48
     :cond_5
     new-instance p1, Landroid/widget/LinearLayout;
 
@@ -1082,7 +1111,7 @@
 .method button(Ljava/lang/String;Landroid/view/View$OnClickListener;)Landroid/widget/Button;
     .locals 1
 
-    .line 42
+    .line 44
     new-instance v0, Landroid/widget/Button;
 
     invoke-direct {v0, p0}, Landroid/widget/Button;-><init>(Landroid/content/Context;)V
@@ -1121,7 +1150,7 @@
 .method chooseDraft(Lorg/json/JSONObject;)V
     .locals 3
 
-    .line 64
+    .line 66
     invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetNoteActivityV196;->current()Z
 
     move-result v0
@@ -1203,7 +1232,7 @@
 .method current()Z
     .locals 5
 
-    .line 47
+    .line 49
     iget-boolean v0, p0, Lcom/aiderlog/v22app/WidgetNoteActivityV196;->closed:Z
 
     const/4 v1, 0x1
@@ -1290,7 +1319,7 @@
 .method deleteDraft(Lorg/json/JSONObject;)V
     .locals 3
 
-    .line 67
+    .line 69
     invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetNoteActivityV196;->current()Z
 
     move-result v0
@@ -1362,14 +1391,14 @@
 
     iput-object p1, p0, Lcom/aiderlog/v22app/WidgetNoteActivityV196;->confirmation:Landroid/app/AlertDialog;
 
-    .line 68
+    .line 70
     return-void
 .end method
 
 .method dismissDialogs()V
     .locals 1
 
-    .line 55
+    .line 57
     iget-object v0, p0, Lcom/aiderlog/v22app/WidgetNoteActivityV196;->picker:Landroid/app/DatePickerDialog;
 
     if-eqz v0, :cond_0
@@ -1397,7 +1426,7 @@
 .method dp(F)I
     .locals 1
 
-    .line 40
+    .line 42
     invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetNoteActivityV196;->getResources()Landroid/content/res/Resources;
 
     move-result-object v0
@@ -1420,7 +1449,7 @@
 .method label(Ljava/lang/String;F)Landroid/widget/TextView;
     .locals 2
 
-    .line 41
+    .line 43
     new-instance v0, Landroid/widget/TextView;
 
     invoke-direct {v0, p0}, Landroid/widget/TextView;-><init>(Landroid/content/Context;)V
@@ -1459,7 +1488,7 @@
 .method public synthetic lambda$0$WidgetNoteActivityV196(Landroid/view/View;)V
     .locals 0
 
-    .line 44
+    .line 46
     invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetNoteActivityV196;->showRecovery()V
 
     return-void
@@ -1468,7 +1497,7 @@
 .method public synthetic lambda$1$WidgetNoteActivityV196(Landroid/view/View;)V
     .locals 0
 
-    .line 45
+    .line 47
     invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetNoteActivityV196;->pickDate()V
 
     return-void
@@ -1477,7 +1506,7 @@
 .method public synthetic lambda$10$WidgetNoteActivityV196(Lorg/json/JSONObject;Landroid/content/DialogInterface;I)V
     .locals 0
 
-    .line 64
+    .line 66
     invoke-virtual {p0, p1}, Lcom/aiderlog/v22app/WidgetNoteActivityV196;->loadDraft(Lorg/json/JSONObject;)V
 
     return-void
@@ -1486,7 +1515,7 @@
 .method public synthetic lambda$11$WidgetNoteActivityV196(Lorg/json/JSONObject;Landroid/content/DialogInterface;I)V
     .locals 1
 
-    .line 67
+    .line 69
     invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetNoteActivityV196;->current()Z
 
     move-result p2
@@ -1560,7 +1589,7 @@
 .method public synthetic lambda$2$WidgetNoteActivityV196(Landroid/widget/CompoundButton;Z)V
     .locals 0
 
-    .line 45
+    .line 47
     iget-object p1, p0, Lcom/aiderlog/v22app/WidgetNoteActivityV196;->dateButton:Landroid/widget/Button;
 
     if-eqz p2, :cond_0
@@ -1581,7 +1610,7 @@
 .method public synthetic lambda$3$WidgetNoteActivityV196(Landroid/view/View;)V
     .locals 0
 
-    .line 46
+    .line 48
     iget-boolean p1, p0, Lcom/aiderlog/v22app/WidgetNoteActivityV196;->saving:Z
 
     if-nez p1, :cond_0
@@ -1595,7 +1624,7 @@
 .method public synthetic lambda$4$WidgetNoteActivityV196(Landroid/view/View;)V
     .locals 0
 
-    .line 46
+    .line 48
     invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetNoteActivityV196;->save()V
 
     return-void
@@ -1604,7 +1633,7 @@
 .method public synthetic lambda$5$WidgetNoteActivityV196(Landroid/view/View;)V
     .locals 0
 
-    .line 47
+    .line 49
     invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetNoteActivityV196;->finish()V
 
     return-void
@@ -1613,7 +1642,7 @@
 .method public synthetic lambda$6$WidgetNoteActivityV196()V
     .locals 1
 
-    .line 50
+    .line 52
     invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetNoteActivityV196;->current()Z
 
     move-result v0
@@ -1629,7 +1658,7 @@
 .method public synthetic lambda$7$WidgetNoteActivityV196(Landroid/widget/DatePicker;III)V
     .locals 2
 
-    .line 52
+    .line 54
     invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetNoteActivityV196;->current()Z
 
     move-result p1
@@ -1705,7 +1734,7 @@
 .method public synthetic lambda$8$WidgetNoteActivityV196(Lorg/json/JSONObject;Landroid/view/View;)V
     .locals 0
 
-    .line 61
+    .line 63
     invoke-virtual {p0, p1}, Lcom/aiderlog/v22app/WidgetNoteActivityV196;->chooseDraft(Lorg/json/JSONObject;)V
 
     return-void
@@ -1714,7 +1743,7 @@
 .method public synthetic lambda$9$WidgetNoteActivityV196(Lorg/json/JSONObject;Landroid/view/View;)V
     .locals 0
 
-    .line 61
+    .line 63
     invoke-virtual {p0, p1}, Lcom/aiderlog/v22app/WidgetNoteActivityV196;->deleteDraft(Lorg/json/JSONObject;)V
 
     return-void
@@ -1723,7 +1752,7 @@
 .method loadDraft(Lorg/json/JSONObject;)V
     .locals 2
 
-    .line 65
+    .line 67
     invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetNoteActivityV196;->current()Z
 
     move-result v0
@@ -1832,7 +1861,7 @@
 .method public onBackPressed()V
     .locals 1
 
-    .line 69
+    .line 71
     iget-boolean v0, p0, Lcom/aiderlog/v22app/WidgetNoteActivityV196;->saving:Z
 
     if-nez v0, :cond_0
@@ -1846,13 +1875,30 @@
 .method public onCreate(Landroid/os/Bundle;)V
     .locals 7
 
-    .line 43
+    .line 45
     invoke-super {p0, p1}, Landroid/app/Activity;->onCreate(Landroid/os/Bundle;)V
 
     const/4 v0, 0x1
 
     invoke-virtual {p0, v0}, Lcom/aiderlog/v22app/WidgetNoteActivityV196;->requestWindowFeature(I)Z
 
+    invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetNoteActivityV196;->getIntent()Landroid/content/Intent;
+
+    move-result-object v1
+
+    invoke-static {p0, v1}, Lcom/aiderlog/v22app/WidgetActionReceiverV196;->consume(Landroid/content/Context;Landroid/content/Intent;)Z
+
+    move-result v1
+
+    if-eqz v1, :cond_0
+
+    iput-boolean v0, p0, Lcom/aiderlog/v22app/WidgetNoteActivityV196;->closed:Z
+
+    invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetNoteActivityV196;->finish()V
+
+    return-void
+
+    :cond_0
     const/4 v1, 0x0
 
     invoke-virtual {p0, v1}, Lcom/aiderlog/v22app/WidgetNoteActivityV196;->setFinishOnTouchOutside(Z)V
@@ -1869,6 +1915,29 @@
 
     iput-object v4, p0, Lcom/aiderlog/v22app/WidgetNoteActivityV196;->uid:Ljava/lang/String;
 
+    const-string v4, "boundUid"
+
+    invoke-virtual {v2, v4}, Landroid/content/Intent;->getStringExtra(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v4
+
+    if-eqz v4, :cond_1
+
+    iget-object v5, p0, Lcom/aiderlog/v22app/WidgetNoteActivityV196;->uid:Ljava/lang/String;
+
+    invoke-virtual {v4, v5}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v4
+
+    if-nez v4, :cond_1
+
+    iput-boolean v0, p0, Lcom/aiderlog/v22app/WidgetNoteActivityV196;->closed:Z
+
+    invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetNoteActivityV196;->finish()V
+
+    return-void
+
+    :cond_1
     const-string v4, "noteType"
 
     invoke-virtual {v2, v4}, Landroid/content/Intent;->getStringExtra(Ljava/lang/String;)Ljava/lang/String;
@@ -1893,33 +1962,33 @@
 
     iput-object v5, p0, Lcom/aiderlog/v22app/WidgetNoteActivityV196;->kind:Ljava/lang/String;
 
-    if-eqz v5, :cond_0
+    if-eqz v5, :cond_2
 
     invoke-static {v5}, Lcom/aiderlog/v22app/WidgetCompactCalendarV181;->supports(Ljava/lang/String;)Z
 
     move-result v5
 
-    if-nez v5, :cond_1
+    if-nez v5, :cond_3
 
-    :cond_0
+    :cond_2
     const-string v5, "CalendarMonth"
 
     iput-object v5, p0, Lcom/aiderlog/v22app/WidgetNoteActivityV196;->kind:Ljava/lang/String;
 
-    :cond_1
+    :cond_3
     iget-object v5, p0, Lcom/aiderlog/v22app/WidgetNoteActivityV196;->type:Ljava/lang/String;
 
     invoke-static {v5}, Lcom/aiderlog/v22app/WidgetNoteActivityV196;->supported(Ljava/lang/String;)Z
 
     move-result v5
 
-    if-nez v5, :cond_2
+    if-nez v5, :cond_4
 
     invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetNoteActivityV196;->finish()V
 
     return-void
 
-    :cond_2
+    :cond_4
     iget v5, p0, Lcom/aiderlog/v22app/WidgetNoteActivityV196;->widget:I
 
     invoke-static {p0, v5}, Lcom/aiderlog/v22app/WidgetNativeV164;->theme(Landroid/content/Context;I)Ljava/lang/String;
@@ -1940,7 +2009,7 @@
 
     move-result v2
 
-    if-nez v2, :cond_3
+    if-nez v2, :cond_5
 
     invoke-static {}, Ljava/util/Calendar;->getInstance()Ljava/util/Calendar;
 
@@ -1952,7 +2021,7 @@
 
     iput-object v2, p0, Lcom/aiderlog/v22app/WidgetNoteActivityV196;->draftDate:Ljava/lang/String;
 
-    :cond_3
+    :cond_5
     new-instance v2, Ljava/lang/StringBuilder;
 
     const-string v5, "widget-private-"
@@ -1979,11 +2048,11 @@
 
     iput-wide v5, p0, Lcom/aiderlog/v22app/WidgetNoteActivityV196;->createdAt:J
 
-    if-eqz p1, :cond_4
+    if-eqz p1, :cond_6
 
     iget-object v2, p0, Lcom/aiderlog/v22app/WidgetNoteActivityV196;->uid:Ljava/lang/String;
 
-    if-eqz v2, :cond_4
+    if-eqz v2, :cond_6
 
     invoke-virtual {p1, v3}, Landroid/os/Bundle;->getString(Ljava/lang/String;)Ljava/lang/String;
 
@@ -1993,19 +2062,19 @@
 
     move-result v2
 
-    if-eqz v2, :cond_4
+    if-eqz v2, :cond_6
 
     move v2, v0
 
     goto :goto_0
 
-    :cond_4
+    :cond_6
     move v2, v1
 
     :goto_0
     const-string v3, ""
 
-    if-eqz v2, :cond_6
+    if-eqz v2, :cond_8
 
     iget-object v5, p0, Lcom/aiderlog/v22app/WidgetNoteActivityV196;->draftDate:Ljava/lang/String;
 
@@ -2043,7 +2112,7 @@
 
     move-result v5
 
-    if-eqz v5, :cond_5
+    if-eqz v5, :cond_7
 
     invoke-virtual {p1, v4}, Landroid/os/Bundle;->getString(Ljava/lang/String;)Ljava/lang/String;
 
@@ -2051,7 +2120,7 @@
 
     iput-object v4, p0, Lcom/aiderlog/v22app/WidgetNoteActivityV196;->type:Ljava/lang/String;
 
-    :cond_5
+    :cond_7
     iget-wide v4, p0, Lcom/aiderlog/v22app/WidgetNoteActivityV196;->createdAt:J
 
     const-string v6, "createdAt"
@@ -2062,8 +2131,8 @@
 
     iput-wide v4, p0, Lcom/aiderlog/v22app/WidgetNoteActivityV196;->createdAt:J
 
-    :cond_6
-    if-eqz v2, :cond_7
+    :cond_8
+    if-eqz v2, :cond_9
 
     const-string v4, "value"
 
@@ -2071,8 +2140,8 @@
 
     move-result-object v3
 
-    :cond_7
-    if-eqz v2, :cond_8
+    :cond_9
+    if-eqz v2, :cond_a
 
     const-string v2, "dated"
 
@@ -2080,11 +2149,11 @@
 
     move-result p1
 
-    if-eqz p1, :cond_8
+    if-eqz p1, :cond_a
 
     goto :goto_1
 
-    :cond_8
+    :cond_a
     move v0, v1
 
     :goto_1
@@ -2098,7 +2167,7 @@
 .method public onDestroy()V
     .locals 0
 
-    .line 56
+    .line 58
     invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetNoteActivityV196;->dismissDialogs()V
 
     invoke-super {p0}, Landroid/app/Activity;->onDestroy()V
@@ -2109,7 +2178,7 @@
 .method public onPause()V
     .locals 1
 
-    .line 49
+    .line 51
     invoke-static {p0}, Lcom/aiderlog/v22app/WidgetNativeV164;->prefs(Landroid/content/Context;)Landroid/content/SharedPreferences;
 
     move-result-object v0
@@ -2124,7 +2193,7 @@
 .method public onResume()V
     .locals 1
 
-    .line 48
+    .line 50
     invoke-super {p0}, Landroid/app/Activity;->onResume()V
 
     invoke-static {p0}, Lcom/aiderlog/v22app/WidgetNativeV164;->prefs(Landroid/content/Context;)Landroid/content/SharedPreferences;
@@ -2148,7 +2217,7 @@
 .method protected onSaveInstanceState(Landroid/os/Bundle;)V
     .locals 3
 
-    .line 51
+    .line 53
     invoke-super {p0, p1}, Landroid/app/Activity;->onSaveInstanceState(Landroid/os/Bundle;)V
 
     iget-object v0, p0, Lcom/aiderlog/v22app/WidgetNoteActivityV196;->uid:Ljava/lang/String;
@@ -2236,7 +2305,7 @@
 .method public onSharedPreferenceChanged(Landroid/content/SharedPreferences;Ljava/lang/String;)V
     .locals 1
 
-    .line 50
+    .line 52
     const-string p1, "widget_snapshot"
 
     invoke-virtual {p1, p2}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
@@ -2281,7 +2350,7 @@
 .method pickDate()V
     .locals 8
 
-    .line 52
+    .line 54
     invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetNoteActivityV196;->current()Z
 
     move-result v0
@@ -2373,7 +2442,7 @@
 .method save()V
     .locals 10
 
-    .line 53
+    .line 55
     iget-boolean v0, p0, Lcom/aiderlog/v22app/WidgetNoteActivityV196;->saving:Z
 
     if-nez v0, :cond_8
@@ -2608,7 +2677,7 @@
 .method showRecovery()V
     .locals 11
 
-    .line 59
+    .line 61
     invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetNoteActivityV196;->current()Z
 
     move-result v0
@@ -2638,7 +2707,7 @@
 
     return-void
 
-    .line 60
+    .line 62
     :cond_1
     new-instance v1, Landroid/widget/LinearLayout;
 
@@ -2670,7 +2739,7 @@
 
     invoke-virtual {v1, v3, v5, v2, v4}, Landroid/widget/LinearLayout;->setPadding(IIII)V
 
-    .line 61
+    .line 63
     const/4 v2, 0x0
 
     move v3, v2
@@ -2682,7 +2751,7 @@
 
     if-lt v3, v4, :cond_2
 
-    .line 62
+    .line 64
     new-instance v0, Landroid/widget/ScrollView;
 
     invoke-direct {v0, p0}, Landroid/widget/ScrollView;-><init>(Landroid/content/Context;)V
@@ -2783,10 +2852,10 @@
 
     invoke-virtual {v0, v1, v2}, Landroid/view/Window;->setLayout(II)V
 
-    .line 63
+    .line 65
     return-void
 
-    .line 61
+    .line 63
     :cond_2
     invoke-virtual {v0, v3}, Lorg/json/JSONArray;->optJSONObject(I)Lorg/json/JSONObject;
 
@@ -2950,7 +3019,7 @@
 
     goto/16 :goto_0
 
-    .line 59
+    .line 61
     :cond_6
     :goto_4
     return-void
@@ -2959,7 +3028,7 @@
 .method updateRecovery()V
     .locals 4
 
-    .line 57
+    .line 59
     iget-object v0, p0, Lcom/aiderlog/v22app/WidgetNoteActivityV196;->recovery:Landroid/widget/Button;
 
     if-eqz v0, :cond_2

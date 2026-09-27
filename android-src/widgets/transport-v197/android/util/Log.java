@@ -1,0 +1,1 @@
+package android.util;public class Log {public static int warnings=0;public static int w(String t,String m,Throwable e){warnings++;return 0;}public static int e(String t,String m,Throwable e){return 0;}}

@@ -1,0 +1,4 @@
+package android.appwidget;import android.content.*;import java.util.*;public class AppWidgetManager {
+ public static final AppWidgetManager instance=new AppWidgetManager();public final Map<Integer,android.widget.RemoteViews> updated=new HashMap<Integer,android.widget.RemoteViews>();public final Map<Integer,AppWidgetProviderInfo> infos=new HashMap<Integer,AppWidgetProviderInfo>();public android.os.Bundle options=new android.os.Bundle();
+ public static AppWidgetManager getInstance(Context c){return instance;}public android.os.Bundle getAppWidgetOptions(int id){return options;}public AppWidgetProviderInfo getAppWidgetInfo(int id){return infos.get(id);}public List<AppWidgetProviderInfo> getInstalledProviders(){return new ArrayList<AppWidgetProviderInfo>();}public int[] getAppWidgetIds(ComponentName c){return new int[0];}public void updateAppWidget(int id,android.widget.RemoteViews r){updated.put(id,r);}public void notifyAppWidgetViewDataChanged(int id,int v){}
+}

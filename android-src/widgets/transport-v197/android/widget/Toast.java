@@ -1,0 +1,1 @@
+package android.widget;public class Toast {public static final int LENGTH_SHORT=0,LENGTH_LONG=1;public static String last="";public static Toast makeText(android.content.Context c,CharSequence t,int d){last=t.toString();return new Toast();}public void show(){}}

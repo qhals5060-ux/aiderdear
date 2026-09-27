@@ -124,10 +124,15 @@
     return v0
 .end method
 
-.method public getCount()I
+.method public declared-synchronized getCount()I
     .locals 1
 
-    .line 18
+    monitor-enter p0
+
+    .line 20
+    :try_start_0
+    invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->refreshRows()V
+
     invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->currentOwner()Z
 
     move-result v0
@@ -139,6 +144,8 @@
     invoke-interface {v0}, Ljava/util/List;->size()I
 
     move-result v0
+    :try_end_0
+    .catchall {:try_start_0 .. :try_end_0} :catchall_0
 
     goto :goto_0
 
@@ -146,13 +153,28 @@
     const/4 v0, 0x0
 
     :goto_0
+    monitor-exit p0
+
     return v0
+
+    .line 20
+    :catchall_0
+    move-exception v0
+
+    monitor-exit p0
+
+    throw v0
 .end method
 
-.method public getItemId(I)J
+.method public declared-synchronized getItemId(I)J
     .locals 2
 
-    .line 22
+    monitor-enter p0
+
+    .line 24
+    :try_start_0
+    invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->refreshRows()V
+
     invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->currentOwner()Z
 
     move-result v0
@@ -183,6 +205,8 @@
     invoke-static {v0, p1}, Lcom/aiderlog/v22app/WidgetDesignV165;->stableId(Ljava/lang/String;I)J
 
     move-result-wide v0
+    :try_end_0
+    .catchall {:try_start_0 .. :try_end_0} :catchall_0
 
     goto :goto_1
 
@@ -191,29 +215,46 @@
     int-to-long v0, p1
 
     :goto_1
+    monitor-exit p0
+
     return-wide v0
+
+    .line 24
+    :catchall_0
+    move-exception p1
+
+    monitor-exit p0
+
+    throw p1
 .end method
 
 .method public getLoadingView()Landroid/widget/RemoteViews;
     .locals 1
 
-    .line 20
+    .line 22
     const/4 v0, 0x0
 
     return-object v0
 .end method
 
-.method public getViewAt(I)Landroid/widget/RemoteViews;
+.method public declared-synchronized getViewAt(I)Landroid/widget/RemoteViews;
     .locals 8
 
-    .line 19
+    monitor-enter p0
+
+    .line 21
+    :try_start_0
+    invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->refreshRows()V
+
     sget-object v0, Lcom/aiderlog/v22app/WidgetSizeV169;->active:Ljava/lang/ThreadLocal;
 
     iget-object v1, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->bounds:Landroid/util/SizeF;
 
     invoke-virtual {v0, v1}, Ljava/lang/ThreadLocal;->set(Ljava/lang/Object;)V
+    :try_end_0
+    .catchall {:try_start_0 .. :try_end_0} :catchall_1
 
-    :try_start_0
+    :try_start_1
     invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->currentOwner()Z
 
     move-result v0
@@ -258,8 +299,8 @@
     invoke-static/range {v1 .. v7}, Lcom/aiderlog/v22app/WidgetNativeV164;->row(Landroid/content/Context;ILjava/lang/String;Ljava/lang/String;ILjava/lang/String;I)Landroid/widget/RemoteViews;
 
     move-result-object p1
-    :try_end_0
-    .catchall {:try_start_0 .. :try_end_0} :catchall_0
+    :try_end_1
+    .catchall {:try_start_1 .. :try_end_1} :catchall_0
 
     goto :goto_1
 
@@ -268,18 +309,34 @@
     const/4 p1, 0x0
 
     :goto_1
+    :try_start_2
     sget-object v0, Lcom/aiderlog/v22app/WidgetSizeV169;->active:Ljava/lang/ThreadLocal;
 
     invoke-virtual {v0}, Ljava/lang/ThreadLocal;->remove()V
+    :try_end_2
+    .catchall {:try_start_2 .. :try_end_2} :catchall_1
+
+    monitor-exit p0
 
     return-object p1
 
     :catchall_0
     move-exception p1
 
+    :try_start_3
     sget-object v0, Lcom/aiderlog/v22app/WidgetSizeV169;->active:Ljava/lang/ThreadLocal;
 
     invoke-virtual {v0}, Ljava/lang/ThreadLocal;->remove()V
+
+    throw p1
+    :try_end_3
+    .catchall {:try_start_3 .. :try_end_3} :catchall_1
+
+    .line 21
+    :catchall_1
+    move-exception p1
+
+    monitor-exit p0
 
     throw p1
 .end method
@@ -287,7 +344,7 @@
 .method public getViewTypeCount()I
     .locals 1
 
-    .line 21
+    .line 23
     const/16 v0, 0x10
 
     return v0
@@ -296,32 +353,52 @@
 .method public hasStableIds()Z
     .locals 1
 
-    .line 23
+    .line 25
     const/4 v0, 0x1
 
     return v0
 .end method
 
-.method public onCreate()V
-    .locals 0
+.method public declared-synchronized onCreate()V
+    .locals 1
+
+    monitor-enter p0
 
     .line 14
+    :try_start_0
     invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->onDataSetChanged()V
+    :try_end_0
+    .catchall {:try_start_0 .. :try_end_0} :catchall_0
+
+    monitor-exit p0
 
     return-void
+
+    .line 14
+    :catchall_0
+    move-exception v0
+
+    monitor-exit p0
+
+    throw v0
 .end method
 
-.method public onDataSetChanged()V
+.method public declared-synchronized onDataSetChanged()V
     .locals 4
 
+    monitor-enter p0
+
     .line 15
+    :try_start_0
     sget-object v0, Lcom/aiderlog/v22app/WidgetSizeV169;->active:Ljava/lang/ThreadLocal;
 
     iget-object v1, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->bounds:Landroid/util/SizeF;
 
     invoke-virtual {v0, v1}, Ljava/lang/ThreadLocal;->set(Ljava/lang/Object;)V
+    :try_end_0
+    .catchall {:try_start_0 .. :try_end_0} :catchall_1
 
-    :try_start_0
+    :try_start_1
     iget-object v0, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->context:Landroid/content/Context;
 
     invoke-static {v0}, Lcom/aiderlog/v22app/WidgetNativeV164;->snapshot(Landroid/content/Context;)Lorg/json/JSONObject;
@@ -349,36 +426,165 @@
     move-result-object v0
 
     iput-object v0, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->owner:Ljava/lang/String;
-    :try_end_0
-    .catchall {:try_start_0 .. :try_end_0} :catchall_0
+    :try_end_1
+    .catchall {:try_start_1 .. :try_end_1} :catchall_0
 
+    :try_start_2
     sget-object v0, Lcom/aiderlog/v22app/WidgetSizeV169;->active:Ljava/lang/ThreadLocal;
 
     invoke-virtual {v0}, Ljava/lang/ThreadLocal;->remove()V
+    :try_end_2
+    .catchall {:try_start_2 .. :try_end_2} :catchall_1
+
+    monitor-exit p0
 
     return-void
 
     :catchall_0
     move-exception v0
 
+    :try_start_3
     sget-object v1, Lcom/aiderlog/v22app/WidgetSizeV169;->active:Ljava/lang/ThreadLocal;
 
     invoke-virtual {v1}, Ljava/lang/ThreadLocal;->remove()V
 
     throw v0
+    :try_end_3
+    .catchall {:try_start_3 .. :try_end_3} :catchall_1
+
+    .line 15
+    :catchall_1
+    move-exception v0
+
+    monitor-exit p0
+
+    throw v0
 .end method
 
-.method public onDestroy()V
+.method public declared-synchronized onDestroy()V
     .locals 1
 
-    .line 16
-    iget-object v0, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->items:Ljava/util/List;
+    monitor-enter p0
 
-    invoke-interface {v0}, Ljava/util/List;->clear()V
+    .line 16
+    :try_start_0
+    new-instance v0, Ljava/util/ArrayList;
+
+    invoke-direct {v0}, Ljava/util/ArrayList;-><init>()V
+
+    iput-object v0, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->items:Ljava/util/List;
 
     const-string v0, ""
 
     iput-object v0, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->owner:Ljava/lang/String;
+    :try_end_0
+    .catchall {:try_start_0 .. :try_end_0} :catchall_0
+
+    monitor-exit p0
 
     return-void
+
+    .line 16
+    :catchall_0
+    move-exception v0
+
+    monitor-exit p0
+
+    throw v0
+.end method
+
+.method declared-synchronized refreshRows()V
+    .locals 5
+
+    monitor-enter p0
+
+    .line 19
+    :try_start_0
+    sget-object v0, Lcom/aiderlog/v22app/WidgetSizeV169;->active:Ljava/lang/ThreadLocal;
+
+    iget-object v1, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->bounds:Landroid/util/SizeF;
+
+    invoke-virtual {v0, v1}, Ljava/lang/ThreadLocal;->set(Ljava/lang/Object;)V
+    :try_end_0
+    .catchall {:try_start_0 .. :try_end_0} :catchall_1
+
+    :try_start_1
+    iget-object v0, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->context:Landroid/content/Context;
+
+    invoke-static {v0}, Lcom/aiderlog/v22app/WidgetNativeV164;->snapshot(Landroid/content/Context;)Lorg/json/JSONObject;
+
+    move-result-object v0
+
+    invoke-static {v0}, Lcom/aiderlog/v22app/WidgetCompactCalendarV181;->owner(Lorg/json/JSONObject;)Ljava/lang/String;
+
+    move-result-object v1
+
+    iget-object v2, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->context:Landroid/content/Context;
+
+    iget v3, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->widget:I
+
+    iget-object v4, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->kind:Ljava/lang/String;
+
+    invoke-static {v2, v3, v4, v0}, Lcom/aiderlog/v22app/WidgetNativeV164;->rows(Landroid/content/Context;ILjava/lang/String;Lorg/json/JSONObject;)Ljava/util/List;
+
+    move-result-object v0
+
+    iget-object v2, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->owner:Ljava/lang/String;
+
+    invoke-virtual {v1, v2}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v2
+
+    if-eqz v2, :cond_0
+
+    iget-object v2, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->items:Ljava/util/List;
+
+    invoke-interface {v0, v2}, Ljava/util/List;->equals(Ljava/lang/Object;)Z
+
+    move-result v2
+
+    if-nez v2, :cond_1
+
+    :cond_0
+    const-string v2, ""
+
+    iput-object v2, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->owner:Ljava/lang/String;
+
+    iput-object v0, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->items:Ljava/util/List;
+
+    iput-object v1, p0, Lcom/aiderlog/v22app/WidgetRowsV164$Rows;->owner:Ljava/lang/String;
+    :try_end_1
+    .catchall {:try_start_1 .. :try_end_1} :catchall_0
+
+    :cond_1
+    :try_start_2
+    sget-object v0, Lcom/aiderlog/v22app/WidgetSizeV169;->active:Ljava/lang/ThreadLocal;
+
+    invoke-virtual {v0}, Ljava/lang/ThreadLocal;->remove()V
+    :try_end_2
+    .catchall {:try_start_2 .. :try_end_2} :catchall_1
+
+    monitor-exit p0
+
+    return-void
+
+    :catchall_0
+    move-exception v0
+
+    :try_start_3
+    sget-object v1, Lcom/aiderlog/v22app/WidgetSizeV169;->active:Ljava/lang/ThreadLocal;
+
+    invoke-virtual {v1}, Ljava/lang/ThreadLocal;->remove()V
+
+    throw v0
+    :try_end_3
+    .catchall {:try_start_3 .. :try_end_3} :catchall_1
+
+    .line 19
+    :catchall_1
+    move-exception v0
+
+    monitor-exit p0
+
+    throw v0
 .end method
