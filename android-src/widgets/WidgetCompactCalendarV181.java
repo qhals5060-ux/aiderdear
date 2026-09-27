@@ -131,8 +131,13 @@ public final class WidgetCompactCalendarV181 {
         if(mini||fortnight)bind(c,result,widget,kind,rows(c,widget,kind,data),"widget_items_v164","widget_preview_rows_v164","w184_event_empty",preview,chosen,selectedFont,mini?5:2,data);
         if(!mini&&!agenda)show(c,result,"w184_todo_panel",todos);
         if(todos){
-            show(c,result,"w184_todo_heading",height>=170);
+            show(c,result,"w184_todo_heading",true);
             color(c,result,"w184_todo_heading",secondaryInk(c,chosen));
+            for(String key:new String[]{"w196_todo_add","w196_memo_add"}){color(c,result,key,WidgetThemeV190.accent(chosen));result.setTextViewTextSize(id(c,key),2,WidgetSizeV169.sp(c,widget,selectedFont,15));}
+            result.setOnClickPendingIntent(id(c,"w196_todo_add"),WidgetNoteActivityV196.open(c,widget,kind,owner(data),"todo",from));
+            result.setOnClickPendingIntent(id(c,"w196_memo_add"),WidgetNoteActivityV196.open(c,widget,kind,owner(data),"memo",from));
+            result.setOnClickPendingIntent(id(c,"w196_todo_heading"),WidgetNoteActivityV196.open(c,widget,kind,owner(data),"todo",from));result.setContentDescription(id(c,"w196_todo_heading"),"투두 추가");
+            result.setOnClickPendingIntent(id(c,"w196_memo_heading"),WidgetNoteActivityV196.open(c,widget,kind,owner(data),"memo",from));result.setContentDescription(id(c,"w196_memo_heading"),"메모 추가");
             bind(c,result,widget,kind+"@todos",rows(c,widget,kind+"@todos",data),"w165_secondary_list","w181_todo_preview","w184_todo_empty",preview,chosen,selectedFont,agenda?5:4,data);
             color(c,result,"w194_notes_heading",secondaryInk(c,chosen));
             if(fortnight)color(c,result,"w194_schedule_heading",secondaryInk(c,chosen));
@@ -196,12 +201,13 @@ public final class WidgetCompactCalendarV181 {
     }
     static RemoteViews row(Context c,int widget,String kind,String json,int index,String overrideTheme,int selectedFont) {
         JSONObject record;try{record=new JSONObject(json);}catch(Exception ignored){record=new JSONObject();}
+        if(record.optBoolean("_emptyV189")&&kind.contains("@todos")){RemoteViews empty=view(c,"widget_todo_small_v185");text(c,empty,"w184_todo_title","+ 버튼으로 투두 추가");color(c,empty,"w184_todo_title",secondaryInk(c,overrideTheme==null?theme(c,widget):overrideTheme));show(c,empty,"w184_check_hit",false);show(c,empty,"w184_todo_due",false);return empty;}
         if(record.optBoolean("_emptyV189"))return WidgetApprovedV188.renderRow(c,widget,kind,json,overrideTheme,selectedFont);
         String chosen=overrideTheme==null?theme(c,widget):overrideTheme;JSONObject data=snapshot(c);
         if(record.has("_widgetOwnerV181")&&!sameOwner(record.optString("_widgetOwnerV181"),data)){RemoteViews cleared=view(c,"widget_upcoming_row_v184");cleared.setViewVisibility(id(c,"w184_row"),View.INVISIBLE);return cleared;}
         if(kind.contains("@todos"))return todo(c,widget,kind,record,data,chosen,selectedFont,false);
         if(kind.contains("@notes")){
-            RemoteViews note=view(c,"widget_memo_row_v194");text(c,note,"w194_note_title",record.optString("title"));text(c,note,"w194_note_body",record.optString("preview"));show(c,note,"w194_note_body",!record.optString("preview").isEmpty());color(c,note,"w194_note_title",ink(c,chosen));color(c,note,"w194_note_body",secondaryInk(c,chosen));
+            String pending=pendingPrivateLabel(record);RemoteViews note=view(c,"widget_memo_row_v194");text(c,note,"w194_note_title",pendingPrivatePrefix(record)+record.optString("title"));text(c,note,"w194_note_body",pending.isEmpty()?record.optString("preview"):pending);show(c,note,"w194_note_body",!pending.isEmpty()||!record.optString("preview").isEmpty());color(c,note,"w194_note_title",ink(c,chosen));color(c,note,"w194_note_body",secondaryInk(c,chosen));note.setContentDescription(id(c,"w194_note_row"),record.optString("title")+(pending.isEmpty()?"":" · "+pending));
             note.setTextViewTextSize(id(c,"w194_note_title"),2,WidgetSizeV169.sp(c,widget,selectedFont,11));note.setTextViewTextSize(id(c,"w194_note_body"),2,WidgetSizeV169.sp(c,widget,selectedFont,9));
             note.setOnClickFillInIntent(id(c,"w194_note_row"),WidgetDesignV165.action(data,widget,kind,record,"open","note"));return note;
         }
@@ -226,14 +232,16 @@ public final class WidgetCompactCalendarV181 {
     }
     static RemoteViews todo(Context c,int widget,String kind,JSONObject record,JSONObject data,String chosen,int selectedFont,boolean cell) {
         boolean compact=smallRows(kind,WidgetSizeV169.current(c,widget).getWidth(),WidgetSizeV169.current(c,widget).getHeight());
-        RemoteViews item=view(c,compact?"widget_todo_small_v185":"widget_todo_row_v184");text(c,item,"w184_todo_title",record.optString("title"));color(c,item,"w184_todo_title",ink(c,chosen));
+        String pending=pendingPrivateLabel(record);RemoteViews item=view(c,compact?"widget_todo_small_v185":"widget_todo_row_v184");text(c,item,"w184_todo_title",pendingPrivatePrefix(record)+record.optString("title"));color(c,item,"w184_todo_title",ink(c,chosen));
         item.setTextViewTextSize(id(c,"w184_todo_title"),2,WidgetSizeV169.sp(c,widget,selectedFont,compact?11:12));
         String due=record.optString("dueAt",record.optString("dueDate",record.optString("date")));if(due.length()>10)due=due.substring(0,10);
-        text(c,item,"w184_todo_due",shortDate(due));color(c,item,"w184_todo_due",secondaryInk(c,chosen));show(c,item,"w184_todo_due",dateKey(due));
+        text(c,item,"w184_todo_due",pending.isEmpty()?shortDate(due):record.optString("_widgetFailedV196").isEmpty()?"대기":"확인");color(c,item,"w184_todo_due",secondaryInk(c,chosen));show(c,item,"w184_todo_due",!pending.isEmpty()||dateKey(due));
         item.setTextViewTextSize(id(c,"w184_todo_due"),2,WidgetSizeV169.sp(c,widget,selectedFont,10));
         item.setInt(id(c,"w184_check"),"setBackgroundResource",drawable(c,WidgetThemeV190.resource(chosen,"outline")));
         item.setInt(id(c,"w187_row_divider"),"setBackgroundColor",WidgetThemeV190.color(chosen,3));
-        item.setOnClickFillInIntent(id(c,"w184_check_hit"),WidgetDesignV165.action(data,widget,kind,record,"todo","true"));item.setOnClickFillInIntent(id(c,"w184_todo_title"),WidgetDesignV165.action(data,widget,kind,record,"open","todo"));item.setOnClickFillInIntent(id(c,"w184_todo_due"),WidgetDesignV165.action(data,widget,kind,record,"open","todo"));
-        item.setContentDescription(id(c,"w184_check_hit"),record.optString("title")+" 완료");return item;
+        item.setOnClickFillInIntent(id(c,"w184_check_hit"),WidgetDesignV165.action(data,widget,kind,record,"todo","true"));item.setOnClickFillInIntent(id(c,"w184_todo_title"),WidgetDesignV165.action(data,widget,kind,record,"todo","true"));item.setOnClickFillInIntent(id(c,"w184_todo_due"),WidgetDesignV165.action(data,widget,kind,record,"todo","true"));
+        String description=record.optString("title")+" 완료"+(dateKey(due)?" · 기한 "+due:"")+(pending.isEmpty()?"":" · "+pending);item.setContentDescription(id(c,"w184_check_hit"),description);item.setContentDescription(id(c,"w184_todo_title"),description);item.setContentDescription(id(c,"w184_todo_due"),description);return item;
     }
+    static String pendingPrivatePrefix(JSONObject row){return !row.optString("_widgetFailedV196").isEmpty()?"! ":row.optBoolean("_widgetPendingV196")?"◷ ":"";}
+    static String pendingPrivateLabel(JSONObject row){return !row.optString("_widgetFailedV196").isEmpty()?"동기화 확인 필요 · 기기 저장됨":row.optBoolean("_widgetPendingV196")?"기기 저장됨 · 앱을 열면 동기화":"";}
 }

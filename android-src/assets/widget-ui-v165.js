@@ -21,7 +21,7 @@
   }
   window.AiderWidgetUIV165 = {mergeRow};
   window.addEventListener('aiderlog:widget-private-changed', event => {
-    if (typeof P === 'undefined') return;
+    if (typeof P === 'undefined' || !window.AiderAppDataScopeV179?.ownsPrivate(P)) return;
     const uid = window.AiderDearFirebase?.getState?.()?.user?.uid || '';
     const field = mergeRow(P, uid, event.detail);
     if (!field) return;

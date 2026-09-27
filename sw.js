@@ -1,4 +1,4 @@
-const CACHE='aiderlog-v195-site-core';
+const CACHE='aiderlog-v196-site-core';
 const APP_SHELL=[
   "./aiderdear-icon-180.png",
   "./aiderdear-icon-192.png",

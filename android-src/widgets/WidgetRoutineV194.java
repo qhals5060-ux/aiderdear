@@ -23,7 +23,7 @@ public final class WidgetRoutineV194 {
         if(values.isEmpty())values.add(put(put(put(new JSONObject(),"id","empty-routine"),"kind","empty"),"title","루틴을 추가해주세요"));
         List<String> out=new ArrayList<String>();for(JSONObject row:values){put(row,"_owner",model.optString("uid"));put(row,"_date",model.optString("today"));out.add(row.toString());}return out;
     }
-    static String progress(JSONObject row){String level=row.optString("level");String done=row.optInt("done")+"일";return level.isEmpty()?done:done+" · "+level;}
+    static String progress(JSONObject row){String level=row.optString("level"),done=row.optInt("done")+"일";if(!row.optString("_widgetFailedV196").isEmpty())return "동기화 확인 필요 · 앱에서 확인";if(WidgetPrivateV196.goalLinked(row))return done+" · 목표 연결 · 앱에서 변경";return (level.isEmpty()?done:done+" · "+level)+(row.optBoolean("_widgetPendingV196")?" · 기기 저장됨":"");}
     static boolean validOwner(JSONObject row,JSONObject data){String current=WidgetCompactCalendarV181.owner(data);return !current.isEmpty()&&current.equals(row.optString("_owner"));}
     static int previewRows(float height,float titleSize){return Math.max(1,(int)Math.floor(Math.max(0,height-40)/(42+Math.ceil(titleSize*1.35f))));}
     static RemoteViews render(Context c,int widget,String kind,boolean preview,String override,int opacityOverride,int font){
@@ -51,10 +51,10 @@ public final class WidgetRoutineV194 {
         row.setTextViewTextSize(id(c,"w194_routine_title"),2,WidgetSizeV169.sp(c,widget,font,stats?20:12));
         text(c,row,"w194_routine_meta",stats?"누적 "+record.optInt("cumulative")+"회 · "+record.optInt("streak")+"일 연속":empty?"앱에서 루틴 만들기":progress(record));color(c,row,"w194_routine_meta",muted);
         JSONObject bound=put(new JSONObject(),"v165",put(put(new JSONObject(),"uid",record.optString("_owner")),"today",record.optString("_date")));
-        row.setOnClickFillInIntent(id(c,"w194_routine_row"),action(bound,widget,kind,record,"open","routine"));
+        if(!empty&&!stats){row.setOnClickFillInIntent(id(c,"w194_routine_row"),WidgetPrivateV196.action(bound,widget,kind,record,"MAX",true));row.setContentDescription(id(c,"w194_routine_row"),record.optString("title")+" 오늘 완료 또는 완료 취소");}
         if(stats){JSONArray counts=a(record,"weekCounts");String[] labels={"월","화","수","목","금","토","일"};for(int i=0;i<7;i++){text(c,row,"w194_week_"+i,labels[i]+"\n"+counts.optInt(i));color(c,row,"w194_week_"+i,counts.optInt(i)>0?accent:muted);}row.setProgressBar(id(c,"w194_routine_progress"),100,record.optInt("weekPercent"),false);return row;}
         show(c,row,"w194_routine_actions",!empty);show(c,row,"w194_routine_progress",!empty&&record.optBoolean("detail")&&!record.isNull("percent"));row.setProgressBar(id(c,"w194_routine_progress"),100,record.optInt("percent"),false);
-        for(int i=0;i<4;i++){String value=new String[]{"MINI","MORE","MAX","SKIP"}[i],key="w194_level_"+i;boolean active=value.equals(record.optString("level"));color(c,row,key,active?accent:muted);row.setInt(id(c,key),"setBackgroundResource",drawable(c,WidgetThemeV190.resource(chosen,active?"selected":"outline")));row.setOnClickFillInIntent(id(c,key),action(bound,widget,kind,record,"routine",value));row.setContentDescription(id(c,key),record.optString("title")+" "+value+(active?" 선택됨":""));}
+        for(int i=0;i<4;i++){String value=new String[]{"MINI","MORE","MAX","SKIP"}[i],key="w194_level_"+i,label=i==2?("MAX".equals(record.optString("level"))?"✓ 완료":"완료"):value;boolean active=value.equals(record.optString("level"));text(c,row,key,label);color(c,row,key,active?accent:muted);row.setInt(id(c,key),"setBackgroundResource",drawable(c,WidgetThemeV190.resource(chosen,active?"selected":"outline")));row.setOnClickFillInIntent(id(c,key),WidgetPrivateV196.action(bound,widget,kind,record,value,i==2));row.setContentDescription(id(c,key),record.optString("title")+" "+(i==2?active?"완료 취소":"완료":value)+(active?" 선택됨":""));}
         return row;
     }
 }

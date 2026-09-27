@@ -1,4 +1,4 @@
-.class public final synthetic Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$ZVbiwpcb3PIPn2gAUE0vpRPnGMA;
+.class public final synthetic Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$uq7Z8wZhtEbrpkDQYOGM3gJiyRM;
 .super Ljava/lang/Object;
 .source "lambda"
 
@@ -16,7 +16,7 @@
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    iput-object p1, p0, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$ZVbiwpcb3PIPn2gAUE0vpRPnGMA;->f$0:Lcom/aiderlog/v22app/WidgetDayActivityV195;
+    iput-object p1, p0, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$uq7Z8wZhtEbrpkDQYOGM3gJiyRM;->f$0:Lcom/aiderlog/v22app/WidgetDayActivityV195;
 
     return-void
 .end method
@@ -26,9 +26,9 @@
 .method public final onCheckedChanged(Landroid/widget/CompoundButton;Z)V
     .locals 1
 
-    iget-object v0, p0, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$ZVbiwpcb3PIPn2gAUE0vpRPnGMA;->f$0:Lcom/aiderlog/v22app/WidgetDayActivityV195;
+    iget-object v0, p0, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$uq7Z8wZhtEbrpkDQYOGM3gJiyRM;->f$0:Lcom/aiderlog/v22app/WidgetDayActivityV195;
 
-    invoke-virtual {v0, p1, p2}, Lcom/aiderlog/v22app/WidgetDayActivityV195;->lambda$6$WidgetDayActivityV195(Landroid/widget/CompoundButton;Z)V
+    invoke-virtual {v0, p1, p2}, Lcom/aiderlog/v22app/WidgetDayActivityV195;->lambda$8$WidgetDayActivityV195(Landroid/widget/CompoundButton;Z)V
 
     return-void
 .end method

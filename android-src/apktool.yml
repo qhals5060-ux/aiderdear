@@ -1,5 +1,5 @@
 version: 2.12.1
-apkFileName: AiderLog-v195.apk
+apkFileName: AiderLog-v196.apk
 usesFramework:
   ids:
   - 1
@@ -9,5 +9,5 @@ sdkInfo:
 packageInfo:
   forcedPackageId: 127
 versionInfo:
-  versionCode: 195
-  versionName: 1.9.85
+  versionCode: 196
+  versionName: 1.9.86

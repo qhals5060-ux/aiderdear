@@ -1,0 +1,18 @@
+package com.aiderlog.v22app;
+import org.json.JSONObject;
+/** Pure input contracts for native widget forms; no Android UI is instantiated. */
+public final class WidgetNoteContractV196 {
+    static int assertions=0;
+    static void check(boolean value,String text){assertions++;if(!value)throw new AssertionError(text);}
+    static JSONObject draft(String type,String value,String date){return WidgetNoteActivityV196.command("owner-a",type,value,date,"widget-private-00000000-0000-4000-8000-000000000001",1780000000000L,"CalendarFortnight",7);}
+    static void rejects(String type,String value,String date){boolean failed=false;try{draft(type,value,date);}catch(IllegalArgumentException e){failed=true;}check(failed,"invalid form: "+type+" "+date);}
+    public static void main(String[]args)throws Exception{
+        JSONObject todo=draft("todo","  물 마시기  ","");check(todo.optInt("schema")==196,"native schema");check(todo.optString("op").equals("add-todo"),"todo stable backend operation");check(todo.optString("value").equals("물 마시기"),"title trimmed");check(todo.optString("date").isEmpty(),"undated TODO is allowed");check(todo.optString("uid").equals("owner-a"),"captured owner");check(todo.optString("id").equals(todo.optString("key")),"save retries share original immutable key");check(todo.optString("kind").equals("CalendarFortnight")&&todo.optInt("widgetId")==7,"widget context preserved");
+        check(draft("todo","할 일","2028-02-29").optString("date").equals("2028-02-29"),"valid leap-day due date");rejects("todo","할 일","2026-02-29");rejects("todo","할 일","1999-12-31");rejects("todo","할 일","2200-01-01");rejects("todo","할 일","2026-1-01");
+        JSONObject memo=draft("memo","첫 줄\n둘째 줄","2026-09-27");check(memo.optString("op").equals("add-memo"),"memo uses existing checklist memo operation");check(memo.optString("date").isEmpty(),"memo cannot inherit schedule due date");check(memo.optString("value").equals("첫 줄\n둘째 줄"),"memo line breaks preserved");check(!memo.has("memos")&&!memo.has("payload"),"form never replaces a private collection");
+        String limit=new String(new char[180]).replace('\0','가');check(draft("memo",limit,"").optString("value").length()==180,"180 characters accepted");rejects("memo",limit+"가","");rejects("memo","  ","");rejects("other","내용","");boolean anonymous=false;try{WidgetNoteActivityV196.command("","todo","내용","","id",1780000000000L,"CalendarMonth",1);}catch(IllegalArgumentException e){anonymous=true;}check(anonymous,"anonymous form cannot create command");
+        JSONObject row=new JSONObject().put("title","메모");check(WidgetCompactCalendarV181.pendingPrivateLabel(row).isEmpty(),"saved existing records have no false pending notice");row.put("_widgetPendingV196",true);check(WidgetCompactCalendarV181.pendingPrivateLabel(row).contains("앱을 열면 동기화"),"local draft explicitly pending");row.put("_widgetFailedV196","permission-denied");check(WidgetCompactCalendarV181.pendingPrivateLabel(row).contains("확인 필요"),"permanent failure stays visible as local draft");
+        check(WidgetCompactCalendarV181.pendingPrivateLabel(row).startsWith("동기화 확인 필요"),"narrow memo failure notice starts with its distinguishing state");check(WidgetCompactCalendarV181.pendingPrivatePrefix(row).equals("! "),"failed title remains distinguishable even if subtitle clips");row.remove("_widgetFailedV196");check(WidgetCompactCalendarV181.pendingPrivatePrefix(row).equals("◷ "),"pending title has a different marker");row.remove("_widgetPendingV196");check(WidgetCompactCalendarV181.pendingPrivatePrefix(row).isEmpty(),"confirmed legacy rows retain original title");
+        System.out.println("PASS "+assertions+" native note form contracts");
+    }
+}

@@ -33,7 +33,7 @@ public final class WidgetNativeV164 {
     static int drawable(Context c,String name){return c.getResources().getIdentifier(name,"drawable",c.getPackageName());}
     static SharedPreferences prefs(Context c){return c.getSharedPreferences(PREF,0);}
     static String type(String name){return name==null?"":name.substring(name.lastIndexOf('$')+1);}
-    static JSONObject snapshot(Context c){try{return WidgetCalendarV195.overlay(c,new JSONObject(prefs(c).getString("widget_snapshot","{}")));}catch(Exception e){return new JSONObject();}}
+    static JSONObject snapshot(Context c){try{return WidgetPrivateV196.overlay(c,WidgetCalendarV195.overlay(c,new JSONObject(prefs(c).getString("widget_snapshot","{}"))));}catch(Exception e){return new JSONObject();}}
     static String day(Calendar value){synchronized(DATE){return DATE.format(value.getTime());}}
     static Calendar date(String key){Calendar value=Calendar.getInstance();try{synchronized(DATE){value.setTime(DATE.parse(key));}}catch(Exception ignored){}return value;}
     static String selected(Context c,int widget){return prefs(c).getString("widget_date_"+widget,day(Calendar.getInstance()));}
@@ -257,7 +257,7 @@ public final class WidgetNativeV164 {
     static void collection(Context c,RemoteViews v,int widget,String kind,List<String> rows,int list)throws RuntimeException{
         String target=kind.startsWith("Calendar")?"home":kind.startsWith("Routine")?"private":"personal";
         Intent open=new Intent().setClassName(c,c.getPackageName()+".MainActivity").setAction("aiderlog.widget.collection."+widget+"."+kind).putExtra("target",target).addFlags(0x14000000);
-        v.setPendingIntentTemplate(list,kind.startsWith("Calendar")&&!kind.contains("@")?WidgetCalendarV195.collection(c,widget,kind,WidgetCalendarV195.owner(snapshot(c))):PendingIntent.getActivity(c,widget*17+kind.hashCode(),open,android.os.Build.VERSION.SDK_INT>=31?0x0a000000:0x08000000));
+        v.setPendingIntentTemplate(list,kind.equals("RoutineAll")||kind.endsWith("@todos")?WidgetPrivateV196.collection(c,widget,kind,WidgetPrivateV196.owner(snapshot(c))):kind.startsWith("Calendar")&&!kind.contains("@")?WidgetCalendarV195.collection(c,widget,kind,WidgetCalendarV195.owner(snapshot(c))):PendingIntent.getActivity(c,widget*17+kind.hashCode(),open,android.os.Build.VERSION.SDK_INT>=31?0x0a000000:0x08000000));
         if(android.os.Build.VERSION.SDK_INT>=31&&kind.startsWith("Calendar")&&rows.size()<=40){try{
             Class<?> builderClass=Class.forName("android.widget.RemoteViews$RemoteCollectionItems$Builder");Object builder=builderClass.getDeclaredConstructor().newInstance();
             builderClass.getMethod("setHasStableIds",boolean.class).invoke(builder,true);

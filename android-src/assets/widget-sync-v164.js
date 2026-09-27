@@ -18,7 +18,7 @@
   const auth=()=>window.AiderDearFirebase?.getState?.()||{};
   const identity=state=>state?.user?.uid?`${state.user.uid}|${state.pair?.id||'solo'}`:'';
   const cacheKey=owner=>`aiderlog.widgets.verified.v164:${encodeURIComponent(owner)}`;
-  let owner='',ownerState={},epoch=0,source={app:{},personal:{}},verified=false;
+  let owner='',ownerState={},epoch=0,source={app:{},personal:{}},verified=false,privateReceiptV196=null;
   let apiBound=null,refreshTimer=0,refreshRun=0,logoutPending=false,logoutOwner='',refreshFlight=null,refreshFlightKinds=new Set(),refreshForce=false;
   let parts={app:false,personal:false,schedule:false},versions={app:0,personal:0,schedule:0};const refreshScopes=new Set();
   const photoCache=new Map();let photoRun=0;
@@ -27,12 +27,12 @@
   // them here: only atomically owner-tagged, scoped Firebase responses are used.
   const widgetApp=value=>({scheduleEvents:array(value?.scheduleEvents)});
   const widgetPrivate=value=>({routines:array(value?.routines),checklists:array(value?.checklists),memos:array(value?.memos).filter(row=>row&&row.category!=='emotion'&&!row.demo).sort(newest).slice(0,100).map(row=>({id:str(row.id),text:text(row).slice(0,180),notes:str(row.notes||row.note||row.preview||row.description).slice(0,240),updatedAt:Number(row.updatedAt||row.createdAt||0)}))});
-  function blankSnapshot(){return {version:195,uid:'',v165:{},email:'',theme:themeMap[document.documentElement.dataset.theme]||'aurora',syncState:'account-unverified',accessState:owner&&!logoutPending?'sync-required':'needs-login',scheduleItems:[],schedule:[],holidays:{},routines:[],routineStats:[],todos:[]};}
+  function blankSnapshot(){return {version:196,uid:'',v165:{},email:'',theme:themeMap[document.documentElement.dataset.theme]||'aurora',syncState:'account-unverified',accessState:owner&&!logoutPending?'sync-required':'needs-login',scheduleItems:[],schedule:[],holidays:{},routines:[],routineStats:[],todos:[]};}
   function sendBlank(){try{const payload=JSON.stringify(blankSnapshot());native.syncWidgets(payload);last=payload;}catch{last='';}}
   function changeOwner(state){
     const next=identity(state);if(next===owner)return;
     epoch++;refreshRun++;photoRun++;clearTimeout(timer);clearTimeout(refreshTimer);
-    owner=next;ownerState=state||{};source={app:{},personal:{}};verified=false;photoCache.clear();refreshFlight=null;refreshFlightKinds.clear();refreshForce=false;refreshScopes.clear();parts={app:false,personal:false,schedule:false};versions={app:0,personal:0,schedule:0};
+    owner=next;ownerState=state||{};source={app:{},personal:{}};verified=false;privateReceiptV196=null;photoCache.clear();refreshFlight=null;refreshFlightKinds.clear();refreshForce=false;refreshScopes.clear();parts={app:false,personal:false,schedule:false};versions={app:0,personal:0,schedule:0};
     // This bypasses the normal debounce: an old account must disappear immediately.
     sendBlank();
     if(!next)return;
@@ -128,13 +128,13 @@
     const uid=state.user.uid;
     const checks=array(personal.checklists).filter(row=>row&&!row.demo&&row.kind!=='memo'&&row.type!=='memo'&&row.category!=='emotion');
     const todos=checks.map(row=>`${row.done?'✓':'○'} ${text(row)}${row.dueAt||row.date?' · '+date(row.dueAt||row.date):''}`);
-    return {version:195,uid,v165:window.AiderWidgetModelsV165?.build({app,personal,uid,now})||{},email,theme:themeMap[document.documentElement.dataset.theme]||'aurora',today:new Intl.DateTimeFormat('ko-KR',{month:'long',day:'numeric',weekday:'short'}).format(now),month:new Intl.DateTimeFormat('ko-KR',{year:'numeric',month:'long'}).format(now),scheduleItems,holidays,schedule:scheduleItems.map(row=>`${row.date} ${row.time} ${row.title}`),routines,routineStats:routines,todos};
+    return {version:196,uid,...(privateReceiptV196?.uid===uid?{privateReceiptV196}:{}),v165:window.AiderWidgetModelsV165?.build({app,personal,uid,now})||{},email,theme:themeMap[document.documentElement.dataset.theme]||'aurora',today:new Intl.DateTimeFormat('ko-KR',{month:'long',day:'numeric',weekday:'short'}).format(now),month:new Intl.DateTimeFormat('ko-KR',{year:'numeric',month:'long'}).format(now),scheduleItems,holidays,schedule:scheduleItems.map(row=>`${row.date} ${row.time} ${row.title}`),routines,routineStats:routines,todos};
   }
   let timer=0,last='';
   const commandQueueKey=uid=>`aiderlog.widget-actions.v165:${encodeURIComponent(uid)}`;
   const retainedKinds=new Set(['CalendarMonth','CalendarCombined','CalendarSplit','CalendarFortnight','RoutineAll']);
   const compatibleCommand=command=>['RoutineCards','RoutineStats'].includes(str(command?.kind))?{...command,kind:'RoutineAll'}:command;
-  const retainedCommand=command=>retainedKinds.has(str(command?.kind))&&(['todo','routine','add-todo'].includes(command.op)||command.op==='open'&&['routine','routine-stats','todo','note'].includes(command.value));
+  const retainedCommand=command=>retainedKinds.has(str(command?.kind))&&(['todo','routine','add-todo','add-memo'].includes(command.op)||command.op==='open'&&['routine','routine-stats','todo','note'].includes(command.value));
   let executing=false;
   function enqueue(command){const name=commandQueueKey(command.uid),rows=array(read(name)),remaining=rows.filter(row=>row.key!==command.key&&!(row.id===command.id&&row.op===command.op));remaining.push(command);localStorage.setItem(name,JSON.stringify(remaining));}
   function notify(message){if(typeof window.toast==='function')window.toast(message);else if(typeof window.AiderLogAppShell?.toast==='function')window.AiderLogAppShell.toast(message);}
@@ -164,7 +164,7 @@
   async function commandAction(raw){
     let command;try{command=compatibleCommand(JSON.parse(decodeURIComponent(String(raw).slice(12))));}catch{return;}
     if(!object(command)||!retainedCommand(command)||str(command.uid)!==str(auth()?.user?.uid)||!checkOwner())return;
-    if(command.op==='add-todo'){quickAdd(command);return;}
+    if(['add-todo','add-memo'].includes(command.op)){quickAdd(command);return;}
     if(['todo','routine'].includes(command.op)){if(!str(command.id)||!str(command.key)||command.key.length>1000)return;enqueue(command);if(!verified)await refresh();flushCommands();return;}
     if(command.op==='open'){
       if(command.value==='note'){
@@ -175,6 +175,21 @@
       }
       const target=['routine','routine-stats'].includes(command.value)?'routine':'schedule';window.AiderLogAppShell?.openTarget?.(target,'');if(command.value==='routine-stats'&&str(auth()?.user?.uid)===str(command.uid))document.querySelector('#routine [data-r165-tab="statistics"]')?.click();if(command.value==='todo')document.querySelector('#quickMemoBtn')?.click();
     }
+  }
+  async function publishPrivateResultV196(command,result,localBefore,receipt){
+    if(!checkOwner()||command?.uid!==ownerState.user?.uid||!object(result?.payload)||!object(receipt)||receipt.uid!==command.uid||receipt.key!==command.key)return false;
+    const expectedEpoch=epoch,expectedOwner=owner,detail={uid:command.uid,payload:copy(result.payload),command,localBefore,exists:true,fromCache:false,hasPendingWrites:false,source:'widget-private-v196'};
+    // Merge the changed UI row only if its local version still matches the one
+    // captured before the transaction. Unrelated editor drafts remain intact.
+    window.dispatchEvent(new CustomEvent('aiderlog:widget-private-changed',{detail}));
+    // The existing save coordinator must receive the authoritative payload before
+    // native acknowledgement, even when an editor defers its full UI application.
+    if(typeof window.sync!=='function'||!await window.sync({kind:'private',detail})||!stillCurrent(expectedEpoch,expectedOwner))return false;
+    if(!acceptPart('personal',detail.payload))return false;
+    privateReceiptV196=copy(receipt);publish();
+    const value=snapshot();if(value.uid!==command.uid||value.privateReceiptV196?.key!==command.key)return false;
+    const payload=JSON.stringify(value);if(payload.length>4194304)return false;
+    native.syncWidgets(payload);last=payload;return true;
   }
   function sync(){clearTimeout(timer);timer=setTimeout(()=>{try{const payload=JSON.stringify(snapshot());if(payload!==last&&payload.length<=4194304){native.syncWidgets(payload);last=payload}else if(payload.length>4194304){sendBlank();console.warn('[widgets-v164] Snapshot exceeds native transfer limit.');}}catch{sendBlank();console.warn('[widgets-v164] Snapshot sync failed.');}},250)}
   function hook(){
@@ -196,7 +211,7 @@
       return open?.call(this,target,action);
     };
   }
-  window.AiderWidgetSyncV164={snapshot,sync,refresh,prepareMealPhotos,commandAction,flushCommands};
+  window.AiderWidgetSyncV164={snapshot,sync,refresh,prepareMealPhotos,commandAction,flushCommands,publishPrivateResultV196};
   addEventListener('online',()=>{requestRefresh(0);flushCommands()});
   addEventListener('aiderlog-calendar-projection-v168',()=>sync());
   addEventListener('aiderlog-friend-schedule-data',()=>sync());

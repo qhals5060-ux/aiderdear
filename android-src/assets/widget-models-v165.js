@@ -22,7 +22,7 @@
     const routineCounts=weekDates.map(d=>routines.filter(r=>r.doneDates.includes(d)).length),allRoutineDates=unique(routines.flatMap(r=>r.doneDates));
     const routineWeek=routines.filter(r=>r.week.some(Boolean)).map(r=>({id:r.id,title:r.title,week:r.week,weekCount:r.week.filter(Boolean).length,updatedAt:r.updatedAt,kind:"routineWeek"}));
     const routineStats={practiced:routineWeek.length,weekTotal:routineCounts.reduce((a,b)=>a+b,0),todayDone:routines.filter(r=>r.doneDates.includes(today)).length,total:routines.length,weekDates,weekCounts:routineCounts,weekPercent:percent(routineCounts.reduce((a,b)=>a+b,0),routines.length*7),streak:streak(allRoutineDates,today,true),cumulative:routines.reduce((n,r)=>n+r.done,0)};
-    return {schema:195,uid,today,weekDates,notes,todos,incompleteTodos,routines,routineWeek,routineStats,dates:{}};
+    return {schema:196,uid,today,weekDates,notes,todos,incompleteTodos,routines,routineWeek,routineStats,dates:{}};
   }
   return {build,practicedDates,todoCompare,bookKey,streak,week,day,shift,percent};
 });

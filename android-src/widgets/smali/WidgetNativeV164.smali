@@ -1803,13 +1803,32 @@
     move-result-object v2
 
     .line 260
-    invoke-virtual {v11, v1}, Ljava/lang/String;->startsWith(Ljava/lang/String;)Z
+    const-string v3, "RoutineAll"
+
+    invoke-virtual {v11, v3}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result v3
 
     const/16 v4, 0x1f
 
+    if-nez v3, :cond_5
+
+    const-string v3, "@todos"
+
+    invoke-virtual {v11, v3}, Ljava/lang/String;->endsWith(Ljava/lang/String;)Z
+
+    move-result v3
+
     if-eqz v3, :cond_2
+
+    goto :goto_2
+
+    :cond_2
+    invoke-virtual {v11, v1}, Ljava/lang/String;->startsWith(Ljava/lang/String;)Z
+
+    move-result v3
+
+    if-eqz v3, :cond_3
 
     const-string v3, "@"
 
@@ -1817,7 +1836,7 @@
 
     move-result v3
 
-    if-nez v3, :cond_2
+    if-nez v3, :cond_3
 
     invoke-static/range {p0 .. p0}, Lcom/aiderlog/v22app/WidgetNativeV164;->snapshot(Landroid/content/Context;)Lorg/json/JSONObject;
 
@@ -1831,9 +1850,9 @@
 
     move-result-object v2
 
-    goto :goto_2
+    goto :goto_3
 
-    :cond_2
+    :cond_3
     mul-int/lit8 v3, v10, 0x11
 
     invoke-virtual/range {p3 .. p3}, Ljava/lang/String;->hashCode()I
@@ -1844,13 +1863,13 @@
 
     sget v5, Landroid/os/Build$VERSION;->SDK_INT:I
 
-    if-lt v5, v4, :cond_3
+    if-lt v5, v4, :cond_4
 
     const/high16 v5, 0xa000000
 
     goto :goto_1
 
-    :cond_3
+    :cond_4
     const/high16 v5, 0x8000000
 
     :goto_1
@@ -1858,7 +1877,23 @@
 
     move-result-object v2
 
+    goto :goto_3
+
+    :cond_5
     :goto_2
+    invoke-static/range {p0 .. p0}, Lcom/aiderlog/v22app/WidgetNativeV164;->snapshot(Landroid/content/Context;)Lorg/json/JSONObject;
+
+    move-result-object v2
+
+    invoke-static {v2}, Lcom/aiderlog/v22app/WidgetPrivateV196;->owner(Lorg/json/JSONObject;)Ljava/lang/String;
+
+    move-result-object v2
+
+    invoke-static {v8, v10, v11, v2}, Lcom/aiderlog/v22app/WidgetPrivateV196;->collection(Landroid/content/Context;ILjava/lang/String;Ljava/lang/String;)Landroid/app/PendingIntent;
+
+    move-result-object v2
+
+    :goto_3
     invoke-virtual {v9, v12, v2}, Landroid/widget/RemoteViews;->setPendingIntentTemplate(ILandroid/app/PendingIntent;)V
 
     .line 261
@@ -1868,13 +1903,13 @@
 
     const/4 v14, 0x1
 
-    if-lt v2, v4, :cond_5
+    if-lt v2, v4, :cond_7
 
     invoke-virtual {v11, v1}, Ljava/lang/String;->startsWith(Ljava/lang/String;)Z
 
     move-result v1
 
-    if-eqz v1, :cond_5
+    if-eqz v1, :cond_7
 
     invoke-interface/range {p4 .. p4}, Ljava/util/List;->size()I
 
@@ -1882,7 +1917,7 @@
 
     const/16 v2, 0x28
 
-    if-gt v1, v2, :cond_5
+    if-gt v1, v2, :cond_7
 
     .line 262
     :try_start_0
@@ -1957,14 +1992,14 @@
     .line 265
     move v5, v7
 
-    :goto_3
+    :goto_4
     invoke-interface/range {p4 .. p4}, Ljava/util/List;->size()I
 
     move-result v1
 
     const/4 v2, 0x2
 
-    if-lt v5, v1, :cond_4
+    if-lt v5, v1, :cond_6
 
     .line 266
     const-string v0, "build"
@@ -2043,7 +2078,7 @@
     return-void
 
     .line 265
-    :cond_4
+    :cond_6
     const-string v1, "addItem"
 
     new-array v3, v2, [Ljava/lang/Class;
@@ -2136,7 +2171,7 @@
 
     move-object/from16 v0, p4
 
-    goto/16 :goto_3
+    goto/16 :goto_4
 
     .line 268
     :catch_0
@@ -2149,7 +2184,7 @@
     invoke-static {v1, v2, v0}, Landroid/util/Log;->w(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I
 
     .line 269
-    :cond_5
+    :cond_7
     new-instance v0, Landroid/content/Intent;
 
     invoke-direct {v0}, Landroid/content/Intent;-><init>()V
@@ -5797,6 +5832,10 @@
     invoke-direct {v0, v1}, Lorg/json/JSONObject;-><init>(Ljava/lang/String;)V
 
     invoke-static {p0, v0}, Lcom/aiderlog/v22app/WidgetCalendarV195;->overlay(Landroid/content/Context;Lorg/json/JSONObject;)Lorg/json/JSONObject;
+
+    move-result-object v0
+
+    invoke-static {p0, v0}, Lcom/aiderlog/v22app/WidgetPrivateV196;->overlay(Landroid/content/Context;Lorg/json/JSONObject;)Lorg/json/JSONObject;
 
     move-result-object p0
     :try_end_0

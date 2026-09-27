@@ -465,3 +465,33 @@
     move-result v0
     return v0
 .end method
+
+.method public privatePendingV196(Ljava/lang/String;)Ljava/lang/String;
+    .locals 1
+    .annotation runtime Landroid/webkit/JavascriptInterface;
+    .end annotation
+    iget-object v0, p0, Lcom/aiderlog/v22app/MainActivity$NativeBridge;->this$0:Lcom/aiderlog/v22app/MainActivity;
+    invoke-static {v0, p1}, Lcom/aiderlog/v22app/WidgetPrivateV196;->pending(Landroid/content/Context;Ljava/lang/String;)Ljava/lang/String;
+    move-result-object v0
+    return-object v0
+.end method
+
+.method public privateAckV196(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Z
+    .locals 1
+    .annotation runtime Landroid/webkit/JavascriptInterface;
+    .end annotation
+    iget-object v0, p0, Lcom/aiderlog/v22app/MainActivity$NativeBridge;->this$0:Lcom/aiderlog/v22app/MainActivity;
+    invoke-static {v0, p1, p2, p3}, Lcom/aiderlog/v22app/WidgetPrivateV196;->ack(Landroid/content/Context;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Z
+    move-result v0
+    return v0
+.end method
+
+.method public privateFailV196(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Z
+    .locals 1
+    .annotation runtime Landroid/webkit/JavascriptInterface;
+    .end annotation
+    iget-object v0, p0, Lcom/aiderlog/v22app/MainActivity$NativeBridge;->this$0:Lcom/aiderlog/v22app/MainActivity;
+    invoke-static {v0, p1, p2, p3}, Lcom/aiderlog/v22app/WidgetPrivateV196;->fail(Landroid/content/Context;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Z
+    move-result v0
+    return v0
+.end method

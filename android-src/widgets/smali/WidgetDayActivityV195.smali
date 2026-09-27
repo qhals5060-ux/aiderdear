@@ -29,6 +29,8 @@
 
 .field private root:Landroid/widget/LinearLayout;
 
+.field private sourceKind:Ljava/lang/String;
+
 .field private status:Landroid/widget/TextView;
 
 .field private timeButton:Landroid/widget/Button;
@@ -53,6 +55,10 @@
     iput-object v0, p0, Lcom/aiderlog/v22app/WidgetDayActivityV195;->uid:Ljava/lang/String;
 
     iput-object v0, p0, Lcom/aiderlog/v22app/WidgetDayActivityV195;->date:Ljava/lang/String;
+
+    const-string v1, "CalendarMonth"
+
+    iput-object v1, p0, Lcom/aiderlog/v22app/WidgetDayActivityV195;->sourceKind:Ljava/lang/String;
 
     const-string v1, "system"
 
@@ -102,7 +108,7 @@
 .method build()V
     .locals 7
 
-    .line 38
+    .line 40
     new-instance v0, Landroid/widget/LinearLayout;
 
     invoke-direct {v0, p0}, Landroid/widget/LinearLayout;-><init>(Landroid/content/Context;)V
@@ -163,7 +169,7 @@
 
     invoke-virtual {v3, v0}, Landroid/widget/LinearLayout;->setBackground(Landroid/graphics/drawable/Drawable;)V
 
-    .line 39
+    .line 41
     const-string v0, ""
 
     invoke-virtual {p0, v0, v2}, Lcom/aiderlog/v22app/WidgetDayActivityV195;->label(Ljava/lang/String;F)Landroid/widget/TextView;
@@ -315,7 +321,7 @@
 .method current()Z
     .locals 3
 
-    .line 41
+    .line 43
     iget-object v0, p0, Lcom/aiderlog/v22app/WidgetDayActivityV195;->uid:Ljava/lang/String;
 
     invoke-static {p0, v0}, Lcom/aiderlog/v22app/WidgetCalendarV195;->owns(Landroid/content/Context;Ljava/lang/String;)Z
@@ -343,6 +349,10 @@
 
     invoke-virtual {v1}, Landroid/widget/LinearLayout;->removeAllViews()V
 
+    iget-object v1, p0, Lcom/aiderlog/v22app/WidgetDayActivityV195;->footer:Landroid/widget/LinearLayout;
+
+    invoke-virtual {v1, v0}, Landroid/widget/LinearLayout;->setOrientation(I)V
+
     iget-object v1, p0, Lcom/aiderlog/v22app/WidgetDayActivityV195;->heading:Landroid/widget/TextView;
 
     const-string v2, "\uc704\uc82f \uacc4\uc815 \ud655\uc778"
@@ -355,9 +365,9 @@
 
     invoke-virtual {v1, v2}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
-    new-instance v1, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$qoCOOTAbGIAIBIOTenDOr_fLTfM;
+    new-instance v1, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$G2vNVfyRFh8uzOaIRM_4bjaYoMQ;
 
-    invoke-direct {v1, p0}, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$qoCOOTAbGIAIBIOTenDOr_fLTfM;-><init>(Lcom/aiderlog/v22app/WidgetDayActivityV195;)V
+    invoke-direct {v1, p0}, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$G2vNVfyRFh8uzOaIRM_4bjaYoMQ;-><init>(Lcom/aiderlog/v22app/WidgetDayActivityV195;)V
 
     const-string v2, "\ub2eb\uae30"
 
@@ -397,7 +407,7 @@
 .method edit(Ljava/lang/String;Z)V
     .locals 5
 
-    .line 50
+    .line 52
     invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetDayActivityV195;->current()Z
 
     move-result v0
@@ -419,37 +429,41 @@
 
     invoke-virtual {v1}, Landroid/widget/LinearLayout;->removeAllViews()V
 
+    iget-object v1, p0, Lcom/aiderlog/v22app/WidgetDayActivityV195;->footer:Landroid/widget/LinearLayout;
+
+    const/4 v2, 0x0
+
+    invoke-virtual {v1, v2}, Landroid/widget/LinearLayout;->setOrientation(I)V
+
     iget-object v1, p0, Lcom/aiderlog/v22app/WidgetDayActivityV195;->heading:Landroid/widget/TextView;
 
-    const-string v2, "\uc77c\uc815 \ucd94\uac00"
+    const-string v3, "\uc77c\uc815 \ucd94\uac00"
 
-    invoke-virtual {v1, v2}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
+    invoke-virtual {v1, v3}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
     iget-object v1, p0, Lcom/aiderlog/v22app/WidgetDayActivityV195;->status:Landroid/widget/TextView;
 
-    const-string v2, "\uac1c\uc778 \uc77c\uc815 \u00b7 \uae30\uae30\uc5d0 \uc800\uc7a5 \ud6c4 \uc571\uc5d0\uc11c \ub3d9\uae30\ud654"
+    const-string v3, "\uac1c\uc778 \uc77c\uc815 \u00b7 \uae30\uae30\uc5d0 \uc800\uc7a5 \ud6c4 \uc571\uc5d0\uc11c \ub3d9\uae30\ud654"
 
-    invoke-virtual {v1, v2}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
+    invoke-virtual {v1, v3}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
     iget-object v1, p0, Lcom/aiderlog/v22app/WidgetDayActivityV195;->content:Landroid/widget/LinearLayout;
 
-    const/high16 v2, 0x41500000    # 13.0f
+    const/high16 v3, 0x41500000    # 13.0f
 
-    const-string v3, "\uc77c\uc815 \uc774\ub984"
+    const-string v4, "\uc77c\uc815 \uc774\ub984"
 
-    invoke-virtual {p0, v3, v2}, Lcom/aiderlog/v22app/WidgetDayActivityV195;->label(Ljava/lang/String;F)Landroid/widget/TextView;
+    invoke-virtual {p0, v4, v3}, Lcom/aiderlog/v22app/WidgetDayActivityV195;->label(Ljava/lang/String;F)Landroid/widget/TextView;
 
-    move-result-object v2
+    move-result-object v3
 
-    invoke-virtual {v1, v2}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
+    invoke-virtual {v1, v3}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
     new-instance v1, Landroid/widget/EditText;
 
     invoke-direct {v1, p0}, Landroid/widget/EditText;-><init>(Landroid/content/Context;)V
 
     iput-object v1, p0, Lcom/aiderlog/v22app/WidgetDayActivityV195;->title:Landroid/widget/EditText;
-
-    const/4 v2, 0x0
 
     invoke-virtual {v1, v2}, Landroid/widget/EditText;->setSingleLine(Z)V
 
@@ -517,7 +531,7 @@
 
     invoke-virtual {p1, v0, v1}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 51
+    .line 53
     new-instance p1, Ljava/lang/StringBuilder;
 
     const-string v0, "\ub0a0\uc9dc  "
@@ -534,9 +548,9 @@
 
     move-result-object p1
 
-    new-instance v0, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$G2vNVfyRFh8uzOaIRM_4bjaYoMQ;
+    new-instance v0, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$B8XnZugjGr_S4xMLrOPF5vW6xdc;
 
-    invoke-direct {v0, p0}, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$G2vNVfyRFh8uzOaIRM_4bjaYoMQ;-><init>(Lcom/aiderlog/v22app/WidgetDayActivityV195;)V
+    invoke-direct {v0, p0}, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$B8XnZugjGr_S4xMLrOPF5vW6xdc;-><init>(Lcom/aiderlog/v22app/WidgetDayActivityV195;)V
 
     invoke-virtual {p0, p1, v0}, Lcom/aiderlog/v22app/WidgetDayActivityV195;->button(Ljava/lang/String;Landroid/view/View$OnClickListener;)Landroid/widget/Button;
 
@@ -598,9 +612,9 @@
 
     move-result-object p1
 
-    new-instance v0, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$H4IVu12vBUWzQSoiE62nXeu0Nno;
+    new-instance v0, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$7mSrTbFOu2NFlVD1r8KpStd3-b4;
 
-    invoke-direct {v0, p0}, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$H4IVu12vBUWzQSoiE62nXeu0Nno;-><init>(Lcom/aiderlog/v22app/WidgetDayActivityV195;)V
+    invoke-direct {v0, p0}, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$7mSrTbFOu2NFlVD1r8KpStd3-b4;-><init>(Lcom/aiderlog/v22app/WidgetDayActivityV195;)V
 
     invoke-virtual {p0, p1, v0}, Lcom/aiderlog/v22app/WidgetDayActivityV195;->button(Ljava/lang/String;Landroid/view/View$OnClickListener;)Landroid/widget/Button;
 
@@ -623,15 +637,15 @@
 
     iget-object p1, p0, Lcom/aiderlog/v22app/WidgetDayActivityV195;->allDay:Landroid/widget/CheckBox;
 
-    new-instance p2, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$ZVbiwpcb3PIPn2gAUE0vpRPnGMA;
+    new-instance p2, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$uq7Z8wZhtEbrpkDQYOGM3gJiyRM;
 
-    invoke-direct {p2, p0}, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$ZVbiwpcb3PIPn2gAUE0vpRPnGMA;-><init>(Lcom/aiderlog/v22app/WidgetDayActivityV195;)V
+    invoke-direct {p2, p0}, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$uq7Z8wZhtEbrpkDQYOGM3gJiyRM;-><init>(Lcom/aiderlog/v22app/WidgetDayActivityV195;)V
 
     invoke-virtual {p1, p2}, Landroid/widget/CheckBox;->setOnCheckedChangeListener(Landroid/widget/CompoundButton$OnCheckedChangeListener;)V
 
-    new-instance p1, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$7mSrTbFOu2NFlVD1r8KpStd3-b4;
+    new-instance p1, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$7m1DrARCjUxnL0sd_bwP1mGjSxg;
 
-    invoke-direct {p1, p0}, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$7mSrTbFOu2NFlVD1r8KpStd3-b4;-><init>(Lcom/aiderlog/v22app/WidgetDayActivityV195;)V
+    invoke-direct {p1, p0}, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$7m1DrARCjUxnL0sd_bwP1mGjSxg;-><init>(Lcom/aiderlog/v22app/WidgetDayActivityV195;)V
 
     const-string p2, "\ucde8\uc18c"
 
@@ -641,9 +655,9 @@
 
     invoke-virtual {p0, p1}, Lcom/aiderlog/v22app/WidgetDayActivityV195;->addAction(Landroid/widget/Button;)V
 
-    new-instance p1, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$DrVuiu3dKvFxsapSQMCsnr4JHtg;
+    new-instance p1, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$PHT5P-8sXAqbmIQFwebnOMbcvEk;
 
-    invoke-direct {p1, p0}, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$DrVuiu3dKvFxsapSQMCsnr4JHtg;-><init>(Lcom/aiderlog/v22app/WidgetDayActivityV195;)V
+    invoke-direct {p1, p0}, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$PHT5P-8sXAqbmIQFwebnOMbcvEk;-><init>(Lcom/aiderlog/v22app/WidgetDayActivityV195;)V
 
     const-string p2, "\uae30\uae30\uc5d0 \uc800\uc7a5"
 
@@ -659,7 +673,7 @@
 .method hideKeyboard()V
     .locals 3
 
-    .line 55
+    .line 57
     invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetDayActivityV195;->getCurrentFocus()Landroid/view/View;
 
     move-result-object v0
@@ -739,182 +753,38 @@
 .method public synthetic lambda$0$WidgetDayActivityV195(Landroid/view/View;)V
     .locals 0
 
-    .line 41
-    invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetDayActivityV195;->finish()V
+    .line 38
+    const-string p1, "todo"
+
+    invoke-virtual {p0, p1}, Lcom/aiderlog/v22app/WidgetDayActivityV195;->quickAdd(Ljava/lang/String;)V
 
     return-void
 .end method
 
-.method public synthetic lambda$1$WidgetDayActivityV195()V
-    .locals 1
+.method public synthetic lambda$1$WidgetDayActivityV195(Landroid/view/View;)V
+    .locals 0
 
-    .line 44
-    invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetDayActivityV195;->current()Z
+    .line 38
+    const-string p1, "memo"
 
-    move-result v0
+    invoke-virtual {p0, p1}, Lcom/aiderlog/v22app/WidgetDayActivityV195;->quickAdd(Ljava/lang/String;)V
 
-    if-eqz v0, :cond_0
-
-    iget-boolean v0, p0, Lcom/aiderlog/v22app/WidgetDayActivityV195;->editing:Z
-
-    if-nez v0, :cond_0
-
-    invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetDayActivityV195;->list()V
-
-    :cond_0
     return-void
 .end method
 
-.method public synthetic lambda$10$WidgetDayActivityV195(Landroid/widget/TimePicker;II)V
-    .locals 2
+.method public synthetic lambda$10$WidgetDayActivityV195(Landroid/view/View;)V
+    .locals 0
 
     .line 53
-    sget-object p1, Ljava/util/Locale;->US:Ljava/util/Locale;
-
-    const/4 v0, 0x2
-
-    new-array v0, v0, [Ljava/lang/Object;
-
-    invoke-static {p2}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
-
-    move-result-object p2
-
-    const/4 v1, 0x0
-
-    aput-object p2, v0, v1
-
-    invoke-static {p3}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
-
-    move-result-object p2
-
-    const/4 p3, 0x1
-
-    aput-object p2, v0, p3
-
-    const-string p2, "%02d:%02d"
-
-    invoke-static {p1, p2, v0}, Ljava/lang/String;->format(Ljava/util/Locale;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
-
-    move-result-object p1
-
-    iput-object p1, p0, Lcom/aiderlog/v22app/WidgetDayActivityV195;->draftTime:Ljava/lang/String;
-
-    iget-object p1, p0, Lcom/aiderlog/v22app/WidgetDayActivityV195;->timeButton:Landroid/widget/Button;
-
-    new-instance p2, Ljava/lang/StringBuilder;
-
-    const-string p3, "\uc2dc\uc791 \uc2dc\uac04  "
-
-    invoke-direct {p2, p3}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
-
-    iget-object p3, p0, Lcom/aiderlog/v22app/WidgetDayActivityV195;->draftTime:Ljava/lang/String;
-
-    invoke-virtual {p2, p3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object p2
-
-    invoke-virtual {p2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
-
-    move-result-object p2
-
-    invoke-virtual {p1, p2}, Landroid/widget/Button;->setText(Ljava/lang/CharSequence;)V
-
-    return-void
-.end method
-
-.method public synthetic lambda$2$WidgetDayActivityV195(Landroid/view/View;)V
-    .locals 0
-
-    .line 49
-    invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetDayActivityV195;->finish()V
-
-    return-void
-.end method
-
-.method public synthetic lambda$3$WidgetDayActivityV195(Landroid/view/View;)V
-    .locals 1
-
-    .line 49
-    iget-object p1, p0, Lcom/aiderlog/v22app/WidgetDayActivityV195;->date:Ljava/lang/String;
-
-    iput-object p1, p0, Lcom/aiderlog/v22app/WidgetDayActivityV195;->draftDate:Ljava/lang/String;
-
-    const-string p1, "09:00"
-
-    iput-object p1, p0, Lcom/aiderlog/v22app/WidgetDayActivityV195;->draftTime:Ljava/lang/String;
-
-    const-string p1, ""
-
-    const/4 v0, 0x1
-
-    invoke-virtual {p0, p1, v0}, Lcom/aiderlog/v22app/WidgetDayActivityV195;->edit(Ljava/lang/String;Z)V
-
-    return-void
-.end method
-
-.method public synthetic lambda$4$WidgetDayActivityV195(Landroid/view/View;)V
-    .locals 0
-
-    .line 51
-    invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetDayActivityV195;->pickDate()V
-
-    return-void
-.end method
-
-.method public synthetic lambda$5$WidgetDayActivityV195(Landroid/view/View;)V
-    .locals 0
-
-    .line 51
-    invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetDayActivityV195;->pickTime()V
-
-    return-void
-.end method
-
-.method public synthetic lambda$6$WidgetDayActivityV195(Landroid/widget/CompoundButton;Z)V
-    .locals 0
-
-    .line 51
-    iget-object p1, p0, Lcom/aiderlog/v22app/WidgetDayActivityV195;->timeButton:Landroid/widget/Button;
-
-    if-eqz p2, :cond_0
-
-    const/16 p2, 0x8
-
-    goto :goto_0
-
-    :cond_0
-    const/4 p2, 0x0
-
-    :goto_0
-    invoke-virtual {p1, p2}, Landroid/widget/Button;->setVisibility(I)V
-
-    return-void
-.end method
-
-.method public synthetic lambda$7$WidgetDayActivityV195(Landroid/view/View;)V
-    .locals 0
-
-    .line 51
-    invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetDayActivityV195;->hideKeyboard()V
-
-    invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetDayActivityV195;->list()V
-
-    return-void
-.end method
-
-.method public synthetic lambda$8$WidgetDayActivityV195(Landroid/view/View;)V
-    .locals 0
-
-    .line 51
     invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetDayActivityV195;->save()V
 
     return-void
 .end method
 
-.method public synthetic lambda$9$WidgetDayActivityV195(Landroid/widget/DatePicker;III)V
+.method public synthetic lambda$11$WidgetDayActivityV195(Landroid/widget/DatePicker;III)V
     .locals 2
 
-    .line 52
+    .line 54
     sget-object p1, Ljava/util/Locale;->US:Ljava/util/Locale;
 
     const/4 v0, 0x3
@@ -978,10 +848,176 @@
     return-void
 .end method
 
+.method public synthetic lambda$12$WidgetDayActivityV195(Landroid/widget/TimePicker;II)V
+    .locals 2
+
+    .line 55
+    sget-object p1, Ljava/util/Locale;->US:Ljava/util/Locale;
+
+    const/4 v0, 0x2
+
+    new-array v0, v0, [Ljava/lang/Object;
+
+    invoke-static {p2}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
+
+    move-result-object p2
+
+    const/4 v1, 0x0
+
+    aput-object p2, v0, v1
+
+    invoke-static {p3}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
+
+    move-result-object p2
+
+    const/4 p3, 0x1
+
+    aput-object p2, v0, p3
+
+    const-string p2, "%02d:%02d"
+
+    invoke-static {p1, p2, v0}, Ljava/lang/String;->format(Ljava/util/Locale;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+
+    move-result-object p1
+
+    iput-object p1, p0, Lcom/aiderlog/v22app/WidgetDayActivityV195;->draftTime:Ljava/lang/String;
+
+    iget-object p1, p0, Lcom/aiderlog/v22app/WidgetDayActivityV195;->timeButton:Landroid/widget/Button;
+
+    new-instance p2, Ljava/lang/StringBuilder;
+
+    const-string p3, "\uc2dc\uc791 \uc2dc\uac04  "
+
+    invoke-direct {p2, p3}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+
+    iget-object p3, p0, Lcom/aiderlog/v22app/WidgetDayActivityV195;->draftTime:Ljava/lang/String;
+
+    invoke-virtual {p2, p3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object p2
+
+    invoke-virtual {p2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object p2
+
+    invoke-virtual {p1, p2}, Landroid/widget/Button;->setText(Ljava/lang/CharSequence;)V
+
+    return-void
+.end method
+
+.method public synthetic lambda$2$WidgetDayActivityV195(Landroid/view/View;)V
+    .locals 0
+
+    .line 38
+    invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetDayActivityV195;->finish()V
+
+    return-void
+.end method
+
+.method public synthetic lambda$3$WidgetDayActivityV195(Landroid/view/View;)V
+    .locals 1
+
+    .line 38
+    iget-object p1, p0, Lcom/aiderlog/v22app/WidgetDayActivityV195;->date:Ljava/lang/String;
+
+    iput-object p1, p0, Lcom/aiderlog/v22app/WidgetDayActivityV195;->draftDate:Ljava/lang/String;
+
+    const-string p1, "09:00"
+
+    iput-object p1, p0, Lcom/aiderlog/v22app/WidgetDayActivityV195;->draftTime:Ljava/lang/String;
+
+    const-string p1, ""
+
+    const/4 v0, 0x1
+
+    invoke-virtual {p0, p1, v0}, Lcom/aiderlog/v22app/WidgetDayActivityV195;->edit(Ljava/lang/String;Z)V
+
+    return-void
+.end method
+
+.method public synthetic lambda$4$WidgetDayActivityV195(Landroid/view/View;)V
+    .locals 0
+
+    .line 43
+    invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetDayActivityV195;->finish()V
+
+    return-void
+.end method
+
+.method public synthetic lambda$5$WidgetDayActivityV195()V
+    .locals 1
+
+    .line 46
+    invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetDayActivityV195;->current()Z
+
+    move-result v0
+
+    if-eqz v0, :cond_0
+
+    iget-boolean v0, p0, Lcom/aiderlog/v22app/WidgetDayActivityV195;->editing:Z
+
+    if-nez v0, :cond_0
+
+    invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetDayActivityV195;->list()V
+
+    :cond_0
+    return-void
+.end method
+
+.method public synthetic lambda$6$WidgetDayActivityV195(Landroid/view/View;)V
+    .locals 0
+
+    .line 53
+    invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetDayActivityV195;->pickDate()V
+
+    return-void
+.end method
+
+.method public synthetic lambda$7$WidgetDayActivityV195(Landroid/view/View;)V
+    .locals 0
+
+    .line 53
+    invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetDayActivityV195;->pickTime()V
+
+    return-void
+.end method
+
+.method public synthetic lambda$8$WidgetDayActivityV195(Landroid/widget/CompoundButton;Z)V
+    .locals 0
+
+    .line 53
+    iget-object p1, p0, Lcom/aiderlog/v22app/WidgetDayActivityV195;->timeButton:Landroid/widget/Button;
+
+    if-eqz p2, :cond_0
+
+    const/16 p2, 0x8
+
+    goto :goto_0
+
+    :cond_0
+    const/4 p2, 0x0
+
+    :goto_0
+    invoke-virtual {p1, p2}, Landroid/widget/Button;->setVisibility(I)V
+
+    return-void
+.end method
+
+.method public synthetic lambda$9$WidgetDayActivityV195(Landroid/view/View;)V
+    .locals 0
+
+    .line 53
+    invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetDayActivityV195;->hideKeyboard()V
+
+    invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetDayActivityV195;->list()V
+
+    return-void
+.end method
+
 .method list()V
     .locals 15
 
-    .line 46
+    .line 48
     const-string v0, "endDate"
 
     const-string v1, "date"
@@ -1123,7 +1159,7 @@
 
     invoke-virtual {v6, v5}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
-    .line 47
+    .line 49
     invoke-virtual {v4}, Ljava/lang/String;->isEmpty()Z
 
     move-result v5
@@ -1169,7 +1205,7 @@
 
     invoke-virtual {v4, v5}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 48
+    .line 50
     :cond_4
     invoke-interface {v3}, Ljava/util/List;->iterator()Ljava/util/Iterator;
 
@@ -1184,7 +1220,7 @@
 
     if-nez v4, :cond_6
 
-    .line 49
+    .line 51
     if-eqz v2, :cond_5
 
     iget-object v0, p0, Lcom/aiderlog/v22app/WidgetDayActivityV195;->content:Landroid/widget/LinearLayout;
@@ -1198,33 +1234,11 @@
     invoke-virtual {v0, v1}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
     :cond_5
-    new-instance v0, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$shS_rvDfuJZwSL7unGsOBdj6jQI;
-
-    invoke-direct {v0, p0}, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$shS_rvDfuJZwSL7unGsOBdj6jQI;-><init>(Lcom/aiderlog/v22app/WidgetDayActivityV195;)V
-
-    const-string v1, "\ub2eb\uae30"
-
-    invoke-virtual {p0, v1, v0}, Lcom/aiderlog/v22app/WidgetDayActivityV195;->button(Ljava/lang/String;Landroid/view/View$OnClickListener;)Landroid/widget/Button;
-
-    move-result-object v0
-
-    invoke-virtual {p0, v0}, Lcom/aiderlog/v22app/WidgetDayActivityV195;->addAction(Landroid/widget/Button;)V
-
-    new-instance v0, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$xPgWokTgPRqTME0PHDdhC5xvNX4;
-
-    invoke-direct {v0, p0}, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$xPgWokTgPRqTME0PHDdhC5xvNX4;-><init>(Lcom/aiderlog/v22app/WidgetDayActivityV195;)V
-
-    const-string v1, "+ \uc77c\uc815 \ucd94\uac00"
-
-    invoke-virtual {p0, v1, v0}, Lcom/aiderlog/v22app/WidgetDayActivityV195;->button(Ljava/lang/String;Landroid/view/View$OnClickListener;)Landroid/widget/Button;
-
-    move-result-object v0
-
-    invoke-virtual {p0, v0}, Lcom/aiderlog/v22app/WidgetDayActivityV195;->addAction(Landroid/widget/Button;)V
+    invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetDayActivityV195;->listActions()V
 
     return-void
 
-    .line 48
+    .line 50
     :cond_6
     invoke-interface {v3}, Ljava/util/Iterator;->next()Ljava/lang/Object;
 
@@ -1458,10 +1472,143 @@
     goto/16 :goto_2
 .end method
 
+.method listActions()V
+    .locals 9
+
+    .line 38
+    iget-object v0, p0, Lcom/aiderlog/v22app/WidgetDayActivityV195;->footer:Landroid/widget/LinearLayout;
+
+    const/4 v1, 0x1
+
+    invoke-virtual {v0, v1}, Landroid/widget/LinearLayout;->setOrientation(I)V
+
+    new-instance v0, Landroid/widget/LinearLayout;
+
+    invoke-direct {v0, p0}, Landroid/widget/LinearLayout;-><init>(Landroid/content/Context;)V
+
+    const/4 v1, 0x0
+
+    invoke-virtual {v0, v1}, Landroid/widget/LinearLayout;->setOrientation(I)V
+
+    new-instance v2, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$qoCOOTAbGIAIBIOTenDOr_fLTfM;
+
+    invoke-direct {v2, p0}, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$qoCOOTAbGIAIBIOTenDOr_fLTfM;-><init>(Lcom/aiderlog/v22app/WidgetDayActivityV195;)V
+
+    const-string v3, "+ \ud22c\ub450"
+
+    invoke-virtual {p0, v3, v2}, Lcom/aiderlog/v22app/WidgetDayActivityV195;->button(Ljava/lang/String;Landroid/view/View$OnClickListener;)Landroid/widget/Button;
+
+    move-result-object v2
+
+    new-instance v3, Landroid/widget/LinearLayout$LayoutParams;
+
+    const/high16 v4, 0x42300000    # 44.0f
+
+    invoke-virtual {p0, v4}, Lcom/aiderlog/v22app/WidgetDayActivityV195;->dp(F)I
+
+    move-result v5
+
+    const/high16 v6, 0x3f800000    # 1.0f
+
+    invoke-direct {v3, v1, v5, v6}, Landroid/widget/LinearLayout$LayoutParams;-><init>(IIF)V
+
+    invoke-virtual {v0, v2, v3}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
+
+    new-instance v2, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$uENqqBokKrH3u-vt9wg6ryXP4Ag;
+
+    invoke-direct {v2, p0}, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$uENqqBokKrH3u-vt9wg6ryXP4Ag;-><init>(Lcom/aiderlog/v22app/WidgetDayActivityV195;)V
+
+    const-string v3, "+ \uba54\ubaa8"
+
+    invoke-virtual {p0, v3, v2}, Lcom/aiderlog/v22app/WidgetDayActivityV195;->button(Ljava/lang/String;Landroid/view/View$OnClickListener;)Landroid/widget/Button;
+
+    move-result-object v2
+
+    new-instance v3, Landroid/widget/LinearLayout$LayoutParams;
+
+    invoke-virtual {p0, v4}, Lcom/aiderlog/v22app/WidgetDayActivityV195;->dp(F)I
+
+    move-result v4
+
+    invoke-direct {v3, v1, v4, v6}, Landroid/widget/LinearLayout$LayoutParams;-><init>(IIF)V
+
+    invoke-virtual {v0, v2, v3}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
+
+    iget-object v2, p0, Lcom/aiderlog/v22app/WidgetDayActivityV195;->footer:Landroid/widget/LinearLayout;
+
+    new-instance v3, Landroid/widget/LinearLayout$LayoutParams;
+
+    const/4 v4, -0x1
+
+    const/4 v5, -0x2
+
+    invoke-direct {v3, v4, v5}, Landroid/widget/LinearLayout$LayoutParams;-><init>(II)V
+
+    invoke-virtual {v2, v0, v3}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
+
+    new-instance v0, Landroid/widget/LinearLayout;
+
+    invoke-direct {v0, p0}, Landroid/widget/LinearLayout;-><init>(Landroid/content/Context;)V
+
+    invoke-virtual {v0, v1}, Landroid/widget/LinearLayout;->setOrientation(I)V
+
+    new-instance v2, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$shS_rvDfuJZwSL7unGsOBdj6jQI;
+
+    invoke-direct {v2, p0}, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$shS_rvDfuJZwSL7unGsOBdj6jQI;-><init>(Lcom/aiderlog/v22app/WidgetDayActivityV195;)V
+
+    const-string v3, "\ub2eb\uae30"
+
+    invoke-virtual {p0, v3, v2}, Lcom/aiderlog/v22app/WidgetDayActivityV195;->button(Ljava/lang/String;Landroid/view/View$OnClickListener;)Landroid/widget/Button;
+
+    move-result-object v2
+
+    new-instance v3, Landroid/widget/LinearLayout$LayoutParams;
+
+    const/high16 v7, 0x42400000    # 48.0f
+
+    invoke-virtual {p0, v7}, Lcom/aiderlog/v22app/WidgetDayActivityV195;->dp(F)I
+
+    move-result v8
+
+    invoke-direct {v3, v1, v8, v6}, Landroid/widget/LinearLayout$LayoutParams;-><init>(IIF)V
+
+    invoke-virtual {v0, v2, v3}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
+
+    new-instance v2, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$xPgWokTgPRqTME0PHDdhC5xvNX4;
+
+    invoke-direct {v2, p0}, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$xPgWokTgPRqTME0PHDdhC5xvNX4;-><init>(Lcom/aiderlog/v22app/WidgetDayActivityV195;)V
+
+    const-string v3, "+ \uc77c\uc815 \ucd94\uac00"
+
+    invoke-virtual {p0, v3, v2}, Lcom/aiderlog/v22app/WidgetDayActivityV195;->button(Ljava/lang/String;Landroid/view/View$OnClickListener;)Landroid/widget/Button;
+
+    move-result-object v2
+
+    new-instance v3, Landroid/widget/LinearLayout$LayoutParams;
+
+    invoke-virtual {p0, v7}, Lcom/aiderlog/v22app/WidgetDayActivityV195;->dp(F)I
+
+    move-result v7
+
+    invoke-direct {v3, v1, v7, v6}, Landroid/widget/LinearLayout$LayoutParams;-><init>(IIF)V
+
+    invoke-virtual {v0, v2, v3}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
+
+    iget-object v1, p0, Lcom/aiderlog/v22app/WidgetDayActivityV195;->footer:Landroid/widget/LinearLayout;
+
+    new-instance v2, Landroid/widget/LinearLayout$LayoutParams;
+
+    invoke-direct {v2, v4, v5}, Landroid/widget/LinearLayout$LayoutParams;-><init>(II)V
+
+    invoke-virtual {v1, v0, v2}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
+
+    return-void
+.end method
+
 .method public onBackPressed()V
     .locals 1
 
-    .line 56
+    .line 58
     iget-boolean v0, p0, Lcom/aiderlog/v22app/WidgetDayActivityV195;->editing:Z
 
     if-eqz v0, :cond_0
@@ -1482,7 +1629,7 @@
 .method public onCreate(Landroid/os/Bundle;)V
     .locals 5
 
-    .line 37
+    .line 39
     invoke-super {p0, p1}, Landroid/app/Activity;->onCreate(Landroid/os/Bundle;)V
 
     const/4 v0, 0x1
@@ -1521,13 +1668,34 @@
 
     iput v1, p0, Lcom/aiderlog/v22app/WidgetDayActivityV195;->widget:I
 
+    const-string v1, "kind"
+
+    invoke-virtual {v2, v1}, Landroid/content/Intent;->getStringExtra(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
+
+    if-eqz v1, :cond_0
+
+    invoke-static {v1}, Lcom/aiderlog/v22app/WidgetCompactCalendarV181;->supports(Ljava/lang/String;)Z
+
+    move-result v2
+
+    if-eqz v2, :cond_0
+
+    invoke-static {v1}, Lcom/aiderlog/v22app/WidgetDesignV165;->base(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
+
+    iput-object v1, p0, Lcom/aiderlog/v22app/WidgetDayActivityV195;->sourceKind:Ljava/lang/String;
+
+    :cond_0
     iget-object v1, p0, Lcom/aiderlog/v22app/WidgetDayActivityV195;->date:Ljava/lang/String;
 
     invoke-static {v1}, Lcom/aiderlog/v22app/WidgetCalendarV195;->validDate(Ljava/lang/String;)Z
 
     move-result v1
 
-    if-nez v1, :cond_0
+    if-nez v1, :cond_1
 
     invoke-static {}, Ljava/util/Calendar;->getInstance()Ljava/util/Calendar;
 
@@ -1539,7 +1707,7 @@
 
     iput-object v1, p0, Lcom/aiderlog/v22app/WidgetDayActivityV195;->date:Ljava/lang/String;
 
-    :cond_0
+    :cond_1
     iget v1, p0, Lcom/aiderlog/v22app/WidgetDayActivityV195;->widget:I
 
     invoke-static {p0, v1}, Lcom/aiderlog/v22app/WidgetNativeV164;->theme(Landroid/content/Context;I)Ljava/lang/String;
@@ -1554,12 +1722,12 @@
 
     move-result v1
 
-    if-nez v1, :cond_1
+    if-nez v1, :cond_2
 
     return-void
 
-    :cond_1
-    if-eqz p1, :cond_2
+    :cond_2
+    if-eqz p1, :cond_3
 
     iget-object v1, p0, Lcom/aiderlog/v22app/WidgetDayActivityV195;->uid:Ljava/lang/String;
 
@@ -1571,7 +1739,7 @@
 
     move-result v1
 
-    if-eqz v1, :cond_2
+    if-eqz v1, :cond_3
 
     const-string v1, "editing"
 
@@ -1579,7 +1747,7 @@
 
     move-result v1
 
-    if-eqz v1, :cond_2
+    if-eqz v1, :cond_3
 
     iput-boolean v0, p0, Lcom/aiderlog/v22app/WidgetDayActivityV195;->editing:Z
 
@@ -1621,7 +1789,7 @@
 
     goto :goto_0
 
-    :cond_2
+    :cond_3
     invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetDayActivityV195;->list()V
 
     :goto_0
@@ -1631,7 +1799,7 @@
 .method public onPause()V
     .locals 1
 
-    .line 43
+    .line 45
     invoke-static {p0}, Lcom/aiderlog/v22app/WidgetNativeV164;->prefs(Landroid/content/Context;)Landroid/content/SharedPreferences;
 
     move-result-object v0
@@ -1646,7 +1814,7 @@
 .method public onResume()V
     .locals 1
 
-    .line 42
+    .line 44
     invoke-super {p0}, Landroid/app/Activity;->onResume()V
 
     invoke-static {p0}, Lcom/aiderlog/v22app/WidgetNativeV164;->prefs(Landroid/content/Context;)Landroid/content/SharedPreferences;
@@ -1674,7 +1842,7 @@
 .method protected onSaveInstanceState(Landroid/os/Bundle;)V
     .locals 2
 
-    .line 45
+    .line 47
     invoke-super {p0, p1}, Landroid/app/Activity;->onSaveInstanceState(Landroid/os/Bundle;)V
 
     iget-object v0, p0, Lcom/aiderlog/v22app/WidgetDayActivityV195;->uid:Ljava/lang/String;
@@ -1736,7 +1904,7 @@
 .method public onSharedPreferenceChanged(Landroid/content/SharedPreferences;Ljava/lang/String;)V
     .locals 1
 
-    .line 44
+    .line 46
     const-string p1, "widget_snapshot"
 
     invoke-virtual {p1, p2}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
@@ -1768,9 +1936,9 @@
     if-eqz p1, :cond_1
 
     :cond_0
-    new-instance p1, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$SFbGphvlf7D1F5rzeWVunf1jVMM;
+    new-instance p1, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$rzm2m8uPlrK-7T0lik7gcWesoko;
 
-    invoke-direct {p1, p0}, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$SFbGphvlf7D1F5rzeWVunf1jVMM;-><init>(Lcom/aiderlog/v22app/WidgetDayActivityV195;)V
+    invoke-direct {p1, p0}, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$rzm2m8uPlrK-7T0lik7gcWesoko;-><init>(Lcom/aiderlog/v22app/WidgetDayActivityV195;)V
 
     invoke-virtual {p0, p1}, Lcom/aiderlog/v22app/WidgetDayActivityV195;->runOnUiThread(Ljava/lang/Runnable;)V
 
@@ -1781,7 +1949,7 @@
 .method pickDate()V
     .locals 8
 
-    .line 52
+    .line 54
     iget-object v0, p0, Lcom/aiderlog/v22app/WidgetDayActivityV195;->draftDate:Ljava/lang/String;
 
     invoke-static {v0}, Lcom/aiderlog/v22app/WidgetNativeV164;->date(Ljava/lang/String;)Ljava/util/Calendar;
@@ -1790,9 +1958,9 @@
 
     new-instance v7, Landroid/app/DatePickerDialog;
 
-    new-instance v3, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$Qml4vHAWUW-4JY_Hdkis2RvXpRM;
+    new-instance v3, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$d310z-eN3Ku4WYDRWnIuFNh0VhQ;
 
-    invoke-direct {v3, p0}, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$Qml4vHAWUW-4JY_Hdkis2RvXpRM;-><init>(Lcom/aiderlog/v22app/WidgetDayActivityV195;)V
+    invoke-direct {v3, p0}, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$d310z-eN3Ku4WYDRWnIuFNh0VhQ;-><init>(Lcom/aiderlog/v22app/WidgetDayActivityV195;)V
 
     const/4 v1, 0x1
 
@@ -1858,7 +2026,7 @@
 .method pickTime()V
     .locals 8
 
-    .line 53
+    .line 55
     const/4 v0, 0x0
 
     :try_start_0
@@ -1910,9 +2078,9 @@
 
     new-instance v0, Landroid/app/TimePickerDialog;
 
-    new-instance v4, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$oWQMi2wYZ6ARYAzgoX6lEi9BECI;
+    new-instance v4, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$wnlXPFTH7H1keF_szlCFLGqJoVM;
 
-    invoke-direct {v4, p0}, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$oWQMi2wYZ6ARYAzgoX6lEi9BECI;-><init>(Lcom/aiderlog/v22app/WidgetDayActivityV195;)V
+    invoke-direct {v4, p0}, Lcom/aiderlog/v22app/-$$Lambda$WidgetDayActivityV195$wnlXPFTH7H1keF_szlCFLGqJoVM;-><init>(Lcom/aiderlog/v22app/WidgetDayActivityV195;)V
 
     const/4 v7, 0x1
 
@@ -1927,10 +2095,42 @@
     return-void
 .end method
 
+.method quickAdd(Ljava/lang/String;)V
+    .locals 7
+
+    .line 37
+    invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetDayActivityV195;->current()Z
+
+    move-result v0
+
+    if-eqz v0, :cond_0
+
+    iget v2, p0, Lcom/aiderlog/v22app/WidgetDayActivityV195;->widget:I
+
+    iget-object v3, p0, Lcom/aiderlog/v22app/WidgetDayActivityV195;->sourceKind:Ljava/lang/String;
+
+    iget-object v4, p0, Lcom/aiderlog/v22app/WidgetDayActivityV195;->uid:Ljava/lang/String;
+
+    iget-object v6, p0, Lcom/aiderlog/v22app/WidgetDayActivityV195;->date:Ljava/lang/String;
+
+    move-object v1, p0
+
+    move-object v5, p1
+
+    invoke-static/range {v1 .. v6}, Lcom/aiderlog/v22app/WidgetNoteActivityV196;->intent(Landroid/content/Context;ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Landroid/content/Intent;
+
+    move-result-object p1
+
+    invoke-virtual {p0, p1}, Lcom/aiderlog/v22app/WidgetDayActivityV195;->startActivity(Landroid/content/Intent;)V
+
+    :cond_0
+    return-void
+.end method
+
 .method resize()V
     .locals 4
 
-    .line 40
+    .line 42
     invoke-virtual {p0}, Lcom/aiderlog/v22app/WidgetDayActivityV195;->getWindow()Landroid/view/Window;
 
     move-result-object v0
@@ -1999,7 +2199,7 @@
 .method save()V
     .locals 4
 
-    .line 54
+    .line 56
     iget-boolean v0, p0, Lcom/aiderlog/v22app/WidgetDayActivityV195;->editing:Z
 
     if-eqz v0, :cond_4
