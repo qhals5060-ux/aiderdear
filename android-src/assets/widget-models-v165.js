@@ -12,13 +12,15 @@
   function week(today){const start=at(today);start.setDate(start.getDate()-(start.getDay()+6)%7);return Array.from({length:7},(_,n)=>shift(day(start),n));}
   function todoCompare(a,b){if(!!a.done!==!!b.done)return a.done?1:-1;if(a.done)return Number(b.completedAt||b.updatedAt||b.createdAt||0)-Number(a.completedAt||a.updatedAt||a.createdAt||0);const ad=s(a.dueAt||a.date),bd=s(b.dueAt||b.date);return ad&&bd?ad.localeCompare(bd):ad?-1:bd?1:Number(b.createdAt||0)-Number(a.createdAt||0);}
   function build({app={},personal={},uid='',now=new Date(),photo=()=>'',routineEngine=null}={}){
-    const today=day(now),weekDates=week(today),checks=list(personal.checklists).filter(r=>r&&r.kind!=='memo'&&r.type!=='memo'&&r.category!=='emotion'&&!r.demo);
-    const todos=checks.sort(todoCompare).map(r=>({id:s(r.id),title:text(r),done:!!r.done,dueAt:s(r.dueAt||r.date),createdAt:Number(r.createdAt||0),updatedAt:time(r),completedAt:Number(r.completedAt||0),kind:'todo'}));
+    const today=day(now),weekDates=week(today),checks=list(personal.checklists).filter(r=>r&&r.category!=='emotion'&&!r.demo);
+    const memoRows=[...checks.filter(r=>r.kind==='memo'||r.type==='memo').map(r=>({...r,source:'checklists'})),...list(personal.memos).map(r=>({...r,source:'memos'}))].filter(r=>r&&s(r.id)&&text(r)&&r.category!=='emotion'&&!r.demo).sort(latest);
+    const notesById=new Map();for(const r of memoRows){const key=r.source+':'+s(r.id);if(!notesById.has(key))notesById.set(key,{id:s(r.id),source:r.source,title:text(r).slice(0,180),preview:s(r.notes||r.note||r.preview||r.description).slice(0,240),updatedAt:time(r),kind:'note'});}const notes=[...notesById.values()].slice(0,40);
+    const todos=checks.filter(r=>r.kind!=='memo'&&r.type!=='memo').sort(todoCompare).map(r=>({id:s(r.id),title:text(r),done:!!r.done,dueAt:s(r.dueAt||r.date),createdAt:Number(r.createdAt||0),updatedAt:time(r),completedAt:Number(r.completedAt||0),kind:'todo'}));
     const incompleteTodos=todos.filter(row=>!row.done&&row.id&&row.title);
     const routines=list(personal.routines).filter(r=>r&&!r.demo).map(r=>{const dates=unique(list(r.doneDates).map(x=>s(x).slice(0,10))),goal=num(r.goalDays),level=s(r.dailyLevels?.[today]).toUpperCase(),engine=routineEngine?.(r)||{};return {id:s(r.id),title:text(r),goalDays:goal,cycleDays:num(r.cycleDays),goalTracking:r.goalTracking||null,goalDerivedDates:r.goalDerivedDates||{},doneDates:dates,dailyLevels:r.dailyLevels||{},miniText:s(r.miniText),moreText:s(r.moreText),maxText:s(r.maxText),done:dates.length,percent:percent(dates.length,goal),level:['MINI','MORE','MAX','SKIP'].includes(level)?level:'',streak:num(engine.streak)??streak(dates,today,true),weekDates,week:weekDates.map(d=>dates.includes(d)),updatedAt:time(r),kind:'routine'};});
     const routineCounts=weekDates.map(d=>routines.filter(r=>r.doneDates.includes(d)).length),allRoutineDates=unique(routines.flatMap(r=>r.doneDates));
     const routineStats={todayDone:routines.filter(r=>r.doneDates.includes(today)).length,total:routines.length,weekDates,weekCounts:routineCounts,weekPercent:percent(routineCounts.reduce((a,b)=>a+b,0),routines.length*7),streak:streak(allRoutineDates,today,true),cumulative:routines.reduce((n,r)=>n+r.done,0)};
-    return {schema:193,uid,today,weekDates,todos,incompleteTodos,routines,routineStats,dates:{}};
+    return {schema:194,uid,today,weekDates,notes,todos,incompleteTodos,routines,routineStats,dates:{}};
   }
   return {build,todoCompare,bookKey,streak,week,day,shift,percent};
 });

@@ -49,7 +49,7 @@ public final class WidgetNativeContractTest {
         for(String kind:new String[]{"todo","book"})require("widget_card_v165".equals(WidgetDesignV165.surface(kind,false,false)),kind+" leaves the base visible");
         require("widget_panel_v176".equals(WidgetDesignV165.surface("book",true,false)),"selected reading detail uses a lavender panel");
         require("widget_bullet_card_v168".equals(WidgetDesignV165.surface("day",false,false)),"bullet days retain their own bordered surface");
-        require(WidgetCompactCalendarV181.supports("CalendarAgenda@todos"),"agenda second adapter uses compact renderer");
+        require(!WidgetCompactCalendarV181.supports("CalendarAgenda@todos"),"retired agenda adapter rejected");
         require(WidgetCompactCalendarV181.supports("CalendarFortnight@todos"),"fortnight second adapter uses compact renderer");
         for(String kind:new String[]{"CalendarCombined","CalendarMonth","CalendarSplit"})require(WidgetCompactCalendarV181.supports(kind),"all five calendar providers use approved compact compositions");
         require(!WidgetCompactCalendarV181.supports("RoutineAll"),"unrelated provider remains unchanged");
@@ -94,7 +94,7 @@ public final class WidgetNativeContractTest {
         require(WidgetCompactCalendarV181.incompleteRows(todoData,true).size()==61,"paired scroll collection retains every todo");
         require(WidgetPreviewFrameV181.heightForWidth(336,0,0,0,0)==168,"compact preview is exact 4x2");
         require(WidgetPreviewFrameV181.heightForWidth(360,12,12,12,12)==192,"preview excludes outer padding from its ratio");
-        require(WidgetPreviewFrameV181.compact("CalendarAgenda")&&WidgetPreviewFrameV181.compact("CalendarFortnight"),"only both compact providers use the compact preview");
+        require(!WidgetPreviewFrameV181.compact("CalendarAgenda")&&WidgetPreviewFrameV181.compact("CalendarFortnight"),"only both compact providers use the compact preview");
         require(WidgetPreviewFrameV181.compact("RoutineAll"),"approved routine preview now matches its compact installed composition");
         require(!WidgetPreviewFrameV181.compact("PersonalMeal"),"legacy compatibility previews preserve their size");
         require(WidgetCompactCalendarV181.fortnightStart("2026-09-19").equals("2026-09-13"),"fortnight starts on Sunday like the approved calendar");
@@ -123,7 +123,7 @@ public final class WidgetNativeContractTest {
         require(WidgetCompactCalendarV181.capacity(70,14,false)>WidgetCompactCalendarV181.capacity(40,14,false),"event titles use available cell height");
         require(WidgetCompactCalendarV181.capacity(70,22,true)<WidgetCompactCalendarV181.capacity(70,14,false),"holiday line and system font scaling reserve event space");
         require(WidgetPreviewFrameV181.heightForWidth("CalendarCombined",336,0,0,0,0)==255,"preview first style keeps approved split proportions");
-        require(WidgetPreviewFrameV181.heightForWidth("CalendarSplit",336,0,0,0,0)==484,"preview fifth style has room for month and bottom todos");
+        require(WidgetPreviewFrameV181.heightForWidth("CalendarSplit",336,0,0,0,0)==430,"preview month leaves lower third for todos and memos");
         require(WidgetPreviewFrameV181.compact("CalendarMonth")&&WidgetPreviewFrameV181.compact("CalendarCombined")&&WidgetPreviewFrameV181.compact("CalendarSplit"),"all five settings previews use matching live composition sizes");
         require(WidgetCompactCalendarV181.small(180,110),"minimum launcher rectangle uses compact chrome");
         require(WidgetCompactCalendarV181.small(336,180),"short wide widget also reclaims header space");
@@ -147,7 +147,7 @@ public final class WidgetNativeContractTest {
         require(WidgetCompactCalendarV181.capacity(14,15,false)==0,"shortest calendar cell never adds a clipped event line");
         require(WidgetCompactCalendarV181.capacity(30,15,false)==1,"compact fortnight cell can show a complete title line");
         for(String kind:new String[]{"CalendarCombined","CalendarFortnight","CalendarMonth","CalendarSplit"}){
-            int weeks="CalendarFortnight".equals(kind)?2:6;float minimum="CalendarMonth".equals(kind)||"CalendarSplit".equals(kind)?180:110;
+            int weeks="CalendarFortnight".equals(kind)?2:6;float minimum="CalendarSplit".equals(kind)||"CalendarFortnight".equals(kind)?220:"CalendarMonth".equals(kind)?180:110;
             float smallCell=WidgetCompactCalendarV181.cellHeight(kind,180,minimum,weeks),largeCell=WidgetCompactCalendarV181.cellHeight(kind,700,650,weeks);
             require(smallCell>=10,"six-week " +kind+" retains a visible date at minimum resize size");
             require(largeCell>smallCell,"expanded "+kind+" uses additional vertical space");

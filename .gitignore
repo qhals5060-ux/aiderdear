@@ -18,3 +18,7 @@ work/
 *.apk
 *.zip
 outputs/
+
+# Original launch animation is restored from the verified v192 APK for builds.
+# Keep the 16.8 MB binary in the installable release, not duplicated in Git.
+android-src/assets/aiderlog-launch-v145.gif

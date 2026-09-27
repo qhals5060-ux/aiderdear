@@ -45,11 +45,11 @@
     let splash=$('.app-splash-v136');
     if(!splash){
       splash=document.createElement('div');splash.className='app-splash-v136 app-splash-v145';splash.setAttribute('aria-label','AiderLog 시작 화면');
-      splash.innerHTML='<div class="splash-media-v145"><img src="./aiderdear-icon-192.png" alt="AiderLog"><div class="splash-copy-v149"><strong>AiderLog</strong><span>오늘의 기록이 모여 나의 우주가 됩니다.</span></div><span class="splash-progress-v145" aria-label="앱을 준비하고 있어요"><i></i></span></div>';
+      splash.innerHTML='<div class="splash-media-v145"><img src="./aiderlog-launch-v145.gif" alt="빛나는 행성과 궤도"><div class="splash-copy-v149"><strong>AiderLog</strong><span>오늘의 기록이 모여 나의 우주가 됩니다.</span></div><span class="splash-progress-v145" aria-label="앱을 준비하고 있어요"><i></i></span></div>';
       document.body.prepend(splash);
     }
     const shownAt=performance.now();
-    const finish=()=>setTimeout(()=>{splash.classList.add('is-hidden');setTimeout(()=>{splash.remove();window.dispatchEvent(new CustomEvent('aiderlog-splash-complete'))},560)},Math.max(0,450-(performance.now()-shownAt)));
+    const finish=()=>setTimeout(()=>{splash.classList.add('is-hidden');setTimeout(()=>{splash.remove();window.dispatchEvent(new CustomEvent('aiderlog-splash-complete'))},560)},Math.max(0,5600-(performance.now()-shownAt)));
     document.readyState==='complete'?finish():addEventListener('load',finish,{once:true});
   }
 

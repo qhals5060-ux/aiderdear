@@ -6,7 +6,6 @@
 # annotations
 .annotation system Ldalvik/annotation/MemberClasses;
     value = {
-        Lcom/aiderlog/v22app/WidgetProvider$CalendarAgenda;,
         Lcom/aiderlog/v22app/WidgetProvider$CalendarCombined;,
         Lcom/aiderlog/v22app/WidgetProvider$CalendarFortnight;,
         Lcom/aiderlog/v22app/WidgetProvider$CalendarMonth;,
@@ -31,7 +30,7 @@
 .method public static safeUpdateWidget(Landroid/content/Context;Landroid/appwidget/AppWidgetManager;ILjava/lang/String;)V
     .locals 3
 
-    .line 26
+    .line 25
     invoke-static {p3}, Lcom/aiderlog/v22app/WidgetProvider;->supports(Ljava/lang/String;)Z
 
     move-result v0
@@ -40,7 +39,7 @@
 
     return-void
 
-    .line 28
+    .line 27
     :cond_0
     :try_start_0
     invoke-static {p0, p1, p2, p3}, Lcom/aiderlog/v22app/WidgetNativeV164;->update(Landroid/content/Context;Landroid/appwidget/AppWidgetManager;ILjava/lang/String;)Z
@@ -49,7 +48,7 @@
 
     if-eqz p1, :cond_1
 
-    .line 29
+    .line 28
     invoke-static {p0}, Lcom/aiderlog/v22app/WidgetNativeV164;->prefs(Landroid/content/Context;)Landroid/content/SharedPreferences;
 
     move-result-object p1
@@ -94,7 +93,7 @@
 
     move-result-object v0
 
-    const/16 v1, 0xc1
+    const/16 v1, 0xc2
 
     invoke-interface {p1, v0, v1}, Landroid/content/SharedPreferences$Editor;->putInt(Ljava/lang/String;I)Landroid/content/SharedPreferences$Editor;
 
@@ -104,13 +103,13 @@
     :try_end_0
     .catchall {:try_start_0 .. :try_end_0} :catchall_0
 
-    .line 30
+    .line 29
     goto :goto_0
 
     :catchall_0
     move-exception p1
 
-    .line 31
+    .line 30
     new-instance v0, Ljava/lang/StringBuilder;
 
     const-string v1, "provider update failed "
@@ -143,7 +142,7 @@
 
     invoke-static {v0, p3, p1}, Landroid/util/Log;->e(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I
 
-    .line 32
+    .line 31
     invoke-static {p0}, Lcom/aiderlog/v22app/WidgetNativeV164;->prefs(Landroid/content/Context;)Landroid/content/SharedPreferences;
 
     move-result-object p0
@@ -180,7 +179,7 @@
 
     invoke-interface {p0}, Landroid/content/SharedPreferences$Editor;->apply()V
 
-    .line 34
+    .line 33
     :cond_1
     :goto_0
     return-void
@@ -227,14 +226,6 @@
 
     if-nez v0, :cond_0
 
-    const-string v0, "CalendarAgenda"
-
-    invoke-virtual {v0, p0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
-
-    move-result v0
-
-    if-nez v0, :cond_0
-
     const-string v0, "RoutineAll"
 
     invoke-virtual {v0, p0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
@@ -272,12 +263,12 @@
 .method public static updateAll(Landroid/content/Context;)V
     .locals 8
 
-    .line 37
+    .line 36
     invoke-static {p0}, Landroid/appwidget/AppWidgetManager;->getInstance(Landroid/content/Context;)Landroid/appwidget/AppWidgetManager;
 
     move-result-object v0
 
-    .line 38
+    .line 37
     invoke-virtual {v0}, Landroid/appwidget/AppWidgetManager;->getInstalledProviders()Ljava/util/List;
 
     move-result-object v1
@@ -293,10 +284,10 @@
 
     if-nez v2, :cond_0
 
-    .line 42
+    .line 41
     return-void
 
-    .line 38
+    .line 37
     :cond_0
     invoke-interface {v1}, Ljava/util/Iterator;->next()Ljava/lang/Object;
 
@@ -304,7 +295,7 @@
 
     check-cast v2, Landroid/appwidget/AppWidgetProviderInfo;
 
-    .line 39
+    .line 38
     iget-object v3, v2, Landroid/appwidget/AppWidgetProviderInfo;->provider:Landroid/content/ComponentName;
 
     if-eqz v3, :cond_3
@@ -339,7 +330,7 @@
 
     goto :goto_2
 
-    .line 40
+    .line 39
     :cond_1
     iget-object v3, v2, Landroid/appwidget/AppWidgetProviderInfo;->provider:Landroid/content/ComponentName;
 
@@ -371,7 +362,7 @@
 
     goto :goto_1
 
-    .line 39
+    .line 38
     :cond_3
     :goto_2
     goto :goto_0
@@ -380,7 +371,7 @@
 .method public static updateWidget(Landroid/content/Context;Landroid/appwidget/AppWidgetManager;ILjava/lang/String;)V
     .locals 0
 
-    .line 35
+    .line 34
     invoke-static {p0, p1, p2, p3}, Lcom/aiderlog/v22app/WidgetNativeV164;->update(Landroid/content/Context;Landroid/appwidget/AppWidgetManager;ILjava/lang/String;)Z
 
     return-void
@@ -391,12 +382,12 @@
 .method public onAppWidgetOptionsChanged(Landroid/content/Context;Landroid/appwidget/AppWidgetManager;ILandroid/os/Bundle;)V
     .locals 0
 
-    .line 49
+    .line 48
     invoke-virtual {p2, p3}, Landroid/appwidget/AppWidgetManager;->getAppWidgetInfo(I)Landroid/appwidget/AppWidgetProviderInfo;
 
     move-result-object p4
 
-    .line 50
+    .line 49
     if-nez p4, :cond_0
 
     invoke-virtual {p0}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
@@ -419,14 +410,14 @@
     :goto_0
     invoke-static {p1, p2, p3, p4}, Lcom/aiderlog/v22app/WidgetProvider;->safeUpdateWidget(Landroid/content/Context;Landroid/appwidget/AppWidgetManager;ILjava/lang/String;)V
 
-    .line 51
+    .line 50
     return-void
 .end method
 
 .method public onEnabled(Landroid/content/Context;)V
     .locals 0
 
-    .line 43
+    .line 42
     invoke-static {p1}, Lcom/aiderlog/v22app/WidgetProvider;->updateAll(Landroid/content/Context;)V
 
     return-void
@@ -435,7 +426,7 @@
 .method public onRestored(Landroid/content/Context;[I[I)V
     .locals 20
 
-    .line 54
+    .line 53
     move-object/from16 v0, p2
 
     move-object/from16 v1, p3
@@ -444,12 +435,12 @@
 
     move-result-object v2
 
-    .line 55
+    .line 54
     invoke-interface {v2}, Landroid/content/SharedPreferences;->edit()Landroid/content/SharedPreferences$Editor;
 
     move-result-object v3
 
-    .line 56
+    .line 55
     const/4 v4, 0x0
 
     move v5, v4
@@ -465,7 +456,7 @@
 
     if-lt v5, v6, :cond_0
 
-    .line 60
+    .line 59
     invoke-interface {v3}, Landroid/content/SharedPreferences$Editor;->apply()V
 
     invoke-static/range {p1 .. p1}, Landroid/appwidget/AppWidgetManager;->getInstance(Landroid/content/Context;)Landroid/appwidget/AppWidgetManager;
@@ -478,10 +469,10 @@
 
     invoke-virtual {v6, v7, v0, v1}, Lcom/aiderlog/v22app/WidgetProvider;->onUpdate(Landroid/content/Context;Landroid/appwidget/AppWidgetManager;[I)V
 
-    .line 61
+    .line 60
     return-void
 
-    .line 56
+    .line 55
     :cond_0
     move-object/from16 v6, p0
 
@@ -527,7 +518,7 @@
     :cond_1
     aget-object v11, v9, v10
 
-    .line 57
+    .line 56
     new-instance v12, Ljava/lang/StringBuilder;
 
     const-string v13, "widget_"
@@ -584,7 +575,7 @@
 
     move-result-object v12
 
-    .line 58
+    .line 57
     instance-of v13, v12, Ljava/lang/String;
 
     if-eqz v13, :cond_2
@@ -608,7 +599,7 @@
 
     invoke-interface {v3, v11, v12}, Landroid/content/SharedPreferences$Editor;->putInt(Ljava/lang/String;I)Landroid/content/SharedPreferences$Editor;
 
-    .line 56
+    .line 55
     :cond_3
     :goto_2
     add-int/lit8 v10, v10, 0x1
@@ -619,7 +610,7 @@
 .method public onUpdate(Landroid/content/Context;Landroid/appwidget/AppWidgetManager;[I)V
     .locals 4
 
-    .line 45
+    .line 44
     array-length v0, p3
 
     const/4 v1, 0x0
@@ -627,10 +618,10 @@
     :goto_0
     if-lt v1, v0, :cond_0
 
-    .line 47
+    .line 46
     return-void
 
-    .line 45
+    .line 44
     :cond_0
     aget v2, p3, v1
 
@@ -638,7 +629,7 @@
 
     move-result-object v3
 
-    .line 46
+    .line 45
     if-nez v3, :cond_1
 
     invoke-virtual {p0}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
@@ -661,7 +652,7 @@
     :goto_1
     invoke-static {p1, p2, v2, v3}, Lcom/aiderlog/v22app/WidgetProvider;->safeUpdateWidget(Landroid/content/Context;Landroid/appwidget/AppWidgetManager;ILjava/lang/String;)V
 
-    .line 45
+    .line 44
     add-int/lit8 v1, v1, 0x1
 
     goto :goto_0

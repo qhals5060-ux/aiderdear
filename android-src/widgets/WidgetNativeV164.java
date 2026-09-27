@@ -82,6 +82,7 @@ public final class WidgetNativeV164 {
             prefs(c).edit().remove("widget_render_error_"+widget).apply();
             manager.notifyAppWidgetViewDataChanged(widget,id(c,"widget_items_v164"));
             manager.notifyAppWidgetViewDataChanged(widget,id(c,"w165_secondary_list"));
+            manager.notifyAppWidgetViewDataChanged(widget,id(c,"w194_notes_list"));
             return true;
         }catch(Throwable error){
             Log.e("AiderLogWidget","native-render failed type="+kind+" id="+widget,error);
@@ -106,7 +107,7 @@ public final class WidgetNativeV164 {
             link.setContentDescription(id(c,"widget_root"),"새 고객정보 입력 링크 생성 및 복사");
             link.setOnClickPendingIntent(id(c,"widget_root"),open(c,widget,kind,"create-client-intake-v168:"+widget+":"+uid));return link;
         }
-        if(WidgetApprovedV188.supports(kind))return WidgetApprovedV188.render(c,widget,kind,preview,selectedTheme,opacity,selectedFont);
+        if(WidgetRoutineV194.supports(kind))return WidgetRoutineV194.render(c,widget,kind,preview,selectedTheme,opacity,selectedFont);
         if(WidgetCompactCalendarV181.supports(kind))return WidgetCompactCalendarV181.render(c,widget,kind,preview,selectedTheme,opacity,selectedFont);
         if(!kind.startsWith("Calendar"))return WidgetDesignV165.render(c,widget,kind,preview,selectedTheme,opacity,selectedFont);
         JSONObject data=snapshot(c);
@@ -216,7 +217,7 @@ public final class WidgetNativeV164 {
     }
     static List<String> rows(Context c,int widget,String kind,JSONObject data){
         if(!WidgetProvider.supports(WidgetDesignV165.base(kind)))return new ArrayList<String>();
-        if(WidgetApprovedV188.supports(kind))return WidgetApprovedV188.rows(c,widget,kind,data);
+        if(WidgetRoutineV194.supports(kind))return WidgetRoutineV194.rows(kind,data,WidgetDesignV165.options(c,widget));
         if(WidgetCompactCalendarV181.supports(kind))return WidgetCompactCalendarV181.rows(c,widget,kind,data);
         if(!kind.startsWith("Calendar"))return WidgetDesignV165.rows(c,widget,kind,data);
         if(kind.startsWith("Calendar")){
@@ -234,7 +235,7 @@ public final class WidgetNativeV164 {
     }
     static RemoteViews row(Context c,int widget,String kind,String line,int index,String overrideTheme,int selectedFont){
         if(!WidgetProvider.supports(WidgetDesignV165.base(kind)))return null;
-        if(WidgetApprovedV188.supports(kind))return WidgetApprovedV188.renderRow(c,widget,kind,line,overrideTheme,selectedFont);
+        if(WidgetRoutineV194.supports(kind))return WidgetRoutineV194.row(c,widget,kind,line,overrideTheme,selectedFont);
         if(WidgetCompactCalendarV181.supports(kind))return WidgetCompactCalendarV181.row(c,widget,kind,line,index,overrideTheme,selectedFont);
         if(!kind.startsWith("Calendar"))return WidgetDesignV165.row(c,widget,kind,line,index,overrideTheme,selectedFont);
         JSONObject record;try{record=new JSONObject(line);}catch(Exception e){record=new JSONObject();WidgetDesignV165.put(record,"title",line);}

@@ -24,7 +24,7 @@ import static com.aiderlog.v22app.WidgetNativeV164.*;
 public final class WidgetCompactCalendarV181 {
     static boolean supports(String kind) {
         String base=WidgetDesignV165.base(kind);
-        return "CalendarAgenda".equals(base)||"CalendarFortnight".equals(base)||"CalendarCombined".equals(base)||"CalendarMonth".equals(base)||"CalendarSplit".equals(base);
+        return "CalendarFortnight".equals(base)||"CalendarCombined".equals(base)||"CalendarMonth".equals(base)||"CalendarSplit".equals(base);
     }
     static JSONObject copy(JSONObject value) {try{return new JSONObject(value.toString());}catch(Exception ignored){return new JSONObject();}}
     static boolean dateKey(String value){return value!=null&&value.matches("\\d{4}-\\d{2}-\\d{2}");}
@@ -65,14 +65,20 @@ public final class WidgetCompactCalendarV181 {
         return out;
     }
     static List<String> rows(Context c,int widget,String kind,JSONObject data) {
-        List<String> values=kind.contains("@todos")?incompleteRows(data,false):upcomingRows(data.optJSONArray("scheduleItems"),selectedDay(c,widget,kind));
+        if(owner(data).isEmpty())return new ArrayList<String>();
+        boolean notes=kind.contains("@notes");
+        List<String> values=notes?memoRows(data):kind.contains("@todos")?incompleteRows(data,false):upcomingRows(data.optJSONArray("scheduleItems"),selectedDay(c,widget,kind));
         String owner=owner(data);List<String> bound=new ArrayList<String>();
-        if(values.isEmpty())for(int i=0;i<3;i++){JSONObject empty=WidgetApprovedV188.emptyRow(kind.contains("@todos")?"calendarTodo":"calendarEvent",i);WidgetApprovedV188.bindOwner(empty,owner,selectedDay(c,widget,kind));bound.add(empty.toString());}
+        if(values.isEmpty()&&!notes)for(int i=0;i<1;i++){JSONObject empty=WidgetApprovedV188.emptyRow(kind.contains("@todos")?"calendarTodo":"calendarEvent",i);WidgetApprovedV188.bindOwner(empty,owner,selectedDay(c,widget,kind));bound.add(empty.toString());}
         for(String value:values)try{JSONObject row=new JSONObject(value);WidgetDesignV165.put(row,"_widgetOwnerV181",owner);bound.add(row.toString());}catch(Exception ignored){}
         return bound;
     }
+    static List<String> memoRows(JSONObject data){
+        List<String> out=new ArrayList<String>();JSONArray notes=WidgetDesignV165.model(data).optJSONArray("notes");Set<String> seen=new HashSet<String>();
+        for(int i=0;notes!=null&&i<notes.length()&&out.size()<40;i++){JSONObject note=notes.optJSONObject(i);if(note==null||note.optString("id").isEmpty()||note.optString("title").trim().isEmpty())continue;String source=note.optString("source");if(!source.equals("memos")&&!source.equals("checklists"))continue;if(seen.add(source+":"+note.optString("id")))out.add(copy(note).toString());}return out;
+    }
     static String owner(JSONObject data){return WidgetDesignV165.model(data).optString("uid",data.optString("uid"));}
-    static boolean sameOwner(String captured,JSONObject data){return captured!=null&&captured.equals(owner(data));}
+    static boolean sameOwner(String captured,JSONObject data){return captured!=null&&!captured.isEmpty()&&captured.equals(owner(data));}
     static String fortnightStart(String today){Calendar start=date(today);start.add(Calendar.DAY_OF_MONTH,1-start.get(Calendar.DAY_OF_WEEK));return day(start);}
     static String fortnightSelected(String today,String stored){String start=fortnightStart(today);Calendar end=date(start);end.add(Calendar.DAY_OF_MONTH,13);return dateKey(stored)&&stored.compareTo(start)>=0&&stored.compareTo(day(end))<=0?stored:today;}
     static String selectedDay(Context c,int widget,String kind){Calendar today=Calendar.getInstance();if("CalendarAgenda".equals(WidgetDesignV165.base(kind)))today.add(Calendar.DAY_OF_MONTH,prefs(c).getInt("widget_agenda_offset_"+widget,0));return day(today);}
@@ -86,12 +92,13 @@ public final class WidgetCompactCalendarV181 {
     static int secondaryInk(Context c,String chosen){return WidgetThemeV190.muted(chosen);}
     static int capacity(float cellHeight,float lineHeight,boolean holiday){return Math.max(0,Math.min(6,(int)((cellHeight-(cellHeight<32?13:22)-(holiday?12:0))/Math.max(13,lineHeight))));}
     static boolean small(float width,float height){return width<240||height<200;}
-    static float cellHeight(String kind,float width,float height,int weeks){return Math.max(1,((height-(small(width,height)?32:42))*("CalendarSplit".equals(kind)?.75f:1)-(small(width,height)?12:16))/Math.max(1,weeks));}
+    static float cellHeight(String kind,float width,float height,int weeks){boolean lower="CalendarSplit".equals(kind)||"CalendarFortnight".equals(kind);return Math.max(1,((height-(lower?42:small(width,height)?32:42))*("CalendarSplit".equals(kind)?.67f:"CalendarFortnight".equals(kind)?.45f:1)-(lower?16:small(width,height)?12:16))/Math.max(1,weeks));}
     static boolean smallRows(String kind,float width,float height){float pane="CalendarCombined".equals(WidgetDesignV165.base(kind))?(width-17)*.52f:width-12;return pane<150||height<200;}
     static float eventPaneWidth(String kind,float width,float height){float inside=Math.max(0,width-(small(width,height)?8:12));return "CalendarCombined".equals(WidgetDesignV165.base(kind))?Math.max(0,(inside-.5f)*.52f-5):inside;}
     static boolean inlineEventRow(float pane,float dateWidth,float timeWidth,float titleSize,float fontScale){return pane>=16+dateWidth+timeWidth+Math.max(38,4*titleSize*Math.max(1,fontScale));}
     static String eventTimeLabel(JSONObject row){String value=time(row);return value.isEmpty()?"종일":value;}
-    static float ratio(String kind){return "CalendarCombined".equals(kind)?.76f:"CalendarAgenda".equals(kind)?.95f:"CalendarFortnight".equals(kind)?.80f:"CalendarSplit".equals(kind)?1.44f:1.20f;}
+    static float ratio(String kind){return "CalendarCombined".equals(kind)?.76f:"CalendarFortnight".equals(kind)?1.04f:"CalendarSplit".equals(kind)?1.28f:1.20f;}
+    static int previewRows(String kind,float height,float fontScale){boolean fortnight=kind.startsWith("CalendarFortnight"),notes=kind.contains("@notes"),todos=kind.contains("@todos");float share=notes||todos?(fortnight?.31f:.33f):.24f;float heading=10*fontScale*1.4f+(notes||todos?9:7);float row=notes?Math.max(32,8+20*fontScale*1.35f):Math.max(29,6+12*fontScale*1.35f);return Math.max(0,(int)Math.floor(((height-42)*share-heading)/row));}
     static Calendar calendarStart(Context c,int widget,String kind){
         Calendar start=Calendar.getInstance();
         if("CalendarFortnight".equals(kind)){start=date(fortnightStart(day(start)));start.add(Calendar.DAY_OF_MONTH,14*prefs(c).getInt("widget_fortnight_offset_"+widget,0));}
@@ -99,17 +106,17 @@ public final class WidgetCompactCalendarV181 {
         return start;
     }
     static RemoteViews render(Context c,int widget,String kind,boolean preview,String overrideTheme,int overrideOpacity,int selectedFont) {
-        boolean agenda="CalendarAgenda".equals(kind),mini="CalendarCombined".equals(kind),todos=agenda||"CalendarSplit".equals(kind);
+        boolean agenda=false,mini="CalendarCombined".equals(kind),fortnight="CalendarFortnight".equals(kind),todos=fortnight||"CalendarSplit".equals(kind);
         String chosen=overrideTheme==null?theme(c,widget):overrideTheme;
         float width=WidgetSizeV169.current(c,widget).getWidth(),height=WidgetSizeV169.current(c,widget).getHeight();boolean compact=small(width,height);
-        RemoteViews result=view(c,"widget_"+(mini?"split":agenda?"agenda":"month")+(compact?"_small_v185":"_compact_v184"));
+        RemoteViews result=view(c,todos?fortnight?"widget_fortnight_notes_v194":"widget_calendar_notes_v194":"widget_"+(mini?"split":"month")+(compact?"_small_v185":"_compact_v184"));
         String background=WidgetThemeV190.resource(chosen,"surface");
         int resource=drawable(c,background);if(resource==0)resource=drawable(c,"widget_bg_aurora");
         result.setImageViewResource(id(c,"widget_background"),resource);result.setInt(id(c,"widget_background"),"setImageAlpha",Math.round(255*opacity(c,widget,overrideOpacity)/100f));
         JSONObject data=snapshot(c);Calendar start=calendarStart(c,widget,kind);String from=selectedDay(c,widget,kind);
         String title=agenda?"일정 · 투두":(start.get(Calendar.YEAR)+". "+String.format(java.util.Locale.US,"%02d",start.get(Calendar.MONTH)+1));
         if("CalendarFortnight".equals(kind)){Calendar end=(Calendar)start.clone();end.add(Calendar.DAY_OF_MONTH,13);title=shortDate(day(start))+" — "+shortDate(day(end));}
-        text(c,result,"widget_title",title);text(c,result,"w184_caption",agenda?shortDate(from)+"부터":mini?"다가오는 일정":"CalendarFortnight".equals(kind)?"2주":todos?"일정 · 투두":"일정");
+        text(c,result,"widget_title",title);text(c,result,"w184_caption",mini?"다가오는 일정":fortnight?"일정 · 투두 · 메모":todos?"투두 · 메모":"일정");
         show(c,result,"w184_caption",width>=300);show(c,result,"widget_previous",width>=180);show(c,result,"widget_next",width>=180);
         for(String key:new String[]{"widget_title","w184_caption","widget_previous","widget_next","w184_today"})color(c,result,key,ink(c,chosen));
         color(c,result,"w184_caption",secondaryInk(c,chosen));
@@ -120,21 +127,24 @@ public final class WidgetCompactCalendarV181 {
         result.setOnClickPendingIntent(id(c,"widget_root"),open(c,widget,kind,""));
         result.setOnClickPendingIntent(id(c,"widget_previous"),navigate(c,widget,kind,"month","-1"));result.setOnClickPendingIntent(id(c,"widget_next"),navigate(c,widget,kind,"month","1"));
         result.setOnClickPendingIntent(id(c,"w184_today"),navigate(c,widget,kind,"today","0"));
-        result.setContentDescription(id(c,"widget_root"),title+" "+(mini?"왼쪽 월간 캘린더, 오른쪽 다가오는 일정":agenda?"다가오는 일정과 미완료 할 일":todos?"일정이 표시된 월간 캘린더와 미완료 할 일":"일정이 표시된 캘린더"));
+        result.setContentDescription(id(c,"widget_root"),title+" "+(mini?"왼쪽 월간 캘린더, 오른쪽 다가오는 일정":fortnight?"2주 캘린더, 하단 다가오는 일정과 투두 및 메모":todos?"월간 캘린더, 하단 투두 및 메모":"일정이 표시된 캘린더"));
         if(!agenda)calendar(c,result,widget,kind,data,chosen,overrideOpacity,selectedFont);
-        if(mini||agenda)bind(c,result,widget,kind,rows(c,widget,kind,data),"widget_items_v164","widget_preview_rows_v164","w184_event_empty",preview,chosen,selectedFont,mini?5:6,data);
+        if(mini||fortnight)bind(c,result,widget,kind,rows(c,widget,kind,data),"widget_items_v164","widget_preview_rows_v164","w184_event_empty",preview,chosen,selectedFont,mini?5:2,data);
         if(!mini&&!agenda)show(c,result,"w184_todo_panel",todos);
         if(todos){
             show(c,result,"w184_todo_heading",height>=170);
             color(c,result,"w184_todo_heading",secondaryInk(c,chosen));
             bind(c,result,widget,kind+"@todos",rows(c,widget,kind+"@todos",data),"w165_secondary_list","w181_todo_preview","w184_todo_empty",preview,chosen,selectedFont,agenda?5:4,data);
+            color(c,result,"w194_notes_heading",secondaryInk(c,chosen));
+            if(fortnight)color(c,result,"w194_schedule_heading",secondaryInk(c,chosen));
+            bind(c,result,widget,kind+"@notes",rows(c,widget,kind+"@notes",data),"w194_notes_list","w194_notes_preview","w194_notes_empty",preview,chosen,selectedFont,3,data);
         }
         return result;
     }
     static void bind(Context c,RemoteViews result,int widget,String kind,List<String> values,String list,String previewHost,String empty,boolean preview,String chosen,int selectedFont,int visible,JSONObject data) {
         show(c,result,list,!preview&&!values.isEmpty());show(c,result,previewHost,preview&&!values.isEmpty());show(c,result,empty,values.isEmpty());
-        String access=data.optString("accessState");text(c,result,empty,"needs-login".equals(access)?"앱에서 로그인":"sync-required".equals(access)?"앱에서 동기화":kind.contains("@todos")?"남은 할 일이 없어요":"예정된 일정이 없어요");color(c,result,empty,ink(c,chosen));
-        if(preview){result.removeAllViews(id(c,previewHost));for(int i=0;i<Math.min(visible,values.size());i++)result.addView(id(c,previewHost),row(c,widget,kind,values.get(i),i,chosen,selectedFont));}
+        String access=data.optString("accessState");text(c,result,empty,"needs-login".equals(access)?"앱에서 로그인":"sync-required".equals(access)?"앱에서 동기화":kind.contains("@notes")?"저장한 메모 없음":kind.contains("@todos")?"남은 할 일이 없어요":"예정된 일정이 없어요");color(c,result,empty,ink(c,chosen));
+        if(preview){if(kind.startsWith("CalendarSplit")||kind.startsWith("CalendarFortnight")){float scaled=Math.max(1,c.getResources().getDisplayMetrics().scaledDensity/Math.max(.1f,c.getResources().getDisplayMetrics().density));float effective=WidgetSizeV169.sp(c,widget,selectedFont,12)/12f*scaled;visible=Math.min(visible,previewRows(kind,WidgetSizeV169.current(c,widget).getHeight(),effective));}result.removeAllViews(id(c,previewHost));for(int i=0;i<Math.min(visible,values.size());i++)result.addView(id(c,previewHost),row(c,widget,kind,values.get(i),i,chosen,selectedFont));}
         else collection(c,result,widget,kind,values,id(c,list));
     }
     static void calendar(Context c,RemoteViews result,int widget,String kind,JSONObject data,String chosen,int overrideOpacity,int selectedFont) {
@@ -149,7 +159,7 @@ public final class WidgetCompactCalendarV181 {
         float baseSize=width>=500?11.5f:compact?9:10f;
         float eventSize=Math.max(9,WidgetSizeV169.sp(c,widget,selectedFont,baseSize));
         float scaled=Math.max(1,c.getResources().getDisplayMetrics().scaledDensity/Math.max(.1f,c.getResources().getDisplayMetrics().density));
-        JSONArray events=data.optJSONArray("scheduleItems");JSONObject holidays=data.optJSONObject("holidays");String today=day(Calendar.getInstance());
+        JSONArray events=owner(data).isEmpty()?new JSONArray():data.optJSONArray("scheduleItems");JSONObject holidays=data.optJSONObject("holidays");String today=day(Calendar.getInstance());
         for(int r=0;r<count;r++){
             RemoteViews week=view(c,"widget_week_v164");
             for(int col=0;col<7;col++){
@@ -189,6 +199,11 @@ public final class WidgetCompactCalendarV181 {
         String chosen=overrideTheme==null?theme(c,widget):overrideTheme;JSONObject data=snapshot(c);
         if(record.has("_widgetOwnerV181")&&!sameOwner(record.optString("_widgetOwnerV181"),data)){RemoteViews cleared=view(c,"widget_upcoming_row_v184");cleared.setViewVisibility(id(c,"w184_row"),View.INVISIBLE);return cleared;}
         if(kind.contains("@todos"))return todo(c,widget,kind,record,data,chosen,selectedFont,false);
+        if(kind.contains("@notes")){
+            RemoteViews note=view(c,"widget_memo_row_v194");text(c,note,"w194_note_title",record.optString("title"));text(c,note,"w194_note_body",record.optString("preview"));show(c,note,"w194_note_body",!record.optString("preview").isEmpty());color(c,note,"w194_note_title",ink(c,chosen));color(c,note,"w194_note_body",secondaryInk(c,chosen));
+            note.setTextViewTextSize(id(c,"w194_note_title"),2,WidgetSizeV169.sp(c,widget,selectedFont,11));note.setTextViewTextSize(id(c,"w194_note_body"),2,WidgetSizeV169.sp(c,widget,selectedFont,9));
+            note.setOnClickFillInIntent(id(c,"w194_note_row"),WidgetDesignV165.action(data,widget,kind,record,"open","note"));return note;
+        }
         float width=WidgetSizeV169.current(c,widget).getWidth(),height=WidgetSizeV169.current(c,widget).getHeight();boolean compact=smallRows(kind,width,height);
         String date=record.optString("selectedDate",record.optString("date")),dateLabel=shortDate(date),timeLabel=eventTimeLabel(record);
         float titleSize=WidgetSizeV169.sp(c,widget,selectedFont,compact?11:12),metaSize=WidgetSizeV169.sp(c,widget,selectedFont,compact?8.5f:10);

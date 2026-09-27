@@ -47,7 +47,6 @@ html body #wheel .global-wheel-item-v126[data-wheelbar-menu-v176] .wheelbar-icon
   transform:none!important;filter:none!important;box-shadow:none!important;pointer-events:none!important;
   -webkit-text-fill-color:currentColor!important;
 }
-html body #wheel .global-wheel-item-v126[data-wheelbar-menu-v176] .wheelbar-icon-v176[data-wheelbar-icon-v176="personal"]{fill:currentColor!important;stroke:none!important}
 /* Keep the filled/white silhouette in every pointer/selection state. The real
    current page remains exposed through aria-current, not a glyph recolour. */
 html body #wheel .global-wheel-item-v126[data-wheelbar-menu-v176]:focus-visible::after{

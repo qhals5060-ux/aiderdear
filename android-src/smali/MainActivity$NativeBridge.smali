@@ -169,7 +169,7 @@
 
     if-eqz v3, :cond_2
 
-    const-string v2, "com.aiderlog.v22app.WidgetProvider$CalendarAgenda"
+    const-string v2, "com.aiderlog.v22app.WidgetProvider$CalendarFortnight"
 
     goto :goto_0
 

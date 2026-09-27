@@ -1,11 +1,11 @@
 {
   "name": "aiderlog-v121",
   "private": true,
-  "version": "193.0.0",
+  "version": "194.0.0",
   "type": "module",
   "scripts": {
-    "test:core": "node --test tests/core-scope-v193.test.mjs tests/core-cache-v193.test.cjs tests/firebase-quota-v191.test.mjs tests/calendar-sync-v184.test.mjs tests/app-data-quota-v191.test.cjs tests/site-quota-v191.test.cjs tests/site-single-design-v189.test.cjs tests/private-calendar-v175.test.mjs tests/private-calendar-days-v178.test.mjs tests/friend-schedule-firebase-v175.mjs android-src/widgets/test-widget-core-v193.cjs android-src/widgets/test-widget-routing-v193.cjs",
-    "test:ui": "node tests/site-core-v193.ui.cjs && node tests/app-core-v193.ui.cjs"
+    "test:core": "node --test tests/core-scope-v193.test.mjs tests/core-cache-v194.test.cjs tests/firebase-quota-v191.test.mjs tests/calendar-sync-v184.test.mjs tests/app-data-quota-v191.test.cjs tests/site-quota-v191.test.cjs tests/site-single-design-v189.test.cjs tests/private-calendar-v175.test.mjs tests/private-calendar-days-v178.test.mjs tests/friend-schedule-firebase-v175.mjs android-src/widgets/test-widget-core-v194.cjs android-src/widgets/test-widget-routing-v194.cjs android-src/widgets/test-widget-resources-v194.cjs",
+    "test:ui": "node tests/site-core-v194.ui.cjs && node tests/app-core-v194.ui.cjs"
   },
   "engines": {
     "node": ">=20"

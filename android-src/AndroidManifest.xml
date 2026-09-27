@@ -43,23 +43,17 @@
       </intent-filter>
       <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_calendar_combined" />
     </receiver>
-    <receiver android:exported="true" android:label="일정 · 월간과 투두" android:name=".WidgetProvider$CalendarSplit">
+    <receiver android:exported="true" android:label="일정 · 월간과 투두·메모" android:name=".WidgetProvider$CalendarSplit">
       <intent-filter>
         <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
       </intent-filter>
       <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_calendar_split" />
     </receiver>
-    <receiver android:exported="true" android:label="일정 · 2주 캘린더" android:name=".WidgetProvider$CalendarFortnight">
+    <receiver android:exported="true" android:label="일정 · 2주와 일정·투두·메모" android:name=".WidgetProvider$CalendarFortnight">
       <intent-filter>
         <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
       </intent-filter>
       <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_calendar_fortnight" />
-    </receiver>
-    <receiver android:exported="true" android:label="일정 · 일정과 투두" android:name=".WidgetProvider$CalendarAgenda">
-      <intent-filter>
-        <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-      </intent-filter>
-      <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_calendar_agenda" />
     </receiver>
     <receiver android:exported="true" android:label="루틴 · 체크리스트" android:name=".WidgetProvider$RoutineAll">
       <intent-filter>

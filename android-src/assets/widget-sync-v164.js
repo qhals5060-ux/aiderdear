@@ -26,8 +26,8 @@
   // another user's fields while the app merges a new cloud response. Never read
   // them here: only atomically owner-tagged, scoped Firebase responses are used.
   const widgetApp=value=>({scheduleEvents:array(value?.scheduleEvents)});
-  const widgetPrivate=value=>({routines:array(value?.routines),checklists:array(value?.checklists).filter(row=>row&&row.kind!=='memo'&&row.type!=='memo')});
-  function blankSnapshot(){return {version:193,uid:'',v165:{},email:'',theme:themeMap[document.documentElement.dataset.theme]||'aurora',syncState:'account-unverified',accessState:owner&&!logoutPending?'sync-required':'needs-login',scheduleItems:[],schedule:[],holidays:{},routines:[],routineStats:[],todos:[]};}
+  const widgetPrivate=value=>({routines:array(value?.routines),checklists:array(value?.checklists),memos:array(value?.memos).filter(row=>row&&row.category!=='emotion'&&!row.demo).sort(newest).slice(0,100).map(row=>({id:str(row.id),text:text(row).slice(0,180),notes:str(row.notes||row.note||row.preview||row.description).slice(0,240),updatedAt:Number(row.updatedAt||row.createdAt||0)}))});
+  function blankSnapshot(){return {version:194,uid:'',v165:{},email:'',theme:themeMap[document.documentElement.dataset.theme]||'aurora',syncState:'account-unverified',accessState:owner&&!logoutPending?'sync-required':'needs-login',scheduleItems:[],schedule:[],holidays:{},routines:[],routineStats:[],todos:[]};}
   function sendBlank(){try{const payload=JSON.stringify(blankSnapshot());native.syncWidgets(payload);last=payload;}catch{last='';}}
   function changeOwner(state){
     const next=identity(state);if(next===owner)return;
@@ -128,12 +128,12 @@
     const uid=state.user.uid;
     const checks=array(personal.checklists).filter(row=>row&&!row.demo&&row.kind!=='memo'&&row.type!=='memo'&&row.category!=='emotion');
     const todos=checks.map(row=>`${row.done?'✓':'○'} ${text(row)}${row.dueAt||row.date?' · '+date(row.dueAt||row.date):''}`);
-    return {version:193,uid,v165:window.AiderWidgetModelsV165?.build({app,personal,uid,now})||{},email,theme:themeMap[document.documentElement.dataset.theme]||'aurora',today:new Intl.DateTimeFormat('ko-KR',{month:'long',day:'numeric',weekday:'short'}).format(now),month:new Intl.DateTimeFormat('ko-KR',{year:'numeric',month:'long'}).format(now),scheduleItems,holidays,schedule:scheduleItems.map(row=>`${row.date} ${row.time} ${row.title}`),routines,routineStats:routines,todos};
+    return {version:194,uid,v165:window.AiderWidgetModelsV165?.build({app,personal,uid,now})||{},email,theme:themeMap[document.documentElement.dataset.theme]||'aurora',today:new Intl.DateTimeFormat('ko-KR',{month:'long',day:'numeric',weekday:'short'}).format(now),month:new Intl.DateTimeFormat('ko-KR',{year:'numeric',month:'long'}).format(now),scheduleItems,holidays,schedule:scheduleItems.map(row=>`${row.date} ${row.time} ${row.title}`),routines,routineStats:routines,todos};
   }
   let timer=0,last='';
   const commandQueueKey=uid=>`aiderlog.widget-actions.v165:${encodeURIComponent(uid)}`;
-  const retainedKinds=new Set(['CalendarMonth','CalendarCombined','CalendarSplit','CalendarFortnight','CalendarAgenda','RoutineAll','RoutineCards','RoutineStats']);
-  const retainedCommand=command=>retainedKinds.has(str(command?.kind))&&(['todo','routine','add-todo'].includes(command.op)||command.op==='open'&&['routine','todo'].includes(command.value));
+  const retainedKinds=new Set(['CalendarMonth','CalendarCombined','CalendarSplit','CalendarFortnight','RoutineAll','RoutineCards','RoutineStats']);
+  const retainedCommand=command=>retainedKinds.has(str(command?.kind))&&(['todo','routine','add-todo'].includes(command.op)||command.op==='open'&&['routine','todo','note'].includes(command.value));
   let executing=false;
   function enqueue(command){const name=commandQueueKey(command.uid),rows=array(read(name)),remaining=rows.filter(row=>row.key!==command.key&&!(row.id===command.id&&row.op===command.op));remaining.push(command);localStorage.setItem(name,JSON.stringify(remaining));}
   function notify(message){if(typeof window.toast==='function')window.toast(message);else if(typeof window.AiderLogAppShell?.toast==='function')window.AiderLogAppShell.toast(message);}
@@ -165,7 +165,15 @@
     if(!object(command)||!retainedCommand(command)||str(command.uid)!==str(auth()?.user?.uid)||!checkOwner())return;
     if(command.op==='add-todo'){quickAdd(command);return;}
     if(['todo','routine'].includes(command.op)){if(!str(command.id)||!str(command.key)||command.key.length>1000)return;enqueue(command);if(!verified)await refresh();flushCommands();return;}
-    if(command.op==='open'){const target=command.value==='routine'?'routine':'schedule';window.AiderLogAppShell?.openTarget?.(target,'');if(['note','todo'].includes(command.value))document.querySelector('#quickMemoBtn')?.click();}
+    if(command.op==='open'){
+      if(command.value==='note'){
+        if(!['memos','checklists'].includes(str(command.source)))return;
+        const notebook=window.AiderTodoV179;if(!notebook)return;
+        await notebook.refresh?.();if(str(auth()?.user?.uid)!==str(command.uid))return;
+        notebook.open?.('memo');if(str(command.id))notebook.edit?.(command.source,command.id,'memo');return;
+      }
+      const target=command.value==='routine'?'routine':'schedule';window.AiderLogAppShell?.openTarget?.(target,'');if(command.value==='todo')document.querySelector('#quickMemoBtn')?.click();
+    }
   }
   function sync(){clearTimeout(timer);timer=setTimeout(()=>{try{const payload=JSON.stringify(snapshot());if(payload!==last&&payload.length<=4194304){native.syncWidgets(payload);last=payload}else if(payload.length>4194304){sendBlank();console.warn('[widgets-v164] Snapshot exceeds native transfer limit.');}}catch{sendBlank();console.warn('[widgets-v164] Snapshot sync failed.');}},250)}
   function hook(){

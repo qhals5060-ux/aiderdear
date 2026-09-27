@@ -1,12 +1,14 @@
 /* Four retained workspaces. Finance and Workflow share the Schedule toolbar. */
-html.modern-site body #app#app#app #stage #page0.current{grid-template-columns:minmax(0,1fr) minmax(260px,28%)!important;grid-template-rows:auto minmax(0,1fr)!important;gap:12px!important;overflow:hidden!important}
-html.modern-site body #app#app#app #stage #page0>.cal-top{grid-column:1/-1!important;grid-row:1!important;display:flex!important;position:relative!important;inset:auto!important;z-index:2!important;align-items:center!important;justify-content:space-between!important;width:100%!important;max-width:none!important;padding:0!important;border:0!important;background:transparent!important;overflow:visible!important;gap:12px!important;min-height:44px!important}
-html.modern-site body #app#app#app #stage #page0 .month-controls{width:auto!important;max-width:none!important;display:flex!important;flex-wrap:nowrap!important;flex:none!important;overflow:visible!important;gap:4px!important}
+html.modern-site body #app#app#app #stage #page0.current{grid-template-columns:minmax(0,1fr) minmax(260px,28%)!important;grid-template-rows:auto minmax(0,1fr)!important;gap:10px!important;overflow:hidden!important}
+html.modern-site body #app#app#app #stage #page0>.cal-top{grid-column:2!important;grid-row:1!important;display:flex!important;flex-direction:column!important;position:relative!important;inset:auto!important;z-index:2!important;align-items:flex-start!important;justify-content:flex-start!important;width:100%!important;max-width:none!important;padding:0!important;border:0!important;background:transparent!important;overflow:visible!important;gap:8px!important;min-height:0!important;height:auto!important}
+html.modern-site body #app#app#app #stage #page0 .month-controls{width:100%!important;max-width:none!important;display:flex!important;flex-wrap:wrap!important;flex:none!important;height:auto!important;min-height:36px!important;padding:0!important;overflow:visible!important;gap:4px!important}
 html.modern-site body #app#app#app #stage #page0 .month-controls>button{flex:none!important;width:auto!important;min-width:34px!important;height:36px!important;min-height:36px!important;padding:0 9px!important}
-html.modern-site body #app#app#app #stage #page0>.frame{display:block!important;position:relative!important;grid-column:1!important;grid-row:2!important;inset:auto!important;transform:none!important;width:100%!important;height:100%!important;min-height:0!important;overflow:hidden!important}
+html.modern-site body #app#app#app #stage #page0>.frame{display:block!important;position:relative!important;grid-column:1!important;grid-row:1/-1!important;inset:auto!important;transform:none!important;width:100%!important;height:100%!important;min-height:0!important;overflow:hidden!important}
 html.modern-site body #app#app#app #stage #page0 #calendar{position:relative!important;inset:auto!important;transform:none!important;width:100%!important;height:100%!important;min-height:0!important;grid-column:auto!important;grid-row:auto!important}
 html.modern-site body #app#app#app #stage #page0>.side{grid-column:2!important;grid-row:2!important}
 html.modern-site body #app#app#app #stage #page0[data-schedule-view="finance"],html.modern-site body #app#app#app #stage #page0[data-schedule-view="workflow"]{grid-template-columns:minmax(0,1fr)!important;grid-template-rows:auto minmax(0,1fr)!important}
+html.modern-site body #app#app#app #stage #page0:is([data-schedule-view="finance"],[data-schedule-view="workflow"])>.cal-top{grid-column:1!important;flex-direction:row!important;align-items:center!important;justify-content:space-between!important}
+html.modern-site body #app#app#app #stage #page0:is([data-schedule-view="finance"],[data-schedule-view="workflow"]) .month-controls{width:auto!important}
 html.modern-site body #app#app#app #personalMainShell .personal-frame{border:0!important;outline:0!important;box-shadow:none!important}
 html.modern-site body #app#app#app #personalMainShell .personal-frame:before,html.modern-site body #app#app#app #personalMainShell .personal-frame:after{display:none!important;content:none!important}
 html.modern-site body #app#app#app #personalStage .personal-toolbar h2{display:block!important;visibility:visible!important}
@@ -60,14 +62,15 @@ html body #app #personalInbodyOverlay,
 html body #app #taskStage,
 html body #app #estateStage,
 html body #app #mailboxBtn{display:none!important}
-@media(max-width:700px){
+@media(max-width:760px){
  html.modern-site body #app#app#app .masthead>.tabs .tab{font-size:11px!important;padding:0 6px!important;letter-spacing:-.1px!important}
  html.modern-site body #app#app#app:not([data-active-tab="record"]) .masthead>.tabs{grid-column:1/-1!important;width:100%!important}
  html.modern-site body #app#app#app #personalStage .personal-toolbar{min-height:32px!important;height:auto!important;flex:none!important;overflow:visible!important}
- html.modern-site body #app#app#app #stage #page0.current{display:grid!important;grid-template-columns:minmax(0,1fr)!important;grid-template-rows:auto minmax(460px,65dvh) auto!important;height:auto!important;overflow:visible!important}
- html.modern-site body #app#app#app #stage #page0>.cal-top{flex-direction:column!important;align-items:flex-start!important;gap:8px!important}
+ html.modern-site body #app#app#app #stage #page0.current{display:grid!important;grid-template-columns:minmax(0,1fr)!important;grid-template-rows:auto auto auto!important;height:auto!important;overflow:visible!important}
+ html.modern-site body #app#app#app #stage #page0>.cal-top,html.modern-site body #app#app#app #stage #page0:is([data-schedule-view="finance"],[data-schedule-view="workflow"])>.cal-top{grid-column:1!important;flex-direction:column!important;align-items:flex-start!important;gap:8px!important}
  html.modern-site body #app#app#app #stage #page0 .month-controls{width:100%!important;flex-wrap:wrap!important}
- html.modern-site body #app#app#app #stage #page0>.frame{grid-column:1!important;grid-row:2!important;min-height:460px!important}
+ html.modern-site body #app#app#app #stage #page0>.frame{grid-column:1!important;grid-row:2!important;min-height:556px!important;height:auto!important;overflow:visible!important}
+ html.modern-site body #app#app#app #stage #page0 #calendar{min-height:556px!important;height:auto!important;overflow:visible!important}
  html.modern-site body #app#app#app #stage #page0>.side{grid-column:1!important;grid-row:3!important}
  html.modern-site body #app#app#app #stage #page0[data-schedule-view="finance"],html.modern-site body #app#app#app #stage #page0[data-schedule-view="workflow"]{grid-template-rows:auto auto!important}
  html body #app .schedule-tools-v193{gap:3px;margin-left:2px;padding-left:6px}
@@ -82,4 +85,7 @@ html body #app #mailboxBtn{display:none!important}
  html body #app #personalStage .workflow-lane-scroll{max-height:360px!important}
  html body #app #personalEntryOverlay{padding:10px!important}
  html body #app #personalEntryOverlay .personal-entry-dialog{max-height:calc(100dvh - 20px)!important}
+}
+@media(max-width:560px){
+ html.modern-site body #app#app#app #stage #page0>.frame,html.modern-site body #app#app#app #stage #page0 #calendar{min-height:748px!important}
 }

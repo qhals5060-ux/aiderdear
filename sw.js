@@ -1,4 +1,4 @@
-const CACHE='aiderlog-v193-site-core';
+const CACHE='aiderlog-v194-site-core';
 const APP_SHELL=[
   "./aiderdear-icon-180.png",
   "./aiderdear-icon-192.png",
@@ -36,7 +36,7 @@ const APP_SHELL=[
   "./retired-features-v178.js",
   "./schedule-editor-v179.css",
   "./schedule-time-v179.js",
-  "./schedule-tools-v193.css",
+  "./schedule-tools-v194.css",
   "./shared-schedule-v176.css",
   "./shared-schedule-v176.js",
   "./site-calendar-v172.css",
